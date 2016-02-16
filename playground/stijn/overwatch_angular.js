@@ -15,8 +15,8 @@ app.controller("mainCtrl", function($scope) {
 
 app.config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){
-    $routeProvider.when("/", {
-      templateUrl: "partials/home.html"
+    $routeProvider.when('/', {
+      templateUrl: "partials/home.html",
     }).when("/contact", {
       templateUrl: "partials/contact.html"
     }).when("/about", {
@@ -25,6 +25,6 @@ app.config(["$routeProvider", "$locationProvider",
       templateUrl: "partials/register.html"
     }).otherwise({
       redirectTo: "/"
-    });
-    //$locationProvider.html5Mode(true);
+    })
+    $locationProvider.html5Mode(true);
 }]);
