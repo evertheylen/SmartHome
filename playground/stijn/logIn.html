@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html ng-app="overwatch" ng-controller="mainCtrl">
+	<head>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.red-blue.min.css">
+		<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<title>OverWatch</title>
+		<link rel="stylesheet" type="text/css" href="login.css">
+	</head>
+	<body>
+		<ul class="ulClass">
+			<li class="liClass"><a href="#home">{{i18n("home")}}</a></li>
+			<li class="liClass"><a href="#contact">{{i18n("contact")}}</a></li>
+				<li class="liClass"><a href="#about">{{i18n("about")}}</a></li>
+			<ul class="ulClass" style="float:right;list-style-type:none;">
+				<li id ="language_select" class="liClass"><a href="#Language">{{i18n("language")}}</a></li>
+			<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+			for="language_select">
+				<li class="mdl-menu__item" ng-click="language=0">English</li>
+				<li class="mdl-menu__item" ng-click="language=1">Nederlands</li>
+			</ul>
+				<li class="liClass"><a href="#register">{{i18n("register")}}</a></li>
+				<li class="liClass"><a class="active" href="#login">{{i18n("login")}}</a></li>
+			</ul>
+		</ul>
+		<div class="myContainer">
+			<div class="welComeText">{{i18n("homepage_welcome")}}<br/><br/>OverWatch!</div>
+			<!-- Textfield with Floating Label -->
+			<form action="#" style="width: 90%; margin: auto;">
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: inherit;">
+					<input class="mdl-textfield__input" type="text" id="sample3 style="width: inherit;"">
+					<label class="mdl-textfield__label" for="sample3" style="width: inherit;">{{i18n("username")}}...</label>
+				</div>
+			</form>
+			<form action="#" style="width: 90%; margin: auto;">
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: inherit;">
+					<input class="mdl-textfield__input" type="password" id="sample3 style="width: inherit;"">
+					<label class="mdl-textfield__label" for="sample3" style="width: inherit;">{{i18n("password")}}</label>
+				</div>
+			</form>
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+				style="width: 90%; margin: 1%; margin-left: 5%; padding: 0%">
+				{{i18n("login")}}
+			</button>
+		</div>
+		<script src="overwatch_angular.js"></script>
+	</body>
+</html>
