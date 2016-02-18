@@ -11,7 +11,7 @@ In Ubuntu:
     
 In Arch Linux:
 
-    sudo pacman -S python-tornado postgres
+    sudo pacman -S python-tornado postgresql
     # TODO
 
 
