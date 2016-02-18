@@ -1,0 +1,89 @@
+<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+	<link rel="stylesheet" href="./logIn.css">
+	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+	<script defer src="./logIn.js"></script>
+	<!-- TODO make the empty js functions (logIn.js)-->
+</head>
+<body>
+	<button id="btnLogin" type="button"
+	class="topRightSticky mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+		Log in
+	</button>
+
+	<!-- The welcome message-->
+	<div class="centeredContainer">
+		<p class="welcomeMessage">Welcome to OverWatch!</p>
+		<p class="welcomeMessage">Overwatch is love, Overwatch is life.</p>
+		<button id="btnSignup" type="button"
+		class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+			SignUp
+		</button>
+	</div>
+
+	<!-- The log in dialog-->
+	<dialog id="dlgLogin" class="mdl-dialog">
+		<h4 class="mdl-dialog__title">Log in</h4>
+		<div class="mdl-dialog__content">
+			<form action="#">
+				<!-- The username and password-->
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="text" id="inpLoginUsername">
+					<label class="mdl-textfield__label" for="inpLoginUsername">Username</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="password" id="inpLoginPassword">
+					<label class="mdl-textfield__label" for="inpLoginPassword">Password</label>
+				</div>
+
+			</form>
+			<div>
+				<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+				<button id="btnDialogLogin" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+					style="width: 45%; display: inline;">
+					Log in
+				</button>
+				<button id="btnDialogBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+					style="width: 45%; display: inline;">
+					Back
+				</button>
+			</div>
+		</div>
+	</dialog>
+
+
+	<!-- The sign up dialog-->
+	<dialog id="dlgSignup" class="mdl-dialog">
+		<h4 class="mdl-dialog__title">Log in</h4>
+		<div class="mdl-dialog__content">
+			<form action="#">
+				<!-- The username and password-->
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="text" id="inpSignupUsername">
+					<label class="mdl-textfield__label" for="inpSignupUsername">Username</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="text" id="inpSignupEmail">
+					<label class="mdl-textfield__label" for="inpSignupEmail">Email</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="password" id="inpSignupPassword">
+					<label class="mdl-textfield__label" for="inpSignupPassword">Password</label>
+				</div>
+
+			</form>
+			<div>
+				<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+				<button id="btnDialogSignup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+					style="width: 45%; display: inline;">
+					Sign up
+				</button>
+				<button id="btnSignupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+					style="width: 45%; display: inline;">
+					Back
+				</button>
+			</div>
+		</div>
+	</dialog>
+</body>
