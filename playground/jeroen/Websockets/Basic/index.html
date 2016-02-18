@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<script>
+function myFunction() {
+	var messageContainer = document.getElementById("demo");
+	if ("WebSocket" in window) {
+		messageContainer.innerHTML = "Establishing connection!";
+		var ws = new WebSocket("ws://" + window.location.host + "/ws");
+		ws.onopen = function() {
+			messageContainer.innerHTML = "Sending message!";
+			ws.send("This is a test message.");
+		};
+		ws.onError = function () { 
+			messageContainer.innerHTML = "Error occured when sending message!";
+		};
+		ws.onmessage = function (evt) { 
+			window.alert("A message has been recieved: " + evt.data);
+		};
+		ws.onclose = function() { 
+			messageContainer.innerHTML = "Connection is closed...";
+			window.alert("Connection has been closed!");
+		};
+	} else {
+		messageContainer.innerHTML = "WebSocket NOT supported by your Browser!";
+	}
+}
+</script>
+</head>
+<body>
+
+<p>Websocket test.</p>
+
+<button onclick="myFunction()">Click me</button>
+
+<p id="demo"></p>
+
+</body>
+</html>
+
+
