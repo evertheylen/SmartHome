@@ -1,0 +1,91 @@
+
+.menuBar{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	/*
+		pink in MDL: rgb(255,64,129)
+		indigo in MLDL: #3f51b5
+		TODO adjust if needed, MDL's template headers seemed broken so i had to recreate them
+	*/
+	background-color: #3f51b5;
+	width: 100%;
+	height: auto;
+}
+ul.MenuOptionList{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #3f51b5; /*TODO adjust color if necessary*/
+}
+.menuElement{
+	display: inline-block;
+	height: 100%;
+	vertical-align:middle;
+}
+#menuButton{
+	margin-right: 10px;
+	margin-left: 10px;
+}
+#menuButton:hover{
+	cursor: pointer;
+}
+.material-icons.white{
+	color: rgb(255,255,255);
+}
+.material-icons.md-48 {
+	font-size: 48px;
+}
+
+#productname{
+	text-align: center;
+	margin-right: 10px;
+	font-size: x-large;
+	color: white;
+}
+
+#logout{
+	float: right;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#logout:hover{
+	cursor: pointer;
+}
+.material-icons.red{
+	color: rgb(255,0,0);
+}
+
+#navigationBar{
+	width: 100%;
+	display: block;
+	height: auto;
+	text-align: center;
+	margin-top: 20px;
+}
+.navigationElement{
+	display: inline-block;
+	border: 2px solid black;
+	border-radius: 5px 5px 0px 0px;
+	text-align: center;
+	padding: 20px 40px;
+	margin: -1px;
+}
+.navigationElement:hover{
+	cursor: pointer;
+}
+.navigationElement.selected{
+	background-color: rgb(255,64,129); /*TODO adjust color if necessary*/
+}
+#bareNavigationBar{
+	width: 100%;
+	display: block;
+	height: auto;
+	text-align: center;
+	margin-top: 40px;
+}
+.bareNavigationElement{
+	display: inline-block;
+	text-align: center;
+}

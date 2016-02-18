@@ -1,0 +1,45 @@
+<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+	<link rel="stylesheet" href="./menus.css">
+	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+
+	<!--These are basic menu bars, they will occur on nearly all pages of the application.-->
+	<!--TODO The colors are bad, i know. I just picked something so it wouldn't be just white.-->
+</head>
+<body style="background-color: 66CC66;">
+	<div id="menu" class="menuBar">
+		<ul class="MenuOptionList">
+			<li id="menuButton" class="material-icons white md-48 menuElement">menu</li>
+			<li id="productname" class="menuElement">OverWatch</li>
+			<!--TODO Logout button, connect this button to an action-->
+			<li id="logout" class="material-icons red md-48 menuElement">cancel</li>
+		</ul>
+		<!--The navigation for the different pages (home, statistics,...)
+			TODO link these things to the appropriate action-->
+		<div id="navigationBar">
+			<div id="navBarElement1" class="navigationElement selected">
+				Home
+			</div>
+			<div id="navBarElement2" class="navigationElement">
+				Statistics
+			</div>
+			<div id="navBarElement3" class="navigationElement">
+				Sensors
+			</div>
+			<div id="navBarElement4" class="navigationElement">
+				Social
+			</div>
+		</div>
+	</div>
+	<ul class="mdl-menu mdl-js-menu mdl-menu--bottom-left" for="menuButton">
+		<!--TODO add stuff to this menu that makes sense, make links to these sense-making things-->
+		<li class="mdl-menu__item">stuff</li>
+		<li class="mdl-menu__item">stuff</li>
+		<li class="mdl-menu__item">stuff</li>
+	</ul>
+	<main>
+		<!--TODO Insert your stuff here (depending on the selected menu)-->
+	</main>
+	<!--TODO the footer did strange things, i'll fix it tomorrow-->
+</body>
