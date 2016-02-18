@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html ng-app="overwatch" ng-controller="mainCtrl">
+<html ng-app="overwatch" ng-controller="mainCtrl" ng-cloak>
 	<head>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
@@ -12,7 +12,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 	<!-- TODO make the empty js functions (logIn.js)-->
 </head>
-<body>
+<body background="images/background.jpg">
 	<button id="btnLogin" type="button"
 	class="topRightSticky mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-hide=logged_in>
 		Log in
@@ -33,28 +33,28 @@
 	</div>
 
 	<!-- The log in dialog-->
-	<dialog id="dlgLogin" class="mdl-dialog">
+	<dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginCtrl">
 		<h4 class="mdl-dialog__title">Log in</h4>
 		<div class="mdl-dialog__content">
-			<form action="#" name="login_form">
+			<form action="#" name="login_form" autocomplete="nope">
 				<!-- The username and password-->
 				<div class="mdl-textfield mdl-js-textfield">
-					<input class="mdl-textfield__input" type="text" name="login_username" ng_model="username" required>
-					<label class="mdl-textfield__label">Username</label>
+					<input class="mdl-textfield__input" type="text" id="input_login_username" name="login_username" ng_model="username" required>
+					<label class="mdl-textfield__label" for="input_login_username">Username</label>
 				</div>
-                <div ng-messages="login_form.login_username.$error">
-                    <div ng-message="required">This field is required</div>
-                </div> 
+					<div ng-messages="login_form.login_username.$error">
+							<div ng-message="required">This field is required</div>
+					</div> 
 				<div class="mdl-textfield mdl-js-textfield">
-					<input class="mdl-textfield__input" type="password" name="login_password" ng-model="password" required>
-					<label class="mdl-textfield__label">Password</label>
+					<input class="mdl-textfield__input" type="password" id="input_login_password" name="login_password" ng-model="password" required>
+					<label class="mdl-textfield__label" for="input_login_password">Password</label>
 				</div>
-                <div ng-messages="login_form.login_password.$error">
-                    <div ng-message="required">This field is required</div>
-                </div>
-                <div>
-                    <p style="color: red" ng-show="wrong_login">Wrong username or password!</p>
-                </div>
+					<div ng-messages="login_form.login_password.$error">
+							<div ng-message="required">This field is required</div>
+					</div>
+					<div>
+							<p style="color: red" ng-show="wrong_login">Wrong username or password!</p>
+					</div>
 			</form>
 			<div>
 				<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
@@ -72,35 +72,34 @@
 
 
 	<!-- The sign up dialog-->
-	<dialog id="dlgSignup" class="mdl-dialog">
+	<dialog id="dlgSignup" class="mdl-dialog" ng-controller="signupCtrl">
 		<h4 class="mdl-dialog__title">Sign up</h4>
 		<div class="mdl-dialog__content">
 			<form action="#" name="signup_form">
 				<!-- The username and password-->
 				<div class="mdl-textfield mdl-js-textfield">
-					<label class="mdl-textfield__label">Username</label>                  
-					<input class="mdl-textfield__input" type="text" ng-model="username" name="signupUsername" required/>
-                </div>
-                <div ng-messages="signup_form.signupUsername.$error">
-                    <div ng-message="required">This field is required</div>
-                </div>
+					<label class="mdl-textfield__label" for="input_signup_username">Username</label>                  
+					<input class="mdl-textfield__input" type="text" id="input_signup_username" ng-model="username" name="signupUsername" required/>
+						</div>
+						<div ng-messages="signup_form.signupUsername.$error">
+								<div ng-message="required">This field is required</div>
+						</div>
 				<div class="mdl-textfield mdl-js-textfield">
-					<input class="mdl-textfield__input" type="email" name="signupEmail" ng-model="email" required>
-					<label class="mdl-textfield__label">Email</label>
+					<input class="mdl-textfield__input" type="email" id="input_signup_email" name="signupEmail" ng-model="email" required>
+					<label class="mdl-textfield__label" for="input_signup_email">Email</label>
 				</div>
-                <div ng-messages="signup_form.signupEmail.$error">
-                    <div ng-message="required">This field is required</div>
-                    <div ng-message="email">Please input a valid email address</div>
-                </div>
+					<div ng-messages="signup_form.signupEmail.$error">
+							<div ng-message="required">This field is required</div>
+							<div ng-message="email">Please input a valid email address</div>
+					</div>
 				<div class="mdl-textfield mdl-js-textfield">
-					<input class="mdl-textfield__input" type="password" ng-model="password" name="signupPassword" required minlength="8">
-					<label class="mdl-textfield__label">Password</label>
+					<input class="mdl-textfield__input" type="password" id="input_signup_password" ng-model="password" name="signupPassword" required minlength="8">
+					<label class="mdl-textfield__label" for="input_signup_password">Password</label>
 				</div>
-                <div ng-messages="signup_form.signupPassword.$error">
-                    <div ng-message="required">This field is required</div>
-                    <div ng-message="minlength">Password must be at least 8 characters</div>
-                </div>
-
+					<div ng-messages="signup_form.signupPassword.$error">
+							<div ng-message="required">This field is required</div>
+							<div ng-message="minlength">Password must be at least 8 characters</div>
+					</div>
 			</form>
 			<div>
 				<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->

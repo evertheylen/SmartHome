@@ -20,4 +20,6 @@ p.welcomeMessage{
 .hugeButton{
 	width: 100%;
 	height: 50%;
+	margin-left: auto;
+	margin-right: auto;
 }
