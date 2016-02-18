@@ -5,7 +5,7 @@ Assuming you have python3 installed.
 In Ubuntu:
 
     sudo apt-get install python3-pip
-    sudo pip install tornado
+    sudo pip3 install tornado
     # TODO: install postgres
     # TODO: set up database
     
