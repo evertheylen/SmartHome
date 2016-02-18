@@ -1,0 +1,96 @@
+<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.red-blue.min.css">
+	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+	<style>
+		.myContainer{
+			position: absolute;
+			top: 20%;
+			left: 30%;
+			width: 40%;
+			height: 60%;
+			//border: 1px solid red;
+		}
+		.welComeText{
+			text-transform: uppercase;
+			font-size: 40px;
+			font-weight: 900;
+			text-align: center;
+			margin: 10px;
+		}
+		.MenuBar{
+			//background-color: rgb(68,138,255);
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			display: block;
+			width: 100%;
+			border: 10px solid purple;
+		}
+		.ulClass {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+		}
+
+		.liClass {
+			float: left;
+		}
+
+		.liClass a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		.liClass a:hover:not(.active) {
+			background-color: #111;
+		}
+
+		.active {
+			background-color: #4CAF50;
+		}
+	</style>
+</head>
+<body>
+	<ul class="ulClass">
+	  <li class="liClass"><a href="#home">Home</a></li>
+	  <li class="liClass"><a href="#contact">Contact</a></li>
+	    <li class="liClass"><a href="#about">About</a></li>
+	  <ul class="ulClass" style="float:right;list-style-type:none;">
+	    <li id ="language_select" class="liClass"><a href="#Language">Language</a></li>
+		<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="language_select">
+			<li class="mdl-menu__item">English</li>
+			<li class="mdl-menu__item">Nederlands</li>
+		</ul>
+	    <li class="liClass"><a href="#register">Register</a></li>
+	    <li class="liClass"><a class="active" href="#login">Login</a></li>
+	  </ul>
+	</ul>
+	<div class="myContainer">
+		<div class="welComeText">Welcome to</div>
+		<div class="welComeText">OverWatch!</div>
+		<!-- Textfield with Floating Label -->
+		<form action="#" style="width: 90%; margin: auto;">
+		  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: inherit;">
+		    <input class="mdl-textfield__input" type="text" id="sample3 style="width: inherit;"">
+		    <label class="mdl-textfield__label" for="sample3" style="width: inherit;">Username...</label>
+		  </div>
+		</form>
+		<form action="#" style="width: 90%; margin: auto;">
+		  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: inherit;">
+		    <input class="mdl-textfield__input" type="password" id="sample3 style="width: inherit;"">
+		    <label class="mdl-textfield__label" for="sample3" style="width: inherit;">Password</label>
+		  </div>
+		</form>
+		<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+			style="width: 90%; margin: 1%; margin-left: 5%; padding: 0%">
+		  Log in
+		</button>
+	</div>
+</body>
