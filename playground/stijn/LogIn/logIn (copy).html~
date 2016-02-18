@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html ng-app="overwatch" ng-controller="mainCtrl">
+	<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+	<link rel="stylesheet" href="./logIn.css">
+	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+	<script defer src="./logIn.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
+	<!-- TODO make the empty js functions (logIn.js)-->
+</head>
+<body>
+	<button id="btnLogin" type="button"
+	class="topRightSticky mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+		Log in
+	</button>
+
+	<!-- The welcome message-->
+	<div class="centeredContainer">
+		<p class="welcomeMessage">Welcome to OverWatch!</p>
+		<p class="welcomeMessage">Overwatch is love, Overwatch is life.</p>
+		<button id="btnSignup" type="button"
+		class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+			SignUp
+		</button>
+	</div>
+
+	<!-- The log in dialog-->
+	<dialog id="dlgLogin" class="mdl-dialog">
+		<h4 class="mdl-dialog__title">Log in</h4>
+		<div class="mdl-dialog__content">
+            <form name="myForm">
+              <label>
+                Enter text:
+                <input type="text" ng-model="field" name="myField" required minlength="5" />
+              </label>
+              <div ng-messages="myForm.myField.$error" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength, maxlength">
+                  Your email must be between 5 and 100 characters long
+                </div>
+              </div>
+            </form>
+			<form action="#">
+				<!-- The username and password-->
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="text" id="inpLoginUsername">
+					<label class="mdl-textfield__label" for="inpLoginUsername" ng-model="username">Username</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="password" id="inpLoginPassword">
+					<label class="mdl-textfield__label" for="inpLoginPassword" ng-model="password">Password</label>
+				</div>
+
+			</form>
+			<div>
+				<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+				<button id="btnDialogLogin" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="login()"
+					style="width: 45%; display: inline;">
+					Log in
+				</button>
+				<button id="btnDialogBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+					style="width: 45%; display: inline;">
+					Back
+				</button>
+			</div>
+		</div>
+	</dialog>
+
+
+	<!-- The sign up dialog-->
+	<dialog id="dlgSignup" class="mdl-dialog">
+		<h4 class="mdl-dialog__title">Sign up</h4>
+		<div class="mdl-dialog__content">
+			<form action="#" name="signup">
+				<!-- The username and password-->
+				<div class="mdl-textfield mdl-js-textfield">
+					<label class="mdl-textfield__label">Username</label>                  
+					<input class="mdl-textfield__input" type="text" ng-model="username" name="signupUsername" required/>
+                    <div ng-messages="signup.signupUsername.$error" ng-if="signup.signupUsername.$dirty">
+                      <div ng-message="required">This field is required</div>
+                    </div>
+                </div>
+
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="text" id="inpSignupEmail">
+					<label class="mdl-textfield__label" for="inpSignupEmail" ng-model="email">Email</label>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield">
+					<input class="mdl-textfield__input" type="password" id="inpSignupPassword">
+					<label class="mdl-textfield__label" for="inpSignupPassword" ng-model="password">Password</label>
+				</div>
+
+			</form>
+			<div>
+				<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+				<button id="btnDialogSignup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="signup()"
+					style="width: 45%; display: inline;">
+					Sign up
+				</button>
+				<button id="btnSignupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+					style="width: 45%; display: inline;">
+					Back
+				</button>
+			</div>
+		</div>
+	</dialog>
+    <script src="overwatch_angular.js"></script>
+</body>
+</html>

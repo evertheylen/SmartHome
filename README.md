@@ -14,5 +14,5 @@ Project Databases
 - Backend
     - Python
 - Frontend
-    - HTML5, CSS3, Javascript
+    - HTML5, CSS3, Javascript, AngularJS
     - Google MDL, Google Charts
