@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html ng-app="overwatch" ng-controller="mainCtrl">
+	<head>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.red-blue.min.css">
+		<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+		<title>OverWatch</title>
+        <base href="/">
+		<link rel="stylesheet" type="text/css" href="login.css">
+	</head>
+	<body>
+		<ul class="ulClass">
+			<li class="liClass"><a href="/">{{i18n("home")}}</a></li>
+			<li class="liClass"><a href="contact">{{i18n("contact")}}</a></li>
+				<li class="liClass"><a href="about">{{i18n("about")}}</a></li>
+			<ul class="ulClass" style="float:right;list-style-type:none;">
+				<li id ="language_select" class="liClass"><a>{{i18n("language")}}</a></li>
+			<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+			for="language_select">
+				<li class="mdl-menu__item" ng-click="language=0">English</li>
+				<li class="mdl-menu__item" ng-click="language=1">Nederlands</li>
+			</ul>
+				<li class="liClass"><a href="register">{{i18n("register")}}</a></li>
+				<li class="liClass"><a class="active" href="#login">{{i18n("login")}}</a></li>
+            </ul>
+		</ul>
+		<div ng-view></div>
+		<script src="overwatch_angular.js"></script>
+	</body>
+</html>

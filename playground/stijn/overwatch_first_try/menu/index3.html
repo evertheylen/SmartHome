@@ -1,0 +1,54 @@
+<html lang="en" >
+<head>
+  <!-- Angular Material style sheet -->
+    <base href="/">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.blue_grey-amber.min.css">
+    <script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <title>OverWatch</title>
+</head>
+<body ng-app="overwatch" ng-controller="mainCtrl" ng-cloak>
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Title</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation. We hide it in small screens. -->
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <a class="mdl-navigation__link is-active" href="home">Home</a>
+            <a class="mdl-navigation__link" href="statistics">Statistics</a>
+            <a class="mdl-navigation__link" href="sensors">Sensors</a>
+            <a class="mdl-navigation__link" href="social">Social</a>
+          </nav>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Title</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="home">Home</a>
+            <a class="mdl-navigation__link" href="statistics">Statistics</a>
+            <a class="mdl-navigation__link" href="sensors">Sensors</a>
+            <a class="mdl-navigation__link" href="social">Social</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+    <div ng-view></div> </div>
+      </main>
+    </div>
+    <!-- Your application bootstrap  -->
+    <script src="overwatch_angular.js"></script>
+  
+</body>
+</html>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved. 
+Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+-->

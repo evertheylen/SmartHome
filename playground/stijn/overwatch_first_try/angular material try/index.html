@@ -1,0 +1,54 @@
+<html lang="en" >
+<head>
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+  <base href="/">
+</head>
+<body ng-app="overwatch" ng-controller="mainCtrl" ng-cloak>
+<md-tabs>
+  <md-tab><a href="home">Home</a></md-tab>
+  <md-tab><a href="statistics">Statistics</a></md-tab>
+  <md-tab label="Sensors"><a href="sensors"></a></md-tab>
+  <md-tab label="Social"><a href="social"</md-tab>
+</md-tabs>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+  <div class="intro">
+  This demonstration shows how Angular Material Tabs can be used with Angular Route and
+   ng-view. 
+<div>
+<div ng-app="demoApp" 
+     ng-controller="DemoController"
+     layout="column" class="demo" >
+
+  <script type="text/ng-template" id="partials/view1.html">  View #1 </script>
+  <script type="text/ng-template" id="partials/view2.html">  View #2 </script>
+  <script type="text/ng-template" id="partials/view3.html">  View #3 </script>
+
+  <md-tabs md-stretch-tabs 
+           md-selected="selectedIndex"  >
+     <md-tab>  <a href="#/view1">View 1</a> </md-tab> 
+     <md-tab>  <a href="#/view2">View 2</a> </md-tab>
+     <md-tab>  <a href="#/view3">View 3</a> </md-tab>  
+  </md-tabs>
+
+  <div id="content" ng-view flex> </div>
+
+</div>
+
+  
+  <!-- Your application bootstrap  -->
+  <script src="overwatch_angular.js"></script>
+  
+</body>
+</html>
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved. 
+Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
+-->
