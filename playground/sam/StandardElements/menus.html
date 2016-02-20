@@ -8,27 +8,29 @@
 	<!--TODO The colors are bad, i know. I just picked something so it wouldn't be just white.-->
 </head>
 <body style="background-color: 66CC66;">
-	<div id="menu" class="menuBar">
-		<ul class="MenuOptionList">
-			<li id="menuButton" class="material-icons white md-48 menuElement">menu</li>
-			<li id="productname" class="menuElement">OverWatch</li>
-			<!--TODO Logout button, connect this button to an action-->
-			<li id="logout" class="material-icons red md-48 menuElement">cancel</li>
-		</ul>
-		<!--The navigation for the different pages (home, statistics,...)
-			TODO link these things to the appropriate action-->
-		<div id="navigationBar">
-			<div id="navBarElement1" class="navigationElement selected">
-				Home
-			</div>
-			<div id="navBarElement2" class="navigationElement">
-				Statistics
-			</div>
-			<div id="navBarElement3" class="navigationElement">
-				Sensors
-			</div>
-			<div id="navBarElement4" class="navigationElement">
-				Social
+	<div id="header" class="myHeader">
+		<div id="menu" class="menuBar">
+			<ul class="MenuOptionList">
+				<li id="menuButton" class="material-icons white md-48 menuElement">menu</li>
+				<li id="productname" class="menuElement">OverWatch</li>
+				<!--TODO Logout button, connect this button to an action-->
+				<li id="logout" class="material-icons red md-48 menuElement">cancel</li>
+			</ul>
+			<!--The navigation for the different pages (home, statistics,...)
+				TODO link these things to the appropriate action-->
+			<div id="navigationBar">
+				<div id="navBarElement1" class="navigationElement selected">
+					Home
+				</div>
+				<div id="navBarElement2" class="navigationElement">
+					Statistics
+				</div>
+				<div id="navBarElement3" class="navigationElement">
+					Sensors
+				</div>
+				<div id="navBarElement4" class="navigationElement">
+					Social
+				</div>
 			</div>
 		</div>
 	</div>
@@ -38,8 +40,31 @@
 		<li class="mdl-menu__item">stuff</li>
 		<li class="mdl-menu__item">stuff</li>
 	</ul>
-	<main>
-		<!--TODO Insert your stuff here (depending on the selected menu)-->
-	</main>
-	<!--TODO the footer did strange things, i'll fix it tomorrow-->
+	<div id="mainContent">
+		<!--TODO insert page-specific stuff here-->
+	</div>
+	<div id="bareNavigationBar">
+			<div id="bareNavBarElement1" class="bareNavigationElement">
+				<p><a href="#Home">Home</a>
+			</div>
+			<div id="bareNavBarElement2" class="bareNavigationElement">
+				<p><a href="#Statistics">Statistics</a></p>
+			</div>
+			<div id="bareNavBarElement3" class="bareNavigationElement">
+				<p><a href="#Sensors">Sensors</a></p>
+			</div>
+			<div id="bareNavBarElement4" class="bareNavigationElement">
+				<p><a href="#Social">Social</a></p>
+			</div>
+	</div>
 </body>
+
+
+
+
+
+
+
+
+
+
