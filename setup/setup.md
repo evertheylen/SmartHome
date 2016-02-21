@@ -1,18 +1,20 @@
 # How to set up our project
 
-Assuming you have python3 installed.
+## Dependencies of the dependencies :)
 
-In Ubuntu:
-
+Assuming you have python 3.5 and pip3 installed! In Ubuntu this may require the following commands:
+    
+    sudo apt-get install python3.5
     sudo apt-get install python3-pip
+    sudo update-alternatives --install /usr/bin/python3 python3.5 /usr/bin/python3.5 0
+    
+## Dependencies
+
     sudo pip3 install tornado
+    sudo pip3 install psycopg2
+    sudo pip3 install momoko
     # TODO: install postgres
     # TODO: set up database
-    
-In Arch Linux:
-
-    sudo pacman -S python-tornado postgresql
-    # TODO
 
 
 # How to run our project

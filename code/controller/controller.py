@@ -13,4 +13,12 @@ class Controller:
         
         self.listeners = defaultdict(set)
         # ID --> {jef, jos, maria}
-
+    
+    async def handle_message(self, conn, dct):
+        users = await self.db.get_users()
+        self.logger.debug("users = " + repr(users))
+        if conn.session is None:
+            conn.send("not logged in")
+        else:
+            conn.send("Welcome, " + conn.session)
+    

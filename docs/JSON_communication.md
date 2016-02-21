@@ -25,7 +25,9 @@ Client message:
 	{
 		"type": "login",
 		"data": {
-			"user": "abc",
+			"user": {
+				"ID": "abc"
+			},
 			"password": "123",
 		}
 	}
