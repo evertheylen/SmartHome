@@ -1,30 +1,19 @@
 
-# Fake DB
-placeholder_data = {
-    1: 12.85,
-    2: 784.124,
-    3: 78.4
-}
+import psycopg2
+import momoko
+
+from tornado import gen
 
 class Database:
     def __init__(self, logger):
-        global database
         self.logger = logger
-        self.data = placeholder_data
-    
-    def update(self, ID, val):
-        # Also creates
-        self.data[ID] = val
-    
-    def insert(self, ID, val):
-        self.data[ID] = val
-    
-    def delete(self, ID):
-        self.data.remove(ID)
+        dsn = "dbname=testdb user=test password=test host=localhost port=5432"
+        self.db = momoko.Pool(dsn=dsn, size=5)
         
-    def get_value(self, ID):
-        return self.data[ID]
-    
-    def list_sensors(self):
-        yield from self.data.items()
+    async def get_users(self):
+        cursor = await momoko.Op(self.db.execute, "SELECT * FROM test")
+        desc = cursor.description
+        result = [dict(zip([col[0] for col in desc], row))
+                  for row in cursor.fetchall()]
+        return result
 
