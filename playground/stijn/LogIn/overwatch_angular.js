@@ -46,8 +46,7 @@ app.controller("signupCtrl", function($scope) {
       document.getElementById('dlgSignup').close();
     }
     }
-  };
-});
+  });
 
 app.config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){

@@ -20,28 +20,24 @@ app.controller("mainCtrl", function($scope, $rootScope) {
 });
 
 app.controller("indexView", function($scope, $rootScope) {
-	var dialog = document.getElementById('dlgLogin');
+	$scope.dialog = document.getElementById('dlgLogin');
 	var showDialogButton = document.getElementById('btnLogin');
-	if (! dialog.showModal){
-		dialogPolyfill.registerDialog(dialog);
-	}
 	showDialogButton.addEventListener('click', function(){
-		dialog.showModal();
+		$scope.dialog.showModal();
 	});
 	document.getElementById('btnDialogBack').addEventListener('click', function(){
-		dialog.close();
+		$scope.dialog.close();
 	});
 	var dialog2 = document.getElementById('dlgSignup');
-	var showDialogButton = document.getElementById('btnSignup');
-	if (! dialog2.showModal){
-		dialogPolyfill.registerDialog(dialog2);
-	}
-	showDialogButton.addEventListener('click', function(){
+	var showDialogButton2 = document.getElementById('btnSignup');
+	showDialogButton2.addEventListener('click', function(){
 		dialog2.showModal();
 	});
 	document.getElementById('btnSignupBack').addEventListener('click', function(){
 		dialog2.close();
 	});
+	$scope.dialog_login = document.getElementById("dlgLogin");
+	$scope.dialog_signup = dialog2;
 });
 
 app.controller("loginCtrl", function($scope, $rootScope, $location) {
