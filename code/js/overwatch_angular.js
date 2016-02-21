@@ -82,7 +82,7 @@ app.config(["$routeProvider", "$locationProvider",
         templateUrl: "/html/partials/index_tmp.html"
 
     }).when("/home", {
-      templateUrl: "partials/home.html"
+      templateUrl: "partials/home_tmp.html"
     }).when("/contact", {
       templateUrl: "partials/contact.html"
     }).when("/about", {
