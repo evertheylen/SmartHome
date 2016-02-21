@@ -16,8 +16,28 @@ app.controller("mainCtrl", function($scope, $rootScope) {
   };
   $rootScope.auth_user = null;
   $rootScope.logged_in = false;
-    
-  //  document.getElementById('dlgSignup').showModal();
+
+});
+
+app.controller("indexView", function($scope, $rootScope) {
+	$scope.dialog = document.getElementById('dlgLogin');
+	var showDialogButton = document.getElementById('btnLogin');
+	showDialogButton.addEventListener('click', function(){
+		$scope.dialog.showModal();
+	});
+	document.getElementById('btnDialogBack').addEventListener('click', function(){
+		$scope.dialog.close();
+	});
+	var dialog2 = document.getElementById('dlgSignup');
+	var showDialogButton2 = document.getElementById('btnSignup');
+	showDialogButton2.addEventListener('click', function(){
+		dialog2.showModal();
+	});
+	document.getElementById('btnSignupBack').addEventListener('click', function(){
+		dialog2.close();
+	});
+	$scope.dialog_login = document.getElementById("dlgLogin");
+	$scope.dialog_signup = dialog2;
 });
 
 app.controller("loginCtrl", function($scope, $rootScope, $location) {
