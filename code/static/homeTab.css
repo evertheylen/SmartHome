@@ -1,0 +1,35 @@
+.demo-card-wide.mdl-card {
+	width: 40%;
+	margin: 0% 3%;
+	margin-top: 40px;
+	display: inline-block;
+}
+.demo-card-wide > .mdl-card__title {
+	color: #fff;
+	height: 176px;
+	background: url('./kitten.jpg') center / cover;
+}
+.demo-card-wide > .mdl-card__title
+.demo-card-wide > .mdl-card__menu {
+	color: #fff;
+}
+.material-icons.yellow{
+	/*this has been marked as important*/
+	color: yellow;
+}
+.material-icons.white{
+	/*this has not been marked as important*/
+	color: white;
+}
+#importantGr{
+	/*displays important graphs*/
+}
+#suggestedGr{
+	/*displays suggested graphs or social stuff*/
+}
+#importantGr > p{
+	font-size: xx-large;
+}
+#suggestedGr > p{
+	font-size: xx-large;
+}
