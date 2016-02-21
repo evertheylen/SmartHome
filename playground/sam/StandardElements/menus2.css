@@ -1,0 +1,45 @@
+.demo-layout-transparent {
+	background: url(./kitten2.jpg);	/* TODO adjust to something nice*/
+}
+.demo-layout-transparent .mdl-layout__header,
+.demo-layout-transparent .mdl-layout__drawer-button{
+	color: white;
+}
+
+.material-icons.red{
+	color: rgb(255,0,0);
+}
+.material-icons.white{
+	color: rgb(255,255,255);
+}
+.material-icons.md-48 {
+	font-size: 48px;
+}
+#navigationBar{
+	width: 100%;
+	display: block;
+	height: auto;
+	text-align: center;
+	margin-top: 20px;
+}
+.navigationElement{
+	display: inline-block;
+	border: 2px solid black;
+	border-radius: 5px 5px 0px 0px;
+	text-align: center;
+	padding: 20px 40px;
+	margin: -1px;
+}
+.navigationElement:hover{
+	cursor: pointer;
+}
+.navigationElement.selected{
+	background-color: #66CC66; /*TODO adjust color if necessary*/
+	border-width: 2px 2px 2px 2px;
+	border-bottom: 2px solid #66CC66;
+}
+.kittenBackground{
+	background: url(./kitten.jpg);
+	background-repeat: repeat-x;
+	background-size: contain;;
+}
