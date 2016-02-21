@@ -1,15 +1,16 @@
   <!-- The welcome message-->
+<div ng-controller="indexView">
 <div class="centeredContainer">
     <p class="welcomeMessage">{{i18n("homepage_welcome")}} OverWatch!</p>
     <p class="welcomeMessage">"Overwatch is love, Overwatch is life."</p>
     <p class="welcomeMessage" ng-show=logged_in>Currently logged in as {{auth_user.user_name}}.</p>
-    <button id="btnSignup" type="button" ng-click="signup_clicked=!signup_clicked"
+    <button id="btnSignup" type="button"
     class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
         {{i18n("register")}}
     </button>
 </div>
 <!-- The log in dialog-->
-<dialog id="dlgLogin" ng-show="signup_clicked" class="mdl-dialog" ng-controller="loginCtrl">
+<dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginCtrl">
     <h4 class="mdl-dialog__title">{{i18n("login")}}</h4>
     <div class="mdl-dialog__content">
         <form action="#" name="login_form" autocomplete="nope">
@@ -45,7 +46,6 @@
         </div>
     </div>
 </dialog>
-
 
 <!-- The sign up dialog-->
 <dialog id="dlgSignup" class="mdl-dialog" ng-controller="signupCtrl">
@@ -90,3 +90,4 @@
         </div>
     </div>
 </dialog>
+</div>
