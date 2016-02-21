@@ -1,4 +1,4 @@
-.demo-layout-transparent {
+.kittenBackground{
 	background: url(./kitten2.jpg);	/* TODO adjust to something nice*/
 }
 .demo-layout-transparent .mdl-layout__header,
@@ -38,7 +38,7 @@
 	border-width: 2px 2px 2px 2px;
 	border-bottom: 2px solid #66CC66;
 }
-.kittenBackground{
+.kittenBackground2{
 	background: url(./kitten.jpg);
 	background-repeat: repeat-x;
 	background-size: contain;;
