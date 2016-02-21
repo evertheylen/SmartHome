@@ -16,9 +16,11 @@ app.controller("mainCtrl", function($scope, $rootScope) {
   };
   $rootScope.auth_user = null;
   $rootScope.logged_in = false;
+    
+  //  document.getElementById('dlgSignup').showModal();
 });
 
-app.controller("loginCtrl", function($scope, $rootScope) {
+app.controller("loginCtrl", function($scope, $rootScope, $location) {
   $scope.wrong_login = false;
   $scope.login = function() {
     if ($scope.login_form.$valid) {
@@ -28,7 +30,10 @@ app.controller("loginCtrl", function($scope, $rootScope) {
           $rootScope.auth_user = database[i];
           $rootScope.logged_in = true;
           document.getElementById('dlgLogin').close();
-          $scope.wrong_login = false;
+          $scope.wrong_login = false;    
+          // This will change the URL fragment. The change is reflected
+        // on your browser's address bar as well
+          $location.path("/home");
           return;
         }
       }
@@ -53,8 +58,11 @@ app.controller("signupCtrl", function($scope) {
 
 app.config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){
-    $routeProvider.when('/', {
-      templateUrl: "partials/home.html",
+    $routeProvider.when("/", {
+        templateUrl: "/html/partials/index_tmp.html"
+
+    }).when("/home", {
+      templateUrl: "partials/home.html"
     }).when("/contact", {
       templateUrl: "partials/contact.html"
     }).when("/about", {
@@ -62,7 +70,7 @@ app.config(["$routeProvider", "$locationProvider",
     }).when("/register", {
       templateUrl: "partials/register.html"
     }).otherwise({
-      redirectTo: "/"
-    })
+        redirectTo: "/"
+    });
     $locationProvider.html5Mode(true);
 }]);
