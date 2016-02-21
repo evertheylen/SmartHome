@@ -2,10 +2,14 @@ import tornado
 
 # Handlers are instantiated for every request!
 def create_MainHandler(controller):
+    f = open("html/base.html", "r")
+    content = str(f.read())
+    
     class MainHandler(tornado.web.RequestHandler):
-        def get(self):
-            val = controller.db.get_value(1)
-            self.write(str(val))
-            controller.db.update(1, val*2)
+        def get(self, *args):
+            self.write(content)
+            
+        def post(self, *args):
+            self.write(content)
     
     return MainHandler

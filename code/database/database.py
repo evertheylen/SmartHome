@@ -7,8 +7,9 @@ placeholder_data = {
 }
 
 class Database:
-    def __init__(self):
+    def __init__(self, logger):
         global database
+        self.logger = logger
         self.data = placeholder_data
     
     def update(self, ID, val):

@@ -32,16 +32,16 @@ class OverWatch():
         
         # The view/presentation layer are the Handlers, so it's kinda the 'app' provided by Tornado.
         # Every handler will get a reference to the controller
-        self.controller = Controller(None, None)
+        self.controller = Controller(self.logger, None, None)
         
         # The model is pretty self-explanatory
         # The database is not managed by the model, but it's not a big deal really.
         # It could be managed by the model, but I prefer to keep the model clean of that.
-        self.model = Model(self.controller)
+        self.model = Model(self.logger, self.controller)
         
         # Now of course, set the controllers references too.
         self.controller.model = self.model
-        self.controller.db = Database()
+        self.controller.db = Database(self.logger)
         # The controller does not initially have any references to the "view" minions (ie. handlers),
         # In a classical app, it does not need too. In our app however, we need two-way communication.
         # However, WebsocketHandlers will signal a new connection to the controller, and the controller
@@ -58,10 +58,10 @@ class OverWatch():
         # that class.
         self.app = tornado.web.Application(
             [   # Enter your routes (regex -> Handler class) here! Order matters.
-                (r'/ng/(.*)', tornado.web.StaticFileHandler, {'path': localdir("ng")}),
+                (r'/html/(.*)', tornado.web.StaticFileHandler, {'path': localdir("html")}),
                 (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': localdir("static")}),
-                (r"/", create_MainHandler(self.controller)),
-                (r"/test", create_TestHandler(self.controller))
+                (r"/ws", create_WsHandler(self.controller)),
+                (r"/(.*)", create_MainHandler(self.controller)),
             ],
             **tornado_app_settings
         )
@@ -75,5 +75,13 @@ class OverWatch():
 if __name__ == "__main__":
     parse_command_line()
     # run it!
-    OverWatch().run()
+    ow = OverWatch()
+    try:
+        ow.run()
+    except KeyboardInterrupt:
+        tornado.ioloop.IOLoop.current().stop()
+        ow.logger.info("Stopping because of KeyboardInterrupt")
+    
+        
+        
 

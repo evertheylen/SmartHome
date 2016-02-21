@@ -4,8 +4,9 @@
 # You can however modify the listeners. TODO
 
 class Controller:
-    def __init__(self, db, model):
+    def __init__(self, logger, db, model):
+        self.logger = logger
         self.db = db
         self.model = model
-        self.listeners = defaultdict(list)?
+        #self.listeners = defaultdict(list)?
 
