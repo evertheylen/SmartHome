@@ -8,5 +8,7 @@ class Controller:
         self.logger = logger
         self.db = db
         self.model = model
-        #self.listeners = defaultdict(list)?
+        
+        self.listeners = defaultdict(set)
+        # ID --> {jef, jos, maria}
 

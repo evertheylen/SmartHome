@@ -59,6 +59,7 @@ class OverWatch():
         self.app = tornado.web.Application(
             [   # Enter your routes (regex -> Handler class) here! Order matters.
                 (r'/html/(.*)', tornado.web.StaticFileHandler, {'path': localdir("html")}),
+                (r'/js/(.*)', tornado.web.StaticFileHandler, {'path': localdir("js")}),
                 (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': localdir("static")}),
                 (r"/ws", create_WsHandler(self.controller)),
                 (r"/(.*)", create_MainHandler(self.controller)),

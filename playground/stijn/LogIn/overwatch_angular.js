@@ -38,7 +38,17 @@ app.controller("signupCtrl", function($scope) {
   $scope.auth_user = null;
   $scope.signup = function() {
     if($scope.signup_form.$valid) {
-      database.push({user_name: $scope.username, email: $scope.email, password: $scope.password});
+      database.push(
+		  {
+			  type: "signup",
+			  {
+				  user_name: $scope.username,
+				  email: $scope.email,
+				  password: $scope.password
+				  
+			}
+			  
+		});
       document.getElementById('dlgSignup').close();
     }
   };

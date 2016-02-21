@@ -10,10 +10,10 @@ def create_WsHandler(controller):
             controller.logger.info("Server opened connection")
             clients.add(self)
 
-        def on_message(self, message):
+        def async on_message(self, message):
             controller.logger.info("Server received a message : %s" % (message))
             for c in clients:
-                c.write_message("Broadcast: " + message)
+                await c.write_message("Broadcast: " + message)
 
     def on_close(self):
         if self in clients:
