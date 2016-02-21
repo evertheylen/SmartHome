@@ -3,6 +3,8 @@
 # So make sure it does NOT modify internal state while handling a request
 # You can however modify the listeners. TODO
 
+from collections import defaultdict
+
 class Controller:
     def __init__(self, logger, db, model):
         self.logger = logger
