@@ -18,6 +18,8 @@ def create_WsHandler(controller):
     def on_close(self):
         if self in clients:
             clients.remove(self)
+            
+            
     
     return WsHandler
 

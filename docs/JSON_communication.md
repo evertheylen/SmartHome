@@ -3,7 +3,9 @@
 
 ## User Auth
 
-Signup:
+### Signup
+
+Client message:
 
 	{
 		"type": "signup",
@@ -14,7 +16,11 @@ Signup:
 		}
 	}
 
-Login:
+Server response: TODO
+
+### Login
+
+Client message:
 
 	{
 		"type": "login",
@@ -24,24 +30,31 @@ Login:
 		}
 	}
 
-Login response:
+Server response (Fail):
 
 	{
-		"type": "fail",
+		"type": "login",
+		"data": "fail"
+	}
+
+Server response (Success):
+
+	{
+		"type": "login",
 		"data": {
-			"what": "login",
+			"session": "78SD451xdsf487scxg4i7ojkh14q12z4c1f4e87rhj45GFdf1d2s7f8d11asq1d8sdaK45FDW12"
 		}
 	}
 
-While logged in, a cookie has been set, which the server can get from the headers.
+While logged in, the cookie (=session) has been set, which the server can get from the headers.
 
-Logout:
+### Logout
 
 	{
 		"type": "logout"
 	}
 
 
-ws.send("login", {"username": "jdkfjskf", "djflksjf": "dfhjskjf"})
+
 
 
