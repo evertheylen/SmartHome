@@ -16,7 +16,6 @@ function connectLoginDialog() {
 		dialog.close();
 	});
 }
-alert("test");
 function connectSignupDialog() {
 	/*
 		Makes sure the dialog is opened when the btnLogin is clicked

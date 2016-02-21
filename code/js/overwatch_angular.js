@@ -4,8 +4,11 @@ var database = [];
 app.controller("mainCtrl", function($scope, $rootScope) {
   $scope.html_strings = {
     "home": ["Home ", "Start "], "contact": ["Contact ", "Contacteer "], "about": ["About ", "Over "], "language": ["Language", "Taal"],
-    "register": ["Register", "Registreer"], "login": ["Login", "Inloggen"], "homepage_welcome": ["Welcome to", "Welkom bij "],
-    "username": ["Username", "Gebruikersnaam"], "password": ["Password", "Paswoord"]};
+    "register": ["Signup", "Registreer"], "login": ["Login", "Inloggen"], "logout": ["Logout", "Afmelden"], "homepage_welcome": ["Welcome to", "Welkom bij"],
+    "username": ["Username", "Gebruikersnaam"], "password": ["Password", "Paswoord"], "privacy": ["Privacy & Terms", "Privacy & Condities"], 
+    "required_field": ["This field is required", "Dit veld is verplicht"], "login_error": ["Wrong username or password!", "Foute gebruikersnaam of paswoord!"],
+    "back": ["Back", "Terug"], "invalid_email": ["Please input a valid email address", "Gelieve een geldig emailadres in te geven"], 
+    "invalid_password": ["Password must contain at least 8 characters", "Paswoord moet minstens 8 tekens bevatten"]};
   $scope.language = 0;
   
   $scope.i18n = function(input) {
