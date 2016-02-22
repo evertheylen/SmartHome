@@ -3,7 +3,7 @@
     <div class="centeredContainer">
         <p class="welcomeMessage">{{i18n("homepage_welcome")}} OverWatch!</p>
         <p class="welcomeMessage">"Overwatch is love, Overwatch is life."</p>
-        <p class="welcomeMessage" ng-show=logged_in>Currently logged in as {{auth_user.user_name}}.</p>
+        <p class="welcomeMessage" ng-show=logged_in>Currently logged in as {{auth_user}}.</p>
         <button id="btnSignup" type="button" class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
             {{i18n("register")}}
         </button>
@@ -75,6 +75,9 @@
                             <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
                             <div style="color: red" ng-message="minlength">{{i18n("invalid_password")}}</div>
                     </div>
+                    <div>
+                            <p style="color: red" ng-show="wrong_signup">{{i18n("signup_error")}}</p>
+                    </div>
             </form>
             <div>
                 <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
@@ -83,7 +86,7 @@
                     {{i18n("register")}}
                 </button>
                 <button id="btnSignupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 40%; display: inline;">
+                    style="width: 40%; display: inline;" ng-click="wrong_signup=false">
                     {{i18n("back")}}
                 </button>
             </div>
