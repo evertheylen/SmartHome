@@ -12,7 +12,7 @@ class Database:
 
     @gen.coroutine
     def get_users(self):
-        cursor = momoko.Op(self.db.execute, "SELECT * FROM test")
+        cursor = yield self.db.execute("SELECT * FROM test")
         desc = cursor.description
         result = [dict(zip([col[0] for col in desc], row))
                   for row in cursor.fetchall()]
