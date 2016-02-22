@@ -1,0 +1,27 @@
+.down{
+	-webkit-transform: rotate(90deg);
+}
+.up{
+	-webkit-transform: rotate(-90deg);
+}
+.md-10{
+	font-size: 10;
+}
+.sortColumnAttr{
+	width: auto;
+}
+.sortColumnAttr:hover{
+	cursor: pointer;
+}
+.tableHeadColor{
+	background-color: rgb(200,200,200);
+}
+.bareButton{
+	border: none;
+	background: none;
+	margin: 0px;
+	padding: 0px;
+}
+.bareButton:hover{
+	cursor: pointer;
+}
