@@ -10,9 +10,8 @@ class Database:
         dsn = "dbname=testdb user=test password=test host=localhost port=5432"
         self.db = momoko.Pool(dsn=dsn, size=5)
 
-    @gen.coroutine
-    def get_users(self):
-        cursor = yield self.db.execute("SELECT * FROM test")
+    async def get_users(self):
+        cursor = await self.db.execute("SELECT * FROM test")
         desc = cursor.description
         result = [dict(zip([col[0] for col in desc], row))
                   for row in cursor.fetchall()]

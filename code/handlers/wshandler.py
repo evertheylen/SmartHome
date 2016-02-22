@@ -13,20 +13,22 @@ def create_WsHandler(controller):
             controller.logger.info("Server opened connection")
             clients.add(self)
             self.session = self.get_cookie("session")
-
-        @gen.coroutine
+        
+        # Reminder: the docs say this function *must* be synchronous
         def on_message(self, message):
             controller.logger.info("Server received message: " + message)
             try:
                 dct = json.loads(message)
-                controller.handle_message(self, dct)
+                #controller.handle_message(self, dct)
+                # Because this function is synchronous, we must use the IOLoop to get the async loop 'back'
+                tornado.ioloop.IOLoop.current().spawn_callback(controller.handle_message, self, dct)
             except json.JSONDecodeError as e:
                 controller.logger.warning("Server could not decode as JSON. Error: {}".format(message, e))
             except KeyError:
                 controller.logger.warning("KeyError occured, wrong json?")
 
 
-        def send(self, dct):
+        async def send(self, dct):
             self.write_message(json.dumps(dct))
 
         def on_close(self):
