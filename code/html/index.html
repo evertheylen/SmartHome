@@ -7,10 +7,11 @@
 	<link rel="stylesheet" href="/static/login.css">
 	<link rel="stylesheet" href="/static/homeTab.css">
 	<link rel="stylesheet" href="/static/menus2.css">
-	<script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="/js/internationalization.js"></script>
 </head>
 <body>
     <script>
@@ -36,8 +37,7 @@
           </nav>
         </div>
       </header>
-      <!--
-      <div class="mdl-layout__drawer">
+      <div class="mdl-layout__drawer" ng-show="logged_in">
         <span class="mdl-layout-title">OverWatch</span>
         <nav class="mdl-navigation">
           <a class="header_a mdl-navigation__link" href="">Link</a>
@@ -45,7 +45,7 @@
           <a class="header_a mdl-navigation__link" href="">Link</a>
           <a class="header_a mdl-navigation__link" href="">Link</a>
         </nav>
-      </div>-->
+      </div>
       <main class="mdl-layout__content">
     
         <div ng-view></div>
