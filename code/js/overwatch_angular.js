@@ -16,7 +16,6 @@ app.controller("mainCtrl", function($scope, $rootScope) {
   };
   $rootScope.auth_user = null;
   $rootScope.logged_in = false;
-
 });
 
 app.controller("indexView", function($scope, $rootScope) {
@@ -38,6 +37,11 @@ app.controller("indexView", function($scope, $rootScope) {
 	});
 	$scope.dialog_login = document.getElementById("dlgLogin");
 	$scope.dialog_signup = dialog2;
+	componentHandler.upgradeDom();
+});
+
+app.controller("homeView", function($scope, $rootScope) {
+	componentHandler.upgradeDom();
 });
 
 app.controller("loginCtrl", function($scope, $rootScope, $location) {
