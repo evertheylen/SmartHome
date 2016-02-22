@@ -1,9 +1,9 @@
   <!-- The welcome message-->
-<div ng-controller="indexView">
+<div id="template_index" ng-controller="indexView">
     <div class="centeredContainer">
         <p class="welcomeMessage">{{i18n("homepage_welcome")}} OverWatch!</p>
         <p class="welcomeMessage">"Overwatch is love, Overwatch is life."</p>
-        <p class="welcomeMessage" ng-show=logged_in>Currently logged in as {{auth_user.user_name}}.</p>
+        <p class="welcomeMessage" ng-show=logged_in>Currently logged in as {{auth_user}}.</p>
         <button id="btnSignup" type="button" class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
             {{i18n("register")}}
         </button>
@@ -16,14 +16,14 @@
                 <!-- The username and password-->
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" id="input_login_username" name="login_username" ng_model="username" required>
-                    <label ng-show="login_form.login_username.$error.required" class="mdl-textfield__label" for="input_login_username">{{i18n("username")}}</label>
+                    <label class="mdl-textfield__label" for="input_login_username">{{i18n("username")}}</label>
                 </div>
                     <div ng-messages="login_form.login_username.$error">
                             <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
                     </div> 
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="password" id="input_login_password" name="login_password" ng-model="password" required>
-                    <label ng-show="login_form.login_password.$error.required" class="mdl-textfield__label" for="input_login_password">{{i18n("password")}}</label>
+                    <label class="mdl-textfield__label" for="input_login_password">{{i18n("password")}}</label>
                 </div>
                     <div ng-messages="login_form.login_password.$error">
                             <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
@@ -53,7 +53,7 @@
             <form action="#" name="signup_form">
                 <!-- The username and password-->
                 <div class="mdl-textfield mdl-js-textfield">
-                    <label ng-show="signup_form.signupUsername.$error.required" class="mdl-textfield__label" for="input_signup_username">{{i18n("username")}}</label>                  
+                    <label class="mdl-textfield__label" for="input_signup_username">{{i18n("username")}}</label>                  
                     <input class="mdl-textfield__input" type="text" id="input_signup_username" ng-model="username" name="signupUsername" required/>
                         </div>
                         <div ng-messages="signup_form.signupUsername.$error">
@@ -61,7 +61,7 @@
                         </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="email" id="input_signup_email" name="signupEmail" ng-model="email" required>
-                    <label ng-show="signup_form.signupEmail.$error.required" class="mdl-textfield__label" for="input_signup_email">Email</label>
+                    <label class="mdl-textfield__label" for="input_signup_email">Email</label>
                 </div>
                     <div ng-messages="signup_form.signupEmail.$error">
                             <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
@@ -69,11 +69,14 @@
                     </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="password" id="input_signup_password" ng-model="password" name="signupPassword" required minlength="8">
-                    <label ng-show="signup_form.signupPassword.$error.required" class="mdl-textfield__label" for="input_signup_password">{{i18n("password")}}</label>
+                    <label class="mdl-textfield__label" for="input_signup_password">{{i18n("password")}}</label>
                 </div>
                     <div ng-messages="signup_form.signupPassword.$error">
                             <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
                             <div style="color: red" ng-message="minlength">{{i18n("invalid_password")}}</div>
+                    </div>
+                    <div>
+                            <p style="color: red" ng-show="wrong_signup">{{i18n("signup_error")}}</p>
                     </div>
             </form>
             <div>
@@ -83,7 +86,7 @@
                     {{i18n("register")}}
                 </button>
                 <button id="btnSignupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 40%; display: inline;">
+                    style="width: 40%; display: inline;" ng-click="wrong_signup=false">
                     {{i18n("back")}}
                 </button>
             </div>

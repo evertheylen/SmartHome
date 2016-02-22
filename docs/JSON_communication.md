@@ -16,7 +16,17 @@ Client message:
 		}
 	}
 
-Server response: TODO
+Server response (Succes): 
+{
+	"type": "signup",
+	"data": "succes"
+}
+
+Server response (Fail): 
+{
+	"type": "signup",
+	"data": "fail"
+}
 
 ### Login
 
