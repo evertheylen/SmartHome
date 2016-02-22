@@ -4,9 +4,9 @@ handlers = {};
 function connect_to_websocket() { 
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 
-	request(type, data, function) {
+	websocket.request = function (type, data, f) {
 		// Data can be any object literal or prototype with the toJSON method.
-		handlers[currentId] = function;
+		handlers[currentId] = f;
 		var stringToSend = JSON.stringify({"id": currentId, "type": type, "data": data});
 		websocket.send(stringToSend);	
 		console.log("Sent data to server");
@@ -62,7 +62,7 @@ function server_signup_response(data) {
 	if(data["data"] == "fail") {
 			handlers["signup"](false);
 	}
-	else if(data["data] == "succes") {
+	else if(data["data"] == "succes") {
 		handlers["signup"](true);
 	}	
 }

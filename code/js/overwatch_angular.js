@@ -56,7 +56,7 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 		} else {
 			$scope.wrong_login = true;
 		}
-	}
+	});
 	/*
       for (var i = 0; i < database.length; i++) {
         console.log(database[i]);
