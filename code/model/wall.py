@@ -3,6 +3,5 @@ class Wall:
         self.ID = ID
 
     def toDict(self):
-        # to dict representation, not sure what the specific representation is yet :/
-        # TODO pass for now
-        pass
+        '''Returns the dictionary representation of a wall object'''
+        return dict([("ID",self.ID)])

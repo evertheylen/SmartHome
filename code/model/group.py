@@ -5,6 +5,5 @@ class Group:
         self.wall_ID = wall_ID
 
     def toDict(self):
-        # to dict representation, not sure what the specific representation is yet :/
-        # TODO pass for now
-        pass
+        '''Returns the dictionary representation of a group object'''
+        return dict([("ID",self.ID),("name",self.name),("wall_ID",self.wall_ID)])

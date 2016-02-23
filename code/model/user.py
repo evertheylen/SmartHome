@@ -8,6 +8,5 @@ class User:
         self.wall_ID = wall_ID
 
     def toDict(self):
-        # to dict representation, not sure what the specific representation is yet :/
-        # TODO pass for now
-        pass
+        '''Returns the dictionary representation of an user object'''
+        return dict([("ID",self.ID),("firstname",self.firstname),("lastname",self.lastname),("email",self.email),("wall_ID",self.wall_ID)])
