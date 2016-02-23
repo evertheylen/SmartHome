@@ -1,7 +1,8 @@
-class Wall:
+
+from . import Base
+
+class Wall(Base):
     def __init__(self, ID):
         self.ID = ID
 
-    def toDict(self):
-        '''Returns the dictionary representation of a wall object'''
-        return dict([("ID",self.ID)])
+    json_props = ["ID"]
