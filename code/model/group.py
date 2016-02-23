@@ -7,10 +7,6 @@ class Group(Base):
         self.name = name
         self.wall_ID = wall_ID
 
-    # Anthony, twee opmerkingen:
-    #   - snake case (=lowercase met underscores) voor alles buiten klassen/types
-    #   - er is een makkelijkere en properdere manier om dicts te doen :)
-
     #def to_dict(self):
         #'''Returns the dictionary representation of a group object'''
         #return {
