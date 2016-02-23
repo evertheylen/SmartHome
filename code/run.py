@@ -21,7 +21,6 @@ define("debug", default=True, help="run in debug mode")
 def localdir(location):
     return os.path.join(os.path.dirname(__file__), location)
 
-# TODO close the ioLoop properly so no errors occur when KeyboardInterrupt occurs
 class OverWatch():
     def __init__(self, tornado_app_settings={}):
         # Logging support
@@ -39,7 +38,7 @@ class OverWatch():
         # The database is not managed by the model, but it's not a big deal really.
         # It could be managed by the model, but I prefer to keep the model clean of that.
         self.model = Model(self.logger, self.controller)
-
+        
         # Now of course, set the controllers references too.
         self.controller.model = self.model
         self.controller.db = Database(self.logger)

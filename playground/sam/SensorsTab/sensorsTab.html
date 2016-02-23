@@ -3,76 +3,144 @@
 	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.blue_grey-amber.min.css">
 	<link rel="stylesheet" href="./sensorsTab.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+	<script defer src="./sensorsTab.js"></script>
 </head>
 <body>
-	<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:100%">
-		<thead>
-			<tr class="tableHeadColor">
-				<th class="mdl-data-table__cell--non-numeric">
-					<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-					<div id="sensorColumn" class="sortColumnAttr">
-						<!--TODO sorting may cause the elements to be sorted ascending or descending
-						the arrow must chancge direction then in the line of code below, an arrow pointing up is displayed
-						when you want to change the direction, simply replace "down" by "up" in its class
-						the next example has an up arrow-->
-						<i class="material-icons md-10 down">play_arrow</i>
-						Sensor
-					</div>
-				</th>
-				<th>
-					<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-					<div id="houseColumn" class="sortColumnAttr">
-						<!--The example i was talking about earlier-->
-						<i class="material-icons md-10 up">play_arrow</i>
-						House
-					</div>
-				</th>
-				<th>
-					<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-					<div id="typeColumn" class="sortColumnAttr">
-						<i class="material-icons md-10 down">play_arrow</i>
-						Type
-					</div>
-				</th>
-				<th>
-					<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-					<div id="tagColumn" class="sortColumnAttr">
-						<i class="material-icons md-10 down">play_arrow</i>
-						Tag
-					</div>
-				</th>
-				<th>
-					<!--I had to use an extra "table attribute" for  the symbols at the end-->
-					<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td id="someSensor" class="mdl-data-table__cell--non-numeric">someSensor</td>
-				<td>someHouse</td>
-				<td>someType</td>
-				<td>someTag</td>
-				<td>
-					<!--TODO add events for these buttons (their purpose should be clear: delete and modify sensors)-->
-					<button id="btnModify1" type="button" class="bareButton"><i class="material-icons">build</i></button>
-					<button id="btnDelete1" type="button" class="bareButton"><i class="material-icons">delete</i></button>
-				</td>
-			</tr>
-			<tr>
-				<td id="someSensor2" class="mdl-data-table__cell--non-numeric">someSensor2</td>
-				<td>someHouse2</td>
-				<td>someType2</td>
-				<td>someTag2</td>
-				<td>
-					<!--TODO add events for these buttons (their purpose should be clear: delete and modify sensors)-->
-					<button id="btnModify2" type="button" class="bareButton"><i class="material-icons">build</i></button>
-					<button id="btnDelete2" type="button" class="bareButton"><i class="material-icons">delete</i></button>
-				</td>
+	<!--Location table-->
+	<div id="locations">
+		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+			<thead>
+				<tr class="tableHeadColor">
+					<th class="mdl-data-table__cell--non-numeric">
+						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+						<div>
+							Locations
+						</div>
+					</th>
+					<th>
+						<div>
+							<!--I had to use an extra "table attribute" for  the symbols at the end-->
+						</div>
+					</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="mdl-data-table__cell--non-numeric">someHouse</td>
+					<td>
+						<!--TODO add events for these buttons (their purpose should be clear: delete and modify locations)-->
+						<button id="btnModifyLoc1" type="button" class="bareButton"><i class="material-icons">build</i></button>
+						<button id="btnDeleteLoc1" type="button" class="bareButton"><i class="material-icons">delete</i></button>
+					</td>
+					
 				</tr>
-			</tr>
-		</tbody>
-	</table>
+				<tr>
+					<td class="mdl-data-table__cell--non-numeric">someHouse2</td>
+					<td>
+						<!--TODO add events for these buttons (their purpose should be clear: delete and modify locations)-->
+						<button id="btnModifyLoc2" type="button" class="bareButton"><i class="material-icons">build</i></button>
+						<button id="btnDeleteLoc2" type="button" class="bareButton"><i class="material-icons">delete</i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<!--TODO "Add location" button here-->
+		<button id="btnAddLoc" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+		  Add Location
+		</button>
+	</div>
+	<!--TODO VERY IMPORTANT!!! for every delete and modify button there should be a tooltip-->
+	<div class="mdl-tooltip mdl-tooltip--right" for="btnModifyLoc1">
+		Modify Location
+	</div>
+	<div class="mdl-tooltip mdl-tooltip--right" for="btnModifyLoc2">
+		Modify Location
+	</div>
+	<div class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc1">
+		Delete Location
+	</div>
+	<div class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc2">
+		Delete Location
+	</div>
+
+
+
+
+
+	<!--Sensor table-->
+	<div id="dataTable">
+		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+			<thead>
+				<tr class="tableHeadColor">
+					<th class="mdl-data-table__cell--non-numeric">
+						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+						<div id="sensorColumn" class="sortColumnAttr">
+							<!--TODO sorting may cause the elements to be sorted ascending or descending
+							the arrow must chancge direction then in the line of code below, an arrow pointing up is displayed
+							when you want to change the direction, simply replace "down" by "up" in its class
+							the next example has an up arrow-->
+							<i class="material-icons md-10 down">play_arrow</i>
+							Sensor
+						</div>
+					</th>
+					<th>
+						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+						<div id="houseColumn" class="sortColumnAttr">
+							<!--The example i was talking about earlier-->
+							<i class="material-icons md-10 up">play_arrow</i>
+							House
+						</div>
+					</th>
+					<th>
+						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+						<div id="typeColumn" class="sortColumnAttr">
+							<i class="material-icons md-10 down">play_arrow</i>
+							Type
+						</div>
+					</th>
+					<th>
+						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+						<div id="tagColumn" class="sortColumnAttr">
+							<i class="material-icons md-10 down">play_arrow</i>
+							Tag
+						</div>
+					</th>
+					<th>
+						<!--I had to use an extra "table attribute" for  the symbols at the end-->
+						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td id="someSensor" class="mdl-data-table__cell--non-numeric">someSensor</td>
+					<td>someHouse</td>
+					<td>someType</td>
+					<td>someTag</td>
+					<td>
+						<!--TODO add events for these buttons (their purpose should be clear: delete and modify sensors)-->
+						<button id="btnModify1" type="button" class="bareButton"><i class="material-icons">build</i></button>
+						<button id="btnDelete1" type="button" class="bareButton"><i class="material-icons">delete</i></button>
+					</td>
+				</tr>
+				<tr>
+					<td id="someSensor2" class="mdl-data-table__cell--non-numeric">someSensor2</td>
+					<td>someHouse2</td>
+					<td>someType2</td>
+					<td>someTag2</td>
+					<td>
+						<!--TODO add events for these buttons (their purpose should be clear: delete and modify sensors)-->
+						<button id="btnModify2" type="button" class="bareButton"><i class="material-icons">build</i></button>
+						<button id="btnDelete2" type="button" class="bareButton"><i class="material-icons">delete</i></button>
+					</td>
+					</tr>
+				</tr>
+			</tbody>
+		</table>
+		<!--TODO "Add sensor" button here-->
+		<button id="btnAddSensor" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+		  Add Sensor
+		</button>
+	</div>
 	<!--TODO VERY IMPORTANT!!! for every delete and modify button there should be a tooltip-->
 	<div class="mdl-tooltip mdl-tooltip--left" for="btnModify1">
 		Modify Sensor
@@ -86,4 +154,58 @@
 	<div class="mdl-tooltip mdl-tooltip--left" for="btnDelete2">
 		Delete Sensor
 	</div>
+
+
+
+
+	<!--Add sensor dialog-->
+    <dialog id="dlgSensor" class="mdl-dialog">
+        <h4 class="mdl-dialog__title">Add/edit Sensor</h4>
+        <div class="mdl-dialog__content">
+            <form action="#" name="sensor_form">
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="input_SensorName" name="sensorName">
+                    <label class="mdl-textfield__label" for="input_SensorName">Name</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+					<!--TODO I don't know how the tags will be read, by using spaces or something???-->
+                    <input class="mdl-textfield__input" type="text" id="input_SensorTags" name="sensorTags">
+                    <label class="mdl-textfield__label" for="input_SensorTag">Tags</label>
+                </div>
+				<div class="mdl-selectfield">
+					<label>Location</label>
+					<select class="browser-default">
+						<option value="" disabled selected>Choose your location</option>
+						<!--TODO fill in the right locations (query to server)-->
+						<option value="1">SomeLocation1</option>
+						<option value="2">SomeLocation1</option>
+					</select>
+				</div>
+				<div class="mdl-selectfield">
+					<label>Type</label>
+					<select class="browser-default">
+						<option value="" disabled selected>Choose your sensors type</option>
+						<!--TODO fill in the right locations (query to server)-->
+						<option value="1">SomeType1</option>
+						<option value="2">SomeType1</option>
+					</select>
+					</div>
+				</div>
+            </form>
+            <div>
+                <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+                <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                    style="width: 45%; display: inline; margin-left: 5%;">
+                    Save changes
+                </button>
+                <button id="btnSensorBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    style="width: 45%; display: inline;">
+                    Back
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+
+	<!--TODO I don't know for sure but the location dialog might be integrated using Google Maps-->
 </body>
