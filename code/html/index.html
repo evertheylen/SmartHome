@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="/static/homeTab.css">
 	<link rel="stylesheet" href="/static/menus2.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
-    	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 	<script src="/js/websocket.js"></script>
@@ -18,7 +18,7 @@
     <script>
       document.write('<base href="' + document.location + '" />');
     </script>
-    <div class="demo-layout-transparent mdl-layout mdl-js-layout">
+    <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout">
       <header id="mainHeader" class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
@@ -32,19 +32,19 @@
                 {{i18n("login")}}
             </button>
             <button id="btnLogin" type="button"
-            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-show=logged_in>
-                {{i18n("logout")}}
+            class="mdl-button mdl-js-button mdl-button--fab" ng-show=logged_in>
+                <i class="material-icons">power_settings_new</i>
             </button>
           </nav>
         </div>
       </header>
-      <div class="mdl-layout__drawer" ng-show="logged_in">
+      <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">OverWatch</span>
         <nav class="mdl-navigation">
-          <a class="header_a mdl-navigation__link" href="">Link</a>
-          <a class="header_a mdl-navigation__link" href="">Link</a>
-          <a class="header_a mdl-navigation__link" href="">Link</a>
-          <a class="header_a mdl-navigation__link" href="">Link</a>
+          <a class="header_a mdl-navigation__link" href="/html/home">{{i18n("privacy")}}</a>
+          <a class="header_a mdl-navigation__link" href="/html/statistics">{{i18n("statisticslink")}}</a>
+          <a class="header_a mdl-navigation__link" href="/html/sensors">{{i18n("sensorslink")}}</a>
+          <a class="header_a mdl-navigation__link" href="/html/social">{{i18n("sociallink")}}</a>
         </nav>
       </div>
       <main class="mdl-layout__content">
@@ -55,7 +55,7 @@
 		    <div class="mdl-mini-footer__left-section">
 			    <div class="mdl-logo">OverWatch</div>
 			    <ul class="mdl-mini-footer__link-list">
-				    <li><a href="contact">Help</a></li>
+				    <li><a href="#">Help</a></li>
 				    <li><a href="#">{{i18n("privacy")}}</a></li>
 			    </ul>
 		    </div>

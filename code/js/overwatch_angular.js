@@ -1,6 +1,28 @@
 var app = angular.module("overwatch", ['ngRoute', 'ngMessages']);
-var database = {};
-var ws = connect_to_websocket();	// Websocket
+var database = [];
+//var ws = connect_to_websocket();	// Websocket // TODO
+
+function hasClass(el, className) {
+  if (el.classList)
+    return el.classList.contains(className)
+  else
+    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+}
+
+function addClass(el, className) {
+  if (el.classList)
+    el.classList.add(className)
+  else if (!hasClass(el, className)) el.className += " " + className
+}
+
+function removeClass(el, className) {
+  if (el.classList)
+    el.classList.remove(className)
+  else if (hasClass(el, className)) {
+    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+    el.className=el.className.replace(reg, ' ')
+  }
+}
 
 app.controller("mainCtrl", function($scope, $rootScope) {
   $scope.language = 0;
@@ -31,10 +53,18 @@ app.controller("indexView", function($scope, $rootScope) {
 	});
 	$scope.dialog_login = document.getElementById("dlgLogin");
 	$scope.dialog_signup = dialog2;
+	var layout = document.getElementById("mainLayout");
+	if (!hasClass(layout, "mdl-layout--no-drawer-button")) {
+	    addClass(layout, "mdl-layout--no-drawer-button");
+    }
 	componentHandler.upgradeDom();
 });
 
 app.controller("homeView", function($scope, $rootScope) {
+    var layout = document.getElementById("mainLayout");
+    if (hasClass(layout, "mdl-layout--no-drawer-button")) {
+        removeClass(layout, "mdl-layout--no-drawer-button");
+    }
 	componentHandler.upgradeDom();
 });
 
@@ -45,7 +75,7 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 	
 	// COMMUNICATION WITH JEROEN :D
 	// PSEUDO : send("login", { ... data ... }, function(){ ... funtion stuff with switch for success, fail, ... });
-	ws.request("login", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_login) {
+	/*ws.request("login", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_login) {
 		if (successful_login) {	
 			//$rootScope.auth_user = // TODO response(user);
 			$rootScope.auth_user = $scope.username;	 // The authenticated user is only the username
@@ -56,8 +86,8 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 		} else {
 			$scope.wrong_login = true;
 		}
-	});
-	/*
+	});*/ // TODO
+	
       for (var i = 0; i < database.length; i++) {
         console.log(database[i]);
         if ($scope.username === database[i].user_name && $scope.password === database[i].password) {
@@ -72,7 +102,7 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
         }
       }
       $scope.wrong_login = true;
-	*/
+	
     }
   };
 });
@@ -81,24 +111,24 @@ app.controller("signupCtrl", function($scope) {
   $scope.auth_user = null;
   $scope.wrong_signup = false;
   $scope.signup = function() {
-    if($scope.signup_form.$valid) {
+    /*if($scope.signup_form.$valid) {
 	ws.request("signup", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_signup){
 		if (successful_signup) {
 			document.getElementById("dlgSignup").close();	
 		} else {
 			$scope.wrong_signup = true;
 		}
-	});
-	/*
+	});*/ // TODO
+	
       database.push({
 				  user_name: $scope.username,
 				  email: $scope.email,
 				  password: $scope.password
 				});
-      document.getElementById('dlgSignup').close();*/
+      document.getElementById('dlgSignup').close();
     }
-  };
-});
+  });
+//});
 
 app.config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){
@@ -107,12 +137,12 @@ app.config(["$routeProvider", "$locationProvider",
 
     }).when("/home", {
       templateUrl: "partials/home_tmp.html"
-    }).when("/contact", {
-      templateUrl: "partials/contact.html"
-    }).when("/about", {
-      templateUrl: "partials/about.html"
-    }).when("/register", {
-      templateUrl: "partials/register.html"
+    }).when("/statistics", {
+      templateUrl: "partials/statistics_tmp.html"
+    }).when("/sensors", {
+      templateUrl: "partials/sensors_tmp.html"
+    }).when("/social", {
+      templateUrl: "partials/social_tmp.html"
     }).otherwise({
         redirectTo: "/"
     });
