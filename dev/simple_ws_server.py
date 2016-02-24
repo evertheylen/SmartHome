@@ -21,10 +21,15 @@ define("jeroen_check", default=True, help="Checks whether you are in the right d
 clients = set()
 counter = 1
 
+class NoCacheStaticFileHandler(tornado.web.StaticFileHandler):
+    def set_extra_headers(self, path):
+        # Disable cache
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+
 class WsHandler(tornado.websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True
-
+    
     def open(self, *args):
         global counter
         self.ID = counter
@@ -52,7 +57,7 @@ logging.info("You can use http://www.websocket.org/echo.html to send messages. T
 if options.serve_files:
     app = tornado.web.Application([
         (r'/ws', WsHandler), 
-        (r'/(.*)', tornado.web.StaticFileHandler, {'path': localdir("")})
+        (r'/(.*)', NoCacheStaticFileHandler, {'path': localdir("")})
     ])
     logging.info("Websocket server location = ws://localhost:%d/ws"%options.port)
     if options.jeroen_check:
