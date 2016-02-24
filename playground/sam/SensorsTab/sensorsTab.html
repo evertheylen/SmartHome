@@ -12,7 +12,6 @@
 			<thead>
 				<tr class="tableHeadColor">
 					<th class="mdl-data-table__cell--non-numeric">
-						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
 						<div>
 							Locations
 						</div>
@@ -27,7 +26,7 @@
 				<tr>
 					<td class="mdl-data-table__cell--non-numeric">someHouse</td>
 					<td>
-						<!--TODO add events for these buttons (their purpose should be clear: delete and modify locations)-->
+						<!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
 						<button id="btnModifyLoc1" type="button" class="bareButton"><i class="material-icons">build</i></button>
 						<button id="btnDeleteLoc1" type="button" class="bareButton"><i class="material-icons">delete</i></button>
 					</td>
@@ -36,14 +35,14 @@
 				<tr>
 					<td class="mdl-data-table__cell--non-numeric">someHouse2</td>
 					<td>
-						<!--TODO add events for these buttons (their purpose should be clear: delete and modify locations)-->
+						<!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
 						<button id="btnModifyLoc2" type="button" class="bareButton"><i class="material-icons">build</i></button>
 						<button id="btnDeleteLoc2" type="button" class="bareButton"><i class="material-icons">delete</i></button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<!--TODO "Add location" button here-->
+		<!--TODO Add an event to this button to open the add/modify location dialog-->
 		<button id="btnAddLoc" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 		  Add Location
 		</button>
@@ -136,7 +135,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<!--TODO "Add sensor" button here-->
+		<!--TODO "Add sensor" button here, when this button is clicked, open the dialog (dlgSensor)-->
 		<button id="btnAddSensor" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 		  Add Sensor
 		</button>
@@ -193,7 +192,6 @@
 				</div>
             </form>
             <div>
-                <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
                 <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
                     style="width: 45%; display: inline; margin-left: 5%;">
                     Save changes
@@ -207,5 +205,42 @@
     </dialog>
 
 
-	<!--TODO I don't know for sure but the location dialog might be integrated using Google Maps-->
+	<!--TODO Maybe adjust this information, i don't know if this is enough-->
+	<dialog id="dlgLocation" class="mdl-dialog">
+        <h4 class="mdl-dialog__title">Add/edit Location</h4>
+        <div class="mdl-dialog__content">
+            <form action="#" name="location_form">
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="input_LocationCountry" name="locationCountry">
+                    <label class="mdl-textfield__label" for="input_LocationCountry">Country</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="input_LocationCity" name="locationCity">
+                    <label class="mdl-textfield__label" for="input_LocationCity">City</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="number" min="0" id="input_LocationZip" name="locationZip">
+                    <label class="mdl-textfield__label" for="input_LocationZip">ZIP/Postal code</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="input_LocationStreet" name="locationStreet">
+                    <label class="mdl-textfield__label" for="input_LocationStreet">Street</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="number" min="1" id="input_LocationNr" name="locationNr">
+                    <label class="mdl-textfield__label" for="input_LocationNr">Nr</label>
+                </div>
+            </form>
+            <div>
+                <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                    style="width: 45%; display: inline; margin-left: 5%;">
+                    Save changes
+                </button>
+                <button id="btnSensorBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    style="width: 45%; display: inline;">
+                    Back
+                </button>
+            </div>
+        </div>
+    </dialog>
 </body>
