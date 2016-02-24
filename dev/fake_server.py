@@ -20,7 +20,7 @@ def localdir(location):
 
 # CLI arguments
 define("port", default=8888, help="run on the given port", type=int)
-define("serve_files", default=True, help="Also serve local files (makes the websocket server run on /ws)", type=bool)
+define("serve_files", default=True, help="Also serve local files", type=bool)
 define("location", default="./", help="Which local folder to use as server root", type=str)
 define("scenario", help="What scenario to load?", type=str)
 
