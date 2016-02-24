@@ -16,7 +16,7 @@ class Controller:
         # ID --> {jef, jos, maria}
 
     async def handle_message(self, conn, dct):
-        users = self.db.get_users()
+        users = await self.db.get_users()
         self.logger.debug("users = " + repr(users))
         if conn.session is None:
             await conn.send("not logged in")

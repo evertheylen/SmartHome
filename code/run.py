@@ -41,7 +41,7 @@ class OverWatch():
         
         # Now of course, set the controllers references too.
         self.controller.model = self.model
-        self.controller.db = Database(self.logger)
+        self.controller.db = Database(self.logger, tornado.ioloop.IOLoop.current())
         # The controller does not initially have any references to the "view" minions (ie. handlers),
         # In a classical app, it does not need too. In our app however, we need two-way communication.
         # However, WebsocketHandlers will signal a new connection to the controller, and the controller
