@@ -38,7 +38,7 @@ class OverWatch():
         # The database is not managed by the model, but it's not a big deal really.
         # It could be managed by the model, but I prefer to keep the model clean of that.
         self.model = Model(self.logger, self.controller)
-
+        
         # Now of course, set the controllers references too.
         self.controller.model = self.model
         self.controller.db = Database(self.logger)

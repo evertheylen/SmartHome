@@ -1,12 +1,14 @@
-class User:
-    def __init__(self, ID, firstname, lastname, password, email, wall_ID):
+
+from . import Base
+
+class User(Base):
+    def __init__(self, ID, first_name, last_name, password, email, wall_ID):
         self.ID = ID
-        self.firstname = firstname
-        self.lastname = lastname
+        self.first_name = first_name
+        self.last_name = last_name
         self.password = password
         self.email = email
         self.wall_ID = wall_ID
 
-    def toDict(self):
-        '''Returns the dictionary representation of an user object'''
-        return dict([("ID",self.ID),("firstname",self.firstname),("lastname",self.lastname),("email",self.email),("wall_ID",self.wall_ID)])
+
+    json_props = ["ID", "first_name", "last_name", "password", "email", "wall_ID"]

@@ -1,5 +1,8 @@
 var html_strings = {
-    "home": ["Home ", "Start "],
+    "homelink": ["Home", "Start"],
+    "statisticslink": ["Statistics", "Statistieken"],
+    "sensorslink": ["Sensors", "Sensoren"],
+    "sociallink": ["Social", "Sociaal"],
     "contact": ["Contact ", "Contacteer "],
     "about": ["About ", "Over "],
     "language": ["Language", "Taal"],

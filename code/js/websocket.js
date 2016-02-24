@@ -11,7 +11,7 @@ function connect_to_websocket() {
 		websocket.send(stringToSend);	
 		console.log("Sent data to server");
 		console.log("ID: " + currentId + " type: " + type + " data: " + data);
-		count+=1;
+		currentId+=1;
 	}
 	
 	websocket.onopen = function() { 
@@ -27,7 +27,8 @@ function connect_to_websocket() {
 		}
 		catch(SyntaxError) {
 	    		// Handle the error.
-				alert("Backend fucked up!");
+	    		console.log(SyntaxError);
+				alert(SyntaxError);
 				return;
 		}
 		
