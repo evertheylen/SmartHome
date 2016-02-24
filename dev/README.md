@@ -12,7 +12,7 @@ scripts with a few special commands/classes:
   - `send(dct)`: Sends the JSON representation of dct to all connected clients.
   - `shell()`: Runs a python shell with access to all of the above. Control+D or Control+C will stop the shell.
   
-The script runs the server and the scenario in separate threads and makes sure the server doesn't block although the scenario does.
+The script runs the server and the scenario in separate threads and makes sure the server doesn't block although the scenario does. All websocket connections share the same scenario, so disconnecting and reconnecting is not a problem. When connecting from multiple clients this may give unexpected behaviour though, so it is preferred to use this script with only one websocket client.
 
 Options of the script:
 
