@@ -25,3 +25,8 @@ get
 get_all
 
 {"type": "get_all", "ID": 600, "what": "Sensor"}
+
+delete
+
+{"ID":"9", "type": "delete", "what": "Sensor", "data":"400"}
+
