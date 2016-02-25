@@ -38,11 +38,13 @@ function connect_to_websocket() {
 		// a) Preprocess:
 		switch(type) {
 			case "signup":
-				console.log("Recieved signup response.");
+				console.log("Received signup response.");
 				polishedObject = server_signup_response(receivedObject);
+				break;
 			case "login":
-				console.log("Recieved login response.");
+				console.log("Received login response.");
 				polishedObject = server_login_response(receivedObject);
+				break;
 		}
 		
 		if (receivedObject.hasOwnProperty("ID")) {
