@@ -28,5 +28,5 @@ get_all
 
 delete
 
-{"ID":"9", "type": "delete", "what": "Sensor", "data":"400"}
+{"ID":"9", "type": "delete", "what": "Sensor", "data": {"ID": 1}}
 

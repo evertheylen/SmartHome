@@ -117,7 +117,9 @@ Client message:
 	{
 		"type": "delete",
 		"what": <object class>,
-		"data": <ID of what you want to delete>,
+		""data": {
+			"ID": <ID of what you want to delete>,
+		} 
 	}
 
 Server response:
@@ -125,7 +127,7 @@ Server response:
 	{
 		"type": "add",
 		"what": <object class>,
-		"data": "failure" / "success"
+		"data": "fail" / "success"
 	}
 
 ### Getting

@@ -49,4 +49,3 @@ class Database:
     async def delete(self, tname, keyprop, keyval):
         delete_query = "DELETE FROM {tname} WHERE {keyprop} = %s".format(tname = tname, keyprop = keyprop)
         cursor = await self.db.execute(delete_query, (keyval,))
-        return cursor.fetchone() # TODO what?
