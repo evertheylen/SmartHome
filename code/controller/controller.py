@@ -42,11 +42,6 @@ class Controller:
         else:
             return None
     
-    @require_user_level(1)
-    async def add(self, req):
-        print("test")
-    
-    
     async def logout(self, req):
         self.sessions.pop(req.conn.session)
         req.conn.session = None
@@ -77,18 +72,12 @@ class Controller:
             self.logger.debug("data = " + repr(req.dct["data"]))
             u = await User.new(self.db, req.dct["data"])
             await req.answer("success")
-
+    
+    @require_user_level(1)
     async def add(self,req):
-        if  req.dct["what"] == "Sensor":
-            res = await self.db.get(Sensor.table_name, "SID", req.dct["data"])
-            if res is not None:
-                self.logger.error("%s with title(%s) already taken"%req.dct["what"],req.dct["data"]["title"])
-                await req.answer("failure")
-            else:
-                self.logger.debug("data = " + repr(req.dct["data"]))
-                s = await Sensor.new(self.db, req.dct["data"])
-                await req.answer("success")
-
+        if req.dct["what"] == "Sensor":
+            s = await Sensor.new(self.db, req.dct["data"])
+            await req.answer(s.to_dict())
 
     async def handle_request(self, req):
         if req.dct["type"] in Controller.__dict__:
