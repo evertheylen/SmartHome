@@ -13,7 +13,15 @@ logout
 
 
 
-add
+add (watch out for UID)
 
-{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Electricity'); DROP TABLE Sensors; --", "title": "Measure shit"}}
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit", "UID": 25}}
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit", "UID": 25}}
 
+get
+
+{"type": "get", "ID": 500, "what": "Sensor", "data": {"ID": 1}}
+
+get_all
+
+{"type": "get_all", "ID": 600, "what": "Sensor"}

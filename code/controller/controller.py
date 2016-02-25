@@ -59,7 +59,7 @@ class Controller:
             self.sessions[session] = u.UID
             req.conn.user = u
             req.conn.session = session
-            await req.answer({"session": session})
+            await req.answer({"session": session, "user": u.to_dict()})
         else:
             await req.answer("fail")
 
@@ -76,9 +76,26 @@ class Controller:
     @require_user_level(1)
     async def add(self,req):
         if req.dct["what"] == "Sensor":
-            s = await Sensor.new(self.db, req.dct["data"])
+            if req.dct["data"]["UID"] == req.conn.user.UID:
+                s = await Sensor.new(self.db, req.dct["data"])
+                await req.answer(s.to_dict())
+            else:
+                await req.answer("fail")
+    
+    @require_user_level(1)
+    async def get(self, req):
+        if req.dct["what"] == "Sensor":
+            s = await Sensor.get(self.db, req.dct["data"]["ID"])
             await req.answer(s.to_dict())
-
+    
+    @require_user_level(1)
+    async def get_all(self, req):
+        if req.dct["what"] == "Sensor":
+            res = await self.db.get_multi(Sensor.table_name, "UID", req.conn.user.UID)
+            ss = [Sensor.from_db(t) for t in res]
+            await req.answer([s.to_dict() for s in ss])
+    
+    
     async def handle_request(self, req):
         if req.dct["type"] in Controller.__dict__:
             await Controller.__dict__[req.dct["type"]](self, req)

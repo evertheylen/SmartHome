@@ -63,7 +63,8 @@ Server response (Success):
 	{
 		"type": "login",
 		"data": {
-			"session": "78SD451xdsf487scxg4i7ojkh14q12z4c1f4e87rhj45GFdf1d2s7f8d11asq1d8sdaK45FDW12"
+			"session": "78SD451xdsf487scxg4i7ojkh14q12z4c1f4e87rhj4",
+			"user": <definition of user including UID>
 		}
 	}
 
