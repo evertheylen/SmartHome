@@ -78,14 +78,102 @@ Client message:
 
 No server response is needed.
 
-## Getting, adding, removing data
+## Getting, adding, deleting data
+
+The `"what"` attribute is the class of the object you are dealing with. Example: `Sensor` or `User`.
+
+### Adding
+
+Client message:
 
 	{
 		"type": "add",
-		"what": "Sensor",
-		"data": <sensor definition>
+		"what": <object class>,
+		"data": <definition without ID>
 	}
 
+Server response (Success):
 
+	{
+		"type": "add",
+		"what": <object class>,
+		"data": <entire definition with ID>
+	}
 
+Server response (Failure):
+	
+	{
+		"type": "add",
+		"what": <object class>,
+		"data": "failure"
+	}
 
+### Deleting
+
+Client message:
+
+	{
+		"type": "delete",
+		"what": <object class>,
+		"data": <ID of what you want to delete>,
+	}
+
+Server response:
+
+	{
+		"type": "add",
+		"what": <object class>,
+		"data": "failure" / "success"
+	}
+
+### Getting
+
+#### Getting a single object by ID
+
+Client message:
+
+	{
+		"type": "get",
+		"what": <object class>,
+		"data": {
+			"ID": <ID>,
+		}
+	}
+
+Server response (Success):
+
+	{
+		"type": "get",
+		"what": <object class>,
+		"data": <entire definition>
+	}
+
+Server response (Fail): simple failure message like in Adding
+
+#### Getting multiple objects
+
+For now, we only support sensors, so by default the server will only send sensors that are owned by the user.
+
+Client message:
+
+	{
+		"type": "get_all",
+		"what": "Sensor",
+		// no data necessary
+	}
+
+Server response:
+
+(Note, `"data"` is an array here)
+
+	{
+		"type": "get_all",
+		"what": "Sensor",
+		"data": [
+			<definition 1>,
+			<definition 2>,
+			...
+		]
+	}
+
+There is no real failure, but it could be that the server returns an empty list.
