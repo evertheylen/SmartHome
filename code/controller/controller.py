@@ -32,6 +32,8 @@ class Controller:
         else:
             return None
     
+    # Logout: remove session from self.sessions
+    
     async def login(self, req):
         res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
         if res is None: return
