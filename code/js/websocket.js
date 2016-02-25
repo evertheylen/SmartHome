@@ -11,7 +11,7 @@ function connect_to_websocket() {
 		var stringToSend = JSON.stringify({"ID": currentId, "type": type, "data": data});
 		websocket.send(stringToSend);	
 		console.log("Sent data to server");
-		console.log("ID: " + currentId + " type: " + type + " data: " + data);
+		console.log(stringToSend);
 		currentId+=1;
 	}
 	
@@ -39,10 +39,12 @@ function connect_to_websocket() {
 		switch(type) {
 			case "signup":
 				console.log("Received signup response.");
+				console.log(evt.data);
 				polishedObject = server_signup_response(receivedObject);
 				break;
 			case "login":
 				console.log("Received login response.");
+				console.log(evt.data);
 				polishedObject = server_login_response(receivedObject);
 				break;
 		}
