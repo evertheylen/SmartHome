@@ -223,7 +223,6 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 	ws.request("login", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_login) {
 		if (successful_login) {	
 			//$rootScope.auth_user = // TODO response(user);
-			console.log("Executing successful login");
 			$rootScope.auth_user = $scope.username;	 // The authenticated user is only the username
 			$rootScope.logged_in = true;
 			document.getElementById("dlgLogin").close();
@@ -232,8 +231,8 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 			$scope.$apply();
 			console.log($location.path);
 		} else {
-		    console.log("wrong login!");
 			$scope.wrong_login = true;
+			$scope.$apply();
 		}
 	}); // TODO
 	/*
@@ -263,9 +262,10 @@ app.controller("signupCtrl", function($scope) {
     if($scope.signup_form.$valid) {
 	    ws.request("signup", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_signup){
 		    if (successful_signup) {
-			    document.getElementById("dlgSignup").close();	
+			    document.getElementById("dlgSignup").close();
 		    } else {
 			    $scope.wrong_signup = true;
+			    $scope.$apply();
 		    }
 	    });
 	}; // TODO
