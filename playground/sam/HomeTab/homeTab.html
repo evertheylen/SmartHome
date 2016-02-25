@@ -6,180 +6,156 @@
 	<link rel="stylesheet" href="./homeTab.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages:['corechart']});
+      google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Fucks', 'Importance'],
+          ['2011',  3100,      0],
+          ['2012',  3000,      200],
+          ['2013',  2800,       400],
+          ['2014',  2400,      800],
+          ['2015',  1600,      1600],
+          ['2016',  0,      3200]
+        ]);
+        var options = {
+			title: 'Amount of fucks given',
+			/* LEGEND ON THE BOTTOM IS IMPORTANT, it would fuck up everything if you don't*/
+			legend:'bottom'
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+      }
+    </script>
 	<!--These are basic menu bars, they will occur on nearly all pages of the application.-->
 	<!--TODO The colors are bad, i know. I just picked something so it wouldn't be just white.-->
 </head>
 <body>
-	<div id="importantGr">
-		<p>Marked</p>
-		<!--card1-->
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-			</div>
-			<div class="mdl-card__supporting-text">
-				IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+
+	<div class="mdl-grid" style="s-index: -1;">
+
+
+
+		<div id="importantGr" class="mdl-cell mdl-cell--6-col" style="s-index: -1;">
+			<p>Marked</p>
+			<div class="mdl-grid" style="s-index: -1;">
+				<!--card1-->
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" style="s-index: -1;">
+					<div class="mdl-card__title">
+						<h2 class="mdl-card__title-text">Lorem ipsum</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+
+						<div id="chart_div"></div>
+
+
+					</div>
+					<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+							Share
+						</a>
+					</div>
+					<div class="mdl-card__menu">
+						<button id="share" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<!--TODO id the card is marked, the class has to be yellow,
+						if it is not marked important, the yellow class must be removed and it must become a white class-->
+							<i class="material-icons">share</i>
+						</button>
+						<button id="important" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<!--TODO id the card is marked, the class has to be yellow,
+						if it is not marked important, the yellow class must be removed and it must become a white class-->
+							<i class="material-icons yellow">grade</i>
+						</button>
+					</div>
+				</div>
+				<div class="mdl-tooltip" for="important">
+					<!--TODO change this if the card was marked as important/unimportant-->
+					Mark as important
+				</div>
+				<div class="mdl-tooltip" for="share">
+					<!--TODO change this if the card was marked as important/unimportant-->
 					Share
-				</a>
+				</div>
+
+
+
+				<!--card2-->
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+					<div class="mdl-card__title">
+						<h2 class="mdl-card__title-text">Lorem ipsum</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
+					</div>
+					<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+							Share
+						</a>
+					</div>
+					<div id="important2" class="mdl-card__menu">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<!--TODO id the card is marked, the class has to be yellow,
+						if it is not marked important, the yellow class must be removed and it must become a white class-->
+							<i class="material-icons yellow">grade</i>
+						</button>
+					</div>
+				</div>
+				<div class="mdl-tooltip" for="important2">
+					<!--TODO change this if the card was marked as important/unimportant-->
+					Mark as important
+				</div>
 			</div>
-			<div id="important" class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<!--TODO id the card is marked, the class has to be yellow,
-				if it is not marked important, the yellow class must be removed and it must become a white class-->
-					<i class="material-icons yellow">grade</i>
-				</button>
-			</div>
-		</div>
-		<div class="mdl-tooltip" for="important">
-			<!--TODO change this if the card was marked as important/unimportant-->
-			Mark as important
 		</div>
 
 
-		<!--card2-->
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
+		<div id="suggestedGr" class="mdl-cell mdl-cell--6-col">
+			<p>Feed</p>
+			<!--card1-->
+			<div class="mdl-grid">
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+					<div class="mdl-card__title">
+						<h2 class="mdl-card__title-text">Lorem ipsum</h2>
+					</div>
+					<div class="mdl-card__supporting-text">
+						IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
+					</div>
+					<div class="mdl-card__actions mdl-card--border">
+						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+							Share
+						</a>
+					</div>
+					<div id="important4" class="mdl-card__menu">
+						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<!--TODO id the card is marked, the class has to be yellow,
+						if it is not marked important, the yellow class must be removed and it must become a white class-->
+							<i class="material-icons yellow">grade</i>
+						</button>
+					</div>
+				</div>
+				<div class="mdl-tooltip" for="important4">
+					<!--TODO change this if the card was marked as important/unimportant-->
+					Mark as important
+				</div>
 			</div>
-			<div class="mdl-card__supporting-text">
-				IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					Share
-				</a>
-			</div>
-			<div id="important2" class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<!--TODO id the card is marked, the class has to be yellow,
-				if it is not marked important, the yellow class must be removed and it must become a white class-->
-					<i class="material-icons yellow">grade</i>
-				</button>
-			</div>
-		</div>
-		<div class="mdl-tooltip" for="important2">
-			<!--TODO change this if the card was marked as important-->
-			Mark as important
 		</div>
 
 
-		<!--card3-->
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-			</div>
-			<div class="mdl-card__supporting-text">
-				IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					Share
-				</a>
-			</div>
-			<div id="important3" class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<!--TODO id the card is marked, the class has to be yellow,
-				if it is not marked important, the yellow class must be removed and it must become a white class-->
-					<i class="material-icons white">grade</i>
-				</button>
-			</div>
-		</div>
-		<div class="mdl-tooltip" for="important3">
-			<!--TODO change this if the card was marked as important, or not, whatever-->
-			Mark as important
-		</div>
+
+
+
 	</div>
 
 
 
+						<div id="chart_div"></div>
 
 
-
-	<div id="suggestedGr">
-		<p>Feed</p>
-		<!--card1-->
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-			</div>
-			<div class="mdl-card__supporting-text">
-				IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					Share
-				</a>
-			</div>
-			<div id="important4" class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<!--TODO id the card is marked, the class has to be yellow,
-				if it is not marked important, the yellow class must be removed and it must become a white class-->
-					<i class="material-icons yellow">grade</i>
-				</button>
-			</div>
-		</div>
-		<div class="mdl-tooltip" for="important4">
-			<!--TODO change this if the card was marked as important/unimportant-->
-			Mark as important
-		</div>
-
-
-		<!--card2-->
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-			</div>
-			<div class="mdl-card__supporting-text">
-				IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					Share
-				</a>
-			</div>
-			<div id="important5" class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<!--TODO id the card is marked, the class has to be yellow,
-				if it is not marked important, the yellow class must be removed and it must become a white class-->
-					<i class="material-icons yellow">grade</i>
-				</button>
-			</div>
-		</div>
-		<div class="mdl-tooltip" for="important5">
-			<!--TODO change this if the card was marked as important-->
-			Mark as important
-		</div>
-
-
-		<!--card3-->
-		<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-			<div class="mdl-card__title">
-				<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-			</div>
-			<div class="mdl-card__supporting-text">
-				IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-			</div>
-			<div class="mdl-card__actions mdl-card--border">
-				<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-					Share
-				</a>
-			</div>
-			<div id="important6" class="mdl-card__menu">
-				<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<!--TODO id the card is marked, the class has to be yellow,
-				if it is not marked important, the yellow class must be removed and it must become a white class-->
-					<i class="material-icons white">grade</i>
-				</button>
-			</div>
-		</div>
-		<div class="mdl-tooltip" for="important6">
-			<!--TODO change this if the card was marked as important-->
-			Mark as important
-		</div>
-	</div>
 
 
 

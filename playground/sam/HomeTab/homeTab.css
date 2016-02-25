@@ -1,17 +1,14 @@
 .demo-card-wide.mdl-card {
-	width: 40%;
-	margin: 0% 3%;
-	margin-top: 40px;
-	display: inline-block;
+	width: 100%;
 }
 .demo-card-wide > .mdl-card__title {
 	color: #fff;
-	height: 176px;
-	background: url('./kitten.jpg') center / cover;
+	/*height: 176px;*/
+	background-color: #bbb;
 }
 .demo-card-wide > .mdl-card__title
 .demo-card-wide > .mdl-card__menu {
-	color: #fff;
+	color: #ddd;
 }
 .material-icons.yellow{
 	/*this has been marked as important*/
@@ -32,4 +29,7 @@
 }
 #suggestedGr > p{
 	font-size: xx-large;
+}
+.mdl-cell{
+	border: 5px solid red;
 }

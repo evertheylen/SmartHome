@@ -1,5 +1,8 @@
 <div ng-controller="sensorView">
 	<!--Location table-->
+	<ul>
+	<li ng-repeat="location in locations">{{location.id}}</li>
+	</ul>
 	<div id="locations">
 		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
 			<thead>
@@ -16,32 +19,24 @@
 					</th>
 			</thead>
 			<tbody>
-			    <tr ng-repeat="location in locations">
+			    <tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
 				    <td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
 				    <td>
 					    <!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
-					    <button id="btnModifyLoc1" type="button" class="bareButton"><i class="material-icons">build</i></button>
-					    <button id="btnDeleteLoc1" type="button" class="bareButton"><i class="material-icons">delete</i></button>
+					    <button id="btnModifyLoc-{{location.id}}" type="button" class="bareButton"><i class="material-icons">build</i></button>
+					    <button id="btnDeleteLoc-{{location.id}}" type="button" class="bareButton"><i class="material-icons">delete</i></button>
 				    </td>
 			    </tr>	
 			</tbody>
 		</table>
-		<!--TODO Add an event to this button to open the add/modify location dialog-->
 		<button id="btnAddLoc" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 		  Add Location
 		</button>
 	</div>
-	<!--TODO VERY IMPORTANT!!! for every delete and modify button there should be a tooltip-->
-	<div class="mdl-tooltip mdl-tooltip--right" for="btnModifyLoc1">
-		Modify Location
+    <div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{location.id}}">
+    	Modify Location
 	</div>
-	<div class="mdl-tooltip mdl-tooltip--right" for="btnModifyLoc2">
-		Modify Location
-	</div>
-	<div class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc1">
-		Delete Location
-	</div>
-	<div class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc2">
+	<div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{location.id}}">
 		Delete Location
 	</div>
 
@@ -168,7 +163,6 @@
 						<option value="1">SomeType1</option>
 						<option value="2">SomeType1</option>
 					</select>
-					</div>
 				</div>
             </form>
             <div>
@@ -212,11 +206,11 @@
                 </div>
             </form>
             <div>
-                <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                <button id="btnLocationSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
                     style="width: 45%; display: inline; margin-left: 5%;">
                     Save changes
                 </button>
-                <button id="btnSensorBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                <button id="btnLocationBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                     style="width: 45%; display: inline;">
                     Back
                 </button>
