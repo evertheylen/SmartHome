@@ -28,6 +28,12 @@ define("scenario", help="What scenario to load?", type=str)
 
 request_buffer = None
 
+
+class NoCacheStaticFileHandler(tornado.web.StaticFileHandler):
+    def set_extra_headers(self, path):
+        # Disable cache
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+
 class WsHandler(tornado.websocket.WebSocketHandler):
     request_counter = 1  # The state is for all instances the same
     clients = set()
@@ -152,7 +158,7 @@ def server_thread():
     # Executes the tornado stuff
     app = tornado.web.Application([
         (r'/ws', WsHandler), 
-        (r'/(.*)', tornado.web.StaticFileHandler, {'path': localdir(options.location)})
+        (r'/(.*)', NoCacheStaticFileHandler, {'path': localdir(options.location)})
     ])
     print("Websocket server location = ws://localhost:%d/ws"%options.port)
     print("Also serving local files")
