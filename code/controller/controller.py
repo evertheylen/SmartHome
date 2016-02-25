@@ -5,14 +5,24 @@
 
 import hashlib
 import random
+from functools import wraps
 
 from collections import defaultdict
 from model import *
 
-# Testing
-def add_user(loc):
-    locals().update(loc)
-    u = User.new(self.db, {"first_name": "Evert"})
+# Decorator
+def require_user_level(level):
+    def handler_decorator(method):
+        @wraps(method)
+        async def handler_wrapper(self, req):
+            if req.conn.user is None:
+                raise Exception("conn.user is None, can't use type " + method.__name__)
+            else:
+                # TODO check level
+                await method(self, req)
+        return handler_wrapper
+    return handler_decorator
+
 
 class Controller:
     def __init__(self, logger, db, model):
@@ -31,10 +41,16 @@ class Controller:
             return self.sessions[session]
         else:
             return None
-
-    # Logout: remove session from self.sessions
+    
+    @require_user_level(1)
+    async def add(self, req):
+        print("test")
+    
+    
     async def logout(self, req):
-            self.sessions.pop(req.conn.session)
+        self.sessions.pop(req.conn.session)
+        req.conn.session = None
+        req.conn.user = None
 
 
     async def login(self, req):
