@@ -12,7 +12,7 @@
     <dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginCtrl">
         <h4 class="mdl-dialog__title">{{i18n("login")}}</h4>
         <div class="mdl-dialog__content">
-            <form action="#" name="login_form">
+            <form role="form" name="login_form">
                 <!-- The username and password-->
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="text" id="input_login_username" name="login_username" ng_model="username" required>
@@ -50,7 +50,7 @@
     <dialog id="dlgSignup" class="mdl-dialog" ng-controller="signupCtrl">
         <h4 class="mdl-dialog__title">{{i18n("register")}}</h4>
         <div class="mdl-dialog__content" >
-            <form action="#" name="signup_form">
+            <form role="form" name="signup_form">
                 <!-- The username and password-->
                 <div class="mdl-textfield mdl-js-textfield">
                     <label class="mdl-textfield__label" for="input_signup_username">{{i18n("username")}}</label>                  

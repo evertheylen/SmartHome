@@ -93,9 +93,12 @@ app.controller("homeView", function($scope, $rootScope) {
 
 app.controller("sensorView", function($scope, $rootScope) {
     //TODO Get these variables from the database.
-    $scope.locations = [{"id": "0", "desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, {"id": "1", "desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, {"id": "2", "desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
-
+    $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
+    var edit_loc_id = null;
+    var edit = false;
     $scope.reset_loc = function reset_loc() {
+        edit = false;
+        edit_loc_id = null;
         $scope.loc_country = null;
         $scope.loc_city = null;
         $scope.loc_postalcode = null;
@@ -122,8 +125,30 @@ app.controller("sensorView", function($scope, $rootScope) {
             removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
         }
     }
-       
+    $scope.save_loc = function save_loc() {
+        if ($scope.location_form.$valid) {
+            if (edit) {
+                $scope.locations[edit_loc_id].country = $scope.loc_country;
+                $scope.locations[edit_loc_id].city = $scope.loc_city;
+                $scope.locations[edit_loc_id].postalcode = $scope.loc_postalcode;
+                $scope.locations[edit_loc_id].street = $scope.loc_street;
+                $scope.locations[edit_loc_id].number = $scope.loc_number;
+                $scope.locations[edit_loc_id].desc = $scope.loc_desc;
+            } else {
+                var new_location = {};
+                new_location.country = $scope.loc_country;
+                new_location.city = $scope.loc_city;
+                new_location.postalcode = $scope.loc_postalcode;
+                new_location.street = $scope.loc_street;
+                new_location.number = $scope.loc_number;
+                new_location.desc = $scope.loc_desc;
+                $scope.locations.push(new_location);
+            }
+            $scope.dialog.close();
+        }
+    }   
     function set_loc(id) {
+        edit = true;
         $scope.loc_country = $scope.locations[id].country;
         $scope.loc_city = $scope.locations[id].city;
         $scope.loc_postalcode = $scope.locations[id].postalcode;
@@ -137,6 +162,7 @@ app.controller("sensorView", function($scope, $rootScope) {
         addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
         addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
         $scope.edit_loc = $scope.i18n("edit_location");
+        edit_loc_id = id;
         componentHandler.upgradeDom();    
     }
     
@@ -164,9 +190,13 @@ app.controller("sensorView", function($scope, $rootScope) {
 	});
 	
 	$scope.delete = function (id) {
+	    for (var i = 0; i < $scope.locations.length; i++) {
+	        console.log($scope.locations[i]);
+	    }
+	    console.log($scope.locations);
 	    if (confirm('Are you sure you want to delete this item?')) {
 	        if ($scope.locations.length === 1) {
-	            $scope.locations = null;
+	            $scope.locations = [];
 	            return;
 	        }
 	        $scope.locations.splice(id, 1);    // TODO Do this shit in database
@@ -201,6 +231,7 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 		} else {
 			$scope.wrong_login = true;
 		}
+		$scope.$apply();
 	}); // TODO
 	/*
       for (var i = 0; i < database.length; i++) {
@@ -229,10 +260,11 @@ app.controller("signupCtrl", function($scope) {
     if($scope.signup_form.$valid) {
 	    ws.request("signup", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_signup){
 		    if (successful_signup) {
-			    document.getElementById("dlgSignup").close();	
+			    document.getElementById("dlgSignup").close();
 		    } else {
 			    $scope.wrong_signup = true;
 		    }
+		    $scope.$apply();
 	    });
 	}; // TODO
 	/*

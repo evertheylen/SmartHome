@@ -20,8 +20,8 @@
 				    <td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
 				    <td>
 					    <!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
-					    <button id="btnModifyLoc-{{location.id}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', location.id);"><i class="material-icons">edit</i></button>
-					    <button id="btnDeleteLoc-{{location.id}}" type="button" class="bareButton" ng-click="delete(location.id);"><i class="material-icons">delete</i></button>
+					    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
+					    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index);"><i class="material-icons">delete</i></button>
 				    </td>
 			    </tr>	
 			</tbody>
@@ -30,10 +30,10 @@
 		  Add Location
 		</button>
 	</div>
-    <div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{location.id}}">
+    <div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}">
     	Modify Location
 	</div>
-	<div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{location.id}}">
+	<div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}">
 		Delete Location
 	</div>
 
@@ -182,32 +182,32 @@
         <div class="mdl-dialog__content">
             <form action="#" name="location_form">
                 <div id="txtfield_LocationCountry" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="locationCountry">
+                    <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="locationCountry" required>
                     <label class="mdl-textfield__label" for="input_LocationCountry">{{i18n("country")}}</label>
                 </div>
                 <div id="txtfield_LocationCity" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="locationCity">
+                    <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="locationCity" required>
                     <label class="mdl-textfield__label" for="input_LocationCity">{{i18n("city")}}</label>
                 </div>
                 <div id="txtfield_LocationZip" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="locationZip">
+                    <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="locationZip" required>
                     <label class="mdl-textfield__label" for="input_LocationZip">{{i18n("postalcode")}}</label>
                 </div>
                 <div id="txtfield_LocationStreet" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="locationStreet">
+                    <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="locationStreet" required>
                     <label class="mdl-textfield__label" for="input_LocationStreet">{{i18n("street")}}</label>
                 </div>
                 <div id="txtfield_LocationNr" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="locationNr">
+                    <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="locationNr" required>
                     <label class="mdl-textfield__label" for="input_LocationNr">{{i18n("number")}}</label>
                 </div>
                 <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_desc" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc">
+                    <input ng-model="loc_desc" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc" required>
                     <label class="mdl-textfield__label" for="input_LocationDesc">{{i18n("description")}}</label>
                 </div>
             </form>
             <div>
-                <button id="btnLocationSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                <button id="btnLocationSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="save_loc()"
                     style="width: 45%; display: inline; margin-left: 5%;">
                     Save changes
                 </button>

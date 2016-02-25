@@ -10,8 +10,8 @@ function connect_to_websocket() {
 		answers[currentId] = f;
 		var stringToSend = JSON.stringify({"ID": currentId, "type": type, "data": data});
 		websocket.send(stringToSend);	
-		console.log("Sent data to server");
-		console.log("ID: " + currentId + " type: " + type + " data: " + data);
+		console.log("Sent data to server:");
+		console.log(stringToSend);
 		currentId+=1;
 	}
 	
@@ -20,6 +20,8 @@ function connect_to_websocket() {
 	};
 
 	websocket.onmessage = function(evt) {
+		console.log("Received data from server:");
+		console.log(evt.data);
 		var receivedObject = null;
 		var type = "";
 		try {
@@ -34,24 +36,18 @@ function connect_to_websocket() {
 			return;
 		}
 		
-		
-		// a) Preprocess:
 		switch(type) {
 			case "signup":
-				console.log("Received signup response.");
 				polishedObject = server_signup_response(receivedObject);
 				break;
 			case "login":
-				console.log("Received login response.");
 				polishedObject = server_login_response(receivedObject);
 				break;
 		}
 		
 		if (receivedObject.hasOwnProperty("ID")) {
-			// b) there is an ID
 			answers[receivedObject.ID](polishedObject);
 		} else {
-			// c) there is no ID
 			handlers[receivedObject.type](polishedObject);
 		}
 	};
