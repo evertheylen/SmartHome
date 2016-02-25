@@ -53,8 +53,8 @@ app.controller("mainCtrl", function($scope, $rootScope, $location) {
   }
   
   //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
-  $location.path("/home");
-  $rootScope.logged_in = true;
+  //$location.path("/home");
+  //$rootScope.logged_in = true;
 });
 
 app.controller("indexView", function($scope, $rootScope) {
