@@ -20,11 +20,11 @@ function connect_to_websocket() {
 	};
 
 	websocket.onmessage = function(evt) {
-		var recievedObject = null;
+		var receivedObject = null;
 		var type = "";
 		try {
-			recievedObject = JSON.parse(evt.data);
-			type = recievedObject["type"];
+			receivedObject = JSON.parse(evt.data);
+			type = receivedObject["type"];
 		}
 		catch(SyntaxError) {
 	    		// Handle the error.
@@ -42,12 +42,12 @@ function connect_to_websocket() {
 		//        the message is something new, call the right function in handlers
 		
 		// a) Preprocess:
-		switch(type) {
+		/*switch(type) {
 			case "signup":
 				server_signup_response(recievedObject);
 			case "login":
 				server_login_response(recievedObject);
-		}
+		}*/
 		// TODO After preprocessing, put the "polished" object in polishedObject
 		// For now, I have set it to receivedObject
 		var polishedObject = receivedObject
