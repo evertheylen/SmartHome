@@ -177,3 +177,24 @@ Server response:
 	}
 
 There is no real failure, but it could be that the server returns an empty list.
+
+## Definitions
+
+ID's are separate for each type, so it may happen there is a user and a sensor with the same ID.
+
+### User
+
+	{
+		"UID": 123,
+		"email": "jeroen.verstraelen@hotmail.com",
+		"first_name": "Jeroen",
+		"last_name": "Verstraelen",
+	}
+
+### Sensor
+
+	{
+		"SID": 456,
+		"type": "Electricity",
+		"title": "Measures electricity usage of desktop",
+	}
