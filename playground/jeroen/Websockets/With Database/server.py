@@ -22,12 +22,10 @@ class DataBaseHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         print ("Server %s received a message : %s" % (self.id, message))
-        database = tornado.database.Connection(
-            host="mysql6.000webhost.com", database="a4601813_db1",
-            user="a4601813_db1", password="databases1")
+        # WIP
         # Do some fancy translation from a structured string to SQL
-        rows = db.query("SOME SQL QUERY")
-        database.close()
+        # rows = db.query("SOME SQL QUERY")
+        # database.close()
         self.write_message("Message containing information from the database.")
 
     def on_close(self):

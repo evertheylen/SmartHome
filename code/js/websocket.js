@@ -29,28 +29,21 @@ function connect_to_websocket() {
 		catch(SyntaxError) {
 	    		// Handle the error.
 	    		console.log(SyntaxError);
-				console.log(evt);
-				alert(SyntaxError);
-				return;
+			console.log(evt);
+			alert(SyntaxError);
+			return;
 		}
 		
-		// What should happen here is:
-		//   a) preprocess the message based on the type
-		//   b) if there is an ID:
-		//        the message is a response to something we sent, call the right function in answers
-		//   c) else:
-		//        the message is something new, call the right function in handlers
 		
 		// a) Preprocess:
-		/*switch(type) {
+		switch(type) {
 			case "signup":
-				server_signup_response(recievedObject);
+				console.log("Recieved signup response.");
+				polishedObject = server_signup_response(receivedObject);
 			case "login":
-				server_login_response(recievedObject);
-		}*/
-		// TODO After preprocessing, put the "polished" object in polishedObject
-		// For now, I have set it to receivedObject
-		var polishedObject = receivedObject
+				console.log("Recieved login response.");
+				polishedObject = server_login_response(receivedObject);
+		}
 		
 		if (receivedObject.hasOwnProperty("ID")) {
 			// b) there is an ID
@@ -68,46 +61,31 @@ function connect_to_websocket() {
 	return websocket;
 }
 
-// TODO WTF :)
 function server_login_response(data) {
 	if(data["data"] == "fail") {
-		// Notify failed log in.
-		//handlers["login"](false);
+		return false;
 	}
 	else if(data["data"].hasOwnProperty("session")) {
 		// Currently this cookie will only be alive for 1 day.
-		// setCookie("session", data["data"].session, 1);
-		// handlers["login"](true);
+		setCookie("session", data["data"].session, 1);
+		return true;
 	}
 }
 
-// TODO WTF :)
 function server_signup_response(data) {
 	if(data["data"] == "fail") {
-			handlers["signup"](false);
+		return false;
 	}
 	else if(data["data"] == "success") {
-		handlers["signup"](true);
+		return true;
 	}	
 }
 
 /*
-request(type, data, function) {
-		// Data can be any object literal or prototype with the toJSON method.
-		
-		var stringToSend = JSON.stringify({"id": id, "type": type, "data": data});
-		websocket.send(stringToSend);		
-}
-
 ws.request("login", data, function);
 handlers[generatedId] = function
 handlers[generatedId](arguments);
 
-
-*/
-
-
-/*
 function set_callback(type, callback) { handlers[type] = callback};
 
 set_callback("login", function(event) { console.log(event) }};
