@@ -15,5 +15,8 @@ logout
 
 add
 
-{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Electricity'); DROP TABLE Sensors; --", "title": "Measure shit"}}
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit"}}
 
+delete
+
+{"ID":"9", "type": "delete", "what": "Sensor", "data":"400"}

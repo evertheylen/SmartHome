@@ -41,7 +41,7 @@ class Controller:
             return self.sessions[session]
         else:
             return None
-    
+
     async def logout(self, req):
         self.sessions.pop(req.conn.session)
         req.conn.session = None
@@ -72,12 +72,18 @@ class Controller:
             self.logger.debug("data = " + repr(req.dct["data"]))
             u = await User.new(self.db, req.dct["data"])
             await req.answer("success")
-    
+
     @require_user_level(1)
     async def add(self,req):
         if req.dct["what"] == "Sensor":
             s = await Sensor.new(self.db, req.dct["data"])
             await req.answer(s.to_dict())
+
+    @require_user_level(1)
+    async def delete(self,req):
+        if req.dct["what"] == "Sensor":
+            s = await Sensor.delete(self.db, req.dct["data"])
+            await req.answer("success")
 
     async def handle_request(self, req):
         if req.dct["type"] in Controller.__dict__:
