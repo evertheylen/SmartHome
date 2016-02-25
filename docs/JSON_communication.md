@@ -18,9 +18,10 @@ Client message:
 	{
 		"type": "signup",
 		"data": {
-			"user": "abc",
+			"email": "...",
 			"password": "123",
-			more info here ...
+			"first_name": ...,
+			"last_name": ...,
 		}
 	}
 
@@ -45,7 +46,7 @@ Client message:
 	{
 		"type": "login",
 		"data": {
-			"username": "abc",
+			"email": "abc",
 			"password": "123"
 		}
 	}

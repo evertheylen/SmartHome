@@ -4,6 +4,19 @@ from tornado import gen
 
 import json
 
+class Request:
+    def __init__(self, conn, ID, dct):
+        self.conn = conn
+        self.ID = ID
+        self.dct = dct
+        
+    async def answer(self, data):
+        await self.conn.send({
+            "ID": self.ID,
+            "type": self.dct["type"],
+            "data": data
+        })
+    
 def create_WsHandler(controller):
     clients = set()
 
@@ -13,6 +26,7 @@ def create_WsHandler(controller):
             controller.logger.info("Server opened connection")
             clients.add(self)
             self.session = self.get_cookie("session")
+            self.user = controller.get_user(self.session)
         
         # Reminder: the docs say this function *must* be synchronous
         def on_message(self, message):
@@ -21,7 +35,8 @@ def create_WsHandler(controller):
                 dct = json.loads(message)
                 #controller.handle_message(self, dct)
                 # Because this function is synchronous, we must use the IOLoop to get the async loop 'back'
-                tornado.ioloop.IOLoop.current().spawn_callback(controller.handle_message, self, dct)
+                r = Request(self, dct["ID"], dct)
+                tornado.ioloop.IOLoop.current().spawn_callback(controller.handle_request, r)
             except json.JSONDecodeError as e:
                 controller.logger.warning("Server could not decode as JSON. Error: {}".format(message, e))
             except KeyError:

@@ -11,13 +11,13 @@ class User(Base):
         self.email = email
     
     db_props = OrderedDict([
-                ("UID", "INT PRIMARY KEY"),
+                ("UID", "SERIAL PRIMARY KEY"),
                 ("password", "VARCHAR"),
                 ("first_name", "VARCHAR"),
                 ("last_name", "VARCHAR"),
-                ("email", "VARCHAR")])
-    
-    db_keys = [("UID")]
+                ("email", "VARCHAR UNIQUE NOT NULL")])
+    db_key = "UID"
+    table_name = "Users"
 
     json_props = ["UID", "first_name", "last_name", "email"]
     
