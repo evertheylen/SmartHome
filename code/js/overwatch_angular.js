@@ -228,12 +228,10 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 			document.getElementById("dlgLogin").close();
 			$scope.wrong_login = false;
 			$location.path("/home");
-			$scope.$apply();
-			console.log($location.path);
 		} else {
 			$scope.wrong_login = true;
-			$scope.$apply();
 		}
+		$scope.$apply();
 	}); // TODO
 	/*
       for (var i = 0; i < database.length; i++) {
@@ -265,8 +263,8 @@ app.controller("signupCtrl", function($scope) {
 			    document.getElementById("dlgSignup").close();
 		    } else {
 			    $scope.wrong_signup = true;
-			    $scope.$apply();
 		    }
+		    $scope.$apply();
 	    });
 	}; // TODO
 	/*
