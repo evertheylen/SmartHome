@@ -1,4 +1,17 @@
-var app = angular.module("overwatch", ['ngRoute', 'ngMessages']);
+var app = angular.module("overwatch", ['ngRoute', 'ngMessages'])
+    .directive('onFinishRender', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinished');
+                });
+            }
+        }
+    }
+});
+
 var database = [];
 var ws = connect_to_websocket();	// Websocket // TODO
 
@@ -40,8 +53,8 @@ app.controller("mainCtrl", function($scope, $rootScope, $location) {
   }
   
   //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
-  //$location.path("/home");
-  //$rootScope.logged_in = true;
+  $location.path("/home");
+  $rootScope.logged_in = true;
 });
 
 app.controller("indexView", function($scope, $rootScope) {
@@ -81,7 +94,27 @@ app.controller("homeView", function($scope, $rootScope) {
 app.controller("sensorView", function($scope, $rootScope) {
     //TODO Get these variables from the database.
     $scope.locations = [{"id": "0", "desc": "Campus Middelheim", "address": ""}, {"id": "1", "desc": "Campus Groenenborger", "address": ""}, {"id": "2", "desc": "Campus Drie Eiken", "address": ""}];
+
+    $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
+        componentHandler.upgradeDom();
+    });
     
+	$scope.dialog = document.getElementById('dlgLocation');
+	var showDialogButton = document.getElementById('btnAddLoc');
+	showDialogButton.addEventListener('click', function(){
+		$scope.dialog.showModal();
+	});
+	document.getElementById('btnLocationBack').addEventListener('click', function(){
+		$scope.dialog.close();
+	});
+	var dialog2 = document.getElementById('dlgSensor');
+	var showDialogButton2 = document.getElementById('btnAddSensor');
+	showDialogButton2.addEventListener('click', function(){
+		dialog2.showModal();
+	});
+	document.getElementById('btnSensorBack').addEventListener('click', function(){
+		dialog2.close();
+	});
     componentHandler.upgradeDom();
 });
 
