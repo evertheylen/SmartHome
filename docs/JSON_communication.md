@@ -1,6 +1,14 @@
 
 # JSON Communication
 
+Everything also contains an ID!
+
+	{
+		"ID": 123,
+		"type": ...,
+		"data": ...
+	}
+
 ## User Auth
 
 ### Signup
@@ -17,16 +25,18 @@ Client message:
 	}
 
 Server response (Succes): 
-{
-	"type": "signup",
-	"data": "succes"
-}
 
-Server response (Fail): 
-{
-	"type": "signup",
-	"data": "fail"
-}
+	{
+		"type": "signup",
+		"data": "success"
+	}
+
+Server response (Fail):
+
+	{
+		"type": "signup",
+		"data": "fail"
+	}
 
 ### Login
 
@@ -35,10 +45,8 @@ Client message:
 	{
 		"type": "login",
 		"data": {
-			"user": {
-				"ID": "abc"
-			},
-			"password": "123",
+			"username": "abc",
+			"password": "123"
 		}
 	}
 
@@ -62,10 +70,21 @@ While logged in, the cookie (=session) has been set, which the server can get fr
 
 ### Logout
 
+Client message:
+
 	{
 		"type": "logout"
 	}
 
+No server response is needed.
+
+## Getting, adding, removing data
+
+	{
+		"type": "add",
+		"what": "Sensor",
+		"data": <sensor definition>
+	}
 
 
 
