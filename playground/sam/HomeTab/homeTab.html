@@ -8,58 +8,92 @@
 
 
 
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load('visualization', '1', {packages:['corechart']});
-      google.setOnLoadCallback(drawChart);
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		// some chart
+		google.load('visualization', '1', {packages:['corechart']});
+		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				['Year', 'Fucks', 'Importance'],
+				['2011',  3100,      0],
+				['2012',  3000,      200],
+				['2013',  2800,       400],
+				['2014',  2400,      800],
+				['2015',  1600,      1600],
+				['2016',  0,      3200]
+			]);
+			var options = {
+				title: 'Amount of fucks given',
+				/* LEGEND ON THE BOTTOM IS IMPORTANT, it would fuck up everything if you don't*/
+				legend:'bottom'
+			};
+			var chart = new google.visualization.LineChart(document.getElementById('fucksGiven'));
+			chart.draw(data, options);
+		}
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Fucks', 'Importance'],
-          ['2011',  3100,      0],
-          ['2012',  3000,      200],
-          ['2013',  2800,       400],
-          ['2014',  2400,      800],
-          ['2015',  1600,      1600],
-          ['2016',  0,      3200]
-        ]);
-        var options = {
-			title: 'Amount of fucks given',
-			/* LEGEND ON THE BOTTOM IS IMPORTANT, it would fuck up everything if you don't*/
-			legend:'bottom'
-        };
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
-        chart.draw(data, options);
-      }
-    </script>
+
+
+		// some other chart
+		google.load('visualization', '1', {packages:['corechart']});
+		google.setOnLoadCallback(drawChart2);
+		function drawChart2() {
+			var data = google.visualization.arrayToDataTable([
+				['Activity', 'Time'],
+				['Working',  1],
+				['Doing nothing',  5],
+				['Googling kittens',  40]
+			]);
+			var options = {
+				title: 'Time spent',
+				/* LEGEND ON THE BOTTOM IS IMPORTANT, it would fuck up everything if you don't*/
+				legend:'bottom'
+			};
+			var chart = new google.visualization.PieChart(document.getElementById('timeSpent'));
+			chart.draw(data, options);
+		}
+
+
+		// another chart
+		google.load('visualization', '1', {packages:['corechart']});
+		google.setOnLoadCallback(drawChart3);
+		function drawChart3() {
+			var data = google.visualization.arrayToDataTable([
+				['Activity', 'Measurement'],
+				['Destruction',  2],
+				['Babies',  1],
+				['Dead babies',  10],
+				['Pizza',  10],
+				['Donald Trump',  15],
+				['China all the time',  15]
+			]);
+			var options = {
+				title: "Things i like",
+				/* LEGEND ON THE BOTTOM IS IMPORTANT, it would fuck up everything if you don't*/
+				legend:'bottom'
+			};
+			var chart = new google.visualization.PieChart(document.getElementById('iLikeThis'));
+			chart.draw(data, options);
+		}
+
+
+	</script>
 	<!--These are basic menu bars, they will occur on nearly all pages of the application.-->
 	<!--TODO The colors are bad, i know. I just picked something so it wouldn't be just white.-->
 </head>
 <body>
-
-	<div class="mdl-grid" style="s-index: -1;">
-
-
-
-		<div id="importantGr" class="mdl-cell mdl-cell--6-col" style="s-index: -1;">
+	<div class="mdl-grid"">
+		<div id="importantGr" class="mdl-cell mdl-cell--6-col">
 			<p>Marked</p>
-			<div class="mdl-grid" style="s-index: -1;">
+			<div class="mdl-grid">
 				<!--card1-->
-				<div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" style="s-index: -1;">
+				<div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
 					<div class="mdl-card__title">
 						<h2 class="mdl-card__title-text">Lorem ipsum</h2>
 					</div>
 					<div class="mdl-card__supporting-text">
-
-						<div id="chart_div"></div>
-
-
-					</div>
-					<div class="mdl-card__actions mdl-card--border">
-						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-							Share
-						</a>
+						<div id="fucksGiven"></div>
 					</div>
 					<div class="mdl-card__menu">
 						<button id="share" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
@@ -91,15 +125,15 @@
 						<h2 class="mdl-card__title-text">Lorem ipsum</h2>
 					</div>
 					<div class="mdl-card__supporting-text">
-						IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
+						<div id="timeSpent"></div>
 					</div>
-					<div class="mdl-card__actions mdl-card--border">
-						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-							Share
-						</a>
-					</div>
-					<div id="important2" class="mdl-card__menu">
-						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					<div class="mdl-card__menu">
+						<button id="share2" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<!--TODO id the card is marked, the class has to be yellow,
+						if it is not marked important, the yellow class must be removed and it must become a white class-->
+							<i class="material-icons">share</i>
+						</button>
+						<button id="important2" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 						<!--TODO id the card is marked, the class has to be yellow,
 						if it is not marked important, the yellow class must be removed and it must become a white class-->
 							<i class="material-icons yellow">grade</i>
@@ -109,6 +143,10 @@
 				<div class="mdl-tooltip" for="important2">
 					<!--TODO change this if the card was marked as important/unimportant-->
 					Mark as important
+				</div>
+				<div class="mdl-tooltip" for="share2">
+					<!--TODO change this if the card was marked as important/unimportant-->
+					Share
 				</div>
 			</div>
 		</div>
@@ -123,41 +161,30 @@
 						<h2 class="mdl-card__title-text">Lorem ipsum</h2>
 					</div>
 					<div class="mdl-card__supporting-text">
-						IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
+						<div id="iLikeThis"></div>
 					</div>
-					<div class="mdl-card__actions mdl-card--border">
-						<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-							Share
-						</a>
-					</div>
-					<div id="important4" class="mdl-card__menu">
-						<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+					<div class="mdl-card__menu">
+						<button id="share3" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
 						<!--TODO id the card is marked, the class has to be yellow,
 						if it is not marked important, the yellow class must be removed and it must become a white class-->
-							<i class="material-icons yellow">grade</i>
+							<i class="material-icons">share</i>
+						</button>
+						<button id="important3" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<!--TODO id the card is marked, the class has to be yellow,
+						if it is not marked important, the yellow class must be removed and it must become a white class-->
+							<i class="material-icons white">grade</i>
 						</button>
 					</div>
 				</div>
-				<div class="mdl-tooltip" for="important4">
+				<div class="mdl-tooltip" for="important3">
 					<!--TODO change this if the card was marked as important/unimportant-->
 					Mark as important
 				</div>
+				<div class="mdl-tooltip" for="share3">
+					<!--TODO change this if the card was marked as important/unimportant-->
+					Share
+				</div>
 			</div>
 		</div>
-
-
-
-
-
 	</div>
-
-
-
-						<div id="chart_div"></div>
-
-
-
-
-
-	<!--TODO Maybe the optional dialog, consult with team-->
 </body>
