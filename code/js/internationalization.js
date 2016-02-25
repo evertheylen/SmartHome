@@ -18,5 +18,13 @@ var html_strings = {
     "back": ["Back", "Terug"],
     "invalid_email": ["Please input a valid email address", "Gelieve een geldig emailadres in te geven"], 
     "invalid_password": ["Password must contain at least 8 characters", "Paswoord moet minstens 8 tekens bevatten"],
-    "signup_error": ["Username or email already exists.</br>Please login with your account.", "Gebruikersnaam of emailadres bestaat al.</br>Gelieve in te loggen op dit account."]
+    "signup_error": ["Username or email already exists.</br>Please login with your account.", "Gebruikersnaam of emailadres bestaat al.</br>Gelieve in te loggen op dit account."],
+    "description": ["Description", "Beschrijving"],
+    "country": ["Country", "Land"],
+    "city": ["City", "Stad"],
+    "postalcode": ["ZIP / Postal Code", "Postcode"],
+    "street": ["Street", "Straat"],
+    "number": ["Number", "Huisnummer"],
+    "edit_location": ["Edit location", "Locatie bewerken"],
+    "add_location": ["Add location", "Locatie toevoegen"]
 };

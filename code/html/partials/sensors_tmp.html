@@ -1,8 +1,5 @@
 <div ng-controller="sensorView">
 	<!--Location table-->
-	<ul>
-	<li ng-repeat="location in locations">{{location.id}}</li>
-	</ul>
 	<div id="locations">
 		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
 			<thead>
@@ -23,13 +20,13 @@
 				    <td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
 				    <td>
 					    <!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
-					    <button id="btnModifyLoc-{{location.id}}" type="button" class="bareButton"><i class="material-icons">build</i></button>
-					    <button id="btnDeleteLoc-{{location.id}}" type="button" class="bareButton"><i class="material-icons">delete</i></button>
+					    <button id="btnModifyLoc-{{location.id}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', location.id);"><i class="material-icons">edit</i></button>
+					    <button id="btnDeleteLoc-{{location.id}}" type="button" class="bareButton" ng-click="delete(location.id);"><i class="material-icons">delete</i></button>
 				    </td>
 			    </tr>	
 			</tbody>
 		</table>
-		<button id="btnAddLoc" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+		<button id="btnAddLoc" ng-click="reset_loc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 		  Add Location
 		</button>
 	</div>
@@ -181,28 +178,32 @@
 
 	<!--TODO Maybe adjust this information, i don't know if this is enough-->
 	<dialog id="dlgLocation" class="mdl-dialog">
-        <h4 class="mdl-dialog__title">Add/edit Location</h4>
+        <h4 class="mdl-dialog__title">{{edit_loc}}</h4>
         <div class="mdl-dialog__content">
             <form action="#" name="location_form">
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="input_LocationCountry" name="locationCountry">
-                    <label class="mdl-textfield__label" for="input_LocationCountry">Country</label>
+                <div id="txtfield_LocationCountry" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="locationCountry">
+                    <label class="mdl-textfield__label" for="input_LocationCountry">{{i18n("country")}}</label>
                 </div>
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="input_LocationCity" name="locationCity">
-                    <label class="mdl-textfield__label" for="input_LocationCity">City</label>
+                <div id="txtfield_LocationCity" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="locationCity">
+                    <label class="mdl-textfield__label" for="input_LocationCity">{{i18n("city")}}</label>
                 </div>
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" min="0" id="input_LocationZip" name="locationZip">
-                    <label class="mdl-textfield__label" for="input_LocationZip">ZIP/Postal code</label>
+                <div id="txtfield_LocationZip" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="locationZip">
+                    <label class="mdl-textfield__label" for="input_LocationZip">{{i18n("postalcode")}}</label>
                 </div>
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="input_LocationStreet" name="locationStreet">
-                    <label class="mdl-textfield__label" for="input_LocationStreet">Street</label>
+                <div id="txtfield_LocationStreet" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="locationStreet">
+                    <label class="mdl-textfield__label" for="input_LocationStreet">{{i18n("street")}}</label>
                 </div>
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="number" min="1" id="input_LocationNr" name="locationNr">
-                    <label class="mdl-textfield__label" for="input_LocationNr">Nr</label>
+                <div id="txtfield_LocationNr" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="locationNr">
+                    <label class="mdl-textfield__label" for="input_LocationNr">{{i18n("number")}}</label>
+                </div>
+                <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_desc" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc">
+                    <label class="mdl-textfield__label" for="input_LocationDesc">{{i18n("description")}}</label>
                 </div>
             </form>
             <div>
@@ -210,7 +211,7 @@
                     style="width: 45%; display: inline; margin-left: 5%;">
                     Save changes
                 </button>
-                <button id="btnLocationBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                <button id="btnLocationBack" ng-click="reset_loc();" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                     style="width: 45%; display: inline;">
                     Back
                 </button>

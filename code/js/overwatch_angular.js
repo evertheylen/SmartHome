@@ -93,8 +93,54 @@ app.controller("homeView", function($scope, $rootScope) {
 
 app.controller("sensorView", function($scope, $rootScope) {
     //TODO Get these variables from the database.
-    $scope.locations = [{"id": "0", "desc": "Campus Middelheim", "address": ""}, {"id": "1", "desc": "Campus Groenenborger", "address": ""}, {"id": "2", "desc": "Campus Drie Eiken", "address": ""}];
+    $scope.locations = [{"id": "0", "desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, {"id": "1", "desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, {"id": "2", "desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
 
+    $scope.reset_loc = function reset_loc() {
+        $scope.loc_country = null;
+        $scope.loc_city = null;
+        $scope.loc_postalcode = null;
+        $scope.loc_street = null;
+        $scope.loc_number = null;
+        $scope.loc_desc = null;
+        $scope.edit_loc = $scope.i18n("add_location");    
+        if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationCity"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationZip"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationNr"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
+        }
+    }
+       
+    function set_loc(id) {
+        $scope.loc_country = $scope.locations[id].country;
+        $scope.loc_city = $scope.locations[id].city;
+        $scope.loc_postalcode = $scope.locations[id].postalcode;
+        $scope.loc_street = $scope.locations[id].street;
+        $scope.loc_number = $scope.locations[id].number;
+        $scope.loc_desc = $scope.locations[id].desc;
+        addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
+        addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
+        addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
+        addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
+        addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+        addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
+        $scope.edit_loc = $scope.i18n("edit_location");
+        componentHandler.upgradeDom();    
+    }
+    
+    $scope.reset_loc();
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
     });
@@ -104,6 +150,7 @@ app.controller("sensorView", function($scope, $rootScope) {
 	showDialogButton.addEventListener('click', function(){
 		$scope.dialog.showModal();
 	});
+	
 	document.getElementById('btnLocationBack').addEventListener('click', function(){
 		$scope.dialog.close();
 	});
@@ -115,6 +162,24 @@ app.controller("sensorView", function($scope, $rootScope) {
 	document.getElementById('btnSensorBack').addEventListener('click', function(){
 		dialog2.close();
 	});
+	
+	$scope.delete = function (id) {
+	    if (confirm('Are you sure you want to delete this item?')) {
+	        if ($scope.locations.length === 1) {
+	            $scope.locations = null;
+	            return;
+	        }
+	        $scope.locations.splice(id, 1);    // TODO Do this shit in database
+	    };
+	};
+	
+    $scope.open_dialog = function(element_id, location_id) {
+        var element = document.getElementById(element_id);
+        element.showModal();
+        set_loc(location_id);
+        componentHandler.upgradeDom();
+    }
+	
     componentHandler.upgradeDom();
 });
 
