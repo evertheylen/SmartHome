@@ -78,6 +78,18 @@ class Controller:
             u = await User.new(self.db, req.dct["data"])
             await req.answer("success")
 
+    async def add(self,req):
+        if  req.dct["what"] == "Sensor":
+            res = await self.db.get(Sensor.table_name, "SID", req.dct["data"])
+            if res is not None:
+                self.logger.error("%s with title(%s) already taken"%req.dct["what"],req.dct["data"]["title"])
+                await req.answer("failure")
+            else:
+                self.logger.debug("data = " + repr(req.dct["data"]))
+                s = await Sensor.new(self.db, req.dct["data"])
+                await req.answer("success")
+
+
     async def handle_request(self, req):
         if req.dct["type"] in Controller.__dict__:
             await Controller.__dict__[req.dct["type"]](self, req)
