@@ -22,13 +22,14 @@ function connect_to_websocket() {
 		var recievedObject = null;
 		var type = "";
 		try {
-			recievedObject = JSON.parse(evt);
+			recievedObject = JSON.parse(evt.data);
 			type = recievedObject["type"];
 		}
 		catch(SyntaxError) {
 	    		// Handle the error.
 	    		console.log(SyntaxError);
-				alert(SyntaxError.evt);
+				console.log(evt);
+				alert(SyntaxError);
 				return;
 		}
 		

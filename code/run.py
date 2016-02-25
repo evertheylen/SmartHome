@@ -21,6 +21,12 @@ define("debug", default=True, help="run in debug mode")
 def localdir(location):
     return os.path.join(os.path.dirname(__file__), location)
 
+class NoCacheStaticFileHandler(tornado.web.StaticFileHandler):
+    def set_extra_headers(self, path):
+        # Disable cache
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+
+
 class OverWatch():
     def __init__(self, tornado_app_settings={}):
         # Logging support
@@ -58,9 +64,9 @@ class OverWatch():
         # that class.
         self.app = tornado.web.Application(
             [   # Enter your routes (regex -> Handler class) here! Order matters.
-                (r'/html/(.*)', tornado.web.StaticFileHandler, {'path': localdir("html")}),
-                (r'/js/(.*)', tornado.web.StaticFileHandler, {'path': localdir("js")}),
-                (r'/static/(.*)', tornado.web.StaticFileHandler, {'path': localdir("static")}),
+                (r'/html/(.*)', NoCacheStaticFileHandler, {'path': localdir("html")}),
+                (r'/js/(.*)', NoCacheStaticFileHandler, {'path': localdir("js")}),
+                (r'/static/(.*)', NoCacheStaticFileHandler, {'path': localdir("static")}),
                 (r"/ws", create_WsHandler(self.controller)),
                 (r"/(.*)", create_MainHandler(self.controller)),
             ],
