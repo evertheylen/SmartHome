@@ -17,13 +17,13 @@ class Database:
         cursor = await self.db.execute(select_query, (keyval,))
         result = cursor.fetchone()
         return result
-    
+
     async def get_multi(self, tname, keyprop, keyval):
         select_query = "SELECT * FROM {tname} WHERE {keyprop} = %s".format(tname=tname, keyprop=keyprop)
         cursor = await self.db.execute(select_query, (keyval,))
         result = cursor.fetchall()  # difference
         return result
-    
+
     async def get_all(self, tname):
         select_query = "SELECT * FROM %s"
         cursor = await self.db.execute(select_query, (tname,))

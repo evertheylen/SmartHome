@@ -81,25 +81,26 @@ class Controller:
                 await req.answer(s.to_dict())
             else:
                 await req.answer("fail")
-    
+
     @require_user_level(1)
     async def get(self, req):
         if req.dct["what"] == "Sensor":
             s = await Sensor.get(self.db, req.dct["data"]["ID"])
             await req.answer(s.to_dict())
-    
+
     @require_user_level(1)
     async def get_all(self, req):
         if req.dct["what"] == "Sensor":
             res = await self.db.get_multi(Sensor.table_name, "UID", req.conn.user.UID)
             ss = [Sensor.from_db(t) for t in res]
             await req.answer([s.to_dict() for s in ss])
-    
+
 
     @require_user_level(1)
     async def delete(self,req):
         if req.dct["what"] == "Sensor":
-            s = await Sensor.delete(self.db, req.dct["data"])
+            s = await Sensor.delete(self.db, req.dct["data"]["ID"])
+            # TODO rekening houden met sensors die reeds gedeleted zijn !
             await req.answer("success")
 
     async def handle_request(self, req):
