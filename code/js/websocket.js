@@ -7,7 +7,7 @@ function connect_to_websocket() {
 	websocket.request = function (type, data, f) {
 		// Data can be any object literal or prototype with the toJSON method.
 		handlers[currentId] = f;
-		var stringToSend = JSON.stringify({"id": currentId, "type": type, "data": data});
+		var stringToSend = JSON.stringify({"ID": currentId, "type": type, "data": data});
 		websocket.send(stringToSend);	
 		console.log("Sent data to server");
 		console.log("ID: " + currentId + " type: " + type + " data: " + data);
@@ -28,7 +28,7 @@ function connect_to_websocket() {
 		catch(SyntaxError) {
 	    		// Handle the error.
 	    		console.log(SyntaxError);
-				alert(SyntaxError);
+				alert(SyntaxError.evt);
 				return;
 		}
 		
@@ -63,7 +63,7 @@ function server_signup_response(data) {
 	if(data["data"] == "fail") {
 			handlers["signup"](false);
 	}
-	else if(data["data"] == "succes") {
+	else if(data["data"] == "success") {
 		handlers["signup"](true);
 	}	
 }

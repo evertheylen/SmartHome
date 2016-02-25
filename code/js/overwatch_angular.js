@@ -1,6 +1,6 @@
 var app = angular.module("overwatch", ['ngRoute', 'ngMessages']);
 var database = [];
-//var ws = connect_to_websocket();	// Websocket // TODO
+var ws = connect_to_websocket();	// Websocket // TODO
 
 function hasClass(el, className) {
   if (el.classList)
@@ -24,7 +24,7 @@ function removeClass(el, className) {
   }
 }
 
-app.controller("mainCtrl", function($scope, $rootScope) {
+app.controller("mainCtrl", function($scope, $rootScope, $location) {
   $scope.language = 0;
   
   $scope.i18n = function(input) {
@@ -32,6 +32,16 @@ app.controller("mainCtrl", function($scope, $rootScope) {
   };
   $rootScope.auth_user = null;
   $rootScope.logged_in = false;
+  
+  $scope.logout = function() {
+    $rootScope.auth_user = null;
+    $rootScope.logged_in = false;
+    $location.path("/");
+  }
+  
+  //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
+  //$location.path("/home");
+  //$rootScope.logged_in = true;
 });
 
 app.controller("indexView", function($scope, $rootScope) {
@@ -68,6 +78,13 @@ app.controller("homeView", function($scope, $rootScope) {
 	componentHandler.upgradeDom();
 });
 
+app.controller("sensorView", function($scope, $rootScope) {
+    //TODO Get these variables from the database.
+    $scope.locations = [{"id": "0", "desc": "Campus Middelheim", "address": ""}, {"id": "1", "desc": "Campus Groenenborger", "address": ""}, {"id": "2", "desc": "Campus Drie Eiken", "address": ""}];
+    
+    componentHandler.upgradeDom();
+});
+
 app.controller("loginCtrl", function($scope, $rootScope, $location) {
   $scope.wrong_login = false;
   $scope.login = function() {
@@ -75,7 +92,7 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 	
 	// COMMUNICATION WITH JEROEN :D
 	// PSEUDO : send("login", { ... data ... }, function(){ ... funtion stuff with switch for success, fail, ... });
-	/*ws.request("login", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_login) {
+	ws.request("login", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_login) {
 		if (successful_login) {	
 			//$rootScope.auth_user = // TODO response(user);
 			$rootScope.auth_user = $scope.username;	 // The authenticated user is only the username
@@ -86,8 +103,8 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
 		} else {
 			$scope.wrong_login = true;
 		}
-	});*/ // TODO
-	
+	}); // TODO
+	/*
       for (var i = 0; i < database.length; i++) {
         console.log(database[i]);
         if ($scope.username === database[i].user_name && $scope.password === database[i].password) {
@@ -102,7 +119,7 @@ app.controller("loginCtrl", function($scope, $rootScope, $location) {
         }
       }
       $scope.wrong_login = true;
-	
+	*/
     }
   };
 });
@@ -111,24 +128,25 @@ app.controller("signupCtrl", function($scope) {
   $scope.auth_user = null;
   $scope.wrong_signup = false;
   $scope.signup = function() {
-    /*if($scope.signup_form.$valid) {
-	ws.request("signup", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_signup){
-		if (successful_signup) {
-			document.getElementById("dlgSignup").close();	
-		} else {
-			$scope.wrong_signup = true;
-		}
-	});*/ // TODO
-	
+    if($scope.signup_form.$valid) {
+	    ws.request("signup", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_signup){
+		    if (successful_signup) {
+			    document.getElementById("dlgSignup").close();	
+		    } else {
+			    $scope.wrong_signup = true;
+		    }
+	    });
+	}; // TODO
+	/*
       database.push({
 				  user_name: $scope.username,
 				  email: $scope.email,
 				  password: $scope.password
 				});
       document.getElementById('dlgSignup').close();
-    }
-  });
-//});
+    }*/
+  };
+});
 
 app.config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){

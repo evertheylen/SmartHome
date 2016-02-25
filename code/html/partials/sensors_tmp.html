@@ -1,4 +1,4 @@
-<main>
+<div ng-controller="sensorView">
 	<!--Location table-->
 	<div id="locations">
 		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
@@ -16,23 +16,14 @@
 					</th>
 			</thead>
 			<tbody>
-				<tr>
-					<td class="mdl-data-table__cell--non-numeric">someHouse</td>
-					<td>
-						<!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
-						<button id="btnModifyLoc1" type="button" class="bareButton"><i class="material-icons">build</i></button>
-						<button id="btnDeleteLoc1" type="button" class="bareButton"><i class="material-icons">delete</i></button>
-					</td>
-					
-				</tr>
-				<tr>
-					<td class="mdl-data-table__cell--non-numeric">someHouse2</td>
-					<td>
-						<!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
-						<button id="btnModifyLoc2" type="button" class="bareButton"><i class="material-icons">build</i></button>
-						<button id="btnDeleteLoc2" type="button" class="bareButton"><i class="material-icons">delete</i></button>
-					</td>
-				</tr>
+			    <tr ng-repeat="location in locations">
+				    <td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
+				    <td>
+					    <!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
+					    <button id="btnModifyLoc1" type="button" class="bareButton"><i class="material-icons">build</i></button>
+					    <button id="btnDeleteLoc1" type="button" class="bareButton"><i class="material-icons">delete</i></button>
+				    </td>
+			    </tr>	
 			</tbody>
 		</table>
 		<!--TODO Add an event to this button to open the add/modify location dialog-->
@@ -53,10 +44,6 @@
 	<div class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc2">
 		Delete Location
 	</div>
-
-
-
-
 
 	<!--Sensor table-->
 	<div id="dataTable">
@@ -236,4 +223,4 @@
             </div>
         </div>
     </dialog>
-</main>
+</div>

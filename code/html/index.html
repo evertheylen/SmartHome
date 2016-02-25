@@ -31,17 +31,20 @@
             class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-hide=logged_in>
                 {{i18n("login")}}
             </button>
-            <button id="btnLogin" type="button"
-            class="mdl-button mdl-js-button mdl-button--fab" ng-show=logged_in>
+            <button id="btnLogout" type="button"
+            class="mdl-button mdl-js-button mdl-button--fab" ng-click="logout()" ng-show=logged_in>
                 <i class="material-icons">power_settings_new</i>
             </button>
+            <div class="mdl-tooltip" for="btnLogout">
+            	{{i18n("logout")}}
+            </div>
           </nav>
         </div>
       </header>
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">OverWatch</span>
         <nav class="mdl-navigation">
-          <a class="header_a mdl-navigation__link" href="/html/home">{{i18n("privacy")}}</a>
+          <a class="header_a mdl-navigation__link" href="/html/home">{{i18n("homelink")}}</a>
           <a class="header_a mdl-navigation__link" href="/html/statistics">{{i18n("statisticslink")}}</a>
           <a class="header_a mdl-navigation__link" href="/html/sensors">{{i18n("sensorslink")}}</a>
           <a class="header_a mdl-navigation__link" href="/html/social">{{i18n("sociallink")}}</a>
