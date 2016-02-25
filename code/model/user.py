@@ -9,6 +9,12 @@ class User(Base):
         self.last_name = last_name
         self.password = password
         self.email = email
+        
+    # TODO
+    constraints = {
+        "UID": [lambda uid: uid > 0],
+        "first_name": [lambda fn: len(fn) > 5, lambda fn: len(fn) < 100],
+    }
     
     db_props = OrderedDict([
                 ("UID", "SERIAL PRIMARY KEY"),
