@@ -1,0 +1,19 @@
+
+signup
+
+{"type": "signup", "ID": 100, "data": {"email": "sint@mail.es", "first_name": "Sint", "last_name": "klaas", "password": "123"}}
+
+login
+
+{"type": "login", "ID": 200, "data": {"email": "sint@mail.es", "password": "123"}}
+
+logout
+
+{"type": "logout", "ID": 300}
+
+
+
+add
+
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit"}}
+
