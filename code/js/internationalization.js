@@ -26,5 +26,15 @@ var html_strings = {
     "street": ["Street", "Straat"],
     "number": ["Number", "Huisnummer"],
     "edit_location": ["Edit location", "Locatie bewerken"],
-    "add_location": ["Add location", "Locatie toevoegen"]
+    "add_location": ["Add location", "Locatie toevoegen"],
+    "del_location": ["Delete location", "Locatie verwijderen"],
+    "edit_sensor": ["Edit sensor", "Sensor bewerken"],
+    "del_sensor": ["Delete sensor", "Sensor verwijderen"],
+    "add_sensor": ["Add sensor", "Sensor toevoegen"],
+    "save_changes": ["Save", "Opslaan"],
+    "name": ["Name", "Naam"],
+    "pick_loc": ["Choose your location", "Kies uw locatie"],
+    "pick_type": ["Choose your type", "Kies uw type"],
+    "locations": ["Locations", "Locaties"],
+    "location": ["Location", "Locatie"],
 };

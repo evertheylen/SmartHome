@@ -53,8 +53,8 @@ app.controller("mainCtrl", function($scope, $rootScope, $location) {
   }
   
   //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
-  //$location.path("/home");
-  //$rootScope.logged_in = true;
+  $location.path("/sensors");
+  $rootScope.logged_in = true;
 });
 
 app.controller("indexView", function($scope, $rootScope) {
@@ -94,8 +94,15 @@ app.controller("homeView", function($scope, $rootScope) {
 app.controller("sensorView", function($scope, $rootScope) {
     //TODO Get these variables from the database.
     $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
+    
+    $scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": "Kerstverlichting"}, {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": "Keuken"}];
+    
+    $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
+    
     var edit_loc_id = null;
     var edit = false;
+    var edit_sen = false;
+    var edit_sen_id = null;
     $scope.reset_loc = function reset_loc() {
         edit = false;
         edit_loc_id = null;
@@ -166,6 +173,52 @@ app.controller("sensorView", function($scope, $rootScope) {
         componentHandler.upgradeDom();    
     }
     
+    $scope.reset_sen = function reset_sen() {
+        edit_sen = false;
+        edit_sen_id = null;
+        $scope.sen_name = null;
+        $scope.sen_location = null;
+        $scope.sen_type = null;
+        $scope.sen_tags = null;
+        $scope.edit_sen = $scope.i18n("add_sensor");    
+        if (hasClass(document.getElementById("txtfield_SensorName"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_SensorName"), "is-dirty");
+        }
+        if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
+            removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+        }
+    }
+    $scope.save_sen = function save_sen() {
+        if ($scope.sensor_form.$valid) {
+            if (edit_sen) {
+                $scope.sensors[edit_sen_id].name = $scope.sen_name;
+                $scope.sensors[edit_sen_id].tags = $scope.sen_tags;
+                $scope.sensors[edit_sen_id].type = $scope.sen_type;
+                $scope.sensors[edit_sen_id].location = $scope.sen_location;
+            } else {
+                var new_sensor = {};
+                new_sensor.name = $scope.sen_name;
+                new_sensor.tags = $scope.sen_tags;
+                new_sensor.location = $scope.sen_location;
+                new_sensor.type = $scope.sen_type;
+                $scope.sensors.push(new_sensor);
+            }
+            dialog2.close();
+        }
+    }   
+    function set_sen(id) {
+        edit_sen = true;
+        $scope.sen_name = $scope.sensors[id].name;
+        $scope.sen_tags = $scope.sensors[id].tags;
+        $scope.sen_type = $scope.sensors[id].type;
+        $scope.sen_location = $scope.sensors[id].location;
+        addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
+        addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+        $scope.edit_sen = $scope.i18n("edit_sensor");
+        edit_sen_id = id;
+        componentHandler.upgradeDom();    
+    }    
+    $scope.reset_sen();
     $scope.reset_loc();
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
@@ -189,24 +242,24 @@ app.controller("sensorView", function($scope, $rootScope) {
 		dialog2.close();
 	});
 	
-	$scope.delete = function (id) {
-	    for (var i = 0; i < $scope.locations.length; i++) {
-	        console.log($scope.locations[i]);
-	    }
-	    console.log($scope.locations);
+	$scope.delete = function (id, from) {
 	    if (confirm('Are you sure you want to delete this item?')) {
-	        if ($scope.locations.length === 1) {
-	            $scope.locations = [];
+	        if (from.length === 1) {
+	            from.length = 0;          // TODO THIS DOESNT WORK FOR SOME REASON?!
 	            return;
 	        }
-	        $scope.locations.splice(id, 1);    // TODO Do this shit in database
+	        from.splice(id, 1);    // TODO Do this shit in database
 	    };
 	};
 	
-    $scope.open_dialog = function(element_id, location_id) {
+    $scope.open_dialog = function(element_id, id, sensor) {
         var element = document.getElementById(element_id);
         element.showModal();
-        set_loc(location_id);
+        if (sensor) {
+            set_sen(id);
+        } else {
+            set_loc(id);
+        }
         componentHandler.upgradeDom();
     }
 	
