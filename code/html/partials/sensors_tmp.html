@@ -1,101 +1,107 @@
 <div ng-controller="sensorView">
-	<!--Location table-->
-	<div id="locations">
-		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-			<thead>
-				<tr class="tableHeadColor">
-					<th class="mdl-data-table__cell--non-numeric">
-						<div>
-							{{i18n("locations")}}
-						</div>
-					</th>
-					<th>
-						<div>
-							<!--I had to use an extra "table attribute" for  the symbols at the end-->
-						</div>
-					</th>
-			</thead>
-			<tbody>
-			    <tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
-				    <td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
-				    <td>
-					    <!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
-					    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
-					    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, locations);"><i class="material-icons">delete</i></button>
-				    </td>
-			    </tr>	
-			</tbody>
-		</table>
-		<button id="btnAddLoc" ng-click="reset_loc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-		  {{i18n("add_location")}}
-		</button>
+	<div class="mdl-grid">
+		<!--Location table-->
+		<div class="mdl-cell mdl-cell--3-col">
+			<div id="locations">
+				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+					<thead>
+						<tr class="tableHeadColor">
+							<th class="mdl-data-table__cell--non-numeric">
+								<div>
+									{{i18n("locations")}}
+								</div>
+							</th>
+							<th>
+								<div>
+									<!--I had to use an extra "table attribute" for  the symbols at the end-->
+								</div>
+							</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
+							<td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
+							<td>
+								<!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
+								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
+								<button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, locations);"><i class="material-icons">delete</i></button>
+							</td>
+						</tr>	
+					</tbody>
+				</table>
+				<button id="btnAddLoc" ng-click="reset_loc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+				  {{i18n("add_location")}}
+				</button>
+			</div>
+		</div>
+
+		<!--Sensor table-->
+		<div class="mdl-cell mdl-cell--9-col">
+			<div id="dataTable">
+				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+					<thead>
+						<tr class="tableHeadColor">
+							<th class="mdl-data-table__cell--non-numeric">
+								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+								<div id="sensorColumn" class="sortColumnAttr">
+									<!--TODO sorting may cause the elements to be sorted ascending or descending
+									the arrow must chancge direction then in the line of code below, an arrow pointing up is displayed
+									when you want to change the direction, simply replace "down" by "up" in its class
+									the next example has an up arrow-->
+									<i class="material-icons md-10 down">play_arrow</i>
+									Sensor
+								</div>
+							</th>
+							<th>
+								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+								<div id="houseColumn" class="sortColumnAttr">
+									<!--The example i was talking about earlier-->
+									<i class="material-icons md-10 up">play_arrow</i>
+									{{i18n("location")}}
+								</div>
+							</th>
+							<th>
+								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+								<div id="typeColumn" class="sortColumnAttr">
+									<i class="material-icons md-10 down">play_arrow</i>
+									Type
+								</div>
+							</th>
+							<th>
+								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
+								<div id="tagColumn" class="sortColumnAttr">
+									<i class="material-icons md-10 down">play_arrow</i>
+									Tag
+								</div>
+							</th>
+							<th>
+								<!--I had to use an extra "table attribute" for  the symbols at the end-->
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="sensor in sensors" on-finish-render="ngRepeatFinished">
+							<td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
+				            <td>{{sensor.location}}</td>
+				            <td>{{sensor.type}}</td>
+				            <td>{{sensor.tags}}</td>
+							<td>
+								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', $index, true);"><i class="material-icons">edit</i></button>
+								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete($index, sensors);"><i class="material-icons">delete</i></button>
+							</td>
+						</tr>	
+					</tbody>
+				</table>
+				<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+				  {{i18n("add_sensor")}}
+				</button>
+			</div>
+		</div>
 	</div>
     <div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}">
     	{{i18n("edit_location")}}
 	</div>
 	<div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}">
 		{{i18n("del_location")}}
-	</div>
-
-	<!--Sensor table-->
-	<div id="dataTable">
-		<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-			<thead>
-				<tr class="tableHeadColor">
-					<th class="mdl-data-table__cell--non-numeric">
-						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-						<div id="sensorColumn" class="sortColumnAttr">
-							<!--TODO sorting may cause the elements to be sorted ascending or descending
-							the arrow must chancge direction then in the line of code below, an arrow pointing up is displayed
-							when you want to change the direction, simply replace "down" by "up" in its class
-							the next example has an up arrow-->
-							<i class="material-icons md-10 down">play_arrow</i>
-							Sensor
-						</div>
-					</th>
-					<th>
-						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-						<div id="houseColumn" class="sortColumnAttr">
-							<!--The example i was talking about earlier-->
-							<i class="material-icons md-10 up">play_arrow</i>
-							{{i18n("location")}}
-						</div>
-					</th>
-					<th>
-						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-						<div id="typeColumn" class="sortColumnAttr">
-							<i class="material-icons md-10 down">play_arrow</i>
-							Type
-						</div>
-					</th>
-					<th>
-						<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-						<div id="tagColumn" class="sortColumnAttr">
-							<i class="material-icons md-10 down">play_arrow</i>
-							Tag
-						</div>
-					</th>
-					<th>
-						<!--I had to use an extra "table attribute" for  the symbols at the end-->
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-			    <tr ng-repeat="sensor in sensors" on-finish-render="ngRepeatFinished">
-				    <td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
-                    <td>{{sensor.location}}</td>
-                    <td>{{sensor.type}}</td>
-                    <td>{{sensor.tags}}</td>
-				    <td>
-					    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', $index, true);"><i class="material-icons">edit</i></button>
-					    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete($index, sensors);"><i class="material-icons">delete</i></button>
-				    </td>
-			    </tr>	
-			</tbody>
-		</table>
-		<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-		  {{i18n("add_sensor")}}
-		</button>
 	</div>
     <div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}">
     	{{i18n("edit_sensor")}}

@@ -28,18 +28,13 @@
 
 /*This stuff indicates sections*/
 #locations{
-	display: inline-block;
-	width: 20%;
-	padding: 0px;
-	margin-right: 3%;
+	width: 100%;
 	max-height: 60%;
 	overflow: scroll;
 }
 #dataTable{
-	display: inline-block;
-	width: 75%;
+	width: 100%;
 	height: auto;
-	padding: 0px;
 	overflow-x: scroll;
 }
 table{

@@ -37,7 +37,8 @@
 			var options = {
 				title: 'Amount of fucks given',
 				/* LEGEND ON THE BOTTOM IS IMPORTANT, it would fuck up everything if you don't*/
-				legend:'bottom'
+				legend:'bottom',
+				theme: 'maximized'
 			};
 			var chart = new google.visualization.LineChart(document.getElementById('fucksGiven'));
 			chart.draw(data, options);
