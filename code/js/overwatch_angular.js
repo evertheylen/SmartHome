@@ -99,10 +99,47 @@ app.controller("sensorView", function($scope, $rootScope) {
     
     $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
     
+    $scope.selected_order = null;
+    
     var edit_loc_id = null;
     var edit = false;
     var edit_sen = false;
     var edit_sen_id = null;
+    
+    $scope.set_order = function set_order(orderBy, elementId) {
+        if (hasClass(document.getElementById("sort_sensor"), "up")) {
+            removeClass(document.getElementById("sort_sensor"), "up");
+        }
+        if (hasClass(document.getElementById("sort_sensor"), "down")) {
+            removeClass(document.getElementById("sort_sensor"), "down");
+        }
+        if (hasClass(document.getElementById("sort_location"), "up")) {
+            removeClass(document.getElementById("sort_location"), "up");
+        }
+        if (hasClass(document.getElementById("sort_location"), "down")) {
+            removeClass(document.getElementById("sort_location"), "down");
+        }
+        if (hasClass(document.getElementById("sort_type"), "up")) {
+            removeClass(document.getElementById("sort_type"), "up");
+        }
+        if (hasClass(document.getElementById("sort_type"), "down")) {
+            removeClass(document.getElementById("sort_type"), "down");
+        }
+        if (hasClass(document.getElementById("sort_tags"), "up")) {
+            removeClass(document.getElementById("sort_tags"), "up");
+        }
+        if (hasClass(document.getElementById("sort_tags"), "down")) {
+            removeClass(document.getElementById("sort_tags"), "down");
+        }                
+        if ($scope.selected_order === orderBy) {
+            $scope.selected_order = '-' + orderBy;
+            addClass(document.getElementById(elementId), "up");
+        } else {
+            $scope.selected_order = orderBy;
+            addClass(document.getElementById(elementId), "down");
+        }
+    }
+    
     $scope.reset_loc = function reset_loc() {
         edit = false;
         edit_loc_id = null;

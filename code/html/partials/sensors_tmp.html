@@ -42,36 +42,32 @@
 						<tr class="tableHeadColor">
 							<th class="mdl-data-table__cell--non-numeric">
 								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-								<div id="sensorColumn" class="sortColumnAttr">
-									<!--TODO sorting may cause the elements to be sorted ascending or descending
-									the arrow must chancge direction then in the line of code below, an arrow pointing up is displayed
-									when you want to change the direction, simply replace "down" by "up" in its class
-									the next example has an up arrow-->
-									<i class="material-icons md-10 down">play_arrow</i>
-									Sensor
-								</div>
+
+								<button ng-click="set_order('name', 'sort_sensor')" id="sort_sensor" class="mdl-button mdl-js-button mdl-button--icon">
+								    <i class="material-icons md-10 ">play_arrow</i>
+								</button>  
+    							<span>Sensor</span>
 							</th>
 							<th>
 								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-								<div id="houseColumn" class="sortColumnAttr">
-									<!--The example i was talking about earlier-->
-									<i class="material-icons md-10 up">play_arrow</i>
-									{{i18n("location")}}
-								</div>
+								<button ng-click="set_order('location', 'sort_location')" id="sort_location" class="mdl-button mdl-js-button mdl-button--icon">
+								    <i class="material-icons md-10 ">play_arrow</i>
+								</button>  
+    							<span>{{i18n("location")}}</span>
 							</th>
 							<th>
 								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-								<div id="typeColumn" class="sortColumnAttr">
-									<i class="material-icons md-10 down">play_arrow</i>
-									Type
-								</div>
+								<button ng-click="set_order('type', 'sort_type')" id="sort_type" class="mdl-button mdl-js-button mdl-button--icon">
+								    <i class="material-icons md-10 ">play_arrow</i>
+								</button>  
+    							<span>Type</span>
 							</th>
 							<th>
 								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
-								<div id="tagColumn" class="sortColumnAttr">
-									<i class="material-icons md-10 down">play_arrow</i>
-									Tag
-								</div>
+								<button ng-click="set_order('tags', 'sort_tags')" id="sort_tags" class="mdl-button mdl-js-button mdl-button--icon">
+								    <i class="material-icons md-10 ">play_arrow</i>
+								</button>  
+    							<span>Tags</span>
 							</th>
 							<th>
 								<!--I had to use an extra "table attribute" for  the symbols at the end-->
@@ -79,7 +75,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="sensor in sensors" on-finish-render="ngRepeatFinished">
+						<tr ng-repeat="sensor in sensors | orderBy: selected_order" on-finish-render="ngRepeatFinished">
 							<td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
 				            <td>{{sensor.location}}</td>
 				            <td>{{sensor.type}}</td>
@@ -106,7 +102,7 @@
     <div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}">
     	{{i18n("edit_sensor")}}
 	</div>
-	<div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteSen-{{$index}}">
+	<div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}">
 		{{i18n("del_sensor")}}
 	</div>
 
