@@ -1,4 +1,4 @@
-var app = angular.module("overwatch", ['ngRoute', 'ngMessages'])
+var app = angular.module("overwatch", ['ngRoute', 'ngMessages', 'ngAnimate'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',
@@ -98,14 +98,13 @@ app.controller("sensorView", function($scope, $rootScope) {
     $scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": "Kerstverlichting"}, {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": "Keuken"}];
     
     $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
-    
+    $scope.required = true;
     $scope.selected_order = null;
-    
     var edit_loc_id = null;
     var edit = false;
     var edit_sen = false;
     var edit_sen_id = null;
-    
+
     $scope.set_order = function set_order(orderBy, elementId) {
         if (hasClass(document.getElementById("sort_sensor"), "up")) {
             removeClass(document.getElementById("sort_sensor"), "up");
@@ -168,6 +167,24 @@ app.controller("sensorView", function($scope, $rootScope) {
         if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
             removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
         }
+        if (!hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
+        }
+        if (!hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
+        }
+        if (!hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
+        }
+        if (!hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
+        }
+        if (!hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
+        }
+        if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
+        }  
     }
     $scope.save_loc = function save_loc() {
         if ($scope.location_form.$valid) {
@@ -205,6 +222,24 @@ app.controller("sensorView", function($scope, $rootScope) {
         addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
         addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
         addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
+        if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
+        }
+        if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
+        }                                
         $scope.edit_loc = $scope.i18n("edit_location");
         edit_loc_id = id;
         componentHandler.upgradeDom();    
@@ -224,6 +259,15 @@ app.controller("sensorView", function($scope, $rootScope) {
         if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
             removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
         }
+        if (!hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_SensorName"), "is-invalid");
+        }
+        if (!hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
+        }
+        if (!hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
+            addClass(document.getElementById("txtfield_SensorType"), "is-invalid");
+        }                
     }
     $scope.save_sen = function save_sen() {
         if ($scope.sensor_form.$valid) {
@@ -251,6 +295,15 @@ app.controller("sensorView", function($scope, $rootScope) {
         $scope.sen_location = $scope.sensors[id].location;
         addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
         addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+        if (hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_SensorName"), "is-invalid");
+        }
+        if (hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
+        }
+        if (hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
+            removeClass(document.getElementById("txtfield_SensorType"), "is-invalid");
+        }        
         $scope.edit_sen = $scope.i18n("edit_sensor");
         edit_sen_id = id;
         componentHandler.upgradeDom();    

@@ -28,7 +28,7 @@
 						</tr>	
 					</tbody>
 				</table>
-				<button id="btnAddLoc" ng-click="reset_loc()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+				<button id="btnAddLoc" ng-click="reset_loc();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 				  {{i18n("add_location")}}
 				</button>
 			</div>
@@ -112,7 +112,7 @@
         <div class="mdl-dialog__content">
             <form name="sensor_form">
                 <div id="txtfield_SensorName" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName">
+                    <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName" required>
                     <label class="mdl-textfield__label" for="input_SensorName">{{i18n("name")}}</label>
                 </div>
                 <div id="txtfield_SensorTags" class="mdl-textfield mdl-js-textfield">
@@ -122,14 +122,14 @@
                 </div>
 				<div id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label>{{i18n("location")}}</label>
-					<select ng-model="sen_location" class="browser-default">
+					<select ng-model="sen_location" class="browser-default" required>
 						<option value="" disabled selected>{{i18n("pick_loc")}}</option>
 						<option ng-repeat="location in locations">{{location.desc}}</option>
 					</select>
 				</div>
 				<div id="txtfield_SensorType" class="mdl-selectfield">
 					<label>Type</label>
-					<select class="browser-default" ng-model="sen_type">
+					<select class="browser-default" ng-model="sen_type" required>
 						<option value="" disabled selected>{{i18n("pick_type")}}</option>
 						<option ng-repeat="type in types">{{type}}</option>
 					</select>
