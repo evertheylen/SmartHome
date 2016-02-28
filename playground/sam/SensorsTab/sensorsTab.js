@@ -14,12 +14,12 @@ dialog.showModal();
 
 
 
-var dialog = document.getElementById('dlgLocation');
-var showDialogButton = document.getElementById('btnAddLoc');
-if (! dialog.showModal) {
-dialogPolyfill.registerDialog(dialog);
+var dialog2 = document.getElementById('dlgLocation');
+var showDialogButton2 = document.getElementById('btnAddLoc');
+if (! dialog2.showModal) {
+dialogPolyfill.registerDialog(dialog2);
 }
-showDialogButton.addEventListener('click', function() {
-dialog.showModal();
+showDialogButton2.addEventListener('click', function() {
+dialog2.showModal();
 });
 

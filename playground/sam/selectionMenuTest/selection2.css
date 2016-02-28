@@ -1,0 +1,84 @@
+<!--
+////////////////////////////////////////
+////           Demo #2              ////
+////////////////////////////////////////
+-->	
+
+
+body{
+	color: #777;
+}
+
+/* Text Styles */
+
+a{
+	color: #fb9e25;
+	text-decoration: none;
+}
+a:hover{
+	color: #fb9e25;
+}
+
+.dropdownMenu{
+	width: 20%;
+}
+
+.dropcontainer_demo2{
+	width: 100%;
+} 
+
+.trigger_demo2 {
+	color: #777;
+	padding: 10px 0px;
+	font-size: 16px;
+	width: 100%;
+	display: block;
+	border: 1px solid #ccc;
+}
+
+.trigger_demo2:hover{
+	color: red;
+}
+
+.dropcontainer_demo2 ul{
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-top: none;
+	background: #fff;
+	list-style-type: none;
+	z-index: 1;
+	width: auto;
+}
+
+.dropcontainer_demo2 ul li{
+	width: auto;
+}
+
+.dropcontainer_demo2 ul li:hover{
+	background: #ccc;
+	outline: none;
+	cursor: pointer;
+}
+
+.dropcontainer_demo2 ul li:first-child{
+	display: none;
+}
+
+.dropcontainer_demo2 ul li:last-child{
+	border-bottom: none;
+}
+
+.dropdownhidden_demo2{
+	display: none;
+}
+
+.dropdownvisible_demo2{
+	height: auto;
+	max-height: 100px;
+	overflow-y: scroll;
+	margin: 0px;
+	padding: 5px;
+}
+#clicker{
+	cursor: pointer;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)http://google.com -->
+<html>
+<head>
+
+	<title>Dropdown</title>
+	<link rel="stylesheet" type="text/css" href="./demo_files/style.css">
+	<script type="text/javascript" src="./demo_files/select_demo2.js"></script>
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+</head>
+<body>
+<form onclick="handleDropdown">
+	<div class="dropdownMenu">
+		<label class="label">Locations:</label>
+		<input name="" type="hidden" id="stuff" value="Please select a country:">
+			<button id="clicker" type="button" class="trigger_demo2 mdl-button mdl-js-button mdl-button--colored" onclick="handleDropdown()">
+				Please select a location:
+			</button>
+				<div class="dropcontainer_demo2">
+					<ul id="visibilityID" class="dropdownhidden_demo2">
+						<li onclick="handleClick(this);">
+							<a>Please select a location:</a>
+						</li>
+						<li onclick="handleClick(this);">
+							<a>myHouse1</a>
+						</li>
+						<li onclick="handleClick(this);">
+							<a>myHouse2</a>
+						</li>
+						<li onclick="handleClick(this);">
+							<a>myHouse3</a>
+						</li>
+						<li onclick="handleClick(this);">
+							<a>myHouse4</a>
+						</li>
+						<li onclick="handleClick(this);">
+							<a>myHouse5</a>
+						</li>
+					</ul>
+				</div>
+			</a>
+		</input>
+	</div>
+</form>
+</body>
