@@ -1,0 +1,48 @@
+<head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.indigo-pink.min.css">
+	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+	<style>
+		li > button{
+			width: 100%;
+		}
+	</style>
+
+
+	<script>
+		function handleClick(clicked){
+			var toChange = document.getElementById("demo-menu-lower-left");
+			toChange.innerHTML = clicked.innerHTML;
+		}
+	</script>
+
+
+
+
+
+</head>
+<body>
+	<button id="demo-menu-lower-left" class="mdl-button mdl-js-button">
+		Houses
+	</button>
+
+	<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-left">
+		<li>
+			<button id="btnSelect1" class="mdl-button mdl-js-button"
+				onclick="handleClick(this)">Button1</button>
+		</li>
+		<li>
+			<button id="btnSelect2" class="mdl-button mdl-js-button"
+				onclick="handleClick(this)">Button2</button>
+		</li>
+		<li>
+			<button id="btnSelect3" class="mdl-button mdl-js-button"
+				onclick="handleClick(this)">Button3</button>
+		</li>
+		<li>
+			<button id="btnSelect4" class="mdl-button mdl-js-button"
+				onclick="handleClick(this)">Button4</button>
+		</li>
+	</ul>
+
+</body>
