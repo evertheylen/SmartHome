@@ -107,7 +107,16 @@ app.controller("homeView", function($scope, $rootScope) {
 	
 	componentHandler.upgradeDom();
 });
-
+app.filter('index', function () {
+    return function (array, index) {
+        if (!index)
+            index = 'index';
+        for (var i = 0; i < array.length; ++i) {
+            array[i][index] = i;
+        }
+        return array;
+    };
+});
 app.controller("sensorView", function($scope, $rootScope) {
     //TODO Get these variables from the database.
     $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];

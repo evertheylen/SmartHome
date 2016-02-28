@@ -75,14 +75,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="sensor in sensors | orderBy: selected_order" on-finish-render="ngRepeatFinished">
+						<tr ng-repeat="sensor in sensors | index | orderBy: selected_order" on-finish-render="ngRepeatFinished">
 							<td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
 				            <td>{{sensor.location}}</td>
 				            <td>{{sensor.type}}</td>
 				            <td>{{sensor.tags}}</td>
 							<td>
-								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', $index, true);"><i class="material-icons">edit</i></button>
-								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete($index, sensors);"><i class="material-icons">delete</i></button>
+								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
+								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							</td>
 						</tr>	
 					</tbody>
