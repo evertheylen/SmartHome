@@ -38,23 +38,26 @@ function removeClass(el, className) {
 }
 
 app.controller("mainCtrl", function($scope, $rootScope, $location) {
-  $scope.language = 0;
-  
-  $scope.i18n = function(input) {
-    return html_strings[input][$scope.language];
-  };
-  $rootScope.auth_user = null;
-  $rootScope.logged_in = false;
-  
-  $scope.logout = function() {
+    $scope.language = 0;
+
+    $scope.i18n = function(input) {
+        return html_strings[input][$scope.language];
+    };
     $rootScope.auth_user = null;
     $rootScope.logged_in = false;
-    $location.path("/");
-  }
-  
-  //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
-  $location.path("/sensors");
-  $rootScope.logged_in = true;
+
+    $scope.logout = function() {
+        $rootScope.auth_user = null;
+        $rootScope.logged_in = false;
+        $location.path("/");
+    }
+
+    //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
+    $location.path("/sensors");
+    $rootScope.logged_in = true;
+    $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
+        componentHandler.upgradeDom();
+    });
 });
 
 app.controller("indexView", function($scope, $rootScope) {
@@ -84,10 +87,24 @@ app.controller("indexView", function($scope, $rootScope) {
 });
 
 app.controller("homeView", function($scope, $rootScope) {
+    $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
     if (hasClass(layout, "mdl-layout--no-drawer-button")) {
         removeClass(layout, "mdl-layout--no-drawer-button");
     }
+
+	$scope.mark_important = function mark_important(element_id) {
+	    var element = document.getElementById('important_icon-'+element_id);
+	    if (hasClass(element, "yellow")) {
+	        removeClass(element, "yellow");
+	        addClass(element, "white");
+	    } else if (hasClass(element, "white")) {
+	        removeClass(element, "white");
+	        addClass(element, "yellow");
+	    }
+	    $scope.importants[element_id] = !$scope.importants[element_id];
+	};
+	
 	componentHandler.upgradeDom();
 });
 
@@ -310,9 +327,6 @@ app.controller("sensorView", function($scope, $rootScope) {
     }    
     $scope.reset_sen();
     $scope.reset_loc();
-    $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
-        componentHandler.upgradeDom();
-    });
     
 	$scope.dialog = document.getElementById('dlgLocation');
 	var showDialogButton = document.getElementById('btnAddLoc');

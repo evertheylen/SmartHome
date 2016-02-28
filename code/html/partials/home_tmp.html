@@ -1,5 +1,6 @@
 <!--card1-->
 <div ng-controller="homeView">
+<div ng-repeat="i in [0,1,2,3,4,5]" on-finish-render="ngRepeatFinished">
 <div class="demo-card-wide mdl-card mdl-shadow--2dp">
 	<div class="mdl-card__title">
 		<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
@@ -12,144 +13,17 @@
 			Share
 		</a>
 	</div>
-	<div id="important" class="mdl-card__menu">
-		<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+	<div id="important-{{$index}}" class="mdl-card__menu">
+		<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
 		<!--TODO id the card is marked, the class has to be yellow,
 		if it is not marked important, the yellow class must be removed and it must become a white class-->
-			<i class="material-icons yellow">grade</i>
+			<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
 		</button>
 	</div>
 </div>
-<div class="mdl-tooltip" for="important">
+<div ng-repeat="i in [0,1,2,3,4,5]" class="mdl-tooltip" for="important-{{$index}}">
 	<!--TODO change this if the card was marked as important/unimportant-->
-	Mark as important
-</div>
-<!--card2-->
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-	<div class="mdl-card__title">
-		<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-	</div>
-	<div class="mdl-card__supporting-text">
-		IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-	</div>
-	<div class="mdl-card__actions mdl-card--border">
-		<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-			Share
-		</a>
-	</div>
-	<div id="important2" class="mdl-card__menu">
-		<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-		<!--TODO id the card is marked, the class has to be yellow,
-		if it is not marked important, the yellow class must be removed and it must become a white class-->
-			<i class="material-icons yellow">grade</i>
-		</button>
-	</div>
-</div>
-<div class="mdl-tooltip" for="important2">
-	<!--TODO change this if the card was marked as important-->
-	Mark as important
-</div>
-<!--card3-->
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-	<div class="mdl-card__title">
-		<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-	</div>
-	<div class="mdl-card__supporting-text">
-		IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-	</div>
-	<div class="mdl-card__actions mdl-card--border">
-		<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-			Share
-		</a>
-	</div>
-	<div id="important3" class="mdl-card__menu">
-		<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-		<!--TODO id the card is marked, the class has to be yellow,
-		if it is not marked important, the yellow class must be removed and it must become a white class-->
-			<i class="material-icons white">grade</i>
-		</button>
-	</div>
-</div>
-<div class="mdl-tooltip" for="important3">
-	<!--TODO change this if the card was marked as important, or not, whatever-->
-	Mark as important
-</div>
-<div id="suggestedGr">
-<p>Feed</p>
-<!--card1-->
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-	<div class="mdl-card__title">
-		<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-	</div>
-	<div class="mdl-card__supporting-text">
-		IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-	</div>
-	<div class="mdl-card__actions mdl-card--border">
-		<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-			Share
-		</a>
-	</div>
-	<div id="important4" class="mdl-card__menu">
-		<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-		<!--TODO id the card is marked, the class has to be yellow,
-		if it is not marked important, the yellow class must be removed and it must become a white class-->
-			<i class="material-icons yellow">grade</i>
-		</button>
-	</div>
-</div>
-<div class="mdl-tooltip" for="important4">
-	<!--TODO change this if the card was marked as important/unimportant-->
-	Mark as important
-</div>
-<!--card2-->
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-	<div class="mdl-card__title">
-		<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-	</div>
-	<div class="mdl-card__supporting-text">
-		IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-	</div>
-	<div class="mdl-card__actions mdl-card--border">
-		<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-			Share
-		</a>
-	</div>
-	<div id="important5" class="mdl-card__menu">
-		<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-		<!--TODO id the card is marked, the class has to be yellow,
-		if it is not marked important, the yellow class must be removed and it must become a white class-->
-			<i class="material-icons yellow">grade</i>
-		</button>
-	</div>
-</div>
-<div class="mdl-tooltip" for="important5">
-	<!--TODO change this if the card was marked as important-->
-	Mark as important
-</div>
-<!--card3-->
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-	<div class="mdl-card__title">
-		<h2 class="mdl-card__title-text">Lorem ipsum <br> (misschienus unus <br>datum hier?)</h2>
-	</div>
-	<div class="mdl-card__supporting-text">
-		IK STEL VOOR DAT JE DE GRAFIEK TE ZIEN KRIJGT ALS JE OP DE AFBEELDING KLIKT (VIA EEN DIALOG)
-	</div>
-	<div class="mdl-card__actions mdl-card--border">
-		<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-			Share
-		</a>
-	</div>
-	<div id="important6" class="mdl-card__menu">
-		<button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-		<!--TODO id the card is marked, the class has to be yellow,
-		if it is not marked important, the yellow class must be removed and it must become a white class-->
-			<i class="material-icons white">grade</i>
-		</button>
-	</div>
-</div>
-<div class="mdl-tooltip" for="important6">
-	<!--TODO change this if the card was marked as important-->
-	Mark as important
+	{{importants[$index] ? i18n("mark_unimportant") : i18n("mark_important")}}
 </div>
 </div>
 </div>

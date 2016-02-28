@@ -37,4 +37,6 @@ var html_strings = {
     "pick_type": ["Choose your type", "Kies uw type"],
     "locations": ["Locations", "Locaties"],
     "location": ["Location", "Locatie"],
+    "mark_unimportant": ["Mark as unimportant", "Markeren als onbelangrijk"],
+    "mark_important": ["Mark as important", "Markeren als belangrijk"]
 };
