@@ -117,11 +117,27 @@ app.filter('index', function () {
         return array;
     };
 });
-app.controller("sensorView", function($scope, $rootScope) {
+app.controller("sensorView", function($scope, $rootScope, $filter) {
     //TODO Get these variables from the database.
+    $scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
+    
+    $scope.add_autocomplete = function (tag) {
+        var i = $scope.tags.length;
+        while (i--) {
+            if ($scope.tags[i].text === tag.text) {
+                return;
+            }
+        }
+        $scope.tags.push(tag);
+    }
+    
+    $scope.check_autocomplete = function (query) {
+        return $filter('filter')($scope.tags, query);
+    }
+        
     $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
     
-    $scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": "Kerstverlichting"}, {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": "Keuken"}];
+    $scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
     
     $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
     $scope.required = true;
@@ -282,9 +298,9 @@ app.controller("sensorView", function($scope, $rootScope) {
         if (hasClass(document.getElementById("txtfield_SensorName"), "is-dirty")) {
             removeClass(document.getElementById("txtfield_SensorName"), "is-dirty");
         }
-        if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
-            removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
-        }
+        //if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
+          //  removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+        //}
         if (!hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
             addClass(document.getElementById("txtfield_SensorName"), "is-invalid");
         }
@@ -320,7 +336,7 @@ app.controller("sensorView", function($scope, $rootScope) {
         $scope.sen_type = $scope.sensors[id].type;
         $scope.sen_location = $scope.sensors[id].location;
         addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
-        addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+        //addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
         if (hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
             removeClass(document.getElementById("txtfield_SensorName"), "is-invalid");
         }

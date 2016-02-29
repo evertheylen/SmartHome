@@ -79,7 +79,7 @@
 							<td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
 				            <td>{{sensor.location}}</td>
 				            <td>{{sensor.type}}</td>
-				            <td>{{sensor.tags}}</td>
+				            <td><span ng-repeat="tag in sensor.tags">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							<td>
 								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
@@ -115,13 +115,13 @@
                     <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName" required>
                     <label class="mdl-textfield__label" for="input_SensorName">{{i18n("name")}}</label>
                 </div>
-	<tags-input ng-model="sen_Tags">
-		tags
-	</tags-input><!-- http://ngmodules.org/modules/ngTagsInput -->
-                <div id="txtfield_SensorTags" class="mdl-textfield mdl-js-textfield">
+	            <tags-input ng-model="sen_tags" on-tag-added="add_autocomplete($tag)">
+		            <auto-complete source="check_autocomplete($query)"></auto-complete>
+	            </tags-input>
+<!--                <div id="txtfield_SensorTags" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" ng-model="sen_tags" type="text" id="input_SensorTags" name="sensorTags">
                     <label class="mdl-textfield__label" for="input_SensorTag">Tags</label>
-                </div>
+                </div>-->
 				<div id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label>{{i18n("location")}}</label>
 
