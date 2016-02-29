@@ -115,13 +115,16 @@
                     <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName" required>
                     <label class="mdl-textfield__label" for="input_SensorName">{{i18n("name")}}</label>
                 </div>
+	<tags-input ng-model="sen_Tags">
+		tags
+	</tags-input><!-- http://ngmodules.org/modules/ngTagsInput -->
                 <div id="txtfield_SensorTags" class="mdl-textfield mdl-js-textfield">
-					<!--TODO I don't know how the tags will be read, by using spaces or something???-->
                     <input class="mdl-textfield__input" ng-model="sen_tags" type="text" id="input_SensorTags" name="sensorTags">
                     <label class="mdl-textfield__label" for="input_SensorTag">Tags</label>
                 </div>
 				<div id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label>{{i18n("location")}}</label>
+
 					<select ng-model="sen_location" class="browser-default" required>
 						<option value="" disabled selected>{{i18n("pick_loc")}}</option>
 						<option ng-repeat="location in locations">{{location.desc}}</option>

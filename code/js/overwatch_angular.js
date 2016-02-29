@@ -1,4 +1,4 @@
-var app = angular.module("overwatch", ['ngRoute', 'ngMessages', 'ngAnimate'])
+var app = angular.module("overwatch", ['ngRoute', 'ngTagsInput', 'ngMessages', 'ngAnimate'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',
