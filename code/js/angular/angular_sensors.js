@@ -1,126 +1,4 @@
-var app = angular.module("overwatch", ['ngRoute', 'ngTagsInput', 'ngMessages', 'ngAnimate'])
-    .directive('onFinishRender', function ($timeout) {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            if (scope.$last === true) {
-                $timeout(function () {
-                    scope.$emit('ngRepeatFinished');
-                });
-            }
-        }
-    }
-});
-
-var database = [];
-var ws = connect_to_websocket();	// Websocket // TODO
-
-function hasClass(el, className) {
-  if (el.classList)
-    return el.classList.contains(className)
-  else
-    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-}
-
-function addClass(el, className) {
-  if (el.classList)
-    el.classList.add(className)
-  else if (!hasClass(el, className)) el.className += " " + className
-}
-
-function removeClass(el, className) {
-  if (el.classList)
-    el.classList.remove(className)
-  else if (hasClass(el, className)) {
-    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-    el.className=el.className.replace(reg, ' ')
-  }
-}
-
-app.controller("mainCtrl", function($scope, $rootScope, $location) {
-    $scope.language = 0;
-
-    $scope.i18n = function(input) {
-        return html_strings[input][$scope.language];
-    };
-    $rootScope.auth_user = null;
-    $rootScope.logged_in = false;
-
-    $scope.logout = function() {
-        $rootScope.auth_user = null;
-        $rootScope.logged_in = false;
-        $location.path("/");
-    }
-
-    //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
-    $location.path("/sensors");
-    $rootScope.logged_in = true;
-    $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
-        componentHandler.upgradeDom();
-    });
-});
-
-app.controller("indexView", function($scope, $rootScope) {
-	$scope.dialog = document.getElementById('dlgLogin');
-	var showDialogButton = document.getElementById('btnLogin');
-	showDialogButton.addEventListener('click', function(){
-		$scope.dialog.showModal();
-	});
-	document.getElementById('btnDialogBack').addEventListener('click', function(){
-		$scope.dialog.close();
-	});
-	var dialog2 = document.getElementById('dlgSignup');
-	var showDialogButton2 = document.getElementById('btnSignup');
-	showDialogButton2.addEventListener('click', function(){
-		dialog2.showModal();
-	});
-	document.getElementById('btnSignupBack').addEventListener('click', function(){
-		dialog2.close();
-	});
-	$scope.dialog_login = document.getElementById("dlgLogin");
-	$scope.dialog_signup = dialog2;
-	var layout = document.getElementById("mainLayout");
-	if (!hasClass(layout, "mdl-layout--no-drawer-button")) {
-	    addClass(layout, "mdl-layout--no-drawer-button");
-    }
-	componentHandler.upgradeDom();
-});
-
-app.controller("homeView", function($scope, $rootScope) {
-    $scope.importants = [false, false, false, false, false, false];
-    var layout = document.getElementById("mainLayout");
-    if (hasClass(layout, "mdl-layout--no-drawer-button")) {
-        removeClass(layout, "mdl-layout--no-drawer-button");
-    }
-
-	$scope.mark_important = function mark_important(element_id) {
-	    var element = document.getElementById('important_icon-'+element_id);
-	    if (hasClass(element, "yellow")) {
-	        removeClass(element, "yellow");
-	        addClass(element, "white");
-	    } else if (hasClass(element, "white")) {
-	        removeClass(element, "white");
-	        addClass(element, "yellow");
-	    }
-	    $scope.importants[element_id] = !$scope.importants[element_id];
-	};
-	
-	componentHandler.upgradeDom();
-});
-app.filter('index', function () {
-    return function (array, index) {
-        if (!index)
-            index = 'index';
-        for (var i = 0; i < array.length; ++i) {
-            array[i][index] = i;
-        }
-        return array;
-    };
-});
-app.controller("sensorView", function($scope, $rootScope, $filter) {
-    //TODO Get these variables from the database.
-    $scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
-    
+angular.module("overwatch").controller("sensorView", function($scope, $rootScope, $filter) {
     $scope.add_autocomplete = function (tag) {
         var i = $scope.tags.length;
         while (i--) {
@@ -134,12 +12,18 @@ app.controller("sensorView", function($scope, $rootScope, $filter) {
     $scope.check_autocomplete = function (query) {
         return $filter('filter')($scope.tags, query);
     }
+    
+    //TODO Get these variables from the database.
+    // Jeroen :P
+    $scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
         
     $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
     
     $scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
     
     $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
+    
+    
     $scope.required = true;
     $scope.selected_order = null;
     var edit_loc_id = null;
@@ -228,6 +112,8 @@ app.controller("sensorView", function($scope, $rootScope, $filter) {
             addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
         }  
     }
+    
+    // TODO Database update: Location (Make difference between add and edit) Jeroen
     $scope.save_loc = function save_loc() {
         if ($scope.location_form.$valid) {
             if (edit) {
@@ -311,6 +197,8 @@ app.controller("sensorView", function($scope, $rootScope, $filter) {
             addClass(document.getElementById("txtfield_SensorType"), "is-invalid");
         }                
     }
+    
+    // TODO Database update for sensor (cfr save_loc) Jeroen
     $scope.save_sen = function save_sen() {
         if ($scope.sensor_form.$valid) {
             if (edit_sen) {
@@ -371,6 +259,7 @@ app.controller("sensorView", function($scope, $rootScope, $filter) {
 		dialog2.close();
 	});
 	
+	// TODO Database update delete (location and sensor)
 	$scope.delete = function (id, from) {
 	    if (confirm('Are you sure you want to delete this item?')) {
 	        if (from.length === 1) {
@@ -394,87 +283,3 @@ app.controller("sensorView", function($scope, $rootScope, $filter) {
 	
     componentHandler.upgradeDom();
 });
-
-app.controller("loginCtrl", function($scope, $rootScope, $location) {
-  $scope.wrong_login = false;
-  $scope.login = function() {
-    if ($scope.login_form.$valid) {
-	
-	// COMMUNICATION WITH JEROEN :D
-	// PSEUDO : send("login", { ... data ... }, function(){ ... funtion stuff with switch for success, fail, ... });
-	ws.request("login", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_login) {
-		if (successful_login) {	
-			//$rootScope.auth_user = // TODO response(user);
-			$rootScope.auth_user = $scope.username;	 // The authenticated user is only the username
-			$rootScope.logged_in = true;
-			document.getElementById("dlgLogin").close();
-			$scope.wrong_login = false;
-			$location.path("/home");
-		} else {
-			$scope.wrong_login = true;
-		}
-		$scope.$apply();
-	}); // TODO
-	/*
-      for (var i = 0; i < database.length; i++) {
-        console.log(database[i]);
-        if ($scope.username === database[i].user_name && $scope.password === database[i].password) {
-          $rootScope.auth_user = database[i];
-          $rootScope.logged_in = true;
-          document.getElementById('dlgLogin').close();
-          $scope.wrong_login = false;    
-          // This will change the URL fragment. The change is reflected
-        // on your browser's address bar as well
-          $location.path("/home");
-          return;
-        }
-      }
-      $scope.wrong_login = true;
-	*/
-    }
-  };
-});
-
-app.controller("signupCtrl", function($scope) {
-  $scope.auth_user = null;
-  $scope.wrong_signup = false;
-  $scope.signup = function() {
-    if($scope.signup_form.$valid) {
-	    ws.request("signup", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_signup){
-		    if (successful_signup) {
-			    document.getElementById("dlgSignup").close();
-		    } else {
-			    $scope.wrong_signup = true;
-		    }
-		    $scope.$apply();
-	    });
-	}; // TODO
-	/*
-      database.push({
-				  user_name: $scope.username,
-				  email: $scope.email,
-				  password: $scope.password
-				});
-      document.getElementById('dlgSignup').close();
-    }*/
-  };
-});
-
-app.config(["$routeProvider", "$locationProvider",
-  function($routeProvider, $locationProvider){
-    $routeProvider.when("/", {
-        templateUrl: "/html/partials/index_tmp.html"
-
-    }).when("/home", {
-      templateUrl: "partials/home_tmp.html"
-    }).when("/statistics", {
-      templateUrl: "partials/statistics_tmp.html"
-    }).when("/sensors", {
-      templateUrl: "partials/sensors_tmp.html"
-    }).when("/social", {
-      templateUrl: "partials/social_tmp.html"
-    }).otherwise({
-        redirectTo: "/"
-    });
-    $locationProvider.html5Mode(true);
-}]);
