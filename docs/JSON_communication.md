@@ -9,6 +9,20 @@ Everything also contains an ID!
 		"data": ...
 	}
 
+## Errors
+
+If an error occurs and the requested operation did not complete; the backend will send a message back like this:
+
+	{
+		"ID": 123,
+		...
+		"data": "fail",
+		"error": {
+			"short": "short string to be interpreted by frontend",
+			"long": "long string for dialog etc"
+		}
+	}
+
 ## User Auth
 
 ### Signup
@@ -36,7 +50,8 @@ Server response (Fail):
 
 	{
 		"type": "signup",
-		"data": "fail"
+		"data": "fail",
+		"error": ...
 	}
 
 ### Login
@@ -51,12 +66,7 @@ Client message:
 		}
 	}
 
-Server response (Fail):
-
-	{
-		"type": "login",
-		"data": "fail"
-	}
+Server response (Fail): normal failure message
 
 Server response (Success):
 
@@ -84,9 +94,11 @@ No server response is needed.
 
 The `"what"` attribute is the class of the object you are dealing with. Example: `Sensor` or `User`.
 
+In the following "ID" refers to either "SID" (for Sensors) or "UID" (for Users) and so on
+
 ### Adding
 
-Client message:
+Message:
 
 	{
 		"type": "add",
@@ -94,7 +106,7 @@ Client message:
 		"data": <definition without ID>
 	}
 
-Server response (Success):
+Response (Success):
 
 	{
 		"type": "add",
@@ -102,39 +114,27 @@ Server response (Success):
 		"data": <entire definition with ID>
 	}
 
-Server response (Failure):
-	
-	{
-		"type": "add",
-		"what": <object class>,
-		"data": "failure"
-	}
+Response (Failure): normal failure message
 
 ### Deleting
 
-Client message:
+Message:
 
 	{
 		"type": "delete",
 		"what": <object class>,
-		""data": {
+		"data": {
 			"ID": <ID of what you want to delete>,
 		} 
 	}
 
-Server response:
-
-	{
-		"type": "add",
-		"what": <object class>,
-		"data": "fail" / "success"
-	}
+Response is either `"data" = "success"` or a typical fail message.
 
 ### Getting
 
 #### Getting a single object by ID
 
-Client message:
+Message:
 
 	{
 		"type": "get",
@@ -144,7 +144,7 @@ Client message:
 		}
 	}
 
-Server response (Success):
+Response (Success):
 
 	{
 		"type": "get",
@@ -152,13 +152,13 @@ Server response (Success):
 		"data": <entire definition>
 	}
 
-Server response (Fail): simple failure message like in Adding
+Response (Fail): normal fail message
 
 #### Getting multiple objects
 
 For now, we only support sensors, so by default the server will only send sensors that are owned by the user.
 
-Client message:
+Message:
 
 	{
 		"type": "get_all",
@@ -166,7 +166,7 @@ Client message:
 		// no data necessary
 	}
 
-Server response:
+Response:
 
 (Note, `"data"` is an array here)
 
@@ -180,7 +180,19 @@ Server response:
 		]
 	}
 
-There is no real failure, but it could be that the server returns an empty list.
+There can be failure, but it can also happen that the server returns an empty list. This is not considered an error.
+
+### Editing
+
+	{
+		"type": "edit",
+		"what": <class>,
+		"data": {
+			<new definition WITH ID>
+		}
+	}
+
+
 
 ## Definitions
 
@@ -202,3 +214,24 @@ ID's are separate for each type, so it may happen there is a user and a sensor w
 		"type": "Electricity",
 		"title": "Measures electricity usage of desktop",
 	}
+
+
+## Live updates
+
+	{
+		"ID": 123,
+		"type": "register" / "unregister",
+		"what": "<class>",
+		"data": {
+			"QID" / "SID": 123
+		}
+	}
+
+Server responses can be of type: `add`, `delete`, `edit`.
+
+For now, registering on a user will also send updates on which sensors the user owns.
+
+Closing the connection will unregister from any objects.
+
+`edit` will simply send a new definition of the object. 
+
