@@ -10,9 +10,9 @@ function connect_to_websocket() {
 		answers[currentId] = f;
 		var stringToSend = JSON.stringify({"ID": currentId, "type": type, "data": data});
 		websocket.send(stringToSend);	
+		currentId+=1;
 		console.log("Sent data to server:");
 		console.log(stringToSend);
-		currentId+=1;
 	}
 	
 	websocket.onopen = function() { 
@@ -78,14 +78,4 @@ function server_signup_response(data) {
 		return true;
 	}	
 }
-
-/*
-ws.request("login", data, function);
-handlers[generatedId] = function
-handlers[generatedId](arguments);
-
-function set_callback(type, callback) { handlers[type] = callback};
-
-set_callback("login", function(event) { console.log(event) }};
-*/
 
