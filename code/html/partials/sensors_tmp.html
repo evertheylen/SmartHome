@@ -111,9 +111,9 @@
                     <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName" required>
                     <label class="mdl-textfield__label" for="input_SensorName">{{i18n("name")}}</label>
                 </div>
-	            <tags-input ng-model="sen_tags" on-tag-added="add_autocomplete($tag)">
-		            <auto-complete min-length="1" source="check_autocomplete($query)" highlight-matched-text="false"></auto-complete>
-	            </tags-input>
+                <tags-input ng-model="sen_tags" on-tag-added="add_autocomplete($tag)">
+	                <auto-complete min-length="1" source="check_autocomplete($query)" highlight-matched-text="false"></auto-complete>
+                </tags-input>
 <!--                <div id="txtfield_SensorTags" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" ng-model="sen_tags" type="text" id="input_SensorTags" name="sensorTags">
                     <label class="mdl-textfield__label" for="input_SensorTag">Tags</label>

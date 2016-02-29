@@ -23,7 +23,6 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
     
     $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
     
-    
     $scope.required = true;
     $scope.selected_order = null;
     var edit_loc_id = null;
