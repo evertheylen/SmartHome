@@ -21,7 +21,6 @@
 						<tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
 							<td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
 							<td>
-								<!--TODO add events for these buttons (their purpose should be clear: delete and modify a location)-->
 								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, locations);"><i class="material-icons">delete</i></button>
 							</td>
@@ -41,7 +40,6 @@
 					<thead>
 						<tr class="tableHeadColor">
 							<th class="mdl-data-table__cell--non-numeric">
-								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
 
 								<button ng-click="set_order('name', 'sort_sensor')" id="sort_sensor" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
@@ -49,21 +47,19 @@
     							<span>Sensor</span>
 							</th>
 							<th>
-								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
 								<button ng-click="set_order('location', 'sort_location')" id="sort_location" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
     							<span>{{i18n("location")}}</span>
 							</th>
 							<th>
-								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
 								<button ng-click="set_order('type', 'sort_type')" id="sort_type" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
     							<span>Type</span>
 							</th>
+							
 							<th>
-								<!--TODO sort the column when some object of type sortColumnAttr is clicked-->
 								<button ng-click="set_order('tags', 'sort_tags')" id="sort_tags" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
@@ -116,7 +112,7 @@
                     <label class="mdl-textfield__label" for="input_SensorName">{{i18n("name")}}</label>
                 </div>
 	            <tags-input ng-model="sen_tags" on-tag-added="add_autocomplete($tag)">
-		            <auto-complete source="check_autocomplete($query)"></auto-complete>
+		            <auto-complete min-length="1" source="check_autocomplete($query)" highlight-matched-text="false"></auto-complete>
 	            </tags-input>
 <!--                <div id="txtfield_SensorTags" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" ng-model="sen_tags" type="text" id="input_SensorTags" name="sensorTags">
