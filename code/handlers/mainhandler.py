@@ -2,7 +2,7 @@ import tornado
 
 # Handlers are instantiated for every request!
 def create_MainHandler(controller):
-    f = open("html/base.html", "r")
+    f = open("html/index.html", "r")
     content = str(f.read())
     
     class MainHandler(tornado.web.RequestHandler):

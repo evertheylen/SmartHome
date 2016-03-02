@@ -1,32 +1,26 @@
+# This file is parsed by debughandler!
 
 signup
-
 {"type": "signup", "ID": 100, "data": {"email": "sint@mail.es", "first_name": "Sint", "last_name": "klaas", "password": "123"}}
 
 login
-
 {"type": "login", "ID": 200, "data": {"email": "sint@mail.es", "password": "123"}}
 
 logout
-
 {"type": "logout", "ID": 300}
 
-
-
 add (watch out for UID)
-
 {"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit", "UID": 25}}
+
+another add
 {"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit", "UID": 25}}
 
 get
-
 {"type": "get", "ID": 500, "what": "Sensor", "data": {"ID": 1}}
 
 get_all
-
 {"type": "get_all", "ID": 600, "what": "Sensor"}
 
 delete
-
-{"ID":"9", "type": "delete", "what": "Sensor", "data": {"ID": 1}}
+{"ID":9, "type": "delete", "what": "Sensor", "data": {"ID": 1}}
 

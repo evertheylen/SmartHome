@@ -68,6 +68,7 @@ class OverWatch():
                 (r'/js/(.*)', NoCacheStaticFileHandler, {'path': localdir("js")}),
                 (r'/static/(.*)', NoCacheStaticFileHandler, {'path': localdir("static")}),
                 (r"/ws", create_WsHandler(self.controller)),
+                (r"/debug", create_DebugHandler(self.controller)),
                 (r"/(.*)", create_MainHandler(self.controller)),
             ],
             **tornado_app_settings

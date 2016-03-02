@@ -2,6 +2,8 @@ import tornado
 import tornado.websocket
 from tornado import gen
 
+from util import *
+
 import json
 
 class Request:
@@ -11,11 +13,15 @@ class Request:
         self.dct = dct
         
     async def answer(self, data):
-        await self.conn.send({
+        d = {
             "ID": self.ID,
             "type": self.dct["type"],
             "data": data
-        })
+        }
+        for prop in self.dct:
+            if prop not in d:
+                d[prop] = self.dct
+        await self.conn.send(d)
     
 def create_WsHandler(controller):
     clients = set()
@@ -36,7 +42,16 @@ def create_WsHandler(controller):
                 #controller.handle_message(self, dct)
                 # Because this function is synchronous, we must use the IOLoop to get the async loop 'back'
                 r = Request(self, dct["ID"], dct)
-                tornado.ioloop.IOLoop.current().spawn_callback(controller.handle_request, r)
+                try:
+                    tornado.ioloop.IOLoop.current().spawn_callback(controller.handle_request, r)
+                except Authentication as e:
+                    controller.logger.warning(str(e))
+                    tornado.ioloop.IOLoop.current().spawn_callback(r.conn.send, {
+                        "ID": r.ID,
+                        "type": r.dct["type"],
+                        "data": "fail",
+                        "error": e.to_dict()
+                    })
             except json.JSONDecodeError as e:
                 controller.logger.warning("Server could not decode as JSON. Error: {}".format(message, e))
             except KeyError:

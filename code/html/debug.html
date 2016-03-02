@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>WebSocket Echo Test</title>
+		<script>
+			function init() { 
+				websocket = new WebSocket("ws://" + window.location.host + "/ws");
+				websocket.onopen = function() { document.getElementById("output").innerHTML = "<p>> CONNECTED</p>" + document.getElementById("output").innerHTML; };
+				websocket.onmessage = function(evt) { document.getElementById("output").innerHTML = "<p style='color: blue;'>> RESPONSE: " + evt.data + "</p>" + document.getElementById("output").innerHTML; };
+				websocket.onerror = function(evt) { document.getElementById("output").innerHTML = "<p style='color: red;'>> ERROR: " + evt.data + "</p>" + document.getElementById("output").innerHTML; };
+			}
+			
+			function sendMessage(message) {
+				document.getElementById("output").innerHTML = "<p>> SENT: " + message + "</p>" + document.getElementById("output").innerHTML;
+				websocket.send(message);
+			}
+			
+			window.addEventListener("load", init, false);
+		</script>
+		<style>
+		.shortcut {
+			float: left;
+		}
+		</style>
+	</head>
+	<body>
+		<input id="msg" onkeypress="if(this.value) {if (window.event.keyCode == 13) { sendMessage(this.value); this.value = null; }}" style="width:700px"/>
+		<button onclick="sendMessage(document.getElementById('msg').value)">SEND</button>
+		<br/>
+		<div>
+		{% for (k,v) in q.items() %}
+			<button class="shortcut" onclick="sendMessage('{{ v }}')">{{ k }}</button>
+		{% end %}
+		</div>
+		<hr/>
+		<hr/>
+		<div id="output"></div>
+	</body>
+</html>
