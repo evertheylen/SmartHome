@@ -68,10 +68,12 @@ class Base:
         return u
 
     @classmethod
-    async def delete(cls, db,dct):
-        await db.delete(cls.table_name, cls.db_key, dct)
+    async def delete(cls, db, ID):
+        await db.delete(cls.table_name, cls.db_key, ID)
         return cls.db_key
-
+    
+    # TODO execute delete on an object instead of the class, also for Values
+    
     @classmethod
     async def get(cls, db, ID):
         result = await db.get(cls.table_name, cls.db_key, ID)
