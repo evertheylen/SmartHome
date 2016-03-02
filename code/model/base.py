@@ -1,6 +1,8 @@
 
 import json
 
+from util import *
+
 create_table_template = """
 CREATE TABLE {tname} (
 {props}
@@ -77,13 +79,13 @@ class Base:
     @classmethod
     async def get(cls, db, ID):
         result = await db.get(cls.table_name, cls.db_key, ID)
-        # TODO handle error when result is None
+        if result is None:
+            raise NotFound("not_found", "Could not find the required " + cls.__name__, "ID = " +repr(ID))
         return cls.from_db(result)
 
     @classmethod
     async def get_all(cls, db):
         result = await db.get_all(cls.table_name, cls.db_key)
-        # TODO handle error when result is None 
         return [cls.from_db(tupl) for tupl in result]
 
     def to_dict(self):
