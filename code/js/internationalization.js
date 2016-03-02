@@ -11,6 +11,8 @@ var html_strings = {
     "logout": ["Logout", "Afmelden"],
     "homepage_welcome": ["Welcome to", "Welkom bij"],
     "username": ["Username", "Gebruikersnaam"],
+    "firstname": ["Firstname", "Voornaam"],
+    "lastname": ["Lastname", "Achternaam"],
     "password": ["Password", "Paswoord"],
     "privacy": ["Privacy & Terms", "Privacy & Condities"], 
     "required_field": ["This field is required", "Dit veld is verplicht"],
@@ -38,5 +40,10 @@ var html_strings = {
     "locations": ["Locations", "Locaties"],
     "location": ["Location", "Locatie"],
     "mark_unimportant": ["Mark as unimportant", "Markeren als onbelangrijk"],
-    "mark_important": ["Mark as important", "Markeren als belangrijk"]
+    "mark_important": ["Mark as important", "Markeren als belangrijk"],
+    "confirm_title": ["Confirmation", "Bevestiging"],
+    "confirm_text": ["This item will be removed permanently from your interface.\nAre you sure you want to continue?", 
+    "Dit item zal voorgoed verwijderd worden uit uw interface.\nBent u zeker dat u wilt doorgaan?"],
+    "continue": ["Continue", "Doorgaan"],
+    "cancel": ["Cancel", "Annuleren"]
 };

@@ -33,6 +33,11 @@ angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, 
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
     });
+	$rootScope.confirm_dialog = document.getElementById('dlgConfirm');
+	$rootScope.confirm = function (value) {  
+	    $scope.$broadcast("confirmation", value);
+	    $rootScope.confirm_dialog.close();
+	}
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",

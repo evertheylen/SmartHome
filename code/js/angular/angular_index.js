@@ -31,10 +31,10 @@ angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope,
 	
 	// COMMUNICATION WITH JEROEN :D
 	// PSEUDO : send("login", { ... data ... }, function(){ ... funtion stuff with switch for success, fail, ... });
-	ws.request("login", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_login) {
+	ws.request("login", {email: $scope.email, password: $scope.password}, function(successful_login) {
 		if (successful_login) {	
 			//$rootScope.auth_user = // TODO response(user);
-			$rootScope.auth_user = $scope.username;	 // The authenticated user is only the username
+			$rootScope.auth_user = $scope.email;	 // TODO Save the user ID and greet him by his full name (left of logout)
 			$rootScope.logged_in = true;
 			document.getElementById("dlgLogin").close();
 			$scope.wrong_login = false;
@@ -69,11 +69,11 @@ angular.module("overwatch").controller("signupCtrl", function($scope) {
   $scope.wrong_signup = false;
   $scope.signup = function() {
     if($scope.signup_form.$valid) {
-	    ws.request("signup", {user_name: $scope.username, email: $scope.email, password: $scope.password}, function(successful_signup){
+	    ws.request("signup", {first_name: $scope.firstname, last_name: $scope.last_name, email: $scope.email, password: $scope.password}, function(successful_signup){
 		    if (successful_signup) {
 			    document.getElementById("dlgSignup").close();
 		    } else {
-			    $scope.wrong_signup = true;
+			    $scope.wrong_signup = true; // TODO Handle the returned error message.
 		    }
 		    $scope.$apply();
 	    });
