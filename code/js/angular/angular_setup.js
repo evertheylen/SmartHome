@@ -46,13 +46,13 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
         templateUrl: "/html/partials/index_tmp.html"
 
     }).when("/home", {
-      templateUrl: "partials/home_tmp.html"
+      templateUrl: "/html/partials/home_tmp.html"
     }).when("/statistics", {
-      templateUrl: "partials/statistics_tmp.html"
+      templateUrl: "/html/partials/statistics_tmp.html"
     }).when("/sensors", {
-      templateUrl: "partials/sensors_tmp.html"
+      templateUrl: "/html/partials/sensors_tmp.html"
     }).when("/social", {
-      templateUrl: "partials/social_tmp.html"
+      templateUrl: "/html/partials/social_tmp.html"
     }).otherwise({
         redirectTo: "/"
     });
