@@ -92,6 +92,15 @@ class Controller:
                 await req.answer(s.to_dict())
             else:
                 raise Authentication("forbidden", "You can not access this sensor")
+        elif req.dct["what"] == "Value":
+            assert(req.dct["for"]["what"] == "Sensor")
+            if (await Sensor.get(self.db,req.dct["for"]["SID"])).UID == req.conn.user.UID:
+                new_dict = {"SID": req.dct["for"]["SID"],"time": req.dct["data"][0],"value": req.dct["data"][1]}
+                v = await Value.new(self.db, new_dict)
+                await req.answer(v.to_dict())
+            else:
+                raise Authentication("forbidden", "You can not access this sensor")
+
 
     @require_user_level(1)
     async def get(self, req):

@@ -7,16 +7,16 @@ class Value(Base):
         self.SID = SID
         self.time = time
         self.value = value
-    
+
     def to_dict(self):
         return [self.time, self.value]
-    
+
     @classmethod
     def create_table_command(cls):
         props = ",\n".join([property_template.format(n, t) for (n, t) in cls.db_props.items()]
                            + ["    PRIMARY KEY (SID, time)"])
         return create_table_template.format(props=props, tname=cls.table_name)
-    
+
     @classmethod
     async def new(cls, db, dct):
         db_insert_props = list(cls.db_props.keys())
@@ -30,7 +30,7 @@ class Value(Base):
     async def delete(cls, db, ID):
         await db.delete(cls.table_name, cls.db_key, ID)
         return cls.db_key
-    
+
 
     @classmethod
     async def get(cls, db, ID):
@@ -55,4 +55,3 @@ class Value(Base):
 
     db_key = ("SID", "time")
     table_name = "Values"
-
