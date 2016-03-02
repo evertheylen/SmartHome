@@ -34,6 +34,16 @@ class NoCacheStaticFileHandler(tornado.web.StaticFileHandler):
         # Disable cache
         self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
 
+class MainHandler(tornado.web.RequestHandler):
+        def get(self, *args):
+            f = open(localdir("../code/html/index.html"))
+            self.write(f.read())
+        
+        def set_extra_headers(self, path):
+            # Disable cache
+            self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        
+
 class WsHandler(tornado.websocket.WebSocketHandler):
     request_counter = 1  # The state is for all instances the same
     clients = set()
@@ -157,7 +167,8 @@ def shell():
 def server_thread():
     # Executes the tornado stuff
     app = tornado.web.Application([
-        (r'/ws', WsHandler), 
+        (r'/ws', WsHandler),
+        (r'/', MainHandler),
         (r'/(.*)', NoCacheStaticFileHandler, {'path': localdir(options.location)})
     ])
     print("Websocket server location = ws://localhost:%d/ws"%options.port)
