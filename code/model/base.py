@@ -71,17 +71,19 @@ class Base:
     async def delete(cls, db, ID):
         await db.delete(cls.table_name, cls.db_key, ID)
         return cls.db_key
-    
+
     # TODO execute delete on an object instead of the class, also for Values
-    
+
     @classmethod
     async def get(cls, db, ID):
         result = await db.get(cls.table_name, cls.db_key, ID)
+        # TODO handle error when result is None
         return cls.from_db(result)
 
     @classmethod
     async def get_all(cls, db):
         result = await db.get_all(cls.table_name, cls.db_key)
+        # TODO handle error when result is None 
         return [cls.from_db(tupl) for tupl in result]
 
     def to_dict(self):
