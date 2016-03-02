@@ -47,12 +47,15 @@ tags-input .tags .tag-item {
   font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
   height: 26px;
   line-height: 25px;
-  border: 1px solid #acacac;
+  background-color: rgb(240,240,240);
+  border-radius: 1px;
+  /*border: 1px solid #acacac;
   border-radius: 3px;
   background: -webkit-linear-gradient(top, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);
-  background: linear-gradient(to bottom, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);
+  background: linear-gradient(to bottom, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);*/
 }
 tags-input .tags .tag-item.selected {
+  background-color: #ff5c5c;
   background: -webkit-linear-gradient(top, #febbbb 0%, #fe9090 45%, #ff5c5c 100%);
   background: linear-gradient(to bottom, #febbbb 0%, #fe9090 45%, #ff5c5c 100%);
 }
@@ -158,3 +161,22 @@ tags-input .autocomplete .suggestion-item em {
 }
 
 /*# sourceMappingURL=ng-tags-input.css.map */
+
+tags-input .tags .tag-item:hover {
+  margin: 2px;
+  padding: 0 5px;
+  display: inline-block;
+  float: left;
+  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  height: 26px;
+  line-height: 25px;
+  background-color: rgb(220,220,220);
+  border-radius: 1px;
+  /*border: 1px solid #acacac;
+  border-radius: 3px;
+  background: -webkit-linear-gradient(top, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);
+  background: linear-gradient(to bottom, #f0f9ff 0%, #cbebff 47%, #a1dbff 100%);*/
+}
+
+
+

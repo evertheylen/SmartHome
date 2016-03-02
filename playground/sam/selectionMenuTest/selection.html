@@ -6,12 +6,16 @@
 		li > button{
 			width: 100%;
 		}
+		.dropDownBtn{
+			max-height: 100px;
+			overflow-y: auto;
+		}
 	</style>
 
 
 	<script>
-		function handleClick(clicked){
-			var toChange = document.getElementById("demo-menu-lower-left");
+		function dropDownClick(clicked, dropDownButtonID){
+			var toChange = document.getElementById(dropDownButtonID);
 			toChange.innerHTML = clicked.innerHTML;
 		}
 	</script>
@@ -22,26 +26,42 @@
 
 </head>
 <body>
-	<button id="demo-menu-lower-left" class="mdl-button mdl-js-button">
+	<button id="dropDownLocation" class="mdl-button mdl-js-button dropDownBtn">
 		Houses
 	</button>
 
-	<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-left">
+	<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="dropDownLocation">
 		<li>
 			<button id="btnSelect1" class="mdl-button mdl-js-button"
-				onclick="handleClick(this)">Button1</button>
+				onclick="dropDownClick(this, 'dropDownLocation')">Button1</button>
 		</li>
 		<li>
 			<button id="btnSelect2" class="mdl-button mdl-js-button"
-				onclick="handleClick(this)">Button2</button>
+				onclick="dropDownClick(this, 'dropDownLocation')">Button2</button>
 		</li>
 		<li>
 			<button id="btnSelect3" class="mdl-button mdl-js-button"
-				onclick="handleClick(this)">Button3</button>
+				onclick="dropDownClick(this, 'dropDownLocation')">Button3</button>
 		</li>
 		<li>
 			<button id="btnSelect4" class="mdl-button mdl-js-button"
-				onclick="handleClick(this)">Button4</button>
+				onclick="dropDownClick(this, 'dropDownLocation')">Button4</button>
+		</li>
+		<li>
+			<button id="btnSelect5" class="mdl-button mdl-js-button"
+				onclick="dropDownClick(this, 'dropDownLocation')">Button5</button>
+		</li>
+		<li>
+			<button id="btnSelect6" class="mdl-button mdl-js-button"
+				onclick="dropDownClick(this, 'dropDownLocation')">Button6</button>
+		</li>
+		<li>
+			<button id="btnSelect7" class="mdl-button mdl-js-button"
+				onclick="dropDownClick(this, 'dropDownLocation')">Button7</button>
+		</li>
+		<li>
+			<button id="btnSelect8" class="mdl-button mdl-js-button"
+				onclick="dropDownClick(this, 'dropDownLocation')">Button8</button>
 		</li>
 	</ul>
 

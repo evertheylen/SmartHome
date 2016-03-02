@@ -121,10 +121,32 @@
 				<div id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label>{{i18n("location")}}</label>
 
-					<select ng-model="sen_location" class="browser-default" required>
+					<!-- the old way: <select ng-model="sen_location" class="browser-default" required>
 						<option value="" disabled selected>{{i18n("pick_loc")}}</option>
 						<option ng-repeat="location in locations">{{location.desc}}</option>
-					</select>
+					</select>-->
+
+					<button id="dropDownLocation" class="mdl-button mdl-js-button"
+							style="max-height: 200px; overflow-y: auto;">
+						Select your location
+					</button>
+					<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="dropDownLocation">
+						<li>
+								<!--TODO dropDownClick(this, 'dropDownLocation') is a function that changes the
+								innerHTML of the button to that of the clicked button, this should be somewhere,
+								but i don't know where i'm allowed to put this function
+
+								function dropDownClick(clicked, dropDownButtonID){
+									var toChange = document.getElementById(dropDownButtonID);
+									toChange.innerHTML = clicked.innerHTML;
+								}
+		
+								-->
+							<button id="btnSelect1" class="mdl-button mdl-js-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">Button1</button>
+						</li>
+					</ul>
 				</div>
 				<div id="txtfield_SensorType" class="mdl-selectfield">
 					<label>Type</label>
