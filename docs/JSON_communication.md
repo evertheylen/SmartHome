@@ -94,7 +94,22 @@ No server response is needed.
 
 The `"what"` attribute is the class of the object you are dealing with. Example: `Sensor` or `User`.
 
-In the following "ID" refers to either "SID" (for Sensors) or "UID" (for Users) and so on
+In the following `"ID"` refers to either `"SID"` (for Sensors) or `"UID"` (for Users) and so on.
+
+In some cases, there is a `"for"` attribute. This is used to refer to objects related to some other object. An example is adding a value for a given sensor.
+It looks like this:
+
+	{
+		...
+		"for": {
+			"what": "Sensor",
+			"SID": 123,
+		}
+		...
+	}
+
+You have to add a `"for"` attribute when it is not clear what you mean. For example, when adding values the definition is not enough to know for which sensor the value holds. 
+"Bigger" datatypes will usually store ID's of other object they refer to (e.g. a Sensor has a `"UID"` attribute).
 
 ### Adding
 
@@ -116,6 +131,8 @@ Response (Success):
 
 Response (Failure): normal failure message
 
+When adding values, you need to specify for which sensor it is.
+
 ### Deleting
 
 Message:
@@ -129,6 +146,8 @@ Message:
 	}
 
 Response is either `"data" = "success"` or a typical fail message.
+
+Again, for values you need a `"for"` attribute.
 
 ### Getting
 
@@ -154,16 +173,19 @@ Response (Success):
 
 Response (Fail): normal fail message
 
-#### Getting multiple objects
+So far there is no way to get a single Value, and therefore no `"get"` message will need a `"for"` attribute (this may change in the future).
 
-For now, we only support sensors, so by default the server will only send sensors that are owned by the user.
+#### Getting multiple objects
 
 Message:
 
 	{
 		"type": "get_all",
 		"what": "Sensor",
-		// no data necessary
+		"for": {
+			"what": "User",
+			"UID": "123",
+		}
 	}
 
 Response:
@@ -173,6 +195,10 @@ Response:
 	{
 		"type": "get_all",
 		"what": "Sensor",
+		"for": {
+			"what": "User",
+			"UID": "123",
+		}
 		"data": [
 			<definition 1>,
 			<definition 2>,
@@ -181,6 +207,36 @@ Response:
 	}
 
 There can be failure, but it can also happen that the server returns an empty list. This is not considered an error.
+
+Another example for Data:
+
+Message:
+
+	{
+		"type": "get_all",
+		"what": "Values",
+		"for": {
+			"what": "Sensor",
+			"SID": "123",
+		}
+	}
+
+Response:
+
+	{
+		"type": "get_all",
+		"what": "Values",
+		"for": {
+			"what": "Sensor",
+			"SID": "123",
+		}
+		"data": [
+			[1234567890, 3.1415],
+			[1234567891, 3.1546],
+			[1234567891, 3.7460],
+			...
+		]
+	}
 
 ### Editing
 
@@ -215,6 +271,16 @@ ID's are separate for each type, so it may happen there is a user and a sensor w
 		"title": "Measures electricity usage of desktop",
 	}
 
+#### Values
+
+A value for a given sensor is encoded in JSON as a simple array (should be interpreted as a tuple):
+
+	[1234567890, 12.457]
+
+The first number is the amount of milliseconds since the UNIX epoch. In Linux you can get that value using `date +%s%3N` and in
+Javascript you can simply construct a Date object with that number: `var d = new Date(1234567890)`. The second number is a real number.
+
+A value is uniquely identified by the sensor and it's timestamp.
 
 ## Live updates
 
