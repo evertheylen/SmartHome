@@ -27,7 +27,7 @@ class Base:
         props = ",\n".join([property_template.format(n, t) for (n, t) in cls.db_props.items()])
         return create_table_template.format(props=props, tname=cls.table_name)
 
-
+    
     """
     @classmethod
     def fromJSON(cls, json_str):
@@ -94,3 +94,11 @@ class Base:
 
     def to_json(self):
         return json.dumps(self.to_dict())
+    
+    # Hashing and equality
+    def __eq__(self, other):
+        return type(self) == type(other) and self.__dict__[self.db_key] == other.__dict__[other.db_key]
+    
+    def __hash__(self):
+        return hash(self.__class__) + hash(self.__dict__[self.db_key])
+    

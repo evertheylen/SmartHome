@@ -131,7 +131,7 @@ Response (Success):
 
 Response (Failure): normal failure message
 
-When adding values, you need to specify for which sensor it is.
+When adding a value, you need to specify for which sensor it is.
 
 ### Deleting
 
@@ -147,7 +147,7 @@ Message:
 
 Response is either `"data" = "success"` or a typical fail message.
 
-Again, for values you need a `"for"` attribute.
+Again, for a value you need a `"for"` attribute.
 
 ### Getting
 
@@ -214,7 +214,7 @@ Message:
 
 	{
 		"type": "get_all",
-		"what": "Values",
+		"what": "Value",
 		"for": {
 			"what": "Sensor",
 			"SID": "123",
@@ -225,7 +225,7 @@ Response:
 
 	{
 		"type": "get_all",
-		"what": "Values",
+		"what": "Value",
 		"for": {
 			"what": "Sensor",
 			"SID": "123",
@@ -271,7 +271,7 @@ ID's are separate for each type, so it may happen there is a user and a sensor w
 		"title": "Measures electricity usage of desktop",
 	}
 
-#### Values
+#### Value
 
 A value for a given sensor is encoded in JSON as a simple array (should be interpreted as a tuple):
 

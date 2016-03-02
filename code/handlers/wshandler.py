@@ -69,6 +69,7 @@ def create_WsHandler(controller):
         def on_close(self):
             if self in clients:
                 clients.remove(self)
+            tornado.ioloop.IOLoop.current().spawn_callback(controller.conn_close, self)
 
 
 

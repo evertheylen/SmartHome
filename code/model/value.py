@@ -42,6 +42,12 @@ class Value(Base):
         result = await db.get_all(cls.table_name, cls.db_key)
         return [cls.from_db(tupl) for tupl in result]
     
+    def __eq__(self, other):
+        return type(self) == type(other) and all([self.__dict__[k] == other.__dict__[k] for k in self.db_key])
+    
+    def __hash__(self):
+        return hash(Value) + sum([hash(self.__dict__[k]) for k in self.db_key])
+    
     db_props = OrderedDict([
                 ("SID", "INT REFERENCES Sensors"),
                 ("time", "TIMESTAMP"),

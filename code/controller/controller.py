@@ -34,8 +34,7 @@ class Controller:
         self.sessions = {}
         # Session --> UID
 
-        self.listeners = defaultdict(lambda: defaultdict(set))  # TODO
-        # Type --> ID --> {jef, jos, maria}
+        self.listeners = ListenerCache()
 
     def get_user(self, session):
         if session in self.sessions:
@@ -73,7 +72,18 @@ class Controller:
             self.logger.debug("data = " + repr(req.dct["data"]))
             u = await User.new(self.db, req.dct["data"])
             await req.answer("success")
-
+    
+    
+    async def register(self, req):
+        # TODO permissions!
+        pass
+        
+    async def unregister(self, req):
+        pass
+    
+    async def conn_close(self, conn):
+        self.listeners.unregister_all(conn)
+    
     @require_user_level(1)
     async def add(self,req):
         if req.dct["what"] == "Sensor":
