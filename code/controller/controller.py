@@ -90,10 +90,22 @@ class Controller:
 
     @require_user_level(1)
     async def get_all(self, req):
-        if req.dct["what"] == "Sensor":
-            res = await self.db.get_multi(Sensor.table_name, "UID", req.conn.user.UID)
-            ss = [Sensor.from_db(t) for t in res]
-            await req.answer([s.to_dict() for s in ss])
+        # check if extra conditions are given
+        if "for" in req.dct:
+            if req.dct["for"]["what"] == "User" and req.dct["what"] == "Sensor":
+                res = await self.db.get_multi(Sensor.table_name, "UID", req.dct["for"]["UID"])
+                ss = [Sensor.from_db(t) for t in res]
+                await req.answer([s.to_dict() for s in ss])
+
+            elif req.dct["for"]["what"] == "Sensor" and req.dct["what"] == "Values":
+                res = await self.db.get_multi(Value.table_name, "SID", req.dct["for"]["SID"])
+                ss = [Value.from_db(t) for t in res]
+                await req.answer([s.to_dict() for s in ss])
+        else:
+            if req.dct["what"] == "Sensor":
+                res = await self.db.get_multi(Sensor.table_name, "UID", req.conn.user.UID)
+                ss = [Sensor.from_db(t) for t in res]
+                await req.answer([s.to_dict() for s in ss])
 
 
     @require_user_level(1)
