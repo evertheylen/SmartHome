@@ -205,6 +205,13 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
                 $scope.sensors[edit_sen_id].tags = $scope.sen_tags;
                 $scope.sensors[edit_sen_id].type = $scope.sen_type;
                 $scope.sensors[edit_sen_id].location = $scope.sen_location;
+            	/*ws.request("edit", {SID: edit_sen_id, title: $scope.sen_name, UID: TODO, type: $scope.sen_type}, function(successful_edit) {
+		            if (successful_edit) {	
+			            document.getElementById("dlgSensor").close();
+		            } else {
+		            }
+		            $scope.$apply();
+	            });*/
             } else {
                 var new_sensor = {};
                 new_sensor.name = $scope.sen_name;
@@ -212,6 +219,13 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
                 new_sensor.location = $scope.sen_location;
                 new_sensor.type = $scope.sen_type;
                 $scope.sensors.push(new_sensor);
+            	/*ws.request("add", {title: $scope.sen_name, UID: TODO, type: $scope.sen_type}, function(successful_add) {
+		            if (successful_add) {	
+			            document.getElementById("dlgSensor").close();
+		            } else {
+		            }
+		            $scope.$apply();
+	            });*/                
             }
             dialog2.close();
         }
@@ -257,18 +271,34 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 	document.getElementById('btnSensorBack').addEventListener('click', function(){
 		dialog2.close();
 	});
+	var delete_id = null;    // TODO Nasty global vars
+	var delete_from = null;
 	
 	// TODO Database update delete (location and sensor)
 	$scope.delete = function (id, from) {
-	    if (confirm('Are you sure you want to delete this item?')) {
-	        if (from.length === 1) {
-	            from.length = 0;          // TODO THIS DOESNT WORK FOR SOME REASON?!
-	            return;
-	        }
-	        from.splice(id, 1);    // TODO Do this shit in database
-	    };
+        $rootScope.confirm_dialog.showModal();
+        componentHandler.upgradeDom();
+        delete_id = id;
+        delete_from = from;
 	};
-	
+    $scope.$on("confirmation", function (event, value) {
+        if (value) {
+            if (delete_from.length === 1) {
+                delete_from.length = 0;          // TODO THIS DOESNT WORK FOR SOME REASON?!
+                return;
+            }
+            delete_from.splice(delete_id, 1);    // TODO Do this shit in database
+            return;
+        	/*ws.request("delete", {SID: id}, function(successful_delete) {
+                if (successful_delete) {	
+                } else {
+                }
+                $scope.$apply();
+            });*/
+            
+        };
+    });
+
     $scope.open_dialog = function(element_id, id, sensor) {
         var element = document.getElementById(element_id);
         element.showModal();
