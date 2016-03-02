@@ -1,26 +1,44 @@
-# This file is parsed by debughandler!
 
 signup
-{"type": "signup", "ID": 100, "data": {"email": "sint@mail.es", "first_name": "Sint", "last_name": "klaas", "password": "123"}}
+
+{"type": "signup", "ID": 100, "data": {"email": "sint@mail.es", "first_name": "Sint", "last_name": "kas", "password": "123"}} 
+
+{"type": "signup", "ID": 1, "data": {"email": "ant@mail.es", "first_name": "Sint", "last_name": "kas", "password": "123"}}
+
+{"type": "signup", "ID": 2, "data": {"email": "anthony.hermans@hotmail.com", "first_name": "Anthony", "Hermans": "kas", "password": "wachtwoord"}}
 
 login
-{"type": "login", "ID": 200, "data": {"email": "sint@mail.es", "password": "123"}}
+
+{"type": "login", "ID": 20, "data": {"email": "sint@mail.es", "password": "123"}}
+
+{"type": "login", "ID": 21, "data": {"email": "ant@mail.es", "password": "123"}}
+
+{"type": "login", "ID": 22, "data": {"email": "anthony.hermans@hotmail.com", "password": "wachtwoord"}}
 
 logout
+
 {"type": "logout", "ID": 300}
 
-add (watch out for UID)
-{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit", "UID": 25}}
 
-another add
+
+add (watch out for UID)
+
+{"type": "add", "ID": 399, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit", "UID": 25}}
 {"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit", "UID": 25}}
+{"type": "add", "ID": 401, "what": "Sensor", "data": {"type": "Power", "title": "Measure shit", "UID": 250}}
+{"type": "add", "ID": 402, "what": "Sensor", "data": {"type": "Chocolade", "title": "Hey waar is de chocolade? Op, op alles is op", "UID": 251}}
+
+
 
 get
+
 {"type": "get", "ID": 500, "what": "Sensor", "data": {"ID": 1}}
 
 get_all
+
 {"type": "get_all", "ID": 600, "what": "Sensor"}
 
 delete
-{"ID":9, "type": "delete", "what": "Sensor", "data": {"ID": 1}}
+
+{"ID":"9", "type": "delete", "what": "Sensor", "data": {"ID": 1}}
 
