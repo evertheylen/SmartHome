@@ -34,7 +34,7 @@ class Controller:
         self.sessions = {}
         # Session --> UID
 
-        self.listeners = ListenerCache()
+        self.listeners = ListenersCache()
 
     def get_user(self, session):
         if session in self.sessions:
