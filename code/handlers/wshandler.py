@@ -23,6 +23,19 @@ class Request:
                 d[prop] = self.dct
         await self.conn.send(d)
     
+async def wrap_errors(controller, req):
+    try:
+        await controller.handle_request(req)
+    except Error as e:
+        controller.logger.warning(str(e))
+        await req.conn.send({
+            "ID": req.ID,
+            "type": req.dct["type"],
+            "data": "fail",
+            "error": e.to_dict()
+        })
+
+
 def create_WsHandler(controller):
     clients = set()
 
@@ -42,16 +55,8 @@ def create_WsHandler(controller):
                 #controller.handle_message(self, dct)
                 # Because this function is synchronous, we must use the IOLoop to get the async loop 'back'
                 r = Request(self, dct["ID"], dct)
-                try:
-                    tornado.ioloop.IOLoop.current().spawn_callback(controller.handle_request, r)
-                except Authentication as e:
-                    controller.logger.warning(str(e))
-                    tornado.ioloop.IOLoop.current().spawn_callback(r.conn.send, {
-                        "ID": r.ID,
-                        "type": r.dct["type"],
-                        "data": "fail",
-                        "error": e.to_dict()
-                    })
+                
+                tornado.ioloop.IOLoop.current().spawn_callback(wrap_errors, controller, r)
             except json.JSONDecodeError as e:
                 controller.logger.warning("Server could not decode as JSON. Error: {}".format(message, e))
             except KeyError:

@@ -9,6 +9,7 @@ from functools import wraps
 
 from collections import defaultdict
 from model import *
+from util import *
 
 # Decorator
 def require_user_level(level):
@@ -16,7 +17,7 @@ def require_user_level(level):
         @wraps(method)
         async def handler_wrapper(self, req):
             if req.conn.user is None:
-                raise Exception("conn.user is None, can't use type " + method.__name__)
+                raise Authentication("not_logged_in", "You need to be logged in", "conn.user is None, can't use type " + method.__name__)
             else:
                 # TODO check level
                 await method(self, req)
@@ -61,13 +62,13 @@ class Controller:
             req.conn.session = session
             await req.answer({"session": session, "user": u.to_dict()})
         else:
-            await req.answer("fail")
+            raise Authentication("wrong_password", "Wrong password provided")
 
     async def signup(self, req):
         res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
         if res is not None:
             self.logger.error("Email %s already taken"%req.dct["data"]["email"])
-            await req.answer("fail")
+            raise Error("email_taken", "Email is already taken")
         else:
             self.logger.debug("data = " + repr(req.dct["data"]))
             u = await User.new(self.db, req.dct["data"])
@@ -80,7 +81,7 @@ class Controller:
                 s = await Sensor.new(self.db, req.dct["data"])
                 await req.answer(s.to_dict())
             else:
-                await req.answer("fail")
+                raise Authentication("forbidden", "You can not access this sensor")
 
     @require_user_level(1)
     async def get(self, req):

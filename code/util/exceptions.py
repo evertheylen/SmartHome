@@ -4,7 +4,7 @@ class Error(Exception):
     Base class for OverWatch exceptions.
     """
     
-    def __init__(self, short, long, backend_msg):
+    def __init__(self, short, long, backend_msg="..."):
         self.short = short
         self.long = long
         self.backend_msg = backend_msg
