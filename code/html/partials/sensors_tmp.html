@@ -125,12 +125,12 @@
 						<option value="" disabled selected>{{i18n("pick_loc")}}</option>
 						<option ng-repeat="location in locations">{{location.desc}}</option>
 					</select>-->
-
-					<button id="dropDownLocation" class="mdl-button mdl-js-button"
-							style="max-height: 200px; overflow-y: auto;">
+					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
+					<button id="dropDownLocation" class="mdl-button mdl-js-button">
 						Select your location
 					</button>
-					<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="dropDownLocation">
+					<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="dropDownLocation"
+						style="overflow-y: scroll; max-height: 140px;">
 						<li>
 								<!--TODO dropDownClick(this, 'dropDownLocation') is a function that changes the
 								innerHTML of the button to that of the clicked button, this should be somewhere,
@@ -140,11 +140,36 @@
 									var toChange = document.getElementById(dropDownButtonID);
 									toChange.innerHTML = clicked.innerHTML;
 								}
-		
+	
 								-->
 							<button id="btnSelect1" class="mdl-button mdl-js-button"
 								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1</button>
+								style="width: 100%;">Button1
+							</button>
+							<button id="btnSelect1" class="mdl-button mdl-js-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">Button1
+							</button>
+							<button id="btnSelect1" class="mdl-button mdl-js-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">Button1
+							</button>
+							<button id="btnSelect1" class="mdl-button mdl-js-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">Button1
+							</button>
+							<button id="btnSelect1" class="mdl-button mdl-js-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">Button1
+							</button>
+							<button id="btnSelect1" class="mdl-button mdl-js-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">Button1
+							</button>
+							<button id="btnSelect1" class="mdl-button mdl-js-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">Button1
+							</button>
 						</li>
 					</ul>
 				</div>
