@@ -3,9 +3,11 @@
 while True:
     r = wait(".*")
     if r["type"] == "login":
-        r.answer({"type": "login", "data": "fail"})
+        r.answer({"type": "login", "data": {"session": 123}})
     elif r["type"] == "signup":
         r.answer({"type": "signup", "data": "success"})
+    elif r["type"] == "add":
+        r.answer({"type": "add", "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit", "UID": 25, "SID": 2}})
         '''
 r = wait("signup")
 r.answer({"type": "signup", "data": "success"})

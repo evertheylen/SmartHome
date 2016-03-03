@@ -43,6 +43,8 @@ function connect_to_websocket() {
 			case "login":
 				polishedObject = server_login_response(receivedObject);
 				break;
+				
+			// TODO Jeroen :p ik verwacht hier alle cases die worden afgehandeld :)
 		}
 		
 		if (receivedObject.hasOwnProperty("ID")) {

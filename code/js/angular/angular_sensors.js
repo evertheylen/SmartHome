@@ -219,15 +219,15 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
                 new_sensor.location = $scope.sen_location;
                 new_sensor.type = $scope.sen_type;
                 $scope.sensors.push(new_sensor);
-            	/*ws.request("add", {title: $scope.sen_name, UID: TODO, type: $scope.sen_type}, function(successful_add) {
+            	ws.request("add", {title: $scope.sen_name, UID: 3, type: $scope.sen_type}, function(successful_add) {
 		            if (successful_add) {	
-			            document.getElementById("dlgSensor").close();
+			            dialog2.close();
 		            } else {
 		            }
 		            $scope.$apply();
-	            });*/                
+	            });                
             }
-            dialog2.close();
+            //dialog2.close();
         }
     }   
     function set_sen(id) {

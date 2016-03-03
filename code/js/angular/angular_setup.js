@@ -38,6 +38,10 @@ angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, 
 	    $scope.$broadcast("confirmation", value);
 	    $rootScope.confirm_dialog.close();
 	}
+	
+	$scope.$on('$locationChangeSuccess', function() {
+	    console.log("New Location: " + $location.path());
+	});
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",
