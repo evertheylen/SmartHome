@@ -118,6 +118,7 @@
                     <input class="mdl-textfield__input" ng-model="sen_tags" type="text" id="input_SensorTags" name="sensorTags">
                     <label class="mdl-textfield__label" for="input_SensorTag">Tags</label>
                 </div>-->
+                
 				<div id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label>{{i18n("location")}}</label>
 
@@ -126,10 +127,10 @@
 						<option ng-repeat="location in locations">{{location.desc}}</option>
 					</select>-->
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
-					<button id="dropDownLocation" class="mdl-button mdl-js-button">
+					<button id="dropDownLocation" class="mdl-button">
 						Select your location
 					</button>
-					<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="dropDownLocation"
+					<ul id="menu" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
 								<!--TODO dropDownClick(this, 'dropDownLocation') is a function that changes the
@@ -142,31 +143,15 @@
 								}
 	
 								-->
-							<button id="btnSelect1" class="mdl-button mdl-js-button"
+							<button id="btnSelect1" class="mdl-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">{{5+5}}
+							</button>
+							<button id="btnSelect1" class="mdl-button"
 								onclick="dropDownClick(this, 'dropDownLocation')"
 								style="width: 100%;">Button1
 							</button>
-							<button id="btnSelect1" class="mdl-button mdl-js-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
-							<button id="btnSelect1" class="mdl-button mdl-js-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
-							<button id="btnSelect1" class="mdl-button mdl-js-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
-							<button id="btnSelect1" class="mdl-button mdl-js-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
-							<button id="btnSelect1" class="mdl-button mdl-js-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
-							<button id="btnSelect1" class="mdl-button mdl-js-button"
+							<button id="btnSelect1" class="mdl-button"
 								onclick="dropDownClick(this, 'dropDownLocation')"
 								style="width: 100%;">Button1
 							</button>
@@ -237,3 +222,5 @@
         </div>
     </dialog>
 </div>
+<script>
+</script>

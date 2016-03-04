@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("sensorView", function($scope, $rootScope, $filter) {
+angular.module("overwatch").controller("sensorView", function($scope, $rootScope, $filter, $timeout) {
     $scope.add_autocomplete = function (tag) {
         var i = $scope.tags.length;
         while (i--) {
@@ -29,6 +29,8 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
     var edit = false;
     var edit_sen = false;
     var edit_sen_id = null;
+
+    $timeout(function(){addClass(document.getElementById("menu"), "mdl-js-menu");}, 0);
 
     $scope.set_order = function set_order(orderBy, elementId) {
         if (hasClass(document.getElementById("sort_sensor"), "up")) {
