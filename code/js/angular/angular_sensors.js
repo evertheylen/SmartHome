@@ -30,7 +30,7 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
     var edit_sen = false;
     var edit_sen_id = null;
 
-    $timeout(function(){addClass(document.getElementById("menu"), "mdl-js-menu");}, 0);
+    $timeout(function(){addClass(document.getElementById("select_location"), "mdl-js-menu");}, 0);
 
     $scope.set_order = function set_order(orderBy, elementId) {
         if (hasClass(document.getElementById("sort_sensor"), "up")) {

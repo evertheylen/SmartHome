@@ -128,9 +128,9 @@
 					</select>-->
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
 					<button id="dropDownLocation" class="mdl-button">
-						Select your location
+						{{i18n("pick_loc")}}
 					</button>
-					<ul id="menu" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
+					<ul id="select_location" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
 								<!--TODO dropDownClick(this, 'dropDownLocation') is a function that changes the
@@ -143,9 +143,14 @@
 								}
 	
 								-->
+								
+							<button ng-repeat="location in locations" id="btnSelect-{{$index}}" class="mdl-button"
+								onclick="dropDownClick(this, 'dropDownLocation')"
+								style="width: 100%;">{{location.desc}}
+							</button>
 							<button id="btnSelect1" class="mdl-button"
 								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">{{5+5}}
+								style="width: 100%;">Button1
 							</button>
 							<button id="btnSelect1" class="mdl-button"
 								onclick="dropDownClick(this, 'dropDownLocation')"
