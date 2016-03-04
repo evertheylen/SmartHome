@@ -127,7 +127,7 @@
 						<option ng-repeat="location in locations">{{location.desc}}</option>
 					</select>-->
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
-					<button id="dropDownLocation" class="mdl-button">
+					<button id="dropDownLocation" class="mdl-button" formnovalidate>
 						{{i18n("pick_loc")}}
 					</button>
 					<ul id="select_location" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
@@ -144,22 +144,10 @@
 	
 								-->
 								
-							<button ng-repeat="location in locations" id="btnSelect-{{$index}}" class="mdl-button"
+							<li ng-repeat="location in locations" id="btnSelect2-{{$index}}" class="mdl-menu__item"
 								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">{{location.desc}}
-							</button>
-							<button id="btnSelect1" class="mdl-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
-							<button id="btnSelect1" class="mdl-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
-							<button id="btnSelect1" class="mdl-button"
-								onclick="dropDownClick(this, 'dropDownLocation')"
-								style="width: 100%;">Button1
-							</button>
+								>{{location.desc}}
+							</li>
 						</li>
 					</ul>
 				</div>
