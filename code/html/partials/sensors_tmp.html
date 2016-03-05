@@ -114,18 +114,9 @@
                 <tags-input ng-model="sen_tags" on-tag-added="add_autocomplete($tag)">
 	                <auto-complete min-length="1" source="check_autocomplete($query)" highlight-matched-text="false"></auto-complete>
                 </tags-input>
-<!--                <div id="txtfield_SensorTags" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" ng-model="sen_tags" type="text" id="input_SensorTags" name="sensorTags">
-                    <label class="mdl-textfield__label" for="input_SensorTag">Tags</label>
-                </div>-->
                 
 				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label>{{i18n("location")}}</label>
-
-					<!-- the old way: <select ng-model="sen_location" class="browser-default" required>
-						<option value="" disabled selected>{{i18n("pick_loc")}}</option>
-						<option ng-repeat="location in locations">{{location.desc}}</option>
-					</select>-->
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
 					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_location').parentNode, 'is-visible');">
 						{{i18n("pick_loc")}}
@@ -133,19 +124,25 @@
 					<ul  id="select_location" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
-							<li ng-repeat="location in locations" id="btnSelect-{{$index}}" class="mdl-menu__item"
-								ng-click="dropDownClick(location.desc)" tabindex="-1"
+							<li ng-repeat="location in locations" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
+								ng-click="dropDownClick(location.desc, 'select_location', 'dropDownLocation')" tabindex="-1"
 								>{{location.desc}}
 							</li>
 						</li>
 					</ul>
 				</div>
 				<div id="txtfield_SensorType" class="mdl-selectfield">
-					<label>Type</label>
-					<select class="browser-default" ng-model="sen_type" required>
-						<option value="" disabled selected>{{i18n("pick_type")}}</option>
-						<option ng-repeat="type in types">{{type}}</option>
-					</select>
+				    <label>Type</label>
+				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');">
+				        {{i18n("pick_type")}}
+				    </button>
+				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scrolll; max-height: 140px;">
+				        <li>
+				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType')" tabindex="-1">
+				                {{type}}
+				            </li>
+				        </li>
+				    </ul>
 				</div>
             </form>
             <div>

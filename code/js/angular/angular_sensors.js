@@ -31,7 +31,6 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
     var edit_sen_id = null;
     
     $scope.$watch('locations', function() {
-        console.log("Location added or removed");
         $timeout(function() {
             if (hasClass(document.getElementById("select_location"), "mdl-js-menu")) {
                 removeClass(document.getElementById("select_location"), "mdl-js-menu");
@@ -40,21 +39,20 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
         }, 0);
     }, true);
     
-//$timeout(function() {
-  //          addClass(document.getElementById("select_location"), "mdl-js-menu");
-//        }, 0);
-/*    $scope.ngSelectFinished = function () {
-        console.log("Got the directive");
+    $scope.$watch('types', function() {
         $timeout(function() {
-            addClass(document.getElementById("select_location"), "mdl-js-menu");
+            if (hasClass(document.getElementById("select_type"), "mdl-js-menu")) {
+                removeClass(document.getElementById("select_type"), "mdl-js-menu");
+            }
+            addClass(document.getElementById("select_type"), "mdl-js-menu");
         }, 0);
-    };
-*/    
-	$scope.dropDownClick = function (value){
-		var toChange = document.getElementById('dropDownLocation');
+    }, true);
+  
+	$scope.dropDownClick = function (value, menu, button){
+		var toChange = document.getElementById(button);
 		toChange.innerHTML = value;
 		$scope.sen_location = value;
-	    removeClass(document.getElementById("select_location").parentNode, "is-visible");
+	    removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
 
     $scope.set_order = function set_order(orderBy, elementId) {
