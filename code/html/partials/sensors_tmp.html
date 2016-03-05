@@ -119,7 +119,7 @@
                     <label class="mdl-textfield__label" for="input_SensorTag">Tags</label>
                 </div>-->
                 
-				<div id="txtfield_SensorLocation" class="mdl-selectfield">
+				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label>{{i18n("location")}}</label>
 
 					<!-- the old way: <select ng-model="sen_location" class="browser-default" required>
@@ -127,25 +127,14 @@
 						<option ng-repeat="location in locations">{{location.desc}}</option>
 					</select>-->
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
-					<button id="dropDownLocation" class="mdl-button" formnovalidate>
+					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_location').parentNode, 'is-visible');">
 						{{i18n("pick_loc")}}
 					</button>
-					<ul id="select_location" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
+					<ul  id="select_location" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
-								<!--TODO dropDownClick(this, 'dropDownLocation') is a function that changes the
-								innerHTML of the button to that of the clicked button, this should be somewhere,
-								but i don't know where i'm allowed to put this function
-
-								function dropDownClick(clicked, dropDownButtonID){
-									var toChange = document.getElementById(dropDownButtonID);
-									toChange.innerHTML = clicked.innerHTML;
-								}
-	
-								-->
-								
-							<li ng-repeat="location in locations" id="btnSelect2-{{$index}}" class="mdl-menu__item"
-								onclick="dropDownClick(this, 'dropDownLocation')"
+							<li ng-repeat="location in locations" id="btnSelect-{{$index}}" class="mdl-menu__item"
+								ng-click="dropDownClick(location.desc)" tabindex="-1"
 								>{{location.desc}}
 							</li>
 						</li>
