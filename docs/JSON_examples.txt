@@ -40,6 +40,10 @@ get
 get_all
 {"type": "get_all", "ID": 600, "what": "Sensor"}
 
+ { "ID":"2", "type": "get_all", "what": "Value", "for": { "what": "Sensor", "SID": "1"} }
+
+
+
 delete
 {"ID":"9", "type": "delete", "what": "Sensor", "data": {"ID": 1}}
 
