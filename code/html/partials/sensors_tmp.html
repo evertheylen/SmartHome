@@ -125,7 +125,7 @@
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
 							<li ng-repeat="location in locations" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
-								ng-click="dropDownClick(location.desc, 'select_location', 'dropDownLocation')" tabindex="-1"
+								ng-click="dropDownClick(location.desc, 'select_location', 'dropDownLocation', 'location')" tabindex="-1"
 								>{{location.desc}}
 							</li>
 						</li>
@@ -138,7 +138,7 @@
 				    </button>
 				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scrolll; max-height: 140px;">
 				        <li>
-				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType')" tabindex="-1">
+				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1">
 				                {{type}}
 				            </li>
 				        </li>

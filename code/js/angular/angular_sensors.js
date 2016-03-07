@@ -29,7 +29,7 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
     var edit = false;
     var edit_sen = false;
     var edit_sen_id = null;
-    
+    // TODO When edit sensor set the select box to the correct values.
     $scope.$watch('locations', function() {
         $timeout(function() {
             if (hasClass(document.getElementById("select_location"), "mdl-js-menu")) {
@@ -48,10 +48,17 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
         }, 0);
     }, true);
   
-	$scope.dropDownClick = function (value, menu, button){
+	$scope.dropDownClick = function (value, menu, button, ng_model){
 		var toChange = document.getElementById(button);
 		toChange.innerHTML = value;
-		$scope.sen_location = value;
+		switch (ng_model) {
+			case 'type':
+				$scope.sen_type = value;
+				break;
+			case 'location':
+				$scope.sen_location = value;
+				break; 
+		}
 	    removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
 

@@ -28,12 +28,7 @@ tags-input .tags {
   box-shadow: 1px 1px 1px 0 lightgray inset;
   height: 100%;
 }
-tags-input .tags.focused {
-  outline: none;
-  -webkit-box-shadow: 0 0 3px 1px rgba(5, 139, 242, 0.6);
-  -moz-box-shadow: 0 0 3px 1px rgba(5, 139, 242, 0.6);
-  box-shadow: 0 0 3px 1px rgba(5, 139, 242, 0.6);
-}
+
 tags-input .tags .tag-list {
   margin: 0;
   padding: 0;
