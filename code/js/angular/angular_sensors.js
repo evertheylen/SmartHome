@@ -53,9 +53,17 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 		toChange.innerHTML = value;
 		switch (ng_model) {
 			case 'type':
+			    if (value === null) {
+			        toChange.innerHTML = $scope.i18n("pick_type");
+			        break;
+			    }
 				$scope.sen_type = value;
 				break;
 			case 'location':
+			    if (value === null) {
+			        toChange.innerHTML = $scope.i18n("pick_loc");
+			        break;
+			    }
 				$scope.sen_location = value;
 				break; 
 		}
@@ -211,6 +219,8 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
         $scope.sen_location = null;
         $scope.sen_type = null;
         $scope.sen_tags = null;
+        $scope.dropDownClick(null, 'select_location', 'dropDownLocation', 'location');
+        $scope.dropDownClick(null, 'select_type', 'dropDownType', 'type');
         $scope.edit_sen = $scope.i18n("add_sensor");    
         if (hasClass(document.getElementById("txtfield_SensorName"), "is-dirty")) {
             removeClass(document.getElementById("txtfield_SensorName"), "is-dirty");
@@ -253,13 +263,13 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
                 $scope.sensors.push(new_sensor);
             	ws.request("add", {title: $scope.sen_name, UID: 3, type: $scope.sen_type}, function(successful_add) {
 		            if (successful_add) {	
-			            dialog2.close();
+//			            dialog2.close();
 		            } else {
 		            }
 		            $scope.$apply();
 	            });                
             }
-            //dialog2.close();
+            dialog2.close();
         }
     }   
     function set_sen(id) {
@@ -268,6 +278,9 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
         $scope.sen_tags = $scope.sensors[id].tags;
         $scope.sen_type = $scope.sensors[id].type;
         $scope.sen_location = $scope.sensors[id].location;
+        $scope.dropDownClick($scope.sensors[id].type, 'select_type', 'dropDownType', 'type');
+        $scope.dropDownClick($scope.sensors[id].location, 'select_location', 'dropDownLocation', 'location');
+        
         addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
         //addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
         if (hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
