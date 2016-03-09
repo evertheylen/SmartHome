@@ -23,10 +23,27 @@ function connect_to_websocket() {
 		console.log("Received data from server:");
 		console.log(evt.data);
 		var receivedObject = null;
+		var polishedObject = null;
 		var type = "";
 		try {
 			receivedObject = JSON.parse(evt.data);
 			type = receivedObject["type"];
+			switch(type) {
+				case "signup":
+					polishedObject = signup_response(receivedObject);
+					break;
+				case "login":
+					polishedObject = login_response(receivedObject);
+					break;
+				case "error":
+					polishedObject = error_response(receivedObject);
+					break;
+				case "get_all":
+					polishedObject = get_all_response(receivedObject);
+					break;
+				case "":
+				
+			}
 		}
 		catch(SyntaxError) {
 	    		// Handle the error.
@@ -35,22 +52,12 @@ function connect_to_websocket() {
 			alert(SyntaxError);
 			return;
 		}
-		
-		switch(type) {
-			case "signup":
-				polishedObject = server_signup_response(receivedObject);
-				break;
-			case "login":
-				polishedObject = server_login_response(receivedObject);
-				break;
-				
-			// TODO Jeroen :p ik verwacht hier alle cases die worden afgehandeld :)
-		}
-		
-		if (receivedObject.hasOwnProperty("ID")) {
-			answers[receivedObject.ID](polishedObject);
-		} else {
-			handlers[receivedObject.type](polishedObject);
+		if(receivedObject != null) {
+			if (receivedObject.hasOwnProperty("ID")) {
+				answers[receivedObject.ID](polishedObject);
+			} else {
+				handlers[receivedObject.type](polishedObject);
+			}
 		}
 	};
 
@@ -61,23 +68,54 @@ function connect_to_websocket() {
 	return websocket;
 }
 
-function server_login_response(data) {
-	if(data["data"] == "fail") {
-		return false;
+function signup_response(response) {
+	data = response["data"];
+	if(!data["result"]) {
+		return {succes: false, UID: -1, error: data["error"]};
 	}
-	else if(data["data"].hasOwnProperty("session")) {
-		// Currently this cookie will only be alive for 1 day.
-		setCookie("session", data["data"].session, 1);
-		return true;
-	}
+	return {succes: true, UID: data["UID"]};
 }
 
-function server_signup_response(data) {
-	if(data["data"] == "fail") {
-		return false;
-	}
-	else if(data["data"] == "success") {
-		return true;
-	}	
+function login_response(response) {
+	data = response["data"];
+	if(!data["result"])
+		return {succes: false, UID: -1};
+	// Currently this cookie will only be alive for 1 day.
+	setCookie("session", data["sessions"], 1);
+	return {succes: true, UID: data["UID"]};
 }
 
+function error_response(response) {
+	// Todo: Decide on how to handle the errors.
+	error_type = response["error"]["short"];
+	switch(error_type) {
+		case "type_error":
+			arg[0] = "type_error";
+			break;
+		default:
+			arg[0] = "Undefined";
+	}
+	arg[1] = data["error"]["long"]; 
+	return arg;
+}
+
+function get_all_response(response) {
+	what = response["what"];
+	switch(what) {
+		case "Sensor":
+			return response["data"];
+			break;
+		case "Type":
+			return response["data"];
+			break;
+		case "Tag":
+			return response["data"];
+			break;
+		case "Location":
+			return response["data"];
+			break;
+		default:
+			break;
+	}
+	return {};
+}

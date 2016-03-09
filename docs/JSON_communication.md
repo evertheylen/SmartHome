@@ -44,7 +44,7 @@ Server response (Succes):
 	{
 		"type": "signup",
 		"data": {
-			"result": "succes",
+			"result": true,
 			"UID": 1
 		}
 	}
@@ -54,7 +54,7 @@ Server response (Fail):
 	{
 		"type": "signup",
 		"data": {
-			"result": "failure",
+			"result": false,
 			"error": ...
 		}	
 	}
@@ -71,7 +71,15 @@ Client message:
 		}
 	}
 
-Server response (Fail): normal failure message
+Server response (Fail):
+
+	{
+		"type": "signup",
+		"data": {
+			"result": false,
+			"error": ... (DupeEmail || DupeUsername)
+		}	
+	}
 
 Server response (Success):
 
