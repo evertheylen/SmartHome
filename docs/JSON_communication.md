@@ -15,7 +15,7 @@ If an error occurs and the requested operation did not complete; the backend wil
 
 	{
 		"ID": 123,
-		...
+		"type": "error",
 		"data": "fail",
 		"error": {
 			"short": "short string to be interpreted by frontend",
@@ -43,15 +43,20 @@ Server response (Succes):
 
 	{
 		"type": "signup",
-		"data": "success"
+		"data": {
+			"result": "succes",
+			"UID": 1
+		}
 	}
 
 Server response (Fail):
 
 	{
 		"type": "signup",
-		"data": "fail",
-		"error": ...
+		"data": {
+			"result": "failure",
+			"error": ...
+		}	
 	}
 
 ### Login
