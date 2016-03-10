@@ -70,17 +70,18 @@
 							</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="table_body">
 						<tr ng-repeat="sensor in sensors | index | orderBy: selected_order" on-finish-render="ngRepeatFinished">
-							<td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
 				            <td>{{sensor.location}}</td>
 				            <td>{{sensor.type}}</td>
 				            <td><span ng-repeat="tag in sensor.tags">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
+				            <td>{{todo.text}}</td>
 							<td>
 								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							</td>
-						</tr>	
+						</tr>
 					</tbody>
 				</table>
 				<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">

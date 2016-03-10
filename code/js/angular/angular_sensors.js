@@ -44,7 +44,7 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
 			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
 
-	$scope.types = ["Electricity", "Movement", "Water", "Temperature"];
+    $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
 
 	$scope.required = true;
 	$scope.selected_order = null;
@@ -92,7 +92,7 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
-    
+
 	$scope.set_order = function set_order(orderBy, elementId) {
 		if (hasClass(document.getElementById("sort_sensor"), "up")) {
 			removeClass(document.getElementById("sort_sensor"), "up");
