@@ -41,13 +41,18 @@ class Controller:
             return self.sessions[session]
         else:
             return None
-
+    
+    
+    async def permitted(self, user, obj):
+        pass
+    
+    
     async def logout(self, req):
         self.sessions.pop(req.conn.session)
         req.conn.session = None
         req.conn.user = None
 
-
+    
     async def login(self, req):
         res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
         if res is None: return
@@ -62,7 +67,7 @@ class Controller:
             await req.answer({"session": session, "user": u.to_dict()})
         else:
             raise Authentication("wrong_password", "Wrong password provided")
-
+    
     async def signup(self, req):
         res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
         if res is not None:
@@ -77,9 +82,11 @@ class Controller:
     async def register(self, req):
         # TODO permissions!
         pass
-        
+    
+    
     async def unregister(self, req):
         pass
+    
     
     async def conn_close(self, conn):
         self.listeners.unregister_all(conn)
@@ -134,16 +141,12 @@ class Controller:
             s = await Sensor.delete(self.db, req.dct["data"]["ID"])
             # TODO rekening houden met sensors die reeds gedeleted zijn !
             await req.answer("success")
-
+    
+    
     async def handle_request(self, req):
         if req.dct["type"] in Controller.__dict__:
+            # TODO only allow handle functions excplicitly allowed to handle incoming JSON messages
             await Controller.__dict__[req.dct["type"]](self, req)
         else:
             self.logger.error("No handler for %s in Controller"%req.dct["type"])
 
-    async def _handle_message(self, conn, dct):
-        u = await User.new(self.db, {"first_name": "Evert", "last_name": "Heylen", "password": "123", "email": "e@e"})
-        await conn.send({"answer": u.to_dict()})
-        await u.set(self.db, "first_name", "Anthony")
-        new_u = User.get(self.db, u.UID)
-        await conn.send({"user": u.to_dict()})
