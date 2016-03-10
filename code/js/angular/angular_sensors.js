@@ -93,28 +93,6 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
     
-    $scope.set_order2 = function (orderBy, parentId) {
-        if (hasClass(document.getElementById(parentId), "mdl-data-table__header--sorted-descending")) {
-            removeClass(document.getElementById(parentId), "mdl-data-table__header--sorted-descending");
-        }
-        if (hasClass(document.getElementById(parentId), "mdl-data-table__header--sorted-ascending")) {
-            removeClass(document.getElementById(parentId), "mdl-data-table__header--sorted-ascending");
-        }
-		if ($scope.selected_order === orderBy) {
-			$scope.selected_order = '-' + orderBy;
-			addClass(document.getElementById(parentId), "mdl-data-table__header--sorted-descending");
-		} else {
-			$scope.selected_order = orderBy;
-			addClass(document.getElementById(parentId), "mdl-data-table__header--sorted-ascending");
-		}
-		
-		removeClass(document.getElementById("sensor_table"), "mdl-js-data-table");
-		componentHandler.upgradeDom();
-		
-		addClass(document.getElementById("sensor_table"), "mdl-js-data-table");
-		componentHandler.upgradeDom();		
-    }
-    
 	$scope.set_order = function set_order(orderBy, elementId) {
 		if (hasClass(document.getElementById("sort_sensor"), "up")) {
 			removeClass(document.getElementById("sort_sensor"), "up");
