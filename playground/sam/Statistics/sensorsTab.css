@@ -1,0 +1,56 @@
+.down{
+	-webkit-transform: rotate(90deg);
+}
+.up{
+	-webkit-transform: rotate(-90deg);
+}
+.md-10{
+	font-size: 10;
+}
+.sortColumnAttr{
+	width: auto;
+}
+.sortColumnAttr:hover{
+	cursor: pointer;
+}
+.tableHeadColor{
+	background-color: rgb(200,200,200);
+}
+.bareButton{
+	border: none;
+	background: none;
+	margin: 0px;
+	padding: 0px;
+}
+.bareButton:hover{
+	cursor: pointer;
+}
+
+/*This stuff indicates sections*/
+#locations{
+	width: 100%;
+}
+#dataTable{
+	width: 100%;
+	overflow-x: scroll;
+}
+table{
+	width: 100%;
+}
+
+
+::-webkit-scrollbar {
+	width: 5px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+	border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 20px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+
