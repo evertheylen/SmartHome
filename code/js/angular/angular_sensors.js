@@ -14,28 +14,27 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 	}
 
 	//TODO Get these variables from the database.
-	ws.request("login", {type: "get_all", what: "Tag", for: {what: "User", UID: $rootScope.user_id}, function(tags) {
+	/*ws.request("login", {type: "get_all", what: "Tag", for: {what: "User", UID: $rootScope.user_id}}, function(tags) {
 		$scope.tags = tags;
 		$scope.$apply();
 	});
 
-	ws.request("login", {type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.user_id}, function(locations) {
+	ws.request("login", {type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.user_id}}, function(locations) {
 		$scope.locations = locations;
 		$scope.$apply();
 	});
 
-	ws.request("login", {type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.user_id}, function(sensors) {
+	ws.request("login", {type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.user_id}}, function(sensors) {
 		$scope.sensors = sensors;
 		$scope.$apply();
 	});
 
 
-	ws.request("login", {type: "get_all", what: "Type", for: {what: "User", UID: $rootScope.user_id}, function(types) {
+	ws.request("login", {type: "get_all", what: "Type", for: {what: "User", UID: $rootScope.user_id}}, function(types) {
 		$scope.types = types;
 		$scope.$apply();
-	});
+	});*/
 
-	/*
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
 
 	$scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
@@ -46,7 +45,6 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
 
 	$scope.types = ["Electricity", "Movement", "Water", "Temperature"];
-	*/
 
 	$scope.required = true;
 	$scope.selected_order = null;
@@ -94,7 +92,29 @@ angular.module("overwatch").controller("sensorView", function($scope, $rootScope
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
-
+    
+    $scope.set_order2 = function (orderBy, parentId) {
+        if (hasClass(document.getElementById(parentId), "mdl-data-table__header--sorted-descending")) {
+            removeClass(document.getElementById(parentId), "mdl-data-table__header--sorted-descending");
+        }
+        if (hasClass(document.getElementById(parentId), "mdl-data-table__header--sorted-ascending")) {
+            removeClass(document.getElementById(parentId), "mdl-data-table__header--sorted-ascending");
+        }
+		if ($scope.selected_order === orderBy) {
+			$scope.selected_order = '-' + orderBy;
+			addClass(document.getElementById(parentId), "mdl-data-table__header--sorted-descending");
+		} else {
+			$scope.selected_order = orderBy;
+			addClass(document.getElementById(parentId), "mdl-data-table__header--sorted-ascending");
+		}
+		
+		removeClass(document.getElementById("sensor_table"), "mdl-js-data-table");
+		componentHandler.upgradeDom();
+		
+		addClass(document.getElementById("sensor_table"), "mdl-js-data-table");
+		componentHandler.upgradeDom();		
+    }
+    
 	$scope.set_order = function set_order(orderBy, elementId) {
 		if (hasClass(document.getElementById("sort_sensor"), "up")) {
 			removeClass(document.getElementById("sort_sensor"), "up");
