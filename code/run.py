@@ -27,7 +27,7 @@ class NoCacheStaticFileHandler(tornado.web.StaticFileHandler):
         self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
 
 
-class OverWatch():
+class OverWatch:
     def __init__(self, tornado_app_settings={}):
         # Logging support
         self.logger = logging.getLogger("OverWatch")
@@ -62,6 +62,9 @@ class OverWatch():
         # are instantiated for every request! Because we still need them to be able to communicate with
         # the Controller, we wrap the class in a function that binds the controller to them, and returns
         # that class.
+        if options.debug and "autoreload" not in tornado_app_settings:
+            tornado_app_settings["autoreload"] = True
+        
         self.app = tornado.web.Application(
             [   # Enter your routes (regex -> Handler class) here! Order matters.
                 (r'/html/(.*)', NoCacheStaticFileHandler, {'path': localdir("html")}),
