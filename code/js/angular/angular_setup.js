@@ -12,6 +12,18 @@ angular.module("overwatch", ['ngRoute', 'ngTagsInput', 'ngMessages', 'ngAnimate'
     }
 });
 
+angular.module("overwatch").directive('afterRender', ['$timeout', function ($timeout) {
+    var def = {
+        restrict: 'A',
+        terminal: true,
+        transclude: false,
+        link: function (scope, element, attrs) {
+            $timeout(scope.$eval(attrs.afterRender), 0);  //Calling a scoped method
+        }
+    };
+    return def;
+}]);
+
 angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, $location) {
     $scope.language = 0;
 
@@ -28,7 +40,7 @@ angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, 
     }
 
     //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
-    $location.path("/sensors");
+//    $location.path("/sensors");
     $rootScope.logged_in = true;
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
@@ -38,6 +50,10 @@ angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, 
 	    $scope.$broadcast("confirmation", value);
 	    $rootScope.confirm_dialog.close();
 	}
+	
+	$scope.$on('$locationChangeStart', function() {
+	    console.log("Changing Location: " + $location.path());
+	});
 	
 	$scope.$on('$locationChangeSuccess', function() {
 	    console.log("New Location: " + $location.path());
@@ -57,8 +73,6 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
       templateUrl: "/html/partials/sensors_tmp.html"
     }).when("/social", {
       templateUrl: "/html/partials/social_tmp.html"
-    }).otherwise({
-        redirectTo: "/"
-    });
+    })
     $locationProvider.html5Mode(true);
 }]);

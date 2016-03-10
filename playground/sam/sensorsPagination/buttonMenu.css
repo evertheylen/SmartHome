@@ -1,0 +1,46 @@
+
+.buttonMenu{
+	font-size: 0;
+	display: inline-block;
+	margin: 5px 0px;
+}
+
+.navButton{
+	border: none;
+	background-color: transparent;
+	padding: 10px 15px;
+	display: inline;
+	border: 1px solid rgba(158,158,158,.2);
+	border-radius: 1px;
+}
+
+.navButton:hover{
+	background-color: rgba(158,158,158,.2);
+	cursor: pointer;
+}
+
+.navButton:focus{
+	outline: 0;
+}
+
+.navButton.selected{
+	background-color: #428BCA;
+}
+
+.navButton.disabled:hover{
+	cursor: not-allowed;
+	background-color: transparent;
+}
+
+.buttonMenu > .navButton{
+	width: auto;
+	height: auto;
+}
+
+.buttonMenu > .navButton:nth-child(n+10){
+	display: none;	
+}
+
+
+
+

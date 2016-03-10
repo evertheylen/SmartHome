@@ -77,20 +77,21 @@ class Controller:
             self.logger.debug("data = " + repr(req.dct["data"]))
             u = await User.new(self.db, req.dct["data"])
             await req.answer("success")
-    
-    
+
+
     async def register(self, req):
         # TODO permissions!
         pass
     
-    
     async def unregister(self, req):
         pass
     
-    
+    async def unregister(self, req):
+        pass
+
     async def conn_close(self, conn):
         self.listeners.unregister_all(conn)
-    
+
     @require_user_level(1)
     async def add(self,req):
         if req.dct["what"] == "Sensor":
@@ -124,7 +125,7 @@ class Controller:
                 ss = [Sensor.from_db(t) for t in res]
                 await req.answer([s.to_dict() for s in ss])
 
-            elif req.dct["for"]["what"] == "Sensor" and req.dct["what"] == "Values":
+            elif req.dct["for"]["what"] == "Sensor" and req.dct["what"] == "Value":
                 res = await self.db.get_multi(Value.table_name, "SID", req.dct["for"]["SID"])
                 ss = [Value.from_db(t) for t in res]
                 await req.answer([s.to_dict() for s in ss])
