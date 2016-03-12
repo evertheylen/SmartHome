@@ -26,7 +26,7 @@ angular.module("overwatch").directive('afterRender', ['$timeout', function ($tim
 
 angular.module("overwatch").run(function($rootScope, $location, Auth) {
     $rootScope.$on('$routeChangeStart', function(event) {
-        console.log(Auth.getUser());
+        //console.log(Auth.getUser());
         console.log(Auth.isLoggedIn());
         if (!Auth.isLoggedIn() && $location.path() != '/') {
             event.preventDefault();
@@ -40,7 +40,7 @@ angular.module("overwatch").run(function($rootScope, $location, Auth) {
 
 angular.module("overwatch").factory('Auth', function($cookies, $rootScope) {
     var user;
-    return {
+    /*return {
         setUser : function(aUser) {
             user = aUser;
             $cookies.put("username", user);
@@ -55,7 +55,12 @@ angular.module("overwatch").factory('Auth', function($cookies, $rootScope) {
         clearCookies: function() {
             $cookies.remove("username");
         }
-    };
+    };*/
+    return {
+        isLoggedIn : function() {
+            return (getCookie("session") != "");
+        }
+    }
 });
 
 angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, $location, Auth) {
@@ -67,17 +72,18 @@ angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, 
      //   $rootScope.auth_user = Auth.getUser();
        // $rootScope.logged_in = Auth.isLoggedIn();    
     //});
-    $rootScope.auth_user = Auth.getUser();
+    //$rootScope.auth_user = Auth.getUser();
     $rootScope.logged_in = Auth.isLoggedIn();
     $scope.logout = function() {
         console.log("logging Out");
-        Auth.clearCookies();
+        //Auth.clearCookies();
+        setCookie("session", "", 1);
         $rootScope.logged_in = Auth.isLoggedIn();
-        $rootScope.auth_user = Auth.getUser();
+        //$rootScope.auth_user = Auth.getUser();
         $location.path("/");
     }
     
-    $rootScope.user = Auth.getUser();
+    //$rootScope.user = Auth.getUser();
     
     //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
 //    $location.path("/sensors");

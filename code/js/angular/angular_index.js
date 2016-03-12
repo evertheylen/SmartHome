@@ -35,7 +35,8 @@ angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope,
 			document.getElementById("dlgLogin").close();
 			$scope.wrong_login = false;
 			$location.path("/home");
-			Auth.setUser("Stijn");
+			//Auth.setUser("Stijn");
+			setCookie("session", "123", 1);
 			
 			
 			ws.request("login", {email: $scope.email, password: $scope.password}, function(response) {
@@ -45,6 +46,7 @@ angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope,
 					$rootScope.logged_in = true;
 					document.getElementById("dlgLogin").close();
 					$scope.wrong_login = false;
+					console.log(response.UID);
 					$location.path("/home");
 				} else {
 					$scope.wrong_login = true;
