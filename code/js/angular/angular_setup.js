@@ -1,4 +1,4 @@
-angular.module("overwatch", ['ngRoute', 'ngTagsInput', 'ngMessages', 'ngAnimate'])
+angular.module("overwatch", ['ngRoute', 'ngTagsInput', 'ngMessages', 'ngAnimate', 'ngCookies'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',
@@ -24,24 +24,64 @@ angular.module("overwatch").directive('afterRender', ['$timeout', function ($tim
     return def;
 }]);
 
-angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, $location) {
-    $scope.language = 0;
+angular.module("overwatch").run(function($rootScope, $location, Auth) {
+    $rootScope.$on('$routeChangeStart', function(event) {
+        console.log(Auth.getUser());
+        console.log(Auth.isLoggedIn());
+        if (!Auth.isLoggedIn() && $location.path() != '/') {
+            event.preventDefault();
+            console.log("YOU SHALL NOT PASS");
+            $location.path('/');
+        } else if ($location.path() != '/') {
+            console.log("Pass :)");
+        }  
+    });  
+});
 
+angular.module("overwatch").factory('Auth', function($cookies, $rootScope) {
+    var user;
+    return {
+        setUser : function(aUser) {
+            user = aUser;
+            $cookies.put("username", user);
+            $rootScope.$broadcast("login_change");
+        },
+        getUser : function() {
+            return $cookies.get("username");
+        },
+        isLoggedIn : function() {
+            return ($cookies.get("username")) ? $cookies.get("username") : false;
+        },
+        clearCookies: function() {
+            $cookies.remove("username");
+        }
+    };
+});
+
+angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, $location, Auth) {
+    $scope.language = 0;
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
-    $rootScope.auth_user = null;
-    $rootScope.logged_in = false;
-
+   // $scope.$on("login_change", function() {
+     //   $rootScope.auth_user = Auth.getUser();
+       // $rootScope.logged_in = Auth.isLoggedIn();    
+    //});
+    $rootScope.auth_user = Auth.getUser();
+    $rootScope.logged_in = Auth.isLoggedIn();
     $scope.logout = function() {
-        $rootScope.auth_user = null;
-        $rootScope.logged_in = false;
+        console.log("logging Out");
+        Auth.clearCookies();
+        $rootScope.logged_in = Auth.isLoggedIn();
+        $rootScope.auth_user = Auth.getUser();
         $location.path("/");
     }
-
+    
+    $rootScope.user = Auth.getUser();
+    
     //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
 //    $location.path("/sensors");
-    $rootScope.logged_in = true;
+    //$rootScope.logged_in = true;
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
     });
@@ -64,7 +104,6 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){
     $routeProvider.when("/", {
         templateUrl: "/html/partials/index_tmp.html"
-
     }).when("/home", {
       templateUrl: "/html/partials/home_tmp.html"
     }).when("/statistics", {
@@ -73,6 +112,8 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
       templateUrl: "/html/partials/sensors_tmp.html"
     }).when("/social", {
       templateUrl: "/html/partials/social_tmp.html"
-    })
+    }).otherwise( {
+        redirectTo: '/'
+    });
     $locationProvider.html5Mode(true);
 }]);

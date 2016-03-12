@@ -24,10 +24,20 @@ angular.module("overwatch").controller("indexView", function($scope, $rootScope)
 	componentHandler.upgradeDom();
 });
 
-angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope, $location) {
+
+
+angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope, $location, Auth) {
 	$scope.wrong_login = false;
 	$scope.login = function() {
 		if ($scope.login_form.$valid) {
+		    // TODO REMOVE THIS DEV CODE
+		    $rootScope.logged_in = true;
+			document.getElementById("dlgLogin").close();
+			$scope.wrong_login = false;
+			$location.path("/home");
+			Auth.setUser("Stijn");
+			
+			
 			ws.request("login", {email: $scope.email, password: $scope.password}, function(response) {
 				if (response.succes) {	
 					$rootScope.auth_user = $scope.email;
