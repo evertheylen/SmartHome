@@ -30,19 +30,19 @@ angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope,
 	$scope.wrong_login = false;
 	$scope.login = function() {
 		if ($scope.login_form.$valid) {
-		    // TODO REMOVE THIS DEV CODE
-		    $rootScope.logged_in = true;
+			// TODO REMOVE THIS DEV CODE
+			/*
+			$rootScope.logged_in = true;
 			document.getElementById("dlgLogin").close();
 			$scope.wrong_login = false;
 			$location.path("/home");
 			//Auth.setUser("Stijn");
 			setCookie("session", "123", 1);
-			
+			*/
 			
 			ws.request("login", {email: $scope.email, password: $scope.password}, function(response) {
 				if (response.succes) {	
-					$rootScope.auth_user = $scope.email;
-					//$rootScope.user_id = response.UID; TODO Save the user ID and greet him by his full name (left of logout)
+					$rootScope.auth_user = new User(response.UID, response.firstName, response.lastName, $scope.email);
 					$rootScope.logged_in = true;
 					document.getElementById("dlgLogin").close();
 					$scope.wrong_login = false;
@@ -67,15 +67,6 @@ angular.module("overwatch").controller("signupCtrl", function($scope) {
 				    document.getElementById("dlgSignup").close();
 				} else {
 					$scope.wrong_signup = true; 
-					// TODO Handle the returned error message.
-					switch (response.error) {
-						case "DupeEmail":
-							break;
-						case "DupeUsername":
-							break;
-						default: 
-							break;
-					}
 			    	}
 			    $scope.$apply();
 		    });

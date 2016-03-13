@@ -3,7 +3,8 @@ handlers = {}; // specify functions to deal with server messages (that aren't a 
 answers = {};  // specify functions that need to be called when the server answers
 
 function connect_to_websocket() { 
-	websocket = new WebSocket("ws://" + window.location.host + "/ws");
+	//websocket = new WebSocket("ws://" + window.location.host + "/ws");
+	websocket = new WebSocket("ws://localhost:8002/ws");
 
 	websocket.request = function (type, data, f) {
 		// Data can be any object literal or prototype with the toJSON method.
@@ -16,7 +17,13 @@ function connect_to_websocket() {
 	}
 	
 	websocket.onopen = function() { 
-		// Currently nothing happens when socket is first opened.
+		// Currently nothing happens when the socket is opened.
+		console.log("Websocket opened");
+	};
+
+	websocket.onclose = function() { 
+		// Currently nothing happens when the socket is closed.
+		console.log("Websocket closed");
 	};
 
 	websocket.onmessage = function(evt) {
@@ -62,7 +69,7 @@ function connect_to_websocket() {
 	};
 
 	websocket.onerror = function(evt) {
-		
+		console.log("Websocket Error occured: " + evt.data);	
 	};
 
 	return websocket;
@@ -70,19 +77,20 @@ function connect_to_websocket() {
 
 function signup_response(response) {
 	data = response["data"];
-	if(!data["result"]) {
-		return {succes: false, UID: -1, error: data["error"]};
-	}
-	return {succes: true, UID: data["UID"]};
+	if(data["result"] == "succes") 
+		return {succes: true, UID: data["UID"]};
+	return {succes: false};
 }
 
 function login_response(response) {
 	data = response["data"];
-	if(!data["result"])
-		return {succes: false, UID: -1};
-	// Currently this cookie will only be alive for 1 day.
-	setCookie("session", data["sessions"], 1);
-	return {succes: true, UID: data["UID"]};
+	if(data["result"] == "succes") {
+		// Currently this cookie will only be alive for 1 day.
+		setCookie("session", data["sessions"], 1);
+		userData = data["user"];
+		return {succes: true, UID: userData["UID"], firstName: userData["firstname"], lastName: userData["lastName"]};
+	}
+	return {succes: false};
 }
 
 function error_response(response) {
@@ -104,16 +112,12 @@ function get_all_response(response) {
 	switch(what) {
 		case "Sensor":
 			return response["data"];
-			break;
 		case "Type":
 			return response["data"];
-			break;
 		case "Tag":
 			return response["data"];
-			break;
 		case "Location":
 			return response["data"];
-			break;
 		default:
 			break;
 	}
