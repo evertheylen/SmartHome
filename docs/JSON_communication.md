@@ -44,7 +44,7 @@ Server response (Succes):
 	{
 		"type": "signup",
 		"data": {
-			"result": true,
+			"result": "succes",
 			"UID": 1
 		}
 	}
@@ -54,8 +54,7 @@ Server response (Fail):
 	{
 		"type": "signup",
 		"data": {
-			"result": false,
-			"error": ...
+			"result": "failure"
 		}	
 	}
 
@@ -76,8 +75,7 @@ Server response (Fail):
 	{
 		"type": "signup",
 		"data": {
-			"result": false,
-			"error": ... (DupeEmail || DupeUsername)
+			"result": "failure"
 		}	
 	}
 
@@ -86,13 +84,21 @@ Server response (Success):
 	{
 		"type": "login",
 		"data": {
+			"result": "succes",
 			"session": "78SD451xdsf487scxg4i7ojkh14q12z4c1f4e87rhj4",
 			"user": <definition of user including UID>
 		}
 	}
 
-While logged in, the cookie (=session) has been set, which the server can get from the headers.
+<definition of user including UID>:
+	{
+		"UID": 123,
+		"firstName": "Douglas",
+		"lastName": "Adams"
+	}
 
+While logged in, the cookie (=session) has been set, which the server can get from the headers.
+42
 ### Logout
 
 Client message:
@@ -142,7 +148,14 @@ Response (Success):
 		"data": <entire definition with ID>
 	}
 
-Response (Failure): normal failure message
+Response (Failure): 
+
+	{
+		"type": "add",
+		"what": <object class>,
+		"data": <entire definition with ID>
+	}
+
 
 When adding a value, you need to specify for which sensor it is.
 
@@ -158,7 +171,7 @@ Message:
 		} 
 	}
 
-Response is either `"data" = "success"` or a typical fail message.
+Response is either `"result" = "success"` or `"result" = "failure"`.
 
 Again, for a value you need a `"for"` attribute.
 
