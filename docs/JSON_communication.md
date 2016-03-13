@@ -44,7 +44,7 @@ Server response (Succes):
 	{
 		"type": "signup",
 		"data": {
-			"result": "succes",
+			"status": "success",
 			"UID": 1
 		}
 	}
@@ -54,7 +54,7 @@ Server response (Fail):
 	{
 		"type": "signup",
 		"data": {
-			"result": "failure"
+			"status": "failure"
 		}	
 	}
 
@@ -75,7 +75,7 @@ Server response (Fail):
 	{
 		"type": "signup",
 		"data": {
-			"result": "failure"
+			"status": "failure"
 		}	
 	}
 
@@ -84,17 +84,14 @@ Server response (Success):
 	{
 		"type": "login",
 		"data": {
-			"result": "succes",
+			"status": "success",
 			"session": "78SD451xdsf487scxg4i7ojkh14q12z4c1f4e87rhj4",
-			"user": <definition of user including UID>
+			"user": {
+					"UID": 123,
+					"firstName": "Douglas",
+					"lastName": "Adams"
+				}
 		}
-	}
-
-<definition of user including UID>:
-	{
-		"UID": 123,
-		"firstName": "Douglas",
-		"lastName": "Adams"
 	}
 
 While logged in, the cookie (=session) has been set, which the server can get from the headers.
@@ -145,7 +142,10 @@ Response (Success):
 	{
 		"type": "add",
 		"what": <object class>,
-		"data": <entire definition with ID>
+		"data": {
+				"status": "success"			
+				<entire definition with ID>
+			}
 	}
 
 Response (Failure): 
@@ -153,7 +153,10 @@ Response (Failure):
 	{
 		"type": "add",
 		"what": <object class>,
-		"data": <entire definition with ID>
+		"data": {
+				"status": "failure"			
+				<entire definition with ID>
+			}
 	}
 
 
@@ -171,7 +174,14 @@ Message:
 		} 
 	}
 
-Response is either `"result" = "success"` or `"result" = "failure"`.
+Response is either.
+	{
+		"type": "delete",
+		"data": {
+			"status": success || failure
+		} 
+	}
+
 
 Again, for a value you need a `"for"` attribute.
 
@@ -194,10 +204,21 @@ Response (Success):
 	{
 		"type": "get",
 		"what": <object class>,
-		"data": <entire definition>
+		"data": {
+				"status": success
+				<entire definition>
+			}
 	}
 
-Response (Fail): normal fail message
+Response (Fail):
+
+	{
+		"type": "get",
+		"what": <object class>,
+		"data": {
+				"status": failure
+			}
+	}
 
 So far there is no way to get a single Value, and therefore no `"get"` message will need a `"for"` attribute (this may change in the future).
 
@@ -229,7 +250,7 @@ Response:
 			<definition 1>,
 			<definition 2>,
 			...
-		]
+			]
 	}
 
 There can be failure, but it can also happen that the server returns an empty list. This is not considered an error.
@@ -296,6 +317,29 @@ ID's are separate for each type, so it may happen there is a user and a sensor w
 		"type": "Electricity",
 		"title": "Measures electricity usage of desktop",
 	}
+
+### Locations
+	{
+		"LID": 1,
+		"desc": "Campus Middelheim",
+		"country": "Belgium",
+		"city": "Antwerp",
+		"postalcode": 2020,
+		"street": "Middelheimlaan",
+		"number": 1
+	}
+
+### Tags
+	{
+
+	}
+
+
+### Types
+	{
+		"Type": "Electricy"
+	}
+
 
 #### Value
 

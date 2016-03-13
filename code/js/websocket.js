@@ -111,13 +111,25 @@ function get_all_response(response) {
 	what = response["what"];
 	switch(what) {
 		case "Sensor":
-			return response["data"];
+			sensors;
+			for(i = 0; i < response["data"].length; i++) {
+				sensorData = response["data"][i];
+				sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
+				sensors.push(sensor);
+			}
+			return {for: response["for"], sensors: sensors};
 		case "Type":
-			return response["data"];
+			return {for: response["for"], types: response["data"]};
 		case "Tag":
-			return response["data"];
+			return {for: response["for"], tags: response["data"]};
 		case "Location":
-			return response["data"];
+			locations;
+			for(i = 0; i < response["data"].length; i++) {
+				locationData = response["data"][i];
+				location = new Location(locationData["SID"], locationData["title"], locationData["type"]);
+				locations.push(location);
+			}						
+			return {for: response["for"], locations: locations};
 		default:
 			break;
 	}
