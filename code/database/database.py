@@ -4,8 +4,58 @@ import momoko
 
 from tornado import gen
 
+# Example usage:
+class User(Entity):
+    name = Property(str)
+    mail = Property(str, sql_constraints="UNIQUE")
+    password = Property(str)
+    
+    # Key is automatically created
 
-class Database:
+class Sensor(Entity):
+    desc = Property(str)
+    user = Reference(User)
+    
+    
+    
+class Value(Entity):
+    sensor = Reference(Sensor)
+    date = Property(int, constraints = [lambda i: i>=0])
+    value = Property(float)
+    
+    key = [sensor, date]
+    
+    
+async def test():
+    u = await User.get(User.mail == "...").fetchone()
+    # Error when there is more or less than 1
+    
+    sensors = await Sensor.get(Sensor.user == u).fetchall()
+    more_sensors = await Sensor.get(Sensor.user.key == 123).fetchall()
+    # equivalent but faster
+    more_sensors2 = await Sensor.get_by_key(123).fetchone()
+    
+    s = Sensor(desc="bla", user=u)
+    await s.put()  # save in database
+    s.desc = "test"
+    s.put()  # updates the entity in the database
+    
+    
+    
+
+class Property:
+    def __init__(self, typ, constraints = [], sql_constraints = "", required = True):
+        self.typ = typ
+        self.constraints = constraints
+        self.sql_constraints = sql_constraints
+        self.required = required
+
+
+class Entity(metaclass=MetaEntity):
+    pass
+
+
+class RawDatabase:
     def __init__(self, logger, ioloop):
         self.logger = logger
         dsn = "dbname=testdb user=postgres password=postgres host=localhost port=5432"
