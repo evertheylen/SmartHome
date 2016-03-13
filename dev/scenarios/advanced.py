@@ -3,12 +3,15 @@
 while True:
     r = wait(".*")
     if r["type"] == "login":
-        r.answer({"type": "login", "data": {"session": 123}})
+        #r.answer({"type": "login", "data": {"result": "failure"}})
+        r.answer({"type": "login", "data": {"result": "succes", "session": 123, "UID": 1}})
     elif r["type"] == "signup":
-        r.answer({"type": "signup", "data": "success"})
+        #r.answer({"type": "signup", "data": {"result": "succes", "UID": 1}})
+        r.answer({"type": "signup", "data": {"result": "failure"}})
     elif r["type"] == "add":
         r.answer({"type": "add", "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit", "UID": 25, "SID": 2}})
-        '''
+
+'''
 r = wait("signup")
 r.answer({"type": "signup", "data": "success"})
 
@@ -27,4 +30,5 @@ time.sleep(1)  # Again, it's still just Python
 
 shell()
 
-send({"type": "message", "data": {"content": "Hello world"}})  # sending a message'''
+send({"type": "message", "data": {"content": "Hello world"}})  # sending a message
+'''
