@@ -34,7 +34,7 @@ angular.module("overwatch").run(function($rootScope, $location, Auth) {
         console.log(Auth.isLoggedIn());
         if (!Auth.isLoggedIn() && $location.path() != '/') {
             event.preventDefault();
-            console.log("YOU SHALL NOT PASS");
+            console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
             $location.path('/');
         } else if ($location.path() != '/') {
             console.log("Pass :)");
@@ -67,7 +67,7 @@ angular.module("overwatch").factory('Auth', function($cookies, $rootScope) {
     }
 });
 
-angular.module("overwatch").controller("mainCtrl", function($scope, $rootScope, $location, Auth) {
+angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth) {
     $scope.language = 0;
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];

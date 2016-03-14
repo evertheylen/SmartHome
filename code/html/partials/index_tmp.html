@@ -1,5 +1,5 @@
   <!-- The welcome message-->
-<div id="template_index" ng-controller="indexView">
+<div id="template_index" ng-controller="indexController">
     <div class="centeredContainer">
         <p class="welcomeMessage">{{i18n("homepage_welcome")}} OverWatch!</p>
         <p class="welcomeMessage">"Overwatch is love, Overwatch is life."</p>
@@ -9,7 +9,7 @@
         </button>
     </div>
     <!-- The log in dialog-->
-    <dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginCtrl">
+    <dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginController">
         <h4 class="mdl-dialog__title">{{i18n("login")}}</h4>
         <div class="mdl-dialog__content">
             <form role="form" name="login_form">
@@ -48,7 +48,7 @@
     </dialog>
 
     <!-- The sign up dialog-->
-    <dialog id="dlgSignup" class="mdl-dialog" ng-controller="signupCtrl">
+    <dialog id="dlgSignup" class="mdl-dialog" ng-controller="signupController">
         <h4 class="mdl-dialog__title">{{i18n("register")}}</h4>
         <div class="mdl-dialog__content" >
             <form role="form" name="signup_form">

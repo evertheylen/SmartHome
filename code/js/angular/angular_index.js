@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("indexView", function($scope, $rootScope) {
+angular.module("overwatch").controller("indexController", function($scope, $rootScope) {
 	$scope.dialog = document.getElementById('dlgLogin');
 	var showDialogButton = document.getElementById('btnLogin');
 	showDialogButton.addEventListener('click', function(){
@@ -26,7 +26,7 @@ angular.module("overwatch").controller("indexView", function($scope, $rootScope)
 
 
 
-angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope, $location, Auth) {
+angular.module("overwatch").controller("loginController", function($scope, $rootScope, $location, Auth) {
 	$scope.wrong_login = false;
 	$scope.login = function() {
 		if ($scope.login_form.$valid) {
@@ -48,7 +48,7 @@ angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope,
 	};
 });
 
-angular.module("overwatch").controller("signupCtrl", function($scope) {
+angular.module("overwatch").controller("signupController", function($scope) {
 	$scope.auth_user = null;
 	$scope.wrong_signup = false;
 	$scope.signup = function() {

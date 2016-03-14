@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("homeView", function($scope, $rootScope) {
+angular.module("overwatch").controller("homeController", function($scope, $rootScope) {
     $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
     if (hasClass(layout, "mdl-layout--no-drawer-button")) {

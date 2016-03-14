@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("sensorView", function($scope, $rootScope, $filter, $timeout) {
+angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout) {
 	$scope.add_autocomplete = function (tag) {
 		var i = $scope.tags.length;
 		while (i--) {
