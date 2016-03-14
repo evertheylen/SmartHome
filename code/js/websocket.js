@@ -84,11 +84,11 @@ function signup_response(response) {
 
 function login_response(response) {
 	data = response["data"];
-	if(data["result"] == "success") {
+	if(data["status"] == "success") {
 		// Currently this cookie will only be alive for 1 day.
 		setCookie("session", data["sessions"], 1);
 		userData = data["user"];
-		return {succes: true, UID: userData["UID"], firstName: userData["firstname"], lastName: userData["lastName"]};
+		return {succes: true, UID: userData["UID"], firstName: userData["first_name"], lastName: userData["last_name"]};
 	}
 	return {succes: false};
 }

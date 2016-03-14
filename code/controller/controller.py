@@ -64,7 +64,7 @@ class Controller:
             self.sessions[session] = u.UID
             req.conn.user = u
             req.conn.session = session
-            await req.answer({"session": session, "user": u.to_dict()})
+            await req.answer({"status": "success", "session": session, "user": u.to_dict()})
         else:
             raise Authentication("wrong_password", "Wrong password provided")
     
