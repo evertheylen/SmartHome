@@ -16,8 +16,7 @@ If an error occurs and the requested operation did not complete; the backend wil
 	{
 		"ID": 123,
 		"type": "error",
-		"data": "fail",
-		"error": {
+		"data": {
 			"short": "short string to be interpreted by frontend",
 			"long": "long string for dialog etc"
 		}
@@ -25,7 +24,7 @@ If an error occurs and the requested operation did not complete; the backend wil
 
 ## User Auth
 
-### Signup
+### Signup **risky**
 
 Client message:
 
@@ -58,7 +57,7 @@ Server response (Fail):
 		}	
 	}
 
-### Login
+### Login **risky**
 
 Client message:
 
@@ -143,21 +142,12 @@ Response (Success):
 		"type": "add",
 		"what": <object class>,
 		"data": {
-				"status": "success"			
-				<entire definition with ID>
-			}
+			"status": "success"			
+			<entire definition with ID>
+		}
 	}
 
-Response (Failure): 
-
-	{
-		"type": "add",
-		"what": <object class>,
-		"data": {
-				"status": "failure"			
-				<entire definition with ID>
-			}
-	}
+Response (Failure): normal error message
 
 
 When adding a value, you need to specify for which sensor it is.
@@ -174,14 +164,16 @@ Message:
 		} 
 	}
 
-Response is either.
+Response (Success):
+
 	{
 		"type": "delete",
 		"data": {
-			"status": success || failure
-		} 
+			"status": "success"
+		}
 	}
 
+Response in case of failure is a normal error message.
 
 Again, for a value you need a `"for"` attribute.
 
@@ -205,20 +197,11 @@ Response (Success):
 		"type": "get",
 		"what": <object class>,
 		"data": {
-				"status": success
-				<entire definition>
-			}
+			<entire definition>
+		}
 	}
 
-Response (Fail):
-
-	{
-		"type": "get",
-		"what": <object class>,
-		"data": {
-				"status": failure
-			}
-	}
+Response (Fail): normal error message
 
 So far there is no way to get a single Value, and therefore no `"get"` message will need a `"for"` attribute (this may change in the future).
 
@@ -295,6 +278,7 @@ Response:
 		}
 	}
 
+There can be a `"for"` attribute here.
 
 
 ## Definitions
@@ -319,6 +303,7 @@ ID's are separate for each type, so it may happen there is a user and a sensor w
 	}
 
 ### Locations
+
 	{
 		"LID": 1,
 		"desc": "Campus Middelheim",
@@ -329,16 +314,7 @@ ID's are separate for each type, so it may happen there is a user and a sensor w
 		"number": 1
 	}
 
-### Tags
-	{
 
-	}
-
-
-### Types
-	{
-		"Type": "Electricy"
-	}
 
 
 #### Value
@@ -368,6 +344,17 @@ Server responses can be of type: `add`, `delete`, `edit`.
 For now, registering on a user will also send updates on which sensors the user owns.
 
 Closing the connection will unregister from any objects.
+
+Apart from that you can also unregister from all objects:
+
+	{
+		"ID": 123,
+		"type": "unregister_all",
+		"what": "<class>",
+		"data": {
+			"QID" / "SID": 123
+		}
+	}
 
 `edit` will simply send a new definition of the object. 
 
