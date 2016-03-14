@@ -42,24 +42,8 @@ angular.module("overwatch").run(function($rootScope, $location, Auth) {
     });  
 });
 
-angular.module("overwatch").factory('Auth', function($cookies, $rootScope) {
+angular.module("overwatch").factory('Auth', function($rootScope) {
     var user;
-    /*return {
-        setUser : function(aUser) {
-            user = aUser;
-            $cookies.put("username", user);
-            $rootScope.$broadcast("login_change");
-        },
-        getUser : function() {
-            return $cookies.get("username");
-        },
-        isLoggedIn : function() {
-            return ($cookies.get("username")) ? $cookies.get("username") : false;
-        },
-        clearCookies: function() {
-            $cookies.remove("username");
-        }
-    };*/
     return {
         isLoggedIn : function() {
             return (getCookie("session") != "");
@@ -69,29 +53,19 @@ angular.module("overwatch").factory('Auth', function($cookies, $rootScope) {
 
 angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth) {
     $scope.language = 0;
+    
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
-   // $scope.$on("login_change", function() {
-     //   $rootScope.auth_user = Auth.getUser();
-       // $rootScope.logged_in = Auth.isLoggedIn();    
-    //});
-    //$rootScope.auth_user = Auth.getUser();
+    
     $rootScope.logged_in = Auth.isLoggedIn();
     $scope.logout = function() {
         console.log("logging Out");
-        //Auth.clearCookies();
         setCookie("session", "", 1);
         $rootScope.logged_in = Auth.isLoggedIn();
-        //$rootScope.auth_user = Auth.getUser();
         $location.path("/");
     }
     
-    //$rootScope.user = Auth.getUser();
-    
-    //TODO DEVELOPMENT CODE DELETE THIS!!!!!!
-//    $location.path("/sensors");
-    //$rootScope.logged_in = true;
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
     });
