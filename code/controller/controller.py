@@ -41,21 +41,21 @@ class Controller:
             return self.sessions[session]
         else:
             return None
-    
-    
+
+
     async def permitted(self, user, obj):
         pass
-    
-    
+
+
     async def logout(self, req):
         self.sessions.pop(req.conn.session)
         req.conn.session = None
         req.conn.user = None
 
-    
+
     async def login(self, req):
         res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
-        if res is None: return
+        if res is None: raise Authentication("Email error", "Email not recognized")
         u = User.from_db(res)
 
         # TODO IMPORTANT Don't store plaintext passwords
@@ -67,7 +67,7 @@ class Controller:
             await req.answer({"status": "success", "session": session, "user": u.to_dict()})
         else:
             raise Authentication("wrong_password", "Wrong password provided")
-    
+
     async def signup(self, req):
         res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
         if res is not None:
@@ -85,10 +85,10 @@ class Controller:
     async def register(self, req):
         # TODO permissions!
         pass
-    
+
     async def unregister(self, req):
         pass
-    
+
     async def unregister(self, req):
         pass
 
@@ -145,12 +145,11 @@ class Controller:
             s = await Sensor.delete(self.db, req.dct["data"]["ID"])
             # TODO rekening houden met sensors die reeds gedeleted zijn !
             await req.answer("success")
-    
-    
+
+
     async def handle_request(self, req):
         if req.dct["type"] in Controller.__dict__:
             # TODO only allow handle functions excplicitly allowed to handle incoming JSON messages
             await Controller.__dict__[req.dct["type"]](self, req)
         else:
             self.logger.error("No handler for %s in Controller"%req.dct["type"])
-
