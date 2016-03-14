@@ -58,7 +58,6 @@
 								</button>  
     							<span>Type</span>
 							</th>
-							
 							<th>
 								<button ng-click="set_order('tags', 'sort_tags')" id="sort_tags" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
@@ -76,7 +75,6 @@
 				            <td>{{sensor.location}}</td>
 				            <td>{{sensor.type}}</td>
 				            <td><span ng-repeat="tag in sensor.tags">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
-				            <td>{{todo.text}}</td>
 							<td>
 								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
