@@ -55,14 +55,14 @@
                 <!-- The username and password-->
                 <div class="mdl-textfield mdl-js-textfield">
                     <label class="mdl-textfield__label" for="input_signup_firstname">{{i18n("firstname")}}</label>                  
-                    <input class="mdl-textfield__input" type="text" id="input_signup_firstname" ng-model="firstname" name="signupFirstname" required/>
+                    <input class="mdl-textfield__input" type="text" id="input_signup_firstname" ng-model="first_name" name="signupFirstname" required/>
                 </div>
                 <div ng-messages="signup_form.signupFirstname.$error">
                     <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <label class="mdl-textfield__label" for="input_signup_lastname">{{i18n("lastname")}}</label>                  
-                   <input class="mdl-textfield__input" type="text" id="input_signup_lastname" ng-model="lastname" name="signupLastname" required/>
+                   <input class="mdl-textfield__input" type="text" id="input_signup_lastname" ng-model="last_name" name="signupLastname" required/>
                 </div>
 
                 <div ng-messages="signup_form.signupLastname.$error">
