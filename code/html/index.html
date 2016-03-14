@@ -41,15 +41,13 @@
           <!-- Navigation -->
           <nav class="mdl-navigation">
             <button id="btnLogin" type="button"
-            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-hide=logged_in>
-                {{i18n("login")}}
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-hide=logged_in ng-bind="i18n('login')">
             </button>
             <button id="btnLogout" type="button"
             class="mdl-button mdl-js-button mdl-button--fab" ng-click="logout()" ng-show=logged_in>
                 <i class="material-icons">power_settings_new</i>
             </button>
-            <div class="mdl-tooltip" for="btnLogout">
-            	{{i18n("logout")}}
+            <div class="mdl-tooltip" for="btnLogout" ng-bind="i18n('logout')">
             </div>
           </nav>
         </div>
@@ -57,28 +55,26 @@
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">OverWatch</span>
         <nav class="mdl-navigation">
-          <a class="header_a mdl-navigation__link" href="/home">{{i18n("homelink")}}</a>
-          <a class="header_a mdl-navigation__link" href="/statistics">{{i18n("statisticslink")}}</a>
-          <a class="header_a mdl-navigation__link" href="/sensors">{{i18n("sensorslink")}}</a>
-          <a class="header_a mdl-navigation__link" href="/social">{{i18n("sociallink")}}</a>
+          <a class="header_a mdl-navigation__link" href="/home" ng-bind="i18n('homelink')"></a>
+          <a class="header_a mdl-navigation__link" href="/statistics" ng-bind="i18n('statisticslink')"></a>
+          <a class="header_a mdl-navigation__link" href="/sensors" ng-bind="i18n('sensorslink')"></a>
+          <a class="header_a mdl-navigation__link" href="/social" ng-bind="i18n('sociallink')"></a>
         </nav>
       </div>
       <main class="mdl-layout__content">
         <div ng-view></div>
         <!-- The confirm dialog-->
         <dialog id="dlgConfirm" class="mdl-dialog">
-            <h4 class="mdl-dialog__title">{{i18n("confirm_title")}}</h4>
+            <h4 class="mdl-dialog__title" ng-bind="i18n('confirm_title')"></h4>
             <div class="mdl-dialog__content">
-                <p>{{i18n("confirm_text")}}
+                <p ng-bind="i18n('confirm_text')">
                 <div>
                     <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
                     <button id="btnConfirmContinue" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="width: 45%; display: inline;" ng-click="confirm(true);">
-                        {{i18n("continue")}}
+                        style="width: 45%; display: inline;" ng-click="confirm(true);" ng-bind="i18n('continue')">
                     </button>
                     <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="width: 45%; display: inline;" ng-click="confirm(false);">
-                        {{i18n("cancel")}}
+                        style="width: 45%; display: inline;" ng-click="confirm(false);" ng-bind="i18n('cancel')">
                     </button>
                 </div>
             </div>
@@ -89,7 +85,7 @@
 			    <div class="mdl-logo">OverWatch</div>
 			    <ul class="mdl-mini-footer__link-list">
 				    <li><a href="#">Help</a></li>
-				    <li><a href="#">{{i18n("privacy")}}</a></li>
+				    <li><a href="#" ng-bind="i18n('privacy')"></a></li>
 			    </ul>
 		    </div>
 		    <div class="mdl-mini-footer__right-section">
