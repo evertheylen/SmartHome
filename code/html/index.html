@@ -61,24 +61,23 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-        <div ng-view>
-            <!-- The confirm dialog-->
-            <dialog id="dlgConfirm" class="mdl-dialog">
-                <h4 class="mdl-dialog__title" ng-bind="i18n('confirm_title')"></h4>
-                <div class="mdl-dialog__content">
-                    <p ng-bind="i18n('confirm_text')">
-                    <div>
-                        <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
-                        <button id="btnConfirmContinue" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                            style="width: 45%; display: inline;" ng-click="confirm(true);" ng-bind="i18n('continue')">
-                        </button>
-                        <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                            style="width: 45%; display: inline;" ng-click="confirm(false);" ng-bind="i18n('cancel')">
-                        </button>
-                    </div>
+        <div ng-view></div>
+        <!-- The confirm dialog-->
+        <dialog id="dlgConfirm" class="mdl-dialog">
+            <h4 class="mdl-dialog__title" ng-bind="i18n('confirm_title')"></h4>
+            <div class="mdl-dialog__content">
+                <p ng-bind="i18n('confirm_text')">
+                <div>
+                    <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+                    <button id="btnConfirmContinue" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                        style="width: 45%; display: inline;" ng-click="confirm(true);" ng-bind="i18n('continue')">
+                    </button>
+                    <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                        style="width: 45%; display: inline;" ng-click="confirm(false);" ng-bind="i18n('cancel')">
+                    </button>
                 </div>
-            </dialog>
-        </div>
+            </div>
+        </dialog>        
       </main>
 	    <footer class="mdl-mini-footer">
 		    <div class="mdl-mini-footer__left-section">
