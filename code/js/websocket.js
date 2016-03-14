@@ -77,7 +77,7 @@ function connect_to_websocket() {
 
 function signup_response(response) {
 	data = response["data"];
-	if(data["result"] == "success")
+	if(data["status"] == "success")
 		return {succes: true, UID: data["UID"]};
 	return {succes: false};
 }
