@@ -54,6 +54,7 @@ Server response (Fail):
 		"type": "signup",
 		"data": {
 			"status": "failure"
+			"reason": "email_taken"
 		}	
 	}
 
@@ -75,6 +76,7 @@ Server response (Fail):
 		"type": "signup",
 		"data": {
 			"status": "failure"
+			"reason": "email_unknown" || "wrong_password"
 		}	
 	}
 
