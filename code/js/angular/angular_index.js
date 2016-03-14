@@ -37,7 +37,6 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 					$rootScope.auth_user = new User(response.UID, response.firstName, response.lastName, $scope.email);
 					console.log(response.UID);
 					$scope.wrong_login = false;
-					setCookie("session", "123", 1);     // TODO Jeroen fix da hier een cookie staat die zorgt dat we ingelogd blijven
 					$location.path("/home");
 				} else {
 					$scope.wrong_login = true;
