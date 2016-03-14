@@ -2,7 +2,7 @@ var currentId = 0;
 handlers = {}; // specify functions to deal with server messages (that aren't a reply)
 answers = {};  // specify functions that need to be called when the server answers
 
-function connect_to_websocket() { 
+function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 	//websocket = new WebSocket("ws://localhost:8002/ws");
 
@@ -10,18 +10,18 @@ function connect_to_websocket() {
 		// Data can be any object literal or prototype with the toJSON method.
 		answers[currentId] = f;
 		var stringToSend = JSON.stringify({"ID": currentId, "type": type, "data": data});
-		websocket.send(stringToSend);	
+		websocket.send(stringToSend);
 		currentId+=1;
 		console.log("Sent data to server:");
 		console.log(stringToSend);
 	}
-	
-	websocket.onopen = function() { 
+
+	websocket.onopen = function() {
 		// Currently nothing happens when the socket is opened.
 		console.log("Websocket opened");
 	};
 
-	websocket.onclose = function() { 
+	websocket.onclose = function() {
 		// Currently nothing happens when the socket is closed.
 		console.log("Websocket closed");
 	};
@@ -49,7 +49,7 @@ function connect_to_websocket() {
 					polishedObject = get_all_response(receivedObject);
 					break;
 				case "":
-				
+
 			}
 		}
 		catch(SyntaxError) {
@@ -69,7 +69,7 @@ function connect_to_websocket() {
 	};
 
 	websocket.onerror = function(evt) {
-		console.log("Websocket Error occured: " + evt.data);	
+		console.log("Websocket Error occured: " + evt.data);
 	};
 
 	return websocket;
@@ -77,14 +77,14 @@ function connect_to_websocket() {
 
 function signup_response(response) {
 	data = response["data"];
-	if(data["result"] == "succes") 
+	if(data["result"] == "success")
 		return {succes: true, UID: data["UID"]};
 	return {succes: false};
 }
 
 function login_response(response) {
 	data = response["data"];
-	if(data["result"] == "succes") {
+	if(data["result"] == "success") {
 		// Currently this cookie will only be alive for 1 day.
 		setCookie("session", data["sessions"], 1);
 		userData = data["user"];
@@ -103,7 +103,7 @@ function error_response(response) {
 		default:
 			arg[0] = "Undefined";
 	}
-	arg[1] = data["error"]["long"]; 
+	arg[1] = data["error"]["long"];
 	return arg;
 }
 
@@ -128,7 +128,7 @@ function get_all_response(response) {
 				locationData = response["data"][i];
 				location = new Location(locationData["SID"], locationData["title"], locationData["type"]);
 				locations.push(location);
-			}						
+			}
 			return {for: response["for"], locations: locations};
 		default:
 			break;
