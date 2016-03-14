@@ -1,3 +1,7 @@
+// TODO
+//  Cookie for the internationalization
+
+
 angular.module("overwatch", ['ngRoute', 'ngTagsInput', 'ngMessages', 'ngAnimate', 'ngCookies'])
     .directive('onFinishRender', function ($timeout) {
     return {

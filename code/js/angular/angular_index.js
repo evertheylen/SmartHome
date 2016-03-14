@@ -30,16 +30,6 @@ angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope,
 	$scope.wrong_login = false;
 	$scope.login = function() {
 		if ($scope.login_form.$valid) {
-			// TODO REMOVE THIS DEV CODE
-			/*
-			$rootScope.logged_in = true;
-			document.getElementById("dlgLogin").close();
-			$scope.wrong_login = false;
-			$location.path("/home");
-			//Auth.setUser("Stijn");
-			setCookie("session", "123", 1);
-			*/
-			
 			ws.request("login", {email: $scope.email, password: $scope.password}, function(response) {
 				if (response.succes) {	
 					$rootScope.logged_in = true;
@@ -47,7 +37,7 @@ angular.module("overwatch").controller("loginCtrl", function($scope, $rootScope,
 					$rootScope.auth_user = new User(response.UID, response.firstName, response.lastName, $scope.email);
 					console.log(response.UID);
 					$scope.wrong_login = false;
-					setCookie("session", "123", 1);
+					setCookie("session", "123", 1);     // TODO Jeroen fix da hier een cookie staat die zorgt dat we ingelogd blijven
 					$location.path("/home");
 				} else {
 					$scope.wrong_login = true;
