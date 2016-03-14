@@ -76,7 +76,10 @@ class Controller:
         else:
             self.logger.debug("data = " + repr(req.dct["data"]))
             u = await User.new(self.db, req.dct["data"])
-            await req.answer("success")
+            await req.answer({
+			    "status": "success",
+			    "UID": u.UID
+		    })
 
 
     async def register(self, req):
