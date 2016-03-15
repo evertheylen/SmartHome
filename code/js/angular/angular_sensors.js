@@ -1310,12 +1310,12 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 	function set_sen(id) {
 		edit_sen = true;
-		$scope.sen_name = $scope.sensors[id].name;
-		$scope.sen_tags = $scope.sensors[id].tags;
-		$scope.sen_type = $scope.sensors[id].type;
-		$scope.sen_location = $scope.sensors[id].location;
-		$scope.dropDownClick($scope.sensors[id].type, 'select_type', 'dropDownType', 'type');
-		$scope.dropDownClick($scope.sensors[id].location, 'select_location', 'dropDownLocation', 'location');
+		$scope.sen_name = $scope.filteredSensors[id].name;
+		$scope.sen_tags = $scope.filteredSensors[id].tags;
+		$scope.sen_type = $scope.filteredSensors[id].type;
+		$scope.sen_location = $scope.filteredSensors[id].location;
+		$scope.dropDownClick($scope.filteredSensors[id].type, 'select_type', 'dropDownType', 'type');
+		$scope.dropDownClick($scope.filteredSensors[id].location, 'select_location', 'dropDownLocation', 'location');
 
 		addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
 		//addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
