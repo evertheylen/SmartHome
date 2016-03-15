@@ -34,7 +34,25 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.types = types;
 		$scope.$apply();
 	});*/
+   $scope.filteredTodos = []
+  ,$scope.currentPage = 1
+  ,$scope.numPerPage = 10
+  ,$scope.maxSize = 5;
 
+  $scope.makeTodos = function() {
+    $scope.todos = [];
+    for (i=1;i<=1000;i++) {
+      $scope.todos.push({ text:"todo "+i, done:false});
+    }
+  };
+  $scope.makeTodos(); 
+
+  $scope.$watch("currentPage + numPerPage", function() {
+    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+    , end = begin + $scope.numPerPage;
+
+    $scope.filteredTodos = $scope.todos.slice(begin, end);
+  });
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
 
 	$scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
@@ -43,7 +61,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
 			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
-    $scope.todos = [{text: "todo1"}, {text: "todo2"}, {text: "todo3"},{text: "todo4"},{text: "todo5"}, {text: "todo6"},{text: "todo7"},{text: "todo8"},{text: "todo9"},{text: "todo10"},{text: "todo11"},{text: "todo12"},{text: "todo13"},{text: "todo14"}, {text: "todo15"},{text: "todo16"},{text: "todo17"},{text: "todo18"},{text: "todo19"},{text: "todo20"}];               
     $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
 
 	$scope.required = true;
