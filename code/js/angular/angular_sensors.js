@@ -41,7 +41,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
 
-	$scope.sensors = [{'name': 'sensor 0', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 0'},
+	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
+			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
+    $scope.types = ["Electricity", "Movement", "Water", "Temperature",{'name': 'sensor 0', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 0'},
 {'name': 'sensor 1', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 1'},
 {'name': 'sensor 2', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 2'},
 {'name': 'sensor 3', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 3'},
