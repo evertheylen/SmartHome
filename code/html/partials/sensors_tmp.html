@@ -7,8 +7,7 @@
 					<thead>
 						<tr class="tableHeadColor">
 							<th class="mdl-data-table__cell--non-numeric">
-								<div>
-									{{i18n("locations")}}
+								<div ng-bind="i18n('locations')">
 								</div>
 							</th>
 							<th>
@@ -19,7 +18,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
-							<td class="mdl-data-table__cell--non-numeric">{{location.desc}}</td>
+							<td class="mdl-data-table__cell--non-numeric" ng-bind="location.desc"></td>
 							<td>
 								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, locations);"><i class="material-icons">delete</i></button>
@@ -27,8 +26,7 @@
 						</tr>	
 					</tbody>
 				</table>
-				<button id="btnAddLoc" ng-click="reset_loc();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-				  {{i18n("add_location")}}
+				<button id="btnAddLoc" ng-click="reset_loc();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
 				</button>
 			</div>
 		</div>
@@ -50,7 +48,7 @@
 								<button ng-click="set_order('location', 'sort_location')" id="sort_location" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
-    							<span>{{i18n("location")}}</span>
+    							<span ng-bind="i18n('location')"></span>
 							</th>
 							<th>
 								<button ng-click="set_order('type', 'sort_type')" id="sort_type" class="mdl-button mdl-js-button mdl-button--icon">
@@ -71,9 +69,9 @@
 					</thead>
 					<tbody id="table_body">
 						<tr ng-repeat="sensor in sensors | index | orderBy: selected_order" on-finish-render="ngRepeatFinished">
-                            <td class="mdl-data-table__cell--non-numeric">{{sensor.name}}</td>
-				            <td>{{sensor.location}}</td>
-				            <td>{{sensor.type}}</td>
+                            <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.name"></td>
+				            <td ng-bind="sensor.location"></td>
+				            <td ng-bind="sensor.type"></td>
 				            <td><span ng-repeat="tag in sensor.tags">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							<td>
 								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
@@ -82,43 +80,37 @@
 						</tr>
 					</tbody>
 				</table>
-				<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-				  {{i18n("add_sensor")}}
+				<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_sensor')">
 				</button>
 			</div>
 		</div>
 	</div>
-    <div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}">
-    	{{i18n("edit_location")}}
+    <div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}" ng-bind="i18n('edit_location')">
 	</div>
-	<div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}">
-		{{i18n("del_location")}}
+	<div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_location')">
 	</div>
-    <div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}">
-    	{{i18n("edit_sensor")}}
+    <div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}" ng-bind="i18n('edit_sensor')">
 	</div>
-	<div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}">
-		{{i18n("del_sensor")}}
+	<div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}" ng-bind="i18n('del_sensor')">
 	</div>
 
 	<!--Add sensor dialog-->
     <dialog id="dlgSensor" class="mdl-dialog">
-        <h4 class="mdl-dialog__title">{{edit_sen}}</h4>
+        <h4 class="mdl-dialog__title" ng-bind="edit_sen"></h4>
         <div class="mdl-dialog__content">
             <form name="sensor_form">
                 <div id="txtfield_SensorName" class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName" required>
-                    <label class="mdl-textfield__label" for="input_SensorName">{{i18n("name")}}</label>
+                    <label class="mdl-textfield__label" for="input_SensorName" ng-bind="i18n('name')"></label>
                 </div>
                 <tags-input ng-model="sen_tags" on-tag-added="add_autocomplete($tag)">
 	                <auto-complete min-length="1" source="check_autocomplete($query)" highlight-matched-text="false"></auto-complete>
                 </tags-input>
                 
 				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
-					<label>{{i18n("location")}}</label>
+					<label ng-bind="i18n('location')"></label>
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
-					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_location').parentNode, 'is-visible');">
-						{{i18n("pick_loc")}}
+					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_location').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
 					</button>
 					<input type="hidden" ng-model="sen_location" required></input>
 					<ul  id="select_location" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
@@ -126,21 +118,20 @@
 						<li>
 							<li ng-repeat="location in locations" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
 								ng-click="dropDownClick(location.desc, 'select_location', 'dropDownLocation', 'location')" tabindex="-1"
-								>{{location.desc}}
+								ng-bind="location.desc"
+								>
 							</li>
 						</li>
 					</ul>
 				</div>
 				<div id="txtfield_SensorType" class="mdl-selectfield">
 				    <label>Type</label>
-				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');">
-				        {{i18n("pick_type")}}
+				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');" ng-bind="i18n('pick_type')">
 				    </button>
 				    <input type="hidden" ng-model="sen_type" required></input>
 				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scrolll; max-height: 140px;">
 				        <li>
-				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1">
-				                {{type}}
+				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="type">
 				            </li>
 				        </li>
 				    </ul>
@@ -148,12 +139,10 @@
             </form>
             <div>
                 <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-click="save_sen()">
-                    {{i18n("save_changes")}}
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-click="save_sen()" ng-bind="i18n('save_changes')">
                 </button>
                 <button id="btnSensorBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-click="reset_sen()">
-                    {{i18n("back")}}
+                    style="width: 45%; display: inline;" ng-click="reset_sen()" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>
@@ -161,42 +150,40 @@
 
 	<!--TODO Maybe adjust this information, i don't know if this is enough-->
 	<dialog id="dlgLocation" class="mdl-dialog">
-        <h4 class="mdl-dialog__title">{{edit_loc}}</h4>
+        <h4 class="mdl-dialog__title" ng-bind="edit_loc"></h4>
         <div class="mdl-dialog__content">
             <form name="location_form">
                 <div id="txtfield_LocationCountry" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="locationCountry" required>
-                    <label class="mdl-textfield__label" for="input_LocationCountry">{{i18n("country")}}</label>
+                    <label class="mdl-textfield__label" for="input_LocationCountry" ng-bind="i18n('country')"></label>
                 </div>
                 <div id="txtfield_LocationCity" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="locationCity" required>
-                    <label class="mdl-textfield__label" for="input_LocationCity">{{i18n("city")}}</label>
+                    <label class="mdl-textfield__label" for="input_LocationCity" ng-bind="i18n('city')"></label>
                 </div>
                 <div id="txtfield_LocationZip" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="locationZip" required>
-                    <label class="mdl-textfield__label" for="input_LocationZip">{{i18n("postalcode")}}</label>
+                    <label class="mdl-textfield__label" for="input_LocationZip" ng-bind="i18n('postalcode')"></label>
                 </div>
                 <div id="txtfield_LocationStreet" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="locationStreet" required>
-                    <label class="mdl-textfield__label" for="input_LocationStreet">{{i18n("street")}}</label>
+                    <label class="mdl-textfield__label" for="input_LocationStreet" ng-bind="i18n('street')"></label>
                 </div>
                 <div id="txtfield_LocationNr" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="locationNr" required>
-                    <label class="mdl-textfield__label" for="input_LocationNr">{{i18n("number")}}</label>
+                    <label class="mdl-textfield__label" for="input_LocationNr" ng-bind="i18n('number')"></label>
                 </div>
                 <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_desc" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc" required>
-                    <label class="mdl-textfield__label" for="input_LocationDesc">{{i18n("description")}}</label>
+                    <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
                 </div>
             </form>
             <div>
                 <button id="btnLocationSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="save_loc()"
-                    style="width: 45%; display: inline; margin-left: 5%;">
-                    {{i18n("save_changes")}}
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('save_changes')">
                 </button>
                 <button id="btnLocationBack" ng-click="reset_loc();" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;">
-                    {{i18n("back")}}
+                    style="width: 45%; display: inline;" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>

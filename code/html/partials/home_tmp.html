@@ -21,9 +21,8 @@
 		</button>
 	</div>
 </div>
-<div ng-repeat="i in [0,1,2,3,4,5]" class="mdl-tooltip" for="important-{{$index}}">
+<div ng-repeat="i in [0,1,2,3,4,5]" class="mdl-tooltip" for="important-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
 	<!--TODO change this if the card was marked as important/unimportant-->
-	{{importants[$index] ? i18n("mark_unimportant") : i18n("mark_important")}}
 </div>
 </div>
 </div>

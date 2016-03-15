@@ -1,16 +1,15 @@
   <!-- The welcome message-->
 <div id="template_index" ng-controller="indexController">
     <div class="centeredContainer">
-        <p class="welcomeMessage">{{i18n("homepage_welcome")}} OverWatch!</p>
+        <p class="welcomeMessage" ng-bind="i18n('homepage_welcome') OverWatch!"></p>
         <p class="welcomeMessage">"Overwatch is love, Overwatch is life."</p>
         <p class="welcomeMessage" ng-show=logged_in>Currently logged in as {{auth_user}}.</p>
-        <button id="btnSignup" type="button" class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-            {{i18n("register")}}
+        <button id="btnSignup" type="button" ng-bind="i18n('register')"class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
         </button>
     </div>
     <!-- The log in dialog-->
     <dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginController">
-        <h4 class="mdl-dialog__title">{{i18n("login")}}</h4>
+        <h4 class="mdl-dialog__title" ng-bind="i18n('login')"></h4>
         <div class="mdl-dialog__content">
             <form role="form" name="login_form">
                 <!-- The username and password-->
@@ -19,29 +18,27 @@
                     <label class="mdl-textfield__label" for="input_login_email">Email</label>
                 </div>
                 <div ng-messages="login_form.loginEmail.$error">
-                        <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
-                        <div style="color: red" ng-message="email">{{i18n("invalid_email")}}</div>
+                        <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
+                        <div style="color: red" ng-message="email" ng-bind="i18n('invalid_email')"></div>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="password" id="input_login_password" name="login_password" ng-model="password" required>
-                    <label class="mdl-textfield__label" for="input_login_password">{{i18n("password")}}</label>
+                    <label class="mdl-textfield__label" for="input_login_password" ng-bind="i18n('password')"></label>
                 </div>
                     <div ng-messages="login_form.login_password.$error">
-                            <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
+                            <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
                     </div>
                     <div>
-                            <p style="color: red" ng-show="wrong_login">{{i18n("login_error")}}</p>
+                            <p style="color: red" ng-show="wrong_login" ng-bind="i18n('login_error')"></p>
                     </div>
             </form>
             <div>
                 <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
                 <button id="btnDialogLogin" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="login()"
-                    style="width: 45%; display: inline;">
-                    {{i18n("login")}}
+                    style="width: 45%; display: inline;" ng-bind="i18n('login')">
                 </button>
                 <button id="btnDialogBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-click="wrong_login=false">
-                    {{i18n("back")}}
+                    style="width: 45%; display: inline;" ng-click="wrong_login=false" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>
@@ -49,54 +46,52 @@
 
     <!-- The sign up dialog-->
     <dialog id="dlgSignup" class="mdl-dialog" ng-controller="signupController">
-        <h4 class="mdl-dialog__title">{{i18n("register")}}</h4>
+        <h4 class="mdl-dialog__title" ng-bind="i18n('register')"></h4>
         <div class="mdl-dialog__content" >
             <form role="form" name="signup_form">
                 <!-- The username and password-->
                 <div class="mdl-textfield mdl-js-textfield">
-                    <label class="mdl-textfield__label" for="input_signup_firstname">{{i18n("firstname")}}</label>                  
+                    <label class="mdl-textfield__label" for="input_signup_firstname" ng-bind="i18n('firstname')"></label>                  
                     <input class="mdl-textfield__input" type="text" id="input_signup_firstname" ng-model="first_name" name="signupFirstname" required/>
                 </div>
                 <div ng-messages="signup_form.signupFirstname.$error">
-                    <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
+                    <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield">
-                    <label class="mdl-textfield__label" for="input_signup_lastname">{{i18n("lastname")}}</label>                  
+                    <label class="mdl-textfield__label" for="input_signup_lastname" ng-bind="i18n('lastname')"></label>                  
                    <input class="mdl-textfield__input" type="text" id="input_signup_lastname" ng-model="last_name" name="signupLastname" required/>
                 </div>
 
                 <div ng-messages="signup_form.signupLastname.$error">
-                        <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
+                        <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="email" id="input_signup_email" name="signupEmail" ng-model="email" required>
                     <label class="mdl-textfield__label" for="input_signup_email">Email</label>
                 </div>
                     <div ng-messages="signup_form.signupEmail.$error">
-                            <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
-                            <div style="color: red" ng-message="email">{{i18n("invalid_email")}}</div>
+                            <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
+                            <div style="color: red" ng-message="email" ng-bind="i18n('invalid_email')"></div>
                     </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="password" id="input_signup_password" ng-model="password" name="signupPassword" required minlength="8">
-                    <label class="mdl-textfield__label" for="input_signup_password">{{i18n("password")}}</label>
+                    <label class="mdl-textfield__label" for="input_signup_password" ng-bind="i18n('password')"></label>
                 </div>
                     <div ng-messages="signup_form.signupPassword.$error">
-                            <div style="color: red" ng-message="required">{{i18n("required_field")}}</div>
-                            <div style="color: red" ng-message="minlength">{{i18n("invalid_password")}}</div>
+                            <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
+                            <div style="color: red" ng-message="minlength" ng-bind="i18n('invalid_password')"></div>
                     </div>
                     <div>
-                            <p style="color: red" ng-show="wrong_signup">{{i18n("signup_error")}}</p>
+                            <p style="color: red" ng-show="wrong_signup" ng-bind="i18n('signup_error')"></p>
                     </div>
             </form>
             <div>
                 <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
                 <button id="btnDialogSignup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="signup()"
-                    style="width: 55%; display: inline;">
-                    {{i18n("register")}}
+                    style="width: 55%; display: inline;" ng-bind="i18n('register')">
                 </button>
                 <button id="btnSignupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 40%; display: inline;" ng-click="wrong_signup=false">
-                    {{i18n("back")}}
+                    style="width: 40%; display: inline;" ng-click="wrong_signup=false" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>
