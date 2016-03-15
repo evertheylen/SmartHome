@@ -16,18 +16,6 @@ angular.module("overwatch", ['ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies'
     }
 });
 
-angular.module("overwatch").directive('afterRender', ['$timeout', function ($timeout) {
-    var def = {
-        restrict: 'A',
-        terminal: true,
-        transclude: false,
-        link: function (scope, element, attrs) {
-            $timeout(scope.$eval(attrs.afterRender), 0);  //Calling a scoped method
-        }
-    };
-    return def;
-}]);
-
 angular.module("overwatch").run(function($rootScope, $location, Auth) {
     $rootScope.$on('$routeChangeStart', function(event) {
         //console.log(Auth.getUser());
