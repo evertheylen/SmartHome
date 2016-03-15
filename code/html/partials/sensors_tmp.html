@@ -68,7 +68,7 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors | index | orderBy: selected_order" on-finish-render="ngRepeatFinished">
+						<tr ng-repeat="sensor in filteredSensors | index | orderBy: selected_order" on-finish-render="ngRepeatFinished">
                             <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.name"></td>
 				            <td ng-bind="sensor.location"></td>
 				            <td ng-bind="sensor.type"></td>
@@ -77,24 +77,6 @@
 								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							</td>
-						</tr>
-					</tbody>
-				</table>
-				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-				    <thead>
-						<tr class="tableHeadColor">
-							<th class="mdl-data-table__cell--non-numeric">
-
-								<button class="mdl-button mdl-js-button mdl-button--icon">
-								    <i class="material-icons md-10 ">play_arrow</i>
-								</button>  
-    							<span>Todo</span>
-							</th>
-						</tr>				    
-				    </thead>
-					<tbody id="table_body2">
-						<tr ng-repeat="todo in filteredTodos" on-finish-render="ngRepeatFinished">
-                            <td class="mdl-data-table__cell--non-numeric" ng-bind="todo.text"></td>
 						</tr>
 					</tbody>
 				</table>
