@@ -1279,10 +1279,14 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.save_sen = function save_sen() {
 		if ($scope.sensor_form.$valid) {
 			if (edit_sen) {
-				$scope.sensors[edit_sen_id].name = $scope.sen_name;
-				$scope.sensors[edit_sen_id].tags = $scope.sen_tags;
-				$scope.sensors[edit_sen_id].type = $scope.sen_type;
-				$scope.sensors[edit_sen_id].location = $scope.sen_location;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].name = $scope.sen_name;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
+				$scope.filteredSensors[edit_sen_id].name = $scope.sen_name;
+				$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
+				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
+				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
 				/*ws.request("edit", {SID: edit_sen_id, title: $scope.sen_name, UID: TODO, type: $scope.sen_type}, function(successful_edit) {
 				if (successful_edit) {	
 				document.getElementById("dlgSensor").close();
