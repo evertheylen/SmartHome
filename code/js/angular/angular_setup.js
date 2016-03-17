@@ -70,6 +70,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$scope.$on('$locationChangeSuccess', function() {
 	    console.log("New Location: " + $location.path());
 	});
+	
+	$scope.hideDrawer = function () {
+	    removeClass(document.getElementByClassName('mdl-layout__drawer'),'is-visible');
+	    removeClass(document.getElementByClassName('mdl-layout__obfuscator'), 'is-visible');
+	}
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",
