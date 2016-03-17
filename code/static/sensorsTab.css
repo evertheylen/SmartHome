@@ -146,6 +146,7 @@ table{
 	display: inline-block;
 	padding-top: 10px;
 	text-align: center;
+	text-decoration: none;
 }
 
 #pagination > ul > li:nth-child(1), #pagination > ul > li:nth-child(2), #pagination > ul > li:nth-child(8), #pagination > ul > li:nth-child(9){
