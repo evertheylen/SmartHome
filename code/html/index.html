@@ -12,13 +12,15 @@
 	<link rel="stylesheet" href="/static/homeTab.css">
 	<link rel="stylesheet" href="/static/menus2.css">
 	<link rel="stylesheet" href="/static/sensorsTab.css">
+	<link rel="stylesheet" href="/static/ng-tags-input.css">
+	
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.min.js" type="text/javascript"></script>
     <script data-require="ui-bootstrap@*" data-semver="0.12.1" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.min.js"></script>
-
 	<script src="/js/websocket.js"></script>
 	<script src="/js/cookies.js"></script>
 	<script src="/js/internationalization.js"></script>
@@ -27,13 +29,13 @@
 	<script src="/js/prototypes/user.js"></script>
 	<script src="/js/prototypes/sensor.js"></script>
 	<script src="/js/prototypes/location.js"></script>
-	<link rel="stylesheet" href="/static/ng-tags-input.css">
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 </head>
 <body>
     <script>
       document.write('<base href="' + document.location + '" />');
     </script>
-    <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout">
+    <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header id="mainHeader" class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
@@ -102,5 +104,6 @@
     <script src="/js/angular/angular_index.js"></script>
     <script src="/js/angular/angular_home.js"></script>
     <script src="/js/angular/angular_sensors.js"></script>
+    <script src="/js/angular/angular_statistics.js"></script>
 </body>
 </html>

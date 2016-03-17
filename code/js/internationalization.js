@@ -45,5 +45,6 @@ var html_strings = {
     "confirm_text": ["This item will be removed permanently from your interface.\nAre you sure you want to continue?", 
     "Dit item zal voorgoed verwijderd worden uit uw interface.\nBent u zeker dat u wilt doorgaan?"],
     "continue": ["Continue", "Doorgaan"],
-    "cancel": ["Cancel", "Annuleren"]
+    "cancel": ["Cancel", "Annuleren"],
+    "share" : ["Share", "Deel"]
 };

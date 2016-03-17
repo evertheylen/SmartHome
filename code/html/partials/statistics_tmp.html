@@ -1,0 +1,297 @@
+<div ng-controller="statisticsController">
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+	<style>
+		span{
+			font-family: Roboto;
+		}
+		li > button{
+			width: 100%;
+		}
+		.dropDownMenu{
+			max-height: 100px;
+			overflow-y: auto;
+		}
+		::-webkit-scrollbar {
+			width: 3px;
+		}
+
+		::-webkit-scrollbar-track {
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+			border-radius: 20px;
+		}
+
+		::-webkit-scrollbar-thumb {
+			border-radius: 20px;
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+		}
+	</style>
+    <span style="color: red; font-size: 24px; font-family: Roboto;">EARLY DEVELOPMENT PAGE, NO FUNCTIONALITY AVAILABLE</span>
+    <div class="mdl-grid">
+        <!--Aggregation by house thingie-->
+        <div class="mdl-cell mdl-cell--4-col">
+            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+                    <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" checked />
+                </label>
+            </span>
+            <span style="display: inline-block;">
+                 Aggregate by house
+            </span>
+        </div>
+        <!--Aggregation by type thingie-->
+        <div class="mdl-cell mdl-cell--4-col">
+            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
+                    <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" checked />
+                </label>
+            </span>
+            <span style="display: inline-block;">
+                 Aggregate by type
+            </span>
+        </div>
+        <!--Aggregation by sensor thingie-->
+        <div class="mdl-cell mdl-cell--4-col">
+            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
+                    <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" checked />
+                </label>
+            </span>
+            <span style="display: inline-block;">
+                 Aggregate by sensor
+            </span>
+        </div>
+
+        <div class="mdl-cell mdl-cell--4-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <!--This checkbox selects all the locations-->
+                                <!--id of input == for of the label containing the input-->
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-4">
+                                    <input type="checkbox" id="list-checkbox-4" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Houses
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--An example of table data: House1 preceded by a checkbox-->
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <!--id of input == for of the label containing the input-->
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-5">
+                                    <input type="checkbox" id="list-checkbox-5" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 House1
+                            </span>
+                        </td>
+                    </tr>
+                    <!--End of the example-->
+                    <!--More examples (they're all the same)-->
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-6">
+                                    <input type="checkbox" id="list-checkbox-6" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 House2
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-7">
+                                    <input type="checkbox" id="list-checkbox-7" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 House3
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--Type table-->
+        <div class="mdl-cell mdl-cell--4-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">
+                                <!--This checkbox selects all the Types-->
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-8">
+                                    <input type="checkbox" id="list-checkbox-8" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Types
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-9">
+                                    <input type="checkbox" id="list-checkbox-9" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Type
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!--Sensors table-->
+        <div class="mdl-cell mdl-cell--4-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <!--This checkbox selects all the sensors-->
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-10">
+                                    <input type="checkbox" id="list-checkbox-10" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Sensors
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-11">
+                                    <input type="checkbox" id="list-checkbox-11" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Sensor
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+        <!--Table with sensors-->
+        <div class="mdl-cell mdl-cell--12-col">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <!--This checkbox selects all the sensors-->
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-12">
+                                    <input type="checkbox" id="list-checkbox-12" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Sensors
+                            </span>
+                        </th>
+                        <th>House</th>
+                        <th>Type</th>
+                        <th>Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-13">
+                                    <input type="checkbox" id="list-checkbox-13" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Sensor
+                            </span>
+                        </td>
+                        <td>The devil is a loser</td>
+                        <td>and he's</td>
+                        <td>my bitch</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-14">
+                                    <input type="checkbox" id="list-checkbox-14" class="mdl-checkbox__input" checked />
+                                </label>
+                            </span>
+                            <span style="display: inline-block;">
+                                 Sensor
+                            </span>
+                        </td>
+                        <td>Would you love</td>
+                        <td>a monsterman, could you</td>
+                        <td>understand, beauty of the beast</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mdl-cell mdl-cell--2-col">
+            <form action="#">
+                <span style="font-size: x-large;">Since</span>
+                <div id="sinceInput" class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" pattern="[1-9][0-9]*" id="sample2"/>
+                    <label class="mdl-textfield__label" for="sample2">Number...</label>
+                    <span class="mdl-textfield__error">Input must be a number greater than 0!</span>
+                </div>
+                <div class="mdl-tooltip" for="sinceInput">
+                    Amount of days/months/years you want to look back in time
+                </div>
+            </form>
+        </div>
+
+        <div class="mdl-cell mdl-cell--2-col">
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked/>
+                <span class="mdl-radio__label">Days</span>
+            </label>
+            <div id="spacer1" style="display: block"></div>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2"/>
+                <span class="mdl-radio__label">Months</span>
+            </label>
+            <div id="spacer2" style="display: block"></div>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3"/>
+                <span class="mdl-radio__label">Years</span>
+            </label>
+        </div>
+        <div class="mdl-cell mdl-cell--8-col">
+            <span style="float: right;">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
+                    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
+                    <span class="mdl-checkbox__label">Merge if possible</span>
+                </label>
+            </span>
+        </div>
+    </div>
+</div>
