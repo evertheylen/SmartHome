@@ -16,6 +16,16 @@ angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessag
     }
 });
 
+angular.module('overwatch').filter('startFrom', function() {
+    return function(input, start) {
+        if(input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+        return [];
+    }
+});
+
 angular.module("overwatch").run(function($rootScope, $location, Auth) {
     $rootScope.$on('$routeChangeStart', function(event) {
         //console.log(Auth.getUser());
@@ -70,6 +80,13 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$scope.$on('$locationChangeSuccess', function() {
 	    console.log("New Location: " + $location.path());
 	});
+	
+	$scope.hideDrawer = function () {
+	    console.log(document.getElementsByClassName('mdl-layout__drawer'));
+	    console.log(document.getElementsByClassName('mdl-layout__obfuscator'));
+	    removeClass(document.getElementsByClassName('mdl-layout__drawer')[0],'is-visible');
+	    removeClass(document.getElementsByClassName('mdl-layout__obfuscator')[0], 'is-visible');
+	}
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",

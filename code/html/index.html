@@ -8,12 +8,10 @@
 	<head>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.blue_grey-amber.min.css">
-	<link rel="stylesheet" href="/static/login.css">
+    <link rel="stylesheet" href="/static/login.css">
 	<link rel="stylesheet" href="/static/homeTab.css">
 	<link rel="stylesheet" href="/static/menus2.css">
 	<link rel="stylesheet" href="/static/sensorsTab.css">
-    <link data-require="bootstrap-css@*" data-semver="3.3.1" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
-
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
@@ -56,13 +54,13 @@
           </nav>
         </div>
       </header>
-      <div class="mdl-layout__drawer">
+      <div id="main_drawer" class="mdl-layout__drawer">
         <span class="mdl-layout-title">OverWatch</span>
         <nav class="mdl-navigation">
-          <a class="header_a mdl-navigation__link" href="/home" ng-bind="i18n('homelink')"></a>
-          <a class="header_a mdl-navigation__link" href="/statistics" ng-bind="i18n('statisticslink')"></a>
-          <a class="header_a mdl-navigation__link" href="/sensors" ng-bind="i18n('sensorslink')"></a>
-          <a class="header_a mdl-navigation__link" href="/social" ng-bind="i18n('sociallink')"></a>
+          <a class="header_a mdl-navigation__link" href="/home" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
+          <a class="header_a mdl-navigation__link" href="/statistics" ng-bind="i18n('statisticslink')" ng-click="hideDrawer()"></a>
+          <a class="header_a mdl-navigation__link" href="/sensors" ng-bind="i18n('sensorslink')" ng-click="hideDrawer()"></a>
+          <a class="header_a mdl-navigation__link" href="/social" ng-bind="i18n('sociallink')" ng-click="hideDrawer()"></a>
         </nav>
       </div>
       <main class="mdl-layout__content">

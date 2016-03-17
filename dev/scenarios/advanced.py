@@ -4,7 +4,7 @@ while True:
     r = wait(".*")
     if r["type"] == "login":
         #r.answer({"type": "login", "data": {"result": "failure"}})
-        r.answer({"type": "login", "data": {"result": "succes", "session": 123, "UID": 1}})
+        r.answer({"type": "login", "data": {"status": "success", "session": 123, "UID": 1}})
     elif r["type"] == "signup":
         #r.answer({"type": "signup", "data": {"result": "succes", "UID": 1}})
         r.answer({"type": "signup", "data": {"result": "failure"}})
