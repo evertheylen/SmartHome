@@ -80,10 +80,16 @@
 						</tr>
 					</tbody>
 				</table>
-				<pagination ng-model="currentPage"
-                  total-items="sensors.length"
-                  max-size="maxSize"  
-                  boundary-links="true"></pagination>
+			
+				<div id="paginationContainer">
+					<div id="pagination">
+						<pagination ng-model="currentPage"
+				          total-items="sensors.length"
+				          max-size="maxSize"  
+				          boundary-links="true"></pagination>
+					</div>
+				</div>
+
 				<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_sensor')">
 				</button>
 			</div>

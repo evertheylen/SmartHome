@@ -1,11 +1,11 @@
-ul li{
-	min-width: 45px;
-	min-height: 45px;
-	max-width: 100%;
-	max-height: 100%;
+#pagination > ul{
+	list-style-type: none;
+	list-style-position: inside;
+	margin:0;
+	padding:0;
 }
 
-ul, li{
+#pagination > li{
 	list-style-type: none;
 	list-style-position: inside;
 	margin:0;
@@ -13,24 +13,18 @@ ul, li{
 }
 
 
-.buttonContainer{
+#pagination{
 	background-color: transparent;
-	border: 1px solid rgba(158,158,158,.2);
 	display: inline-block;
 	border-left: none;
 	border-right: none;
 	width: 585px;
-	height: 52px;
+	height: 43px;
 	white-space: nowrap;
-}
-
-.buttonMenu2{
 	font-size: 0;
-	display: inline-block;
-	background-color: white;
 }
 
-.navButton2{
+#pagination > ul > li > a{
 	font-size: 20px;
 	color: #000066;
 	border: none;
@@ -41,41 +35,39 @@ ul, li{
 	width: 43px;
 	height: 31px;
 	display: inline-block;
-	padding-top: 12px;
+	padding-top: 10px;
 	text-align: center;
 }
 
+#pagination > ul > li:nth-child(1), #pagination > ul > li:nth-child(2), #pagination > ul > li:nth-child(8), #pagination > ul > li:nth-child(9){
+	width: 88px;
+	height: 43px;
+}
 
-.fastNavButton{
+#pagination > ul > li:nth-child(1) > a, #pagination > ul > li:nth-child(2) > a, #pagination > ul > li:nth-child(8) > a, #pagination > ul > li:nth-child(9) > a{
 	width: 88px;
 	height: 31px;
 }
-
-.navButton2:hover{
+#pagination > ul > li:hover{
 	background-color: rgba(158,158,158,.2);
 	cursor: pointer;
 }
 
-.navButton2:focus{
+#pagination > ul > li:focus{
 	outline: 0;
 }
 
-.navButton2.selected2{
+#pagination > ul > li > a.selected{
 	background-color: #ffd740;
 	color: #808080;
 	border: 1px solid #ffd740;
 }
 
-.navButton2.disabled2:hover{
+#pagination > ul > li.disabled:hover{
 	cursor: not-allowed;
 }
 
-.buttonMenu2 > .navButton2{
-	width: auto;
-	height: auto;
-}
-
-.buttonMenu2 > .navButton2:nth-child(n+10){
+#pagination > ul > li:nth-child(n+10){
 	display: none;	
 }
 
