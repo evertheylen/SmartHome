@@ -1137,7 +1137,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			addClass(document.getElementById(elementId), "down");
 		}
 		$filter('orderBy')($scope.sensors, orderBy, $scope.selected_order === orderBy);
-	    console.log($scope.sensors.name);
+	    console.log($scope.sensors['name']);
 	}
     
 	$scope.reset_loc = function reset_loc() {
