@@ -1132,13 +1132,12 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			removeClass(document.getElementById("sort_tags"), "down");
 		}                
 		if ($scope.selected_order === orderBy) {
-		    $filter('filter')($scope.sensors, '-' + orderBy);
-		    console.log($scope.sensors);
 			addClass(document.getElementById(elementId), "up");
 		} else {
-            $filter('filter')($scope.sensors, orderBy);
 			addClass(document.getElementById(elementId), "down");
 		}
+		$filter('orderBy')($scope.sensors, orderBy, $scope.selected_order === orderBy);
+	    console.log($scope.sensors);
 	}
     
 	$scope.reset_loc = function reset_loc() {
