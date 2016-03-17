@@ -16,6 +16,16 @@ angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessag
     }
 });
 
+angular.module('overwatch').filter('startFrom', function() {
+    return function(input, start) {
+        if(input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+        return [];
+    }
+});
+
 angular.module("overwatch").run(function($rootScope, $location, Auth) {
     $rootScope.$on('$routeChangeStart', function(event) {
         //console.log(Auth.getUser());
