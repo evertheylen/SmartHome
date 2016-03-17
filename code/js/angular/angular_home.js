@@ -17,7 +17,26 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	    $scope.importants[element_id] = !$scope.importants[element_id];
 	};
     $scope.graphs = []
-    for (var i = 0; i < 6; i ++ ) {
+    
+    barchart = {};
+    barchart.type = "BarChart";
+    
+    barchart.data = {"cols": [{id: "t", label: "Topic", type: "string"},
+    {id: "a", label: "Amount", type: "number"}],
+     "rows": [{c: [{v: "University"},{v: 20},]},{c: [{v: "Programming"},{v: 50},]},{c: [{v: "Databases"},{v: 100},]},{c: [{v: "Work"},{v: 40},]},{c: [{v: "This Epic Chart"},{v: 560},]}]};
+    
+    barchart.options = {
+        'title': "Things I Like",
+        "hAxis": {
+            "gridlines": {
+                "count": 10
+            }
+        }
+    };
+    
+    $scope.graphs.push(barchart);
+    
+    for (var i = 0; i < 3; i ++ ) {
         graph = {};
         graph.type = "LineChart";
         graph.displayed = false;
@@ -31,8 +50,8 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                 label: "Importance",
                 type: "number"
             }, {
-                id: "fucks",
-                label: "Fucks",
+                id: "sales",
+                label: "Sales",
                 type: "number"
             }], 
             "rows" : [{
@@ -86,7 +105,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
             }]
         };
         graph.options = {
-            "title": "Amount of fucks given",
+            "title": "Sales Of Important Stuff",
             "colors": ['#FF0000', '#0000FF'],
             "defaultColors": ['#FF0000', '#0000FF'],
             "isStacked": "true",
