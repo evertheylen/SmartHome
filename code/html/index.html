@@ -57,7 +57,7 @@
       <div id="main_drawer" class="mdl-layout__drawer">
         <span class="mdl-layout-title">OverWatch</span>
         <nav class="mdl-navigation">
-          <a class="header_a mdl-navigation__link" href="/home" ng-bind="i18n('homelink')" ng-click="removeClass(document.getElementById('main_drawer'),'is-visible')"></a>
+          <a class="header_a mdl-navigation__link" href="/home" ng-bind="i18n('homelink')" ng-click="document.getElementById('main_drawer').MaterialLayout.toggleDrawer();"></a>
           <a class="header_a mdl-navigation__link" href="/statistics" ng-bind="i18n('statisticslink')" ng-click="removeClass(document.getElementById('main_drawer'),'is-visible')"></a>
           <a class="header_a mdl-navigation__link" href="/sensors" ng-bind="i18n('sensorslink')" ng-click="removeClass(document.getElementById('main_drawer'),'is-visible')"></a>
           <a class="header_a mdl-navigation__link" href="/social" ng-bind="i18n('sociallink')" ng-click="removeClass(document.getElementById('main_drawer'),'is-visible')"></a>
