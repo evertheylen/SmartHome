@@ -1133,6 +1133,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		}                
 		if ($scope.selected_order === orderBy) {
 		    $filter('filter')($scope.sensors, '-' + orderBy);
+		    console.log($scope.sensors);
 			addClass(document.getElementById(elementId), "up");
 		} else {
             $filter('filter')($scope.sensors, orderBy);
