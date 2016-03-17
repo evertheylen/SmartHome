@@ -112,13 +112,21 @@ table{
 	list-style-position: inside;
 	margin:0;
 	padding:0;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-#pagination > li{
+#pagination > ul > li{
 	list-style-type: none;
 	list-style-position: inside;
-	margin:0;
-	padding:0;
+	margin: 0px;
+	padding: 0;
+	width: 45px;
+	height: 43px;
+	display: inline-block;
 }
 
 
@@ -146,10 +154,11 @@ table{
 	display: inline-block;
 	padding-top: 10px;
 	text-align: center;
+	text-decoration: none;
 }
 
 #pagination > ul > li:nth-child(1), #pagination > ul > li:nth-child(2), #pagination > ul > li:nth-child(8), #pagination > ul > li:nth-child(9){
-	width: 88px;
+	width: 90px;
 	height: 43px;
 }
 
@@ -157,6 +166,7 @@ table{
 	width: 88px;
 	height: 31px;
 }
+
 #pagination > ul > li:hover{
 	background-color: rgba(158,158,158,.2);
 	cursor: pointer;
