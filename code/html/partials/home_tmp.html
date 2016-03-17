@@ -14,8 +14,7 @@
 			            <i id="important_icon-{{$index}}" class="material-icons white">grade</i>
 		            </button>
 				</div>
-				<div google-chart chart="graph" class="mdl-card__supporting-text">
-					<div id="graph_{{$index}}"></div>
+				<div google-chart chart="graph" class="mdl-card__supporting-text" style="width: 100%; height: 500px;">
 				</div>
             </div>
             <div ng-repeat="i in [0,1,2,3,4,5]" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
