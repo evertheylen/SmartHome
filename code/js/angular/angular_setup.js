@@ -72,8 +72,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	});
 	
 	$scope.hideDrawer = function () {
-	    removeClass(document.getElementsByClassName('mdl-layout__drawer'),'is-visible');
-	    removeClass(document.getElementsByClassName('mdl-layout__obfuscator'), 'is-visible');
+	    console.log(document.getElementsByClassName('mdl-layout__drawer'));
+	    console.log(document.getElementsByClassName('mdl-layout__obfuscator'));
+	    //removeClass(document.getElementsByClassName('mdl-layout__drawer'),'is-visible');
+	    //removeClass(document.getElementsByClassName('mdl-layout__obfuscator'), 'is-visible');
 	}
 });
 
