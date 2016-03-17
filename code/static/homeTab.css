@@ -1,13 +1,13 @@
 .demo-card-wide.mdl-card {
-	width: 40%;
+	width: 100%;
 	margin: 0% 3%;
 	margin-top: 40px;
 	display: inline-block;
 }
 .demo-card-wide > .mdl-card__title {
 	color: #fff;
-	height: 176px;
-	background: url('./kitten.jpg') center / cover;
+	height: 50px;
+	background: #78909c
 }
 .demo-card-wide > .mdl-card__title
 .demo-card-wide > .mdl-card__menu {

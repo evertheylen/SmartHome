@@ -95,7 +95,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
             "vAxis": {
                 "title": "Values",
                 "gridlines": {
-                    "count": 5
+                    "count": 4
                 }
             },
             "hAxis": {
