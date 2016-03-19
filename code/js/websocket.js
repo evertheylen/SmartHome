@@ -94,7 +94,7 @@ function login_response(response) {
 	data = response["data"];
 	if(data["status"] == "success") {
 		// Currently this cookie will only be alive for 1 day.
-		setCookie("session", data["sessions"], 1);
+		setCookie("session", data["session"], 1);
 		userData = data["user"];
 		user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
 		return {success: true, user: user};
