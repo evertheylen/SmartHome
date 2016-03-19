@@ -14,19 +14,17 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		return $filter('filter')($scope.tags, query);
 	};
 
-	//TODO Get these variables from the database
-	
 	/*
 	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
 		$scope.locations = response.locations;
 		$scope.$apply();
 	});
 	*/
+
 	$scope.sensors = [];
+
 	console.log("Empty array: " + $scope.sensors);
-    console.log("Pre request auth_user == " + $rootScope.auth_user.id);
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
-	    
 		$scope.sensors = response.sensors;
 		console.log("Sensor array: " + $scope.sensors);
 		$scope.$apply();
