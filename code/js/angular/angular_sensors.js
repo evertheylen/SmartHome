@@ -1208,7 +1208,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				/*
 				var locationObject = new_location.toJSON();
 				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
-					new_location.id = response.location.id;	
+					new_location.LID = response.location.LID;	
 				});
 				*/
 				$scope.locations.push(new_location);
@@ -1305,7 +1305,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.sensors.push(new_sensor);
 				var sensorObject = new_sensor.toJSON();
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
-					new_sensor.id = response.sensor.id;	
+					new_sensor.SID = response.sensor.SID;	
 				});     
 			}
 			dialog2.close();
