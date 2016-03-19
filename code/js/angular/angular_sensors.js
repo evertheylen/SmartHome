@@ -1407,6 +1407,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		}
 		componentHandler.upgradeDom();
 	}
-	
+	updateFilteredSensors();
     componentHandler.upgradeDom();
 });
