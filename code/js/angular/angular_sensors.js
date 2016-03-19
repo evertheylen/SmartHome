@@ -26,6 +26,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	console.log("Empty array: " + $scope.sensors);
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.sensors = response.sensors;
+		updateFilteredSensors();
+    	console.log("Filtered Sensors: " + $scope.filteredSensors);
 		console.log("Sensor array: " + $scope.sensors);
 		$scope.$apply();
 	});
@@ -1301,6 +1303,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				//$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
 				var sensorObject = sensor.toJSON();
+				delete sensorObject.index;
+				delete sensorObject.$$hashKey;
 				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function() {
 				});
 			} else {
