@@ -1294,7 +1294,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
-				ws.request({type: "edit", what: "Sensor", data: {$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id]}}, function() {
+				var object = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
+				ws.request({type: "edit", what: "Sensor", data: {object}}, function() {
 				});
 			} else {
 				// Add Sensor
