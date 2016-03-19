@@ -1198,14 +1198,16 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.locations[edit_loc_id].street = $scope.loc_street;
 				$scope.locations[edit_loc_id].number = $scope.loc_number;
 				/*
-				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}}, function() {
+				var locationObject = $scope.locations[edit_loc_id].toJSON();
+				ws.request({type: "edit", what: "Location", data: locationObject}, function() {
 				});
 				*/
 			} else {
 				// Add Location
 				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_country, $scope.loc_city, $scope.loc_postalcode, $scope.loc_street, $scope.loc_number);
 				/*
-				ws.request({type: "add", what: "Location", data: {new_location}}, function(response) {
+				var locationObject = new_location.toJSON();
+				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
 					new_location.id = response.location.id;	
 				});
 				*/
@@ -1292,7 +1294,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
 				//$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
-				ws.request({type: "edit", what: "Sensor", data: {sensor}}, function() {
+				var sensorObject = sensor.toJSON();
+				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function() {
 				});
 			} else {
 				// Add Sensor
@@ -1300,8 +1303,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.location = $scope.sen_location;
 				$scope.sensors.push(new_sensor);
-				JSON_sensor = new_sensor.toJSON();
-				ws.request({type: "add", what: "Sensor", data: JSON_sensor}, function(response) {
+				var sensorObject = new_sensor.toJSON();
+				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
 					new_sensor.id = response.sensor.id;	
 				});     
 			}
