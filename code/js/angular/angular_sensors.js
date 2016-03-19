@@ -1301,6 +1301,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				//$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
 				var sensorObject = sensor.toJSON();
+				delete sensorObject.index;
+				delete sensorObject.$$hashKey;
 				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function() {
 				});
 			} else {
