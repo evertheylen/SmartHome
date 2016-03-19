@@ -43,6 +43,7 @@ angular.module("overwatch").run(function($rootScope, $location, Auth) {
 angular.module("overwatch").factory('Auth', function($rootScope) {
     return {
         setUser : function(user) {
+            console.log("USER COOKIE: " + JSON.stringify(user.toJSON()));
             setCookie("user", JSON.stringify(user.toJSON()), 365);
         },
         
