@@ -124,9 +124,9 @@ function get_all_response(response) {
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
 				sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
-				sensors.push(sensor);
+				sensors_response.push(sensor);
 			}
-			return {for: response["for"], sensors: sensors};
+			return {for: response["for"], sensors: sensors_response};
 		case "User":
 			var users = [];
 			for(i = 0; i < response["data"].length; i++) {
