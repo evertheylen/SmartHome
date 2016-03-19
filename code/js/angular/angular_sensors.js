@@ -8,11 +8,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			}
 		}
 		$scope.tags.push(tag);
-	}
+	};
 
 	$scope.check_autocomplete = function (query) {
 		return $filter('filter')($scope.tags, query);
-	}
+	};
 
 	//TODO Get these variables from the database
 	
