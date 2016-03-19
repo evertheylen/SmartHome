@@ -1373,11 +1373,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 	$scope.$on("confirmation", function (event, value) {
 		if (value) {
-			if (delete_from.length === 1) {
-				delete_from.length = 0;
-				return;
-			}
-			delete_from.splice(delete_id, 1);
 			if (delete_from == $scope.sensors) {
 				console.log("Delete_id: " + delete_id);
 				ws.request({type: "delete", what: "Sensor", data: {"ID": $scope.sensors[delete_id].SID}}, function(success) {
@@ -1387,6 +1382,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 					$scope.$apply();
 				});
 			}
+			if (delete_from.length === 1) {
+				delete_from.length = 0;
+				return;
+			}
+			delete_from.splice(delete_id, 1);
 		}
 	});
 
