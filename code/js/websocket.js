@@ -123,7 +123,7 @@ function get_all_response(response) {
 			var sensors_response = [];
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
-				sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
+				sensor = new Sensor(sensorData["SID"], sensorData["UID"], sensorData["title"], sensorData["type"]);
 				sensors_response.push(sensor);
 			}
 			return {for: response["for"], sensors: sensors_response};
@@ -155,7 +155,7 @@ function get_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
+			sensor = new Sensor(sensorData["SID"], sensorData["UID"], sensorData["title"], sensorData["type"]);
 			return {for: response["for"], sensor: sensor};
 		case "User":
 			userData = response["data"];
@@ -177,7 +177,7 @@ function add_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
+			sensor = new Sensor(sensorData["SID"], sensorData["UID"], sensorData["title"], sensorData["type"]);
 			return {success: true, for: response["for"], sensor: sensor};
 		case "User":
 			userData = response["data"];

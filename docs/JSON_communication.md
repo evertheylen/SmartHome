@@ -144,8 +144,9 @@ Response (Success):
 	{
 		"type": "add",
 		"what": <object class>,
-		"data": {		
-			<entire definition with ID>		
+		"data": {	
+			"UID": 1	
+			"object": <entire definition with ID>		
 		}
 	}
 
@@ -300,6 +301,7 @@ ID's are separate for each type, so it may happen there is a user and a sensor w
 
 	{
 		"SID": 456,
+		"UID": 112,
 		"type": "Electricity",
 		"title": "Measures electricity usage of desktop",
 	}
