@@ -1366,7 +1366,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.delete = function (id, from) {
 		$rootScope.confirm_dialog.showModal();
 		componentHandler.upgradeDom();
-		console.log($scope.sensors);
+		console.log($scope.sensors + " ID: " + id + " from " + from);
 		delete_id = id;
 		delete_from = from;
 	};
