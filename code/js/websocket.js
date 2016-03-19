@@ -176,15 +176,15 @@ function add_response(response) {
 	what = response["what"];
 	switch(what) {
 		case "Sensor":
-			sensorData = response["data"]["Sensor"];
+			sensorData = response["data"];
 			sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
 			return {success: true, for: response["for"], sensor: sensor};
 		case "User":
-			userData = response["data"]["User"];
+			userData = response["data"];
 			user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
 			return {success: true, for: response["for"], user: user};
 		case "Location":
-			locationData = response["data"]["Location"];
+			locationData = response["data"];
 			location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
 						locationData["postalcode"], locationData["street"],  locationData["number"]);
 			return {success: true, for: response["for"], location: location};
