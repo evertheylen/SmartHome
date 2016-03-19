@@ -74,8 +74,8 @@
 				            <td ng-bind="sensor.type"></td>
 				            <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							<td>
-								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', (currentPage-1)*numPerPage + index, true);"><i class="material-icons">edit</i></button>
-								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete((currentPage-1)*numPerPage + index, sensors);"><i class="material-icons">delete</i></button>
+								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
+								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							</td>
 						</tr>
 					</tbody>
