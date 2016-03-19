@@ -21,6 +21,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.$apply();
 	});
 	*/
+	$scope.sensors;
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
 		$scope.sensors = response.sensors;
