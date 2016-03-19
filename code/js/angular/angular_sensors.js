@@ -1194,7 +1194,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.locations[edit_loc_id].number = $scope.loc_number;
 				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
 				/*
-				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}, function() {
+				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}}, function() {
 				});
 				*/
 			} else {
@@ -1207,7 +1207,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				new_location.number = $scope.loc_number;
 				new_location.desc = $scope.loc_desc;
 				/*
-				ws.request({type: "add", what: "Location", data: {new_location}, function(response) {
+				ws.request({type: "add", what: "Location", data: {new_location}}, function(response) {
 					if(response.success) 
 						new_location.id = response.location.id;	
 				});
@@ -1294,8 +1294,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
-
-				ws.request({type: "edit", what: "Sensor", data: {$scope.filteredSensors[edit_sen_id]}, function() {
+				ws.request({type: "edit", what: "Sensor", data: {$scope.filteredSensors[edit_sen_id]}}, function() {
 				});
 			} else {
 				// Add Sensor
@@ -1305,7 +1304,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				new_sensor.location = $scope.sen_location;
 				new_sensor.type = $scope.sen_type;
 				$scope.sensors.push(new_sensor);
-				ws.request({type: "add", what: "Sensor", data: {new_sensor}, function(response) {
+				ws.request({type: "add", what: "Sensor", data: {new_sensor}}, function(response) {
 					if(response.success) 
 						new_sensor.id = response.sensor.id;	
 				});          
