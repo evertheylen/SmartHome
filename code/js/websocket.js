@@ -97,7 +97,6 @@ function login_response(response) {
 		setCookie("session", data["sessions"], 1);
 		userData = data["user"];
 		user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
-		console.log(user);
 		return {success: true, user: user};
 	}
 	return {success: false, reason: data["reason"]};
