@@ -1,5 +1,6 @@
 angular.module("overwatch").controller("indexController", function($scope, $rootScope) {
 	$scope.dialog = document.getElementById('dlgLogin');
+	$rootScope.auth_user = Auth.getUser();
 	var showDialogButton = document.getElementById('btnLogin');
 	showDialogButton.addEventListener('click', function(){
 		$scope.dialog.showModal();
