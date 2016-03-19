@@ -91,6 +91,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	});
 	
 	$scope.$watch("auth_user", function() {
+	    $rootScope.auth_user = Auth.getUser();
         console.log("Auth user is : " + $rootScope.auth_user);
 	});
 	
