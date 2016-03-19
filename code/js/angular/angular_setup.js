@@ -98,15 +98,15 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	});
 	
 	$scope.$watch("auth_user", function() {
-	    var temp_user = Auth.getUser();
+	   
+	});
+	 var temp_user = Auth.getUser();
 	    if (temp_user === null) {
 	        $rootScope.auth_user = null;
 	    } else {
     	    $rootScope.auth_user = new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
     	}
         console.log("Auth user is : " + $rootScope.auth_user);
-	});
-	
 	$scope.hideDrawer = function () {
 	    console.log(document.getElementsByClassName('mdl-layout__drawer'));
 	    console.log(document.getElementsByClassName('mdl-layout__obfuscator'));
