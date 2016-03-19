@@ -24,7 +24,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.sensors = [];
 
 	console.log("Empty array: " + $scope.sensors);
-	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
+	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.sensors = response.sensors;
 		console.log("Sensor array: " + $scope.sensors);
 		$scope.$apply();
