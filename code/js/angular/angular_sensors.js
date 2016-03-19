@@ -22,7 +22,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.$apply();
 	});
 	*/
-	var $scope.sensors = [];
+	$scope.sensors = [];
 	console.log("Empty array: " + $scope.sensors);
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
