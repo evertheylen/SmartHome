@@ -41,8 +41,15 @@ angular.module("overwatch").run(function($rootScope, $location, Auth) {
 });
 
 angular.module("overwatch").factory('Auth', function($rootScope) {
-    var user;
     return {
+        setUser : function(user) {
+            setCookie("user", user, 365);
+        },
+        
+        getUser : function() {
+            return getCookie("user");
+        },
+    
         isLoggedIn : function() {
             return (getCookie("session") != "");
         }
@@ -57,6 +64,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     };
     
     $rootScope.logged_in = Auth.isLoggedIn();
+    $rootScope.auth_user = Auth.getUser();
     $scope.logout = function() {
         console.log("logging Out");
         setCookie("session", "", 1);
@@ -79,6 +87,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	
 	$scope.$on('$locationChangeSuccess', function() {
 	    console.log("New Location: " + $location.path());
+	});
+	
+	$scope.$watch("auth_user", function() {
+	    $rootScope.auth_user = Auth.getUser();
+        console.log("Auth user is : " + $rootScope.auth_user);
 	});
 	
 	$scope.hideDrawer = function () {
