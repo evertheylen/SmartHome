@@ -78,10 +78,24 @@ import tornado.ioloop
 app = SparrowApp(None, tornado.ioloop.IOLoop.current(), [User])
 
 async def do_stuff():
+    """
     await app.uninstall("StijnHeeftGeenSmaak")  # secret key to uninstall :P
     a = now()
     await app.install()
     b = now()
     print(repr(b-a))
+    """
+    
+    q = RawSqlStatement("SELECT * FROM table_User WHERE mail LIKE %(mail)s", User)
+    print(q)
+    qq = q.with_data(mail = "%")
+    result = await qq.exec(app.db)
+    result.scroll(2)
+    result.scroll(-1)
+    print(q.data)
+    print(qq.data)
+    print("users = ", "\n".join([u.to_json() for u in result.all()]))
+    
+    
     
 tornado.ioloop.IOLoop.current().run_sync(do_stuff)

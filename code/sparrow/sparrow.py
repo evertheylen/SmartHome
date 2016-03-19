@@ -18,20 +18,13 @@ text = r"""
   @========================================@
     
 """
-
-
-# Important stuff so Sparrow doesn't do stuff it shouldn't
-own_bases = []
-def add_base(clsname):
-    global own_bases
-    own_bases.append(clsname)
-    
-    
+ 
 import collections
 import datetime
 import copy
 from functools import wraps
 import itertools
+import json
 
 import psycopg2
 import momoko
@@ -39,7 +32,7 @@ import momoko
 # Central classes
 # ---------------------------------------------------
 
-# Wow very security
+# Wow very security (import this :P)
 
 d = {}
 for c in (65, 97):
@@ -75,15 +68,14 @@ class SparrowApp:
     async def install(self):
         # Set up database, only once for each "install" of the app
         for c in self.classes:
-            await c.create_table_command.execute(self.db)
+            await c.create_table_command.exec(self.db)
             
     async def uninstall(self, code):
         # Very brutal operation, therefore has some extra protection
         if encode(code) == 'FgvwaUrrsgTrraFznnx':
             for c in self.classes:
-                await c.drop_table_command.execute(self.db)
+                await c.drop_table_command.exec(self.db)
         
-    
     def info(self):
         for s in self.sql_statements:
             print(str(s))
@@ -128,10 +120,15 @@ class Field:
 
 # Statements etc
 
-# Decorator first_compile
+# Decorators
+
+# I don't know a good way of creating both an async version and a synchr version with the same code...
+# Until then, sorry for the double code.
+
 # This is a way of providing all functions to both Abstract and Raw so the client does
 # not have to worry about compiling queries. Basically, mark a method with it in 
 # SqlStatement, and you are guaranteed that self becomes a RawSqlStatement.
+
 def async_first_compile(method):
     @wraps(method)
     async def wrapper(self, *args, **kwargs):
@@ -166,40 +163,117 @@ def filter_unsafe_wraps(method):
         return method(self, *args, **kwargs)
     return wrapper
 
-class SqlStatement:
-    def __init__(self, cls, data = {}):
-        self.cls = cls
+# cursor has the following methods:
+# cursor.__class__(         cursor.__format__(        cursor.__le__(            
+# cursor.__delattr__(       cursor.__ge__(            cursor.__lt__(            
+# cursor.__dir__(           cursor.__getattribute__(  cursor.__ne__(            
+# cursor.__doc__            cursor.__gt__(            cursor.__new__(           
+# cursor.__enter__(         cursor.__hash__(          cursor.__next__(          
+# cursor.__eq__(            cursor.__init__(          cursor.__reduce__(        
+# cursor.__exit__(          cursor.__iter__(          cursor.__reduce_ex__(     
+# cursor.__repr__(          cursor.callproc(          cursor.copy_to(           
+# cursor.__setattr__(       cursor.cast(              cursor.description        
+# cursor.__sizeof__(        cursor.close(             cursor.execute(           
+# cursor.__str__(           cursor.closed             cursor.executemany(       
+# cursor.__subclasshook__(  cursor.connection         cursor.fetchall(          
+# cursor.arraysize          cursor.copy_expert(       cursor.fetchmany(         
+# cursor.binary_types       cursor.copy_from(         cursor.fetchone(          
+# cursor.itersize           cursor.rowcount           cursor.string_types
+# cursor.lastrowid          cursor.rownumber          cursor.typecaster
+# cursor.mogrify(           cursor.scroll(            cursor.tzinfo_factory(
+# cursor.name               cursor.scrollable         cursor.withhold
+# cursor.nextset(           cursor.setinputsizes(     
+# cursor.query              cursor.setoutputsize(     
+# cursor.row_factory        cursor.statusmessage
+
+
+class SqlResult:
+    def __init__(self, cursor, cmd):
+        self.cursor = cursor
+        self.cmd = cmd
+
+    def single(self):
+        assert self.cursor.rowcount == 1, "More than 1 result"
+        return self.cmd.cls(db_args=self.cursor.fetchone())
+        
+    def all(self):
+        return [self.cmd.cls(db_args=t) for t in self.cursor.fetchall()]
+    
+    def amount(self, i):
+        return [self.cmd.cls(db_args=t) for t in self.cursor.fetchmany(size=i)]
+    
+    def scroll(self, i):
+        """scroll is chainable"""
+        self.cursor.scroll(i)
+        return self
+    
+    def count(self):
+        return self.cursor.rowcount
+
+# How to do SQL?
+
+# Example:
+# u = (await User.get(User.mail == UnsafeWrap(usermail)).exec(db)).single()
+# 
+# Shorter example:
+# u = await User.get(User.mail == UnsafeWrap(usermail)).single(db)
+
+# users_query = User.get(User.mail == Field("mail")).compile()
+# ...
+# result = await users_query.with_data(mail = usermail).exec()
+# users = result.all()
+
+# query = User.raw("SELECT * FROM table_User WHERE UID = %(name)s")
+# Or if you don't like pyformat:
+# query = User.raw("SELECT * FROM table_User WHERE UID = {0}".format(Field("name")))
+# u = query.with_data(name = "evert").single(db)
+
+def wrapper_sqlresult(method):
+    @wraps(method)
+    async def wrapper(self, db, *args, **kwargs):
+        result = await self.exec(db)
+        return method(result, *args, **kwargs)
+    return wrapper
+
+class Sql:
+    def __init__(self, data = {}):
         self.data = data
     
-    # fetchone, fetchall, count, execute, ...
     # All of them expect a database and will (if needed) first 'compile'
-    # your AbstractSqlStatement.
+    # your AbstractSql.
     @async_first_compile
-    async def fetchone(self, db):
-        cursor = await db.get_cursor(self.text, self.data)
-        assert(cursor.rowcount == 1)
-        return cursor.fetchone()
+    async def exec(self, db):
+        return SqlResult(await db.get_cursor(self.text, self.data), self)
     
-    @async_first_compile
-    async def execute(self, db):
-        cursor = await db.get_cursor(self.text, self.data)
-        return
+    # Allows you to call these method immediatly on a statement:
     
-    def insert_data(self, **kwargs):
-        self.data.update(kwargs)
-        return self
+    single = wrapper_sqlresult(SqlResult.single)
+    all = wrapper_sqlresult(SqlResult.all)
+    count = wrapper_sqlresult(SqlResult.count)
+    
+    def with_data(self, **kwargs):
+        """This function creates a copy of the statement with added data."""
+        newself = self.copy()
+        newself.data.update(kwargs)
+        return newself
+    
+    def copy(self):
+        return copy.deepcopy(self)
     
     @first_compile
     def __str__(self):
         return self.text
 
-class RawSqlStatement(SqlStatement):
+class RawSql(Sql):
     def __init__(self, text, cls, data = {}):
         self.text = text
-        SqlStatement.__init__(self, cls, data)
+        Sql.__init__(self, cls, data)
     
+    def copy(self):
+        # Yay performance
+        return RawSql(self.text, self.cls, copy.copy(self.data))
 
-class AbstractSqlStatement(SqlStatement):
+class AbstractSqlStatement(SqlStatement, SqlPart):
     """
     Base class for all SQL Statement classes.
     """
@@ -208,17 +282,50 @@ class AbstractSqlStatement(SqlStatement):
     
     def to_raw(self, text):
         return RawSqlStatement(text, self.cls, self.data)
-    
-    
+        
+    def check(self, part):
+        if isinstance(part, SqlPart):
+            
+
 sql_select_from_template = """
 SELECT * FROM {tname}
 """
+    
+class Where(SqlPart):
+    def __init__(self, lfield, op, rfield, data={}):
+        SqlPart.__init__(self, data)
+        self.lfield = lfield
+        self.op = op
+        self.rfield = rfield
+        self.check_unsafe_wrap(self.lfield, self.rfield)
+    
+    def __str__(self):
+        return "{s.lfield} {s.op} {s.rfield}".format(s=self)
 
 class Select(AbstractSqlStatement):
     """
     Mainly for SELECT statements.
     """
-    # TODO
+    def __init__(self, cls, where_clauses=[], order=None, offset=0, limit=None):
+        AbstractSqlStatement.__init__(self, cls)
+        self.where_clauses = [self.check(c) for c in where_clauses]
+        self.order = self.check(order)
+        self.offset = self.check(offset)
+        self.limit = self.check(limit)
+        
+    def limit(self, l):
+        self.limit = l
+        return self
+    
+    def offset(self, o):
+        self.offset = o
+        return self
+    
+    def where(self, clause):
+        self.where_clauses.append(clause)
+        self.
+        return self
+    
 
 class Command(AbstractSqlStatement):
     """
@@ -287,6 +394,11 @@ class Delete(Command):
 # Entity stuff
 # ---------------------------------------------------
 
+def create_where_comparison(op):
+    def method(self, other):
+        return Where(self, op, other)
+    return method
+
 class Property:
     default_sqltypes = {
         int: "INT",
@@ -305,17 +417,31 @@ class Property:
         self.sql_extra = sql_extra
         self.required = required
         self.name = None  # Set by the metaclass
-        self.dataname = None  # Idem
+        self.dataname = None  # Idem, where to find the actual stored data inside an object
+        self.cls = None  # Idem
     
     def to_sql(self):
         return "\t{s.name}\t{s.sql_type} {s.sql_extra}".format(s=self) + (" NOT NULL" if self.required else "")
-
+    
+    def __str__(self):
+        return self.cls._table_name + "." + self.name
+    
+    __lt__ = create_where_comparison("<")
+    __gt__ = create_where_comparison(">")
+    __le__ = create_where_comparison("<=")
+    __ge__ = create_where_comparison(">=")
+    __eq__ = create_where_comparison("=")
+    __ne__ = create_where_comparison("!=")
+    
 class Key:
     """
     A reference to other properties that define the key of this object.
     """
     def __init__(self, *args):
         self.props = args
+    
+    def key_props(self):
+        yield from self.props
 
 class KeyProperty(Key, Property):
     """
@@ -324,6 +450,13 @@ class KeyProperty(Key, Property):
     """
     def __init__(self):
         Property.__init__(self, int, sql_type="SERIAL", sql_extra="PRIMARY KEY", required=False)
+        
+    def key_props(self):
+        yield self
+
+class Reference:
+    pass
+    # TODO
 
 class MetaEntity(type):
     # Thanks to http://stackoverflow.com/a/27113652/2678118
@@ -336,14 +469,14 @@ class MetaEntity(type):
         dct['__ordered_props__'] = [k for (k, v) in dct.items()
                 if isinstance(v, Property) and not k == "key"]
         
-        if not(dct["__module__"] == __name__ and name in own_bases):
+        if not("__no_meta__" in dct and dct["__no_meta__"] == True):
             props = []
             
             init_properties = []  # holds (sparrow.Property, property(fget, fset))
             for k in dct['__ordered_props__']:
                 p = dct[k]
                 if isinstance(p, Property):
-                    # Set names of properties
+                    # Set some stuff of properties that are not known at creation time
                     p.name = k
                     props.append(p)
                     
@@ -365,6 +498,7 @@ class MetaEntity(type):
                         dct[p.name] = prop
                         init_properties.append((p, prop))
                     else:
+                        p.dataname = p.name
                         init_properties.append((p, None))
             
             def __init__(obj, in_db=False, db_args=None, **kwargs):
@@ -382,27 +516,19 @@ class MetaEntity(type):
                             obj.__dict__[p.dataname] = val
                 else:
                     for (p, prop) in init_properties:
-                        if prop is None:
-                            try:
-                                obj.__dict__[p.name] = kwargs[p.name]
-                            except KeyError as e:
-                                if p.required:
-                                    raise e
-                                else:
-                                    obj.__dict__[p.name] = None
-                        else:
-                            val = None
-                            try:
-                                val = kwargs[p.name]
-                            except KeyError as e:
-                                if p.required:
-                                    raise e
-                                else:
-                                    val = None
+                        val = None
+                        try:
+                            val = kwargs[p.name]
+                        except KeyError as e:
+                            if p.required:
+                                raise e
+                            else:
+                                val = None
+                        if prop is not None:
                             for c in p.constraints:
                                 if not c(val):
                                     raise Exception("Constraint not met")
-                            obj.__dict__[p.dataname] = val
+                        obj.__dict__[p.dataname] = val
                     
             dct["__init__"] = __init__
                         
@@ -421,18 +547,24 @@ class MetaEntity(type):
             
             dct["create_table_command"] = None
             dct["drop_table_command"] = None
+            
         
         return type.__new__(self, name, bases, dct)
     
     def __init__(cls, name, bases, dct):
-        if not(cls.__module__ == __name__ and name in own_bases):
+        if not("__no_meta__" in dct and dct["__no_meta__"] == True):
             cls.create_table_command = CreateTable(cls)
             cls.drop_table_command = DropTable(cls)
+            
+            # set more stuff of properties that isn't known at creation time
+            for p in cls._props:
+                p.cls = cls
+            
         super(MetaEntity, cls).__init__(name, bases, dct)
  
 
 class Entity(metaclass=MetaEntity):
-    add_base("Entity")
+    __no_meta__ = True
     
     # __init__ constructed in metaclass
     
@@ -458,24 +590,38 @@ class Entity(metaclass=MetaEntity):
     def remove_all_listeners(self):
         pass
     
-    constraints = []
-    json_props = []
+    constraints = []  # TODO
+    json_props = []  # TODO
 
-    # Methods:
-    #   - __init__
-    #   - put, update, delete
-    #   - to_json, json_repr
-    #   - from_db
-
-    # Classmethods:
-    #   - get, get_by_key
-    #   - create_table_command
+    @classmethod
+    def raw(cls, text):
+        return RawSqlStatement(text, cls)
     
+    @classmethod
+    def get(cls, *where_clauses):
+        # TODO actually handle where_clauses
+        return Select(cls)
+    
+    #@classmethod
+    #def get_by_key(cls, key):
+        # heavy TODO
+    
+    def to_json(self):
+        return json.dumps(self.json_repr())
+    
+    def json_repr(self):
+        d = {}
+        for p in self.json_props:
+            d[p.name] = self.__dict__[p.dataname]
+        return d
+    
+    # Methods:
+    #   - put, update, delete
+
     # Preprocessing in MetaEntity!
-    pass
 
 class RTEntity(Entity):
-    add_base("RTEntity")
+    __no_meta__ = True
     cache = {}
     
     def __init__(self, *args, **kwargs):
@@ -496,3 +642,10 @@ class RTEntity(Entity):
             self._listeners.remove(conn)
             conn.remove_listenee(self)
 
+# Stuff
+# ----------------------------------------------------
+
+
+if __name__ == "__main__":
+    print(text)
+    print("Soon there will be some tests here")
