@@ -51,9 +51,7 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
             if (getCookie("user") != "") {
                 var temp_user = JSON.parse(getCookie("user"));
                 console.log(temp_user);
-        		user = new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
-        		console.log(user);
-                return user;
+                return temp_user;
             } else {
                 return null;            
             }
@@ -100,7 +98,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	});
 	
 	$scope.$watch("auth_user", function() {
-	    $rootScope.auth_user = Auth.getUser();
+	    var temp_user = Auth.getUser();
+    	$rootScope.auth_user = new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
         console.log("Auth user is : " + $rootScope.auth_user);
 	});
 	
