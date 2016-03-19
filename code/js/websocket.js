@@ -120,7 +120,7 @@ function get_all_response(response) {
 	what = response["what"];
 	switch(what) {
 		case "Sensor":
-			var sensors = [];
+			var sensors_response = [];
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
 				sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
