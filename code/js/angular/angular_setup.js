@@ -41,14 +41,13 @@ angular.module("overwatch").run(function($rootScope, $location, Auth) {
 });
 
 angular.module("overwatch").factory('Auth', function($rootScope) {
-    var user;
     return {
-        setUser : function(aUser) {
-            user = aUser;
+        setUser : function(user) {
+            setCookie("user", user, 365);
         },
         
         getUser : function() {
-            return user;
+            return getCookie("user");
         },
     
         isLoggedIn : function() {
