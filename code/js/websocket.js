@@ -120,7 +120,7 @@ function get_all_response(response) {
 	what = response["what"];
 	switch(what) {
 		case "Sensor":
-			sensors;
+			sensors = [];
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
 				sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
@@ -128,7 +128,7 @@ function get_all_response(response) {
 			}
 			return {for: response["for"], sensors: sensors};
 		case "User":
-			users;
+			users = [];
 			for(i = 0; i < response["data"].length; i++) {
 				userData = response["data"][i];
 				user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
@@ -136,7 +136,7 @@ function get_all_response(response) {
 			}
 			return {for: response["for"], users: users};
 		case "Location":
-			locations;
+			locations = [];
 			for(i = 0; i < response["data"].length; i++) {
 				locationData = response["data"][i];
 				location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 

@@ -21,9 +21,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.$apply();
 	});
 	*/
+	$scope.sensors = [];
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
 		$scope.sensors = response.sensors;
+		console.log(response.sensors);
 		$scope.$apply();
 	});
 	
@@ -36,6 +38,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
 	
+/*
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
 			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]},
     {'name': 'sensor 0', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 0'},
@@ -1038,7 +1041,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 {'name': 'sensor 997', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 997'},
 {'name': 'sensor 998', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 998'},
 {'name': 'sensor 999', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 999'}];
-
+*/
 
 	$scope.required = true;
 	$scope.selected_order = null;
@@ -1194,7 +1197,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.locations[edit_loc_id].number = $scope.loc_number;
 				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
 				/*
-				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}, function() {
+				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}}, function() {
 				});
 				*/
 			} else {
@@ -1207,7 +1210,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				new_location.number = $scope.loc_number;
 				new_location.desc = $scope.loc_desc;
 				/*
-				ws.request({type: "add", what: "Location", data: {new_location}, function(response) {
+				ws.request({type: "add", what: "Location", data: {new_location}}, function(response) {
 					if(response.success) 
 						new_location.id = response.location.id;	
 				});
@@ -1294,8 +1297,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
-
-				ws.request({type: "edit", what: "Sensor", data: {$scope.filteredSensors[edit_sen_id]}, function() {
+				var object = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
+				ws.request({type: "edit", what: "Sensor", data: {object}}, function() {
 				});
 			} else {
 				// Add Sensor
@@ -1305,7 +1308,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				new_sensor.location = $scope.sen_location;
 				new_sensor.type = $scope.sen_type;
 				$scope.sensors.push(new_sensor);
-				ws.request({type: "add", what: "Sensor", data: {new_sensor}, function(response) {
+				ws.request({type: "add", what: "Sensor", data: {new_sensor}}, function(response) {
 					if(response.success) 
 						new_sensor.id = response.sensor.id;	
 				});          
