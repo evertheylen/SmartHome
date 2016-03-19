@@ -13,35 +13,28 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		return $filter('filter')($scope.tags, query);
 	}
 
-	//TODO Get these variables from the database.
-	/*ws.request("login", {type: "get_all", what: "Tag", for: {what: "User", UID: $rootScope.user_id}}, function(tags) {
-		$scope.tags = tags;
+	//TODO Get these variables from the database
+	
+	/*
+	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
+		$scope.locations = response.locations;
 		$scope.$apply();
 	});
+	*/
 
-	ws.request("login", {type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.user_id}}, function(locations) {
-		$scope.locations = locations;
+	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
+		$scope.sensors = response.sensors;
 		$scope.$apply();
 	});
-
-	ws.request("login", {type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.user_id}}, function(sensors) {
-		$scope.sensors = sensors;
-		$scope.$apply();
-	});
-
-
-	ws.request("login", {type: "get_all", what: "Type", for: {what: "User", UID: $rootScope.user_id}}, function(types) {
-		$scope.types = types;
-		$scope.$apply();
-	});*/
-
+	
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
+    
+	$scope.types = ["Electricity", "Movement", "Water", "Temperature"];
+
 
 	$scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
-    
-    $scope.types = ["Electricity", "Movement", "Water", "Temperature"];
 	
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
 			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]},
@@ -1046,6 +1039,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 {'name': 'sensor 998', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 998'},
 {'name': 'sensor 999', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 999'}];
 
+
 	$scope.required = true;
 	$scope.selected_order = null;
 	var edit_loc_id = null;
@@ -1053,17 +1047,17 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	var edit_sen = false;
 	var edit_sen_id = null;
 
-    $scope.filteredSensors = []
-    ,$scope.currentPage = 1
-    ,$scope.numPerPage = 10
-    ,$scope.maxSize = 5;
+	$scope.filteredSensors = []
+	,$scope.currentPage = 1
+	,$scope.numPerPage = 10
+	,$scope.maxSize = 5;
 
-    $scope.$watch("currentPage + numPerPage", function() {
-    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-    , end = begin + $scope.numPerPage;
+	$scope.$watch("currentPage + numPerPage", function() {
+		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+		, end = begin + $scope.numPerPage;
 
-    $scope.filteredSensors = $scope.sensors.slice(begin, end);
-    });
+		$scope.filteredSensors = $scope.sensors.slice(begin, end);
+	});
 
 
 	$scope.$watch('locations', function() {
@@ -1188,17 +1182,23 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		}  
 	}
     
-    // TODO Database update: Location (Make difference between add and edit) Jeroen
+    	// TODO Database update: Location (Make difference between add and edit) Jeroen
 	$scope.save_loc = function save_loc() {
 		if ($scope.location_form.$valid) {
 			if (edit) {
+				// Edit Location
 				$scope.locations[edit_loc_id].country = $scope.loc_country;
 				$scope.locations[edit_loc_id].city = $scope.loc_city;
 				$scope.locations[edit_loc_id].postalcode = $scope.loc_postalcode;
 				$scope.locations[edit_loc_id].street = $scope.loc_street;
 				$scope.locations[edit_loc_id].number = $scope.loc_number;
 				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
+				/*
+				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}, function() {
+				});
+				*/
 			} else {
+				// Add Location
 				var new_location = {};
 				new_location.country = $scope.loc_country;
 				new_location.city = $scope.loc_city;
@@ -1206,11 +1206,18 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				new_location.street = $scope.loc_street;
 				new_location.number = $scope.loc_number;
 				new_location.desc = $scope.loc_desc;
+				/*
+				ws.request({type: "add", what: "Location", data: {new_location}, function(response) {
+					if(response.success) 
+						new_location.id = response.location.id;	
+				});
+				*/
 				$scope.locations.push(new_location);
 			}
 			$scope.dialog.close();
 		}
 	}   
+
 	function set_loc(id) {
 		edit = true;
 		$scope.loc_country = $scope.locations[id].country;
@@ -1275,10 +1282,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		}                
 	}
     
-	// TODO Database update for sensor (cfr save_loc) Jeroen
 	$scope.save_sen = function save_sen() {
 		if ($scope.sensor_form.$valid) {
 			if (edit_sen) {
+				// Edit Sensor
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].name = $scope.sen_name;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
@@ -1287,26 +1294,21 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
-				/*ws.request("edit", {SID: edit_sen_id, title: $scope.sen_name, UID: TODO, type: $scope.sen_type}, function(successful_edit) {
-				if (successful_edit) {	
-				document.getElementById("dlgSensor").close();
-				} else {
-				}
-				$scope.$apply();
-				});*/
+
+				ws.request({type: "edit", what: "Sensor", data: {$scope.filteredSensors[edit_sen_id]}, function() {
+				});
 			} else {
+				// Add Sensor
 				var new_sensor = {};
 				new_sensor.name = $scope.sen_name;
 				new_sensor.tags = $scope.sen_tags;
 				new_sensor.location = $scope.sen_location;
 				new_sensor.type = $scope.sen_type;
 				$scope.sensors.push(new_sensor);
-				ws.request("add", {title: $scope.sen_name, UID: 3, type: $scope.sen_type}, function(successful_add) {
-					if (successful_add) {	
-						// dialog2.close();
-					} else {}
-					$scope.$apply();
-				});                
+				ws.request({type: "add", what: "Sensor", data: {new_sensor}, function(response) {
+					if(response.success) 
+						new_sensor.id = response.sensor.id;	
+				});          
 			}
 			dialog2.close();
 		}
@@ -1363,7 +1365,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	var delete_id = null;    // TODO Nasty global vars
 	var delete_from = null;
 	
-	// TODO Database update delete (location and sensor)
 	$scope.delete = function (id, from) {
 		$rootScope.confirm_dialog.showModal();
 		componentHandler.upgradeDom();
@@ -1373,20 +1374,18 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 	$scope.$on("confirmation", function (event, value) {
 		if (value) {
-			if (delete_from.length === 1) {
-				delete_from.length = 0;          // TODO THIS DOESNT WORK FOR SOME REASON?!
-				return;
+			if (delete_from == $scope.locations) {
+				if (delete_from.length === 1) {
+					delete_from.length = 0;
+					return;
+				}
+				delete_from.splice(delete_id, 1);
+			} else if (delete_from == $scope.sensors) {
+				ws.request({type: "delete", what: "Sensor", data: {"ID": delete_id}}, function(success) {
+					$scope.$apply();
+				});
 			}
-		delete_from.splice(delete_id, 1);    // TODO Do this shit in database
-		return;
-		/*ws.request("delete", {SID: id}, function(successful_delete) {
-			if (successful_delete) {	
-			} else {
-			}
-			$scope.$apply();
-		});*/
-		    
-		};
+		}
 	});
 
 	$scope.open_dialog = function(element_id, id, sensor) {

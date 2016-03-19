@@ -6,10 +6,11 @@ function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 	//websocket = new WebSocket("ws://localhost:8002/ws");
 
-	websocket.request = function (type, data, f) {
+	websocket.request = function (requestObject, f) {
 		// Data can be any object literal or prototype with the toJSON method.
 		answers[currentId] = f;
-		var stringToSend = JSON.stringify({"ID": currentId, "type": type, "data": data});
+		requestObject.ID = currentId;
+		var stringToSend = JSON.stringify(requestObject);
 		websocket.send(stringToSend);
 		currentId+=1;
 		console.log("Sent data to server:");
@@ -178,21 +179,21 @@ function add_response(response) {
 			case "Sensor":
 				sensorData = response["data"]["Sensor"];
 				sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
-				return {for: response["for"], sensor: sensor};
+				return {success: true, for: response["for"], sensor: sensor};
 			case "User":
 				userData = response["data"]["User"];
 				user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
-				return {for: response["for"], user: user};
+				return {success: true, for: response["for"], user: user};
 			case "Location":
 				locationData = response["data"]["Location"];
 				location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
 							locationData["postalcode"], locationData["street"],  locationData["number"]);
-				return {for: response["for"], location: location};
+				return {success: true, for: response["for"], location: location};
 			default:
 				break;
 		}
 	}
-	return {};		
+	return {success: false};		
 }
 
 function delete_response(response) {

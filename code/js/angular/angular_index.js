@@ -30,11 +30,11 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 	$scope.wrong_login = false;
 	$scope.login = function() {
 		if ($scope.login_form.$valid) {
-			ws.request("login", {email: $scope.email, password: $scope.password}, function(response) {
+			ws.request({type: "login", data: {email: $scope.email, password: $scope.password}}, function(response) {
 				if (response.success) {	
 					$rootScope.logged_in = true;
 					document.getElementById("dlgLogin").close();
-					$rootScope.auth_user = new User(response.UID, response.firstName, response.lastName, $scope.email);
+					$rootScope.auth_user = response.user;
 					console.log(response.UID);
 					$scope.wrong_login = false;
 					$location.path("/home");
@@ -52,7 +52,7 @@ angular.module("overwatch").controller("signupController", function($scope) {
 	$scope.wrong_signup = false;
 	$scope.signup = function() {
 		if($scope.signup_form.$valid) {
-	    		ws.request("signup", {first_name: $scope.first_name, last_name: $scope.last_name, email: $scope.email, password: $scope.password}, function(response){
+	    		ws.request({type: "signup", data: {first_name: $scope.first_name, last_name: $scope.last_name, email: $scope.email, password: $scope.password}}, function(response){
 				if (response.success) {
 				    document.getElementById("dlgSignup").close();
 				} else {
