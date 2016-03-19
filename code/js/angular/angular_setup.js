@@ -71,6 +71,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
         setCookie("session", "", 1);
         $rootScope.logged_in = Auth.isLoggedIn();
         $location.path("/");
+        setCookie("user", "", 365);
     }
     
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
