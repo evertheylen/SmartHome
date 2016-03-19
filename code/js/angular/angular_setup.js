@@ -99,7 +99,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	
 	$scope.$watch("auth_user", function() {
 	    var temp_user = Auth.getUser();
-    	$rootScope.auth_user = new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
+	    if (temp_user = null) {
+	        $rootScope.auth_user = null;
+	    } else {
+    	    $rootScope.auth_user = new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
+    	}
         console.log("Auth user is : " + $rootScope.auth_user);
 	});
 	
