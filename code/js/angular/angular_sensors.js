@@ -36,6 +36,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
 	
+/*
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
 			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]},
     {'name': 'sensor 0', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 0'},
@@ -1038,7 +1039,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 {'name': 'sensor 997', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 997'},
 {'name': 'sensor 998', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 998'},
 {'name': 'sensor 999', 'location': 'Antwerp', 'type': 'Electricity', 'tags': 'Tag 999'}];
-
+*/
 
 	$scope.required = true;
 	$scope.selected_order = null;
