@@ -73,7 +73,7 @@ Client message:
 Server response (Fail):
 
 	{
-		"type": "signup",
+		"type": "login",
 		"data": {
 			"status": "failure"
 			"reason": "email_unknown" || "wrong_password"
@@ -144,11 +144,8 @@ Response (Success):
 	{
 		"type": "add",
 		"what": <object class>,
-		"data": {
-			"status": "success"			
-			"<object class>": {
-				<entire definition with ID>
-			}		
+		"data": {		
+			<entire definition with ID>		
 		}
 	}
 

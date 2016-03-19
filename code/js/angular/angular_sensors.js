@@ -22,11 +22,12 @@ $rootScope.auth_user = Auth.getUser();
 		$scope.$apply();
 	});
 	*/
-	$scope.sensors = [];
+	var $scope.sensors = [];
+	console.log("Empty array: " + $scope.sensors);
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
 		$scope.sensors = response.sensors;
-		console.log(response.sensors);
+		console.log("Sensor array: " + $scope.sensors);
 		$scope.$apply();
 	});
 	
@@ -1212,8 +1213,7 @@ $rootScope.auth_user = Auth.getUser();
 				new_location.desc = $scope.loc_desc;
 				/*
 				ws.request({type: "add", what: "Location", data: {new_location}}, function(response) {
-					if(response.success) 
-						new_location.id = response.location.id;	
+					new_location.id = response.location.id;	
 				});
 				*/
 				$scope.locations.push(new_location);
@@ -1310,8 +1310,7 @@ $rootScope.auth_user = Auth.getUser();
 				new_sensor.type = $scope.sen_type;
 				$scope.sensors.push(new_sensor);
 				ws.request({type: "add", what: "Sensor", data: {new_sensor}}, function(response) {
-					if(response.success) 
-						new_sensor.id = response.sensor.id;	
+					new_sensor.id = response.sensor.id;	
 				});          
 			}
 			dialog2.close();
