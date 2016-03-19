@@ -90,6 +90,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    console.log("New Location: " + $location.path());
 	});
 	
+	$scope.$watch("auth_user", function() {
+        console.log("Auth user is : " + $rootScope.auth_user);
+	});
+	
 	$scope.hideDrawer = function () {
 	    console.log(document.getElementsByClassName('mdl-layout__drawer'));
 	    console.log(document.getElementsByClassName('mdl-layout__obfuscator'));
