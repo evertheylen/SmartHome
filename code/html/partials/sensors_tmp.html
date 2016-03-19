@@ -68,14 +68,14 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage" on-finish-render="ngRepeatFinished">
+						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index" on-finish-render="ngRepeatFinished">
                             <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
 				            <td ng-bind="sensor.location"></td>
 				            <td ng-bind="sensor.type"></td>
 				            <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							<td>
-								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
-								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
+								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', (currentPage-1)*numPerPage + index, true);"><i class="material-icons">edit</i></button>
+								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete((currentPage-1)*numPerPage + index, sensors);"><i class="material-icons">delete</i></button>
 							</td>
 						</tr>
 					</tbody>
