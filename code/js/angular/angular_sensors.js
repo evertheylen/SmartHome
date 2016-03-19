@@ -1062,7 +1062,13 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 		$scope.filteredSensors = $scope.sensors.slice(begin, end);
 	});
+	
+	updateFilteredSensors = function () {
+		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+		, end = begin + $scope.numPerPage;
 
+		$scope.filteredSensors = $scope.sensors.slice(begin, end);
+	};
 
 	$scope.$watch('locations', function() {
 		$timeout(function() {
@@ -1303,6 +1309,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.location = $scope.sen_location;
 				$scope.sensors.push(new_sensor);
+				updateFilteredSensors();
 				var sensorObject = new_sensor.toJSON();
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
 					new_sensor.SID = response.sensor.SID;	
@@ -1376,9 +1383,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			if (delete_from == $scope.sensors) {
 				console.log("Delete_id: " + delete_id);
 				ws.request({type: "delete", what: "Sensor", data: {"ID": $scope.sensors[delete_id].SID}}, function(success) {
-					var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-            		, end = begin + $scope.numPerPage;
-		            $scope.filteredSensors = $scope.sensors.slice(begin, end);
+                    updateFilteredSensors();
 					$scope.$apply();
 				});
 			}
