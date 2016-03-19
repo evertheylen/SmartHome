@@ -89,9 +89,10 @@ Server response (Success):
 			"session": "78SD451xdsf487scxg4i7ojkh14q12z4c1f4e87rhj4",
 			"user": {
 					"UID": 123,
-					"firstName": "Douglas",
-					"lastName": "Adams"
-				}
+					"email": "douglas.adams@hotmail.com",
+					"first_name": "Douglas",
+					"last_name": "Adams"
+			}
 		}
 	}
 
@@ -145,7 +146,9 @@ Response (Success):
 		"what": <object class>,
 		"data": {
 			"status": "success"			
-			<entire definition with ID>
+			"<object class>": {
+				<entire definition with ID>
+			}		
 		}
 	}
 

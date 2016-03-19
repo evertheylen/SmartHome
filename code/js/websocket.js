@@ -48,8 +48,15 @@ function connect_to_websocket() {
 				case "get_all":
 					polishedObject = get_all_response(receivedObject);
 					break;
-				case "":
-
+				case "get":
+					polishedObject = get_response(receivedObject);
+					break;
+				case "add":
+					polishedObject = add_response(receivedObject);
+					break;
+				case "delete":
+					polishedObject = delete_response(receivedObject);
+					break;
 			}
 		}
 		catch(SyntaxError) {
@@ -78,8 +85,8 @@ function connect_to_websocket() {
 function signup_response(response) {
 	data = response["data"];
 	if(data["status"] == "success")
-		return {succes: true, UID: data["UID"]};
-	return {succes: false};
+		return {success: true, UID: data["UID"]};
+	return {success: false, reason: data["reason"]};
 }
 
 function login_response(response) {
@@ -88,9 +95,10 @@ function login_response(response) {
 		// Currently this cookie will only be alive for 1 day.
 		setCookie("session", data["sessions"], 1);
 		userData = data["user"];
-		return {succes: true, UID: userData["UID"], firstName: userData["first_name"], lastName: userData["last_name"]};
+		user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
+		return {success: true, user: user};
 	}
-	return {succes: false};
+	return {success: false, reason: data["reason"]};
 }
 
 function error_response(response) {
@@ -118,15 +126,20 @@ function get_all_response(response) {
 				sensors.push(sensor);
 			}
 			return {for: response["for"], sensors: sensors};
-		case "Type":
-			return {for: response["for"], types: response["data"]};
-		case "Tag":
-			return {for: response["for"], tags: response["data"]};
+		case "User":
+			users;
+			for(i = 0; i < response["data"].length; i++) {
+				userData = response["data"][i];
+				user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
+				users.push(user);
+			}
+			return {for: response["for"], users: users};
 		case "Location":
 			locations;
 			for(i = 0; i < response["data"].length; i++) {
 				locationData = response["data"][i];
-				location = new Location(locationData["SID"], locationData["title"], locationData["type"]);
+				location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
+							locationData["postalcode"], locationData["street"],  locationData["number"]);
 				locations.push(location);
 			}
 			return {for: response["for"], locations: locations};
@@ -135,3 +148,57 @@ function get_all_response(response) {
 	}
 	return {};
 }
+
+function get_response(response) {
+	what = response["what"];
+	switch(what) {
+		case "Sensor":
+			sensorData = response["data"];
+			sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
+			return {for: response["for"], sensor: sensor};
+		case "User":
+			userData = response["data"];
+			user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
+			return {for: response["for"], user: user};
+		case "Location":
+			locationData = response["data"];
+			location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
+						locationData["postalcode"], locationData["street"],  locationData["number"]);
+			return {for: response["for"], location: location};
+		default:
+			break;
+	}
+	return {};	
+}
+
+function add_response(response) {
+	if(response["data"]["status"] == "success") {
+		what = response["what"];
+		switch(what) {
+			case "Sensor":
+				sensorData = response["data"]["Sensor"];
+				sensor = new Sensor(sensorData["SID"], sensorData["title"], sensorData["type"]);
+				return {for: response["for"], sensor: sensor};
+			case "User":
+				userData = response["data"]["User"];
+				user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
+				return {for: response["for"], user: user};
+			case "Location":
+				locationData = response["data"]["Location"];
+				location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
+							locationData["postalcode"], locationData["street"],  locationData["number"]);
+				return {for: response["for"], location: location};
+			default:
+				break;
+		}
+	}
+	return {};		
+}
+
+function delete_response(response) {
+	if (response["data"]["status"] == "success")
+		return true;	
+	return false;
+}
+
+
