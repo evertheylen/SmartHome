@@ -35,6 +35,7 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 					$rootScope.logged_in = true;
 					document.getElementById("dlgLogin").close();
 					$rootScope.auth_user = response.user;
+					Auth.setUser(response.user);
 					console.log(response.UID);
 					$scope.wrong_login = false;
 					$location.path("/home");

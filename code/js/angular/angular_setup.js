@@ -43,6 +43,14 @@ angular.module("overwatch").run(function($rootScope, $location, Auth) {
 angular.module("overwatch").factory('Auth', function($rootScope) {
     var user;
     return {
+        setUser : function(aUser) {
+            user = aUser;
+        },
+        
+        getUser : function() {
+            return user;
+        },
+    
         isLoggedIn : function() {
             return (getCookie("session") != "");
         }
@@ -57,6 +65,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     };
     
     $rootScope.logged_in = Auth.isLoggedIn();
+    $rootScope.auth_user = Auth.getUser();
     $scope.logout = function() {
         console.log("logging Out");
         setCookie("session", "", 1);
