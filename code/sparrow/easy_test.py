@@ -86,7 +86,7 @@ async def do_stuff():
     print(repr(b-a))
     """
     
-    q = RawSqlStatement("SELECT * FROM table_User WHERE mail LIKE %(mail)s", User)
+    q = RawClassedSql(User, "SELECT * FROM table_User WHERE mail LIKE %(mail)s")
     print(q)
     qq = q.with_data(mail = "%")
     result = await qq.exec(app.db)
@@ -95,6 +95,10 @@ async def do_stuff():
     print(q.data)
     print(qq.data)
     print("users = ", "\n".join([u.to_json() for u in result.all()]))
+    
+    evert_q = User.get(User.mail == "'e@e'")
+    evert = await evert_q.fetchone(app.db)
+    print(evert.to_json())
     
     
     

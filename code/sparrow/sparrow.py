@@ -120,49 +120,6 @@ class Field:
 
 # Statements etc
 
-# Decorators
-
-# I don't know a good way of creating both an async version and a synchr version with the same code...
-# Until then, sorry for the double code.
-
-# This is a way of providing all functions to both Abstract and Raw so the client does
-# not have to worry about compiling queries. Basically, mark a method with it in 
-# SqlStatement, and you are guaranteed that self becomes a RawSqlStatement.
-
-def async_first_compile(method):
-    @wraps(method)
-    async def wrapper(self, *args, **kwargs):
-        if isinstance(self, AbstractSqlStatement):
-            self = self.compile()
-        return await method(self, *args, **kwargs)
-    return wrapper
-
-def first_compile(method):
-    @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        if isinstance(self, AbstractSqlStatement):
-            self = self.compile()
-        return method(self, *args, **kwargs)
-    return wrapper
-
-def async_filter_unsafe_wraps(method):
-    @wraps(method)
-    async def wrapper(self, *args, **kwargs):
-        for a in itertools.chain(args, kwargs.values()):
-            if isinstance(a, UnsafeWrap):
-                self.data[a.key] = a.value
-        return await method(self, *args, **kwargs)
-    return wrapper
-
-def filter_unsafe_wraps(method):
-    @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        for a in itertools.chain(args, kwargs.values()):
-            if isinstance(a, UnsafeWrap):
-                self.data[a.key] = a.value
-        return method(self, *args, **kwargs)
-    return wrapper
-
 # cursor has the following methods:
 # cursor.__class__(         cursor.__format__(        cursor.__le__(            
 # cursor.__delattr__(       cursor.__ge__(            cursor.__lt__(            
@@ -239,14 +196,13 @@ class Sql:
     def __init__(self, data = {}):
         self.data = data
     
-    # All of them expect a database and will (if needed) first 'compile'
-    # your AbstractSql.
-    @async_first_compile
+    # By default, there is no class
+    cls = None
+    
     async def exec(self, db):
-        return SqlResult(await db.get_cursor(self.text, self.data), self)
+        return SqlResult(await db.get_cursor(str(self), self.data), self)
     
     # Allows you to call these method immediatly on a statement:
-    
     single = wrapper_sqlresult(SqlResult.single)
     all = wrapper_sqlresult(SqlResult.all)
     count = wrapper_sqlresult(SqlResult.count)
@@ -257,62 +213,92 @@ class Sql:
         newself.data.update(kwargs)
         return newself
     
+    # By default simply create a deepcopy
     def copy(self):
         return copy.deepcopy(self)
     
-    @first_compile
+    def check(self, what):
+        if isinstance(what, Sql):
+            self.data.update(what.data)
+            return what.to_raw()
+        return what
+    
+    def to_raw(self):
+        return RawSql(str(self), self.data)
+    
     def __str__(self):
-        return self.text
+        return "undefined so far"
+
+class ClassedSql(Sql):
+    def __init__(self, cls, data={}):
+        self.cls = cls
+        Sql.__init__(self, data)
+    
+    def to_raw(self):
+        return RawClassedSql(self.cls, str(self), self.data)
 
 class RawSql(Sql):
-    def __init__(self, text, cls, data = {}):
+    def __init__(self, text, data = {}):
         self.text = text
-        Sql.__init__(self, cls, data)
+        Sql.__init__(self, data)
+    
+    def to_raw(self):
+        return self
     
     def copy(self):
         # Yay performance
-        return RawSql(self.text, self.cls, copy.copy(self.data))
-
-class AbstractSqlStatement(SqlStatement, SqlPart):
-    """
-    Base class for all SQL Statement classes.
-    """
-    def __init__(self, cls, data={}):
-        SqlStatement.__init__(self, cls, data)
+        return RawSql(self.text, copy.copy(self.data))
     
-    def to_raw(self, text):
-        return RawSqlStatement(text, self.cls, self.data)
-        
-    def check(self, part):
-        if isinstance(part, SqlPart):
-            
+    def __str__(self):
+        return self.text
+
+class RawClassedSql(RawSql, ClassedSql):
+    def __init__(self, cls, text, data = {}):
+        # TODO possibly make this use super but I suspect it will fuck around
+        self.cls = cls
+        self.text = text
+        self.data = data
+    
+    def copy(self):
+        return RawClassedSql(self.cls, self.text, copy.copy(self.data))
+
 
 sql_select_from_template = """
 SELECT * FROM {tname}
 """
-    
-class Where(SqlPart):
+
+class Where(Sql):
     def __init__(self, lfield, op, rfield, data={}):
-        SqlPart.__init__(self, data)
-        self.lfield = lfield
+        Sql.__preinit__(self)
+        self.lfield = self.check(lfield)
         self.op = op
-        self.rfield = rfield
-        self.check_unsafe_wrap(self.lfield, self.rfield)
+        self.rfield = self.check(rfield)
+        Sql.__init__(self, data)
     
     def __str__(self):
         return "{s.lfield} {s.op} {s.rfield}".format(s=self)
 
-class Select(AbstractSqlStatement):
-    """
-    Mainly for SELECT statements.
-    """
-    def __init__(self, cls, where_clauses=[], order=None, offset=0, limit=None):
-        AbstractSqlStatement.__init__(self, cls)
+class Order(Sql):  # TODO order on multiple attributes
+    def __init__(self, field, op, data={}):
+        Sql.__preinit__(self)
+        self.field = self.check(field)
+        self.op = op
+        Sql.__init__(self, data)
+        
+    def __str__(self):
+        return "{s.field} {s.op}".format(s=self)
+
+class Select(ClassedSql):
+    def __init__(self, cls, where_clauses=[], order=None, offset=None, limit=None):
+        ClassedSql.__preinit__(self)
         self.where_clauses = [self.check(c) for c in where_clauses]
         self.order = self.check(order)
         self.offset = self.check(offset)
         self.limit = self.check(limit)
+        ClassedSql.__init__(self, cls)
         
+    # returning self permits chaining
+    
     def limit(self, l):
         self.limit = l
         return self
@@ -321,28 +307,34 @@ class Select(AbstractSqlStatement):
         self.offset = o
         return self
     
-    def where(self, clause):
-        self.where_clauses.append(clause)
-        self.
+    def where(self, *clauses):
+        self.where_clauses.extend(clauses)
         return self
     
+    def __str__(self):
+        s = "SELECT * FROM {cls._table_name}".format(cls=self.cls)
+        if len(self.where_clauses) > 0:
+            s += " WHERE (" + " AND ".join(["("+str(c)+")" for c in self.where_clauses]) + ")"
+        if self.order is not None:
+            s += " ORDER BY {}".format(self.order)
+        if self.limit is not None:
+            s += " LIMIT {}".format(self.limit)
+        if self.offset != 0:
+            s += " OFFSET {}".format(self.offset)
+        return s
+    
 
-class Command(AbstractSqlStatement):
+class Command(ClassedSql):
     """
     For INSERT, DELETE, UPDATE statements.
     """
-    # TODO
+    pass
 
 
 sql_create_table_template = """
 CREATE TABLE {tname} (
 {props}
 ); 
-
-"""
-
-sql_drop_table_template = """
-DROP TABLE {tname};
 """
 
 class CreateTable(Command):
@@ -354,39 +346,33 @@ class CreateTable(Command):
         self.props = cls._props
         Command.__init__(self, cls)
     
-    def compile(self):
-        return self.to_raw(sql_create_table_template.format(
+    def __str__(self):
+        return sql_create_table_template.format(
             tname = self.tname,
             props = ",\n".join([p.to_sql() for p in self.props])
-        ))
+        )
 
 class DropTable(Command):
     def __init__(self, cls):
-        self.tname = cls._table_name
         Command.__init__(self, cls)
+        self.tname = cls._table_name
     
     def compile(self):
-        return self.to_raw(sql_drop_table_template.format(
+        return "DROP TABLE {tname}".format(
             tname = self.tname
-        ))
+        )
 
 class Insert(Command):
-    """
-    For INSERT statements.
-    """
     # TODO
+    pass
 
 class Update(Command):
-    """
-    For UPDATE statements.
-    """
     # TODO
+    pass
 
 class Delete(Command):
-    """
-    For DELETE statements.
-    """
     # TODO
+    pass
 
 
 
@@ -398,6 +384,10 @@ def create_where_comparison(op):
     def method(self, other):
         return Where(self, op, other)
     return method
+
+def create_order(op):
+    def method(self):
+        return Order(self, op)
 
 class Property:
     default_sqltypes = {
@@ -413,7 +403,7 @@ class Property:
             sql_type = Property.default_sqltypes[typ]
         self.type = typ
         self.sql_type = sql_type
-        self.constraints = constraints
+        self.constraints = constraints  # TODO make single constraint (client must use 'and')
         self.sql_extra = sql_extra
         self.required = required
         self.name = None  # Set by the metaclass
@@ -432,6 +422,9 @@ class Property:
     __ge__ = create_where_comparison(">=")
     __eq__ = create_where_comparison("=")
     __ne__ = create_where_comparison("!=")
+    
+    __pos__ = create_order("DESC")
+    __neg__ = create_order("ASC")
     
 class Key:
     """
@@ -599,8 +592,7 @@ class Entity(metaclass=MetaEntity):
     
     @classmethod
     def get(cls, *where_clauses):
-        # TODO actually handle where_clauses
-        return Select(cls)
+        return Select(cls, where_clauses)
     
     #@classmethod
     #def get_by_key(cls, key):
