@@ -195,5 +195,9 @@ table{
 	background-color: #ffd740;
 }
 
+#pagination > ul > li.active > a{
+	background-color: #ffd740;
+	border: 1px solid #ffd740;
+}
 
 
