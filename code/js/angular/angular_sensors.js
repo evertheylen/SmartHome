@@ -1300,7 +1300,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.location = $scope.sen_location;
 				$scope.sensors.push(new_sensor);
-				ws.request({type: "add", what: "Sensor", data: {new_sensor.toJSON()}}, function(response) {
+				JSON_sensor = new_sensor.toJSON();
+				ws.request({type: "add", what: "Sensor", data: JSON_sensor}, function(response) {
 					new_sensor.id = response.sensor.id;	
 				});     
 			}
