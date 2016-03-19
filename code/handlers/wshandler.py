@@ -20,7 +20,7 @@ class Request:
         }
         for prop in self.dct:
             if prop not in d:
-                d[prop] = self.dct
+                d[prop] = self.dct[prop]
         await self.conn.send(d)
     
 async def wrap_errors(controller, req):
