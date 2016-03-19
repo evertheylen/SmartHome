@@ -48,7 +48,7 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
         },
         
         getUser : function() {
-            return getCookie("user");
+            return JSON.parse(getCookie("user"));
         },
     
         isLoggedIn : function() {
