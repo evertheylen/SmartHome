@@ -51,7 +51,7 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
             if (getCookie("user") != "") {
                 var temp_user = JSON.parse(getCookie("user"));
                 console.log(temp_user);
-                return temp_user;
+                return new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
             } else {
                 return null;            
             }
@@ -97,12 +97,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    console.log("New Location: " + $location.path());
 	});
 	
-    var temp_user = Auth.getUser();
-    if (temp_user === null) {
-        $rootScope.auth_user = null;
-    } else {
-	    $rootScope.auth_user = new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
-	}
+    $rootScope.auth_user = Auth.getUser();
+
     console.log("Auth user is : " + $rootScope.auth_user);
 	
 	$scope.hideDrawer = function () {
