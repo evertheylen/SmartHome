@@ -1191,25 +1191,19 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if ($scope.location_form.$valid) {
 			if (edit) {
 				// Edit Location
+				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
 				$scope.locations[edit_loc_id].country = $scope.loc_country;
 				$scope.locations[edit_loc_id].city = $scope.loc_city;
 				$scope.locations[edit_loc_id].postalcode = $scope.loc_postalcode;
 				$scope.locations[edit_loc_id].street = $scope.loc_street;
 				$scope.locations[edit_loc_id].number = $scope.loc_number;
-				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
 				/*
 				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}}, function() {
 				});
 				*/
 			} else {
 				// Add Location
-				var new_location = {};
-				new_location.country = $scope.loc_country;
-				new_location.city = $scope.loc_city;
-				new_location.postalcode = $scope.loc_postalcode;
-				new_location.street = $scope.loc_street;
-				new_location.number = $scope.loc_number;
-				new_location.desc = $scope.loc_desc;
+				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_country, $scope.loc_city, $scope.loc_postalcode, $scope.loc_street, $scope.loc_number);
 				/*
 				ws.request({type: "add", what: "Location", data: {new_location}}, function(response) {
 					new_location.id = response.location.id;	
@@ -1289,28 +1283,26 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if ($scope.sensor_form.$valid) {
 			if (edit_sen) {
 				// Edit Sensor
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].name = $scope.sen_name;
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].title = $scope.sen_name;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
-				$scope.filteredSensors[edit_sen_id].name = $scope.sen_name;
-				$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
+				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
+				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
+				$scope.filteredSensors[edit_sen_id].title = $scope.sen_name;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
-				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
-				var object = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
-				ws.request({type: "edit", what: "Sensor", data: {object}}, function() {
+				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
+				//$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
+				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
+				ws.request({type: "edit", what: "Sensor", data: {sensor}}, function() {
 				});
 			} else {
 				// Add Sensor
-				var new_sensor = {};
-				new_sensor.name = $scope.sen_name;
-				new_sensor.tags = $scope.sen_tags;
-				new_sensor.location = $scope.sen_location;
-				new_sensor.type = $scope.sen_type;
+				var new_sensor = new Sensor(-1, $scope.sen_name, $scope.sen_type);
+				//new_sensor.tags = $scope.sen_tags;
+				//new_sensor.location = $scope.sen_location;
 				$scope.sensors.push(new_sensor);
 				ws.request({type: "add", what: "Sensor", data: {new_sensor}}, function(response) {
 					new_sensor.id = response.sensor.id;	
-				});          
+				});     
 			}
 			dialog2.close();
 		}
@@ -1318,9 +1310,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 	function set_sen(id) {
 		edit_sen = true;
-		$scope.sen_name = $scope.filteredSensors[id].name;
-		$scope.sen_tags = $scope.filteredSensors[id].tags;
+		$scope.sen_name = $scope.filteredSensors[id].title;
 		$scope.sen_type = $scope.filteredSensors[id].type;
+		$scope.sen_tags = $scope.filteredSensors[id].tags;
 		$scope.sen_location = $scope.filteredSensors[id].location;
 		$scope.dropDownClick($scope.filteredSensors[id].type, 'select_type', 'dropDownType', 'type');
 		$scope.dropDownClick($scope.filteredSensors[id].location, 'select_location', 'dropDownLocation', 'location');

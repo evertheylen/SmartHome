@@ -9,4 +9,6 @@ function Location(LID, desc, country, city, postalCode, street, number) {
 	this.postalCode = postalCode;
 	this.street = street;
 	this.number = number;
+	this.location = "location";
+	this.tags = "tag";
 }
