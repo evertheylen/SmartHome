@@ -104,7 +104,7 @@ table{
 
 #paginationContainer{
 	width: 585px;
-	height: 55px;
+	height: 48px;
 }
 
 #pagination > ul{
@@ -117,6 +117,7 @@ table{
 	display: -ms-flexbox;      /* TWEENER - IE 10 */
 	display: -webkit-flex;     /* NEW - Chrome */
 	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	background-color: transparent;
 }
 
 #pagination > ul > li{
@@ -125,7 +126,7 @@ table{
 	margin: 0px;
 	padding: 0;
 	width: 45px;
-	height: 43px;
+	height: 36px;
 	display: inline-block;
 }
 
@@ -136,13 +137,13 @@ table{
 	border-left: none;
 	border-right: none;
 	width: 585px;
-	height: 43px;
+	height: 36px;
 	white-space: nowrap;
 	font-size: 0;
 }
 
 #pagination > ul > li > a{
-	font-size: 20px;
+	font-size: 15px;
 	color: #000066;
 	border: none;
 	background-color: rgba(158,158,158,.2);
@@ -150,21 +151,21 @@ table{
 	border: 1px solid rgba(158,158,158,.2);
 	border-radius: 1px;
 	width: 43px;
-	height: 31px;
+	height: 27px;
 	display: inline-block;
-	padding-top: 10px;
+	padding-top: 7px;
 	text-align: center;
 	text-decoration: none;
 }
 
 #pagination > ul > li:nth-child(1), #pagination > ul > li:nth-child(2), #pagination > ul > li:nth-child(8), #pagination > ul > li:nth-child(9){
 	width: 90px;
-	height: 43px;
+	height: 36px;
 }
 
 #pagination > ul > li:nth-child(1) > a, #pagination > ul > li:nth-child(2) > a, #pagination > ul > li:nth-child(8) > a, #pagination > ul > li:nth-child(9) > a{
 	width: 88px;
-	height: 31px;
+	height: 27px;
 }
 
 #pagination > ul > li:hover{
@@ -182,8 +183,20 @@ table{
 	border: 1px solid #ffd740;
 }
 
+#pagination > ul > li.disabled > a:hover{
+	cursor: not-allowed;
+	background-color: transparent;
+}
+
+
+#pagination > ul > li.disabled:hover > a{
+	cursor: not-allowed;
+	background-color: transparent;
+}
+
 #pagination > ul > li.disabled:hover{
 	cursor: not-allowed;
+	background-color: transparent;
 }
 
 #pagination > ul > li:nth-child(n+10){
