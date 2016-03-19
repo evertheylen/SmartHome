@@ -6,7 +6,7 @@ if False:
         mail = Property(str, sql_extra="UNIQUE")
         password = Property(str, constraints = [lambda p: len(p) > 8])
         
-        # Key is automatically created
+        key = KeyProperty("UID")
 
         json_props = [name, mail]
 
@@ -14,18 +14,48 @@ if False:
         desc = Property(str)
         user = Reference(User)
         
+        key = KeyProperty("SID")
+        
         json_props = [desc, user]
         
     class Value(Entity):
         sensor = Reference(Sensor, update=True)  # Update the Sensor when a Value is added
         date = Property(int, constraints = [lambda i: i>=0])
-        value = Property(float)
+        value = Property(float, required=False)  # to showcase 'required'
         
-        key = (sensor, date)
+        key = Key(sensor, date)
         
         def json_repr(self):
             return [self.date, self.value]
+    
+    class Friends(Entity):
+        UID1 = Reference(User)
+        UID2 = Reference(User)
         
+        key = Key(UID1, UID2)
+        
+        constraints = [lambda e: e.UID1 < e.UID2]
+        
+        # Important example!
+        is_friend_req = Friends.get_by_key("%s", "%s")
+        async def contains(UID1, UID2):
+            if UID1 > UID2:
+                UID1, UID2 = UID2, UID1
+            c = await is_friend_req.sql_format(UID1, UID2).count()
+            assert(0<=c<=1)
+            return c == 1
+        
+        async def make_friend(UID1, UID2):
+            if UID1 > UID2:
+                UID1, UID2 = UID2, UID1
+            await Friends(UID1=UID1, UID2=UID2).put()
+        
+        async def unfriend(UID1, UID2):
+            if UID1 > UID2:
+                UID1, UID2 = UID2, UID1
+            # Possibly not very efficient, but needed for consistency with caching
+            f = await Friend.get_by_key(UID1, UID2).fetchone()
+            f.delete()
         
     async def test():
         u = await User.get(User.mail == "...").fetchone()
@@ -36,15 +66,22 @@ if False:
         # equivalent but faster
         more_sensors2 = await Sensor.get_by_key(123).fetchone()
         
+        req = Sensor.get(Sensor.type == "Electricity").order(-Sensor.SID).limit(offset=30, amount=15)
+        # sort order (small) --> (big)
+        # ↓7            ↓45             ↓452            ↓781       
+        # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+        # ------------------>[~~~~~~~~~~~]
+        #       offset           amount           
+        
         s = Sensor(desc="bla", user=u)
         await s.put()  # save in database
         s.desc = "test"
         await s.update()  # updates the entity in the database
         
         # conn needs some functions!
-        s.register(conn)
-        s.unregister(conn)
-        conn.unregister_all()
+        s.add_listener(conn)
+        s.remove_listener(conn)
+        conn.remove_all_listenees()
     
     
     
@@ -168,51 +205,3 @@ class Query:
 
 
 
-import psycopg2
-import momoko
-
-
-class RawDatabase:
-    def __init__(self, logger, ioloop):
-        self.logger = logger
-        dsn = "dbname=testdb user=postgres password=postgres host=localhost port=5432"
-        self.db = momoko.Pool(dsn=dsn, size=5, ioloop=ioloop)
-        self.db.connect()
-
-    async def get(self, tname, keyprop, keyval):
-        select_query = "SELECT * FROM {tname} WHERE {keyprop} = %s".format(tname=tname, keyprop=keyprop)
-        cursor = await self.db.execute(select_query, (keyval,))
-        result = cursor.fetchone()
-        return result
-
-    async def get_multi(self, tname, keyprop, keyval):
-        select_query = "SELECT * FROM {tname} WHERE {keyprop} = %s".format(tname=tname, keyprop=keyprop)
-        cursor = await self.db.execute(select_query, (keyval,))
-        result = cursor.fetchall()  # difference
-        return result
-
-    async def get_all(self, tname):
-        select_query = "SELECT * FROM %s"
-        cursor = await self.db.execute(select_query, (tname,))
-        result = cursor.fetchall()
-        return result
-
-    # db.update(self.table_name, [prop], [val], self.db_key, self.__dict__[self.db_key])
-    # TODO More efficient: create strings on beforehand (using metaclasses)
-    async def update(self, tname, props, vals, keyprop, keyval):
-        placeholders = ','.join(['%s'] * len(props))
-        update_query = "UPDATE {tname} SET ({props}) = ({placeholders}) WHERE {keyprop} = %s".format(
-            tname = tname, props=", ".join(props), placeholders = placeholders, keyprop=keyprop)
-        cursor = await self.db.execute(update_query, (*vals, keyval))
-        # TODO return status?
-
-    async def insert(self, tname, props, vals, keyprop):
-        placeholders = ','.join(['%s'] * len(props))
-        insert_query = "INSERT INTO {tname} ({props}) VALUES ({placeholders}) RETURNING {keyprop}".format(
-            tname = tname, props=", ".join(props), placeholders = placeholders, keyprop = keyprop)
-        cursor = await self.db.execute(insert_query, (*vals,))
-        return cursor.fetchone()
-
-    async def delete(self, tname, keyprop, keyval):
-        delete_query = "DELETE FROM {tname} WHERE {keyprop} = %s".format(tname = tname, keyprop = keyprop)
-        cursor = await self.db.execute(delete_query, (keyval,))
