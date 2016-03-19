@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("indexController", function($scope, $rootScope) {
+angular.module("overwatch").controller("indexController", function($scope, $rootScope, Auth) {
 	$scope.dialog = document.getElementById('dlgLogin');
 	$rootScope.auth_user = Auth.getUser();
 	var showDialogButton = document.getElementById('btnLogin');

@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("homeController", function($scope, $rootScope) {
+angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth) {
     $rootScope.auth_user = Auth.getUser();
     $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
