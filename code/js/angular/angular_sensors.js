@@ -1379,6 +1379,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				}
 				delete_from.splice(delete_id, 1);
 			} else if (delete_from == $scope.sensors) {
+				console.log("Delete_id: " + delete_id);
 				ws.request({type: "delete", what: "Sensor", data: {"ID": delete_id}}, function(success) {
 					$scope.$apply();
 				});
