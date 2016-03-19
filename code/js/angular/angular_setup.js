@@ -49,10 +49,9 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
         
         getUser : function() {
             if (getCookie("user") != "") {
-                console.log("Getting user: " + getCookie("user"));
                 var temp_user = JSON.parse(getCookie("user"));
-                console.log(temp_user);
-                return getCookie("user");
+        		user = new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
+                return user;
             } else {
                 return null;            
             }
