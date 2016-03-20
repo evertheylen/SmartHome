@@ -2,7 +2,7 @@
 <div id="template_index" ng-controller="indexController">
     <div class="centeredContainer">
         <p class="welcomeMessage">{{i18n('homepage_welcome')}} OverWatch!</p>
-        <p class="welcomeMessage">"Overwatch is love, Overwatch is life."</p>
+        <img style="margin: 5px;" src="../../static/logo.png" alt="Smiley face" height="100" width="100">
         <p class="welcomeMessage" ng-show=logged_in>Currently logged in as {{auth_user}}.</p>
         <button id="btnSignup" type="button" ng-bind="i18n('register')"class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
         </button>
