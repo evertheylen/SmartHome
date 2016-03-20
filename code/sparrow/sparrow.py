@@ -29,6 +29,7 @@ import json
 import weakref
 
 from .util import *
+from .sql import *
 
 # Exceptions
 

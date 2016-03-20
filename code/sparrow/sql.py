@@ -1,5 +1,6 @@
 
 from functools import wraps
+import copy
 
 import psycopg2
 import momoko

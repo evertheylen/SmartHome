@@ -385,13 +385,6 @@ class MetaEntity(type):
             dct["_complete_props"] = [p for p in props if not isinstance(p, KeyProperty)]
             
             dct["_table_name"] = "table_" + name
-            
-            dct["_create_table_command"] = None
-            dct["_drop_table_command"] = None
-            dct["_insert_command"] = None
-            dct["_update_command"] = None
-            dct["_delete_command"] = None
-            dct["_find_by_key_query"] = None
         
             cls = type.__new__(self, name, bases, dct)
             
@@ -407,10 +400,24 @@ class MetaEntity(type):
             cls._update_command = Update(cls).to_raw()
             cls._delete_command = Delete(cls).to_raw()
             cls._find_by_key_query = Select(cls, [cls.key == Field("key")])
+            
+            # FANCYYYY
+            cls.cache = weakref.WeakValueDictionary()
+            
         else:
             cls = type.__new__(self, name, bases, dct)
         return cls
-
+    
+    def __call__(self, *args, **kwargs):
+        inst = super(MetaEntity, self).__call__(*args, **kwargs)
+        if inst.key is not None:
+            if inst.key in self.cache:
+                # Replacing by cached entry
+                return self.cache[inst.key]
+            else:
+                self.cache[inst.key] = inst
+        return inst
+    
 
 class Entity(metaclass=MetaEntity):
     __no_meta__ = True
@@ -493,23 +500,7 @@ class Entity(metaclass=MetaEntity):
     
     def __hash__(self):
         return hash(type(self)) + hash(self.key)
- 
-class MetaRTEntity(MetaEntity):
-    def __init__(self, *args, **kwargs):
-        MetaEntity.__init__(self, *args, **kwargs)
-        # ATTENTION do not iterate over this
-        self.cache = weakref.WeakValueDictionary()
-    
-    def __call__(self, *args, **kwargs):
-        inst = MetaEntity.__call__(self, *args, **kwargs)
-        if inst.key is not None:
-            if inst.key in self.cache:
-                # Replacing by cached entry
-                return self.cache[inst.key]
-            else:
-                self.cache[inst.key] = inst
-        return inst
-    
+     
 # Simple interface check
 def check_interface(conn):
     return all([hasattr(conn, n) for n in ["update", "delete", "_add_listenee", "_remove_listenee",
@@ -520,7 +511,7 @@ def check_interface(conn):
     # new_reference and remove_reference take 2 arguments: object, referencing object
 
 # NOTE: Be careful with changing the key as it will fuck with caching
-class RTEntity(Entity, metaclass=MetaRTEntity):
+class RTEntity(Entity):
     __no_meta__ = True
     
     def __init__(self, *args, **kwargs):
