@@ -55,30 +55,6 @@ class Field:
 
 # Statements etc
 
-# cursor has the following methods:
-# cursor.__class__(         cursor.__format__(        cursor.__le__(            
-# cursor.__delattr__(       cursor.__ge__(            cursor.__lt__(            
-# cursor.__dir__(           cursor.__getattribute__(  cursor.__ne__(            
-# cursor.__doc__            cursor.__gt__(            cursor.__new__(           
-# cursor.__enter__(         cursor.__hash__(          cursor.__next__(          
-# cursor.__eq__(            cursor.__init__(          cursor.__reduce__(        
-# cursor.__exit__(          cursor.__iter__(          cursor.__reduce_ex__(     
-# cursor.__repr__(          cursor.callproc(          cursor.copy_to(           
-# cursor.__setattr__(       cursor.cast(              cursor.description        
-# cursor.__sizeof__(        cursor.close(             cursor.execute(           
-# cursor.__str__(           cursor.closed             cursor.executemany(       
-# cursor.__subclasshook__(  cursor.connection         cursor.fetchall(          
-# cursor.arraysize          cursor.copy_expert(       cursor.fetchmany(         
-# cursor.binary_types       cursor.copy_from(         cursor.fetchone(          
-# cursor.itersize           cursor.rowcount           cursor.string_types
-# cursor.lastrowid          cursor.rownumber          cursor.typecaster
-# cursor.mogrify(           cursor.scroll(            cursor.tzinfo_factory(
-# cursor.name               cursor.scrollable         cursor.withhold
-# cursor.nextset(           cursor.setininsertsizes(     
-# cursor.query              cursor.setoutinsertsize(     
-# cursor.row_factory        cursor.statusmessage
-
-
 class SqlResult:
     def __init__(self, cursor, cmd):
         self.cursor = cursor
