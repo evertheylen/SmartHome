@@ -123,6 +123,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	}
 	
 	$scope.language = Auth.getLanguage();
+	
+	$scope.changeLang = function(new_language) {
+	    Auth.setLanguage(new_language);
+	    language = new_language;
+	};
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",
