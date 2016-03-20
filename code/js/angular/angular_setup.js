@@ -61,6 +61,16 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
     
         isLoggedIn : function() {
             return (getCookie("session") != "");
+        },
+        
+        setLanguage : function(language) {
+            console.log("Language COOKIE: " + language);
+            setCookie("language", language);
+        },
+        
+        getLanguage : function() {
+            console.log("getting language: " + getCookie("language")); 
+            return getCookie("language");
         }
     }
 });
