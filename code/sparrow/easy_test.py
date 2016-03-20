@@ -3,12 +3,24 @@ from sparrow import *
 class User(Entity):
     name = Property(str)
     mail = Property(str, sql_extra="UNIQUE")
-    #password = Property(str)
-    password = Property(str, constraints = [lambda p: len(p) >= 8])
+    password = Property(str, constraint=lambda p: len(p) >= 8, json=False)
     
     key = UID = KeyProperty()
 
-    json_props = [name, mail]
+class Sensor(Entity):
+    name = Property(str)
+    user = Reference(User)
+    
+    key = SID = KeyProperty()
+    
+class Value(Entity):
+    sensor = Reference(Sensor)
+    date = Property(int)
+    value = Property(float)
+    
+    key = Key(sensor, date)
+
+print(Value._create_table_command)
 
 u = User(name="Evert", mail="evert@heylen.com", password="123456789")
 u.password = "otherpass"
@@ -19,7 +31,7 @@ try:
     u.password = "short"
 except:
     catched_error = True
-#assert catched_error
+assert catched_error
 
 sint = User(name="Sint", mail="sint@klaas.com", password="789412345")
 
@@ -28,6 +40,13 @@ u.password = "userpass"
 
 assert u.password == "userpass"
 assert sint.password == "sintpass"
+
+u.key = 456
+
+s = Sensor(name="Test sensor", user=u.key)
+print("s.user_UID", s.user_UID)
+
+
 
 
 
@@ -70,14 +89,28 @@ test(50000)
 
 
 
-print(User.create_table_command)
 
 import tornado
 import tornado.ioloop
 
+import random
+
+def randstring(l=5):
+    s = ""
+    for i in range(l):
+        s += chr(random.randint(ord("a"), ord("z")))
+    return s
+    
+
 app = SparrowApp(None, tornado.ioloop.IOLoop.current(), [User])
 
 async def do_stuff():
+    users = await User.get().all(app.db)
+    u = users[0]
+    
+    
+
+async def dont_stuff():
     """
     await app.uninstall("StijnHeeftGeenSmaak")  # secret key to uninstall :P
     a = now()
@@ -87,18 +120,25 @@ async def do_stuff():
     """
     
     q = RawClassedSql(User, "SELECT * FROM table_User WHERE mail LIKE %(mail)s")
-    print(q)
+    #print(q)
     qq = q.with_data(mail = "%")
     result = await qq.exec(app.db)
     result.scroll(2)
     result.scroll(-1)
-    print(q.data)
-    print(qq.data)
-    print("users = ", "\n".join([u.to_json() for u in result.all()]))
+    #print(q.data)
+    #print(qq.data)
+    #print("users = ", "\n".join([u.to_json() for u in result.all()]))
     
-    evert_q = User.get(User.mail == "'e@e'")
-    evert = await evert_q.fetchone(app.db)
-    print(evert.to_json())
+    users_q = User.get(Where(User.mail, "LIKE", Unsafe("%"))).order(User.name)
+    #print(str(users_q))
+    users = await users_q.all(app.db)
+    print("\n".join([u.to_json() for u in users]))
+    
+    newu = User(name="New User", mail=randstring() + "_user@mail.com", password="asdfghjkl")
+    await newu.put(app.db)
+    print(newu.key)
+    #i = await Insert(newu, returning=User.UID).raw(app.db)
+    #print(i)
     
     
     

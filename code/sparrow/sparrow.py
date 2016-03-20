@@ -26,6 +26,8 @@ from functools import wraps
 import itertools
 import json
 
+import pdb
+
 import psycopg2
 import momoko
 
@@ -63,21 +65,22 @@ class SparrowApp:
     def all_sql_statements(self):
         yield from self.sql_statements
         for c in self.classes:
-            yield c.create_table_command
+            yield c._create_table_command
+            yield c._drop_table_command
     
     async def install(self):
         # Set up database, only once for each "install" of the app
         for c in self.classes:
-            await c.create_table_command.exec(self.db)
+            await c._create_table_command.exec(self.db)
             
     async def uninstall(self, code):
         # Very brutal operation, therefore has some extra protection
         if encode(code) == 'FgvwaUrrsgTrraFznnx':
             for c in self.classes:
-                await c.drop_table_command.exec(self.db)
+                await c._drop_table_command.exec(self.db)
         
     def info(self):
-        for s in self.sql_statements:
+        for s in self.all_sql_statements():
             print(str(s))
             print("\n----------------\n")
 
@@ -101,7 +104,7 @@ class Database:
         return cursor
 
 # Unsafe data, to be formatted by psycopg2
-class UnsafeWrap:
+class Unsafe:
     def __init__(self, value):
         self.key = str(id(self))
         self.text = "%({0})s".format(self.key)
@@ -111,6 +114,7 @@ class UnsafeWrap:
         return self.text
 
 # Unsafe data not yet decided
+# Kinda useless but still :P
 class Field:
     def __init__(self, name):
         self.text = "%({0})s".format(name)
@@ -148,9 +152,12 @@ class SqlResult:
     def __init__(self, cursor, cmd):
         self.cursor = cursor
         self.cmd = cmd
-
+    
+    def raw(self):
+        return self.cursor.fetchone()
+    
     def single(self):
-        assert self.cursor.rowcount == 1, "More than 1 result"
+        assert self.cursor.rowcount == 1, "Not 1 result but {} result(s).".format(self.cursor.rowcount)
         return self.cmd.cls(db_args=self.cursor.fetchone())
         
     def all(self):
@@ -194,7 +201,13 @@ def wrapper_sqlresult(method):
 
 class Sql:
     def __init__(self, data = {}):
-        self.data = data
+        if hasattr(self, "data"):
+            self.data.update(data)
+        else:
+            self.data = data
+    
+    def __preinit__(self):
+        self.data = {}
     
     # By default, there is no class
     cls = None
@@ -205,7 +218,9 @@ class Sql:
     # Allows you to call these method immediatly on a statement:
     single = wrapper_sqlresult(SqlResult.single)
     all = wrapper_sqlresult(SqlResult.all)
+    amount = wrapper_sqlresult(SqlResult.amount)
     count = wrapper_sqlresult(SqlResult.count)
+    raw = wrapper_sqlresult(SqlResult.raw)
     
     def with_data(self, **kwargs):
         """This function creates a copy of the statement with added data."""
@@ -221,6 +236,15 @@ class Sql:
         if isinstance(what, Sql):
             self.data.update(what.data)
             return what.to_raw()
+        elif isinstance(what, Unsafe):
+            self.data[what.key] = what.value
+        elif isinstance(what, Field):
+            return str(what)
+        elif isinstance(what, tuple):
+            l = []
+            for t in what:
+                l.append(self.check(t))
+            return tuple(l)
         return what
     
     def to_raw(self):
@@ -257,15 +281,11 @@ class RawClassedSql(RawSql, ClassedSql):
         # TODO possibly make this use super but I suspect it will fuck around
         self.cls = cls
         self.text = text
-        self.data = data
+        Sql.__init__(self, data)
     
     def copy(self):
         return RawClassedSql(self.cls, self.text, copy.copy(self.data))
 
-
-sql_select_from_template = """
-SELECT * FROM {tname}
-"""
 
 class Where(Sql):
     def __init__(self, lfield, op, rfield, data={}):
@@ -290,37 +310,43 @@ class Order(Sql):  # TODO order on multiple attributes
 
 class Select(ClassedSql):
     def __init__(self, cls, where_clauses=[], order=None, offset=None, limit=None):
-        ClassedSql.__preinit__(self)
+        Sql.__preinit__(self)
         self.where_clauses = [self.check(c) for c in where_clauses]
-        self.order = self.check(order)
-        self.offset = self.check(offset)
-        self.limit = self.check(limit)
+        self._order = self.check(order)
+        self._offset = self.check(offset)
+        self._limit = self.check(limit)
         ClassedSql.__init__(self, cls)
         
     # returning self permits chaining
     
     def limit(self, l):
-        self.limit = l
+        self._limit = l
         return self
     
     def offset(self, o):
-        self.offset = o
+        self._offset = o
         return self
     
     def where(self, *clauses):
         self.where_clauses.extend(clauses)
         return self
     
+    def order(self, _order):
+        if not isinstance(_order, Order):
+            _order = +_order
+        self._order = _order
+        return self
+    
     def __str__(self):
         s = "SELECT * FROM {cls._table_name}".format(cls=self.cls)
         if len(self.where_clauses) > 0:
-            s += " WHERE (" + " AND ".join(["("+str(c)+")" for c in self.where_clauses]) + ")"
-        if self.order is not None:
-            s += " ORDER BY {}".format(self.order)
-        if self.limit is not None:
-            s += " LIMIT {}".format(self.limit)
-        if self.offset != 0:
-            s += " OFFSET {}".format(self.offset)
+            s += " WHERE " + " AND ".join(["("+str(c)+")" for c in self.where_clauses])
+        if self._order is not None:
+            s += " ORDER BY {}".format(self._order)
+        if self._limit is not None:
+            s += " LIMIT {}".format(self._limit)
+        if self._offset is not None:
+            s += " OFFSET {}".format(self._offset)
         return s
     
 
@@ -333,7 +359,7 @@ class Command(ClassedSql):
 
 sql_create_table_template = """
 CREATE TABLE {tname} (
-{props}
+{stuff}
 ); 
 """
 
@@ -342,14 +368,14 @@ class CreateTable(Command):
     For CREATE TABLE statements.
     """
     def __init__(self, cls):
-        self.tname = cls._table_name
-        self.props = cls._props
         Command.__init__(self, cls)
     
     def __str__(self):
         return sql_create_table_template.format(
-            tname = self.tname,
-            props = ",\n".join([p.to_sql() for p in self.props])
+            tname = self.cls._table_name,
+            stuff = ",\n".join([p.sql_def() for p in self.cls._props]
+                               + [r.sql_constraint() for r in self.cls._refs]
+                               + [self.cls.key.sql_constraint()])
         )
 
 class DropTable(Command):
@@ -357,14 +383,40 @@ class DropTable(Command):
         Command.__init__(self, cls)
         self.tname = cls._table_name
     
-    def compile(self):
-        return "DROP TABLE {tname}".format(
+    def __str__(self):
+        return "DROP TABLE IF EXISTS {tname} CASCADE".format(
             tname = self.tname
         )
 
 class Insert(Command):
-    # TODO
-    pass
+    def __init__(self, what, returning=None):
+        Sql.__preinit__(self)
+        if isinstance(what, type):
+            # an Insert that needs to be filled later on
+            self.cls = what
+        else:
+            self.cls = type(what)
+            for p in self.cls._complete_props:
+                self.data[p.name] = what.__dict__[p.dataname]
+        
+        self.props = self.cls._complete_props
+        self.returning = self.check(returning)
+        Command.__init__(self, self.cls)
+    
+    def returning(self, prop):  # TODO return multiple attributes?
+        self.returning = prop
+        return self
+    
+    def __str__(self):
+        s = "INSERT INTO {cls._table_name} ({props}) VALUES({vals})".format(
+            cls = self.cls,
+            props = ", ".join([p.name for p in self.props]),
+            vals = ", ".join(["%("+p.name+")s" for p in self.props])
+        )
+        if self.returning is not None:
+            s += " RETURNING " + str(self.returning)
+        return s
+    
 
 class Update(Command):
     # TODO
@@ -388,34 +440,9 @@ def create_where_comparison(op):
 def create_order(op):
     def method(self):
         return Order(self, op)
+    return method
 
-class Property:
-    default_sqltypes = {
-        int: "INT",
-        str: "VARCHAR",
-        float: "REAL",
-        bool: "BOOL",
-        datetime.datetime: "TIMESTAMP"  # but consider perhaps amount of milliseconds since UNIX epoch
-    }
-    
-    def __init__(self, typ, sql_type=None, constraints = [], sql_extra = "", required = True):
-        if sql_type is None:
-            sql_type = Property.default_sqltypes[typ]
-        self.type = typ
-        self.sql_type = sql_type
-        self.constraints = constraints  # TODO make single constraint (client must use 'and')
-        self.sql_extra = sql_extra
-        self.required = required
-        self.name = None  # Set by the metaclass
-        self.dataname = None  # Idem, where to find the actual stored data inside an object
-        self.cls = None  # Idem
-    
-    def to_sql(self):
-        return "\t{s.name}\t{s.sql_type} {s.sql_extra}".format(s=self) + (" NOT NULL" if self.required else "")
-    
-    def __str__(self):
-        return self.cls._table_name + "." + self.name
-    
+class Queryable:
     __lt__ = create_where_comparison("<")
     __gt__ = create_where_comparison(">")
     __le__ = create_where_comparison("<=")
@@ -423,33 +450,209 @@ class Property:
     __eq__ = create_where_comparison("=")
     __ne__ = create_where_comparison("!=")
     
-    __pos__ = create_order("DESC")
-    __neg__ = create_order("ASC")
+    __pos__ = create_order("ASC")
+    __neg__ = create_order("DESC")
+
+
+class Property(Queryable):
+    default_sqltypes = {
+        int: "INT",
+        str: "VARCHAR",
+        float: "DOUBLE PRECISION",
+        bool: "BOOL",
+        datetime.datetime: "TIMESTAMP"  # but consider perhaps amount of milliseconds since UNIX epoch
+    }
     
-class Key:
+    def __init__(self, typ, sql_type=None, constraint = None, sql_extra = "", required = True, json = True):
+        if sql_type is None:
+            sql_type = Property.default_sqltypes[typ]
+        self.type = typ
+        self.sql_type = sql_type
+        self.constraint = constraint
+        self.sql_extra = sql_extra
+        self.required = required
+        self.json = json
+        self.name = None  # Set by the metaclass
+        self.dataname = None  # Idem, where to find the actual stored data inside an object
+        self.cls = None  # Idem
+    
+    def sql_def(self):
+        return "\t" + self.name + " " + self.type_sql_def()
+    
+    def type_sql_def(self):
+        return self.sql_type + (" " + self.sql_extra if self.sql_extra != "" else "") + (" NOT NULL" if self.required else "")
+    
+    def __str__(self):
+        return self.cls._table_name + "." + self.name
+    
+
+class Key(Queryable):
     """
     A reference to other properties that define the key of this object.
     """
-    def __init__(self, *args):
-        self.props = args
+    def __init__(self, *props):
+        self.props = props
+        self.single_prop = None
     
-    def key_props(self):
-        yield from self.props
+    def __postinit__(self):
+        newprops = []
+        for p in self.props:
+            if isinstance(p, Reference):
+                newprops.extend(p.props)
+                assert len(p.props) >= 1
+            else:
+                newprops.append(p)
+        self.props = newprops
+        assert len(self.props) >= 1
+        if len(self.props) == 1:
+            self.single_prop = self.props[0]
+            self.__class__ = SingleKey
 
-class KeyProperty(Key, Property):
+    def referencing_props(self):
+        yield from self.props
+    
+    def sql_constraint(self):
+        return "\tPRIMARY KEY " + str(self)
+    
+    def __str__(self):
+        return "({keys})".format(keys=", ".join([p.name for p in self.referencing_props()]))
+    
+    def __get__(self, obj, type=None):
+        if obj is None:
+            return self
+        return tuple([obj.__dict__[p.dataname] for p in self.referencing_props()])
+    
+    def __set__(self, obj, val):
+        if obj is not None:
+            for (i, p) in enumerate(self.referencing_props()):
+                if p.constraint is not None and not p.constraint(val):
+                    raise Exception("Constraint not met")
+                obj.__dict__[p.dataname] = val[i]
+    
+    def __delete__(self, obj):
+        pass  # ?
+
+class SingleKey(Key):
+    def __get__(self, obj, type=None):
+        if obj is None:
+            return self
+        return obj.__dict__[self.single_prop.dataname]
+    
+    def __set__(self, obj, val):
+        if obj is not None:
+            if self.single_prop.constraint is not None and not self.single_prop.constraint(val):
+                raise Exception("Constraint not met")
+            obj.__dict__[self.single_prop.dataname] = val
+    
+    def __delete__(self, obj):
+        pass  # ?
+
+class KeyProperty(SingleKey, Property):
     """
     A specifically created property to be used as a key.
     Type in postgres is SERIAL.
     """
     def __init__(self):
-        Property.__init__(self, int, sql_type="SERIAL", sql_extra="PRIMARY KEY", required=False)
-        
-    def key_props(self):
+        Property.__init__(self, int, sql_type="SERIAL", required=False)
+        self.single_prop = self
+    
+    def __postinit__(self):
+        pass
+    
+    def referencing_props(self):
         yield self
+        
+    def sql_constraint(self):
+        return "\tPRIMARY KEY (" + self.name + ")"
+    
+    __str__ = Property.__str__
+        
 
-class Reference:
-    pass
-    # TODO
+class Reference(Queryable):
+    def __init__(self, ref):
+        self.ref = ref
+        self.ref_props = list(ref.key.referencing_props())
+        assert len(self.ref_props) >= 1
+        self.props = []
+        self.single_prop = None
+        self.name = None  # Set by metaclass
+    
+    def __postinit__(self):  # called by metaclass
+        for rp in self.ref_props:
+            p = Property(rp.type, rp.sql_type if not rp.sql_type == "SERIAL" else "INT")
+            p.cls = rp.cls
+            p.name = self.name + "_" + rp.name
+            p.dataname = self.name + "_" + rp.dataname
+            self.props.append(p)
+        assert len(self.props) >= 1
+        if len(self.props) == 1:
+            self.single_prop = self.props[0]
+            self.__class__ = SingleReference
+    
+    def sql_constraint(self):
+        """Will only generate the SQL constraint. The metaclass will take care of the properties."""
+        return "\tFOREIGN KEY ({own_props}) REFERENCES {ref_name}".format(
+            own_props=", ".join([p.name for p in self.props]),
+            ref_name=self.ref._table_name,
+        )
+    
+    def __str__(self):
+        return "(" + ", ".join([str(p) for p in self.props]) + ")"
+    
+    def __get__(self, obj, type=None):
+        if obj is None:
+            return self
+        return tuple([obj.__dict__[p.dataname] for p in self.props])
+    
+    def __set__(self, obj, val):
+        if obj is not None:
+            for (i, p) in enumerate(self.props):
+                try:
+                    obj.__dict__[p.dataname] = val[i]
+                except:
+                    pdb.set_trace()
+    
+    def __delete__(self, obj):
+        pass  # ?
+
+class SingleReference(Reference):
+    def __get__(self, obj, type=None):
+        if obj is None:
+            return self
+        return obj.__dict__[self.single_prop.dataname]
+    
+    def __set__(self, obj, val):
+        # References can not be constrained
+        if obj is not None:
+            obj.__dict__[self.single_prop.dataname] = val
+    
+    def __delete__(self, obj):
+        pass  # ?
+    
+    def __str__(self):
+        return str(self.single_prop)
+
+
+# This is a better way of doing things than python's native property
+class ConstrainedProperty(Property):
+    # No init, just hack around it by setting __class__
+    
+    # Descriptor stuff? Anyway it works :P
+    
+    def __get__(self, obj, type=None):
+        if obj is None:
+            return self
+        return obj.__dict__[self.dataname]
+    
+    def __set__(self, obj, val):
+        if obj is not None:
+            if not self.constraint(val):
+                raise Exception("Constraint not met")
+            obj.__dict__[self.dataname] = val
+    
+    def __delete__(self, obj):
+        pass  # ?
+
 
 class MetaEntity(type):
     # Thanks to http://stackoverflow.com/a/27113652/2678118
@@ -459,56 +662,68 @@ class MetaEntity(type):
         return collections.OrderedDict()
 
     def __new__(self, name, bases, dct):
-        dct['__ordered_props__'] = [k for (k, v) in dct.items()
+        ordered_props = [k for (k, v) in dct.items()
                 if isinstance(v, Property) and not k == "key"]
+        
+        ordered_refs = [k for (k, v) in dct.items()
+                if isinstance(v, Reference)]
+        
+        ordered_keys = [k for (k, v) in dct.items()
+                if isinstance(v, Key)]
         
         if not("__no_meta__" in dct and dct["__no_meta__"] == True):
             props = []
             
-            init_properties = []  # holds (sparrow.Property, property(fget, fset))
-            for k in dct['__ordered_props__']:
+            init_properties = []
+            json_props = []
+            for k in ordered_props:
                 p = dct[k]
-                if isinstance(p, Property):
-                    # Set some stuff of properties that are not known at creation time
-                    p.name = k
-                    props.append(p)
-                    
-                    if len(p.constraints) > 0:
-                        p.dataname = "_data_" + p.name
-                        # REMINDER: You must wrap p in a default argument, otherwise
-                        # it will bind to the last value p holds in this loop
-                        def getter(self, _p = p):
-                            return self.__dict__[_p.dataname]
+                # Set some stuff of properties that are not known at creation time
+                p.name = k
+                props.append(p)
+                if p.json:
+                    json_props.append(p)
+                
+                if p.constraint is not None:
+                    p.dataname = "_data_" + p.name
+                    p.__class__ = ConstrainedProperty  # woohoo HACK
+                    init_properties.append((p,True))
+                else:
+                    p.dataname = p.name
+                    init_properties.append((p,False))
                         
-                        def setter(self, val, _p = p):
-                            if not isinstance(val, _p.type):
-                                raise Exception("Not right type")
-                            for c in _p.constraints:
-                                if not c(val):
-                                    raise Exception("Constraint not met")
-                            self.__dict__[_p.dataname] = val
-                        prop = property(getter, setter)
-                        dct[p.name] = prop
-                        init_properties.append((p, prop))
-                    else:
-                        p.dataname = p.name
-                        init_properties.append((p, None))
+            dct["_props"] = props
+            dct["_json_props"] = json_props
+            
+            refs = []
+            init_ref_properties = []
+            init_raw_ref_properties = []
+            for k in ordered_refs:
+                r = dct[k]
+                r.name = k
+                r.__postinit__()
+                refs.append(r)
+                props.extend(r.props)
+                init_raw_ref_properties.extend(r.props)
+                init_ref_properties.append(r)
+            
+            dct["_refs"] = refs
             
             def __init__(obj, in_db=False, db_args=None, **kwargs):
+                obj.in_db = in_db
                 if db_args is not None:
                     # Init from a simple list/tuple
                     # TODO incomplete initializing!
-                    for (i, (p, prop)) in enumerate(init_properties):
-                        if prop is None:
-                            obj.__dict__[p.name] = db_args[i]
-                        else:
-                            val = db_args[i]
-                            for c in p.constraints:
-                                if not c(val):
-                                    raise Exception("Constraint not met")
-                            obj.__dict__[p.dataname] = val
+                    start = 0
+                    for (i, (p, constrained)) in enumerate(init_properties):
+                        val = db_args[i]
+                        if constrained and (not p.constraint(val)):
+                            raise Exception("Constraint not met")
+                        obj.__dict__[p.dataname] = val
+                    for (i, p) in enumerate(init_raw_ref_properties, len(init_properties)):
+                        obj.__dict__[p.dataname] = db_args[i]
                 else:
-                    for (p, prop) in init_properties:
+                    for (p, constrained) in init_properties:
                         val = None
                         try:
                             val = kwargs[p.name]
@@ -517,18 +732,20 @@ class MetaEntity(type):
                                 raise e
                             else:
                                 val = None
-                        if prop is not None:
-                            for c in p.constraints:
-                                if not c(val):
-                                    raise Exception("Constraint not met")
+                        if constrained and (not p.constraint(val)):
+                            raise Exception("Constraint not met")
                         obj.__dict__[p.dataname] = val
+                    for r in init_ref_properties:
+                        r.__set__(obj, kwargs[r.name])
                     
             dct["__init__"] = __init__
-                        
-            dct["_props"] = props
             
             assert "key" in dct, "Each class must have a key"
-            dct["_incomplete"] = isinstance(dct["key"], KeyProperty)
+            the_key = dct["key"]
+            the_key.__postinit__()
+            dct["_incomplete"] = isinstance(the_key, KeyProperty)
+            
+            dct["_complete_props"] = [p for p in props if not isinstance(p, KeyProperty)]
             
             dct["_table_name"] = "table_" + name
             
@@ -538,22 +755,24 @@ class MetaEntity(type):
             #   - delete
             #   - create_table_command
             
-            dct["create_table_command"] = None
-            dct["drop_table_command"] = None
-            
+            dct["_create_table_command"] = None
+            dct["_drop_table_command"] = None
+            dct["_put_command"] = None
         
-        return type.__new__(self, name, bases, dct)
-    
-    def __init__(cls, name, bases, dct):
-        if not("__no_meta__" in dct and dct["__no_meta__"] == True):
-            cls.create_table_command = CreateTable(cls)
-            cls.drop_table_command = DropTable(cls)
+            cls = type.__new__(self, name, bases, dct)
             
-            # set more stuff of properties that isn't known at creation time
-            for p in cls._props:
+            for p in props:
                 p.cls = cls
             
-        super(MetaEntity, cls).__init__(name, bases, dct)
+            cls._create_table_command = CreateTable(cls).to_raw()
+            cls._drop_table_command = DropTable(cls).to_raw()
+            if cls._incomplete:
+                cls._put_command = Insert(cls, returning=cls.key).to_raw()
+            else:
+                cls._put_command = Insert(cls).to_raw()
+        else:
+            cls = type.__new__(self, name, bases, dct)
+        return cls
  
 
 class Entity(metaclass=MetaEntity):
@@ -561,14 +780,25 @@ class Entity(metaclass=MetaEntity):
     
     # __init__ constructed in metaclass
     
-    def put(self):
+    async def put(self, db):
         assert(not self.in_db)
-        
-        
+        cls = type(self)
+        dct = {}
+        for p in self._complete_props:
+            dct[p.name] = self.__dict__[p.dataname]
+        insert = cls._put_command.with_data(**dct)
+        if cls._incomplete:
+            result = await insert.raw(db)
+            self.__dict__[cls.key.dataname] = result[0]
+        else:
+            await insert.exec(db)
+        self.in_db = True
+    
+    
     def update(self):
         assert(self.in_db)
-        
-        
+    
+    
     def delete(self):
         if self.in_db:
             # TODO
@@ -583,8 +813,7 @@ class Entity(metaclass=MetaEntity):
     def remove_all_listeners(self):
         pass
     
-    constraints = []  # TODO
-    json_props = []  # TODO
+    constraint = None  # TODO
 
     @classmethod
     def raw(cls, text):
@@ -603,12 +832,12 @@ class Entity(metaclass=MetaEntity):
     
     def json_repr(self):
         d = {}
-        for p in self.json_props:
+        for p in self._json_props:
             d[p.name] = self.__dict__[p.dataname]
         return d
     
     # Methods:
-    #   - put, update, delete
+    #   - update, delete
 
     # Preprocessing in MetaEntity!
 
