@@ -126,7 +126,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	
 	$scope.changeLang = function(new_language) {
 	    Auth.setLanguage(new_language);
-	    language = new_language;
+	    $scope.language = new_language;
 	};
 });
 
