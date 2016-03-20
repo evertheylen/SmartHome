@@ -45,7 +45,8 @@ def create_WsHandler(controller):
             controller.logger.info("Server opened connection")
             clients.add(self)
             self.session = self.get_cookie("session")
-            tornado.ioloop.IOLoop.current().spawn_callback(self.open_async, self)
+            self.user = None
+            tornado.ioloop.IOLoop.current().spawn_callback(self.open_async)
         
         async def open_async(self):
             self.user = await controller.get_user(self.session)
