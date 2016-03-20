@@ -100,14 +100,16 @@ table{
 
 
 
-/*Experimental stuff for pagination menu*/
+/* A problem occured in the lay out when the pagination resulted in less pages than expected*/
 
-#paginationContainer{
+/*************** 5 or more pages ***************/
+
+.pagination--fullContainer{
 	width: 585px;
 	height: 48px;
 }
 
-#pagination > ul{
+.pagination--full > ul{
 	list-style-type: none;
 	list-style-position: inside;
 	margin:0;
@@ -120,7 +122,7 @@ table{
 	background-color: transparent;
 }
 
-#pagination > ul > li{
+.pagination--full > ul > li{
 	list-style-type: none;
 	list-style-position: inside;
 	margin: 0px;
@@ -131,7 +133,7 @@ table{
 }
 
 
-#pagination{
+.pagination--full{
 	background-color: transparent;
 	display: inline-block;
 	border-left: none;
@@ -142,7 +144,7 @@ table{
 	font-size: 0;
 }
 
-#pagination > ul > li > a{
+.pagination--full > ul > li > a{
 	font-size: 15px;
 	color: #000066;
 	border: none;
@@ -158,49 +160,51 @@ table{
 	text-decoration: none;
 }
 
-#pagination > ul > li:nth-child(1), #pagination > ul > li:nth-child(2), #pagination > ul > li:nth-child(8), #pagination > ul > li:nth-child(9){
+.pagination--full > ul > li:nth-child(1), .pagination--full > ul > li:nth-child(2), .pagination--full > ul > li:nth-child(8), .pagination--full > ul > li:nth-child(9){
 	width: 90px;
 	height: 36px;
 }
 
-#pagination > ul > li:nth-child(1) > a, #pagination > ul > li:nth-child(2) > a, #pagination > ul > li:nth-child(8) > a, #pagination > ul > li:nth-child(9) > a{
+.pagination--full > ul > li:nth-child(1) > a, .pagination--full > ul > li:nth-child(2) > a, .pagination--full > ul > li:nth-child(8) > a, .pagination--full > ul > li:nth-child(9) > a{
 	width: 88px;
 	height: 27px;
 }
 
-#pagination > ul > li:hover{
+.pagination--full > ul > li:hover{
 	background-color: rgba(158,158,158,.2);
 	cursor: pointer;
 }
 
-#pagination > ul > li:focus{
+.pagination--full > ul > li:focus{
 	outline: 0;
 }
 
-#pagination > ul > li > a.selected{
+.pagination--full > ul > li > a.selected{
 	background-color: #ffd740;
 	color: #808080;
 	border: 1px solid #ffd740;
 }
 
-#pagination > ul > li.disabled > a:hover{
+.pagination--full > ul > li.disabled{
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--full > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--full > ul > li.disabled > a:hover{
 	cursor: not-allowed;
-	background-color: transparent;
 }
 
 
-#pagination > ul > li.disabled:hover > a{
+.pagination--full > ul > li.disabled:hover > a{
 	cursor: not-allowed;
-	background-color: transparent;
 }
 
-#pagination > ul > li.disabled:hover{
+.pagination--full > ul > li.disabled:hover{
 	cursor: not-allowed;
-	background-color: transparent;
-}
-
-#pagination > ul > li:nth-child(n+10){
-	display: none;	
 }
 
 .sliderEffect{
@@ -208,9 +212,478 @@ table{
 	background-color: #ffd740;
 }
 
-#pagination > ul > li.active > a{
+.pagination--full > ul > li.active > a{
 	background-color: #ffd740;
 	border: 1px solid #ffd740;
 }
 
 
+
+
+
+
+
+
+
+/*************** 1 page ***************/
+
+.pagination--length1Container{
+	width: 405px;
+	height: 48px;
+}
+
+.pagination--length1 > ul{
+	list-style-type: none;
+	list-style-position: inside;
+	margin:0;
+	padding:0;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	background-color: transparent;
+}
+
+.pagination--length1 > ul > li{
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0px;
+	padding: 0;
+	width: 45px;
+	height: 36px;
+	display: inline-block;
+}
+
+
+.pagination--length1{
+	background-color: transparent;
+	display: inline-block;
+	border-left: none;
+	border-right: none;
+	width: 405px;
+	height: 36px;
+	white-space: nowrap;
+	font-size: 0;
+}
+
+.pagination--length1 > ul > li > a{
+	font-size: 15px;
+	color: #000066;
+	border: none;
+	background-color: rgba(158,158,158,.2);
+	padding: 0px;
+	border: 1px solid rgba(158,158,158,.2);
+	border-radius: 1px;
+	width: 43px;
+	height: 27px;
+	display: inline-block;
+	padding-top: 7px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.pagination--length1 > ul > li:nth-child(1), .pagination--length1 > ul > li:nth-child(2), .pagination--length1 > ul > li:nth-child(4), .pagination--length1 > ul > li:nth-child(5){
+	width: 90px;
+	height: 36px;
+}
+
+.pagination--length1 > ul > li:nth-child(1) > a, .pagination--length1 > ul > li:nth-child(2) > a, .pagination--length1 > ul > li:nth-child(4) > a, .pagination--length1 > ul > li:nth-child(5) > a{
+	width: 88px;
+	height: 27px;
+}
+
+.pagination--length1 > ul > li:hover{
+	background-color: rgba(158,158,158,.2);
+	cursor: pointer;
+}
+
+.pagination--length1 > ul > li:focus{
+	outline: 0;
+}
+
+.pagination--length1 > ul > li > a.selected{
+	background-color: #ffd740;
+	color: #808080;
+	border: 1px solid #ffd740;
+}
+
+.pagination--length1 > ul > li.disabled{
+	background-color: rgba(0,0,0,.12);
+}
+
+.pagination--length1 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length1 > ul > li.disabled > a:hover{
+	cursor: not-allowed;
+}
+
+
+.pagination--length1 > ul > li.disabled:hover > a{
+	cursor: not-allowed;
+}
+
+.pagination--length1 > ul > li.disabled:hover{
+	cursor: not-allowed;
+}
+
+.pagination--length1 > ul > li.active > a{
+	background-color: #ffd740;
+	border: 1px solid #ffd740;
+}
+
+
+
+
+
+
+
+
+
+/*************** 2 pages ***************/
+
+.pagination--length2Container{
+	width: 450px;
+	height: 48px;
+}
+
+.pagination--length2 > ul{
+	list-style-type: none;
+	list-style-position: inside;
+	margin:0;
+	padding:0;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	background-color: transparent;
+}
+
+.pagination--length2 > ul > li{
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0px;
+	padding: 0;
+	width: 45px;
+	height: 36px;
+	display: inline-block;
+}
+
+
+.pagination--length2{
+	background-color: transparent;
+	display: inline-block;
+	border-left: none;
+	border-right: none;
+	width: 450px;
+	height: 36px;
+	white-space: nowrap;
+	font-size: 0;
+}
+
+.pagination--length2 > ul > li > a{
+	font-size: 15px;
+	color: #000066;
+	border: none;
+	background-color: rgba(158,158,158,.2);
+	padding: 0px;
+	border: 1px solid rgba(158,158,158,.2);
+	border-radius: 1px;
+	width: 43px;
+	height: 27px;
+	display: inline-block;
+	padding-top: 7px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.pagination--length2 > ul > li:nth-child(1), .pagination--length2 > ul > li:nth-child(2), .pagination--length2 > ul > li:nth-child(4), .pagination--length2 > ul > li:nth-child(5){
+	width: 90px;
+	height: 36px;
+}
+
+.pagination--length2 > ul > li:nth-child(1) > a, .pagination--length2 > ul > li:nth-child(2) > a, .pagination--length2 > ul > li:nth-child(4) > a, .pagination--length2 > ul > li:nth-child(5) > a{
+	width: 88px;
+	height: 27px;
+}
+
+.pagination--length2 > ul > li:hover{
+	background-color: rgba(158,158,158,.2);
+	cursor: pointer;
+}
+
+.pagination--length2 > ul > li:focus{
+	outline: 0;
+}
+
+.pagination--length2 > ul > li > a.selected{
+	background-color: #ffd740;
+	color: #808080;
+	border: 1px solid #ffd740;
+}
+
+.pagination--length2 > ul > li.disabled{
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length2 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length2 > ul > li.disabled > a:hover{
+	cursor: not-allowed;
+}
+
+
+.pagination--length2 > ul > li.disabled:hover > a{
+	cursor: not-allowed;
+}
+
+.pagination--length2 > ul > li.disabled:hover{
+	cursor: not-allowed;
+}
+
+.pagination--length2 > ul > li.active > a{
+	background-color: #ffd740;
+	border: 1px solid #ffd740;
+}
+
+
+
+
+
+
+
+
+
+/*************** 3 pages ***************/
+
+.pagination--length3Container{
+	width: 495px;
+	height: 48px;
+}
+
+.pagination--length3 > ul{
+	list-style-type: none;
+	list-style-position: inside;
+	margin:0;
+	padding:0;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	background-color: transparent;
+}
+
+.pagination--length3 > ul > li{
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0px;
+	padding: 0;
+	width: 45px;
+	height: 36px;
+	display: inline-block;
+}
+
+
+.pagination--length3{
+	background-color: transparent;
+	display: inline-block;
+	border-left: none;
+	border-right: none;
+	width: 495px;
+	height: 36px;
+	white-space: nowrap;
+	font-size: 0;
+}
+
+.pagination--length3 > ul > li > a{
+	font-size: 15px;
+	color: #000066;
+	border: none;
+	background-color: rgba(158,158,158,.2);
+	padding: 0px;
+	border: 1px solid rgba(158,158,158,.2);
+	border-radius: 1px;
+	width: 43px;
+	height: 27px;
+	display: inline-block;
+	padding-top: 7px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.pagination--length3 > ul > li:nth-child(1), .pagination--length3 > ul > li:nth-child(2), .pagination--length3 > ul > li:nth-child(4), .pagination--length3 > ul > li:nth-child(5){
+	width: 90px;
+	height: 36px;
+}
+
+.pagination--length3 > ul > li:nth-child(1) > a, .pagination--length3 > ul > li:nth-child(2) > a, .pagination--length3 > ul > li:nth-child(4) > a, .pagination--length3 > ul > li:nth-child(5) > a{
+	width: 88px;
+	height: 27px;
+}
+
+.pagination--length3 > ul > li:hover{
+	background-color: rgba(158,158,158,.2);
+	cursor: pointer;
+}
+
+.pagination--length3 > ul > li:focus{
+	outline: 0;
+}
+
+.pagination--length3 > ul > li > a.selected{
+	background-color: #ffd740;
+	color: #808080;
+	border: 1px solid #ffd740;
+}
+
+.pagination--length3 > ul > li.disabled{
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length3 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length3 > ul > li.disabled > a:hover{
+	cursor: not-allowed;
+}
+
+
+.pagination--length3 > ul > li.disabled:hover > a{
+	cursor: not-allowed;
+}
+
+.pagination--length3 > ul > li.disabled:hover{
+	cursor: not-allowed;
+}
+
+.pagination--length3 > ul > li.active > a{
+	background-color: #ffd740;
+	border: 1px solid #ffd740;
+}
+
+
+
+
+
+
+
+
+
+/*************** 4 pages ***************/
+
+.pagination--length4Container{
+	width: 540px;
+	height: 48px;
+}
+
+.pagination--length4 > ul{
+	list-style-type: none;
+	list-style-position: inside;
+	margin:0;
+	padding:0;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	background-color: transparent;
+}
+
+.pagination--length4 > ul > li{
+	list-style-type: none;
+	list-style-position: inside;
+	margin: 0px;
+	padding: 0;
+	width: 45px;
+	height: 36px;
+	display: inline-block;
+}
+
+
+.pagination--length4{
+	background-color: transparent;
+	display: inline-block;
+	border-left: none;
+	border-right: none;
+	width: 540px;
+	height: 36px;
+	white-space: nowrap;
+	font-size: 0;
+}
+
+.pagination--length4 > ul > li > a{
+	font-size: 15px;
+	color: #000066;
+	border: none;
+	background-color: rgba(158,158,158,.2);
+	padding: 0px;
+	border: 1px solid rgba(158,158,158,.2);
+	border-radius: 1px;
+	width: 43px;
+	height: 27px;
+	display: inline-block;
+	padding-top: 7px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.pagination--length4 > ul > li:nth-child(1), .pagination--length4 > ul > li:nth-child(2), .pagination--length4 > ul > li:nth-child(4), .pagination--length4 > ul > li:nth-child(5){
+	width: 90px;
+	height: 36px;
+}
+
+.pagination--length4 > ul > li:nth-child(1) > a, .pagination--length4 > ul > li:nth-child(2) > a, .pagination--length4 > ul > li:nth-child(4) > a, .pagination--length4 > ul > li:nth-child(5) > a{
+	width: 88px;
+	height: 27px;
+}
+
+.pagination--length4 > ul > li:hover{
+	background-color: rgba(158,158,158,.2);
+	cursor: pointer;
+}
+
+.pagination--length4 > ul > li:focus{
+	outline: 0;
+}
+
+.pagination--length4 > ul > li > a.selected{
+	background-color: #ffd740;
+	color: #808080;
+	border: 1px solid #ffd740;
+}
+
+.pagination--length4 > ul > li.disabled{
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length4 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length4 > ul > li.disabled > a:hover{
+	cursor: not-allowed;
+}
+
+
+.pagination--length4 > ul > li.disabled:hover > a{
+	cursor: not-allowed;
+}
+
+.pagination--length4 > ul > li.disabled:hover{
+	cursor: not-allowed;
+}
+
+.pagination--length4 > ul > li.active > a{
+	background-color: #ffd740;
+	border: 1px solid #ffd740;
+}

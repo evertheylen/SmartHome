@@ -1,4 +1,6 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth) {
+		
+		$rootScope.page_title = "OverWatch - " + $scope.i18n("sensorslink");
     $rootScope.auth_user = Auth.getUser();
 	$scope.add_autocomplete = function (tag) {
 		var i = $scope.tags.length;
@@ -24,8 +26,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.sensors = [];
 
 	console.log("Empty array: " + $scope.sensors);
-	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
+	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.sensors = response.sensors;
+		updateFilteredSensors();
+    	console.log("Filtered Sensors: " + $scope.filteredSensors);
 		console.log("Sensor array: " + $scope.sensors);
 		$scope.$apply();
 	});
@@ -1062,7 +1066,13 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 		$scope.filteredSensors = $scope.sensors.slice(begin, end);
 	});
+	
+	updateFilteredSensors = function () {
+		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+		, end = begin + $scope.numPerPage;
 
+		$scope.filteredSensors = $scope.sensors.slice(begin, end);
+	};
 
 	$scope.$watch('locations', function() {
 		$timeout(function() {
@@ -1191,28 +1201,24 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if ($scope.location_form.$valid) {
 			if (edit) {
 				// Edit Location
+				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
 				$scope.locations[edit_loc_id].country = $scope.loc_country;
 				$scope.locations[edit_loc_id].city = $scope.loc_city;
 				$scope.locations[edit_loc_id].postalcode = $scope.loc_postalcode;
 				$scope.locations[edit_loc_id].street = $scope.loc_street;
 				$scope.locations[edit_loc_id].number = $scope.loc_number;
-				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
 				/*
-				ws.request({type: "edit", what: "Location", data: {$scope.locations[edit_loc_id]}}, function() {
+				var locationObject = $scope.locations[edit_loc_id].toJSON();
+				ws.request({type: "edit", what: "Location", data: locationObject}, function() {
 				});
 				*/
 			} else {
 				// Add Location
-				var new_location = {};
-				new_location.country = $scope.loc_country;
-				new_location.city = $scope.loc_city;
-				new_location.postalcode = $scope.loc_postalcode;
-				new_location.street = $scope.loc_street;
-				new_location.number = $scope.loc_number;
-				new_location.desc = $scope.loc_desc;
+				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_country, $scope.loc_city, $scope.loc_postalcode, $scope.loc_street, $scope.loc_number);
 				/*
-				ws.request({type: "add", what: "Location", data: {new_location}}, function(response) {
-					new_location.id = response.location.id;	
+				var locationObject = new_location.toJSON();
+				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
+					new_location.LID = response.location.LID;	
 				});
 				*/
 				$scope.locations.push(new_location);
@@ -1289,28 +1295,32 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if ($scope.sensor_form.$valid) {
 			if (edit_sen) {
 				// Edit Sensor
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].name = $scope.sen_name;
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].title = $scope.sen_name;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
-				$scope.filteredSensors[edit_sen_id].name = $scope.sen_name;
-				$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
+				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
+				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
+				$scope.filteredSensors[edit_sen_id].title = $scope.sen_name;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
-				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
-				var object = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
-				ws.request({type: "edit", what: "Sensor", data: {object}}, function() {
+				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
+				//$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
+				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
+				var sensorObject = sensor.toJSON();
+				delete sensorObject.index;
+				delete sensorObject.$$hashKey;
+				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function() {
 				});
 			} else {
 				// Add Sensor
-				var new_sensor = {};
-				new_sensor.name = $scope.sen_name;
-				new_sensor.tags = $scope.sen_tags;
-				new_sensor.location = $scope.sen_location;
-				new_sensor.type = $scope.sen_type;
+				var new_sensor = new Sensor(-1, $rootScope.auth_user.UID, $scope.sen_name, $scope.sen_type);
+				//new_sensor.tags = $scope.sen_tags;
+				//new_sensor.location = $scope.sen_location;
+				delete new_sensor.SID;
 				$scope.sensors.push(new_sensor);
-				ws.request({type: "add", what: "Sensor", data: {new_sensor}}, function(response) {
-					new_sensor.id = response.sensor.id;	
-				});          
+				updateFilteredSensors();
+				var sensorObject = new_sensor.toJSON();
+				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
+					new_sensor.SID = response.sensor.SID;	
+				});     
 			}
 			dialog2.close();
 		}
@@ -1318,12 +1328,12 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 	function set_sen(id) {
 		edit_sen = true;
-		$scope.sen_name = $scope.filteredSensors[id].name;
-		$scope.sen_tags = $scope.filteredSensors[id].tags;
-		$scope.sen_type = $scope.filteredSensors[id].type;
-		$scope.sen_location = $scope.filteredSensors[id].location;
-		$scope.dropDownClick($scope.filteredSensors[id].type, 'select_type', 'dropDownType', 'type');
-		$scope.dropDownClick($scope.filteredSensors[id].location, 'select_location', 'dropDownLocation', 'location');
+		$scope.sen_name = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].title;
+		$scope.sen_type = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].type;
+		$scope.sen_tags = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].tags;
+		$scope.sen_location = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].location;
+		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].type, 'select_type', 'dropDownType', 'type');
+		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].location, 'select_location', 'dropDownLocation', 'location');
 
 		addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
 		//addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
@@ -1370,23 +1380,25 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.delete = function (id, from) {
 		$rootScope.confirm_dialog.showModal();
 		componentHandler.upgradeDom();
+		console.log($scope.sensors + " ID: " + id + " from " + from);
 		delete_id = id;
 		delete_from = from;
 	};
 
 	$scope.$on("confirmation", function (event, value) {
 		if (value) {
-			if (delete_from == $scope.locations) {
-				if (delete_from.length === 1) {
-					delete_from.length = 0;
-					return;
-				}
-				delete_from.splice(delete_id, 1);
-			} else if (delete_from == $scope.sensors) {
-				ws.request({type: "delete", what: "Sensor", data: {"ID": delete_id}}, function(success) {
+			if (delete_from == $scope.sensors) {
+				console.log("Delete_id: " + delete_id);
+				ws.request({type: "delete", what: "Sensor", data: {"ID": $scope.sensors[delete_id].SID}}, function(success) {
+                    updateFilteredSensors();
 					$scope.$apply();
 				});
 			}
+			if (delete_from.length === 1) {
+				delete_from.length = 0;
+				return;
+			}
+			delete_from.splice(delete_id, 1);
 		}
 	});
 

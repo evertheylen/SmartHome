@@ -39,7 +39,7 @@
 						<tr class="tableHeadColor">
 							<th class="mdl-data-table__cell--non-numeric">
 
-								<button ng-click="set_order('name', 'sort_sensor')" id="sort_sensor" class="mdl-button mdl-js-button mdl-button--icon">
+								<button ng-click="set_order('title', 'sort_sensor')" id="sort_sensor" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
     							<span>Sensor</span>
@@ -68,8 +68,8 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage" on-finish-render="ngRepeatFinished">
-                            <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.name"></td>
+						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index" on-finish-render="ngRepeatFinished">
+                            <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
 				            <td ng-bind="sensor.location"></td>
 				            <td ng-bind="sensor.type"></td>
 				            <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
@@ -83,9 +83,9 @@
 			
 				<div style="margin: 5px;"></div>
 
-				<div id="paginationContainer">
+				<div id="sensorPGContainer"class="pagination--length1Container">
 					<div class="sliderEffect"></div>
-					<div id="pagination">
+					<div id="sensorPG" class="pagination--length1">
 						<pagination ng-model="currentPage"
 				          total-items="sensors.length"
 				          max-size="maxSize"  

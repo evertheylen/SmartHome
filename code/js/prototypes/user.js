@@ -1,9 +1,9 @@
 User.prototype = new DataType();
 User.prototype.constructor = User;
 
-function User(id, firstName, lastName, emailAdress) {
-	this.id = id;
-	this.firstName = firstName;
-	this.lastName = lastName;
-	this.emailAdress = emailAdress;
+function User(UID, first_name, last_name, email) {
+	this.UID = UID;
+	this.first_name = first_name;
+	this.last_name = last_name;
+	this.email = email;
 }

@@ -51,7 +51,7 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
             if (getCookie("user") != "") {
                 var temp_user = JSON.parse(getCookie("user"));
                 console.log(temp_user);
-                var user =  new User(temp_user["id"], temp_user["emailAdress"], temp_user["firstName"], temp_user["lastName"]);
+                var user =  new User(temp_user["UID"], temp_user["email"], temp_user["first_name"], temp_user["last_name"]);
                 console.log(user);
                 return user;
             } else {
@@ -61,17 +61,25 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
     
         isLoggedIn : function() {
             return (getCookie("session") != "");
+        },
+        
+        setLanguage : function(language) {
+            console.log("Language COOKIE: " + language);
+            setCookie("language", language);
+        },
+        
+        getLanguage : function() {
+            console.log("getting language: " + getCookie("language")); 
+            return getCookie("language");
         }
     }
 });
 
 angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth) {
-    $scope.language = 0;
-    
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
-    
+    $rootScope.page_title = "OverWatch";
     $rootScope.logged_in = Auth.isLoggedIn();
     //$rootScope.auth_user = Auth.getUser();
     $scope.logout = function() {
@@ -109,6 +117,17 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    removeClass(document.getElementsByClassName('mdl-layout__drawer')[0],'is-visible');
 	    removeClass(document.getElementsByClassName('mdl-layout__obfuscator')[0], 'is-visible');
 	}
+	
+	if (Auth.getLanguage() === "") {
+	    Auth.setLanguage(0);
+	}
+	
+	$scope.language = Auth.getLanguage();
+	
+	$scope.changeLang = function(new_language) {
+	    Auth.setLanguage(new_language);
+	    $scope.language = new_language;
+	};
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",

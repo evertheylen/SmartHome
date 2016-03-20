@@ -36,9 +36,9 @@ class Controller:
 
         self.listeners = ListenersCache()
 
-    def get_user(self, session):
+    async def get_user(self, session):
         if session in self.sessions:
-            return self.sessions[session]
+            return await User.get(self.db, self.sessions[session])
         else:
             return None
 
