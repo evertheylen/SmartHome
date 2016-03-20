@@ -76,8 +76,6 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
 });
 
 angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth) {
-    $scope.language = 0;
-    
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
@@ -119,6 +117,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    removeClass(document.getElementsByClassName('mdl-layout__drawer')[0],'is-visible');
 	    removeClass(document.getElementsByClassName('mdl-layout__obfuscator')[0], 'is-visible');
 	}
+	
+	Auth.setLanguage(0);
+	
+	$scope.language = Auth.getLanguage();
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",

@@ -1,6 +1,11 @@
 angular.module("overwatch").controller("indexController", function($scope, $rootScope, $location, Auth) {
-	$scope.dialog = document.getElementById('dlgLogin');
 	$rootScope.auth_user = Auth.getUser();
+	if (Auth.isLoggedIn()) {
+	    $location.path("/home");  
+	}
+	
+	$scope.dialog = document.getElementById('dlgLogin');
+	
 	var showDialogButton = document.getElementById('btnLogin');
 	showDialogButton.addEventListener('click', function(){
 		$scope.dialog.showModal();
@@ -21,10 +26,6 @@ angular.module("overwatch").controller("indexController", function($scope, $root
 	var layout = document.getElementById("mainLayout");
 	if (!hasClass(layout, "mdl-layout--no-drawer-button")) {
 	    addClass(layout, "mdl-layout--no-drawer-button");
-	}
-	
-	if (Auth.isLoggedIn()) {
-	    $location.path("/home");  
 	}
 	
 	componentHandler.upgradeDom();
