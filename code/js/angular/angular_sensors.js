@@ -1,6 +1,6 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth) {
 		
-		$rootScope.page_title = "OverWatch - Sensors";
+		$rootScope.page_title = "OverWatch - " + $scope.i18n("sensorlink");
     $rootScope.auth_user = Auth.getUser();
 	$scope.add_autocomplete = function (tag) {
 		var i = $scope.tags.length;
