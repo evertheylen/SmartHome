@@ -79,7 +79,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
-    $rootScope.page_title = "";
+    $rootScope.page_title = "OverWatch";
     $rootScope.logged_in = Auth.isLoggedIn();
     //$rootScope.auth_user = Auth.getUser();
     $scope.logout = function() {
