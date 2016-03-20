@@ -186,23 +186,25 @@ table{
 }
 
 .pagination--full > ul > li.disabled{
-	background-color: #7E8385;
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--full > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
 }
 
 .pagination--full > ul > li.disabled > a:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 
 .pagination--full > ul > li.disabled:hover > a{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--full > ul > li.disabled:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .sliderEffect{
@@ -307,23 +309,24 @@ table{
 }
 
 .pagination--length1 > ul > li.disabled{
-	background-color: #7E8385;
+	background-color: rgba(0,0,0,.12);
+}
+
+.pagination--length1 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
 }
 
 .pagination--length1 > ul > li.disabled > a:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 
 .pagination--length1 > ul > li.disabled:hover > a{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length1 > ul > li.disabled:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length1 > ul > li.active > a{
@@ -423,23 +426,25 @@ table{
 }
 
 .pagination--length2 > ul > li.disabled{
-	background-color: #7E8385;
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length2 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
 }
 
 .pagination--length2 > ul > li.disabled > a:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 
 .pagination--length2 > ul > li.disabled:hover > a{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length2 > ul > li.disabled:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length2 > ul > li.active > a{
@@ -539,23 +544,25 @@ table{
 }
 
 .pagination--length3 > ul > li.disabled{
-	background-color: #7E8385;
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length3 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
 }
 
 .pagination--length3 > ul > li.disabled > a:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 
 .pagination--length3 > ul > li.disabled:hover > a{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length3 > ul > li.disabled:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length3 > ul > li.active > a{
@@ -655,23 +662,25 @@ table{
 }
 
 .pagination--length4 > ul > li.disabled{
-	background-color: #7E8385;
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination--length4 > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
 }
 
 .pagination--length4 > ul > li.disabled > a:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 
 .pagination--length4 > ul > li.disabled:hover > a{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length4 > ul > li.disabled:hover{
 	cursor: not-allowed;
-	background-color: #7E8385;
 }
 
 .pagination--length4 > ul > li.active > a{
