@@ -1314,6 +1314,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				var new_sensor = new Sensor(-1, $rootScope.auth_user.UID, $scope.sen_name, $scope.sen_type);
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.location = $scope.sen_location;
+				delete new_sensor.SID;
 				$scope.sensors.push(new_sensor);
 				updateFilteredSensors();
 				var sensorObject = new_sensor.toJSON();
