@@ -425,7 +425,18 @@ class Entity(metaclass=MetaEntity):
     def __init__(self, *args, **kwargs):
         self.__metainit__(*args, **kwargs)
     
+    
     async def insert(self, db):
+        if self.key is None:
+            assert type(self)._incomplete
+            await self.simple_insert(db)
+            assert self.key is not None
+            assert self.key not in type(self).cache
+            type(self).cache[self.key] = self
+        else:
+            await self.simple_insert(db)
+    
+    async def simple_insert(self, db):
         self.check()
         assert not self.in_db
         cls = type(self)
@@ -439,7 +450,6 @@ class Entity(metaclass=MetaEntity):
         else:
             await insert.exec(db)
         self.in_db = True
-    
     
     async def update(self, db):
         self.check()
@@ -524,16 +534,6 @@ class RTEntity(Entity):
             return cls.cache[key]
         except KeyError:
             return await super(RTEntity, cls).find_by_key(key, db)
-    
-    async def insert(self, db):
-        if self.key is None:
-            assert type(self)._incomplete
-            await super(RTEntity, self).insert(db)
-            assert self.key is not None
-            assert self.key not in type(self).cache
-            type(self).cache[self.key] = self
-        else:
-            await super(RTEntity, self).insert(db)
     
     async def update(self, db):
         await super(RTEntity, self).update(db)
