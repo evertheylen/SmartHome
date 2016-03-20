@@ -1,4 +1,15 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth) {
+		$templateCache.put('template/pagination/pagination.html',   
+    '<div>' +
+        ' <ul class="pagination">
+  <li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)">{{::getText('umoeder')}}</a></li>
+  <li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)">{{::getText('previous')}}</a></li>
+  <li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
+  <li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)">{{::getText('next')}}</a></li>
+  <li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)">{{::getText('last')}}</a></li>
+</ul> ' +
+    '</div>');
+		
 		$rootScope.page_title = "- Sensors";
     $rootScope.auth_user = Auth.getUser();
 	$scope.add_autocomplete = function (tag) {
