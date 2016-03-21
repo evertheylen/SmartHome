@@ -8,7 +8,7 @@
 	<head>
 	<title ng-bind="page_title"></title>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.blue_grey-amber.min.css">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.green-light_green.min.css">
     <link rel="stylesheet" href="/static/login.css">
 	<link rel="stylesheet" href="/static/homeTab.css">
 	<link rel="stylesheet" href="/static/menus2.css">
@@ -52,7 +52,7 @@
             class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-hide=logged_in ng-bind="i18n('login')">
             </button>
             <button id="btnLogout" type="button"
-            class="mdl-button mdl-js-button mdl-button--fab" ng-click="logout()" ng-show=logged_in>
+            class="mdl-button mdl-js-button mdl-button--fab mdl-button--accent" ng-click="logout()" ng-show=logged_in>
                 <i class="material-icons">power_settings_new</i>
             </button>
             <div class="mdl-tooltip" for="btnLogout" ng-bind="i18n('logout')">
