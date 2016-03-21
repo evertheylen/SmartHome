@@ -7,7 +7,7 @@
 .demo-card-wide > .mdl-card__title {
 	color: #fff;
 	height: 50px;
-	background: #78909c
+	background: rgb(63,81,181);
 }
 .demo-card-wide > .mdl-card__title
 .demo-card-wide > .mdl-card__menu {

@@ -1,3 +1,7 @@
+/* TODO adjust colors!!!!!!!!!!!!! */
+
+
+
 .buttonMenu{
 	font-size: 0;
 	display: inline-block;
@@ -180,9 +184,9 @@ table{
 }
 
 .pagination--full > ul > li > a.selected{
-	background-color: #ffd740;
+	background-color: #448aff;
 	color: #808080;
-	border: 1px solid #ffd740;
+	border: 1px solid #448aff;
 }
 
 .pagination--full > ul > li.disabled{
@@ -209,12 +213,12 @@ table{
 
 .sliderEffect{
 	height: 6px;
-	background-color: #ffd740;
+	background-color: #448aff;
 }
 
 .pagination--full > ul > li.active > a{
-	background-color: #ffd740;
-	border: 1px solid #ffd740;
+	background-color: #448aff;
+	border: 1px solid #448aff;
 }
 
 
@@ -303,9 +307,7 @@ table{
 }
 
 .pagination--length1 > ul > li > a.selected{
-	background-color: #ffd740;
 	color: #808080;
-	border: 1px solid #ffd740;
 }
 
 .pagination--length1 > ul > li.disabled{
@@ -330,8 +332,7 @@ table{
 }
 
 .pagination--length1 > ul > li.active > a{
-	background-color: #ffd740;
-	border: 1px solid #ffd740;
+	background-color: transparent;
 }
 
 
@@ -420,9 +421,9 @@ table{
 }
 
 .pagination--length2 > ul > li > a.selected{
-	background-color: #ffd740;
+	background-color: #448aff;
 	color: #808080;
-	border: 1px solid #ffd740;
+	border: 1px solid #448aff;
 }
 
 .pagination--length2 > ul > li.disabled{
@@ -448,8 +449,8 @@ table{
 }
 
 .pagination--length2 > ul > li.active > a{
-	background-color: #ffd740;
-	border: 1px solid #ffd740;
+	background-color: #448aff;
+	border: 1px solid #448aff;
 }
 
 
@@ -538,9 +539,9 @@ table{
 }
 
 .pagination--length3 > ul > li > a.selected{
-	background-color: #ffd740;
+	background-color: #448aff;
 	color: #808080;
-	border: 1px solid #ffd740;
+	border: 1px solid #448aff;
 }
 
 .pagination--length3 > ul > li.disabled{
@@ -566,8 +567,8 @@ table{
 }
 
 .pagination--length3 > ul > li.active > a{
-	background-color: #ffd740;
-	border: 1px solid #ffd740;
+	background-color: #448aff;
+	border: 1px solid #448aff;
 }
 
 
@@ -656,9 +657,9 @@ table{
 }
 
 .pagination--length4 > ul > li > a.selected{
-	background-color: #ffd740;
+	background-color: #448aff;
 	color: #808080;
-	border: 1px solid #ffd740;
+	border: 1px solid #448aff;
 }
 
 .pagination--length4 > ul > li.disabled{
@@ -684,6 +685,6 @@ table{
 }
 
 .pagination--length4 > ul > li.active > a{
-	background-color: #ffd740;
-	border: 1px solid #ffd740;
+	background-color: #448aff;
+	border: 1px solid #448aff;
 }
