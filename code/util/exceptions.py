@@ -1,6 +1,4 @@
 
-import sparrow
-
 class Error(Exception):
     """
     Base class for OverWatch exceptions.
