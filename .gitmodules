@@ -1,0 +1,6 @@
+[submodule "code/Sparrow"]
+	path = code/Sparrow
+	url = https://github.com/evertheylen/Sparrow.git
+[submodule "code/libs/Sparrow"]
+	path = code/libs/Sparrow
+	url = https://github.com/evertheylen/Sparrow.git
