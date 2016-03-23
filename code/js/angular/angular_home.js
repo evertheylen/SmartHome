@@ -1,6 +1,6 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth) {
     $rootScope.tab = "homelink";
-    $rootScope.page_title = "OverWatch - " + i18n($rootScope.tab);
+    $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $rootScope.auth_user = Auth.getUser();
     $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
