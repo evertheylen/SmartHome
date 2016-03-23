@@ -44,14 +44,10 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         graph = {};
         graph.type = graph_types_single[i];
         graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        graph.data = [
-            [65, 59,80,81,56,55,40,59,54,53,30,12],
-        ];
+        graph.data = [65, 59,80,81,56,55,40,59,54,53,30,12];
         $scope.graphs_single.push(graph);  
         $timeout(function () {
-            graph.data = [
-                [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12],
-            ];
+            graph.data = [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12];
         }, 5000);
     }    
 
