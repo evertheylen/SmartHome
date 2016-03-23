@@ -24,8 +24,8 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
     graph = {};
     graph.type = "chart-line";
     graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    $scope.graph.series = ['Series A', 'Series B'];
-    $scope.graph.data = [
+    graph.series = ['Series A', 'Series B'];
+    graph.data = [
         [65, 59,80,81,56,55,40,59,54,53,30,12],
         [28,48,40,19,86,27,90,456,78,45,01,45]
     ];
