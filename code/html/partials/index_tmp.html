@@ -19,7 +19,7 @@
                 </div>
                 <div ng-messages="login_form.loginEmail.$error">
                         <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                        <div style="color: red" ng-message="email" ng-bind="i18n('invalid_email')"></div>
+                        <div style="color: red" ng-message="email">{{i18n('invalid_email')}}</div>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="password" id="input_login_password" name="login_password" ng-model="password" required>
