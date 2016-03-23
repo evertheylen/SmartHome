@@ -38,7 +38,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         for(i=0; i < 3; i++) {
             $scope.graphs[i].data = [
                 [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12],
-                [65, 59, 80, 81, 56, 55, 40, 456,78,45,01,45]
+                [65, 59, 80, 81, 56, 55, 40, 50,78,45,01,45]
             ];
         }        
         
