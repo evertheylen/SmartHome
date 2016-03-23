@@ -11,13 +11,13 @@
     <dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginController">
         <h4 class="mdl-dialog__title" ng-bind="i18n('login')"></h4>
         <div class="mdl-dialog__content">
-            <form role="form" name="login_form">
+            <form name="login_form">
                 <!-- The username and password-->
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="email" id="input_login_email" name="loginEmail" ng-model="email" required>
                     <label class="mdl-textfield__label" for="input_login_email">Email</label>
                 </div>
-                <div ng-messages="login_form.input_login_email.$error">
+                <div ng-messages="login_form.loginEmail.$error">
                         <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                         <div style="color: red" ng-message="email" ng-bind="i18n('invalid_email')"></div>
                 </div>
