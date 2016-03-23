@@ -157,7 +157,7 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
 angular.module("overwatch").config(["ChartJsProvider", function(ChartJsProvider) {
     ChartJsProvider.setOptions({
         colours: ['#FF5252', "#FF8A80"],
-        responsive: false
+        responsive: true
     });
 
 }]);
