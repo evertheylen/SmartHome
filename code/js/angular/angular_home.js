@@ -20,7 +20,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	    $scope.importants[element_id] = !$scope.importants[element_id];
 	};
     $scope.graphs = []
-    var graph_types = ["chart-line", "chart-bar", "chart-doughnut", "chart-radar", "chart-pie", "chart-polar-area"];
+    var graph_types = ["Line", "Bar", "Doughnut", "Radar", "Pie", "PolarArea"];
     for (i=0; i < 6; i++) {
         graph = {};
         graph.type = graph_types[i];
