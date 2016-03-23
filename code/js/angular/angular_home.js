@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth) {
+angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout) {
     $rootScope.tab = "homelink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $rootScope.auth_user = Auth.getUser();
