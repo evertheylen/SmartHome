@@ -131,7 +131,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    $scope.language = new_language;
 	    $rootScope.page_title = "OverWatch"
 	    if ($rootScope.tab != "") {
-	        $rootScope.page_title = "OverWatch - " + i18n($rootScope.tab);
+	        $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 	    }
 	};
 });
