@@ -20,15 +20,18 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	    $scope.importants[element_id] = !$scope.importants[element_id];
 	};
     $scope.graphs = []
-    
-    graph = {};
-    graph.type = "chart-line";
-    graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    graph.series = ['Series A', 'Series B'];
-    graph.data = [
-        [65, 59,80,81,56,55,40,59,54,53,30,12],
-        [28,48,40,19,86,27,90,456,78,45,01,45]
-    ];
+    var graph_types = ["chart-line", "chart-bar", "chart-doughnut", "chart-radar", "chart-pie", "chart-polar-area"];
+    for (i=0; i < 6; i++) {
+        graph = {};
+        graph.type = graph_types[i];
+        graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        graph.series = ['Series A', 'Series B'];
+        graph.data = [
+            [65, 59,80,81,56,55,40,59,54,53,30,12],
+            [28,48,40,19,86,27,90,456,78,45,01,45]
+        ];
+            $scope.graphs.push(graph);  
+        }
     
     $timeout(function () {
     graph.data = [
@@ -36,8 +39,6 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
       [65, 59, 80, 81, 56, 55, 40, 456,78,45,01,45]
     ];
   }, 5000);
-        
-    $scope.graphs.push(graph);  
 
 	componentHandler.upgradeDom();
 });	
