@@ -26,10 +26,10 @@
                     <label class="mdl-textfield__label" for="input_login_password" ng-bind="i18n('password')"></label>
                 </div>
                     <div ng-messages="login_form.login_password.$error">
-                            <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
+                            <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                     </div>
                     <div>
-                            <p style="color: red" ng-show="wrong_login" ng-bind="i18n('login_error')"></p>
+                            <p style="color: red" ng-show="wrong_login">{{i18n('login_error')}}</p>
                     </div>
             </form>
             <div>
@@ -55,7 +55,7 @@
                     <input class="mdl-textfield__input" type="text" id="input_signup_firstname" ng-model="first_name" name="signupFirstname" required/>
                 </div>
                 <div ng-messages="signup_form.signupFirstname.$error">
-                    <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <label class="mdl-textfield__label" for="input_signup_lastname" ng-bind="i18n('lastname')"></label>                  
@@ -63,26 +63,26 @@
                 </div>
 
                 <div ng-messages="signup_form.signupLastname.$error">
-                        <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
+                        <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="email" id="input_signup_email" name="signupEmail" ng-model="email" required>
                     <label class="mdl-textfield__label" for="input_signup_email">Email</label>
                 </div>
                     <div ng-messages="signup_form.signupEmail.$error">
-                            <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
-                            <div style="color: red" ng-message="email" ng-bind="i18n('invalid_email')"></div>
+                            <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                            <div style="color: red" ng-message="email">{{i18n('invalid_email')}}</div>
                     </div>
                 <div class="mdl-textfield mdl-js-textfield">
                     <input class="mdl-textfield__input" type="password" id="input_signup_password" ng-model="password" name="signupPassword" required minlength="8">
-                    <label class="mdl-textfield__label" for="input_signup_password" ng-bind="i18n('password')"></label>
+                    <label class="mdl-textfield__label" for="input_signup_password">{{i18n('password')}}</label>
                 </div>
                     <div ng-messages="signup_form.signupPassword.$error">
-                            <div style="color: red" ng-message="required" ng-bind="i18n('required_field')"></div>
-                            <div style="color: red" ng-message="minlength" ng-bind="i18n('invalid_password')"></div>
+                            <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                            <div style="color: red" ng-message="minlength">{{i18n('invalid_password')}}</div>
                     </div>
                     <div>
-                            <p style="color: red" ng-show="wrong_signup" ng-bind="i18n('signup_error')"></p>
+                            <p style="color: red" ng-show="wrong_signup">{{i18n('signup_error')}}</p>
                     </div>
             </form>
             <div>
