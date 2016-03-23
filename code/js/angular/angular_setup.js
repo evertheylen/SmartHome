@@ -79,7 +79,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
-    $rootScope.page_title = "OverWatch";
+    $rootScope.tab = "";
+    
+    $rootScope.page_title = "OverWatch"
     $rootScope.logged_in = Auth.isLoggedIn();
     //$rootScope.auth_user = Auth.getUser();
     $scope.logout = function() {
@@ -127,6 +129,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$scope.changeLang = function(new_language) {
 	    Auth.setLanguage(new_language);
 	    $scope.language = new_language;
+	    $rootScope.page_title = "OverWatch"
+	    if ($rootScope.tab != "") {
+	        $rootScope.page_title = "OverWatch - " + i18n($rootScope.tab);
+	    }
 	};
 });
 

@@ -1,6 +1,7 @@
 angular.module("overwatch").controller("indexController", function($scope, $rootScope, $location, Auth) {
 	$rootScope.auth_user = Auth.getUser();
-	$rootScope.page_title = "OverWatch";
+	$rootScope.tab = "";
+    $rootScope.page_title = "OverWatch";
 	if (Auth.isLoggedIn()) {
 	    $location.path("/home");  
 	}
