@@ -55,6 +55,7 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 			});
 		}
 	};
+	componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("signupController", function($scope) {
@@ -72,4 +73,5 @@ angular.module("overwatch").controller("signupController", function($scope) {
 		    });
 		}
 	};
+	componentHandler.upgradeDom();
 });
