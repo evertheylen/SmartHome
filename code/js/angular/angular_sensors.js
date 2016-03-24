@@ -1066,7 +1066,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
 		, end = begin + $scope.numPerPage;
 		
-		if ($scope.sensors.length-1 < $scope.numPerPage * $scope.maxSize) {
+		if ($scope.sensors.length-1 < $scope.numPerPage * ($scope.maxSize-1)) {
 			var length = Math.floor(($scope.sensors.length-1)/$scope.numPerPage)+1;
 			console.log("Calculating paging length: fl(" + ($scope.sensors.length-1) + "/" + $scope.numPerPage + ")+1 = "+ length);
 			$scope.pages_css = "pagination--length" + length;
