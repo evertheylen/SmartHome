@@ -1067,8 +1067,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		, end = begin + $scope.numPerPage;
 		
 		if ($scope.sensors.length < $scope.numPerPage * $scope.maxSize) {
-			var length = Math.floor($scope.sensors.length/$scope.numPerPage)+1;
-			console.log("Calculating paging length: fl(" + $scope.sensors.length + "/" + $scope.numPerPage + ")+1 = "+ length);
+			var length = Math.floor(($scope.sensors.length-1)/$scope.numPerPage)+1;
+			console.log("Calculating paging length: fl(" + $scope.sensors.length-1 + "/" + $scope.numPerPage + ")+1 = "+ length);
 			$scope.pages_css = "pagination--length" + length;
 		} else {
 			$scope.pages_css = 'pagination--full';
@@ -1081,8 +1081,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		, end = begin + $scope.numPerPage;
 		if ($scope.sensors.length < $scope.numPerPage * $scope.maxSize) {
 			
-			var length = Math.floor($scope.sensors.length/$scope.numPerPage)+1;
-			console.log("Calculating paging length: fl(" + $scope.sensors.length + "/" + $scope.numPerPage + ")+1 = "+ length);
+			var length = Math.floor(($scope.sensors.length-1)/$scope.numPerPage)+1;
+			console.log("Calculating paging length: fl(" + $scope.sensors.length-1 + "/" + $scope.numPerPage + ")+1 = "+ length);
 			$scope.pages_css = "pagination--length" + length;
 		} else {
 			$scope.pages_css = 'pagination--full';
