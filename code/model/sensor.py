@@ -6,11 +6,11 @@ from collections import OrderedDict
 # from libs import sparrow
 #
 # class Sensor(RTEntity):
-#     SID = Property(int)
-#     key = Key(SID)
+#     key = SID = KeyProperty()
 #     type = Property(str)
 #     title = Property(str)
 #     UID_reference = Reference(User)
+#     LID_reference = Reference(Location)
 
 class Sensor(Base):
     def __init__(self, SID, type, title, UID):
