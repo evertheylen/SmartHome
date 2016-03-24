@@ -1067,7 +1067,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		, end = begin + $scope.numPerPage;
 		
 		if ($scope.sensors.length < $scope.numPerPage * $scope.maxSize) {
-			$scope.pages_css = "pagination--" + 'length' + (Math.floor($scope.sensors.length/$scope.numPerPage)+1).toString();
+			var length = Math.floor($scope.sensors.length/$scope.numPerPage)+1;
+			$scope.pages_css = "pagination--" + 'length' + length;
 		} else {
 			$scope.pages_css = 'pagination--full';
 		}
@@ -1078,7 +1079,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
 		, end = begin + $scope.numPerPage;
 		if ($scope.sensors.length < $scope.numPerPage * $scope.maxSize) {
-			$scope.pages_css = "pagination--" + 'length' + toString(Math.floor($scope.sensors.length/$scope.numPerPage)+1);
+			var length = Math.floor($scope.sensors.length/$scope.numPerPage)+1;
+			$scope.pages_css = "pagination--" + 'length' + length;
 		} else {
 			$scope.pages_css = 'pagination--full';
 		}
