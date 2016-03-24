@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="/static/menus2.css">
 	<link rel="stylesheet" href="/static/sensorsTab.css">
 	<link rel="stylesheet" href="/static/ng-tags-input.css">
-	
+	<link rel="stylesheet" href="/static/angular-chart.min.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
@@ -31,6 +31,8 @@
 	<script src="/js/prototypes/user.js"></script>
 	<script src="/js/prototypes/sensor.js"></script>
 	<script src="/js/prototypes/location.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	<script src="/js/angular/angular-chart.min.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 </head>
@@ -111,15 +113,15 @@
     <script src="/js/angular/angular_home.js"></script>
     <script src="/js/angular/angular_sensors.js"></script>
     <script src="/js/angular/angular_statistics.js"></script>
-		<script src="/js/angular/angular_social.js"></script>
-		<script id="template/pagination/pagination.html" type="text/ng-template">
-			<ul class="pagination">
-				<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
-				<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
-				<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
-				<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
-				<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
-			</ul>
-		</script>
+	<script src="/js/angular/angular_social.js"></script>
+	<script id="template/pagination/pagination.html" type="text/ng-template">
+		<ul class="pagination">
+			<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
+			<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
+			<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
+			<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
+			<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
+		</ul>
+	</script>
 </body>
 </html>

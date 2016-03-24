@@ -2,7 +2,7 @@
 //  Cookie for the internationalization
 
 
-angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart'])
+angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',
@@ -79,7 +79,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
-    $rootScope.page_title = "OverWatch";
+    $rootScope.tab = "";
+    
+    $rootScope.page_title = "OverWatch"
     $rootScope.logged_in = Auth.isLoggedIn();
     //$rootScope.auth_user = Auth.getUser();
     $scope.logout = function() {
@@ -127,6 +129,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$scope.changeLang = function(new_language) {
 	    Auth.setLanguage(new_language);
 	    $scope.language = new_language;
+	    $rootScope.page_title = "OverWatch"
+	    if ($rootScope.tab != "") {
+	        $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
+	    }
 	};
 });
 
@@ -147,3 +153,13 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
     });
     $locationProvider.html5Mode(true);
 }]);
+
+angular.module("overwatch").config(["ChartJsProvider", function(ChartJsProvider) {
+    ChartJsProvider.setOptions({
+        colours: ['#FF5252', "#FF8A80"],
+        responsive: true
+    });
+
+}]);
+
+
