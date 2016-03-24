@@ -83,10 +83,10 @@
 			
 				<div style="margin: 5px;"></div>
 
-				<div id="sensorPGContainer"class="pagination--{{sensors.length < numPerPage * maxSize ? 'length' + toString(Math.floor(sensors.length/numPerPage)+1) : 'full'}}Container">
-				pagination--{{{true: ('length' + toString(Math.floor(sensors.length/numPerPage)+1) + Container), false: 'fullContainer'}[sensors.length < numPerPage * maxSize]}}
+				<div id="sensorPGContainer"class="pagination--{{pages_css}}Container">
+				pagination--{{pages_css}}Container
 					<div class="sliderEffect"></div>
-					<div id="sensorPG" class="pagination--{{sensors.length < numPerPage * maxSize ? 'length' + toString(Math.floor(sensors.length/numPerPage)+1) : 'full'}}">
+					<div id="sensorPG" class="pagination--{{pages_css}}">
 						<pagination ng-model="currentPage" total-items="sensors.length" max-size="maxSize" boundary-links="true"></pagination>
 					</div>
 					<div class="sliderEffect"></div>
