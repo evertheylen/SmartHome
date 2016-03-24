@@ -1060,18 +1060,31 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	,$scope.currentPage = 1
 	,$scope.numPerPage = 10
 	,$scope.maxSize = 5;
+	$scope.pages_css = "";
 
 	$scope.$watch("currentPage + numPerPage", function() {
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
 		, end = begin + $scope.numPerPage;
-
+		
+		if ($scope.sensors.length-1 < $scope.numPerPage * ($scope.maxSize-1)) {
+			var length = Math.floor(($scope.sensors.length-1)/$scope.numPerPage)+1;
+			$scope.pages_css = "pagination--length" + length;
+		} else {
+			$scope.pages_css = 'pagination--full';
+		}
 		$scope.filteredSensors = $scope.sensors.slice(begin, end);
 	});
 	
 	updateFilteredSensors = function () {
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
 		, end = begin + $scope.numPerPage;
-
+		if ($scope.sensors.length -1 < $scope.numPerPage * ($scope.maxSize-1)) {
+			
+			var length = Math.floor(($scope.sensors.length-1)/$scope.numPerPage)+1;
+			$scope.pages_css = "pagination--length" + length;
+		} else {
+			$scope.pages_css = 'pagination--full';
+		}
 		$scope.filteredSensors = $scope.sensors.slice(begin, end);
 	};
 
