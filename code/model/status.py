@@ -7,8 +7,8 @@ from . import Base
 #     key = SID = KeyProperty()
 #     isPublic = Property(bool)
 #     text = Property(str)
-#     WID_reference = Reference(Wall)
-#     UID_reference = Reference(User)
+#     wall = Reference(Wall)
+#     user = Reference(User)
 
 class Status(Base):
     def __init__(self, ID, name, wall_ID, user_ID, text, is_public, graph_ID=None):

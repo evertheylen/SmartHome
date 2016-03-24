@@ -9,8 +9,8 @@ from collections import OrderedDict
 #     key = SID = KeyProperty()
 #     type = Property(str)
 #     title = Property(str)
-#     UID_reference = Reference(User)
-#     LID_reference = Reference(Location)
+#     user = Reference(User)
+#     location = Reference(Location)
 
 class Sensor(Base):
     def __init__(self, SID, type, title, UID):

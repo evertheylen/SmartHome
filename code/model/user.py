@@ -11,8 +11,8 @@ from collections import OrderedDict
 #     last_name = Property(str)
 #     password = Property(str,constraint=lambda p: len(p) >= 8)
 #     email = Property(str,sql_extra="UNIQUE")
-#     GID_reference = Reference(Group)
-#     WID_reference = Reference(Wall)
+#     group = Reference(Group)
+#     wall = Reference(Wall)
 #     constraint = lambda u: u.UID > 0 and len(u.first_name) > 5 and len(u.first_name) < 100
 
 class User(Base):

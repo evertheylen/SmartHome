@@ -6,7 +6,7 @@ from . import Base
 # class Group(Entity):
 #     key = GID = KeyProperty()
 #     name = Property(str)
-#     WID_reference = Reference(Wall)
+#     wall = Reference(Wall)
 
 class Group(Base):
     def __init__(self, ID, name, wall_ID):

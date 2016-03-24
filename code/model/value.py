@@ -6,9 +6,9 @@ from collections import OrderedDict
 # from libs import sparrow
 #
 # class Value(RTEntity):
-#     value = Property(double)
+#     value = Property(float)
 #     time = Property(int)
-#     SID_reference = Reference(Sensor)
+#     sensor = Reference(Sensor)
 #     key = Key(SID_reference, time)
 
 class Value(Base):
