@@ -2,13 +2,23 @@
 from . import Base
 from collections import OrderedDict
 
+# #Sparrow integration
+# from libs import sparrow
+#
+# class Sensor(RTEntity):
+#     SID = Property(int)
+#     key = Key(SID)
+#     type = Property(str)
+#     title = Property(str)
+#     UID_reference = Reference(User)
+
 class Sensor(Base):
     def __init__(self, SID, type, title, UID):
         self.SID = SID
         self.type = type
         self.title = title
         self.UID = UID
-    
+
     db_props = OrderedDict([
                 ("SID", "SERIAL PRIMARY KEY"),
                 ("type", "VARCHAR"),

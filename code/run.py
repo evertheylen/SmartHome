@@ -19,6 +19,7 @@ from controller import *
 from database import *
 from handlers import *
 from model import *
+#from libs import *
 
 # Tornado
 import tornado.ioloop
@@ -55,7 +56,7 @@ class OverWatch:
         # The database is not managed by the model, but it's not a big deal really.
         # It could be managed by the model, but I prefer to keep the model clean of that.
         self.model = Model(self.logger, self.controller)
-        
+
         # Now of course, set the controllers references too.
         self.controller.model = self.model
         self.controller.db = Database(self.logger, tornado.ioloop.IOLoop.current())
@@ -75,7 +76,7 @@ class OverWatch:
         # that class.
         if options.debug and "autoreload" not in tornado_app_settings:
             tornado_app_settings["autoreload"] = True
-        
+
         self.app = tornado.web.Application(
             [   # Enter your routes (regex -> Handler class) here! Order matters.
                 (r'/html/(.*)', NoCacheStaticFileHandler, {'path': localdir("html")}),
