@@ -5,11 +5,11 @@ from collections import OrderedDict
 # #Sparrow integration
 # from libs import sparrow
 #
-# class Value(RTEntity):
+# class Value(Entity):
 #     value = Property(float)
 #     time = Property(int)
-#     sensor = Reference(Sensor)
-#     key = Key(SID_reference, time)
+#     sensor = RTReference(Sensor)
+#     key = Key(sensor, time)
 
 class Value(Base):
     def __init__(self, SID, time, value):
