@@ -1,41 +1,10 @@
 
-from . import Base
-from collections import OrderedDict
+from sparrow import *
 
-# #Sparrow integration
-# from libs import sparrow
-#
-# class User(RTEntity):
-#     first_name = Property(str)
-#     last_name = Property(str)
-#     password = Property(str,constraint=lambda p: len(p) >= 8)
-#     UID = Property(int)
-#     key = Key(UID)
-#     email = Property(str,sql_extra="UNIQUE NOT NULL")
-#
-#     constraint = lambda u: u.UID > 0 and len(u.first_name) > 5 and len(u.first_name) < 100
-
-class User(Base):
-    def __init__(self, UID, first_name, last_name, password, email):
-        self.UID = UID
-        self.first_name = first_name
-        self.last_name = last_name
-        self.password = password
-        self.email = email
-
-    # TODO
-    constraints = {
-        "UID": [lambda uid: uid > 0],
-        "first_name": [lambda fn: len(fn) > 5, lambda fn: len(fn) < 100],
-    }
-
-    db_props = OrderedDict([
-                ("UID", "SERIAL PRIMARY KEY"),
-                ("password", "VARCHAR"),
-                ("first_name", "VARCHAR"),
-                ("last_name", "VARCHAR"),
-                ("email", "VARCHAR UNIQUE NOT NULL")])
-    db_key = "UID"
-    table_name = "Users"
-
-    json_props = ["UID", "first_name", "last_name", "email"]
+class User(RTEntity):
+    key = UID = KeyProperty()
+    # TODO reconsider excessive constraints on length?
+    first_name = Property(str, constraint=lambda p: 1 <= len(p) <= 100)
+    last_name = Property(str, constraint=lambda p: 1 <= len(p) <= 100)
+    password = Property(str, constraint=lambda p: 8 <= len(p) <= 100)
+    email = Property(str, constraint=lambda p: 1 <= len(p) <= 100, sql_extra="UNIQUE")

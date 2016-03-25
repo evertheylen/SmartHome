@@ -1,31 +1,13 @@
 
-from . import Base
-from collections import OrderedDict
+# Sparrow integration
 
-# #Sparrow integration
-# from libs import sparrow
-#
-# class Sensor(RTEntity):
-#     SID = Property(int)
-#     key = Key(SID)
-#     type = Property(str)
-#     title = Property(str)
-#     UID_reference = Reference(User)
+from sparrow import *
 
-class Sensor(Base):
-    def __init__(self, SID, type, title, UID):
-        self.SID = SID
-        self.type = type
-        self.title = title
-        self.UID = UID
+from .user import User
 
-    db_props = OrderedDict([
-                ("SID", "SERIAL PRIMARY KEY"),
-                ("type", "VARCHAR"),
-                ("title", "VARCHAR"),
-                ("UID", "INT REFERENCES Users")])
+class Sensor(RTEntity):
+    key = SID = KeyProperty()
+    type = Property(str)
+    title = Property(str)
+    user = Reference(User)
 
-    db_key = "SID"
-    table_name = "Sensors"
-
-    json_props = ["SID", "type", "title", "UID"]
