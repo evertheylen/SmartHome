@@ -2,11 +2,11 @@
 import sys
 import os
 
-codedir = os.path.dirname(__file__)
-sys.path.append(codedir)
-libsdir = os.path.join(codedir, "libs")
-for p in os.listdir(libsdir):
-    sys.path.append(os.path.join(libsdir, p))
+#codedir = os.path.dirname(__file__)
+#sys.path.append(codedir)
+#libsdir = os.path.join(codedir, "libs")
+#for p in os.listdir(libsdir):
+    #sys.path.append(os.path.join(libsdir, p))
 
 # Standard library
 import logging
