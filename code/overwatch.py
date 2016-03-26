@@ -160,6 +160,12 @@ class OverWatch:
         await self.model.uninstall()
         await self.model.install()
     
+    def sql_info(self):
+        self.model.sql_info()
+    
+    def json_info(self):
+        self.model.json_info()
+    
 
 def unknown_action(_logger):
     def f(logger=_logger):

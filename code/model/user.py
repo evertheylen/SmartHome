@@ -12,6 +12,10 @@ class User(RTOwEntity):
 #   group = Reference(Group)
 #   wall = Reference(Wall)
     
+    def is_authorized(self, type, usr, **kwargs):
+        return self == usr
+        
+    
     def __str__(self):
         return "User({})".format(self.email)
     

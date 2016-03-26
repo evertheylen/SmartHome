@@ -9,4 +9,7 @@ class Sensor(RTOwEntity):
     title = Property(str)
     user = Reference(User)
     #location = Reference(Location)
+    
+    async def is_authorized(self, type: str, usr: User, **kwargs):
+        return self.user.key == usr.key
 

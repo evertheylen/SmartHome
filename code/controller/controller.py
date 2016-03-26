@@ -6,14 +6,60 @@ import hashlib
 import random
 from functools import wraps
 from collections import defaultdict
+import types
 
 from sparrow import *
 
 from model import *
 from util import *
 
-# Decorators
-# ==========
+
+# Helper stuff (decorators, metaclasses)
+# ======================================
+
+# Decorator stuff
+# ---------------
+
+def case(*list_what):
+    def decorator(function):
+        function.__cases__ = list_what
+        return function
+    return decorator
+
+# not a decorator
+def classitems(cls):
+    for b in cls.__bases__:
+        yield from classitems(b)
+    yield from cls.__dict__.items()
+
+def switch(cls):
+    dct = {}
+    def select(arg, *args, **kwargs):
+        return arg 
+    
+    def default(*args, **kwargs):
+        pass
+    
+    for (k,f) in classitems(cls):
+        if isinstance(f, types.FunctionType):
+            if hasattr(f, "__cases__"):
+                for c in f.__cases__:
+                    dct[c] = f
+    
+    default = getattr(cls, "default", default)
+    select = getattr(cls, "select", select)
+    
+    @wraps(select)
+    def wrapper(*args, __default=default, __select=select, __dct=dct, **kwargs):
+        key = __select(*args, **kwargs)
+        if key in __dct:
+            return __dct[key](*args, **kwargs)
+        else:
+            return __default(*args, **kwargs)
+    
+    wrapper.__name__ = cls.__name__
+    wrapper.orig_class = cls
+    return wrapper
 
 def require_user_level(level):
     def handler_decorator(method):
@@ -27,6 +73,7 @@ def require_user_level(level):
         return handler_wrapper
     return handler_decorator
 
+
 def handle_ws_type(typ):
     def decorator(method):
         method.__handle_type__ = typ
@@ -34,11 +81,9 @@ def handle_ws_type(typ):
     return decorator
 
 
-# The Controller
-# ==============
 
-# Metaclass
-# ---------
+# Metaclasses
+# -----------
 
 class MetaController(type):
     def __new__(self, name, bases, dct):
@@ -50,8 +95,15 @@ class MetaController(type):
         return type.__new__(self, name, bases, dct)
 
 
-# Actual class
-# ------------
+# Actual little helpers
+# ---------------------
+
+def check_for_type(req: "Request", typ: str):
+    if not req.metadata["for"]["what"] == typ:
+        raise Error("wrong_object_type", "Wrong object type in for.what")
+
+# The Controller
+# ==============
 
 class Controller(metaclass=MetaController):
     def __init__(self, logger, model):
@@ -68,16 +120,25 @@ class Controller(metaclass=MetaController):
     
     async def handle_request(self, req):
         # See metaclass
-        if req.dct["type"] in Controller.wshandlers:
-            await Controller.wshandlers[req.dct["type"]](self, req)
+        # Kind of a @switch class too, but I'd like to keep it flat
+        if req.metadata["type"] in Controller.wshandlers:
+            await Controller.wshandlers[req.metadata["type"]](self, req)
         else:
-            self.logger.error("No handler for %s in Controller"%req.dct["type"])
+            self.logger.error("No handler for %s in Controller"%req.metadata["type"])
     
     async def get_user(self, session):
         if session in self.sessions:
-            return await User.get(self.db, self.sessions[session])
+            return await User.find_by_key(self.sessions[session], self.db)
         else:
             return None
+    
+    class select_what:
+        """Base class for @switch selecting on "what"."""
+        def select(self, req):
+            return req.metadata["what"]
+        
+        def default(self, req):
+            raise Error("unknown_object_type", "Object type '{}' not recognized".format(req.metadata["what"]))
     
     
     # Websocket handlers
@@ -89,10 +150,11 @@ class Controller(metaclass=MetaController):
     async def handle_signup(self, req):
         c = await User.get(User.email == Unsafe(req.data["email"])).count(self.db)
         if c >= 1:
-            self.logger.error("Email %s already taken"%req.dct["data"]["email"])
+            self.logger.error("Email %s already taken"%req.data["email"])
             await req.answer({"status": "failure", "reason": "email_taken"})
         else:
             # TODO no plaintext password
+            # Manual initialisation because password isn't in json
             u = User(email=req.data["email"], password=req.data["password"],
                      first_name=req.data["first_name"], last_name=req.data["last_name"])
             await u.insert(self.db)
@@ -131,57 +193,66 @@ class Controller(metaclass=MetaController):
 
     @handle_ws_type("add")
     @require_user_level(1)
-    async def handle_add(self, req):
-        if req.metadata["what"] == "Sensor":
+    @switch
+    class handle_add(select_what):
+        @case("Sensor")
+        async def sensor(self, req):
             if req.data["UID"] == req.conn.user.UID:
-                s = Sensor(...)
-                await req.answer(s.to_dict())
+                s = Sensor(json_dict=req.data)
+                await s.insert()
+                await req.answer(s.json_repr())
             else:
                 raise Authentication("wrong", "You gave a wrong UID.")
-        elif req.dct["what"] == "Value":
-            assert(req.dct["for"]["what"] == "Sensor")
-            if (await Sensor.get(self.db,req.dct["for"]["SID"])).UID == req.conn.user.UID:
-                new_dict = {"SID": req.dct["for"]["SID"],"time": req.dct["data"][0],"value": req.dct["data"][1]}
-                v = await Value.new(self.db, new_dict)
-                await req.answer(v.to_dict())
-            else:
-                raise Authentication("forbidden", "You can not access this sensor")
-
+        
+        @case("Value")
+        async def value(self, req):
+            check_for_type(req, "Sensor")
+            v = Value(sensor=req.metadata["for"]["SID"], time=req.data[0], value=req.data[1])
+            v.check_auth(req, db=self.db)
+            await v.insert(self.db)
+            await req.answer(v.json_repr())
 
     @handle_ws_type("get")
     @require_user_level(1)
-    async def handle_get(self, req):
-        if req.dct["what"] == "Sensor":
-            s = await Sensor.get(self.db, req.dct["data"]["ID"])
-            await req.answer(s.to_dict())
+    @switch
+    class handle_get(select_what):
+        @case("Sensor")
+        async def sensor(self, req):
+            s = await Sensor.find_by_key(req.data["SID"], self.db)
+            await s.check_auth(req)
+            await req.answer(s.json_repr())
     
     
     @handle_ws_type("get_all")
     @require_user_level(1)
-    async def get_all(self, req):
-        # check if extra conditions are given
-        if "for" in req.dct:
-            if req.dct["for"]["what"] == "User" and req.dct["what"] == "Sensor":
-                res = await self.db.get_multi(Sensor.table_name, "UID", req.dct["for"]["UID"])
-                ss = [Sensor.from_db(t) for t in res]
-                await req.answer([s.to_dict() for s in ss])
-
-            elif req.dct["for"]["what"] == "Sensor" and req.dct["what"] == "Value":
-                res = await self.db.get_multi(Value.table_name, "SID", req.dct["for"]["SID"])
-                ss = [Value.from_db(t) for t in res]
-                await req.answer([s.to_dict() for s in ss])
-        else:
-            if req.dct["what"] == "Sensor":
-                res = await self.db.get_multi(Sensor.table_name, "UID", req.conn.user.UID)
-                ss = [Sensor.from_db(t) for t in res]
-                await req.answer([s.to_dict() for s in ss])
+    @switch
+    class handle_get_all(select_what):
+        @case("Sensor")
+        async def sensor(self, req):
+            check_for_type("User")
+            u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
+            await u.check_auth(req)
+            sensors = await Sensor.get(Sensor.user == u.key).all(self.db)
+            await req.answer([s.json_repr() for s in sensors])
+        
+        @case("Value")
+        async def value(self, req):
+            check_for_type("Sensor")
+            s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
+            await s.check_auth(req)
+            values = await Value.get(Value.sensor == s.key).all(self.db)
+            await req.answer([s.json_repr() for v in values])
 
 
     @handle_ws_type("delete")
     @require_user_level(1)
-    async def handle_delete(self,req):
-        if req.dct["what"] == "Sensor":
-            s = await Sensor.delete(self.db, req.dct["data"]["ID"])
-            # TODO rekening houden met sensors die reeds gedeleted zijn !
-            await req.answer("success")
+    @switch
+    class handle_delete(select_what):
+        @case("Sensor")
+        async def sensor(self, req):
+            s = await Sensor.find_by_key(req.data["SID"], self.db)
+            s.check_auth(req)
+            await s.delete(self.db)
+            # TODO rekening houden met sensors die reeds gedeleted zijn!
+            await req.answer({"status": "success"})
 

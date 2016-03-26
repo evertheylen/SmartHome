@@ -35,7 +35,7 @@ async def wrap_errors(controller, req):
             "ID": req.ID,
             "type": req.metadata["type"],
             "data": "failure",
-            "error": e.to_dict()
+            "error": e.json_repr()
         })
 
 
