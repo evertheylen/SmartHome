@@ -1,6 +1,4 @@
 
-from .model import *
-
 from .base import *
 from .group import *
 from .sensor import *

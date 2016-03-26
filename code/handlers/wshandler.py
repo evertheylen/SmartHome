@@ -1,6 +1,9 @@
+
 import tornado
 import tornado.websocket
 from tornado import gen
+
+import sparrow
 
 from util import *
 
@@ -10,18 +13,18 @@ class Request:
     def __init__(self, conn, ID, dct):
         self.conn = conn
         self.ID = ID
-        self.dct = dct
+        self.metadata = dct
+        self.data = dct["data"]
         
-    async def answer(self, data):
-        d = {
-            "ID": self.ID,
-            "type": self.dct["type"],
-            "data": data
-        }
-        for prop in self.dct:
-            if prop not in d:
-                d[prop] = self.dct[prop]
-        await self.conn.send(d)
+    async def answer(self, dct, base_dct={}):
+        base_dct["ID"] = self.ID
+        base_dct["type"] = self.metadata["type"]
+        base_dct["data"] = dct
+        
+        for prop in self.metadata:
+            if prop not in base_dct:
+                base_dct[prop] = self.dct[prop]
+        await self.conn.send(base_dct)
     
 async def wrap_errors(controller, req):
     try:
@@ -30,8 +33,8 @@ async def wrap_errors(controller, req):
         controller.logger.warning(str(e))
         await req.conn.send({
             "ID": req.ID,
-            "type": req.dct["type"],
-            "data": "fail",
+            "type": req.metadata["type"],
+            "data": "failure",
             "error": e.to_dict()
         })
 
@@ -39,14 +42,19 @@ async def wrap_errors(controller, req):
 def create_WsHandler(controller):
     clients = set()
 
-    class WsHandler(tornado.websocket.WebSocketHandler):
+    class WsHandler(tornado.websocket.WebSocketHandler, sparrow.Listener):
         def open(self, *args):
             #self.stream.set_nodelay(True)
             controller.logger.info("Server opened connection")
             clients.add(self)
             self.session = self.get_cookie("session")
             self.user = None
+            self.listenees = set()
             tornado.ioloop.IOLoop.current().spawn_callback(self.open_async)
+        
+        
+        # Websocket methods
+        # -----------------
         
         async def open_async(self):
             self.user = await controller.get_user(self.session)
@@ -66,7 +74,6 @@ def create_WsHandler(controller):
             except KeyError:
                 controller.logger.warning("KeyError occured, wrong json?")
 
-
         async def send(self, dct):
             self.write_message(json.dumps(dct))
 
@@ -75,6 +82,16 @@ def create_WsHandler(controller):
                 clients.remove(self)
             tornado.ioloop.IOLoop.current().spawn_callback(controller.conn_close, self)
 
-
+        
+        # Listener methods
+        # ----------------
+        
+        def _add_listenee(self, obj):
+            self.listenees.add(obj)
+        
+        def _remove_listenee(self, obj):
+            self.listenees.remove(obj)
+        
+        
 
     return WsHandler

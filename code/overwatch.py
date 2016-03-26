@@ -1,5 +1,4 @@
 
-# Load libraries
 import sys
 import os
 
@@ -9,26 +8,59 @@ libsdir = os.path.join(codedir, "libs")
 for p in os.listdir(libsdir):
     sys.path.append(os.path.join(libsdir, p))
 
-
 # Standard library
-import os
 import logging
-
-# Own code
-from controller import *
-from database import *
-from handlers import *
-from model import *
-#from libs import *
+import types
+from functools import wraps
 
 # Tornado
 import tornado.ioloop
 import tornado.web
-from tornado.options import define, options, parse_command_line
+from tornado.options import parse_command_line
 
-# CLI arguments
-define("port", default=8888, help="run on the given port", type=int)
-define("debug", default=True, help="run in debug mode")
+# Sparrow!
+import sparrow
+
+# Own code
+import controller
+import handlers
+import model
+
+
+# Parse config
+# ============
+
+default_config = {
+    "port": 8888,
+    "debug": True,
+    "database": {
+        "dbname": "testdb",
+        "user": "postgres",
+        "password": "postgres",
+        "host": "localhost",
+        "port": 5432,
+    },
+    "tornado_app_settings": {}
+}
+
+def parse_config(conf, default):
+    d = {}
+    for (k,v) in default.items():
+        if k in conf:
+            if isinstance(v, dict):
+                d[k] = parse_config(conf[k], v)
+            else:
+                d[k] = conf[k]
+        else:
+            d[k] = v
+    return d
+
+if os.path.isfile("config.py"):
+    import config as _config
+    config = parse_config(_config.config, default_config)
+else:
+    config = default_config
+
 
 def localdir(location):
     return os.path.join(os.path.dirname(__file__), location)
@@ -39,27 +71,41 @@ class NoCacheStaticFileHandler(tornado.web.StaticFileHandler):
         self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
 
 
-class OverWatch:
-    def __init__(self, tornado_app_settings={}):
+# OverWatch central class
+# =======================
+
+ioloop = tornado.ioloop.IOLoop.current()
+
+def simple_async_catch(method):
+    @wraps(method)
+    async def wrapper(self):
+        try:
+            await method(self)
+        except sparrow.Error as e:
+            self.logger.error(str(e))
+    return wrapper
+
+class OverWatch:    
+    def __init__(self):
         # Logging support
         self.logger = logging.getLogger("OverWatch")
-        self.logger.setLevel(logging.DEBUG if options.debug else logging.INFO)
+        self.logger.setLevel(logging.DEBUG if config["debug"] else logging.INFO)
         # HOW TO LOG:
         self.logger.debug("OverWatch initialized")
         # Or use one of these functions: info, warn, error, critical
 
         # The view/presentation layer are the Handlers, so it's kinda the 'app' provided by Tornado.
         # Every handler will get a reference to the controller
-        self.controller = Controller(self.logger, None, None)
+        self.controller = controller.Controller(self.logger, None)
 
         # The model is pretty self-explanatory
         # The database is not managed by the model, but it's not a big deal really.
         # It could be managed by the model, but I prefer to keep the model clean of that.
-        self.model = Model(self.logger, self.controller)
+        self.model = sparrow.SparrowModel(ioloop, db_args=config["database"], debug=config["debug"],
+            classes=[model.User, model.Sensor, model.Value])
 
         # Now of course, set the controllers references too.
         self.controller.model = self.model
-        self.controller.db = Database(self.logger, tornado.ioloop.IOLoop.current())
         # The controller does not initially have any references to the "view" minions (ie. handlers),
         # In a classical app, it does not need too. In our app however, we need two-way communication.
         # However, WebsocketHandlers will signal a new connection to the controller, and the controller
@@ -74,7 +120,8 @@ class OverWatch:
         # are instantiated for every request! Because we still need them to be able to communicate with
         # the Controller, we wrap the class in a function that binds the controller to them, and returns
         # that class.
-        if options.debug and "autoreload" not in tornado_app_settings:
+        tornado_app_settings = config["tornado_app_settings"]
+        if config["debug"] and "autoreload" not in tornado_app_settings:
             tornado_app_settings["autoreload"] = True
 
         self.app = tornado.web.Application(
@@ -82,25 +129,59 @@ class OverWatch:
                 (r'/html/(.*)', NoCacheStaticFileHandler, {'path': localdir("html")}),
                 (r'/js/(.*)', NoCacheStaticFileHandler, {'path': localdir("js")}),
                 (r'/static/(.*)', NoCacheStaticFileHandler, {'path': localdir("static")}),
-                (r"/ws", create_WsHandler(self.controller)),
-                (r"/debug", create_DebugHandler(self.controller)),
-                (r"/(.*)", create_MainHandler(self.controller)),
+                (r"/ws", handlers.create_WsHandler(self.controller)),
+                (r"/debug", handlers.create_DebugHandler(self.controller)),
+                (r"/(.*)", handlers.create_MainHandler(self.controller)),
             ],
             **tornado_app_settings
         )
 
+    # Actions
+    # -------
+    
     def run(self):
-        self.logger.info("Starting OverWatch on: http://localhost:%d/"%options.port)
-        self.app.listen(options.port)
+        self.logger.info("Starting OverWatch on: http://localhost:%d/"%config["port"])
+        self.app.listen(config["port"])
         tornado.ioloop.IOLoop.current().start()
+    
+    @simple_async_catch
+    async def install(self):
+        self.logger.info("Installing...")
+        await self.model.install()
+    
+    @simple_async_catch
+    async def uninstall(self):
+        self.logger.info("Uninstalling...")
+        await self.model.uninstall()
+    
+    @simple_async_catch
+    async def reinstall(self):
+        self.logger.info("Reinstalling...")
+        await self.model.uninstall()
+        await self.model.install()
+    
 
+def unknown_action(_logger):
+    def f(logger=_logger):
+        logger.info("I don't know that action.")
+    return f
+
+
+# Main
+# ====
 
 if __name__ == "__main__":
+    # For some reason this gives me a colored log, WTF
+    # Not actually used though
     parse_command_line()
-    # run it!
+    
     ow = OverWatch()
+    action = "run" if len(sys.argv) == 1 else sys.argv[1]
     try:
-        ow.run()
+        f = getattr(ow, action, unknown_action(ow.logger))()
+        if isinstance(f, types.CoroutineType):
+            async def await_f(): await f
+            ioloop.run_sync(await_f)
     except KeyboardInterrupt:
-        tornado.ioloop.IOLoop.current().stop()
+        ioloop.stop()
         ow.logger.info("Stopping because of KeyboardInterrupt")

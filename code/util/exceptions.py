@@ -12,7 +12,7 @@ class Error(Exception):
     def __str__(self):
         return "[{s.short}: {s.long}] {s.backend_msg}".format(s=self)
 
-    def to_dict(self):
+    def json_repr(self):
         return {"short": self.short, "long": self.long}
 
 # More finetuning

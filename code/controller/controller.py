@@ -1,17 +1,20 @@
 
 # Controller is used by many Handlers, possibly concurrently
 # So make sure it does NOT modify internal state while handling a request
-# You can however modify the listeners. TODO
 
 import hashlib
 import random
 from functools import wraps
-
 from collections import defaultdict
+
+from sparrow import *
+
 from model import *
 from util import *
 
-# Decorator
+# Decorators
+# ==========
+
 def require_user_level(level):
     def handler_decorator(method):
         @wraps(method)
@@ -24,85 +27,117 @@ def require_user_level(level):
         return handler_wrapper
     return handler_decorator
 
+def handle_ws_type(typ):
+    def decorator(method):
+        method.__handle_type__ = typ
+        return method
+    return decorator
 
-class Controller:
-    def __init__(self, logger, db, model):
+
+# The Controller
+# ==============
+
+# Metaclass
+# ---------
+
+class MetaController(type):
+    def __new__(self, name, bases, dct):
+        dct["wshandlers"] = {}
+        # Detects functions marked with handle_ws_type
+        for (n,f) in dct.items():
+            if hasattr(f, "__handle_type__"):
+                dct["wshandlers"][f.__handle_type__] = f
+        return type.__new__(self, name, bases, dct)
+
+
+# Actual class
+# ------------
+
+class Controller(metaclass=MetaController):
+    def __init__(self, logger, model):
         self.logger = logger
-        self.db = db
         self.model = model
 
         self.sessions = {}
-        # Session --> UID
-
-        self.listeners = ListenersCache()
-
+        # Session --> User.key
+    
+    @property
+    def db(self):
+        """Shortcut (simple getter)"""
+        return self.model.db
+    
+    async def handle_request(self, req):
+        # See metaclass
+        if req.dct["type"] in Controller.wshandlers:
+            await Controller.wshandlers[req.dct["type"]](self, req)
+        else:
+            self.logger.error("No handler for %s in Controller"%req.dct["type"])
+    
     async def get_user(self, session):
         if session in self.sessions:
             return await User.get(self.db, self.sessions[session])
         else:
             return None
+    
+    
+    # Websocket handlers
+    # ------------------
+    
+    # TODO take queries out of function and add the to the model so they can be printed
+
+    @handle_ws_type("signup")
+    async def handle_signup(self, req):
+        c = await User.get(User.email == Unsafe(req.data["email"])).count(self.db)
+        if c >= 1:
+            self.logger.error("Email %s already taken"%req.dct["data"]["email"])
+            await req.answer({"status": "failure", "reason": "email_taken"})
+        else:
+            # TODO no plaintext password
+            u = User(email=req.data["email"], password=req.data["password"],
+                     first_name=req.data["first_name"], last_name=req.data["last_name"])
+            await u.insert(self.db)
+            await req.answer({
+                "status": "success",
+                "UID": u.UID
+            })
 
 
-    async def permitted(self, user, obj):
-        pass
+    @handle_ws_type("login")
+    async def handle_login(self, req):
+        res = await User.get(User.email == Unsafe(req.data["email"])).exec(self.db)
+        if res.count() == 0:
+            await req.answer({"status": "failure", "reason": "email_unknown"})
+            return
+        u = res.single()
+    
+        # TODO IMPORTANT Don't store plaintext passwords
+        if u.password == req.data["password"]:
+            session = hashlib.md5(bytes(str(random.random())[2:] + "WoordPopNoordzee", "utf8")).hexdigest()
+            self.sessions[session] = u.key
+            req.conn.user = u
+            req.conn.session = session
+            await req.answer({"status": "success", "session": session, "user": u.json_repr()})
+        else:
+            await req.answer({"status": "failure", "reason": "wrong_password"})
 
 
-    async def logout(self, req):
+    @handle_ws_type("logout")
+    @require_user_level(1)
+    async def handle_logout(self, req):
         self.sessions.pop(req.conn.session)
         req.conn.session = None
         req.conn.user = None
 
 
-    async def login(self, req):
-        res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
-        if res is None: raise Authentication("Email error", "Email not recognized")
-        u = User.from_db(res)
-
-        # TODO IMPORTANT Don't store plaintext passwords
-        if u.password == req.dct["data"]["password"]:
-            session = hashlib.md5(bytes(str(random.random())[2:] + "WoordPopNoordzee", "utf8")).hexdigest()
-            self.sessions[session] = u.UID
-            req.conn.user = u
-            req.conn.session = session
-            await req.answer({"status": "success", "session": session, "user": u.to_dict()})
-        else:
-            raise Authentication("wrong_password", "Wrong password provided")
-
-    async def signup(self, req):
-        res = await self.db.get(User.table_name, "email", req.dct["data"]["email"])
-        if res is not None:
-            self.logger.error("Email %s already taken"%req.dct["data"]["email"])
-            raise Error("email_taken", "Email is already taken")
-        else:
-            self.logger.debug("data = " + repr(req.dct["data"]))
-            u = await User.new(self.db, req.dct["data"])
-            await req.answer({
-			    "status": "success",
-			    "UID": u.UID
-		    })
-
-
-    async def register(self, req):
-        # TODO permissions!
-        pass
-
-    async def unregister(self, req):
-        pass
-
-    async def unregister(self, req):
-        pass
-
-    async def conn_close(self, conn):
-        self.listeners.unregister_all(conn)
-
+    @handle_ws_type("add")
     @require_user_level(1)
-    async def add(self,req):
-        if req.dct["what"] == "Sensor":
-            if req.dct["data"]["UID"] == req.conn.user.UID:
-                s = await Sensor.new(self.db, req.dct["data"])
+    async def handle_add(self, req):
+        if req.metadata["what"] == "Sensor":
+            if req.data["UID"] == req.conn.user.UID:
+                s = Sensor(...)
                 await req.answer(s.to_dict())
             else:
-                raise Authentication("forbidden", "You can not access this sensor")
+                raise Authentication("wrong", "You gave a wrong UID.")
         elif req.dct["what"] == "Value":
             assert(req.dct["for"]["what"] == "Sensor")
             if (await Sensor.get(self.db,req.dct["for"]["SID"])).UID == req.conn.user.UID:
@@ -113,12 +148,15 @@ class Controller:
                 raise Authentication("forbidden", "You can not access this sensor")
 
 
+    @handle_ws_type("get")
     @require_user_level(1)
-    async def get(self, req):
+    async def handle_get(self, req):
         if req.dct["what"] == "Sensor":
             s = await Sensor.get(self.db, req.dct["data"]["ID"])
             await req.answer(s.to_dict())
-
+    
+    
+    @handle_ws_type("get_all")
     @require_user_level(1)
     async def get_all(self, req):
         # check if extra conditions are given
@@ -139,17 +177,11 @@ class Controller:
                 await req.answer([s.to_dict() for s in ss])
 
 
+    @handle_ws_type("delete")
     @require_user_level(1)
-    async def delete(self,req):
+    async def handle_delete(self,req):
         if req.dct["what"] == "Sensor":
             s = await Sensor.delete(self.db, req.dct["data"]["ID"])
             # TODO rekening houden met sensors die reeds gedeleted zijn !
             await req.answer("success")
 
-
-    async def handle_request(self, req):
-        if req.dct["type"] in Controller.__dict__:
-            # TODO only allow handle functions excplicitly allowed to handle incoming JSON messages
-            await Controller.__dict__[req.dct["type"]](self, req)
-        else:
-            self.logger.error("No handler for %s in Controller"%req.dct["type"])
