@@ -16,9 +16,9 @@ import logging
 
 # Own code
 from controller import *
-from database import *
 from handlers import *
 from model import *
+from database import *
 #from libs import *
 
 # Tornado
