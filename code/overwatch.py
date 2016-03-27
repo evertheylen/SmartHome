@@ -2,11 +2,14 @@
 import sys
 import os
 
-codedir = os.path.dirname(__file__)
-sys.path.append(codedir)
-libsdir = os.path.join(codedir, "libs")
-for p in os.listdir(libsdir):
-    sys.path.append(os.path.join(libsdir, p))
+try:
+    import sparrow
+except ImportError:
+    codedir = os.path.dirname(__file__)
+    sys.path.append(codedir)
+    libsdir = os.path.join(codedir, "libs")
+    for p in os.listdir(libsdir):
+        sys.path.append(os.path.join(libsdir, p))
 
 # Standard library
 import logging
@@ -59,6 +62,7 @@ if os.path.isfile("config.py"):
     import config as _config
     config = parse_config(_config.config, default_config)
 else:
+    print("WARNING: Using default config. A `config.py` file can change this. (See overwatch.py for template).")
     config = default_config
 
 
