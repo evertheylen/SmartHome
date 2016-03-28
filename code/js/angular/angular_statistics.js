@@ -4,7 +4,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     
     // Sample data
-    
+    $scope.all_locs= true;
     $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
