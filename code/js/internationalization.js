@@ -47,7 +47,7 @@ var html_strings = {
     "continue": ["Continue", "Doorgaan"],
     "cancel": ["Cancel", "Annuleren"],
     "share" : ["Share", "Deel"],
-    "aggregate_loc" : ["Aggregate by location" "Groepeer per locatie"],
+    "aggregate_loc" : ["Aggregate by location", "Groepeer per locatie"],
     "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
     "aggregate_sensor" : ["Aggregate by sensor", "Groepeer per sensor"],
     
