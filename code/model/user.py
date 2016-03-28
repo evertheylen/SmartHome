@@ -17,5 +17,8 @@ class User(RTOwEntity):
         
     
     def __str__(self):
-        return "User({})".format(self.email)
+        try:
+            return "User({})".format(self.email)
+        except:
+            return "some User"
     

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export PYTHONPATH=..:$PYTHONPATH
+
+if [[ $# -eq 0 ]] ; then
+	echo "Running all tests..."
+	ARG=$(echo *.py)
+else
+	ARG=$@
+fi
+
+python3 -m tornado.testing $ARG

@@ -20,47 +20,6 @@ from util import *
 # Decorator stuff
 # ---------------
 
-def case(*list_what):
-    def decorator(function):
-        function.__cases__ = list_what
-        return function
-    return decorator
-
-# not a decorator
-def classitems(cls):
-    for b in cls.__bases__:
-        yield from classitems(b)
-    yield from cls.__dict__.items()
-
-def switch(cls):
-    dct = {}
-    def select(arg, *args, **kwargs):
-        return arg 
-    
-    def default(*args, **kwargs):
-        pass
-    
-    for (k,f) in classitems(cls):
-        if isinstance(f, types.FunctionType):
-            if hasattr(f, "__cases__"):
-                for c in f.__cases__:
-                    dct[c] = f
-    
-    default = getattr(cls, "default", default)
-    select = getattr(cls, "select", select)
-    
-    @wraps(select)
-    def wrapper(*args, __default=default, __select=select, __dct=dct, **kwargs):
-        key = __select(*args, **kwargs)
-        if key in __dct:
-            return __dct[key](*args, **kwargs)
-        else:
-            return __default(*args, **kwargs)
-    
-    wrapper.__name__ = cls.__name__
-    wrapper.orig_class = cls
-    return wrapper
-
 def require_user_level(level):
     def handler_decorator(method):
         @wraps(method)
@@ -132,8 +91,10 @@ class Controller(metaclass=MetaController):
         else:
             return None
     
-    class select_what:
-        """Base class for @switch selecting on "what"."""
+    # Will you look at that. Beautiful replacement for a switch statement if I say
+    # so myself.
+    class switch_what(switch):
+        """Base class for switch selecting on "what"."""
         def select(self, req):
             return req.metadata["what"]
         
@@ -193,8 +154,7 @@ class Controller(metaclass=MetaController):
 
     @handle_ws_type("add")
     @require_user_level(1)
-    @switch
-    class handle_add(select_what):
+    class handle_add(switch_what):
         @case("Sensor")
         async def sensor(self, req):
             if req.data["UID"] == req.conn.user.UID:
@@ -214,8 +174,7 @@ class Controller(metaclass=MetaController):
 
     @handle_ws_type("get")
     @require_user_level(1)
-    @switch
-    class handle_get(select_what):
+    class handle_get(switch_what):
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)
@@ -225,8 +184,7 @@ class Controller(metaclass=MetaController):
     
     @handle_ws_type("get_all")
     @require_user_level(1)
-    @switch
-    class handle_get_all(select_what):
+    class handle_get_all(switch_what):
         @case("Sensor")
         async def sensor(self, req):
             check_for_type("User")
@@ -246,8 +204,7 @@ class Controller(metaclass=MetaController):
 
     @handle_ws_type("delete")
     @require_user_level(1)
-    @switch
-    class handle_delete(select_what):
+    class handle_delete(switch_what):
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)

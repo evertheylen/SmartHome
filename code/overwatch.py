@@ -1,6 +1,10 @@
+#!/bin/env python3.5
 
 import sys
 import os
+
+def localdir(location):
+    return os.path.join(os.path.dirname(__file__), location)
 
 try:
     import sparrow
@@ -58,16 +62,18 @@ def parse_config(conf, default):
             d[k] = v
     return d
 
-if os.path.isfile("config.py"):
-    import config as _config
-    config = parse_config(_config.config, default_config)
-else:
-    print("WARNING: Using default config. A `config.py` file can change this. (See overwatch.py for template).")
-    config = default_config
+def get_config(filename="config.py"):
+    if os.path.isfile(filename):
+        with open(filename) as f:
+            code = compile(f.read(), filename, 'exec')
+            glob = {}
+            loc = {}
+            exec(code, glob, loc)
+            return parse_config(loc["config"], default_config)
+    else:
+        print("WARNING: Using default config. A `config.py` file can change this. (See overwatch.py for template).")
+        return default_config
 
-
-def localdir(location):
-    return os.path.join(os.path.dirname(__file__), location)
 
 class NoCacheStaticFileHandler(tornado.web.StaticFileHandler):
     def set_extra_headers(self, path):
@@ -90,7 +96,10 @@ def simple_async_catch(method):
     return wrapper
 
 class OverWatch:    
-    def __init__(self):
+    def __init__(self, config, ioloop=ioloop):
+        self.config = config
+        self.ioloop=ioloop
+        
         # Logging support
         self.logger = logging.getLogger("OverWatch")
         self.logger.setLevel(logging.DEBUG if config["debug"] else logging.INFO)
@@ -144,9 +153,9 @@ class OverWatch:
     # -------
     
     def run(self):
-        self.logger.info("Starting OverWatch on: http://localhost:%d/"%config["port"])
-        self.app.listen(config["port"])
-        tornado.ioloop.IOLoop.current().start()
+        self.logger.info("Starting OverWatch on: http://localhost:%d/"%self.config["port"])
+        self.app.listen(self.config["port"])
+        self.ioloop.start()
     
     @simple_async_catch
     async def install(self):
@@ -185,7 +194,8 @@ if __name__ == "__main__":
     # Not actually used though
     parse_command_line()
     
-    ow = OverWatch()
+    config = get_config()
+    ow = OverWatch(config)
     action = "run" if len(sys.argv) == 1 else sys.argv[1]
     try:
         f = getattr(ow, action, unknown_action(ow.logger))()

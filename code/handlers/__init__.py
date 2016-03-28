@@ -1,4 +1,4 @@
 
-from .mainhandler import *
-from .wshandler import *
-from .debughandler import *
+from .mainhandler import create_MainHandler
+from .wshandler import create_WsHandler
+from .debughandler import create_DebugHandler
