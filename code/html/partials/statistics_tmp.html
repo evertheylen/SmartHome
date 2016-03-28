@@ -51,7 +51,7 @@
             </span>
             <span style="display: inline-block;" ng-bind="i18n('aggregate_sensor')"></span>
         </div>
-        <div class="mdl-cell mdl-cell--4-col">
+        <div ng-show="aggregate_by[0]" class="mdl-cell mdl-cell--4-col">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
                 <thead>
                     <tr>
@@ -82,7 +82,7 @@
         </div>
 
         <!--Type table-->
-        <div class="mdl-cell mdl-cell--4-col">
+        <div ng-show="aggregate_by[1]" class="mdl-cell mdl-cell--4-col">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
                 <thead>
                     <tr>
@@ -114,7 +114,7 @@
 
 
         <!--Sensors table-->
-        <div class="mdl-cell mdl-cell--4-col">
+        <div ng-show="aggregate_by[2]" class="mdl-cell mdl-cell--4-col">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
                 <thead>
                     <tr>
