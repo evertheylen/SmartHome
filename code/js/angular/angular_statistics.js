@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth) {
+angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout) {
     $rootScope.auth_user = Auth.getUser();
     $rootScope.tab = "statisticslink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
@@ -22,7 +22,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         for (i=0; i < $scope.select_loc.length; i++) {
             $scope.locations[i].selected = $scope.all_locs;
         }
-        $scope.$apply();
+        $timeout(function() {$scope.$apply()}, 0);
     }; 
     
     $scope.checkStatus= function() {
