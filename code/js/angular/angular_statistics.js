@@ -39,6 +39,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
     */
-    
+    for (i=0; i < $scope.locations.length; i++ ) {
+        addClass(document.getElementById("label-checkbox-location_" + i), "mdl-js-checkbox");
+    }
     componentHandler.upgradeDom();
 });
