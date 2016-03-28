@@ -148,7 +148,7 @@
 				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');" ng-bind="i18n('pick_type')">
 				    </button>
 				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
-				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scrolll; max-height: 140px;">
+				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
 				        <li>
 				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="type">
 				            </li>
