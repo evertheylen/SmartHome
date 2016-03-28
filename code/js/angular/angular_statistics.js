@@ -4,7 +4,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     
     // Sample data
-    var all_locs= false;
     
     $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
@@ -20,9 +19,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
     $scope.all_locations = function () {
         console.log("YIHAA");
-        all_locs != all_locs;
         for (i=0; i < $scope.select_loc.length; i++) {
-            $scope.select_loc[i] = all_locs;
+            $scope.select_loc[i] = $scope.all_locs;
         }
     }; 
  
