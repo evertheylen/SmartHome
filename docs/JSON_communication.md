@@ -291,7 +291,6 @@ Response (Success):
 		"type": "edit",
 		"what": <object class>,
 		"data": {	
-			"UID": 1	
 			"object": <entire definition with ID>		
 		}
 	}
