@@ -11,6 +11,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 	
     $scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
 	
+	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
+	
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
 			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
 	
