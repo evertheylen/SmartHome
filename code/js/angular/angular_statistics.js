@@ -37,7 +37,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }
         }
         $scope.selectedAll = ( checkCount === $scope.select_loc.length);
-        //$scope.$apply();
+        if ($scope.selectedAll) {
+            addClass(document.getElementById("label-all_locations"), "is-checked");
+        } else {
+            removeClass(document.getElementById("label-all_locations"), "is-checked");
+        }
     };
 
  
