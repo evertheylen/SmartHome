@@ -22,6 +22,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         for (i=0; i < $scope.select_loc.length; i++) {
             $scope.locations[i].selected = $scope.all_locs;
         }
+        $scope.$apply();
     }; 
     
     $scope.checkStatus= function() {
@@ -32,6 +33,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }
         }
         $scope.selectedAll = ( checkCount === $scope.select_loc.length);
+        $scope.$apply();
     };
 
  
@@ -39,22 +41,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
     */
-
+    
     componentHandler.upgradeDom();
-});
-
-angular.module("overwatch").directive('onFinishRenderCheckbox', function ($timeout) {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            if (scope.$last === true) {
-                $timeout(function () {
-                    console.log("Setting class!");
-                    for (i=0; i < scope.locations.length; i++ ) {
-                        addClass(document.getElementById("label-checkbox-location_" + i), "mdl-js-checkbox");
-                    }
-                });
-            }
-        }
-    }
 });
