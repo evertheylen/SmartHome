@@ -288,8 +288,14 @@ There can be a `"for"` attribute here.
 Response (Success):
 
 	{
-		"status": "success"
+		"type": "edit",
+		"what": <object class>,
+		"data": {	
+			"UID": 1	
+			"object": <entire definition with ID>		
+		}
 	}
+
 
 Response (Failure): normal error message
 
