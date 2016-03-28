@@ -23,6 +23,17 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             $scope.select_loc[i] = $scope.all_locs;
         }
     }; 
+    
+    $scope.checkStatus= function() {
+        var checkCount = 0;
+        for (i=0; i < $scope.select_loc.length; i++) {
+            if ($scope.select_loc[i]) {
+                checkCount++;
+            }
+        }
+        $scope.selectedAll = ( checkCount === $scope.select_loc.length);
+    };
+
  
     //Aggregation:
     /*
