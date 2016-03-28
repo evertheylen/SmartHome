@@ -33,7 +33,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }
         }
         $scope.selectedAll = ( checkCount === $scope.select_loc.length);
-        $scope.$apply();
+        //$scope.$apply();
     };
 
  
