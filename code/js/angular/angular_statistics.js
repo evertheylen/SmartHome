@@ -19,6 +19,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     }
 
     $scope.all_locations = function () {
+        console.log("YIHAA");
         all_locs != all_locs;
         for (i=0; i < $scope.select_loc.length; i++) {
             $scope.select_loc[i] = all_locs;
