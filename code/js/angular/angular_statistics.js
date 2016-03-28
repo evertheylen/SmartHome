@@ -21,8 +21,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         console.log("YIHAA");
         for (i=0; i < $scope.select_loc.length; i++) {
             $scope.locations[i].selected = $scope.all_locs;
+            if ($scope.all_locs) {
+                addClass(document.getElementById("label-location_" + i), "is-checked");
+            } else {
+                removeClass(document.getElementById("label-location_" + i), "is-checked");
+            }
         }
-        $timeout(function() {$scope.$apply()}, 0);
     }; 
     
     $scope.checkStatus= function() {
