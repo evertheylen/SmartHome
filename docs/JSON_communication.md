@@ -273,6 +273,8 @@ Response:
 
 ### Editing
 
+Message:
+
 	{
 		"type": "edit",
 		"what": <class>,
@@ -282,6 +284,19 @@ Response:
 	}
 
 There can be a `"for"` attribute here.
+
+Response (Success):
+
+	{
+		"type": "edit",
+		"what": <object class>,
+		"data": {	
+			"object": <entire definition with ID>		
+		}
+	}
+
+
+Response (Failure): normal error message
 
 
 ## Definitions
