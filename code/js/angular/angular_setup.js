@@ -2,7 +2,7 @@
 //  Cookie for the internationalization
 
 
-angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js'])
+angular.module("overwatch", ['ui.bootstrap', 'ngMaterial', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',

@@ -58,11 +58,9 @@
                         <th class="mdl-data-table__cell--non-numeric">
                             <span class="mdl-list__item-secondary-action" style="display: inline-block;">
                                 <!--This checkbox selects all the locations-->
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_locations">
-                                    <input type="checkbox" id="list-checkbox-all_locations" class="mdl-checkbox__input" ng-model="all_locs" ng-change="all_locations()"/>
-                                </label>
+                                <md-checkbox ng-model="all_locs" aria-label="Checkbox 1" ng-bind="i18n('locations')">
+                                </md-checkbox>
                             </span>
-                            <span style="display: inline-block;" ng-bind="i18n('locations')"></span>
                         </th>
                     </tr>
                 </thead>
