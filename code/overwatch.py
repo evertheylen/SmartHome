@@ -41,7 +41,7 @@ default_config = {
     "port": 8888,
     "debug": True,
     "database": {
-        "dbname": "testdb",
+        "dbname": "overwatchdb",
         "user": "postgres",
         "password": "postgres",
         "host": "localhost",

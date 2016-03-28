@@ -7,6 +7,8 @@ import random
 from functools import wraps
 from collections import defaultdict
 import types
+from concurrent.futures import ThreadPoolExecutor
+import passlib.hash  # For passwords
 
 from sparrow import *
 
@@ -54,28 +56,29 @@ class MetaController(type):
         return type.__new__(self, name, bases, dct)
 
 
-# Actual little helpers
-# ---------------------
+# Actual little helper functions
+# ------------------------------
 
 def check_for_type(req: "Request", typ: str):
     if not req.metadata["for"]["what"] == typ:
         raise Error("wrong_object_type", "Wrong object type in for.what")
 
+
 # The Controller
 # ==============
 
 class Controller(metaclass=MetaController):
+    executor = ThreadPoolExecutor(4)
+    
+    # General methods
+    # ---------------
+    
     def __init__(self, logger, model):
         self.logger = logger
         self.model = model
 
         self.sessions = {}
         # Session --> User.key
-    
-    @property
-    def db(self):
-        """Shortcut (simple getter)"""
-        return self.model.db
     
     async def handle_request(self, req):
         # See metaclass
@@ -102,6 +105,22 @@ class Controller(metaclass=MetaController):
             raise Error("unknown_object_type", "Object type '{}' not recognized".format(req.metadata["what"]))
     
     
+    # Helper methods
+    # --------------
+    
+    @property
+    def db(self):
+        """Shortcut (simple getter)"""
+        return self.model.db
+    
+    @blocking  # executed on Controller.executor
+    def create_password(self, p):
+        return passlib.hash.bcrypt.encrypt(p, rounds=13)
+    
+    @blocking
+    def verify_password(self, hashed, p):
+        return passlib.hash.bcrypt.verify(p, hashed)
+    
     # Websocket handlers
     # ------------------
     
@@ -114,9 +133,9 @@ class Controller(metaclass=MetaController):
             self.logger.error("Email %s already taken"%req.data["email"])
             await req.answer({"status": "failure", "reason": "email_taken"})
         else:
-            # TODO no plaintext password
             # Manual initialisation because password isn't in json
-            u = User(email=req.data["email"], password=req.data["password"],
+            hash = await self.create_password(req.data["password"])
+            u = User(email=req.data["email"], password=hash,
                      first_name=req.data["first_name"], last_name=req.data["last_name"])
             await u.insert(self.db)
             await req.answer({
@@ -133,8 +152,7 @@ class Controller(metaclass=MetaController):
             return
         u = res.single()
     
-        # TODO IMPORTANT Don't store plaintext passwords
-        if u.password == req.data["password"]:
+        if (await self.verify_password(u.password, req.data["password"])):
             session = hashlib.md5(bytes(str(random.random())[2:] + "WoordPopNoordzee", "utf8")).hexdigest()
             self.sessions[session] = u.key
             req.conn.user = u
