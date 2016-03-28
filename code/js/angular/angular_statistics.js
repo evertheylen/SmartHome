@@ -5,9 +5,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     // Sample data
     
-    $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
-			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
-			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
+    $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1, "selected" : false}, 
+			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171, "selected" : false}, 
+			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1, "selected" : false}];
 	
     
     $scope.aggregate_by = [false, false, false];
@@ -20,14 +20,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.all_locations = function () {
         console.log("YIHAA");
         for (i=0; i < $scope.select_loc.length; i++) {
-            $scope.select_loc[i] = $scope.all_locs;
+            $scope.locations[i].selected = $scope.all_locs;
         }
     }; 
     
     $scope.checkStatus= function() {
         var checkCount = 0;
         for (i=0; i < $scope.select_loc.length; i++) {
-            if ($scope.select_loc[i]) {
+            if ($scope.locations[i].selected) {
                 checkCount++;
             }
         }
