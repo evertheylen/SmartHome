@@ -70,8 +70,8 @@
                     <tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
                         <td class="mdl-data-table__cell--non-numeric">
                             <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-location_{{$index}}">
-                                    <input type="checkbox" id="list-checkbox-location_{{$index}}"  ng-model="location.selected"/>
+                                <label class="mdl-checkbox  mdl-js-ripple-effect" for="list-checkbox-location_{{$index}}">
+                                    <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="location.selected"/>
                                 </label>
                             </span>
                             <span style="display: inline-block;" ng-bind="location.selected"></span>
