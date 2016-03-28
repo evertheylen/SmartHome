@@ -46,5 +46,9 @@ var html_strings = {
     "Dit item zal voorgoed verwijderd worden uit uw interface.\nBent u zeker dat u wilt doorgaan?"],
     "continue": ["Continue", "Doorgaan"],
     "cancel": ["Cancel", "Annuleren"],
-    "share" : ["Share", "Deel"]
+    "share" : ["Share", "Deel"],
+    "aggregate_house" : ["Aggregate by house", "Groepeer per huis"],
+    "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
+    "aggregate_sensor" : ["Aggregate by sensor", "Groepeer per sensor"],
+    
 };

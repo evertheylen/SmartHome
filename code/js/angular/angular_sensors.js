@@ -37,7 +37,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
     
-	$scope.types = ["WTH?", "Electricity", "Movement", "Water", "Temperature"];
+	$scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
 
 
 	$scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 

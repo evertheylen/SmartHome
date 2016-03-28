@@ -26,40 +26,33 @@
 			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 		}
 	</style>
-    <span style="color: red; font-size: 24px; font-family: Roboto;">EARLY DEVELOPMENT PAGE, NO FUNCTIONALITY AVAILABLE</span>
     <div class="mdl-grid">
         <!--Aggregation by house thingie-->
         <div class="mdl-cell mdl-cell--4-col">
             <span class="mdl-list__item-secondary-action" style="display: inline-block;">
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
-                    <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" checked />
+                    <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input"/>
                 </label>
             </span>
-            <span style="display: inline-block;">
-                 Aggregate by house
-            </span>
+            <span style="display: inline-block;" ng-bind="i18n('aggregate_house')"></span>
         </div>
         <!--Aggregation by type thingie-->
         <div class="mdl-cell mdl-cell--4-col">
             <span class="mdl-list__item-secondary-action" style="display: inline-block;">
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
-                    <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" checked />
+                    <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input"/>
                 </label>
             </span>
-            <span style="display: inline-block;">
-                 Aggregate by type
-            </span>
+            <span style="display: inline-block;" ng-bind="i18n('aggregate_type')"></span>
         </div>
         <!--Aggregation by sensor thingie-->
         <div class="mdl-cell mdl-cell--4-col">
             <span class="mdl-list__item-secondary-action" style="display: inline-block;">
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
-                    <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" checked />
+                    <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input"/>
                 </label>
             </span>
-            <span style="display: inline-block;">
-                 Aggregate by sensor
-            </span>
+            <span style="display: inline-block;" ng-bind="i18n('aggregate_sensor')"></span>
         </div>
 
         <div class="mdl-cell mdl-cell--4-col">
