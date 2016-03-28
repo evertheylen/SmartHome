@@ -273,6 +273,8 @@ Response:
 
 ### Editing
 
+Message:
+
 	{
 		"type": "edit",
 		"what": <class>,
@@ -282,6 +284,14 @@ Response:
 	}
 
 There can be a `"for"` attribute here.
+
+Response (Success):
+
+	{
+		"status": "success"
+	}
+
+Response (Failure): normal error message
 
 
 ## Definitions
