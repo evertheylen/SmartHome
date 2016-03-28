@@ -74,13 +74,12 @@
                                     <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="location.selected"/>
                                 </label>
                             </span>
-                            <span style="display: inline-block;" ng-bind="location.desc"></span>
+                            <span style="display: inline-block;" ng-bind="location.selected"></span>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <span>{{select_loc}}</span>
 
         <!--Type table-->
         <div class="mdl-cell mdl-cell--4-col">
