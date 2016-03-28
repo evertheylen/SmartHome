@@ -50,7 +50,7 @@ angular.module("overwatch").directive('onFinishRenderCheckbox', function ($timeo
             if (scope.$last === true) {
                 $timeout(function () {
                     console.log("Setting class!");
-                    for (i=0; i < $scope.locations.length; i++ ) {
+                    for (i=0; i < scope.locations.length; i++ ) {
                         addClass(document.getElementById("label-checkbox-location_" + i), "mdl-js-checkbox");
                     }
                 });
