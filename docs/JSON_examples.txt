@@ -1,50 +1,44 @@
 
 signup
-{"type": "signup", "ID": 100, "data": {"email": "sint@mail.es", "first_name": "Sint", "last_name": "kas", "password": "123"}} 
+{"type": "signup", "ID": 100, "data": {"email": "user_1@mail", "first_name": "User", "last_name": "One", "password": "testtest"}} 
 
 signup2
-{"type": "signup", "ID": 1, "data": {"email": "ant@mail.es", "first_name": "Sint", "last_name": "kas", "password": "123"}}
-
-signup3
-{"type": "signup", "ID": 2, "data": {"email": "anthony.hermans@hotmail.com", "first_name": "Anthony", "last_name": "Hermans", "password": "wachtwoord"}}
+{"type": "signup", "ID": 1, "data": {"email": "user_2@mail", "first_name": "User", "last_name": "Two", "password": "testtest"}}
 
 login
-{"type": "login", "ID": 20, "data": {"email": "sint@mail.es", "password": "123"}}
+{"type": "login", "ID": 20, "data": {"email": "user_1@mail", "password": "testtest"}}
 
 login2
-{"type": "login", "ID": 21, "data": {"email": "ant@mail.es", "password": "123"}}
-
-login3
-{"type": "login", "ID": 22, "data": {"email": "anthony.hermans@hotmail.com", "password": "wachtwoord"}}
+{"type": "login", "ID": 21, "data": {"email": "ant@mail", "password": "testtest"}}
 
 logout
 {"type": "logout", "ID": 300}
 
-add
-{"type": "add", "ID": 399, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit", "UID": 25}}
-
-add2
-{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit", "UID": 25}}
-
-add3
-{"type": "add", "ID": 401, "what": "Sensor", "data": {"type": "Power", "title": "Measure shit", "UID": 250}}
-
-add4
-{"type": "add", "ID": 402, "what": "Sensor", "data": {"type": "Chocolade", "title": "Hey waar is de chocolade? Op, op alles is op", "UID": 251}}
 
 
+loc_add
+{"type":"add","what":"Location","data":{"user_UID":1, "description": "Location 1", "number": 4, "street": "Bist", "city": "Lier", "postalcode": 2000, "country": "Belgium", "elec_price": 12.45},"ID":3}
 
-get
-{"type": "get", "ID": 500, "what": "Sensor", "data": {"ID": 1}}
+sensor_add
+{"type": "add", "ID": 399, "what": "Sensor", "data": {"type": "Electricity", "title": "Measure shit 1", "user_UID": 1, "location_LID": 1}}
 
-get_all
-{"type": "get_all", "ID": 600, "what": "Sensor"}
+sensor2_add
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1}}
 
-get_all
-{"ID":"2", "type": "get_all", "what": "Value", "for": {"what": "Sensor", "SID": "1"} }
+sensor2_edit
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "FIIIRE", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1}}
 
 
+sensor2_get
+{"type": "get", "ID": 500, "what": "Sensor", "data": {"SID": 2}}
 
-delete
-{"ID":"9", "type": "delete", "what": "Sensor", "data": {"ID": 1}}
+sensor_getall_for_loc
+{"type": "get_all", "ID": 600, "what": "Sensor", "for": {"what": "Location", "LID": 1}}
+
+sensor_getall_for_user1
+{"type": "get_all", "ID": 600, "what": "Sensor", "for": {"what": "User", "UID": 1}}
+
+
+delete_sensor1
+{"ID":"9", "type": "delete", "what": "Sensor", "data": {"SID": 1}}
 

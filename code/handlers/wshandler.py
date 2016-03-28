@@ -14,7 +14,7 @@ class Request:
         self.conn = conn
         self.ID = ID
         self.metadata = dct
-        self.data = dct["data"]
+        self.data = dct.get("data", {})
         
     async def answer(self, dct, base_dct={}):
         base_dct["ID"] = self.ID
@@ -23,20 +23,26 @@ class Request:
         
         for prop in self.metadata:
             if prop not in base_dct:
-                base_dct[prop] = self.dct[prop]
+                base_dct[prop] = self.metadata[prop]
         await self.conn.send(base_dct)
+    
+    async def error(self, dct):
+        await self.conn.send({
+            "ID": self.ID,
+            "type": self.metadata["type"],
+            "data": "failure",
+            "error": dct
+        })
     
 async def wrap_errors(controller, req):
     try:
         await controller.handle_request(req)
+    except sparrow.CantSetProperty as e:
+        controller.logger.warning(str(e))
+        await req.error({"short": "edit_fail", "long": str(e)})
     except Error as e:
         controller.logger.warning(str(e))
-        await req.conn.send({
-            "ID": req.ID,
-            "type": req.metadata["type"],
-            "data": "failure",
-            "error": e.json_repr()
-        })
+        await req.error(e.json_repr())
 
 
 def create_WsHandler(controller):
@@ -71,12 +77,12 @@ def create_WsHandler(controller):
                 tornado.ioloop.IOLoop.current().spawn_callback(wrap_errors, controller, r)
             except json.JSONDecodeError as e:
                 controller.logger.warning("Server could not decode as JSON. Error: {}".format(message, e))
-            except KeyError:
-                controller.logger.warning("KeyError occured, wrong json?")
 
         async def send(self, dct):
-            self.write_message(json.dumps(dct))
-
+            msg = json.dumps(dct)
+            controller.logger.info("Server sent message: " + msg)
+            self.write_message(msg)
+        
         def on_close(self):
             if self in clients:
                 clients.remove(self)

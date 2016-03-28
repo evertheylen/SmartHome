@@ -82,7 +82,7 @@ class Controller(metaclass=MetaController):
     
     async def handle_request(self, req):
         # See metaclass
-        # Kind of a @switch class too, but I'd like to keep it flat
+        # Kind of a switch class too, but I'd like to keep it flat
         if req.metadata["type"] in Controller.wshandlers:
             await Controller.wshandlers[req.metadata["type"]](self, req)
         else:
@@ -93,6 +93,9 @@ class Controller(metaclass=MetaController):
             return await User.find_by_key(self.sessions[session], self.db)
         else:
             return None
+    
+    async def conn_close(self, conn):
+        pass
     
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
@@ -173,26 +176,44 @@ class Controller(metaclass=MetaController):
     @handle_ws_type("add")
     @require_user_level(1)
     class handle_add(switch_what):
+        @case("Location")
+        async def location(self, req):
+            if req.data["user_UID"] == req.conn.user.UID:
+                l = Location(json_dict=req.data)
+                await l.insert(self.db)
+                await req.answer(l.json_repr())
+            else:
+                raise Authentication("wrong", "You gave a wrong user_UID.")
+            
         @case("Sensor")
         async def sensor(self, req):
-            if req.data["UID"] == req.conn.user.UID:
+            l = await Location.find_by_key(req.data["location_LID"], self.db)
+            await l.check_auth(req)
+            if req.data["user_UID"] == req.conn.user.UID:
                 s = Sensor(json_dict=req.data)
-                await s.insert()
+                await s.insert(self.db)
                 await req.answer(s.json_repr())
             else:
-                raise Authentication("wrong", "You gave a wrong UID.")
+                raise Authentication("wrong", "You gave a wrong user_UID.")
         
         @case("Value")
         async def value(self, req):
             check_for_type(req, "Sensor")
             v = Value(sensor=req.metadata["for"]["SID"], time=req.data[0], value=req.data[1])
-            v.check_auth(req, db=self.db)
+            await v.check_auth(req, db=self.db)
             await v.insert(self.db)
             await req.answer(v.json_repr())
-
+        
+            
     @handle_ws_type("get")
     @require_user_level(1)
     class handle_get(switch_what):
+        @case("Location")
+        async def location(self, req):
+            l = await Location.find_by_key(req.data["LID"], self.db)
+            await l.check_auth(req)
+            await req.answer(l.json_repr())
+    
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)
@@ -200,17 +221,37 @@ class Controller(metaclass=MetaController):
             await req.answer(s.json_repr())
     
     
+    # TODO currently permissions are a bit weird: handle_get will trust the Sensor/Value's is_authorized,
+    # but handle_get_all will trust the User's is_authorized...
     @handle_ws_type("get_all")
     @require_user_level(1)
     class handle_get_all(switch_what):
-        @case("Sensor")
-        async def sensor(self, req):
+        @case("Location")
+        async def location(self, req):
             check_for_type("User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
-            sensors = await Sensor.get(Sensor.user == u.key).all(self.db)
-            await req.answer([s.json_repr() for s in sensors])
+            locations = await Location.get(Location.user == u.key).all(self.db)
+            await req.answer([l.json_repr() for l in locations])
         
+        @case("Sensor")
+        class sensor(switch):
+            select = lambda self, req: req.metadata["for"]["what"]
+            
+            @case("User")
+            async def for_user(self, req):
+                u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
+                await u.check_auth(req)
+                sensors = await Sensor.get(Sensor.user == u.key).all(self.db)
+                await req.answer([s.json_repr() for s in sensors])
+            
+            @case("Location")
+            async def for_location(self, req):
+                l = await Location.find_by_key(req.metadata["for"]["LID"], self.db)
+                await l.check_auth(req)
+                sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
+                await req.answer([s.json_repr() for s in sensors])
+            
         @case("Value")
         async def value(self, req):
             check_for_type("Sensor")
@@ -218,16 +259,48 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             values = await Value.get(Value.sensor == s.key).all(self.db)
             await req.answer([s.json_repr() for v in values])
+    
+    @handle_ws_type("edit")
+    @require_user_level(1)
+    class handle_edit(switch_what):
+        @case("User")
+        async def user(self, req):
+            u = await User.find_by_key(req.data["UID"], self.db)
+            await u.check_auth(req)
+            u.edit_from_json(req.data)
+            await u.update(self.db)
+            await req.answer(u.json_repr())
+        
+        @case("Location")
+        async def location(self, req):
+            l = await Location.find_by_key(req.data["LID"], self.db)
+            await l.check_auth(req)
+            l.edit_from_json(req.data)
+            await l.update(self.db)
+            await req.answer(u.json_repr())
+        
+        @case("Sensor")
+        async def sensor(self, req):
+            s = await Sensor.find_by_key(req.data["SID"], self.db)
+            await s.check_auth(req)
+            s.edit_from_json(req.data)
+            await s.update(self.db)
+            await req.answer(u.json_repr())
 
-
+    # TODO handle FOREIGN KEY constraints (CASCADE?)
     @handle_ws_type("delete")
     @require_user_level(1)
-    class handle_delete(switch_what):
+    class handle_delete(switch_what):        
+        @case("Location")
+        async def location(self, req):
+            l = await Location.find_by_key(req.data["LID"], self.db)
+            await l.check_auth(req)
+            await l.delete(self.db)
+            await req.answer({"status": "success"})
+            
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)
             s.check_auth(req)
             await s.delete(self.db)
-            # TODO rekening houden met sensors die reeds gedeleted zijn!
             await req.answer({"status": "success"})
-

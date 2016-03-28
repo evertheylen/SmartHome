@@ -6,6 +6,7 @@ import os
 def localdir(location):
     return os.path.join(os.path.dirname(__file__), location)
 
+# Sparrow!
 try:
     import sparrow
 except ImportError:
@@ -14,6 +15,7 @@ except ImportError:
     libsdir = os.path.join(codedir, "libs")
     for p in os.listdir(libsdir):
         sys.path.append(os.path.join(libsdir, p))
+    import sparrow
 
 # Standard library
 import logging
@@ -25,8 +27,6 @@ import tornado.ioloop
 import tornado.web
 from tornado.options import parse_command_line
 
-# Sparrow!
-import sparrow
 
 # Own code
 import controller
@@ -115,7 +115,7 @@ class OverWatch:
         # The database is not managed by the model, but it's not a big deal really.
         # It could be managed by the model, but I prefer to keep the model clean of that.
         self.model = sparrow.SparrowModel(ioloop, db_args=config["database"], debug=config["debug"],
-            classes=[model.User, model.Sensor, model.Value])
+            classes=[model.User, model.Location, model.Sensor, model.Value])
 
         # Now of course, set the controllers references too.
         self.controller.model = self.model

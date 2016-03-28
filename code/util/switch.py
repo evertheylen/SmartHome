@@ -25,6 +25,10 @@ def create_meta(_func):
 class MetaSwitch(type):
     def __new__(self, name, bases, dct):
         dispatch = {}
+        full_dct = {}
+        for (k,v) in classitems(dct, bases):
+            full_dct[k] = v
+            
         def select(arg, *args, **kwargs):
             return arg 
         
@@ -36,8 +40,8 @@ class MetaSwitch(type):
                 for c in f.__cases__:
                     dispatch[c] = f
     
-        default = dct.get("default", default)
-        select = dct.get("select", select)
+        select = full_dct.get("select", select)
+        default = full_dct.get("default", default)
         
         dct["select"] = select
         dct["default"] = default

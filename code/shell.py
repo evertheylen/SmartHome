@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 """
 Interactive shell for OverWatch.
@@ -33,14 +34,17 @@ parse_command_line()
 
 def await(func, *args, **kwargs):
     s = threading.Semaphore(0)
-    val = {}
+    val = {"result": None}
     async def wait_for_result(_func=func, _args=args, _kwargs=kwargs, _s=s, _val=val):
         try:
-            res = _func(*_args, **_kwargs)
-            if isinstance(res, types.CoroutineType):
-                _val["result"] = await res
+            if isinstance(_func, types.CoroutineType):
+                _val["result"] = await _func
             else:
-                _val["result"] = res
+                res = _func(*_args, **_kwargs)
+                if isinstance(res, types.CoroutineType):
+                    _val["result"] = await res
+                else:
+                    _val["result"] = res
         finally:
             _s.release()
     ioloop.spawn_callback(wait_for_result)
