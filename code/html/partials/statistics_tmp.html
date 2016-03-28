@@ -28,24 +28,26 @@
 	</style>
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--4-col">
-            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+            <ul>
+            <li class="mdl-list__item-secondary-action" style="display: inline-block;">
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
                     <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by[0]"/>
                 </label>
-            </span>
+            </li>
             <span style="display: inline-block;" ng-bind="i18n('aggregate_loc')"></span>
-            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+            <li class="mdl-list__item-secondary-action" style="display: inline-block;">
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
                     <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" ng-model="aggregate_by[1]"/>
                 </label>
-            </span>
+            </li>
             <span style="display: inline-block;" ng-bind="i18n('aggregate_type')"></span>
-            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+            <li class="mdl-list__item-secondary-action" style="display: inline-block;">
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
                     <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" ng-model="aggregate_by[2]"/>
                 </label>
-            </span>
+            </li>
             <span style="display: inline-block;" ng-bind="i18n('aggregate_sensor')"></span>
+            </ul>
         </div>
         <div ng-show="aggregate_by[0]" class="mdl-cell mdl-cell--4-col">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
