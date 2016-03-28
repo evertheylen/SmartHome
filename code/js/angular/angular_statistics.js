@@ -11,9 +11,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 	
     $scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
 	
+	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
+			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
+	
     $scope.aggregate_by = [false, false, false];
     $scope.select_locs = [];
     $scope.select_types = [];
+    $scope.select_sensors = [];
     
     for (i = 0; i< $scope.locations.length; i++) {
         $scope.select_locs.push(false);
@@ -22,6 +26,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     for (i = 0; i < $scope.types.length; i++) {
         $scope.select_types.push(false);
     }
+    
+    for (i = 0; i < $scope.sensors.length; i++) {
+        $scope.select_sensors.push(false);
+    }   
     
     $scope.select_all = function (type) {
         switch (type) {
@@ -46,7 +54,17 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     }
                 };
                 break;
-                            
+
+            case "sensor" :
+                for (i=0; i < $scope.sensors.length; i++) {
+                    $scope.select_sensors[i] = $scope.all_sensors;
+                    if ($scope.all_sensors) {
+                        addClass(document.getElementById("label-sensor_" + i), "is-checked");
+                    } else {
+                        removeClass(document.getElementById("label-sensor_" + i), "is-checked");
+                    }
+                };
+                break;
         }
     }; 
     
@@ -66,6 +84,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     removeClass(document.getElementById("label-all_locations"), "is-checked");
                 };
                 break;
+                
             case "type" :
                 for (i=0; i < $scope.types.length; i++) {
                     if ($scope.select_types[i]) {
@@ -79,6 +98,20 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     removeClass(document.getElementById("label-all_types"), "is-checked");
                 };
                 break;            
+                
+            case "sensor" :
+                for (i=0; i < $scope.sensors.length; i++) {
+                    if ($scope.select_sensors[i]) {
+                        checkCount++;
+                    }
+                }
+                $scope.all_sensors = ( checkCount === $scope.sensors.length);
+                if ($scope.all_sensors) {
+                    addClass(document.getElementById("label-all_sensors"), "is-checked");
+                } else {
+                    removeClass(document.getElementById("label-all_sensors"), "is-checked");
+                };
+                break;                
         }
     };
 
