@@ -1240,7 +1240,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				// Add Location
 				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
 								$scope.loc_elec_price, $scope.loc_user_UID);
-				
+				delete new_location.LID;
 				var locationObject = new_location.toJSON();
 				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
 					new_location.LID = response.location.LID;	
