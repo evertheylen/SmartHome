@@ -1223,7 +1223,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if ($scope.location_form.$valid) {
 			if (edit) {
 				// Edit Location
-				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
+				$scope.locations[edit_loc_id].description = $scope.loc_description;
 				$scope.locations[edit_loc_id].number = $scope.loc_number;
 				$scope.locations[edit_loc_id].street = $scope.loc_street;
 				$scope.locations[edit_loc_id].city = $scope.loc_city;
@@ -1238,7 +1238,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				});
 			} else {
 				// Add Location
-				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
+				var new_location = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
 								$scope.loc_elec_price, $scope.loc_user_UID);
 				delete new_location.LID;
 				var locationObject = new_location.toJSON();
@@ -1259,7 +1259,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_street = $scope.locations[id].street;
 		$scope.loc_number = $scope.locations[id].number;
 		$scope.loc_elec_price = $scope.locations[id].elec_price;
-		$scope.loc_desc = $scope.locations[id].desc;
+		$scope.loc_description = $scope.locations[id].description;
 		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
@@ -1327,11 +1327,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].title = $scope.sen_name;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
 				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
-				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
 				$scope.filteredSensors[edit_sen_id].title = $scope.sen_name;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
-				//$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
+				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
