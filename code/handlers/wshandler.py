@@ -16,7 +16,9 @@ class Request:
         self.metadata = dct
         self.data = dct.get("data", {})
         
-    async def answer(self, dct, base_dct={}):
+    async def answer(self, dct, base_dct=None):
+        if base_dct is None:
+            base_dct = {}
         base_dct["ID"] = self.ID
         base_dct["type"] = self.metadata["type"]
         base_dct["data"] = dct
