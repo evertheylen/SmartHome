@@ -1252,6 +1252,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 			}
 			$scope.dialog.close();
+			console.log("Dialog closed");
 		}
 	}   
 
