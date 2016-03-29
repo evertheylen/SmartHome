@@ -1396,7 +1396,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.dialog.showModal();
 	});
 	
-	document.getElementById('btnhouseBack').addEventListener('click', function(){
+	document.getElementById('btnLocationBack').addEventListener('click', function(){
 		$scope.dialog.close();
 	});
 
