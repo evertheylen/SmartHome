@@ -111,8 +111,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 					toChange.innerHTML = $scope.i18n("pick_loc");
 					break;
 				}
-				toChange.innerHTML = "naam";
-				$scope.sen_house = value;
+				ws.request({type: "get", what: "Location", data: {ID: value}}, function(response) {
+	    			toChange.innerHTML = response.house.description;
+	    			$scope.sen_house_name = response.house.description;
+    				$scope.sen_house = value;
+	            }); 
 				break; 
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
