@@ -1305,7 +1305,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.sen_type = null;
 		$scope.sen_tags = null;
 		$scope.sen_house_name = null;
-		$scope.dropDownClick(null, 'select_house', 'dropDownhouse', 'house');
+		$scope.dropDownClick(null, 'select_house', 'dropDownLocation', 'house');
 		$scope.dropDownClick(null, 'select_type', 'dropDownType', 'type');
 		$scope.edit_sen = $scope.i18n("add_sensor");    
 		if (hasClass(document.getElementById("txtfield_SensorName"), "is-dirty")) {
@@ -1369,7 +1369,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.sen_tags = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].tags;
 		$scope.sen_house = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].house;
 		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].type, 'select_type', 'dropDownType', 'type');
-		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].house, 'select_house', 'dropDownhouse', 'house');
+		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].house, 'select_house', 'dropDownLocation', 'house');
 
 		addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
 		//addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
