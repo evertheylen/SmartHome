@@ -1238,7 +1238,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				});
 			} else {
 				// Add house
-				var new_house = new house(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
+				var new_house = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
 								$scope.loc_elec_price, $rootScope.auth_user.UID);
 				delete new_house.LID;
 				var houseObject = new_house.toJSON();
