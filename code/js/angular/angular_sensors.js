@@ -19,7 +19,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
     $scope.locations = [];
 
-	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
+	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.locations = response.locations;
 		$scope.$apply();
 	});
