@@ -1249,7 +1249,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			        console.log("Location added");
 					console.log("Response verwerkt");
 				});
-
 			}
 			$scope.dialog.close();
 			console.log("Dialog closed");
