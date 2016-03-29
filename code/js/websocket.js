@@ -46,17 +46,17 @@ function connect_to_websocket() {
 				case "error":
 					polishedObject = error_response(receivedObject);
 					break;
-				case "get_all":
-					polishedObject = get_all_response(receivedObject);
-					break;
-				case "get":
-					polishedObject = get_response(receivedObject);
-					break;
 				case "add":
 					polishedObject = add_response(receivedObject);
 					break;
 				case "delete":
 					polishedObject = delete_response(receivedObject);
+					break;
+				case "get":
+					polishedObject = get_response(receivedObject);
+					break;
+				case "get_all":
+					polishedObject = get_all_response(receivedObject);
 					break;
 			}
 		}
@@ -116,77 +116,21 @@ function error_response(response) {
 	return arg;
 }
 
-function get_all_response(response) {
-	what = response["what"];
-	switch(what) {
-		case "Sensor":
-			var sensors_response = [];
-			for(i = 0; i < response["data"].length; i++) {
-				sensorData = response["data"][i];
-				sensor = new Sensor(sensorData["SID"], sensorData["UID"], sensorData["title"], sensorData["type"]);
-				sensors_response.push(sensor);
-			}
-			return {for: response["for"], sensors: sensors_response};
-		case "User":
-			var users = [];
-			for(i = 0; i < response["data"].length; i++) {
-				userData = response["data"][i];
-				user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
-				users.push(user);
-			}
-			return {for: response["for"], users: users};
-		case "Location":
-			var locations = [];
-			for(i = 0; i < response["data"].length; i++) {
-				locationData = response["data"][i];
-				location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
-							locationData["postalcode"], locationData["street"],  locationData["number"]);
-				locations.push(location);
-			}
-			return {for: response["for"], locations: locations};
-		default:
-			break;
-	}
-	return {};
-}
-
-function get_response(response) {
-	what = response["what"];
-	switch(what) {
-		case "Sensor":
-			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["UID"], sensorData["title"], sensorData["type"]);
-			return {for: response["for"], sensor: sensor};
-		case "User":
-			userData = response["data"];
-			user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
-			return {for: response["for"], user: user};
-		case "Location":
-			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
-						locationData["postalcode"], locationData["street"],  locationData["number"]);
-			return {for: response["for"], location: location};
-		default:
-			break;
-	}
-	return {};	
-}
-
 function add_response(response) {
 	what = response["what"];
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["UID"], sensorData["title"], sensorData["type"]);
+			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
 			return {success: true, for: response["for"], sensor: sensor};
 		case "User":
 			userData = response["data"];
-			user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
-			return {success: true, for: response["for"], user: user};
+			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+			return {success: true, for: response["for"],  user: user};
 		case "Location":
 			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["desc"], locationData["country"], locationData["city"], 
-						locationData["postalcode"], locationData["street"],  locationData["number"]);
+			location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
 			return {success: true, for: response["for"], location: location};
 		default:
 			break;
@@ -199,4 +143,58 @@ function delete_response(response) {
 	return false;
 }
 
+function get_response(response) {
+	what = response["what"];
+	switch(what) {
+		case "Sensor":
+			sensorData = response["data"];
+			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			return {for: response["for"], sensor: sensor};
+		case "User":
+			userData = response["data"];
+			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+			return {for: response["for"], user: user};
+		case "Location":
+			locationData = response["data"];
+			location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
+			return {for: response["for"], location: location};
+		default:
+			break;
+	}
+	return {};	
+}
 
+function get_all_response(response) {
+	what = response["what"];
+	switch(what) {
+		case "Sensor":
+			var sensors_response = [];
+			for(i = 0; i < response["data"].length; i++) {
+				sensorData = response["data"][i];
+				sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+				sensors_response.push(sensor);
+			}
+			return {for: response["for"], sensors: sensors_response};
+		case "User":
+			var users = [];
+			for(i = 0; i < response["data"].length; i++) {
+				userData = response["data"][i];
+				user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+				users.push(user);
+			}
+			return {for: response["for"], users: users};
+		case "Location":
+			var locations = [];
+			for(i = 0; i < response["data"].length; i++) {
+				locationData = response["data"][i];
+				location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
+				locations.push(location);
+			}
+			return {for: response["for"], locations: locations};
+		default:
+			break;
+	}
+	return {};
+}
