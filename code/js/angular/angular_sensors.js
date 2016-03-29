@@ -17,12 +17,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		return $filter('filter')($scope.tags, query);
 	};
 
-	/*
 	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
 		$scope.locations = response.locations;
 		$scope.$apply();
 	});
-	*/
 
 	$scope.sensors = [];
 
@@ -39,9 +37,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
 
 
+	/*
 	$scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
+	*/
 	
 /*
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
@@ -1222,21 +1222,29 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.locations[edit_loc_id].country = $scope.loc_country;
 				$scope.locations[edit_loc_id].elec_price = $scope.loc_elec_price;
 				$scope.locations[edit_loc_id].user_UID = $scope.loc_user_UID;
-				/*
+				
 				var locationObject = $scope.locations[edit_loc_id].toJSON();
-				ws.request({type: "edit", what: "Location", data: locationObject}, function() {
+				ws.request({type: "edit", what: "Location", data: locationObject}, function(response) {
+					$scope.locations[edit_loc_id] = response;
 				});
-				*/
+
+
+	{
+		"type": "edit",
+		"what": <object class>,
+		"data": {	
+			"object": <entire definition with ID>		
+		}
+	}
 			} else {
 				// Add Location
 				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
 								$scope.loc_elec_price, $scope.loc_user_UID);
-				/*
+				
 				var locationObject = new_location.toJSON();
 				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
 					new_location.LID = response.location.LID;	
 				});
-				*/
 				$scope.locations.push(new_location);
 			}
 			$scope.dialog.close();
@@ -1327,8 +1335,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				});
 			} else {
 				// Add Sensor
-				// TODO Location_LID
-				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, 1);
+				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, $scope.sen_location);
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.location = $scope.sen_location;
 				delete new_sensor.SID;

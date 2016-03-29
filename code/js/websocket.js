@@ -58,6 +58,9 @@ function connect_to_websocket() {
 				case "get_all":
 					polishedObject = get_all_response(receivedObject);
 					break;
+				case "edit":
+					polishedObject = edit_response(receivedObject);
+					break;
 			}
 		}
 		catch(SyntaxError) {
@@ -193,6 +196,27 @@ function get_all_response(response) {
 				locations.push(location);
 			}
 			return {for: response["for"], locations: locations};
+		default:
+			break;
+	}
+	return {};
+}
+
+function edit_response(response) {
+	switch(what) {
+		case "Sensor":
+			sensorData = response["data"];
+			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			return sensor.toJSON();
+		case "User":
+			userData = response["data"];
+			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+			return user.toJSON();
+		case "Location":
+			locationData = response["data"];
+			location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
+			return location.toJSON();
 		default:
 			break;
 	}
