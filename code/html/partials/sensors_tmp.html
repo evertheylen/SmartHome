@@ -19,7 +19,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
-							<td class="mdl-data-table__cell--non-numeric" ng-bind="location.desc"></td>
+							<td class="mdl-data-table__cell--non-numeric" ng-bind="location.description"></td>
 							<td>
 								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, locations);"><i class="material-icons">delete</i></button>

@@ -1172,7 +1172,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_street = null;
 		$scope.loc_number = null;
 		$scope.loc_elec_price = null;
-		$scope.loc_desc = null;
+		$scope.loc_description = null;
 		$scope.edit_loc = $scope.i18n("add_location");    
 		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-dirty")) {
 			removeClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
