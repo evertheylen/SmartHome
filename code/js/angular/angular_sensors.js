@@ -1244,11 +1244,12 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				var locationObject = new_location.toJSON();
 				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
 					new_location.LID = response.location.LID;	
+					console.log("Pre location added");
+			        $scope.locations.push(new_location);
+			        console.log("Location added");
 					console.log("Response verwerkt");
 				});
-				console.log("Pre location added");
-				$scope.locations.push(new_location);
-				console.log("Location added");
+
 			}
 			$scope.dialog.close();
 		}
@@ -1352,9 +1353,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				var sensorObject = new_sensor.toJSON();
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
 					new_sensor.SID = response.sensor.SID;	
-				});     
-				$scope.sensors.push(new_sensor);
+					$scope.sensors.push(new_sensor);
 				updateFilteredSensors();
+				});     
+				
 			}
 			dialog2.close();
 		}
