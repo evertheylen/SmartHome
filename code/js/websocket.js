@@ -132,7 +132,7 @@ function add_response(response) {
 			return {success: true, for: response["for"],  user: user};
 		case "Location":
 			houseData = response["data"];
-			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+			house = new Location(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
 						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
 			console.log("Logging response: " + {success: true, for: response["for"], house: house});
 			return {success: true, for: response["for"], house: house};
@@ -160,7 +160,7 @@ function get_response(response) {
 			return {for: response["for"], user: user};
 		case "Location":
 			houseData = response["data"];
-			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+			house = new Location(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
 						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
 			return {for: response["for"], house: house};
 		default:
@@ -192,7 +192,7 @@ function get_all_response(response) {
 			var houses = [];
 			for(i = 0; i < response["data"].length; i++) {
 				houseData = response["data"][i];
-				house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+				house = new Location(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
 						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
 				houses.push(house);
 			}
@@ -215,7 +215,7 @@ function edit_response(response) {
 			return user.toJSON();
 		case "Location":
 			houseData = response["data"];
-			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+			house = new Location(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
 						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
 			return house.toJSON();
 		default:
