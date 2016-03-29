@@ -1,83 +1,244 @@
-#pagination > ul{
+/* TODO adjust colors!!!!!!!!!!!!! */
+
+
+
+.buttonMenu{
+	font-size: 0;
+	display: inline-block;
+	margin: 5px 0px;
+}
+
+.navButton{
+	border: none;
+	background-color: transparent;
+	padding: 10px 15px;
+	display: inline;
+	border: 1px solid rgba(158,158,158,.2);
+	border-radius: 1px;
+}
+
+.navButton:hover{
+	background-color: rgba(158,158,158,.2);
+	cursor: pointer;
+}
+
+.navButton:focus{
+	outline: 0;
+}
+
+.navButton.selected{
+	background-color: #428BCA;
+}
+
+.navButton.disabled:hover{
+	cursor: not-allowed;
+	background-color: transparent;
+}
+
+.buttonMenu > .navButton{
+	width: auto;
+	height: auto;
+}
+
+.buttonMenu > .navButton:nth-child(n+10){
+	display: none;	
+}
+
+.down{
+    -webkit-transform: rotate(90deg);
+}
+.up{
+	-webkit-transform: rotate(-90deg);
+}
+.md-10{
+	font-size: 10;
+}
+.sortColumnAttr{
+	width: auto;
+}
+.sortColumnAttr:hover{
+	cursor: pointer;
+}
+.tableHeadColor{
+	background-color: rgb(200,200,200);
+}
+.bareButton{
+	border: none;
+	background: none;
+	margin: 0px;
+	padding: 0px;
+}
+.bareButton:hover{
+	cursor: pointer;
+}
+
+/*This stuff indicates sections*/
+#locations{
+	width: 100%;
+}
+#dataTable{
+	width: 100%;
+	overflow-x: auto;
+}
+table{
+	width: 100%;
+}
+
+
+::-webkit-scrollbar {
+	width: 3px;
+	height: 3px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+	border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 20px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+
+
+
+
+/* A problem occured in the lay out when the pagination resulted in less pages than expected*/
+
+/*************** 5 or more pages ***************/
+
+.pagination--fullContainer{
+	width: 450px;
+	height: 48px;
+}
+
+.pagination > ul{
 	list-style-type: none;
 	list-style-position: inside;
 	margin:0;
 	padding:0;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	background-color: transparent;
 }
 
-#pagination > ul > li{
+.pagination > ul > li{
 	list-style-type: none;
 	list-style-position: inside;
-	margin:0;
-	padding:0;
+	margin: 0px;
+	padding: 0;
+	width: 50px;
+	height: 36px;
+	display: inline-block;
 }
 
 
-#pagination{
+.pagination{
 	background-color: transparent;
 	display: inline-block;
 	border-left: none;
 	border-right: none;
-	width: 585px;
-	height: 43px;
+	width: 100%;
+	height: 36px;
 	white-space: nowrap;
 	font-size: 0;
 }
 
-#pagination > ul > li > a{
-	font-size: 20px;
+.pagination > ul > li > a{
+	font-size: 15px;
 	color: #000066;
 	border: none;
 	background-color: rgba(158,158,158,.2);
 	padding: 0px;
 	border: 1px solid rgba(158,158,158,.2);
 	border-radius: 1px;
-	width: 43px;
-	height: 31px;
+	width: 48px;
+	height: 27px;
 	display: inline-block;
-	padding-top: 10px;
+	padding-top: 7px;
 	text-align: center;
+	text-decoration: none;
 }
 
-#pagination > ul > li:nth-child(1), #pagination > ul > li:nth-child(2), #pagination > ul > li:nth-child(8), #pagination > ul > li:nth-child(9){
-	width: 88px;
-	height: 43px;
-}
-
-#pagination > ul > li:nth-child(1) > a, #pagination > ul > li:nth-child(2) > a, #pagination > ul > li:nth-child(8) > a, #pagination > ul > li:nth-child(9) > a{
-	width: 88px;
-	height: 31px;
-}
-#pagination > ul > li:hover{
+.pagination > ul > li:hover{
 	background-color: rgba(158,158,158,.2);
 	cursor: pointer;
 }
 
-#pagination > ul > li:focus{
+.pagination > ul > li:focus{
 	outline: 0;
 }
 
-#pagination > ul > li > a.selected{
-	background-color: #ffd740;
+.pagination > ul > li > a.selected{
+	background-color: #448aff;
 	color: #808080;
-	border: 1px solid #ffd740;
+	border: 1px solid #448aff;
 }
 
-#pagination > ul > li.disabled:hover{
+.pagination > ul > li.disabled{
+	background-color: rgba(0,0,0,.12);
+	color: rgba(0,0,0,.26);
+}
+
+.pagination > ul > li.disabled > a{
+	color: rgba(0,0,0,.26);
+}
+
+.pagination > ul > li.disabled > a:hover{
 	cursor: not-allowed;
 }
 
-#pagination > ul > li:nth-child(n+10){
-	display: none;	
+
+.pagination > ul > li.disabled:hover > a{
+	cursor: not-allowed;
+}
+
+.paginationl > ul > li.disabled:hover{
+	cursor: not-allowed;
 }
 
 .sliderEffect{
 	height: 6px;
-	background-color: #ffd740;
+	background-color: #448aff;
+}
+
+.pagination > ul > li.active > a{
+	background-color: #448aff;
+	border: 1px solid #448aff;
 }
 
 
 
 
+/*************** 1 page ***************/
 
+.pagination--length1Container{
+	width: 250px;
+	height: 48px;
+}
+
+/*************** 2 pages ***************/
+
+.pagination--length2Container{
+	width: 300px;
+	height: 48px;
+}
+
+/*************** 3 pages ***************/
+
+.pagination--length3Container{
+	width: 350px;
+	height: 48px;
+}
+
+/*************** 4 pages ***************/
+
+.pagination--length4Container{
+	width: 400px;
+	height: 48px;
+}
 
