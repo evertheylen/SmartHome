@@ -1,0 +1,59 @@
+#triggerer{
+	display: none
+}
+/*Note the triggerer must be an input checkbox thingie*/
+
+.box{
+	width: 100%;
+	height: 40px;
+	transition: height 1s;
+	-moz-transition: height 1s; /* Firefox 4 */
+	-webkit-transition: height 1s; /* Safari and Chrome */
+	-o-transition: height 1s; /* Opera */
+	display:block;
+	border: 1px solid blue;
+}
+
+.boxContent{
+	opacity: 0;
+	transition: visibility 0s, opacity 0.5s linear;
+}
+
+#triggerer:checked + .box{
+	/* + means ".box is placed immediately after #triggerer:checked" */
+	height: 400px;
+	overflow: auto;
+}
+
+.header{
+	width: 100%;
+	height: 40px;
+}
+
+#triggerer:checked + .box > .header > .boxStatus{
+    -webkit-transform: rotate(90deg);
+}
+
+
+#triggerer:checked + .box > .boxContent{
+    visibility: visible;
+	opacity: 1;
+	transition: visibility 0s, opacity 0.5s linear;
+}
+
+.boxStatus{
+	font-size: 40px;
+	display: inline-block;
+	display: table-cell;
+	transition: all 1s ease;
+	-moz-transition: all 1s ease; /* Firefox 4 */
+	-webkit-transition: all 1s ease; /* Safari and Chrome */
+	-o-transition: all 1s ease; /* Opera */
+}
+
+.headerText{
+	display: inline-block;
+	font-size: 20px;
+	display: table-cell;
+	vertical-align: middle;
+}
