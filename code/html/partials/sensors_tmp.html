@@ -135,8 +135,8 @@
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
 							<li ng-repeat="location in locations" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
-								ng-click="dropDownClick(location.desc, 'select_location', 'dropDownLocation', 'location')" tabindex="-1"
-								ng-bind="location.desc"
+								ng-click="dropDownClick(location.description, 'select_location', 'dropDownLocation', 'location')" tabindex="-1"
+								ng-bind="location.desccription"
 								>
 							</li>
 						</li>
@@ -220,7 +220,7 @@
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                                    
                 <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_desc" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc" required>
+                    <input ng-model="loc_description" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc" required>
                     <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
                 </div>
                 <div ng-messages="location_form.locationDesc.$error">
