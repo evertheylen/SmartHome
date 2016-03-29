@@ -124,6 +124,7 @@ class Controller(metaclass=MetaController):
     def verify_password(self, hashed, p):
         return passlib.hash.bcrypt.verify(p, hashed)
     
+    
     # Websocket handlers
     # ------------------
     
