@@ -1246,6 +1246,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 					new_location.LID = response.location.LID;	
 					console.log("Response verwerkt");
 				});
+				console.log("Pre location added");
 				$scope.locations.push(new_location);
 				console.log("Location added");
 			}
