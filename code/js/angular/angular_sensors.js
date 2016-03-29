@@ -417,6 +417,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
                     updateFilteredSensors();
 					$scope.$apply();
 				});
+			} else {
+			    console.log("Delete_id: " + delete_id);
+			    ws.request({type: "delete", what: "Location", data: {"ID": $scope.houses[delete_id].LID}}, function(success) {
+			        $scope.$apply();
+			    });
 			}
 			if (delete_from.length === 1) {
 				delete_from.length = 0;
