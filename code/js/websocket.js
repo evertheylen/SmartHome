@@ -134,7 +134,7 @@ function add_response(response) {
 			locationData = response["data"];
 			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
 						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-			console.log({success: true, for: response["for"], location: location});
+			console.log("Logging response: " + {success: true, for: response["for"], location: location});
 			return {success: true, for: response["for"], location: location};
 		default:
 			break;
