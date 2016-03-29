@@ -16,7 +16,7 @@ class OwEntity(sparrow.Entity):
         if isinstance(res, types.CoroutineType):
             res = await res
         if not res:
-            raise Authentication("auth", "No access for this object", "{} tried and failed to access {}".format(req.usr, self))
+            raise Authentication("auth", "No access for this object", "{} tried and failed to access {}".format(req.conn.user, self))
         
 class RTOwEntity(OwEntity, sparrow.RTEntity):
     __no_meta__ = True
