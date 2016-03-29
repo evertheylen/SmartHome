@@ -3,7 +3,7 @@ handlers = {}; // specify functions to deal with server messages (that aren't a 
 answers = {};  // specify functions that need to be called when the server answers
 
 function connect_to_websocket() {
-	websocket = new WebSocket("ws://" + window.house.host + "/ws");
+	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 	//websocket = new WebSocket("ws://localhost:8002/ws");
 
 	websocket.request = function (requestObject, f) {
