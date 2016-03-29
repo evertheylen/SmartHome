@@ -1327,7 +1327,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				});
 			} else {
 				// Add Sensor
-				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, $scope.sen_location);
+				// TODO Location_LID
+				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, 1);
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.location = $scope.sen_location;
 				delete new_sensor.SID;
