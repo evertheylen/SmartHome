@@ -24,11 +24,14 @@ p.welcomeMessage{
 	margin-right: auto;
 }
 
+#btnLogout, #btnLogin{
+	background-color: rgba(255, 255, 255, 0.2);
+	color: white;
+}
+
 #btnLogout{
 	min-width: 35px;
 	min-height: 35px;
 	height: 35px;
 	width: 35px;
-	background-color: rgba(255, 255, 255, 0.2);
-	color: white;
 }
