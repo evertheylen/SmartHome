@@ -8,7 +8,7 @@
 					<thead>
 						<tr class="tableHeadColor">
 							<th class="mdl-data-table__cell--non-numeric">
-								<div ng-bind="i18n('houses')">
+								<div ng-bind="i18n('location')">
 								</div>
 							</th>
 							<th>
@@ -27,7 +27,7 @@
 						</tr>	
 					</tbody>
 				</table>
-				<button id="btnAddLoc" ng-click="reset_loc();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_house')">
+				<button id="btnAddLoc" ng-click="reset_loc();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
 				</button>
 			</div>
 		</div>
@@ -49,7 +49,7 @@
 								<button ng-click="set_order('house', 'sort_house')" id="sort_house" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
-    							<span ng-bind="i18n('house')"></span>
+    							<span ng-bind="i18n('location')"></span>
 							</th>
 							<th>
 								<button ng-click="set_order('type', 'sort_type')" id="sort_type" class="mdl-button mdl-js-button mdl-button--icon">
@@ -100,9 +100,9 @@
 			</div>
 		</div>
 	</div>
-    <div ng-repeat="house in houses" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}" ng-bind="i18n('edit_house')">
+    <div ng-repeat="house in houses" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}" ng-bind="i18n('edit_location')">
 	</div>
-	<div ng-repeat="house in houses" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_house')">
+	<div ng-repeat="house in houses" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_location')">
 	</div>
     <div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}" ng-bind="i18n('edit_sensor')">
 	</div>
@@ -126,7 +126,7 @@
                 </tags-input>
                 
 				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
-					<label ng-bind="i18n('house')"></label>
+					<label ng-bind="i18n('location')"></label>
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
 					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_house').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
 					</button>
