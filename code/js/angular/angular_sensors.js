@@ -1173,7 +1173,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_number = null;
 		$scope.loc_elec_price = null;
 		$scope.loc_description = null;
-		$scope.edit_loc = $scope.i18n("add_house");    
+		$scope.edit_loc = $scope.i18n("add_location");    
 		if (hasClass(document.getElementById("txtfield_houseCountry"), "is-dirty")) {
 			removeClass(document.getElementById("txtfield_houseCountry"), "is-dirty");
 		}
@@ -1292,7 +1292,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (hasClass(document.getElementById("txtfield_houseDesc"), "is-invalid")) {
 			removeClass(document.getElementById("txtfield_houseDesc"), "is-invalid");
 		}                                
-		$scope.edit_loc = $scope.i18n("edit_house");
+		$scope.edit_loc = $scope.i18n("edit_location");
 		edit_loc_id = id;
 		componentHandler.upgradeDom();    
 	}
