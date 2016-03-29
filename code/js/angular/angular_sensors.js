@@ -1317,8 +1317,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (!hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
 			addClass(document.getElementById("txtfield_SensorName"), "is-invalid");
 		}
-		if (!hasClass(document.getElementById("txtfield_Sensorhouse"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_Sensorhouse"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
 		}
 		if (!hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
 			addClass(document.getElementById("txtfield_SensorType"), "is-invalid");
