@@ -132,7 +132,7 @@ function add_response(response) {
 			return {success: true, for: response["for"],  user: user};
 		case "Location":
 			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
 						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
 			return {success: true, for: response["for"], location: location};
 		default:
@@ -159,7 +159,7 @@ function get_response(response) {
 			return {for: response["for"], user: user};
 		case "Location":
 			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
 						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
 			return {for: response["for"], location: location};
 		default:
@@ -191,7 +191,7 @@ function get_all_response(response) {
 			var locations = [];
 			for(i = 0; i < response["data"].length; i++) {
 				locationData = response["data"][i];
-				location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+				location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
 						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
 				locations.push(location);
 			}
@@ -214,7 +214,7 @@ function edit_response(response) {
 			return user.toJSON();
 		case "Location":
 			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["desc"], locationData["number"], locationData["street"], 
+			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
 						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
 			return location.toJSON();
 		default:
