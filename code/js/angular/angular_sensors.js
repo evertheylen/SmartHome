@@ -1174,47 +1174,47 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_elec_price = null;
 		$scope.loc_description = null;
 		$scope.edit_loc = $scope.i18n("add_location");    
-		if (hasClass(document.getElementById("txtfield_houseCountry"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_houseCountry"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
 		}
-		if (hasClass(document.getElementById("txtfield_houseCity"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_houseCity"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationCity"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
 		}
-		if (hasClass(document.getElementById("txtfield_houseZip"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_houseZip"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationZip"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
 		}
-		if (hasClass(document.getElementById("txtfield_houseStreet"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_houseStreet"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
 		}
-		if (hasClass(document.getElementById("txtfield_houseNr"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_houseNr"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
 		}
-		if (hasClass(document.getElementById("txtfield_houseElecPrice"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_houseElecPrice"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
 		}		
-		if (hasClass(document.getElementById("txtfield_houseDesc"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_houseDesc"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
 		}
-		if (!hasClass(document.getElementById("txtfield_houseCountry"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_houseCountry"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
 		}
-		if (!hasClass(document.getElementById("txtfield_houseCity"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_houseCity"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
 		}
-		if (!hasClass(document.getElementById("txtfield_houseZip"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_houseZip"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
 		}
-		if (!hasClass(document.getElementById("txtfield_houseStreet"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_houseStreet"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
 		}
-		if (!hasClass(document.getElementById("txtfield_houseNr"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_houseNr"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
 		}
-		if (!hasClass(document.getElementById("txtfield_houseElecPrice"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_houseElecPrice"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
 		}
-		if (!hasClass(document.getElementById("txtfield_houseDesc"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_houseDesc"), "is-invalid");
+		if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		}  
 	}
     
@@ -1264,33 +1264,33 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_number = $scope.houses[id].number;
 		$scope.loc_elec_price = $scope.houses[id].elec_price;
 		$scope.loc_description = $scope.houses[id].description;
-		addClass(document.getElementById("txtfield_houseCountry"), "is-dirty");
-		addClass(document.getElementById("txtfield_houseCity"), "is-dirty");
-		addClass(document.getElementById("txtfield_houseZip"), "is-dirty");
-		addClass(document.getElementById("txtfield_houseStreet"), "is-dirty");
-		addClass(document.getElementById("txtfield_houseNr"), "is-dirty");
-		addClass(document.getElementById("txtfield_houseElecPrice"), "is-dirty");
-		addClass(document.getElementById("txtfield_houseDesc"), "is-dirty");
-		if (hasClass(document.getElementById("txtfield_houseCountry"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_houseCountry"), "is-invalid");
+		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
 		}
-		if (hasClass(document.getElementById("txtfield_houseCity"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_houseCity"), "is-invalid");
+		if (hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
 		}
-		if (hasClass(document.getElementById("txtfield_houseZip"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_houseZip"), "is-invalid");
+		if (hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
 		}
-		if (hasClass(document.getElementById("txtfield_houseStreet"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_houseStreet"), "is-invalid");
+		if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
 		}
-		if (hasClass(document.getElementById("txtfield_houseNr"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_houseNr"), "is-invalid");
+		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
 		}
-		if (hasClass(document.getElementById("txtfield_houseElecPrice"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_houseElecPrice"), "is-invalid");
+		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
 		}		
-		if (hasClass(document.getElementById("txtfield_houseDesc"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_houseDesc"), "is-invalid");
+		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		}                                
 		$scope.edit_loc = $scope.i18n("edit_location");
 		edit_loc_id = id;
