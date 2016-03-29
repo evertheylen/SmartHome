@@ -8,6 +8,7 @@ Definition for object type 'User'
 ---------------------------------
 
 ::
+
     {
         "UID": "<class 'int'>",
         "first_name": "<class 'str'>",
@@ -22,6 +23,7 @@ Definition for object type 'Location'
 -------------------------------------
 
 ::
+
     {
         "LID": "<class 'int'>",
         "description": "<class 'str'>",
@@ -41,6 +43,7 @@ Definition for object type 'Sensor'
 -----------------------------------
 
 ::
+
     {
         "SID": "<class 'int'>",
         "type": "<class 'str'>",

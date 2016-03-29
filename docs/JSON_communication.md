@@ -144,10 +144,7 @@ Response (Success):
 	{
 		"type": "add",
 		"what": <object class>,
-		"data": {	
-			"UID": 1	
-			"object": <entire definition with ID>		
-		}
+		"data": <definition with ID>
 	}
 
 Response (Failure): normal error message

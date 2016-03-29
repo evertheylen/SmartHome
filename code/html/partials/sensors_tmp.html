@@ -19,7 +19,7 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
-							<td class="mdl-data-table__cell--non-numeric" ng-bind="location.desc"></td>
+							<td class="mdl-data-table__cell--non-numeric" ng-bind="location.description"></td>
 							<td>
 								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
 								<button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, locations);"><i class="material-icons">delete</i></button>
@@ -135,8 +135,8 @@
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
 							<li ng-repeat="location in locations" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
-								ng-click="dropDownClick(location.desc, 'select_location', 'dropDownLocation', 'location')" tabindex="-1"
-								ng-bind="location.desc"
+								ng-click="dropDownClick(location.description, 'select_location', 'dropDownLocation', 'location')" tabindex="-1"
+								ng-bind="location.desccription"
 								>
 							</li>
 						</li>
@@ -211,9 +211,16 @@
                 </div>
                 <div ng-messages="location_form.locationNr.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                   
+                </div>
+                <div id="txtfield_LocationElecPrice" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="locationElecPrice" required>
+                    <label class="mdl-textfield__label" for="input_LocationElecPrice" ng-bind="i18n('elec_price')"></label>
+                </div>
+                <div ng-messages="location_form.locationElecPrice.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>                                    
                 <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_desc" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc" required>
+                    <input ng-model="loc_description" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc" required>
                     <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
                 </div>
                 <div ng-messages="location_form.locationDesc.$error">

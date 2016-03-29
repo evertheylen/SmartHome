@@ -1,14 +1,14 @@
 Location.prototype = new DataType();
 Location.prototype.constructor = Location;
 
-function Location(LID, desc, country, city, postalcode, street, number) {
+function Location(LID, description, number, street, city, postalcode, country, elec_price, user_UID) {
 	this.LID = LID;
-	this.desc = desc;
-	this.country = country;
+	this.description = description;
+	this.number = number;
+	this.street = street;
 	this.city = city;
 	this.postalcode = postalcode;
-	this.street = street;
-	this.number = number;
-	this.location = "location";
-	this.tags = "tag";
+	this.country = country;
+	this.elec_price = elec_price;
+	this.user_UID = user_UID;
 }

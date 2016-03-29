@@ -1,10 +1,10 @@
 Sensor.prototype = new DataType();
 Sensor.prototype.constructor = Sensor;
 
-function Sensor(SID, UID, title, type) {
+function Sensor(SID, type, title, user_UID, location_LID) {
 	this.SID = SID;
-	this.UID = UID;
-	this.title = title;
 	this.type = type;
-	//this.tags = ""; Find out how we're going to use tags.
+	this.title = title;
+	this.user_UID = user_UID;
+	this.location_LID = location_LID;
 }

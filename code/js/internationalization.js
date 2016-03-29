@@ -27,6 +27,7 @@ var html_strings = {
     "postalcode": ["ZIP / Postal Code", "Postcode"],
     "street": ["Street", "Straat"],
     "number": ["Number", "Huisnummer"],
+    "elec_price": ["Cost Per Electricity Unit", "Kost per elektriciteitseenheid"],
     "edit_location": ["Edit location", "Locatie bewerken"],
     "add_location": ["Add location", "Locatie toevoegen"],
     "del_location": ["Delete location", "Locatie verwijderen"],

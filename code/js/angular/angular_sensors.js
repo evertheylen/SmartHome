@@ -1,8 +1,8 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth) {
 		
 	$rootScope.tab = "sensorslink";
-    $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
-    $rootScope.auth_user = Auth.getUser();
+	$rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
+	$rootScope.auth_user = Auth.getUser();
 	$scope.add_autocomplete = function (tag) {
 		var i = $scope.tags.length;
 		while (i--) {
@@ -17,20 +17,19 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		return $filter('filter')($scope.tags, query);
 	};
 
-	/*
+    $scope.locations = [];
+
 	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.id}}, function(response) {
 		$scope.locations = response.locations;
 		$scope.$apply();
 	});
-	*/
 
 	$scope.sensors = [];
 
-	console.log("Empty array: " + $scope.sensors);
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.sensors = response.sensors;
 		updateFilteredSensors();
-    	console.log("Filtered Sensors: " + $scope.filteredSensors);
+    		console.log("Filtered Sensors: " + $scope.filteredSensors);
 		console.log("Sensor array: " + $scope.sensors);
 		$scope.$apply();
 	});
@@ -40,9 +39,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
 
 
+	/*
 	$scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
+	*/
 	
 /*
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
@@ -1170,7 +1171,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_postalcode = null;
 		$scope.loc_street = null;
 		$scope.loc_number = null;
-		$scope.loc_desc = null;
+		$scope.loc_elec_price = null;
+		$scope.loc_description = null;
 		$scope.edit_loc = $scope.i18n("add_location");    
 		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-dirty")) {
 			removeClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
@@ -1187,6 +1189,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-dirty")) {
 			removeClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
 		}
+		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
+		}		
 		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
 			removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
 		}
@@ -1205,6 +1210,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (!hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
 			addClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
 		}
+		if (!hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
+		}
 		if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
 			addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		}  
@@ -1215,26 +1223,28 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if ($scope.location_form.$valid) {
 			if (edit) {
 				// Edit Location
-				$scope.locations[edit_loc_id].desc = $scope.loc_desc;
-				$scope.locations[edit_loc_id].country = $scope.loc_country;
+				$scope.locations[edit_loc_id].description = $scope.loc_description;
+				$scope.locations[edit_loc_id].number = $scope.loc_number;
+				$scope.locations[edit_loc_id].street = $scope.loc_street;
 				$scope.locations[edit_loc_id].city = $scope.loc_city;
 				$scope.locations[edit_loc_id].postalcode = $scope.loc_postalcode;
-				$scope.locations[edit_loc_id].street = $scope.loc_street;
-				$scope.locations[edit_loc_id].number = $scope.loc_number;
-				/*
+				$scope.locations[edit_loc_id].country = $scope.loc_country;
+				$scope.locations[edit_loc_id].elec_price = $scope.loc_elec_price;
+				$scope.locations[edit_loc_id].user_UID = $rootScope.auth_user.UID;
+				
 				var locationObject = $scope.locations[edit_loc_id].toJSON();
-				ws.request({type: "edit", what: "Location", data: locationObject}, function() {
+				ws.request({type: "edit", what: "Location", data: locationObject}, function(response) {
+					$scope.locations[edit_loc_id] = response;
 				});
-				*/
 			} else {
 				// Add Location
-				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_country, $scope.loc_city, $scope.loc_postalcode, $scope.loc_street, $scope.loc_number);
-				/*
+				var new_location = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
+								$scope.loc_elec_price, $rootScope.auth_user.UID);
+				delete new_location.LID;
 				var locationObject = new_location.toJSON();
 				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
 					new_location.LID = response.location.LID;	
 				});
-				*/
 				$scope.locations.push(new_location);
 			}
 			$scope.dialog.close();
@@ -1248,12 +1258,14 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_postalcode = $scope.locations[id].postalcode;
 		$scope.loc_street = $scope.locations[id].street;
 		$scope.loc_number = $scope.locations[id].number;
-		$scope.loc_desc = $scope.locations[id].desc;
+		$scope.loc_elec_price = $scope.locations[id].elec_price;
+		$scope.loc_description = $scope.locations[id].description;
 		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
 		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
 			removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
@@ -1270,6 +1282,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
 			removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
 		}
+		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
+		}		
 		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
 			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		}                                
@@ -1312,11 +1327,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].title = $scope.sen_name;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
 				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
-				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location = $scope.sen_location;
 				$scope.filteredSensors[edit_sen_id].title = $scope.sen_name;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
-				//$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
+				$scope.filteredSensors[edit_sen_id].location = $scope.sen_location;
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
@@ -1325,7 +1340,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				});
 			} else {
 				// Add Sensor
-				var new_sensor = new Sensor(-1, $rootScope.auth_user.UID, $scope.sen_name, $scope.sen_type);
+				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, $scope.sen_location);
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.location = $scope.sen_location;
 				delete new_sensor.SID;
