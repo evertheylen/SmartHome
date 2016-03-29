@@ -130,7 +130,7 @@ function add_response(response) {
 			userData = response["data"];
 			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
 			return {success: true, for: response["for"],  user: user};
-		case "house":
+		case "Location":
 			houseData = response["data"];
 			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
 						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
@@ -158,7 +158,7 @@ function get_response(response) {
 			userData = response["data"];
 			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
 			return {for: response["for"], user: user};
-		case "house":
+		case "Location":
 			houseData = response["data"];
 			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
 						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
@@ -188,7 +188,7 @@ function get_all_response(response) {
 				users.push(user);
 			}
 			return {for: response["for"], users: users};
-		case "house":
+		case "Location":
 			var houses = [];
 			for(i = 0; i < response["data"].length; i++) {
 				houseData = response["data"][i];
@@ -213,7 +213,7 @@ function edit_response(response) {
 			userData = response["data"];
 			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
 			return user.toJSON();
-		case "house":
+		case "Location":
 			houseData = response["data"];
 			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
 						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
