@@ -240,6 +240,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			        $scope.houses.push(new_house);
 			        console.log("house added");
 					console.log("Response verwerkt");
+					$scope.$apply();
 				});
 			}
 			$scope.dialog.close();
@@ -347,6 +348,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 					new_sensor.SID = response.sensor.SID;	
 					$scope.sensors.push(new_sensor);
 				    updateFilteredSensors();
+				    $scope.$apply();
 				});     
 				
 			}
