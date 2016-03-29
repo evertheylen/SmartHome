@@ -148,9 +148,7 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
       templateUrl: "/html/partials/sensors_tmp.html"
     }).when("/social", {
       templateUrl: "/html/partials/social_tmp.html"
-    }).otherwise( {
-        redirectTo: '/'
-    });
+    })
     $locationProvider.html5Mode(true);
 }]);
 
