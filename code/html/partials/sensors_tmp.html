@@ -130,7 +130,7 @@
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
 					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_house').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
 					</button>
-					<input type="hidden" ng-model="sen_house_name" name="sensorLocation" required></input>
+					<input type="hidden" ng-model="sen_house" name="sensorLocation" required></input>
 					<ul  id="select_house" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
