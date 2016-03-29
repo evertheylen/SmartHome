@@ -1390,7 +1390,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.reset_sen();
 	$scope.reset_loc();
     
-	$scope.dialog = document.getElementById('dlghouse');
+	$scope.dialog = document.getElementById('dlgLocation');
 	var showDialogButton = document.getElementById('btnAddLoc');
 	showDialogButton.addEventListener('click', function(){
 		$scope.dialog.showModal();
