@@ -229,7 +229,7 @@ class Controller(metaclass=MetaController):
     class handle_get_all(switch_what):
         @case("Location")
         async def location(self, req):
-            check_for_type("User")
+            check_for_type(req, "User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
             locations = await Location.get(Location.user == u.key).all(self.db)
@@ -255,7 +255,7 @@ class Controller(metaclass=MetaController):
             
         @case("Value")
         async def value(self, req):
-            check_for_type("Sensor")
+            check_for_type(req, "Sensor")
             s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
             values = await Value.get(Value.sensor == s.key).all(self.db)
