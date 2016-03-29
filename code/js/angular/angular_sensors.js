@@ -1242,12 +1242,12 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 								$scope.loc_elec_price, $rootScope.auth_user.UID);
 				delete new_location.LID;
 				var locationObject = new_location.toJSON();
+				$scope.locations.push(new_location);
+				console.log("Location added");
 				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
 					new_location.LID = response.location.LID;	
 					console.log("Response verwerkt");
 				});
-				$scope.locations.push(new_location);
-				console.log("Location added");
 			}
 			$scope.dialog.close();
 		}
