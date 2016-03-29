@@ -1300,6 +1300,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.sen_location = null;
 		$scope.sen_type = null;
 		$scope.sen_tags = null;
+		$scope.sen_location_name = null;
 		$scope.dropDownClick(null, 'select_location', 'dropDownLocation', 'location');
 		$scope.dropDownClick(null, 'select_type', 'dropDownType', 'type');
 		$scope.edit_sen = $scope.i18n("add_sensor");    
