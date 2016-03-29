@@ -1169,6 +1169,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_postalcode = null;
 		$scope.loc_street = null;
 		$scope.loc_number = null;
+		$scope.loc_elec_price = null;
 		$scope.loc_desc = null;
 		$scope.edit_loc = $scope.i18n("add_location");    
 		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-dirty")) {
@@ -1186,6 +1187,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-dirty")) {
 			removeClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
 		}
+		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
+		}		
 		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
 			removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
 		}
@@ -1203,6 +1207,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		}
 		if (!hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
 			addClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
+		}
+		if (!hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			addClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
 		}
 		if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
 			addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
@@ -1227,15 +1234,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				ws.request({type: "edit", what: "Location", data: locationObject}, function(response) {
 					$scope.locations[edit_loc_id] = response;
 				});
-
-
-	{
-		"type": "edit",
-		"what": <object class>,
-		"data": {	
-			"object": <entire definition with ID>		
-		}
-	}
 			} else {
 				// Add Location
 				var new_location = new Location(-1, $scope.loc_desc, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
@@ -1258,12 +1256,14 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.loc_postalcode = $scope.locations[id].postalcode;
 		$scope.loc_street = $scope.locations[id].street;
 		$scope.loc_number = $scope.locations[id].number;
+		$scope.loc_elec_price = $scope.locations[id].elec_price;
 		$scope.loc_desc = $scope.locations[id].desc;
 		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
 		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
 			removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
@@ -1280,6 +1280,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
 			removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
 		}
+		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
+		}		
 		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
 			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		}                                
