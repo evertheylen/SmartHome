@@ -3,7 +3,7 @@ handlers = {}; // specify functions to deal with server messages (that aren't a 
 answers = {};  // specify functions that need to be called when the server answers
 
 function connect_to_websocket() {
-	websocket = new WebSocket("ws://" + window.location.host + "/ws");
+	websocket = new WebSocket("ws://" + window.house.host + "/ws");
 	//websocket = new WebSocket("ws://localhost:8002/ws");
 
 	websocket.request = function (requestObject, f) {
@@ -124,18 +124,18 @@ function add_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["house_LID"]);
 			return {success: true, for: response["for"], sensor: sensor};
 		case "User":
 			userData = response["data"];
 			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
 			return {success: true, for: response["for"],  user: user};
-		case "Location":
-			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-			console.log("Logging response: " + {success: true, for: response["for"], location: location});
-			return {success: true, for: response["for"], location: location};
+		case "house":
+			houseData = response["data"];
+			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
+			console.log("Logging response: " + {success: true, for: response["for"], house: house});
+			return {success: true, for: response["for"], house: house};
 		default:
 			break;
 	}	
@@ -152,17 +152,17 @@ function get_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["house_LID"]);
 			return {for: response["for"], sensor: sensor};
 		case "User":
 			userData = response["data"];
 			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
 			return {for: response["for"], user: user};
-		case "Location":
-			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-			return {for: response["for"], location: location};
+		case "house":
+			houseData = response["data"];
+			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
+			return {for: response["for"], house: house};
 		default:
 			break;
 	}
@@ -176,7 +176,7 @@ function get_all_response(response) {
 			var sensors_response = [];
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
-				sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+				sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["house_LID"]);
 				sensors_response.push(sensor);
 			}
 			return {for: response["for"], sensors: sensors_response};
@@ -188,15 +188,15 @@ function get_all_response(response) {
 				users.push(user);
 			}
 			return {for: response["for"], users: users};
-		case "Location":
-			var locations = [];
+		case "house":
+			var houses = [];
 			for(i = 0; i < response["data"].length; i++) {
-				locationData = response["data"][i];
-				location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-				locations.push(location);
+				houseData = response["data"][i];
+				house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
+				houses.push(house);
 			}
-			return {for: response["for"], locations: locations};
+			return {for: response["for"], houses: houses};
 		default:
 			break;
 	}
@@ -207,17 +207,17 @@ function edit_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["house_LID"]);
 			return sensor.toJSON();
 		case "User":
 			userData = response["data"];
 			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
 			return user.toJSON();
-		case "Location":
-			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-			return location.toJSON();
+		case "house":
+			houseData = response["data"];
+			house = new house(houseData["LID"], houseData["description"], houseData["number"], houseData["street"], 
+						houseData["city"], houseData["postalcode"],  houseData["country"], houseData["elec_price"], houseData["user_UID"]);
+			return house.toJSON();
 		default:
 			break;
 	}
