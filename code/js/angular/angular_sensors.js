@@ -1230,7 +1230,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.locations[edit_loc_id].postalcode = $scope.loc_postalcode;
 				$scope.locations[edit_loc_id].country = $scope.loc_country;
 				$scope.locations[edit_loc_id].elec_price = $scope.loc_elec_price;
-				$scope.locations[edit_loc_id].user_UID = $scope.loc_user_UID;
+				$scope.locations[edit_loc_id].user_UID = $rootScope.auth_user.UID;
 				
 				var locationObject = $scope.locations[edit_loc_id].toJSON();
 				ws.request({type: "edit", what: "Location", data: locationObject}, function(response) {
@@ -1239,7 +1239,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			} else {
 				// Add Location
 				var new_location = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
-								$scope.loc_elec_price, $scope.loc_user_UID);
+								$scope.loc_elec_price, $rootScope.auth_user.UID);
 				delete new_location.LID;
 				var locationObject = new_location.toJSON();
 				ws.request({type: "add", what: "Location", data: locationObject}, function(response) {
