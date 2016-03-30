@@ -69,7 +69,7 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors track by sensor.SID | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index" on-finish-render="ngRepeatFinished">
+						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index | track by sensor.SID" on-finish-render="ngRepeatFinished">
                             <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
 				            <td ng-bind="sensor.house_name"></td>
 				            <td ng-bind="sensor.type"></td>
