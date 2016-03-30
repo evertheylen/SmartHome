@@ -187,7 +187,7 @@ function get_all_response(response) {
 			var sensors_response = [];
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
-				sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["house_LID"]);
+				sensor = new Sensor(Sensor.getArguments(sensorData));
 				sensors_response.push(sensor);
 			}
 			return {for: response["for"], sensors: sensors_response};
