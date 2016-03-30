@@ -12,15 +12,11 @@ function DataType() {
     	}
 
 	// Caution: Can throw syntax error if key not in ObjectData.
-	this.getArguments = function(objectData) {
-		var tmp = [];
-
+	this.fill = function(objectData) {
 		for(var key in this) {
 			if(typeof this[key] !== 'function') {
-				tmp.push(objectData.key);
+				this[key] = objectData.key;
 			}
 		}
-
-		return tmp;
 	}
 }

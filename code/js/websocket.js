@@ -188,6 +188,8 @@ function get_all_response(response) {
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
 				sensor = new Sensor();
+				sensor.fill(sensorData);
+				console.log(sensor.SID);
 				sensors_response.push(sensor);
 			}
 			return {for: response["for"], sensors: sensors_response};
