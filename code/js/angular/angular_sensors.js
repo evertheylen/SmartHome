@@ -225,6 +225,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.houses[edit_loc_id].user_UID = $rootScope.auth_user.UID;
 				
 				var houseObject = $scope.houses[edit_loc_id].toJSON();
+				delete houseObject.$$hashKey;
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
 					$scope.houses[edit_loc_id] = response;
 				});
