@@ -18,7 +18,7 @@
 							</th>
 					</thead>
 					<tbody>
-						<tr ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
+						<tr ng-repeat="house in houses track by house.LID" on-finish-render="ngRepeatFinished">
 							<td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
 							<td>
 								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
@@ -69,7 +69,7 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index" on-finish-render="ngRepeatFinished">
+						<tr ng-repeat="sensor in sensors track by sensor.SID | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index" on-finish-render="ngRepeatFinished">
                             <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
 				            <td ng-bind="sensor.house_name"></td>
 				            <td ng-bind="sensor.type"></td>
@@ -100,13 +100,13 @@
 			</div>
 		</div>
 	</div>
-    <div ng-repeat="house in houses" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}" ng-bind="i18n('edit_location')">
+    <div ng-repeat="house in houses track by house.LID" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}" ng-bind="i18n('edit_location')">
 	</div>
-	<div ng-repeat="house in houses" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_location')">
+	<div ng-repeat="house in houses track by house.LID" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_location')">
 	</div>
-    <div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}" ng-bind="i18n('edit_sensor')">
+    <div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}" ng-bind="i18n('edit_sensor')">
 	</div>
-	<div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}" ng-bind="i18n('del_sensor')">
+	<div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}" ng-bind="i18n('del_sensor')">
 	</div>
 
 	<!--Add sensor dialog-->
@@ -134,7 +134,7 @@
 					<ul  id="select_house" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
-							<li ng-repeat="house in houses" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
+							<li ng-repeat="house in houses track by house.LID" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
 								ng-click="dropDownClick(house.LID, 'select_house', 'dropDownLocation', 'house')" tabindex="-1"
 								ng-bind="house.description"
 								>
@@ -152,7 +152,7 @@
 				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
 				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
 				        <li>
-				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="type">
+				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="type">
 				            </li>
 				        </li>
 				    </ul>
