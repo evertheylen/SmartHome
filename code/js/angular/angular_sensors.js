@@ -111,7 +111,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 					toChange.innerHTML = $scope.i18n("pick_loc");
 					break;
 				}
-				ws.request({type: "get", what: "Location", data: {ID: value}}, function(response) {
+				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
 	    			toChange.innerHTML = response.house.description;
 	    			$scope.sen_house_name = response.house.description;
     				$scope.sen_house = value;
@@ -419,7 +419,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (value) {
 			if (delete_from == $scope.sensors) {
 				console.log("Delete_id: " + delete_id);
-				ws.request({type: "delete", what: "Sensor", data: {"ID": $scope.sensors[delete_id].SID}}, function(success) {
+				ws.request({type: "delete", what: "Sensor", data: {"SID": $scope.sensors[delete_id].SID}}, function(success) {
                     updateFilteredSensors();
 					$scope.$apply();
 				});
