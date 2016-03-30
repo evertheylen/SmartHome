@@ -1,7 +1,7 @@
 var currentId = 0;
 handlers = {}; // specify functions to deal with server messages (that aren't a reply)
 answers = {};  // specify functions that need to be called when the server answers
-requests = new Queue();  // Queue for strings that are waiting to be sent to the server.
+var requests = new Queue();  // Queue for strings that are waiting to be sent to the server.
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
