@@ -16,6 +16,8 @@ function DataType() {
 		for(var key in this) {
 			if(typeof this[key] !== 'function') {
 				this[key] = objectData.key;
+				console.log("Key has been filled: " + key);
+				console.log("Result: " + this[key] + ", coming from: " + objectData.key);
 			}
 		}
 	}
