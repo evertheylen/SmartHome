@@ -1,6 +1,7 @@
 var currentId = 0;
 handlers = {}; // specify functions to deal with server messages (that aren't a reply)
 answers = {};  // specify functions that need to be called when the server answers
+requests = new Queue();  // Queue for strings that are waiting to be sent to the server.
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
@@ -10,16 +11,26 @@ function connect_to_websocket() {
 		// Data can be any object literal or prototype with the toJSON method.
 		answers[currentId] = f;
 		requestObject.ID = currentId;
-		var stringToSend = JSON.stringify(requestObject);
-		websocket.send(stringToSend);
 		currentId+=1;
-		console.log("Sent data to server:");
-		console.log(stringToSend);
+		var stringToSend = JSON.stringify(requestObject);
+		if(websocket.readyState == 1) {
+			// Send the request to the server.
+			websocket.send(stringToSend);
+			console.log("Sent data to server:");
+			console.log(stringToSend);
+		}
+		else {
+			// Add the request to the waiting list.
+			requests.enqueue(stringToSend);
+			console.log("Websocket request queued until connection has been established.");
+		}
 	}
 
 	websocket.onopen = function() {
-		// Currently nothing happens when the socket is opened.
 		console.log("Websocket opened");
+		// Handle all the requests that have been waiting.
+		while (!requests.isEmpty())
+			websocket.send(requests.dequeue());
 	};
 
 	websocket.onclose = function() {

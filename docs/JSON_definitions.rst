@@ -33,7 +33,7 @@ Definition for object type 'Location'
         "postalcode": "<class 'int'>",
         "country": "<class 'str'>",
         "elec_price": "<class 'float'>",
-        "user_UID": "<class 'int'>"
+        "user": "<class 'int'>"
     }
 
 Key properties are (might not be in definition): LID
