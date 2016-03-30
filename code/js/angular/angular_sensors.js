@@ -425,7 +425,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				});
 			} else {
 			    console.log("Delete_id: " + delete_id);
-			    ws.request({type: "delete", what: "Location", data: {"ID": $scope.houses[delete_id].LID}}, function(success) {
+			    ws.request({type: "delete", what: "Location", data: {"LID": $scope.houses[delete_id].LID}}, function(success) {
 			        $scope.$apply();
 			    });
 			}
