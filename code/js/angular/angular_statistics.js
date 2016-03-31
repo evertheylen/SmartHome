@@ -5,21 +5,28 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     // Sample data
     
-    $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
-			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
-			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
-	
+    $scope.houses = [];
+
+	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		$scope.houses = response.houses;
+		$scope.$apply();
+	});
+
+	$scope.sensors = [];
+
+	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		$scope.sensors = response.sensors;
+		updateFilteredSensors();
+		$scope.$apply();
+	});
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
-	
-	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
-			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
 	
     $scope.aggregate_by = [false, false, false];
     $scope.select_locs = [];
     $scope.select_types = [];
     $scope.select_sensors = [];
     
-    for (i = 0; i< $scope.locations.length; i++) {
+    for (i = 0; i< $scope.houses.length; i++) {
         $scope.select_locs.push(false);
     }
     
@@ -34,7 +41,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_all = function (type) {
         switch (type) {
             case "location" : 
-                for (i=0; i < $scope.locations.length; i++) {
+                for (i=0; i < $scope.houses.length; i++) {
                     $scope.select_locs[i] = $scope.all_locs;
                     if ($scope.all_locs) {
                         addClass(document.getElementById("label-location_" + i), "is-checked");
@@ -72,12 +79,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var checkCount = 0;
         switch (type) {
             case "location" :
-                for (i=0; i < $scope.locations.length; i++) {
+                for (i=0; i < $scope.houses.length; i++) {
                     if ($scope.select_locs[i]) {
                         checkCount++;
                     }
                 }
-                $scope.all_locs = ( checkCount === $scope.locations.length);
+                $scope.all_locs = ( checkCount === $scope.houses.length);
                 if ($scope.all_locs) {
                     addClass(document.getElementById("label-all_locations"), "is-checked");
                 } else {
