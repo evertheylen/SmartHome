@@ -483,7 +483,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 					$scope.$apply();
 				});
 			}
-			$scope.dialog.close();
+			document.getElementById("dlgLocation").close();
 			console.log("Dialog closed");
 	    }
 	} 
