@@ -136,6 +136,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	};
 	
 	$rootScope.types = ["electricity_type", "gas_type", "water_type"];
+	
+	$rootScope.update_me = function(scope) {
+	    scope.$apply();
+	};
+	
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",

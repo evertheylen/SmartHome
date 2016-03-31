@@ -448,3 +448,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	
     componentHandler.upgradeDom();
 });
+
+angular.module("overwatch").controller("location_objController", function($scope, $rootScope) {
+
+});
+
+angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope) {
+
+});
