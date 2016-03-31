@@ -324,12 +324,12 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].title = $scope.sen_name;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
 				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].house = $scope.sen_house;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location_LID = $scope.sen_house;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].house_name = $scope.sen_house_name;
 				$scope.filteredSensors[edit_sen_id].title = $scope.sen_name;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
-				$scope.filteredSensors[edit_sen_id].house = $scope.sen_house;
+				$scope.filteredSensors[edit_sen_id].location_LID = $scope.sen_house;
 				$scope.filteredSensors[edit_sen_id].house_name = $scope.sen_house_name;				
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
 				var sensorObject = sensor.toJSON();
