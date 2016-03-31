@@ -16,7 +16,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.sensors = response.sensors;
-		updateFilteredSensors();
 		$scope.$apply();
 	});
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
