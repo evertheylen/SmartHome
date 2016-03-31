@@ -263,7 +263,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
     $rootScope.$on("dlgSensor_open", function() {
-	    var sen = dlgSensor_setup.getLocation();
+	    var sen = dlgSensor_setup.getSensor();
 	    if (sen != null) {
 	        edit = true;
 		    $scope.sen_name = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].title;
