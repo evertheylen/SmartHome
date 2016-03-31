@@ -111,7 +111,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				}
 				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
 	    			toChange.innerHTML = response.house.description;
-	    			$scope.sen_house_name = response.house.description;
     				$scope.sen_house = value;
     				$scope.$apply();
 	            }); 
@@ -296,7 +295,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.sen_house = null;
 		$scope.sen_type = null;
 		$scope.sen_tags = null;
-		$scope.sen_house_name = null;
 		$scope.dropDownClick(null, 'select_house', 'dropDownLocation', 'house');
 		$scope.dropDownClick(null, 'select_type', 'dropDownType', 'type');
 		$scope.edit_sen = $scope.i18n("add_sensor");    
@@ -325,12 +323,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
 				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].location_LID = $scope.sen_house;
-				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].house_name = $scope.sen_house_name;
 				$scope.filteredSensors[edit_sen_id].title = $scope.sen_name;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
 				$scope.filteredSensors[edit_sen_id].location_LID = $scope.sen_house;
-				$scope.filteredSensors[edit_sen_id].house_name = $scope.sen_house_name;				
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
@@ -347,7 +343,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
 					new_sensor.SID = response.sensor.SID;
 					ws.request({type: "get", what: "Location", data: {LID: response.sensor.location_LID}}, function(response) {
-	        			new_sensor.house_name = response.house.description;
 	        			$scope.sensors.push(new_sensor);
 				        updateFilteredSensors();
 				        $scope.$apply();
