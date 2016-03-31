@@ -91,34 +91,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		}, 0);
 	}, true);
 
-	$scope.dropDownClick = function (value, menu, button, ng_model) {
-		var toChange = document.getElementById(button);
-		toChange.innerHTML = value;
-		switch (ng_model) {
-			case 'type':
-			    	if (value === null) {
-					    toChange.innerHTML = $scope.i18n("pick_type");
-					    break;
-			    	} else {
-			    	    toChange.innerHTML = $scope.i18n(value);
-			    	}
-				    $scope.sen_type = value;
-				    break;
-			case 'house':
-				if (value === null) {
-					toChange.innerHTML = $scope.i18n("pick_loc");
-					break;
-				}
-				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
-	    			toChange.innerHTML = response.house.description;
-    				$scope.sen_house = value;
-    				$scope.$apply();
-	            }); 
-				break; 
-		}
-		removeClass(document.getElementById(menu).parentNode, "is-visible");
-	}
-
 	$scope.set_order = function set_order(orderBy, elementId) {
 		if (hasClass(document.getElementById("sort_sensor"), "up")) {
 			removeClass(document.getElementById("sort_sensor"), "up");
@@ -345,6 +317,35 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 			document.getElementById("dlgSensor").close();
 		}
 	}
+	
+	$scope.dropDownClick = function (value, menu, button, ng_model) {
+		var toChange = document.getElementById(button);
+		toChange.innerHTML = value;
+		switch (ng_model) {
+			case 'type':
+			    	if (value === null) {
+					    toChange.innerHTML = $scope.i18n("pick_type");
+					    break;
+			    	} else {
+			    	    toChange.innerHTML = $scope.i18n(value);
+			    	}
+				    $scope.sen_type = value;
+				    break;
+			case 'house':
+				if (value === null) {
+					toChange.innerHTML = $scope.i18n("pick_loc");
+					break;
+				}
+				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
+	    			toChange.innerHTML = response.house.description;
+    				$scope.sen_house = value;
+    				$scope.$apply();
+	            }); 
+				break; 
+		}
+		removeClass(document.getElementById(menu).parentNode, "is-visible");
+	}
+
 });
 	    
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope, dlgLocation_setup) {
