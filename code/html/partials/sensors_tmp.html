@@ -72,7 +72,7 @@
 						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index track by sensor.SID" on-finish-render="ngRepeatFinished">
                             <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
 				            <td>TODO NAME!! ID: {{sensor.location_LID}}</td> <!--TODOs-->
-				            <td ng-bind="sensor.type"></td>
+				            <td ng-bind="i18n(sensor.type)"></td>
 				            <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							<td>
 								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
@@ -152,7 +152,7 @@
 				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
 				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
 				        <li>
-				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="type">
+				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="i18n(type)">
 				            </li>
 				        </li>
 				    </ul>

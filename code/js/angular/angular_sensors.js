@@ -34,7 +34,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
     
-	$scope.types = [$scope.i18n("electricity_type"), $scope.i18n("gas_type"), $scope.i18n("water_type")];       // TODO FIX THIS
+	$scope.types = ["electricity_type", "gas_type", "water_type"];       // TODO FIX THIS
 
 	$scope.required = true;
 	$scope.selected_order = null;
@@ -99,11 +99,13 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		switch (ng_model) {
 			case 'type':
 			    	if (value === null) {
-					toChange.innerHTML = $scope.i18n("pick_type");
-					break;
+					    toChange.innerHTML = $scope.i18n("pick_type");
+					    break;
+			    	} else {
+			    	    toChange.innerHTML = $scope.i18n(value);
 			    	}
-				$scope.sen_type = value;
-				break;
+				    $scope.sen_type = value;
+				    break;
 			case 'house':
 				if (value === null) {
 					toChange.innerHTML = $scope.i18n("pick_loc");
