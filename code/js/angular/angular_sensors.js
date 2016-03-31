@@ -347,7 +347,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				var sensorObject = new_sensor.toJSON();
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
 					new_sensor.SID = response.sensor.SID;
-					ws.request({type: "get", what: "Location", data: {LID: response.sensor.LID}}, function(response) {
+					ws.request({type: "get", what: "Location", data: {LID: response.sensor.location_LID}}, function(response) {
 	        			new_sensor.house_name = response.house.description;
 	        			$scope.sensors.push(new_sensor);
 				        updateFilteredSensors();
