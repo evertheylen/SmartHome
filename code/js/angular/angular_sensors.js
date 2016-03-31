@@ -453,6 +453,7 @@ angular.module("overwatch").controller("location_objController", function($scope
     $scope.open_dialog = function (edit) {
         var element = document.getElementById("dlgLocation");
         element.showModal();
+        $rootScope.$emit("dlgLocation_open");
         componentHandler.upgradeDom();
     }
 });
@@ -462,13 +463,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 });
 
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope) {
-    $scope.dialog_open = document.getElementById('dlgLocation').getAttribute('open');
-    $scope.$watch('dialog_open', function() {
-        if ($scope.dialog_open != null) {
-            set_loc();
-        }
-    });
-	function set_loc() {
+    $rootScope.$on("dlgLocation_open", function() {
 	    console.log("Setting up the dialog!");
 		edit = true;
 		$scope.loc_country = $scope.country;
@@ -509,5 +504,5 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 		$scope.edit_loc = $scope.i18n("edit_location");
 		edit_loc_id = $scope.LID;
 		componentHandler.upgradeDom();    
-	};
+	});
 });
