@@ -27,7 +27,7 @@
 						</tr>	
 					</tbody>
 				</table>
-				<button id="btnAddLoc" ng-click="reset_loc(); open_dialog(false)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
+				<button id="btnAddLoc" ng-click="reset_loc(); open_dialog('dlgLocation')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
 				</button>
 			</div>
 		</div>
@@ -75,7 +75,7 @@
 				                <td ng-bind="i18n(sensor.type)"></td>
 				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							    <td>
-								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
+								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
 								    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							    </td>
 						</tr>
@@ -95,7 +95,7 @@
 
 				<div style="margin: 5px;"></div>
 
-				<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_sensor')">
+				<button id="btnAddSensor" ng-click="reset_sen(); open_dialog('dlgSensor')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_sensor')">
 				</button>
 			</div>
 		</div>
@@ -110,7 +110,7 @@
 	</div>
 
 	<!--Add sensor dialog-->
-    <dialog id="dlgSensor" class="mdl-dialog">
+    <dialog id="dlgSensor" class="mdl-dialog" ng-controller="sensor_dialogController">
         <h4 class="mdl-dialog__title" ng-bind="edit_sen"></h4>
         <div class="mdl-dialog__content">
             <form name="sensor_form">
