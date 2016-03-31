@@ -469,6 +469,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
         }
     });
 	function set_loc() {
+	    console.log("Setting up the dialog!");
 		edit = true;
 		$scope.loc_country = $scope.country;
 		$scope.loc_city = $scope.city;
