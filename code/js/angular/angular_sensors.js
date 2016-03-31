@@ -113,7 +113,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	    			toChange.innerHTML = response.house.description;
 	    			$scope.sen_house_name = response.house.description;
     				$scope.sen_house = value;
-    				$scope.apply();
+    				$scope.$apply();
 	            }); 
 				break; 
 		}
