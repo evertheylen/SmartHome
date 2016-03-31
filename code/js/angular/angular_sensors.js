@@ -383,11 +383,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.reset_sen();
 	$scope.reset_loc();
     
-	$scope.dialog = document.getElementById('dlgLocation');
-	    var showDialogButton = document.getElementById('btnAddLoc');
-	    showDialogButton.addEventListener('click', function(){
-		$scope.dialog.showModal();
-	});
+	//$scope.dialog = document.getElementById('dlgLocation');
+	    //var showDialogButton = document.getElementById('btnAddLoc');
+	    //showDialogButton.addEventListener('click', function(){
+		//$scope.dialog.showModal();
+	//});
 	
 	document.getElementById('btnLocationBack').addEventListener('click', function(){
 		$scope.dialog.close();
@@ -447,11 +447,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		componentHandler.upgradeDom();
 	}
 	
-    componentHandler.upgradeDom();
-});
-
-angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
-    $scope.open_dialog = function (edit) {
+	$scope.open_dialog = function (edit) {
         var element = document.getElementById("dlgLocation");
         if (edit) {
             dlgLocation_setup.setLocation($scope.house);
@@ -460,6 +456,12 @@ angular.module("overwatch").controller("location_objController", function($scope
         $rootScope.$emit("dlgLocation_open");
         componentHandler.upgradeDom();
     }
+	
+    componentHandler.upgradeDom();
+});
+
+angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
+    
 });
 
 angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
