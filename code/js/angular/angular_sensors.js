@@ -383,14 +383,13 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.reset_sen();
 	$scope.reset_loc();
     
-	//$scope.dialog = document.getElementById('dlgLocation');
 	    //var showDialogButton = document.getElementById('btnAddLoc');
 	    //showDialogButton.addEventListener('click', function(){
 		//$scope.dialog.showModal();
 	//});
 	
 	document.getElementById('btnLocationBack').addEventListener('click', function(){
-		$scope.dialog.close();
+		document.getElementById('dlgLocation');.close();
 	});
 
 	var dialog2 = document.getElementById('dlgSensor');
