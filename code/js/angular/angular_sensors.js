@@ -364,9 +364,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.sen_name = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].title;
 		$scope.sen_type = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].type;
 		$scope.sen_tags = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].tags;
-		$scope.sen_house = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].house;
+		$scope.sen_house = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].location_LID;
 		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].type, 'select_type', 'dropDownType', 'type');
-		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].house, 'select_house', 'dropDownLocation', 'house');
+		$scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].location_LID, 'select_house', 'dropDownLocation', 'house');
 
 		addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
 		//addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
