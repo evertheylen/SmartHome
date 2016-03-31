@@ -342,7 +342,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				});     
 				
 			}
-			dialog2.close();
+			document.getElementById("dlgSensor").close();
 		}
 	}
 });
