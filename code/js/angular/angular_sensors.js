@@ -238,7 +238,7 @@ angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
     }
 });
 
-angular.module("overwatch").factory('dlgSensorsetup', function($rootScope) {
+angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
     var sen;
     return {
         setSensor : function(sensor) {
