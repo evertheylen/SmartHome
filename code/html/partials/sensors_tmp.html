@@ -18,14 +18,12 @@
 							</th>
 					</thead>
 					<tbody>
-						<tr ng-repeat="house in houses track by house.LID" on-finish-render="ngRepeatFinished">
-						    <div ng-controller="location_objController as location_obj">
-							    <td class="mdl-data-table__cell--non-numeric" ng-bind="location_obj.description"></td>
+						<tr ng-repeat="house in houses track by house.LID" ng-controller="location_objController" on-finish-render="ngRepeatFinished">
+							    <td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
 							    <td>
 								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
 								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
 							    </td>
-							</div>
 						</tr>	
 					</tbody>
 				</table>
@@ -71,17 +69,15 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index track by sensor.SID" on-finish-render="ngRepeatFinished">
-						    <div ng-controller="sensor_objController as sensor_obj">
-                                <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor_obj.title"></td>
+						<tr ng-controller="sensor_objController" ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index track by sensor.SID" on-finish-render="ngRepeatFinished">
+                                <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
 				                <td>TODO NAME!! ID: {{sensor.location_LID}}</td> <!--TODOs-->
-				                <td ng-bind="i18n(sensor_obj.type)"></td>
-				                <td><span ng-repeat="tag in sensor_obj.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
+				                <td ng-bind="i18n(sensor.type)"></td>
+				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							    <td>
 								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
 								    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							    </td>
-							</div>
 						</tr>
 					</tbody>
 				</table>
