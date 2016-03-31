@@ -434,7 +434,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			delete_from.splice(delete_id, 1);
 		}
 	});
-
+/*
 	$scope.open_dialog = function(element_id, id, sensor) {
 		var element = document.getElementById(element_id);
 		element.showModal();
@@ -444,7 +444,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			set_loc(id);
 		}
 		componentHandler.upgradeDom();
-	}
+	}*/
 	
 	$scope.open_dialog = function (edit) {
         var element = document.getElementById("dlgLocation");
