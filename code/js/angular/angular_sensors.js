@@ -383,8 +383,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.reset_loc();
     
 	$scope.dialog = document.getElementById('dlgLocation');
-	var showDialogButton = document.getElementById('btnAddLoc');
-	showDialogButton.addEventListener('click', function(){
+	    var showDialogButton = document.getElementById('btnAddLoc');
+	    showDialogButton.addEventListener('click', function(){
 		$scope.dialog.showModal();
 	});
 	
@@ -450,9 +450,57 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 });
 
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope) {
-
+    $scope.open_dialog = function () {
+        var element = document.getElementById("dlgLocation");
+        element.showModal();
+        componentHandler.upgradeDom();
+    }
 });
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope) {
 
+});
+
+angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope) {
+	function set_loc() {
+		edit = true;
+		$scope.loc_country = $scope.house.country;
+		$scope.loc_city = $scope.house.city;
+		$scope.loc_postalcode = $scope.house.postalcode;
+		$scope.loc_street = $scope.house.street;
+		$scope.loc_number = $scope.house.number;
+		$scope.loc_elec_price = $scope.house.elec_price;
+		$scope.loc_description = $scope.house.description;
+		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
+		addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
+		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
+		}
+		if (hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
+		}
+		if (hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
+		}
+		if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
+		}
+		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
+		}
+		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
+		}		
+		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
+			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
+		}                                
+		$scope.edit_loc = $scope.i18n("edit_location");
+		edit_loc_id = $scope.house.LID;
+		componentHandler.upgradeDom();    
+	}
 });

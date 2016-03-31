@@ -21,7 +21,7 @@
 						<tr ng-repeat="house in houses track by house.LID" ng-controller="location_objController" on-finish-render="ngRepeatFinished">
 							    <td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
 							    <td>
-								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
+								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
 								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
 							    </td>
 						</tr>	
@@ -173,7 +173,7 @@
     </dialog>
 
 	<!--TODO Maybe adjust this information, i don't know if this is enough-->
-	<dialog id="dlgLocation" class="mdl-dialog">
+	<dialog id="dlgLocation" class="mdl-dialog" ng-controller="location_dialogController">
         <h4 class="mdl-dialog__title" ng-bind="edit_loc"></h4>
         <div class="mdl-dialog__content">
             <form name="house_form">
