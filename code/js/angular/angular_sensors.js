@@ -449,30 +449,44 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     componentHandler.upgradeDom();
 });
 
-angular.module("overwatch").controller("location_objController", function($scope, $rootScope) {
+angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
     $scope.open_dialog = function (edit) {
         var element = document.getElementById("dlgLocation");
+        dlgLocation_setup.setLocation($scope.house);
         element.showModal();
         $rootScope.$emit("dlgLocation_open");
         componentHandler.upgradeDom();
     }
 });
 
+angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
+    var loc;
+    return {
+        setLocation : function(location) {
+            loc = location;
+        },
+        
+        getLocation : function() {
+            return loc;
+        }
+    }
+});
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope) {
 
 });
 
-angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope) {
+angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope, dlgLocation_setup) {
     $rootScope.$on("dlgLocation_open", function() {
 	    console.log("Setting up the dialog!");
+	    var loc = dlgLocation_setup.getLocation();
 		edit = true;
-		$scope.loc_country = $scope.country;
-		$scope.loc_city = $scope.city;
-		$scope.loc_postalcode = $scope.postalcode;
-		$scope.loc_street = $scope.street;
-		$scope.loc_number = $scope.number;
-		$scope.loc_elec_price = $scope.elec_price;
-		$scope.loc_description = $scope.description;
+		$scope.loc_country = loc.country;
+		$scope.loc_city = loc.city;
+		$scope.loc_postalcode = loc.postalcode;
+		$scope.loc_street = loc.street;
+		$scope.loc_number = loc.number;
+		$scope.loc_elec_price = loc.elec_price;
+		$scope.loc_description = loc.description;
 		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
@@ -502,7 +516,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		}                                
 		$scope.edit_loc = $scope.i18n("edit_location");
-		edit_loc_id = $scope.LID;
+		edit_loc_id = loc.LID;
 		componentHandler.upgradeDom();    
 	});
 });
