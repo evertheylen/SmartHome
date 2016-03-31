@@ -34,8 +34,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
     
-	$scope.types = ["electricity_type", "gas_type", "water_type"];       // TODO FIX THIS
-
 	$scope.required = true;
 	$scope.selected_order = null;
 	var edit_loc_id = null;

@@ -134,6 +134,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	        $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 	    }
 	};
+	
+	$rootScope.types = ["electricity_type", "gas_type", "water_type"];
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",
