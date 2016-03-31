@@ -464,13 +464,13 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope) {
 	//function set_loc() {
 		edit = true;
-		$scope.loc_country = $scope.house.country;
-		$scope.loc_city = $scope.house.city;
-		$scope.loc_postalcode = $scope.house.postalcode;
-		$scope.loc_street = $scope.house.street;
-		$scope.loc_number = $scope.house.number;
-		$scope.loc_elec_price = $scope.house.elec_price;
-		$scope.loc_description = $scope.house.description;
+		$scope.loc_country = $scope.country;
+		$scope.loc_city = $scope.city;
+		$scope.loc_postalcode = $scope.postalcode;
+		$scope.loc_street = $scope.street;
+		$scope.loc_number = $scope.number;
+		$scope.loc_elec_price = $scope.elec_price;
+		$scope.loc_description = $scope.description;
 		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
 		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
@@ -500,7 +500,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		}                                
 		$scope.edit_loc = $scope.i18n("edit_location");
-		edit_loc_id = $scope.house.LID;
+		edit_loc_id = $scope.LID;
 		componentHandler.upgradeDom();    
 	//}
 });
