@@ -477,7 +477,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope, dlgLocation_setup) {
     $rootScope.$on("dlgLocation_open", function() {
-	    console.log("Setting up the dialog!");
+	    console.log("Setting up the dialog! Hopefully version 2?");
 	    var loc = dlgLocation_setup.getLocation();
 		edit = true;
 		$scope.loc_country = loc.country;
