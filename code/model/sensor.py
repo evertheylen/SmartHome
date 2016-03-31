@@ -12,5 +12,5 @@ class Sensor(RTOwEntity):
     location = Reference(Location)
     
     async def is_authorized(self, type: str, usr: User, **kwargs):
-        return self.user.key == usr.key
+        return self.user == usr.key
 

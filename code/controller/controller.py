@@ -5,7 +5,6 @@
 import hashlib
 import random
 from functools import wraps
-from collections import defaultdict
 import types
 from concurrent.futures import ThreadPoolExecutor
 import passlib.hash  # For passwords
