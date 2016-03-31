@@ -326,10 +326,12 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].type = $scope.sen_type;
 				//$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].tags = $scope.sen_tags;
 				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].house = $scope.sen_house;
+				$scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id].house_name = $scope.sen_house_name;
 				$scope.filteredSensors[edit_sen_id].title = $scope.sen_name;
 				$scope.filteredSensors[edit_sen_id].type = $scope.sen_type;
 				//$scope.filteredSensors[edit_sen_id].tags = $scope.sen_tags;
 				$scope.filteredSensors[edit_sen_id].house = $scope.sen_house;
+				$scope.filteredSensors[edit_sen_id].house_name = $scope.sen_house_name;				
 				var sensor = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + edit_sen_id];
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
@@ -344,10 +346,13 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				
 				var sensorObject = new_sensor.toJSON();
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
-					new_sensor.SID = response.sensor.SID;	
-					$scope.sensors.push(new_sensor);
-				    updateFilteredSensors();
-				    $scope.$apply();
+					new_sensor.SID = response.sensor.SID;
+					ws.request({type: "get", what: "Location", data: {LID: response.sensor.LID}}, function(response) {
+	        			new_sensor.house_name = response.house.description;
+	        			$scope.sensors.push(new_sensor);
+				        updateFilteredSensors();
+				        $scope.$apply();
+	                }); 
 				});     
 				
 			}
