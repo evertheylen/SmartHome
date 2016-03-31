@@ -462,6 +462,12 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 });
 
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope) {
+    $scope.dialog_open = document.getElementById('dlgLocation').getAttribute('open');
+    $scope.$watch('dialog_open', function() {
+        if (dialog_open != null) {
+            set_loc();
+        }
+    });
 	function set_loc() {
 		edit = true;
 		$scope.loc_country = $scope.country;
