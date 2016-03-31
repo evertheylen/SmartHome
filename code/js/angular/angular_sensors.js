@@ -28,7 +28,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.sensors = response.sensors;
-		updateFilteredSensors();
+		$scope.updateFilteredSensors();
 		$scope.$apply();
 	});
 	
@@ -60,7 +60,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.filteredSensors = $scope.sensors.slice(begin, end);
 	});
 	
-	updateFilteredSensors = function () {
+	$scope.updateFilteredSensors = function () {
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage)
 		, end = begin + $scope.numPerPage;
 		if ($scope.sensors.length -1 < $scope.numPerPage * ($scope.maxSize-1)) {
@@ -136,26 +136,23 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.reset_sen();
 	$scope.reset_loc();
     
-	document.getElementById('btnLocationBack').addEventListener('click', function(){
-		document.getElementById('dlgLocation').close();
-	});
-
-	document.getElementById('btnSensorBack').addEventListener('click', function(){
-		document.getElementById('dlgSensor').close();
-	});
-
 	var delete_id = null;    // TODO Nasty global vars
 	var delete_from = null;
 	
-	$scope.delete = function (id, from) {
+/*	$scope.delete = function (id, from) {
 		$rootScope.confirm_dialog.showModal();
 		componentHandler.upgradeDom();
 		console.log($scope.sensors + " ID: " + id + " from " + from);
 		delete_id = id;
 		delete_from = from;
 	};
-
-	$scope.$on("confirmation", function (event, value) {
+*/
+    $scope.delete = function () {
+        $rootScope.confirm_dialog.showModal();
+        componentHandler.upgradeDom();
+    }
+    
+	/*$scope.$on("confirmation", function (event, value) {
 		if (value) {
 			if (delete_from == $scope.sensors) {
 				console.log("Delete_id: " + delete_id);
@@ -175,7 +172,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			}
 			delete_from.splice(delete_id, 1);
 		}
-	});
+	});*/
 
 	$scope.open_dialog = function (elem) {
         var element = document.getElementById(elem);
@@ -194,7 +191,13 @@ angular.module("overwatch").controller("location_objController", function($scope
         element.showModal();
         $rootScope.$emit("dlgLocation_open");
         componentHandler.upgradeDom();
-    }  
+    }
+   
+    $scope.$on("confirmation", function () {
+        ws.request({type: "delete", what: "Location", data: {"LID": $scope.house.LID}}, function(success) {
+            $scope.$apply();
+        });
+    });  
 });
 
 angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
@@ -230,7 +233,14 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
         element.showModal();
         $rootScope.$emit("dlgSensor_open");
         componentHandler.upgradeDom();
-    } 
+    }
+    
+    $scope.$on("confirmation", function () {
+        ws.request({type: "delete", what: "Sensor", data: {"SID": $scope.sensor.SID}}, function(success) {
+            $scope.updateFilteredSensors();
+            $scope.$apply();
+        });
+    });
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
@@ -308,7 +318,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					new_sensor.SID = response.sensor.SID;
 					ws.request({type: "get", what: "Location", data: {LID: response.sensor.location_LID}}, function(response) {
 	        			$scope.sensors.push(new_sensor);
-				        updateFilteredSensors();
+				        $scope.updateFilteredSensors();
 				        $scope.$apply();
 	                }); 
 				});     
@@ -345,7 +355,9 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
-
+	document.getElementById('btnSensorBack').addEventListener('click', function(){
+		document.getElementById('dlgSensor').close();
+	});
 });
 	    
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope, dlgLocation_setup) {
@@ -485,4 +497,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 			console.log("Dialog closed");
 	    }
 	} 
+	document.getElementById('btnLocationBack').addEventListener('click', function(){
+		document.getElementById('dlgLocation').close();
+	});
 });
