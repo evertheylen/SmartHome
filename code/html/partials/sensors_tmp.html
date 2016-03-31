@@ -21,7 +21,7 @@
 						<tr ng-repeat="house in houses track by house.LID" ng-controller="location_objController" on-finish-render="ngRepeatFinished">
 							    <td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
 							    <td>
-								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
+								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog(true);"><i class="material-icons">edit</i></button>
 								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
 							    </td>
 						</tr>	
