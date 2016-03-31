@@ -2,6 +2,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 var d = new Date();
     $scope.variable = new Date();
     $timeout(function () {
+        alert("uitgevoerd");
         $scope.$apply();
     }, 5000);
 
