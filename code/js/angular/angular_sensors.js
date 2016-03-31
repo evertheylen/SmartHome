@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth) {
+angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup) {
 		
 	$rootScope.tab = "sensorslink";
 	$rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
@@ -154,7 +154,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	}
     
 	$scope.reset_loc = function reset_loc() {
-		edit = false;
+		/*edit = false;
 		edit_loc_id = null;
 		$scope.loc_country = null;
 		$scope.loc_city = null;
@@ -205,7 +205,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		}
 		if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
 			addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
-		}  
+		} */
+        dlgLocation_setup.setLocation(null);
 	}
     
     	// TODO Database update: house (Make difference between add and edit) Jeroen
@@ -452,7 +453,9 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
     $scope.open_dialog = function (edit) {
         var element = document.getElementById("dlgLocation");
-        dlgLocation_setup.setLocation($scope.house);
+        if (edit) {
+            dlgLocation_setup.setLocation($scope.house);
+        }
         element.showModal();
         $rootScope.$emit("dlgLocation_open");
         componentHandler.upgradeDom();
