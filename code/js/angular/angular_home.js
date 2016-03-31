@@ -1,6 +1,9 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout) {
 var d = new Date();
-  $scope.variable = new Date();
+    $scope.variable = new Date();
+    $timeout(function () {
+        $scope.$apply();
+    }, 5000);
 
     $rootScope.tab = "homelink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
