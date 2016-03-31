@@ -434,7 +434,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			delete_from.splice(delete_id, 1);
 		}
 	});
-/*
+
 	$scope.open_dialog = function(element_id, id, sensor) {
 		var element = document.getElementById(element_id);
 		element.showModal();
@@ -444,7 +444,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			set_loc(id);
 		}
 		componentHandler.upgradeDom();
-	}*/
+	}
 	
 	$scope.open_dialog = function (edit) {
         var element = document.getElementById("dlgLocation");
@@ -483,44 +483,133 @@ angular.module("overwatch").controller("location_dialogController", function($sc
     $rootScope.$on("dlgLocation_open", function() {
 	    console.log("Setting up the dialog! Hopefully version 2?");
 	    var loc = dlgLocation_setup.getLocation();
-		edit = true;
-		$scope.loc_country = loc.country;
-		$scope.loc_city = loc.city;
-		$scope.loc_postalcode = loc.postalcode;
-		$scope.loc_street = loc.street;
-		$scope.loc_number = loc.number;
-		$scope.loc_elec_price = loc.elec_price;
-		$scope.loc_description = loc.description;
-		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
-		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
-		}		
-		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
-		}                                
-		$scope.edit_loc = $scope.i18n("edit_location");
-		edit_loc_id = loc.LID;
+	    if (loc != null) {
+	    	/*$scope.save_loc = function save_loc() {
+		        if ($scope.house_form.$valid) {
+			        if (edit) {
+				        // Edit house
+				        $scope.houses[edit_loc_id].description = $scope.loc_description;
+				        $scope.houses[edit_loc_id].number = $scope.loc_number;
+				        $scope.houses[edit_loc_id].street = $scope.loc_street;
+				        $scope.houses[edit_loc_id].city = $scope.loc_city;
+				        $scope.houses[edit_loc_id].postalcode = $scope.loc_postalcode;
+				        $scope.houses[edit_loc_id].country = $scope.loc_country;
+				        $scope.houses[edit_loc_id].elec_price = $scope.loc_elec_price;
+				        $scope.houses[edit_loc_id].user_UID = $rootScope.auth_user.UID;
+				
+				        var houseObject = $scope.houses[edit_loc_id].toJSON();
+				        ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
+					        $scope.houses[edit_loc_id] = response;
+				        });
+			        } else {
+				        // Add house
+				        var new_house = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
+								        $scope.loc_elec_price, $rootScope.auth_user.UID);
+				        delete new_house.LID;
+				        var houseObject = new_house.toJSON();
+				        ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
+					        new_house.LID = response.house.LID;	
+					        console.log("Pre house added");
+			                $scope.houses.push(new_house);
+			                console.log("house added");
+					        console.log("Response verwerkt");
+					        $scope.$apply();
+				        });
+			        }
+			        $scope.dialog.close();
+			        console.log("Dialog closed");
+		        }
+	        }*/
+		    edit = true;
+		    $scope.loc_country = loc.country;
+		    $scope.loc_city = loc.city;
+		    $scope.loc_postalcode = loc.postalcode;
+		    $scope.loc_street = loc.street;
+		    $scope.loc_number = loc.number;
+		    $scope.loc_elec_price = loc.elec_price;
+		    $scope.loc_description = loc.description;
+		    addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
+		    addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
+		    addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
+		    addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
+		    addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+		    addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
+		    addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
+		    if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
+			    removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
+			    removeClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
+			    removeClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
+			    removeClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
+			    removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			    removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
+		    }		
+		    if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
+			    removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
+		    }                                
+		    $scope.edit_loc = $scope.i18n("edit_location");
+		    edit_loc_id = loc.LID;
+	    } else {
+	        edit = false;
+		    $scope.loc_country = null;
+		    $scope.loc_city = null;
+		    $scope.loc_postalcode = null;
+		    $scope.loc_street = null;
+		    $scope.loc_number = null;
+		    $scope.loc_elec_price = null;
+		    $scope.loc_description = null;
+		    if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-dirty")) {
+			removeClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationCity"), "is-dirty")) {
+			    removeClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationZip"), "is-dirty")) {
+			    removeClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-dirty")) {
+			    removeClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationNr"), "is-dirty")) {
+			    removeClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
+		    }
+		    if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty")) {
+			    removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
+		    }		
+		    if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
+			    removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
+		    }
+		    if (!hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
+			    addClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
+		    }
+		    if (!hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
+			    addClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
+		    }
+		    if (!hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
+			    addClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
+		    }
+		    if (!hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
+			    addClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
+		    }
+		    if (!hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
+			    addClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
+		    }
+		    if (!hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
+			    addClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
+		    }
+		    if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
+			    addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
+		    }
+	    }
 		componentHandler.upgradeDom();    
 	});
 });
