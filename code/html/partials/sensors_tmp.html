@@ -24,6 +24,71 @@
 								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
 								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
 							    </td>
+							    	<!--TODO Maybe adjust this information, i don't know if this is enough-->
+	<dialog id="dlgLocation" class="mdl-dialog" ng-controller="location_dialogController">
+        <h4 class="mdl-dialog__title" ng-bind="edit_loc"></h4>
+        <div class="mdl-dialog__content">
+            <form name="house_form">
+                <div id="txtfield_LocationCountry" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="houseCountry" required>
+                    <label class="mdl-textfield__label" for="input_LocationCountry" ng-bind="i18n('country')"></label>
+                </div>
+                <div ng-messages="house_form.houseCountry.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>                
+                <div id="txtfield_LocationCity" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="houseCity" required>
+                    <label class="mdl-textfield__label" for="input_LocationCity" ng-bind="i18n('city')"></label>
+                </div>
+                <div ng-messages="house_form.houseCity.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>                   
+                <div id="txtfield_LocationZip" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="houseZip" required>
+                    <label class="mdl-textfield__label" for="input_LocationZip" ng-bind="i18n('postalcode')"></label>
+                </div>
+                <div ng-messages="house_form.houseZip.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>                   
+                <div id="txtfield_LocationStreet" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="houseStreet" required>
+                    <label class="mdl-textfield__label" for="input_LocationStreet" ng-bind="i18n('street')"></label>
+                </div>
+                <div ng-messages="house_form.houseStreet.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>                   
+                <div id="txtfield_LocationNr" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="houseNr" required>
+                    <label class="mdl-textfield__label" for="input_LocationNr" ng-bind="i18n('number')"></label>
+                </div>
+                <div ng-messages="house_form.houseNr.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>
+                <div id="txtfield_LocationElecPrice" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="houseElecPrice" required>
+                    <label class="mdl-textfield__label" for="input_LocationElecPrice" ng-bind="i18n('elec_price')"></label>
+                </div>
+                <div ng-messages="house_form.houseElecPrice.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>                                    
+                <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
+                    <input ng-model="loc_description" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="houseDesc" required>
+                    <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
+                </div>
+                <div ng-messages="house_form.houseDesc.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>                   
+            </form>
+            <div>
+                <button id="btnLocationSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="save_loc()"
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('save_changes')">
+                </button>
+                <button id="btnLocationBack" ng-click="reset_loc();" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    style="width: 45%; display: inline;" ng-bind="i18n('back')">
+                </button>
+            </div>
+        </div>
+    </dialog>
 						</tr>	
 					</tbody>
 				</table>
@@ -172,71 +237,7 @@
         </div>
     </dialog>
 
-	<!--TODO Maybe adjust this information, i don't know if this is enough-->
-	<dialog id="dlgLocation" class="mdl-dialog" ng-controller="location_dialogController">
-        <h4 class="mdl-dialog__title" ng-bind="edit_loc"></h4>
-        <div class="mdl-dialog__content">
-            <form name="house_form">
-                <div id="txtfield_LocationCountry" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="houseCountry" required>
-                    <label class="mdl-textfield__label" for="input_LocationCountry" ng-bind="i18n('country')"></label>
-                </div>
-                <div ng-messages="house_form.houseCountry.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                
-                <div id="txtfield_LocationCity" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="houseCity" required>
-                    <label class="mdl-textfield__label" for="input_LocationCity" ng-bind="i18n('city')"></label>
-                </div>
-                <div ng-messages="house_form.houseCity.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                   
-                <div id="txtfield_LocationZip" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="houseZip" required>
-                    <label class="mdl-textfield__label" for="input_LocationZip" ng-bind="i18n('postalcode')"></label>
-                </div>
-                <div ng-messages="house_form.houseZip.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                   
-                <div id="txtfield_LocationStreet" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="houseStreet" required>
-                    <label class="mdl-textfield__label" for="input_LocationStreet" ng-bind="i18n('street')"></label>
-                </div>
-                <div ng-messages="house_form.houseStreet.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                   
-                <div id="txtfield_LocationNr" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="houseNr" required>
-                    <label class="mdl-textfield__label" for="input_LocationNr" ng-bind="i18n('number')"></label>
-                </div>
-                <div ng-messages="house_form.houseNr.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>
-                <div id="txtfield_LocationElecPrice" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="houseElecPrice" required>
-                    <label class="mdl-textfield__label" for="input_LocationElecPrice" ng-bind="i18n('elec_price')"></label>
-                </div>
-                <div ng-messages="house_form.houseElecPrice.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                                    
-                <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_description" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="houseDesc" required>
-                    <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
-                </div>
-                <div ng-messages="house_form.houseDesc.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                   
-            </form>
-            <div>
-                <button id="btnLocationSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="save_loc()"
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('save_changes')">
-                </button>
-                <button id="btnLocationBack" ng-click="reset_loc();" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-bind="i18n('back')">
-                </button>
-            </div>
-        </div>
-    </dialog>
+
 </div>
 <script>
 </script>
