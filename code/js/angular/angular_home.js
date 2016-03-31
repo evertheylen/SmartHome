@@ -1,17 +1,3 @@
-angular.module("overwatch").controller("child", function($scope, $rootScope, Auth, $timeout) {
-$scope.gettime = function() {
-      d = new Date();
-      return d.getTime();
-  }
-}
-
-function update_me(scope) {
-  setTimeout(function() {
-    alert("wtf");
-    scope.$apply();
-  }, 2000);
-}
-
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout) {
 var d = new Date();
     $scope.gettime = function() {
