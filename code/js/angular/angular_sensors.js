@@ -34,7 +34,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
     
-	$scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
+	$scope.types = [$scope.i18n("electricity_type"), $scope.i18n("gas_type"), $scope.i18n("water_type"), $scope.i18n("temperature_type"), $scope.i18n("other_type")];
 
 	$scope.required = true;
 	$scope.selected_order = null;
