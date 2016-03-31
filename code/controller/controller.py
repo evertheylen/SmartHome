@@ -278,7 +278,7 @@ class Controller(metaclass=MetaController):
             await l.check_auth(req)
             l.edit_from_json(req.data)
             await l.update(self.db)
-            await req.answer(u.json_repr())
+            await req.answer(l.json_repr())
         
         @case("Sensor")
         async def sensor(self, req):
@@ -286,7 +286,7 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             s.edit_from_json(req.data)
             await s.update(self.db)
-            await req.answer(u.json_repr())
+            await req.answer(s.json_repr())
 
     # TODO handle FOREIGN KEY constraints (CASCADE?)
     @handle_ws_type("delete")
