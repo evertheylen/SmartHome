@@ -154,139 +154,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	}
     
 	$scope.reset_loc = function reset_loc() {
-		/*edit = false;
-		edit_loc_id = null;
-		$scope.loc_country = null;
-		$scope.loc_city = null;
-		$scope.loc_postalcode = null;
-		$scope.loc_street = null;
-		$scope.loc_number = null;
-		$scope.loc_elec_price = null;
-		$scope.loc_description = null;
-		$scope.edit_loc = $scope.i18n("add_location");    
-		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationCity"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationZip"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
-		}		
-		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
-			removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
-		}
-		if (!hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
-		}
-		if (!hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
-		}
-		if (!hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
-		}
-		if (!hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
-		}
-		if (!hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
-		}
-		if (!hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
-		}
-		if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
-			addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
-		} */
         dlgLocation_setup.setLocation(null);
-	}
-    
-    	// TODO Database update: house (Make difference between add and edit) Jeroen
-	$scope.save_loc = function save_loc() {
-		if ($scope.house_form.$valid) {
-			if (edit) {
-				// Edit house
-				$scope.houses[edit_loc_id].description = $scope.loc_description;
-				$scope.houses[edit_loc_id].number = $scope.loc_number;
-				$scope.houses[edit_loc_id].street = $scope.loc_street;
-				$scope.houses[edit_loc_id].city = $scope.loc_city;
-				$scope.houses[edit_loc_id].postalcode = $scope.loc_postalcode;
-				$scope.houses[edit_loc_id].country = $scope.loc_country;
-				$scope.houses[edit_loc_id].elec_price = $scope.loc_elec_price;
-				$scope.houses[edit_loc_id].user_UID = $rootScope.auth_user.UID;
-				
-				var houseObject = $scope.houses[edit_loc_id].toJSON();
-				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
-					$scope.houses[edit_loc_id] = response;
-				});
-			} else {
-				// Add house
-				var new_house = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
-								$scope.loc_elec_price, $rootScope.auth_user.UID);
-				delete new_house.LID;
-				var houseObject = new_house.toJSON();
-				ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
-					new_house.LID = response.house.LID;	
-					console.log("Pre house added");
-			        $scope.houses.push(new_house);
-			        console.log("house added");
-					console.log("Response verwerkt");
-					$scope.$apply();
-				});
-			}
-			$scope.dialog.close();
-			console.log("Dialog closed");
-		}
-	}   
-
-	function set_loc(id) {
-		edit = true;
-		$scope.loc_country = $scope.houses[id].country;
-		$scope.loc_city = $scope.houses[id].city;
-		$scope.loc_postalcode = $scope.houses[id].postalcode;
-		$scope.loc_street = $scope.houses[id].street;
-		$scope.loc_number = $scope.houses[id].number;
-		$scope.loc_elec_price = $scope.houses[id].elec_price;
-		$scope.loc_description = $scope.houses[id].description;
-		addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
-		addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
-		if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationCity"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationCity"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationZip"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationZip"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationStreet"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationStreet"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
-		}
-		if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
-		}		
-		if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
-			removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
-		}                                
-		$scope.edit_loc = $scope.i18n("edit_location");
-		edit_loc_id = id;
-		componentHandler.upgradeDom();    
 	}
     
 	$scope.reset_sen = function reset_sen() {
@@ -487,42 +355,6 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 	    console.log("Setting up the dialog! Hopefully version 3?");
 	    var loc = dlgLocation_setup.getLocation();
 	    if (loc != null) {
-	    	/*$scope.save_loc = function save_loc() {
-		        if ($scope.house_form.$valid) {
-			        if (edit) {
-				        // Edit house
-				        $scope.houses[edit_loc_id].description = $scope.loc_description;
-				        $scope.houses[edit_loc_id].number = $scope.loc_number;
-				        $scope.houses[edit_loc_id].street = $scope.loc_street;
-				        $scope.houses[edit_loc_id].city = $scope.loc_city;
-				        $scope.houses[edit_loc_id].postalcode = $scope.loc_postalcode;
-				        $scope.houses[edit_loc_id].country = $scope.loc_country;
-				        $scope.houses[edit_loc_id].elec_price = $scope.loc_elec_price;
-				        $scope.houses[edit_loc_id].user_UID = $rootScope.auth_user.UID;
-				
-				        var houseObject = $scope.houses[edit_loc_id].toJSON();
-				        ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
-					        $scope.houses[edit_loc_id] = response;
-				        });
-			        } else {
-				        // Add house
-				        var new_house = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
-								        $scope.loc_elec_price, $rootScope.auth_user.UID);
-				        delete new_house.LID;
-				        var houseObject = new_house.toJSON();
-				        ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
-					        new_house.LID = response.house.LID;	
-					        console.log("Pre house added");
-			                $scope.houses.push(new_house);
-			                console.log("house added");
-					        console.log("Response verwerkt");
-					        $scope.$apply();
-				        });
-			        }
-			        $scope.dialog.close();
-			        console.log("Dialog closed");
-		        }
-	        }*/
 		    edit = true;
 		    $scope.loc_country = loc.country;
 		    $scope.loc_city = loc.city;
@@ -615,4 +447,52 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 	    }
 		componentHandler.upgradeDom();    
 	});
+	
+	$scope.save_loc = function save_loc() {
+		if ($scope.house_form.$valid) {
+			if (edit) {
+				// Edit house // TODO This doesnt get locally updated anymore because via the live system Jeroen will issue an update to the updated location! (So for the moment only updates on get_all == f5)
+				/*$scope.houses[edit_loc_id].description = $scope.loc_description;
+				$scope.houses[edit_loc_id].number = $scope.loc_number;
+				$scope.houses[edit_loc_id].street = $scope.loc_street;
+				$scope.houses[edit_loc_id].city = $scope.loc_city;
+				$scope.houses[edit_loc_id].postalcode = $scope.loc_postalcode;
+				$scope.houses[edit_loc_id].country = $scope.loc_country;
+				$scope.houses[edit_loc_id].elec_price = $scope.loc_elec_price;
+				$scope.houses[edit_loc_id].user_UID = $rootScope.auth_user.UID;
+				*/
+				
+				var house = {};
+				house.description = $scope.loc_description;
+				house.number = $scope.loc_number;
+				house.street = $scope.loc_street;
+				house.city = $scope.loc_city;
+				house.postalcode = $scope.loc_postalcode;
+				house.country = $scope.loc_country;
+				house.elec_price = $scope.loc_elec_price;
+				house.user_UID = $rootScope.auth_user.UID;
+				
+				var houseObject = house.toJSON();
+				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
+					//$scope.houses[edit_loc_id] = response; //TODO Will be done through jeroen's updates
+				});
+			} else {
+				// Add house
+				var new_house = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
+								$scope.loc_elec_price, $rootScope.auth_user.UID);
+				delete new_house.LID;
+				var houseObject = new_house.toJSON();
+				ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
+					new_house.LID = response.house.LID;	
+					console.log("Pre house added");
+			        $scope.houses.push(new_house);
+			        console.log("house added");
+					console.log("Response verwerkt");
+					$scope.$apply();
+				});
+			}
+			$scope.dialog.close();
+			console.log("Dialog closed");
+	    }
+	} 
 });
