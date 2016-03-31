@@ -266,13 +266,13 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 	    var sen = dlgSensor_setup.getSensor();
 	    if (sen != null) {
 	        edit = true;
-		    $scope.sen_name = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].title;
-		    $scope.sen_type = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].type;
-		    $scope.sen_tags = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].tags;
-		    $scope.sen_house = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].location_LID;
-		    $scope.sen_SID = $scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].SID;
-		    $scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].type, 'select_type', 'dropDownType', 'type');
-		    $scope.dropDownClick($scope.sensors[($scope.currentPage - 1) * $scope.numPerPage + id].location_LID, 'select_house', 'dropDownLocation', 'house');
+		    $scope.sen_name = sen.title;
+		    $scope.sen_type = sen.type;
+		    $scope.sen_tags = sen.tags;
+		    $scope.sen_house = sen.location_LID;
+		    $scope.sen_SID = sen.SID;
+		    $scope.dropDownClick(sen.type, 'select_type', 'dropDownType', 'type');
+		    $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
 
 		    addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
 		    //addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
