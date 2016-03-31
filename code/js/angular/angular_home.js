@@ -4,7 +4,7 @@ var d = new Date();
   $timeout(function () {
         $scope.variable = d.getTime();        
         $scope.$apply();
-    }, 50);
+    }, 5000);
 
     $rootScope.tab = "homelink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
