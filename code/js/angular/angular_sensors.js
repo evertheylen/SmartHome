@@ -136,14 +136,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.reset_sen();
 	$scope.reset_loc();
     
-	document.getElementById('btnLocationBack').addEventListener('click', function(){
-		document.getElementById('dlgLocation').close();
-	});
-
-	document.getElementById('btnSensorBack').addEventListener('click', function(){
-		document.getElementById('dlgSensor').close();
-	});
-
 	var delete_id = null;    // TODO Nasty global vars
 	var delete_from = null;
 	
@@ -345,7 +337,9 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
-
+	document.getElementById('btnSensorBack').addEventListener('click', function(){
+		document.getElementById('dlgSensor').close();
+	});
 });
 	    
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope, dlgLocation_setup) {
@@ -485,4 +479,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 			console.log("Dialog closed");
 	    }
 	} 
+	document.getElementById('btnLocationBack').addEventListener('click', function(){
+		document.getElementById('dlgLocation').close();
+	});
 });

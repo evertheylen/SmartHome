@@ -76,14 +76,14 @@
 				            </tr>
 				        </thead>
 				        <tbody>
-				            <tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
+				            <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
 				                <td class="mdl-data-table__cell--non-numeric">
 				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 				                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-location_{{$index}}" for="list-checkbox-location_{{$index}}">
 				                            <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location')"/>
 				                        </label>
 				                    </span>
-				                    <span style="display: inline-block;" ng-bind="location.desc"></span>
+				                    <span style="display: inline-block;" ng-bind="house.description"></span>
 				                </td>
 				                
 				            </tr>
@@ -139,14 +139,14 @@
 				            </tr>
 				        </thead>
 				        <tbody>
-				            <tr ng-repeat="sensor in sensors" on-finish-render="ngRepeatFinished">
+				            <tr ng-controller="sensor_objController" ng-repeat="sensor in sensors" on-finish-render="ngRepeatFinished">
 				                <td class="mdl-data-table__cell--non-numeric">
 				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 				                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-sensor_{{$index}}" for="list-checkbox-sensor_{{$index}}">
 				                            <input type="checkbox" id="list-checkbox-sensor_{{$index}}" class="mdl-checkbox__input" ng-model="select_sensors[$index]" ng-change="checkStatus('sensor')"/>
 				                        </label>
 				                    </span>
-				                    <span style="display: inline-block;" ng-bind="sensor.name"></span>
+				                    <span style="display: inline-block;" ng-bind="sensor.title"></span>
 				                </td>
 				            </tr>
 				        </tbody>
