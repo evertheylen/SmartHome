@@ -446,21 +446,24 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		componentHandler.upgradeDom();
 	}
 	
-	$scope.open_dialog = function (edit) {
+	$scope.open_dialog = function () {
         var element = document.getElementById("dlgLocation");
-        if (edit) {
-            dlgLocation_setup.setLocation($scope.house);
-        }
         element.showModal();
         $rootScope.$emit("dlgLocation_open");
         componentHandler.upgradeDom();
-    }
+    }  
 	
     componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
-    
+	$scope.open_dialog = function () {
+        var element = document.getElementById("dlgLocation");
+        dlgLocation_setup.setLocation($scope.house);
+        element.showModal();
+        $rootScope.$emit("dlgLocation_open");
+        componentHandler.upgradeDom();
+    }  
 });
 
 angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
