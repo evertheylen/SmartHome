@@ -38,7 +38,7 @@ Client message:
 		}
 	}
 
-Server response (Succes): 
+Server response (Succes):
 
 	{
 		"type": "signup",
@@ -55,7 +55,7 @@ Server response (Fail):
 		"data": {
 			"status": "failure"
 			"reason": "email_taken"
-		}	
+		}
 	}
 
 ### Login **risky**
@@ -77,7 +77,7 @@ Server response (Fail):
 		"data": {
 			"status": "failure"
 			"reason": "email_unknown" || "wrong_password"
-		}	
+		}
 	}
 
 Server response (Success):
@@ -126,7 +126,7 @@ It looks like this:
 		...
 	}
 
-You have to add a `"for"` attribute when it is not clear what you mean. For example, when adding values the definition is not enough to know for which sensor the value holds. 
+You have to add a `"for"` attribute when it is not clear what you mean. For example, when adding values the definition is not enough to know for which sensor the value holds.
 "Bigger" datatypes will usually store ID's of other object they refer to (e.g. a Sensor has a `"UID"` attribute).
 
 ### Adding
@@ -161,7 +161,7 @@ Message:
 		"what": <object class>,
 		"data": {
 			"ID": <ID of what you want to delete>,
-		} 
+		}
 	}
 
 Response (Success):
@@ -287,7 +287,7 @@ Response (Success):
 	{
 		"type": "edit",
 		"what": <object class>,
-		"data": {	
+		"data": {
 			"object": <entire definition with ID>		
 		}
 	}
@@ -324,6 +324,7 @@ A value is uniquely identified by the sensor and it's timestamp.
 
 Server responses can be of type: `add`, `delete`, `edit`.
 
+
 For now, registering on a user will also send updates on which sensors the user owns.
 
 Closing the connection will unregister from any objects.
@@ -339,5 +340,48 @@ Apart from that you can also unregister from all objects:
 		}
 	}
 
-`edit` will simply send a new definition of the object. 
 
+`edit` will simply send a new definition of the object.
+
+## Live updates type
+
+Todo: get all in sensors + kijken in berichten (zonder register sensors) + terug naar sensors, gebeurd weer een get all maar dan rekening houden met de cache, dus gewoon de cache update en nieuwe sensoren toevoegen.
+
+Edit in sensoren van location_LID, als _location != null moet ge er de juiste locatie insteken.
+
+### Add
+
+	{
+		"ID": 123,
+		"type": "add",
+		"for": {
+			"what": <class of Object B>, // update all html references of this object
+			<Key of object B>: 123,
+		},
+		"what": "<class>",
+		"data": <entire definition with ID of object A> // Add this object to the cache
+	}
+
+### Delete
+
+	Optional in delete:
+	"for": {
+		"what": <class of Object B>,
+		<Key of object B>: 123,
+	},
+
+	{
+		"ID": 123,
+		"type": "delete",
+		"what": "<class>",
+		"data": <entire definition with ID of object A>
+	}
+
+### Edit
+
+{
+	"ID": 123,
+	"type": "edit",
+	"what": "<class>",
+	"data": <entire definition with ID of object>
+}

@@ -3,7 +3,7 @@
 	<div class="mdl-grid">
 		<!--Location table-->
 		<div class="mdl-cell mdl-cell--3-col">
-			<div id="locations">
+			<div id="houses">
 				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
 					<thead>
 						<tr class="tableHeadColor">
@@ -18,16 +18,16 @@
 							</th>
 					</thead>
 					<tbody>
-						<tr ng-repeat="location in locations" on-finish-render="ngRepeatFinished">
-							<td class="mdl-data-table__cell--non-numeric" ng-bind="location.description"></td>
-							<td>
-								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
-								<button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, locations);"><i class="material-icons">delete</i></button>
-							</td>
+						<tr ng-repeat="house in houses track by house.LID" ng-controller="location_objController" on-finish-render="ngRepeatFinished">
+							    <td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
+							    <td>
+								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog(true);"><i class="material-icons">edit</i></button>
+								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
+							    </td>
 						</tr>	
 					</tbody>
 				</table>
-				<button id="btnAddLoc" ng-click="reset_loc();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
+				<button id="btnAddLoc" ng-click="reset_loc(); open_dialog(false)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
 				</button>
 			</div>
 		</div>
@@ -46,7 +46,7 @@
     							<span>Sensor</span>
 							</th>
 							<th>
-								<button ng-click="set_order('location', 'sort_location')" id="sort_location" class="mdl-button mdl-js-button mdl-button--icon">
+								<button ng-click="set_order('house', 'sort_house')" id="sort_house" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
     							<span ng-bind="i18n('location')"></span>
@@ -69,15 +69,15 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index" on-finish-render="ngRepeatFinished">
-                            <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
-				            <td ng-bind="sensor.location_name"></td>
-				            <td ng-bind="sensor.type"></td>
-				            <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
-							<td>
-								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
-								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
-							</td>
+						<tr ng-controller="sensor_objController" ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index track by sensor.SID" on-finish-render="ngRepeatFinished">
+                                <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
+				                <td>TODO NAME!! ID: {{sensor.location_LID}}</td> <!--TODOs-->
+				                <td ng-bind="i18n(sensor.type)"></td>
+				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
+							    <td>
+								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
+								    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
+							    </td>
 						</tr>
 					</tbody>
 				</table>
@@ -100,13 +100,13 @@
 			</div>
 		</div>
 	</div>
-    <div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}" ng-bind="i18n('edit_location')">
+    <div ng-repeat="house in houses track by house.LID" class="mdl-tooltip mdl-tooltip--left" for="btnModifyLoc-{{$index}}" ng-bind="i18n('edit_location')">
 	</div>
-	<div ng-repeat="location in locations" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_location')">
+	<div ng-repeat="house in houses track by house.LID" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_location')">
 	</div>
-    <div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}" ng-bind="i18n('edit_sensor')">
+    <div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}" ng-bind="i18n('edit_sensor')">
 	</div>
-	<div ng-repeat="sensor in sensors" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}" ng-bind="i18n('del_sensor')">
+	<div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}" ng-bind="i18n('del_sensor')">
 	</div>
 
 	<!--Add sensor dialog-->
@@ -128,15 +128,15 @@
 				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
 					<label ng-bind="i18n('location')"></label>
 					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
-					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_location').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
+					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_house').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
 					</button>
-					<input type="hidden" ng-model="sen_location" name="sensorLocation" required></input>
-					<ul  id="select_location" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
+					<input type="hidden" ng-model="sen_house" name="sensorLocation" required></input>
+					<ul  id="select_house" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
 						style="overflow-y: scroll; max-height: 140px;">
 						<li>
-							<li ng-repeat="location in locations" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
-								ng-click="dropDownClick(location.LID, 'select_location', 'dropDownLocation', 'location')" tabindex="-1"
-								ng-bind="location.description"
+							<li ng-repeat="house in houses track by house.LID" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
+								ng-click="dropDownClick(house.LID, 'select_house', 'dropDownLocation', 'house')" tabindex="-1"
+								ng-bind="house.description"
 								>
 							</li>
 						</li>
@@ -152,7 +152,7 @@
 				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
 				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
 				        <li>
-				            <li ng-repeat="type in types" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="type">
+				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="i18n(type)">
 				            </li>
 				        </li>
 				    </ul>
@@ -173,57 +173,57 @@
     </dialog>
 
 	<!--TODO Maybe adjust this information, i don't know if this is enough-->
-	<dialog id="dlgLocation" class="mdl-dialog">
+	<dialog id="dlgLocation" class="mdl-dialog" ng-controller="location_dialogController">
         <h4 class="mdl-dialog__title" ng-bind="edit_loc"></h4>
         <div class="mdl-dialog__content">
-            <form name="location_form">
+            <form name="house_form">
                 <div id="txtfield_LocationCountry" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="locationCountry" required>
+                    <input ng-model="loc_country" class="mdl-textfield__input" type="text" id="input_LocationCountry" name="houseCountry" required>
                     <label class="mdl-textfield__label" for="input_LocationCountry" ng-bind="i18n('country')"></label>
                 </div>
-                <div ng-messages="location_form.locationCountry.$error">
+                <div ng-messages="house_form.houseCountry.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                
                 <div id="txtfield_LocationCity" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="locationCity" required>
+                    <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="houseCity" required>
                     <label class="mdl-textfield__label" for="input_LocationCity" ng-bind="i18n('city')"></label>
                 </div>
-                <div ng-messages="location_form.locationCity.$error">
+                <div ng-messages="house_form.houseCity.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
                 <div id="txtfield_LocationZip" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="locationZip" required>
+                    <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="houseZip" required>
                     <label class="mdl-textfield__label" for="input_LocationZip" ng-bind="i18n('postalcode')"></label>
                 </div>
-                <div ng-messages="location_form.locationZip.$error">
+                <div ng-messages="house_form.houseZip.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
                 <div id="txtfield_LocationStreet" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="locationStreet" required>
+                    <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="houseStreet" required>
                     <label class="mdl-textfield__label" for="input_LocationStreet" ng-bind="i18n('street')"></label>
                 </div>
-                <div ng-messages="location_form.locationStreet.$error">
+                <div ng-messages="house_form.houseStreet.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
                 <div id="txtfield_LocationNr" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="locationNr" required>
+                    <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="houseNr" required>
                     <label class="mdl-textfield__label" for="input_LocationNr" ng-bind="i18n('number')"></label>
                 </div>
-                <div ng-messages="location_form.locationNr.$error">
+                <div ng-messages="house_form.houseNr.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
                 <div id="txtfield_LocationElecPrice" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="locationElecPrice" required>
+                    <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="houseElecPrice" required>
                     <label class="mdl-textfield__label" for="input_LocationElecPrice" ng-bind="i18n('elec_price')"></label>
                 </div>
-                <div ng-messages="location_form.locationElecPrice.$error">
+                <div ng-messages="house_form.houseElecPrice.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                                    
                 <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_description" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="locationDesc" required>
+                    <input ng-model="loc_description" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="houseDesc" required>
                     <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
                 </div>
-                <div ng-messages="location_form.locationDesc.$error">
+                <div ng-messages="house_form.houseDesc.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
             </form>

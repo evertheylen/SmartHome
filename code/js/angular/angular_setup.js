@@ -134,6 +134,13 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	        $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 	    }
 	};
+	
+	$rootScope.types = ["electricity_type", "gas_type", "water_type"];
+	
+	$rootScope.update_me = function(scope) {
+	    scope.$apply();
+	};
+	
 });
 
 angular.module("overwatch").config(["$routeProvider", "$locationProvider",
@@ -148,7 +155,9 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
       templateUrl: "/html/partials/sensors_tmp.html"
     }).when("/social", {
       templateUrl: "/html/partials/social_tmp.html"
-    })
+    }).otherwise({
+      redirectTo: "/"
+    });
     $locationProvider.html5Mode(true);
 }]);
 

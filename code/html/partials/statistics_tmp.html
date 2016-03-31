@@ -85,6 +85,7 @@
 				                    </span>
 				                    <span style="display: inline-block;" ng-bind="location.desc"></span>
 				                </td>
+				                
 				            </tr>
 				        </tbody>
 				    </table>
@@ -114,7 +115,7 @@
 				                            <input type="checkbox" id="list-checkbox-type_{{$index}}" class="mdl-checkbox__input" ng-model="select_types[$index]" ng-change="checkStatus('type')"/>
 				                        </label>
 				                    </span>
-				                    <span style="display: inline-block;" ng-bind="type"></span>
+				                    <span style="display: inline-block;" ng-bind="i18n(type)"></span>
 				                </td>
 				            </tr>
 				        </tbody>
@@ -265,7 +266,7 @@
 		</button>
     </div>
 
-
+<!--TODO Delete the home controller from this place-->
 	
 <div ng-controller="homeController">
     <!--The actual grid-->

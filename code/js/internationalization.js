@@ -1,4 +1,9 @@
 var html_strings = {
+    "electricity_type": ["Electricity", "Elektriciteit"],
+    "water_type": ["Water", "Water"],
+    "gas_type": ["Gas", "Gas"],
+    "temperature_type": ["Temperature", "Temperatuur"],
+    "other_type": ["Other", "Andere"],
     "homelink": ["Home", "Start"],
     "statisticslink": ["Statistics", "Statistieken"],
     "sensorslink": ["Sensors", "Sensoren"],

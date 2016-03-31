@@ -1,6 +1,7 @@
 var currentId = 0;
 handlers = {}; // specify functions to deal with server messages (that aren't a reply)
 answers = {};  // specify functions that need to be called when the server answers
+var requests = new Queue();  // Queue for strings that are waiting to be sent to the server.
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
@@ -10,16 +11,26 @@ function connect_to_websocket() {
 		// Data can be any object literal or prototype with the toJSON method.
 		answers[currentId] = f;
 		requestObject.ID = currentId;
-		var stringToSend = JSON.stringify(requestObject);
-		websocket.send(stringToSend);
 		currentId+=1;
-		console.log("Sent data to server:");
-		console.log(stringToSend);
+		var stringToSend = JSON.stringify(requestObject);
+		if(websocket.readyState == 1) {
+			// Send the request to the server.
+			websocket.send(stringToSend);
+			console.log("Sent data to server:");
+			console.log(stringToSend);
+		}
+		else {
+			// Add the request to the waiting list.
+			requests.enqueue(stringToSend);
+			console.log("Websocket request queued until connection has been established.");
+		}
 	}
 
 	websocket.onopen = function() {
-		// Currently nothing happens when the socket is opened.
 		console.log("Websocket opened");
+		// Handle all the requests that have been waiting.
+		while (!requests.isEmpty())
+			websocket.send(requests.dequeue());
 	};
 
 	websocket.onclose = function() {
@@ -99,7 +110,8 @@ function login_response(response) {
 		// Currently this cookie will only be alive for 1 day.
 		setCookie("session", data["session"], 1);
 		userData = data["user"];
-		user = new User(userData["UID"], userData["email"], userData["first_name"], userData["last_name"]);
+		user = new User();
+		user.fill(userData);
 		return {success: true, user: user};
 	}
 	return {success: false, reason: data["reason"]};
@@ -124,18 +136,19 @@ function add_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			sensor = new Sensor();
+			sensor.fill(sensorData);
 			return {success: true, for: response["for"], sensor: sensor};
 		case "User":
 			userData = response["data"];
-			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+			user = new User();
+			user.fill(userData);
 			return {success: true, for: response["for"],  user: user};
 		case "Location":
-			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-			console.log("Logging response: " + {success: true, for: response["for"], location: location});
-			return {success: true, for: response["for"], location: location};
+			houseData = response["data"];
+			house = new Location();
+			house.fill(houseData);
+			return {success: true, for: response["for"], house: house};
 		default:
 			break;
 	}	
@@ -152,17 +165,19 @@ function get_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			sensor = new Sensor();
+			sensor.fill(sensorData);
 			return {for: response["for"], sensor: sensor};
 		case "User":
 			userData = response["data"];
-			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+			user = new User();
+			user.fill(userData);
 			return {for: response["for"], user: user};
 		case "Location":
-			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-			return {for: response["for"], location: location};
+			houseData = response["data"];
+			house = new Location();
+			house.fill(houseData);
+			return {for: response["for"], house: house};
 		default:
 			break;
 	}
@@ -176,7 +191,8 @@ function get_all_response(response) {
 			var sensors_response = [];
 			for(i = 0; i < response["data"].length; i++) {
 				sensorData = response["data"][i];
-				sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+				sensor = new Sensor();
+				sensor.fill(sensorData);
 				sensors_response.push(sensor);
 			}
 			return {for: response["for"], sensors: sensors_response};
@@ -184,19 +200,20 @@ function get_all_response(response) {
 			var users = [];
 			for(i = 0; i < response["data"].length; i++) {
 				userData = response["data"][i];
-				user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+				user = new User();
+				user.fill(userData);
 				users.push(user);
 			}
 			return {for: response["for"], users: users};
 		case "Location":
-			var locations = [];
+			var houses = [];
 			for(i = 0; i < response["data"].length; i++) {
-				locationData = response["data"][i];
-				location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-				locations.push(location);
+				houseData = response["data"][i];
+				house = new Location();
+				house.fill(houseData);
+				houses.push(house);
 			}
-			return {for: response["for"], locations: locations};
+			return {for: response["for"], houses: houses};
 		default:
 			break;
 	}
@@ -207,17 +224,19 @@ function edit_response(response) {
 	switch(what) {
 		case "Sensor":
 			sensorData = response["data"];
-			sensor = new Sensor(sensorData["SID"], sensorData["type"], sensorData["title"], sensorData["user_UID"], sensorData["location_LID"]);
+			sensor = new Sensor();
+			sensor.fill(sensorData);
 			return sensor.toJSON();
 		case "User":
 			userData = response["data"];
-			user = new User(userData["UID"], userData["first_name"], userData["last_name"], userData["email"]);
+			user = new User();
+			user.fill(userData);
 			return user.toJSON();
 		case "Location":
-			locationData = response["data"];
-			location = new Location(locationData["LID"], locationData["description"], locationData["number"], locationData["street"], 
-						locationData["city"], locationData["postalcode"],  locationData["country"], locationData["elec_price"], locationData["user_UID"]);
-			return location.toJSON();
+			houseData = response["data"];
+			house = new Location();
+			house.fill(houseData);
+			return house.toJSON();
 		default:
 			break;
 	}

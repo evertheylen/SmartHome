@@ -9,8 +9,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
 			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
 	
-    $scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
-	
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
 	
 	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
