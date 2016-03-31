@@ -95,7 +95,7 @@ class Controller(metaclass=MetaController):
             return None
     
     async def conn_close(self, conn):
-        pass
+        pass  # TODO?
     
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
