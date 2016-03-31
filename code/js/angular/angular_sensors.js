@@ -389,7 +389,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	//});
 	
 	document.getElementById('btnLocationBack').addEventListener('click', function(){
-		document.getElementById('dlgLocation');.close();
+		document.getElementById('dlgLocation').close();
 	});
 
 	var dialog2 = document.getElementById('dlgSensor');
