@@ -363,6 +363,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 		    $scope.loc_number = loc.number;
 		    $scope.loc_elec_price = loc.elec_price;
 		    $scope.loc_description = loc.description;
+		    $scope.loc_LID = loc.LID;
 		    addClass(document.getElementById("txtfield_LocationCountry"), "is-dirty");
 		    addClass(document.getElementById("txtfield_LocationCity"), "is-dirty");
 		    addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
@@ -392,7 +393,6 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 			    removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		    }                                
 		    $scope.edit_loc = $scope.i18n("edit_location");
-		    edit_loc_id = loc.LID;
 	    } else {
 	        edit = false;
 		    $scope.loc_country = null;
@@ -462,16 +462,8 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 				$scope.houses[edit_loc_id].user_UID = $rootScope.auth_user.UID;
 				*/
 				
-				var house = {};
-				house.description = $scope.loc_description;
-				house.number = $scope.loc_number;
-				house.street = $scope.loc_street;
-				house.city = $scope.loc_city;
-				house.postalcode = $scope.loc_postalcode;
-				house.country = $scope.loc_country;
-				house.elec_price = $scope.loc_elec_price;
-				house.user_UID = $rootScope.auth_user.UID;
-				
+				var house = new Location($scope.loc_LID, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
+								$scope.loc_elec_price, $rootScope.auth_user.UID);
 				var houseObject = house.toJSON();
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
 					//$scope.houses[edit_loc_id] = response; //TODO Will be done through jeroen's updates
