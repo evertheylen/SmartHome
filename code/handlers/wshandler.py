@@ -3,6 +3,10 @@ import tornado
 import tornado.websocket
 from tornado import gen
 
+import pdb
+tb = pdb.traceback
+import urllib
+
 import sparrow
 
 from util import *
@@ -36,20 +40,69 @@ class Request:
             "error": dct
         })
     
-async def wrap_errors(controller, req):
+issue_text = """
+
+Exception while responding to JSON message.
+
+**How to reproduce**:
+
+
+                                                                                                                        <<<<<<< EDIT ME
+
+
+JSON message:
+
+```
+{msg}
+```
+
+**Expected results**:
+
+
+                                                                                                                        <<<<<<< EDIT ME
+
+
+**Traceback**:
+
+```
+{traceback}
+```
+
+"""
+
+async def debug_wrap_errors(controller, req):
     try:
         await controller.handle_request(req)
-    except sparrow.CantSetProperty as e:
-        controller.logger.warning(str(e))
-        await req.error({"short": "edit_fail", "long": str(e)})
     except Error as e:
         controller.logger.warning(str(e))
         await req.error(e.json_repr())
+    except Exception as e:
+        body = issue_text.format(traceback=tb.format_exc(), msg=json.dumps(req.metadata, indent=4))
+        title = "Exception in backend: " + str(e)
+        url = "https://github.com/evertheylen/SmartHome/issues/new?title={title}&body={body}".format(
+            title=urllib.parse.quote_plus(title), body=urllib.parse.quote_plus(body))
+        controller.logger.error(tb.format_exc())
+        await req.error({"short": "fatal", "long": "PLEASE make a github issue by clicking here: {}".format(url)})
+    
+    
+async def normal_wrap_errors(controller, req):
+    try:
+        await controller.handle_request(req)
+    except Error as e:
+        controller.logger.warning(str(e))
+        await req.error(e.json_repr())
+    except Exception as e:
+        controller.logger.error(tb.format_exc())
 
 
-def create_WsHandler(controller):
+def create_WsHandler(controller, debug=True):
     clients = set()
-
+    
+    if debug:
+        wrap_errors = debug_wrap_errors
+    else:
+        wrap_errors = normal_wrap_errors
+    
     class WsHandler(tornado.websocket.WebSocketHandler, sparrow.Listener):
         def open(self, *args):
             #self.stream.set_nodelay(True)

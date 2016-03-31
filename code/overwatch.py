@@ -142,7 +142,7 @@ class OverWatch:
                 (r'/html/(.*)', NoCacheStaticFileHandler, {'path': localdir("html")}),
                 (r'/js/(.*)', NoCacheStaticFileHandler, {'path': localdir("js")}),
                 (r'/static/(.*)', NoCacheStaticFileHandler, {'path': localdir("static")}),
-                (r"/ws", handlers.create_WsHandler(self.controller)),
+                (r"/ws", handlers.create_WsHandler(self.controller, config["debug"])),
                 (r"/debug", handlers.create_DebugHandler(self.controller)),
                 (r"/(.*)", handlers.create_MainHandler(self.controller)),
             ],
