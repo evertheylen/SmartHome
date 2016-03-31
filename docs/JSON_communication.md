@@ -207,6 +207,8 @@ So far there is no way to get a single Value, and therefore no `"get"` message w
 
 #### Getting multiple objects
 
+The `"where"` part is optional.
+
 Message:
 
 	{
@@ -215,6 +217,11 @@ Message:
 		"for": {
 			"what": "User",
 			"UID": "123",
+		}
+		"where": {
+			"field": "Value.data",
+			"op": "gt" //Greater than,lower than etc...,
+			"value": "...",
 		}
 	}
 
