@@ -1,6 +1,10 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout) {
 var d = new Date();
-    $scope.variable = new Date();
+    $scope.gettime = function() {
+        d = new Date();
+        return d.getTime();
+    }
+    
     $timeout(function () {
         alert("uitgevoerd");
         $scope.$apply();
