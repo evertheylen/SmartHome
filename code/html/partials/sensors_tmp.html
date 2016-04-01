@@ -1,5 +1,9 @@
 
 <div ng-controller="sensorController">
+    <div id="delete-snackbar" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>  
 	<div class="mdl-grid">
 		<!--Location table-->
 		<div class="mdl-cell mdl-cell--3-col">
@@ -22,7 +26,7 @@
 							    <td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
 							    <td>
 								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog(true);"><i class="material-icons">edit</i></button>
-								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
+								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete();"><i class="material-icons">delete</i></button>
 							    </td>
 						</tr>	
 					</tbody>
