@@ -28,138 +28,144 @@
 	</style>
 
 	<!-- Some css/html trick i found on the internet -->
-	<input type="checkbox" id="triggerer">
-	<label class="box" for="triggerer">
-		<div class="header">
-			<i class="material-icons boxStatus">play_arrow</i>
-			<div class="headerText">Click this box!</div>
-		</div>
-		<div class="boxContent">
-			<div class="mdl-grid">
-				<div class="mdl-cell mdl-cell--4-col">
-				    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
-				            <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by[0]"/>
-				        </label>
-				    </span>
-				    <span style="display: inline-block;" ng-bind="i18n('aggregate_loc')"></span>
-				</div>
-				<div class="mdl-cell mdl-cell--4-col">
-				    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
-				            <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" ng-model="aggregate_by[1]"/>
-				        </label>
-				    </span>
-				    <span style="display: inline-block;" ng-bind="i18n('aggregate_type')"></span>
-				</div>
-				<div class="mdl-cell mdl-cell--4-col">
-				    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
-				            <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" ng-model="aggregate_by[2]"/>
-				        </label>
-				    </span>
-				    <span style="display: inline-block;" ng-bind="i18n('aggregate_sensor')"></span>
-				</div>
-				<div class="mdl-cell mdl-cell--4-col">
-				    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
-				        <thead>
-				            <tr>
-				                <th class="mdl-data-table__cell--non-numeric">
-				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				                        <!--This checkbox selects all the locations-->
-				                        <label id="label-all_locations" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_locations">
-				                            <input type="checkbox" id="list-checkbox-all_locations" class="mdl-checkbox__input" ng-model="all_locs" ng-change="select_all('location')"/>
-				                        </label>
-				                    </span>
-				                    <span style="display: inline-block;" ng-bind="i18n('locations')"></span>
-				                </th>
-				            </tr>
-				        </thead>
-				        <tbody>
-				            <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
-				                <td class="mdl-data-table__cell--non-numeric">
-				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-location_{{$index}}" for="list-checkbox-location_{{$index}}">
-				                            <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location')"/>
-				                        </label>
-				                    </span>
-				                    <span style="display: inline-block;" ng-bind="house.description"></span>
-				                </td>
-				                
-				            </tr>
-				        </tbody>
-				    </table>
-				</div>
-
-				<!--Type table-->
-				<div class="mdl-cell mdl-cell--4-col">
-				    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
-				        <thead>
-				            <tr>
-				                <th class="mdl-data-table__cell--non-numeric">
-				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				                        <!--This checkbox selects all the locations-->
-				                        <label id="label-all_types" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_types">
-				                            <input type="checkbox" id="list-checkbox-all_types" class="mdl-checkbox__input" ng-model="all_types" ng-change="select_all('type')"/>
-				                        </label>
-				                    </span>
-				                    <span style="display: inline-block;">Types</span>
-				                </th>
-				            </tr>
-				        </thead>
-				        <tbody>
-				            <tr ng-repeat="type in types" on-finish-render="ngRepeatFinished">
-				                <td class="mdl-data-table__cell--non-numeric">
-				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-type_{{$index}}" for="list-checkbox-type_{{$index}}">
-				                            <input type="checkbox" id="list-checkbox-type_{{$index}}" class="mdl-checkbox__input" ng-model="select_types[$index]" ng-change="checkStatus('type')"/>
-				                        </label>
-				                    </span>
-				                    <span style="display: inline-block;" ng-bind="i18n(type)"></span>
-				                </td>
-				            </tr>
-				        </tbody>
-				    </table>
-				</div>
-
-				<!--Sensors table-->
-				<div class="mdl-cell mdl-cell--4-col">
-				    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
-				        <thead>
-				            <tr>
-				                <th class="mdl-data-table__cell--non-numeric">
-				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				                        <!--This checkbox selects all the locations-->
-				                        <label id="label-all_sensors" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_sensors">
-				                            <input type="checkbox" id="list-checkbox-all_sensors" class="mdl-checkbox__input" ng-model="all_sensors" ng-change="select_all('sensor')"/>
-				                        </label>
-				                    </span>
-				                    <span style="display: inline-block;">Sensors</span>
-				                </th>
-				            </tr>
-				        </thead>
-				        <tbody>
-				            <tr ng-controller="sensor_objController" ng-repeat="sensor in sensors" on-finish-render="ngRepeatFinished">
-				                <td class="mdl-data-table__cell--non-numeric">
-				                    <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-				                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-sensor_{{$index}}" for="list-checkbox-sensor_{{$index}}">
-				                            <input type="checkbox" id="list-checkbox-sensor_{{$index}}" class="mdl-checkbox__input" ng-model="select_sensors[$index]" ng-change="checkStatus('sensor')"/>
-				                        </label>
-				                    </span>
-				                    <span style="display: inline-block;" ng-bind="sensor.title"></span>
-				                </td>
-				            </tr>
-				        </tbody>
-				    </table>
-				</div>
-
-
+	<input type="checkbox" id="trig1" class="triggerer">
+		<label class="box">
+			<div class="header">
+				<!--
+					TODO make for id=for_trigx (with x being an integer) an event that checks or uncheck id=trigx
+					this checking/unchecking can be achieved by following js code: document.getElementById("trigx").checked = true;
+				-->
+				<label id="for_trig1"><i class="material-icons boxStatus">play_arrow</i></label>
+				<div class="headerText">Click this box! (well you can't type document.getElementById("trig1").checked = true; in the console)</div>
 			</div>
-		</div>
-	</label>
+			<div class="boxContent">
+				<div class="mdl-grid">
 
 
-	<!-- TODO put the rest also in a dropdown box like the above -->
+					<div class="mdl-cell mdl-cell--4-col">
+						<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+						        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by[0]"/>
+						    </label>
+						</span>
+						<span style="display: inline-block;" ng-bind="i18n('aggregate_loc')"></span>
+					</div>
+					<div class="mdl-cell mdl-cell--4-col">
+						<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
+						        <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" ng-model="aggregate_by[1]"/>
+						    </label>
+						</span>
+						<span style="display: inline-block;" ng-bind="i18n('aggregate_type')"></span>
+					</div>
+					<div class="mdl-cell mdl-cell--4-col">
+						<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
+						        <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" ng-model="aggregate_by[2]"/>
+						    </label>
+						</span>
+						<span style="display: inline-block;" ng-bind="i18n('aggregate_sensor')"></span>
+					</div>
+					<div class="mdl-cell mdl-cell--4-col">
+						<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+						    <thead>
+						        <tr>
+						            <th class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <!--This checkbox selects all the locations-->
+						                    <label id="label-all_locations" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_locations">
+						                        <input type="checkbox" id="list-checkbox-all_locations" class="mdl-checkbox__input" ng-model="all_locs" ng-change="select_all('location')"/>
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;" ng-bind="i18n('locations')"></span>
+						            </th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
+						            <td class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-location_{{$index}}" for="list-checkbox-location_{{$index}}">
+						                        <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location')"/>
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;" ng-bind="house.description"></span>
+						            </td>
+						            
+						        </tr>
+						    </tbody>
+						</table>
+					</div>
+
+					<!--Type table-->
+					<div class="mdl-cell mdl-cell--4-col">
+						<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+						    <thead>
+						        <tr>
+						            <th class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <!--This checkbox selects all the locations-->
+						                    <label id="label-all_types" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_types">
+						                        <input type="checkbox" id="list-checkbox-all_types" class="mdl-checkbox__input" ng-model="all_types" ng-change="select_all('type')"/>
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;">Types</span>
+						            </th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        <tr ng-repeat="type in types" on-finish-render="ngRepeatFinished">
+						            <td class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-type_{{$index}}" for="list-checkbox-type_{{$index}}">
+						                        <input type="checkbox" id="list-checkbox-type_{{$index}}" class="mdl-checkbox__input" ng-model="select_types[$index]" ng-change="checkStatus('type')"/>
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;" ng-bind="i18n(type)"></span>
+						            </td>
+						        </tr>
+						    </tbody>
+						</table>
+					</div>
+
+					<!--Sensors table-->
+					<div class="mdl-cell mdl-cell--4-col">
+						<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+						    <thead>
+						        <tr>
+						            <th class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <!--This checkbox selects all the locations-->
+						                    <label id="label-all_sensors" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_sensors">
+						                        <input type="checkbox" id="list-checkbox-all_sensors" class="mdl-checkbox__input" ng-model="all_sensors" ng-change="select_all('sensor')"/>
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;">Sensors</span>
+						            </th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        <tr ng-controller="sensor_objController" ng-repeat="sensor in sensors" on-finish-render="ngRepeatFinished">
+						            <td class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-sensor_{{$index}}" for="list-checkbox-sensor_{{$index}}">
+						                        <input type="checkbox" id="list-checkbox-sensor_{{$index}}" class="mdl-checkbox__input" ng-model="select_sensors[$index]" ng-change="checkStatus('sensor')"/>
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;" ng-bind="sensor.title"></span>
+						            </td>
+						        </tr>
+						    </tbody>
+						</table>
+					</div>
+
+
+				</div>
+			</div>
+		</label>
+	</input>
+
+
 
 
         
@@ -167,149 +173,206 @@
 
 
 
-        <!--Table with sensors-->
-        <div class="mdl-cell mdl-cell--12-col">
-            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric">
-                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-                                <!--This checkbox selects all the sensors-->
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-12">
-                                    <input type="checkbox" id="list-checkbox-12" class="mdl-checkbox__input" checked />
-                                </label>
-                            </span>
-                            <span style="display: inline-block;">
-                                 Sensors
-                            </span>
-                        </th>
-                        <th>House</th>
-                        <th>Type</th>
-                        <th>Tag</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-13">
-                                    <input type="checkbox" id="list-checkbox-13" class="mdl-checkbox__input" checked />
-                                </label>
-                            </span>
-                            <span style="display: inline-block;">
-                                 Sensor
-                            </span>
-                        </td>
-                        <td>Home1</td>
-                        <td>aType</td>
-                        <td>tags</td>
-                    </tr>
-                    <tr>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-14">
-                                    <input type="checkbox" id="list-checkbox-14" class="mdl-checkbox__input" checked />
-                                </label>
-                            </span>
-                            <span style="display: inline-block;">
-                                 Sensor
-                            </span>
-                        </td>
-                        <td>Home 2</td>
-                        <td>some other Type</td>
-                        <td>more tags</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+	<input type="checkbox" id="trig2" class="triggerer">
+		<label class="box">
+			<div class="header">
+				<!--
+					TODO make for id=for_trigx (with x being an integer) an event that checks or uncheck id=trigx
+					this checking/unchecking can be achieved by following js code: document.getElementById("trigx").checked = true;
+				-->
+				<label id="for_trig2"><i class="material-icons boxStatus">play_arrow</i></label>
+				<div class="headerText">Click this box! (well you can't type document.getElementById("trig2").checked = true; in the console)</div>
+			</div>
+			<div class="boxContent">
+				<div class="mdl-grid">
 
-        <div class="mdl-cell mdl-cell--2-col">
-            <form action="#">
-                <span style="font-size: x-large;">Since</span>
-                <div id="sinceInput" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" pattern="[1-9][0-9]*" id="sample2"/>
-                    <label class="mdl-textfield__label" for="sample2">Number...</label>
-                    <span class="mdl-textfield__error">Input must be a number greater than 0!</span>
-                </div>
-                <div class="mdl-tooltip" for="sinceInput">
-                    Amount of days/months/years you want to look back in time
-                </div>
-            </form>
-        </div>
+        			<!--Table with sensors-->
+					<div class="mdl-cell mdl-cell--12-col">
+						<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+						    <thead>
+						        <tr>
+						            <th class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <!--This checkbox selects all the sensors-->
+						                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-12">
+						                        <input type="checkbox" id="list-checkbox-12" class="mdl-checkbox__input" checked />
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;">
+						                     Sensors
+						                </span>
+						            </th>
+						            <th>House</th>
+						            <th>Type</th>
+						            <th>Tag</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        <tr>
+						            <td class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-13">
+						                        <input type="checkbox" id="list-checkbox-13" class="mdl-checkbox__input" checked />
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;">
+						                     Sensor
+						                </span>
+						            </td>
+						            <td>Home1</td>
+						            <td>aType</td>
+						            <td>tags</td>
+						        </tr>
+						        <tr>
+						            <td class="mdl-data-table__cell--non-numeric">
+						                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+						                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-14">
+						                        <input type="checkbox" id="list-checkbox-14" class="mdl-checkbox__input" checked />
+						                    </label>
+						                </span>
+						                <span style="display: inline-block;">
+						                     Sensor
+						                </span>
+						            </td>
+						            <td>Home 2</td>
+						            <td>some other Type</td>
+						            <td>more tags</td>
+						        </tr>
+						    </tbody>
+						</table>
+					</div>
 
-        <div class="mdl-cell mdl-cell--2-col">
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-                <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked/>
-                <span class="mdl-radio__label">Days</span>
-            </label>
-            <div id="spacer1" style="display: block"></div>
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-                <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2"/>
-                <span class="mdl-radio__label">Months</span>
-            </label>
-            <div id="spacer2" style="display: block"></div>
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-                <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3"/>
-                <span class="mdl-radio__label">Years</span>
-            </label>
-        </div>
-        <div class="mdl-cell mdl-cell--8-col">
-            <span style="float: right;">
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
-                    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
-                    <span class="mdl-checkbox__label">Merge if possible</span>
-                </label>
-            </span>
-        </div>
-		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col">
-			Ready
-		</button>
-    </div>
+
+				</div>
+			</div>
+		</label>
+	</input>
+
+
+
+
+
+	<input type="checkbox" id="trig3" class="triggerer">
+		<label class="box">
+			<div class="header">
+				<!--
+					TODO make for id=for_trigx (with x being an integer) an event that checks or uncheck id=trigx
+					this checking/unchecking can be achieved by following js code: document.getElementById("trigx").checked = true;
+				-->
+				<label id="for_trig3"><i class="material-icons boxStatus">play_arrow</i></label>
+				<div class="headerText">Click this box! (well you can't type document.getElementById("trig3").checked = true; in the console)</div>
+			</div>
+			<div class="boxContent">
+				<div class="mdl-grid">
+
+						<div class="mdl-cell mdl-cell--2-col">
+							<form action="#">
+								<span style="font-size: x-large;">Since</span>
+								<div id="sinceInput" class="mdl-textfield mdl-js-textfield">
+								    <input class="mdl-textfield__input" type="text" pattern="[1-9][0-9]*" id="sample2"/>
+								    <label class="mdl-textfield__label" for="sample2">Number...</label>
+								    <span class="mdl-textfield__error">Input must be a number greater than 0!</span>
+								</div>
+								<div class="mdl-tooltip" for="sinceInput">
+								    Amount of days/months/years you want to look back in time
+								</div>
+							</form>
+						</div>
+
+						<div class="mdl-cell mdl-cell--2-col">
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+								<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked/>
+								<span class="mdl-radio__label">Days</span>
+							</label>
+							<div id="spacer1" style="display: block"></div>
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+								<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2"/>
+								<span class="mdl-radio__label">Months</span>
+							</label>
+							<div id="spacer2" style="display: block"></div>
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+								<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3"/>
+								<span class="mdl-radio__label">Years</span>
+							</label>
+						</div>
+						<div class="mdl-cell mdl-cell--8-col">
+							<span style="float: right;">
+								<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
+								    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
+								    <span class="mdl-checkbox__label">Merge if possible</span>
+								</label>
+							</span>
+						</div>
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col">
+							Ready
+						</button>
+					</div>
+
+
+				</div>
+			</div>
+		</label>
+	</input>
 
 <!--TODO Delete the home controller from this place-->
 	
-<div ng-controller="homeController">
-    <!--The actual grid-->
-	<div class="mdl-grid">
-		<!--cards-->
-		<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
-			<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-				<div class="mdl-card__title">
-					<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>
-					<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-						<i class="material-icons">share</i>
-					</button>
-					<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
-			            <i id="important_icon-{{$index}}" class="material-icons white">grade</i>
-		            </button>
+	<div ng-controller="homeController">
+		<input type="checkbox" id="trig4" class="triggerer">
+			<label class="box">
+				<div class="header">
+					<!--
+						TODO make for id=for_trigx (with x being an integer) an event that checks or uncheck id=trigx
+						this checking/unchecking can be achieved by following js code: document.getElementById("trigx").checked = true;
+					-->
+					<label id="for_trig4"><i class="material-icons boxStatus">play_arrow</i></label>
+					<div class="headerText">Click this box! (well you can't type document.getElementById("trig4").checked = true; in the console)</div>
 				</div>
-				<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
-            </div>
-            <div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
-            </div>
-		    <div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')">
-		    </div>
-		</div>
-		<div ng-repeat="graph in graphs_single" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
-			<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-				<div class="mdl-card__title">
-					<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
-					<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-						<i class="material-icons">share</i>
-					</button>
-					<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
-			            <i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
-		            </button>
+				<div class="boxContent">
+					<div class="mdl-grid">
+						<!--cards-->
+						<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
+							<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+								<div class="mdl-card__title">
+									<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>
+									<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+										<i class="material-icons">share</i>
+									</button>
+									<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
+										<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
+									</button>
+								</div>
+								<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+							</div>
+							<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
+							</div>
+							<div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')">
+							</div>
+						</div>
+						<div ng-repeat="graph in graphs_single" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
+							<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+								<div class="mdl-card__title">
+									<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
+									<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+										<i class="material-icons">share</i>
+									</button>
+									<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
+										<i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
+									</button>
+								</div>
+								<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+							</div>
+							<div ng-repeat="i in graphs_single" class="mdl-tooltip" for="important_btn-{{$index + graphs.length}}" ng-bind="importants[$index + graphs.length] ? i18n('mark_unimportant') : i18n('mark_important')">
+							</div>
+							<div ng-repeat="i in graphs_single" class="mdl-tooltip" for="share_btn-{{$index + graphs.length}}" ng-bind="i18n('share')">
+							</div>
+						</div>
+
+
+					</div>
 				</div>
-				<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
-            </div>
-            <div ng-repeat="i in graphs_single" class="mdl-tooltip" for="important_btn-{{$index + graphs.length}}" ng-bind="importants[$index + graphs.length] ? i18n('mark_unimportant') : i18n('mark_important')">
-            </div>
-		    <div ng-repeat="i in graphs_single" class="mdl-tooltip" for="share_btn-{{$index + graphs.length}}" ng-bind="i18n('share')">
-		    </div>
-		</div>
+			</label>
+		</input>
 	</div>
-</div>
 
 
 </div>
