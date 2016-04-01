@@ -195,6 +195,7 @@ angular.module("overwatch").controller("location_objController", function($scope
             $scope.houses.splice(getIndexOfObjWithAttribute($scope.houses, "LID", $scope.house.LID), 1);
              // 'use strict';
             var snackbarContainer = document.getElementById('delete-snackbar');
+            removeClass(snackbarContainer, "mdl-js-snackbar");
             //var showSnackbarButton = document.querySelector('#demo-show-snackbar');
             var handler = function(event) {
                 $scope.houses.push($scope.house);
@@ -214,10 +215,12 @@ angular.module("overwatch").controller("location_objController", function($scope
             var data = {
               message: 'Location permanently removed.',
               timeout: 3000,
-              actionHandler: handler,
-              actionText: 'Undo'
+              //actionHandler: handler,
+              //actionText: 'Undo'
             };
-            snackbarContainer.MaterialSnackbar.showSnackbar(data);
+            //snackbarContainer.MaterialSnackbar.showSnackbar(data);
+            addClass(snackbarContainer, "mdl-js-snackbar");            
+            addClass(snackbarContainer, 'mdl-snackbar--active');
             componentHandler.upgradeDom();
 	        $scope.$apply();
         });    
