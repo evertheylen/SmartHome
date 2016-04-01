@@ -189,7 +189,7 @@ angular.module("overwatch").controller("location_objController", function($scope
     };  
     
     $scope.delete = function () {
-        ws.request({type: "delete", what: "Location", data: {"LID": $scope.house.LID}}, function(success) {
+        /*ws.request({type: "delete", what: "Location", data: {"LID": $scope.house.LID}}, function(success) {
             console.log("deleting object:" + $scope.house + " ID: " + $scope.house.LID);
             console.log("Index: " + getIndexOfObjWithAttribute($scope.houses, "LID", $scope.house.LID));
             $scope.houses.splice(getIndexOfObjWithAttribute($scope.houses, "LID", $scope.house.LID), 1);
@@ -224,7 +224,14 @@ angular.module("overwatch").controller("location_objController", function($scope
 						snackbarContainer.setAttribute('aria-hidden', false);
             componentHandler.upgradeDom();
 	        $scope.$apply();
-        });    
+        });*/
+				var snackbarContainer = document.getElementById("delete-snackbar");
+				var data = {
+					message: "Location permanently removed.",
+					timeout: 3000
+				};
+				snackbarContainer.MaterialSnackbar.showSnackbar(data);
+				componentHandler.upgradeDom();
     };
 });
 
