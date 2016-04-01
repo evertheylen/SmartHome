@@ -237,9 +237,9 @@ angular.module("overwatch").controller("location_objController", function($scope
 				//snackbarContainer.MaterialSnackbar.showSnackbar(data);
 				//componentHandler.upgradeDom();
     };
-});
-
-		(function() {
+		
+		
+		(function run() {
 			'use strict';
 			var snackbarContainer = document.getElementById('demo-snackbar-example');
 			var showSnackbarButton = document.getElementById('demo-show-snackbar');
@@ -259,6 +259,8 @@ angular.module("overwatch").controller("location_objController", function($scope
 				snackbarContainer.MaterialSnackbar.showSnackbar(data);
 			});
 		}());
+		run();
+});
 
 angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
     var loc;
