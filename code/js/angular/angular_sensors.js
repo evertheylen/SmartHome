@@ -225,7 +225,7 @@ angular.module("overwatch").controller("location_objController", function($scope
             componentHandler.upgradeDom();
 	        $scope.$apply();
         });*/
-				var snackbarContainer = document.getElementById("delete-snackbar");
+				var snackbarContainer = document.getElementById("demo-snackbar-example");
 				var data = {
 					message: "Location permanently removed.",
 					timeout: 3000
