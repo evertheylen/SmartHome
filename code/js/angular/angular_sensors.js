@@ -230,6 +230,7 @@ angular.module("overwatch").controller("location_objController", function($scope
 					message: "Location permanently removed.",
 					timeout: 3000
 				};
+				addClass(snackbarContainer, 'mdl-js-snackbar');
 				snackbarContainer.MaterialSnackbar.showSnackbar(data);
 				componentHandler.upgradeDom();
     };
