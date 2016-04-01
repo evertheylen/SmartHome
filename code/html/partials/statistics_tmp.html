@@ -301,62 +301,55 @@
 			</div>
 		</label>
 	</input>
-
-<!--TODO Delete the home controller from this place-->
-	
-	<div ng-controller="homeController">
-		<input type="checkbox" id="trig4" class="triggerer">
-			<label class="box">
-				<div class="header">
-					<label id="for_trig4"><i ng-click="open('trig4')" class="material-icons boxStatus">play_arrow</i></label>
-					<div class="headerText">Click this box! (well you can't type document.getElementById("trig4").checked = true; in the console)</div>
-				</div>
-				<div class="boxContent">
-					<div class="mdl-grid">
-						<!--cards-->
-						<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
-							<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-								<div class="mdl-card__title">
-									<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>
-									<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-										<i class="material-icons">share</i>
-									</button>
-									<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
-										<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
-									</button>
-								</div>
-								<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+	<input type="checkbox" id="trig4" class="triggerer">
+		<label class="box">
+			<div class="header">
+				<label id="for_trig4"><i ng-click="open('trig4')" class="material-icons boxStatus">play_arrow</i></label>
+				<div class="headerText">Click this box! (well you can't type document.getElementById("trig4").checked = true; in the console)</div>
+			</div>
+			<div class="boxContent">
+				<div class="mdl-grid">
+					<!--cards-->
+					<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
+						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+							<div class="mdl-card__title">
+								<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>
+								<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+									<i class="material-icons">share</i>
+								</button>
+								<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
+									<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
+								</button>
 							</div>
-							<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
-							</div>
-							<div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')">
-							</div>
+							<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
 						</div>
-						<div ng-repeat="graph in graphs_single" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
-							<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-								<div class="mdl-card__title">
-									<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
-									<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-										<i class="material-icons">share</i>
-									</button>
-									<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
-										<i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
-									</button>
-								</div>
-								<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
-							</div>
-							<div ng-repeat="i in graphs_single" class="mdl-tooltip" for="important_btn-{{$index + graphs.length}}" ng-bind="importants[$index + graphs.length] ? i18n('mark_unimportant') : i18n('mark_important')">
-							</div>
-							<div ng-repeat="i in graphs_single" class="mdl-tooltip" for="share_btn-{{$index + graphs.length}}" ng-bind="i18n('share')">
-							</div>
+						<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
 						</div>
-
-
+						<div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')">
+						</div>
 					</div>
+					<div ng-repeat="graph in graphs_single" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
+						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+							<div class="mdl-card__title">
+								<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
+								<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+									<i class="material-icons">share</i>
+								</button>
+								<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
+									<i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
+								</button>
+							</div>
+							<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+						</div>
+						<div ng-repeat="i in graphs_single" class="mdl-tooltip" for="important_btn-{{$index + graphs.length}}" ng-bind="importants[$index + graphs.length] ? i18n('mark_unimportant') : i18n('mark_important')">
+						</div>
+						<div ng-repeat="i in graphs_single" class="mdl-tooltip" for="share_btn-{{$index + graphs.length}}" ng-bind="i18n('share')">
+						</div>
+					</div>
+
+
 				</div>
-			</label>
-		</input>
-	</div>
-
-
+			</div>
+		</label>
+	</input>
 </div>
