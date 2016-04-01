@@ -1,2 +1,59 @@
 <div ng-controller="socialController">
+
+
+	
+	<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+		<div class="mdl-card__title">
+			<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
+			<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+				<i class="material-icons">share</i>
+			</button>
+			<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
+	            <i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
+            </button>
+		</div>
+		<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+		<div class="mdl-card__supporting-text">
+			dis be my status niggas, i haz authority to write whatever i wantz
+		</div>
+		<div class="mdl-card__actions mdl-card--border">
+			<a class="clicked"><i class="material-icons md-15 clickable">thumb_up</i> 15</a>
+			<a class="notClicked"><i class="material-icons md-15 clickable">thumb_down</i> 8</a>
+			<a class="spacer"></a>
+			<!-- TODO change this to hide comments when show comments is pressed -->
+			<a id="btnShowComments">Show comments</a>
+		</div>
+		<div class="commentSection activated">
+			<div class="comment">
+				<div class="name">Sam Mylle</div>
+				<div class="text">Dude this fuckin sucks</div>
+				<div class="commentFooter">
+					<div class="date">29/05/1996</div>
+					<div class="option">delete</div>
+				</div>
+			</div>
+			<div class="comment">
+				<div class="name">Sam Mylle</div>
+				<div class="text">Botter</div>
+				<div class="commentFooter">
+					<div class="date">29/05/1996</div>
+					<div class="option">delete</div>
+				</div>
+			</div>
+			<div class="comment">
+				<div class="name">Sam Mylle</div>
+				<div class="text">I got 2000$ in 1 week without leaving my house, check out here how http://hahanope.com</div>
+				<div class="commentFooter">
+					<div class="date">29/05/1996</div>
+					<div class="option">delete</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+
+
+
+
+
 </div>
