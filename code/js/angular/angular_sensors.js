@@ -231,9 +231,11 @@ angular.module("overwatch").controller("location_objController", function($scope
 					timeout: 3000
 				};
 				addClass(snackbarContainer, 'mdl-js-snackbar');
+				addClass(snackbarContainer, 'mdl-snackbar--active');
+				snackbarContainer.setAttribute("aria-hidden", false);
 				componentHandler.upgradeDom();
-				snackbarContainer.MaterialSnackbar.showSnackbar(data);
-				componentHandler.upgradeDom();
+				//snackbarContainer.MaterialSnackbar.showSnackbar(data);
+				//componentHandler.upgradeDom();
     };
 });
 
