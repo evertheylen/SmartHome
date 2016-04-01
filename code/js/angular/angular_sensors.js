@@ -246,7 +246,6 @@ angular.module("overwatch").controller("location_objController", function($scope
 				timeout: 2000,
 				actionText: 'Undo'
 		};                           
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 });
 
 angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
