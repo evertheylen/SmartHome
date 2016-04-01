@@ -231,6 +231,7 @@ angular.module("overwatch").controller("location_objController", function($scope
 					timeout: 3000
 				};
 				addClass(snackbarContainer, 'mdl-js-snackbar');
+				componentHandler.upgradeDom();
 				snackbarContainer.MaterialSnackbar.showSnackbar(data);
 				componentHandler.upgradeDom();
     };
