@@ -191,33 +191,31 @@ angular.module("overwatch").controller("location_objController", function($scope
     $scope.delete = function () {
         ws.request({type: "delete", what: "Location", data: {"LID": $scope.house.LID}}, function(success) {
             $scope.houses.splice($scope.houses.indexOf($scope.house.LID), 1);
-            function() {
-              'use strict';
-              var snackbarContainer = document.getElementById('delete-snackbar');
-              //var showSnackbarButton = document.querySelector('#demo-show-snackbar');
-              var handler = function(event) {
-                $scope.houses.push($scope.house);
-                var new_house = new Location(-1, $scope.house.description, $scope.house.number, $scope.house.street, $scope.house.city, $scope.house.postalcode, $scope.house.country, 
-								$scope.house.elec_price, $rootScope.auth_user.UID);
-				delete new_house.LID;
-				var houseObject = new_house.toJSON();
-				ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
-					new_house.LID = response.house.LID;	
-					console.log("Pre house added");
-			        $scope.houses.push(new_house);
-			        console.log("house added");
-					console.log("Response verwerkt");
-					$scope.$apply();
-				});
-              };
-                var data = {
-                  message: 'Location permanently removed.',
-                  timeout: 3000,
-                  actionHandler: handler,
-                  actionText: 'Undo'
-                };
-                snackbarContainer.MaterialSnackbar.showSnackbar(data);
-            }());
+             // 'use strict';
+            var snackbarContainer = document.getElementById('delete-snackbar');
+            //var showSnackbarButton = document.querySelector('#demo-show-snackbar');
+            var handler = function(event) {
+            $scope.houses.push($scope.house);
+            var new_house = new Location(-1, $scope.house.description, $scope.house.number, $scope.house.street, $scope.house.city, $scope.house.postalcode, $scope.house.country, 
+			                $scope.house.elec_price, $rootScope.auth_user.UID);
+            delete new_house.LID;
+            var houseObject = new_house.toJSON();
+            ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
+                new_house.LID = response.house.LID;	
+                console.log("Pre house added");
+                $scope.houses.push(new_house);
+                console.log("house added");
+                console.log("Response verwerkt");
+                $scope.$apply();
+            });
+            };
+            var data = {
+              message: 'Location permanently removed.',
+              timeout: 3000,
+              actionHandler: handler,
+              actionText: 'Undo'
+            };
+            snackbarContainer.MaterialSnackbar.showSnackbar(data);
 	        $scope.$apply();
         });    
     };
