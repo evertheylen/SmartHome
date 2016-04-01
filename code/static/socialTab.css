@@ -23,11 +23,11 @@
 
 .commentSection{
 	display: none;
-	background-color: #F0F0F0;
 }
 
 .commentSection.activated{
 	max-height: 400px;
+	overflow-y: auto;
 	height: auto;
 	display: block;
 }
@@ -35,7 +35,7 @@
 .comment{
 	height: auto;
 	width: 96%;
-	margin: 2%;
+	margin: 15px;
 }
 
 .comment > .name{
@@ -70,4 +70,19 @@
 .comment > .name + .text + .commentFooter > .date + .option:hover{
 	cursor: pointer;
 	text-decoration: underline;
+}
+
+#socialRightMenu{
+	margin-top: 40px;
+	margin-left: 40px;
+}
+
+#socialLeftMenu{
+	margin-top: 40px;
+	margin-left: 40px;
+}
+
+.menuGroup{
+	margin-top: 15px;
+	color: #A0A0A0;
 }

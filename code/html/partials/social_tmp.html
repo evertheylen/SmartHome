@@ -1,58 +1,158 @@
 <div ng-controller="socialController">
 
+	<div class="mdl-grid">
 
-	
-	<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-		<div class="mdl-card__title">
-			<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
-			<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-				<i class="material-icons">share</i>
-			</button>
-			<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
-	            <i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
-            </button>
-		</div>
-		<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
-		<div class="mdl-card__supporting-text">
-			dis be my status niggas, i haz authority to write whatever i wantz
-		</div>
-		<div class="mdl-card__actions mdl-card--border">
-			<a class="clicked"><i class="material-icons md-15 clickable">thumb_up</i> 15</a>
-			<a class="notClicked"><i class="material-icons md-15 clickable">thumb_down</i> 8</a>
-			<a class="spacer"></a>
-			<!-- TODO change this to hide comments when show comments is pressed -->
-			<a id="btnShowComments">Show comments</a>
-		</div>
-		<div class="commentSection activated">
-			<div class="comment">
-				<div class="name">Sam Mylle</div>
-				<div class="text">Dude this fuckin sucks</div>
-				<div class="commentFooter">
-					<div class="date">29/05/1996</div>
-					<div class="option">delete</div>
-				</div>
-			</div>
-			<div class="comment">
-				<div class="name">Sam Mylle</div>
-				<div class="text">Botter</div>
-				<div class="commentFooter">
-					<div class="date">29/05/1996</div>
-					<div class="option">delete</div>
-				</div>
-			</div>
-			<div class="comment">
-				<div class="name">Sam Mylle</div>
-				<div class="text">I got 2000$ in 1 week without leaving my house, check out here how http://hahanope.com</div>
-				<div class="commentFooter">
-					<div class="date">29/05/1996</div>
-					<div class="option">delete</div>
-				</div>
+
+		<!-- The menu on the left side -->
+		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
+			<div id="socialLeftMenu">
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					My profile
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					My friends
+				</button>
+				<div class="menuGroup">Groups:</div>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Group A
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Group B
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Group potato
+				</button>
 			</div>
 		</div>
-    </div>
 
 
-
+		<!-- Status field -->
+		<div class="mdl-cell mdl-cell--8-col">
+			<!-- TODO Angular shit is pure nonsense at the moment -->
+			<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
+				<div class="mdl-card__title">
+					<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
+					<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<i class="material-icons">share</i>
+					</button>
+					<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
+					    <i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
+				    </button>
+				</div>
+				<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+				<div class="mdl-card__supporting-text">
+					dis be my status niggas, i haz authority to write whatever i wantz
+				</div>
+				<div class="mdl-card__actions mdl-card--border">
+					<a class="clicked"><i class="material-icons md-15 clickable">thumb_up</i> 15</a>
+					<a class="notClicked"><i class="material-icons md-15 clickable">thumb_down</i> 8</a>
+					<a class="spacer"></a>
+					<!-- TODO change this to hide comments when show comments is pressed -->
+					<a id="btnShowComments">Show comments</a>
+				</div>
+				<div class="commentSection activated">
+					<div class="comment">
+						<div class="name">Adolf Hitler</div>
+						<div class="text">Gutentag Poland, wir kommen für ihren arschen.</div>
+						<div class="commentFooter">
+							<div class="date">01/09/1939</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Maciej Rataj</div>
+						<div class="text">Kurwa, Briton and Croissant, you come for help so Poland can into space right?</div>
+						<div class="commentFooter">
+							<div class="date">01/09/1939</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Winston Churchill</div>
+						<div class="text">We sure as hell aren't going to surrender to those jerry wankers.</div>
+						<div class="commentFooter">
+							<div class="date">01/09/1939</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Charles De Gaulle</div>
+						<div class="text">JE SURRENDER!</div>
+						<div class="commentFooter">
+							<div class="date">01/09/1939</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Maciej Rataj</div>
+						<div class="text">Kurwa, bratwurst and vodka are stronk. Quick question, trains can into space right?</div>
+						<div class="commentFooter">
+							<div class="date">08/10/1939</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Joseph Stalin</div>
+						<div class="text">Comrade Hitler, is you attacking me?</div>
+						<div class="commentFooter">
+							<div class="date">22/06/1941</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Adolf Hitler</div>
+						<div class="text">Nein nein, ich schwer es!</div>
+						<div class="commentFooter">
+							<div class="date">22/06/1941</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Theodore Roosevelt jr.</div>
+						<div class="text">Looks like y'all need some democracy!</div>
+						<div class="commentFooter">
+							<div class="date">06/06/1944</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Adolf Hitler</div>
+						<div class="text">HACKERS!!! I FUCKING REPORT U!!! MY DAD WORKS FOR MICROSOFT HAHAHAHA!!!</div>
+						<div class="commentFooter">
+							<div class="date">30/04/1945</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+					<div class="comment">
+						<div class="name">Adolf Hitler</div>
+						<div class="text">&lt;disconnected from your channel&gt;</div>
+						<div class="commentFooter">
+							<div class="date">30/04/1945</div>
+							<div class="option">delete</div>
+						</div>
+					</div>
+				</div>
+				<form action="#">
+					<div class="mdl-textfield mdl-js-textfield">
+						<textarea class="mdl-textfield__input" type="text" id="comment" style="margin: 15px;"></textarea>
+						<label class="mdl-textfield__label" for="comment" style="margin: 15px;">Comment on this status...</label>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<!-- The menu on the right side -->
+		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
+			<div id="socialRightMenu">
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Find friends
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Create group
+				</button>
+			</div>
+		</div>
+	</div>
 
 
 
