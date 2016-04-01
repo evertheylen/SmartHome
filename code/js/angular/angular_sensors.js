@@ -241,8 +241,8 @@ angular.module("overwatch").controller("location_objController", function($scope
 
 		(function() {
 			'use strict';
-			var snackbarContainer = document.querySelector('#demo-snackbar-example');
-			var showSnackbarButton = document.querySelector('#demo-show-snackbar');
+			var snackbarContainer = document.getElementById('demo-snackbar-example');
+			var showSnackbarButton = document.getElementById('demo-show-snackbar');
 			var handler = function(event) {
 				showSnackbarButton.style.backgroundColor = '';
 			};
