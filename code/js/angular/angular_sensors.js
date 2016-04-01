@@ -240,7 +240,7 @@ angular.module("overwatch").controller("location_objController", function($scope
 		
 		
 		window.componentHandler.upgradeAllRegistered();
-    var snackbarContainer = this.el.nativeElement.querySelector("demo-snackbar-example")
+    var snackbarContainer = document.getElementById("demo-snackbar-example");
 		var data = {
 				message: 'Button color changed.',
 				timeout: 2000,
