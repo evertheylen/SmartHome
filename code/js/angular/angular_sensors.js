@@ -239,28 +239,14 @@ angular.module("overwatch").controller("location_objController", function($scope
     };
 		
 		
-		(function () {
-			'use strict';
-			var snackbarContainer = document.getElementById('demo-snackbar-example');
-			var showSnackbarButton = document.getElementById('demo-show-snackbar');
-			var handler = function(event) {
-				showSnackbarButton.style.backgroundColor = '';
-			};
-			showSnackbarButton.addEventListener('click', function() {
-				'use strict';
-				showSnackbarButton.style.backgroundColor = '#' +
-						Math.floor(Math.random() * 0xFFFFFF).toString(16);
-				var data = {
-					message: 'Button color changed.',
-					timeout: 2000,
-					actionHandler: handler,
-					actionText: 'Undo'
-				};
-				addClass(snackbarContainer, 'mdl-js-snackbar');
-				snackbarContainer.MaterialSnackbar.showSnackbar(data);
-				componentHandler.upgradeDom();
-			});
-		}());
+		window.componentHandler.upgradeAllRegistered();
+    var snackbarContainer = this.el.nativeElement.querySelector("demo-snackbar-example")
+		var data = {
+				message: 'Button color changed.',
+				timeout: 2000,
+				actionText: 'Undo'
+		};                           
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
 });
 
 angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
