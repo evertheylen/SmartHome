@@ -221,6 +221,7 @@ angular.module("overwatch").controller("location_objController", function($scope
             //snackbarContainer.MaterialSnackbar.showSnackbar(data);
             addClass(snackbarContainer, "mdl-js-snackbar");            
             addClass(snackbarContainer, 'mdl-snackbar--active');
+						snackbarContainer.setAttribute('aria-hidden', false);
             componentHandler.upgradeDom();
 	        $scope.$apply();
         });    
