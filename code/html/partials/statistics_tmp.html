@@ -302,25 +302,6 @@
 			</div>
 		</label>
 	</input>
-	<input type="checkbox" id="trig4" class="triggerer">
-		<label class="box">
-			<div class="header">
-				<label id="for_trig4"><i ng-click="open('trig4')" class="material-icons boxStatus">play_arrow</i></label>
-				<div class="headerText">Click this box! (well you can't type document.getElementById("trig4").checked = true; in the console)</div>
-			</div>
-			<div class="boxContent">
-				<div class="mdl-grid">
-					<!--cards-->
-					<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
-						<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-							<div class="mdl-card__title">
-								<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>
-								<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-									<i class="material-icons">share</i>
-								</button>
-								<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
-									<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
-								</button>
 		<input type="checkbox" id="trig4" class="triggerer">
 			<label class="box" style="z-index: -1;">
 				<div class="header">
