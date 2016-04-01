@@ -256,6 +256,7 @@ angular.module("overwatch").controller("location_objController", function($scope
 					actionHandler: handler,
 					actionText: 'Undo'
 				};
+				addClass(snackbarContainer, 'mdl-js-snackbar');
 				snackbarContainer.MaterialSnackbar.showSnackbar(data);
 				componentHandler.upgradeDom();
 			});
