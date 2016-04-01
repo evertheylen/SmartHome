@@ -33,3 +33,12 @@ angular.module("overwatch").filter('index', function () {
         return array;
     };
 });
+
+function getIndexOfObjWithAttribute(array, attr, value) {
+    for(var i = 0; i < array.length; i++) {
+        if(array[i][attr] === value) {
+            return i;
+        }
+    }
+    return -1;
+}

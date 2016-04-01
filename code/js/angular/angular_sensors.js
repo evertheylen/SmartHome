@@ -191,7 +191,7 @@ angular.module("overwatch").controller("location_objController", function($scope
     $scope.delete = function () {
         ws.request({type: "delete", what: "Location", data: {"LID": $scope.house.LID}}, function(success) {
             console.log("deleting object:" + $scope.house + " ID: " + $scope.house.LID);
-            $scope.houses.splice($scope.houses.indexOf($scope.house.LID), 1);
+            $scope.houses.splice(getIndexOfObjWithAttribute($scope.houses, "LID", $scope.house.LID), 1);
              // 'use strict';
             var snackbarContainer = document.getElementById('delete-snackbar');
             //var showSnackbarButton = document.querySelector('#demo-show-snackbar');
