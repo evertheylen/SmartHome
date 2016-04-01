@@ -5,28 +5,6 @@
 			<div class="mdl-snackbar__text"></div>
 			<button class="mdl-snackbar__action" type="button"></button>
 		</div>
-		<script>
-		(function() {
-			'use strict';
-			var snackbarContainer = document.querySelector('#demo-snackbar-example');
-			var showSnackbarButton = document.querySelector('#demo-show-snackbar');
-			var handler = function(event) {
-				showSnackbarButton.style.backgroundColor = '';
-			};
-			showSnackbarButton.addEventListener('click', function() {
-				'use strict';
-				showSnackbarButton.style.backgroundColor = '#' +
-						Math.floor(Math.random() * 0xFFFFFF).toString(16);
-				var data = {
-					message: 'Button color changed.',
-					timeout: 2000,
-					actionHandler: handler,
-					actionText: 'Undo'
-				};
-				snackbarContainer.MaterialSnackbar.showSnackbar(data);
-			});
-		}());
-		</script>
 	<div class="mdl-grid">
 		<!--Location table-->
 		<div class="mdl-cell mdl-cell--3-col">
