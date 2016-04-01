@@ -5,6 +5,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     // Sample data
     
+    $scope.open = function (id) {
+      document.getElementById(id).checked = !document.getElementById(id).checked;      
+    }
+    
     $scope.houses = [];
 
 	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {

@@ -136,6 +136,14 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.reset_sen();
 	$scope.reset_loc();
     
+	document.getElementById('btnLocationBack').addEventListener('click', function(){
+		document.getElementById('dlgLocation').close();
+	});
+
+	document.getElementById('btnSensorBack').addEventListener('click', function(){
+		document.getElementById('dlgSensor').close();
+	});
+
 	var delete_id = null;    // TODO Nasty global vars
 	var delete_from = null;
 	
@@ -175,7 +183,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         $rootScope.$emit(elem + "_open");
         componentHandler.upgradeDom();
     }  
-    
+	
     componentHandler.upgradeDom();
 });
 
@@ -186,46 +194,7 @@ angular.module("overwatch").controller("location_objController", function($scope
         element.showModal();
         $rootScope.$emit("dlgLocation_open");
         componentHandler.upgradeDom();
-    };  
-    
-    $scope.delete = function () {
-        ws.request({type: "delete", what: "Location", data: {"LID": $scope.house.LID}}, function(success) {
-            console.log("deleting object:" + $scope.house + " ID: " + $scope.house.LID);
-            console.log("Index: " + getIndexOfObjWithAttribute($scope.houses, "LID", $scope.house.LID));
-            $scope.houses.splice(getIndexOfObjWithAttribute($scope.houses, "LID", $scope.house.LID), 1);
-             // 'use strict';
-            var snackbarContainer = document.getElementById('delete-snackbar');
-            removeClass(snackbarContainer, "mdl-js-snackbar");
-            //var showSnackbarButton = document.querySelector('#demo-show-snackbar');
-            var handler = function(event) {
-                $scope.houses.push($scope.house);
-                var new_house = new Location(-1, $scope.house.description, $scope.house.number, $scope.house.street, $scope.house.city, $scope.house.postalcode, $scope.house.country, 
-			                    $scope.house.elec_price, $rootScope.auth_user.UID);
-                delete new_house.LID;
-                var houseObject = new_house.toJSON();
-                ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
-                    new_house.LID = response.house.LID;	
-                    console.log("Pre house added");
-                    $scope.houses.push(new_house);
-                    console.log("house added");
-                    console.log("Response verwerkt");
-                    $scope.$apply();
-                });
-            };
-            var data = {
-              message: 'Location permanently removed.',
-              timeout: 3000,
-              //actionHandler: handler,
-              //actionText: 'Undo'
-            };
-            //snackbarContainer.MaterialSnackbar.showSnackbar(data);
-            addClass(snackbarContainer, "mdl-js-snackbar");            
-            addClass(snackbarContainer, 'mdl-snackbar--active');
-						snackbarContainer.setAttribute('aria-hidden', false);
-            componentHandler.upgradeDom();
-	        $scope.$apply();
-        });    
-    };
+    }  
 });
 
 angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
@@ -376,9 +345,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
-	document.getElementById('btnSensorBack').addEventListener('click', function(){
-		document.getElementById('dlgSensor').close();
-	});
+
 });
 	    
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope, dlgLocation_setup) {
@@ -518,7 +485,4 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 			console.log("Dialog closed");
 	    }
 	} 
-	document.getElementById('btnLocationBack').addEventListener('click', function(){
-		document.getElementById('dlgLocation').close();
-	});
 });

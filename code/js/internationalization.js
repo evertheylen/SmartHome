@@ -56,5 +56,6 @@ var html_strings = {
     "aggregate_loc" : ["Aggregate by location", "Groepeer per locatie"],
     "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
     "aggregate_sensor" : ["Aggregate by sensor", "Groepeer per sensor"],
-    
+    "open" : ["Open", "Openen"],
+    "close" : ["Close", "Sluiten"],
 };
