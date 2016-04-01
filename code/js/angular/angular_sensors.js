@@ -257,6 +257,7 @@ angular.module("overwatch").controller("location_objController", function($scope
 					actionText: 'Undo'
 				};
 				snackbarContainer.MaterialSnackbar.showSnackbar(data);
+				componentHandler.upgradeDom();
 			});
 		}());
 });
