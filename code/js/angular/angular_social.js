@@ -19,10 +19,17 @@ angular.module("overwatch").directive('myEnter', function () {
     };
 });
 
-angular.module("overwatch").controller("statusController", function($scope, $rootScope) {
+angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {
     $scope.comments = [];
     
     $scope.push_comment = function () {
+        var comment = {};
+        comment.name = Auth.getUser();
+        comment.text = $scope.new_comment;
+        var d = new Date();
+        comment.date = d.getTime();
+        $scope.comments.push();
+        removeClass(document.getElementById('comment_parent'), 'is-focused');
       console.log("new comment :D");
       
     }
