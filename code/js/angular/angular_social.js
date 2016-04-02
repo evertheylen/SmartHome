@@ -22,6 +22,10 @@ angular.module("overwatch").directive('myEnter', function () {
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {
     $scope.comments = [];
     
+    $scope.delete = function (index) {
+        $scope.comments.split(index, 1);
+    }
+    
     $scope.push_comment = function () {
         if ($scope.new_comment != "") {
             var comment = {};

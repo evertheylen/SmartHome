@@ -51,12 +51,12 @@
 					<a id="btnShowComments" ng-click="comments_active = !comments_active">Show comments</a>
 				</div>
 				<div class="commentSection {{comments_active ? 'activated' : ''}}">
-					<div ng-repeat="comment in comments track by $index" on-finish-render="ngRepeatFinished" class="comment">
+					<div ng-repeat="comment in comments | index track by $index" on-finish-render="ngRepeatFinished" class="comment">
 						<div class="name" ng-bind="comment.name"></div>
 						<div class="text" ng-bind="comment.text"></div>
 						<div class="commentFooter">
 							<div class="date" ng-bind="comment.date"></div>
-							<div class="option" ng-bind="i18n('delete_comment')"></div>
+							<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.index)"></div>
 						</div>
 					</div>
 				</div>
