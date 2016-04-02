@@ -27,7 +27,7 @@
 						</tr>	
 					</tbody>
 				</table>
-				<button id="btnAddLoc" ng-click="reset_loc(); open_dialog('dlgLocation')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
+				<button id="btnAddLoc" ng-click="reset_loc(); open_dialog('dlgLocation')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent spacedButton" ng-bind="i18n('add_location')">
 				</button>
 			</div>
 		</div>
@@ -95,7 +95,7 @@
 
 				<div style="margin: 5px;"></div>
 
-				<button id="btnAddSensor" ng-click="reset_sen(); open_dialog('dlgSensor')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_sensor')">
+				<button id="btnAddSensor" ng-click="reset_sen(); open_dialog('dlgSensor')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent spacedButton" ng-bind="i18n('add_sensor')">
 				</button>
 			</div>
 		</div>
@@ -160,6 +160,13 @@
                 <div ng-messages="sensor_form.sensorType.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>				
+                <div id="txtfield_SensorUnitPrice" class="mdl-selectfield">
+                    <label ng-bind="i18n('unit_price')"></label>
+                    <input type="number" ng-model="sen_unit_price" name="sensorUnitPrice" required></input>
+                </div>
+                <div ng-messages="sensor_form.sensorUnitPrice.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>
             </form>
             <div>
                 <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
@@ -212,6 +219,8 @@
                 <div ng-messages="house_form.houseNr.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
+                
+                <!-- TODO Remove this when the format updates-->
                 <div id="txtfield_LocationElecPrice" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="houseElecPrice" required>
                     <label class="mdl-textfield__label" for="input_LocationElecPrice" ng-bind="i18n('elec_price')"></label>

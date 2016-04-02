@@ -1,0 +1,88 @@
+.material-icons.md-15.clickable{
+	font-size: 15px;
+	cursor: pointer;
+	color: inherit;
+}
+
+.clicked{
+	color: #448AFF;
+}
+
+.notClicked{
+	color: #C0C0C0;
+}
+
+.spacer{
+	margin: 5px;
+}
+
+#btnShowComments:hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.commentSection{
+	display: none;
+}
+
+.commentSection.activated{
+	max-height: 400px;
+	overflow-y: auto;
+	height: auto;
+	display: block;
+}
+
+.comment{
+	height: auto;
+	width: 96%;
+	margin: 15px;
+}
+
+.comment > .name{
+	color: #448AFF;
+	display: inline-block;
+}
+
+.comment > .name:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.comment > .name + .text{
+	color: black;
+	display: inline-block;
+}
+
+.comment > .name + .text + .commentFooter{
+	font-size: 15px;
+}
+
+.comment > .name + .text + .commentFooter > .date{
+	color: #B0B0B0;
+	display: inline-block;
+}
+
+.comment > .name + .text + .commentFooter > .date + .option{
+	color: #448AFF;
+	display: inline-block;
+}
+
+.comment > .name + .text + .commentFooter > .date + .option:hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#socialRightMenu{
+	margin-top: 40px;
+	margin-left: 40px;
+}
+
+#socialLeftMenu{
+	margin-top: 40px;
+	margin-left: 40px;
+}
+
+.menuGroup{
+	margin-top: 15px;
+	color: #A0A0A0;
+}

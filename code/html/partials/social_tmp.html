@@ -1,2 +1,122 @@
 <div ng-controller="socialController">
+
+	<div class="mdl-grid">
+
+		<div class="mdl-cell mdl-cell--1-col"></div>
+		<!-- The menu on the left side -->
+		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
+			<div id="socialLeftMenu">
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					My profile
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					My friends
+				</button>
+				<div class="menuGroup">Groups:</div>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Group A
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Group B
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Group potato
+				</button>
+			</div>
+		</div>
+
+
+		<!-- Status field -->
+		<div ng-controller="statusController" class="mdl-cell mdl-cell--6-col">
+			<!-- TODO Angular shit is pure nonsense at the moment -->
+			<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
+				<div class="mdl-card__title">
+					<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
+					<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+						<i class="material-icons">share</i>
+					</button>
+					<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
+					    <i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
+				    </button>
+				</div>
+				<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+				<div class="mdl-card__supporting-text">
+					dis be my status niggas, i haz authority to write whatever i wantz
+				</div>
+				<div class="mdl-card__actions mdl-card--border">
+					<a id="likes_click" class="notClicked" ng-click="add('likes');"><i class="material-icons md-15 clickable">thumb_up</i> {{likes}}</a>
+					<a id="dislikes_click" class="notClicked" ng-click="add('dislikes');"><i class="material-icons md-15 clickable">thumb_down</i> {{dislikes}}</a>
+					<a class="spacer"></a>
+					<!-- TODO change this to hide comments when show comments is pressed -->
+					<a id="btnShowComments" ng-click="comments_active = !comments_active";>Show comments</a>
+				</div>
+				<div class="commentSection {{comments_active ? 'activated' : ''}}" id="comment_section">
+					<div ng-repeat="comment in comments | index track by $index" on-finish-render-comments="ngRepeatFinishedComments" class="comment">
+						<div class="name" ng-bind="comment.name"></div>
+						<div class="text" ng-bind="comment.text"></div>
+						<div class="commentFooter">
+							<div class="date" ng-bind="comment.date"></div>
+							<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.index)"></div>
+						</div>
+					</div>
+				</div>
+				<form action="#">
+					<div class="mdl-textfield mdl-js-textfield" id="comment_parent">
+						<input class="mdl-textfield__input" type="text" id="comment" style="margin: 15px;" ng-model="new_comment" my-enter="push_comment();"></input>
+						<label class="mdl-textfield__label" for="comment" style="margin: 15px;">Comment on this status...</label>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<!-- The menu on the right side -->
+		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
+			<div id="socialRightMenu">
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Find friends
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+					Create group
+				</button>
+			</div>
+		</div>
+
+
+
+		<div class="mdl-cell mdl-cell--1-col"></div>
+	</div>
+
+
+
+
+	<!-- Create group dialog -->
+    <dialog id="dlgGroup" class="mdl-dialog">
+        <h4 class="mdl-dialog__title">Create group</h4>
+        <div class="mdl-dialog__content">
+            <form name="group_form">
+                <div id="txtfield_GroupName" class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="input_GroupName" name="groupName" required>
+                    <label class="mdl-textfield__label" for="input_GroupName"></label>
+                </div>
+				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="publicOption">
+					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" value="1" checked>
+					<span class="mdl-radio__label">Public group</span>
+				</label>
+				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="secretOption">
+					<input type="radio" id="secretOption" class="mdl-radio__button" name="groupOptions" value="2">
+					<span class="mdl-radio__label">Secret group</span>
+				</label>	
+            </form>
+            <div style="margin-top: 5px;">
+                <button id="btnGroupCreate" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                    style="width: 45%; display: inline; margin-left: 5%;">Create
+                </button>
+                <button id="btnGroupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    style="width: 45%; display: inline;">Back
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+
 </div>
