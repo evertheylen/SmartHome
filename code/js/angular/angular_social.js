@@ -32,6 +32,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         removeClass(document.getElementById('comment_parent'), 'is-focused');
       console.log("new comment :D");
         console.log(comment);
+        $scope.new_comment = "";
+        componentHandler.upgradeDom();
     }
     
     var comment = {};
