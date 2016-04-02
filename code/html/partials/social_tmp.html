@@ -48,9 +48,9 @@
 					<a class="notClicked"><i class="material-icons md-15 clickable">thumb_down</i> 8</a>
 					<a class="spacer"></a>
 					<!-- TODO change this to hide comments when show comments is pressed -->
-					<a id="btnShowComments">Show comments</a>
+					<a id="btnShowComments" ng-click="comments_active = !comments_active">Show comments</a>
 				</div>
-				<div class="commentSection activated">
+				<div class="commentSection {{comments_active ? 'activated' : ''}}" ng-show="comments_active">
 					<div class="comment">
 						<div class="name">Adolf Hitler</div>
 						<div class="text">Gutentag Poland, wir kommen für ihren arschen.</div>
