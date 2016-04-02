@@ -2,7 +2,7 @@
 
 	<div class="mdl-grid">
 
-
+		<div class="mdl-cell mdl-cell--1-col"></div>
 		<!-- The menu on the left side -->
 		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
 			<div id="socialLeftMenu">
@@ -27,7 +27,7 @@
 
 
 		<!-- Status field -->
-		<div class="mdl-cell mdl-cell--8-col">
+		<div class="mdl-cell mdl-cell--6-col">
 			<!-- TODO Angular shit is pure nonsense at the moment -->
 			<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
 				<div class="mdl-card__title">
@@ -152,8 +152,43 @@
 				</button>
 			</div>
 		</div>
+
+
+
+		<div class="mdl-cell mdl-cell--1-col"></div>
 	</div>
 
+
+
+
+	<!-- Create group dialog -->
+    <dialog id="dlgGroup" class="mdl-dialog">
+        <h4 class="mdl-dialog__title">Create group</h4>
+        <div class="mdl-dialog__content">
+            <form name="group_form">
+                <div id="txtfield_GroupName" class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" id="input_GroupName" name="groupName" required>
+                    <label class="mdl-textfield__label" for="input_GroupName"></label>
+                </div>
+				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="publicOption">
+					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" value="1" checked>
+					<span class="mdl-radio__label">Public group</span>
+				</label>
+				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="secretOption">
+					<input type="radio" id="secretOption" class="mdl-radio__button" name="groupOptions" value="2">
+					<span class="mdl-radio__label">Secret group</span>
+				</label>	
+            </form>
+            <div style="margin-top: 5px;">
+                <button id="btnGroupCreate" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                    style="width: 45%; display: inline; margin-left: 5%;">Create
+                </button>
+                <button id="btnGroupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    style="width: 45%; display: inline;">Back
+                </button>
+            </div>
+        </div>
+    </dialog>
 
 
 </div>
