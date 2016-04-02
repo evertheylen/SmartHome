@@ -36,10 +36,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     
 	$scope.required = true;
 	$scope.selected_order = null;
-	var edit_loc_id = null;
-	var edit = false;
-	var edit_sen = false;
-	var edit_sen_id = null;
 
 	$scope.filteredSensors = []
 	,$scope.currentPage = 1
@@ -243,19 +239,24 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		    $scope.sen_tags = sen.tags;
 		    $scope.sen_house = sen.location_LID;
 		    $scope.sen_SID = sen.SID;
+		    $scope.sen_unit_price = sen.unit_price;
 		    $scope.dropDownClick(sen.type, 'select_type', 'dropDownType', 'type');
 		    $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
 
 		    addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
 		    //addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+		    addClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
+		    if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid")) {
+		        removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid");
+		    }
 		    if (hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
-	        		removeClass(document.getElementById("txtfield_SensorName"), "is-invalid");
+        		removeClass(document.getElementById("txtfield_SensorName"), "is-invalid");
 		    }
 		    if (hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
-	        		removeClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
+        		removeClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
 		    }
 		    if (hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
-	        		removeClass(document.getElementById("txtfield_SensorType"), "is-invalid");
+        		removeClass(document.getElementById("txtfield_SensorType"), "is-invalid");
 		    }        
 		    $scope.edit_sen = $scope.i18n("edit_sensor");
 	    } else {
@@ -265,12 +266,16 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 	    	$scope.sen_house = null;
 		    $scope.sen_type = null;
 		    $scope.sen_tags = null;
+		    $scope.sen_unit_price = null;
 	        $scope.dropDownClick(null, 'select_house', 'dropDownLocation', 'house');
 		    $scope.dropDownClick(null, 'select_type', 'dropDownType', 'type');
 		    $scope.edit_sen = $scope.i18n("add_sensor");    
 		    if (hasClass(document.getElementById("txtfield_SensorName"), "is-dirty")) {
 			    removeClass(document.getElementById("txtfield_SensorName"), "is-dirty");
 		    }
+            if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty")) {
+                removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
+            }		    
 		    //if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
 		    //  removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
 		    //}
@@ -291,6 +296,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		if ($scope.sensor_form.$valid) {
 			if (edit) {
 				// Edit Sensor TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
+				// TODO Don't forget the unit price when the format updates :)
 				var sensor = new Sensor($scope.sen_SID, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, $scope.sen_house);
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
@@ -298,6 +304,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				});
 			} else {
 				// Add Sensor
+				
+				// TODO Don't forget the unit price when the format updates :)				
 				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, $scope.sen_house);
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.house = $scope.sen_house;
