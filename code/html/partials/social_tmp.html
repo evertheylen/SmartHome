@@ -27,7 +27,7 @@
 
 
 		<!-- Status field -->
-		<div class="mdl-cell mdl-cell--6-col">
+		<div ng-controller="statusController" class="mdl-cell mdl-cell--6-col">
 			<!-- TODO Angular shit is pure nonsense at the moment -->
 			<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
 				<div class="mdl-card__title">
@@ -51,12 +51,12 @@
 					<a id="btnShowComments" ng-click="comments_active = !comments_active">Show comments</a>
 				</div>
 				<div class="commentSection {{comments_active ? 'activated' : ''}}">
-					<div class="comment">
-						<div class="name">Adolf Hitler</div>
-						<div class="text">Gutentag Poland, wir kommen für ihren arschen.</div>
+					<div ng-repeat="comment in comments" class="comment">
+						<div class="name" ng-bind="comment.name"></div>
+						<div class="text" ng-bind="comment.text"></div>
 						<div class="commentFooter">
-							<div class="date">01/09/1939</div>
-							<div class="option">delete</div>
+							<div class="date" ng-bind="comment.date"></div>
+							<div class="option">{{i18n('delete')}}</div>
 						</div>
 					</div>
 					<div class="comment">
