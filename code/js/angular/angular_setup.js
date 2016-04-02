@@ -16,6 +16,19 @@ angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessag
     }
 });
 
+angular.module("overwatch").directive('onFinishRenderComments', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinishedComments');
+                });
+            }
+        }
+    }
+});
+
 angular.module('overwatch').filter('startFrom', function() {
     return function(input, start) {
         if(input) {
@@ -95,6 +108,12 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
     });
+
+    $scope.$on("ngRepeatFinishedComments", function(ngRepeatFinishedEvent) {
+        document.getElementById("comment_section").scrollTop = document.getElementById("comment_section").scrollHeight;
+        componentHandler.upgradeDom();
+    });
+    
 	$rootScope.confirm_dialog = document.getElementById('dlgConfirm');
 	$rootScope.confirm = function (value) {  
 	    $scope.$broadcast("confirmation", value);

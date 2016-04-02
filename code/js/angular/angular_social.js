@@ -38,7 +38,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             console.log(comment);
             $scope.new_comment = "";
             componentHandler.upgradeDom();
-            document.getElementById("comment_section").scrollTop = document.getElementById("comment_section").scrollHeight;
+            
         }
     }
     
