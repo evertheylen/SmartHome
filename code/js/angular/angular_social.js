@@ -5,8 +5,27 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     componentHandler.upgradeDom();
 });
 
+angular.module("overwatch").directive('myEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.myEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+
 angular.module("overwatch").controller("statusController", function($scope, $rootScope) {
     $scope.comments = [];
+    
+    $scope.push_comment = function () {
+      console.log("new comment :D");
+      
+    }
     
     var comment = {};
     comment.name = 'Adolf Hitler';
