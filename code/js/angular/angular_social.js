@@ -23,7 +23,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.comments = [];
     
     $scope.delete = function (index) {
-        $scope.comments.split(index, 1);
+        $scope.comments.splice(index, 1);
     }
     
     $scope.push_comment = function () {
