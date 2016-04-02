@@ -111,6 +111,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 
     $scope.$on("ngRepeatFinishedComments", function(ngRepeatFinishedEvent) {
         document.getElementById("comment_section").scrollTop = document.getElementById("comment_section").scrollHeight;
+        console.log("height set for comments");
         componentHandler.upgradeDom();
     });
     
