@@ -34,6 +34,20 @@ angular.module("overwatch").filter('index', function () {
     };
 });
 
+angular.module("overwatch").directive('myEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.myEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+
 function getIndexOfObjWithAttribute(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
         if(array[i][attr] === value) {

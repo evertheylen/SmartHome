@@ -28,7 +28,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     var comment = {};
     comment.name = 'Charles De Gaulle';
-    comment.text = "JE SURRENDERs!";
+    comment.text = "JE SURRENDER!";
     comment.date = '01/09/1939';
     $scope.comments.push(comment);    
 
