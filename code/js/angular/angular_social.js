@@ -29,6 +29,18 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.likes = 0;
     $scope.dislikes = 0;
     
+    $scope.add = function(what) {
+      switch (what) {
+        case 'likes':
+          $scope.likes += 1;
+          break;
+        case 'dislikes':
+          $scope.dislikes += 1;
+          break;
+      }
+      
+    };
+    
     $scope.push_comment = function () {
         if ($scope.new_comment != "") {
             var comment = {};

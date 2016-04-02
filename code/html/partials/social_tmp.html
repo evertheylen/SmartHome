@@ -44,8 +44,8 @@
 					dis be my status niggas, i haz authority to write whatever i wantz
 				</div>
 				<div class="mdl-card__actions mdl-card--border">
-					<a class="clicked"><i class="material-icons md-15 clickable" ng-bind="likes" ng-click="$scope.likes+=1;">thumb_up</i></a>
-					<a class="notClicked"><i class="material-icons md-15 clickable" ng-bind="dislikes" ng-click="$scope.dislikes+=1;">thumb_down</i></a>
+					<a class="clicked"><i class="material-icons md-15 clickable" ng-bind="likes" ng-click="add('likes');">thumb_up</i></a>
+					<a class="notClicked"><i class="material-icons md-15 clickable" ng-bind="dislikes" ng-click="add('dislikes');">thumb_down</i></a>
 					<a class="spacer"></a>
 					<!-- TODO change this to hide comments when show comments is pressed -->
 					<a id="btnShowComments" ng-click="comments_active = !comments_active";>Show comments</a>
