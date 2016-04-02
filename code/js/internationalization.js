@@ -33,6 +33,7 @@ var html_strings = {
     "street": ["Street", "Straat"],
     "number": ["Number", "Huisnummer"],
     "elec_price": ["Cost Per Electricity Unit", "Kost per elektriciteitseenheid"],
+    "unit price": ["Usage cost (per unit)", "Verbruikskost (per eenheid⁾"],
     "edit_location": ["Edit location", "Locatie bewerken"],
     "add_location": ["Add location", "Locatie toevoegen"],
     "del_location": ["Delete location", "Locatie verwijderen"],
