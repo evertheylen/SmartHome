@@ -28,17 +28,19 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     
     $scope.likes = 0;
     $scope.dislikes = 0;
-    
     $scope.add = function(what) {
-      switch (what) {
-        case 'likes':
-          $scope.likes += 1;
-          break;
-        case 'dislikes':
-          $scope.dislikes += 1;
-          break;
-      }
-      
+        switch (what) {
+          case 'likes':
+            $scope.likes += 1;
+            removeClass(document.getElementById('likes_click'), 'notClicked');
+            addClass(document.getElementById('likes_click'), 'clicked');
+            break;
+          case 'dislikes':
+            $scope.dislikes += 1;
+            removeClass(document.getElementById('dislikes_click'), 'notClicked');
+            addClass(document.getElementById('dislikes_click'), 'clicked');
+            break;
+        }
     };
     
     $scope.push_comment = function () {
