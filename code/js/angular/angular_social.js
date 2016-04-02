@@ -12,5 +12,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     comment.name = 'Adolf Hitler';
     comment.text = 'Gutentag Poland, wir kommen für ihren arschen.';
     comment.date = '01/09/1939';
-  
+    
+    $scope.comments.push(comment);
 });
