@@ -23,6 +23,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.comments = [];
     
     $scope.push_comment = function () {
+        if ($scope.new_comment != "") {
+        
         var comment = {};
         comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
         comment.text = $scope.new_comment;
@@ -34,6 +36,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         console.log(comment);
         $scope.new_comment = "";
         componentHandler.upgradeDom();
+        }
     }
     
     var comment = {};
