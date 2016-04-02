@@ -24,18 +24,16 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     
     $scope.push_comment = function () {
         if ($scope.new_comment != "") {
-        
-        var comment = {};
-        comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
-        comment.text = $scope.new_comment;
-        var d = new Date();
-        comment.date = d.getTime();
-        $scope.comments.push(comment);
-        removeClass(document.getElementById('comment_parent'), 'is-focused');
-      console.log("new comment :D");
-        console.log(comment);
-        $scope.new_comment = "";
-        componentHandler.upgradeDom();
+            var comment = {};
+            comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
+            comment.text = $scope.new_comment;
+            comment.date = getCurrentDate();
+            $scope.comments.push(comment);
+            removeClass(document.getElementById('comment_parent'), 'is-focused');
+            console.log("new comment :D");
+            console.log(comment);
+            $scope.new_comment = "";
+            componentHandler.upgradeDom();
         }
     }
     
