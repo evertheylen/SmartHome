@@ -1,15 +1,9 @@
 
-from . import Base
+from .owentity import *
+from sparrow import *
 
-# from libs import sparrow
-#
-# class Wall(Entity):
-#     key = WID = KeyProperty()
-
-
-
-class Wall(Base):
-    def __init__(self, ID):
-        self.ID = ID
-
-    json_props = ["ID"]
+# Not realtime again
+class Wall(OwEntity):
+    key = WID = KeyProperty()
+    is_user = Property(bool, json=False)
+    # owner can be a user or a group
