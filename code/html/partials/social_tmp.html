@@ -48,7 +48,7 @@
 					<a id="dislikes_click" class="notClicked" ng-click="add('dislikes');"><i class="material-icons md-15 clickable">thumb_down</i> {{dislikes}}</a>
 					<a class="spacer"></a>
 					<!-- TODO change this to hide comments when show comments is pressed -->
-					<a id="btnShowComments" ng-click="comments_active = !comments_active";>Show comments</a>
+					<a id="btnShowComments" ng-click="comments_active = !comments_active;" ng-bind="i18n('show_comments')"></a>
 				</div>
 				<div class="commentSection {{comments_active ? 'activated' : ''}}" id="comment_section">
 					<div ng-repeat="comment in comments | index track by $index" on-finish-render-comments="ngRepeatFinishedComments" class="comment">
@@ -75,7 +75,7 @@
 				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
 					Find friends
 				</button>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-click="open_dialog('dlgGroup');">
 					Create group
 				</button>
 			</div>
@@ -90,7 +90,7 @@
 
 
 	<!-- Create group dialog -->
-    <dialog id="dlgGroup" class="mdl-dialog">
+    <dialog ng-controller="create_groupController" id="dlgGroup" class="mdl-dialog">
         <h4 class="mdl-dialog__title">Create group</h4>
         <div class="mdl-dialog__content">
             <form name="group_form">

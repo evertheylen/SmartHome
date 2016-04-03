@@ -59,5 +59,6 @@ var html_strings = {
     "aggregate_sensor" : ["Aggregate by sensor", "Groepeer per sensor"],
     "open" : ["Open", "Openen"],
     "close" : ["Close", "Sluiten"],
-    "delete_comment" : ["Delete comment", "Comment verwijderen"]
+    "delete_comment" : ["Delete comment", "Comment verwijderen"],
+    "show_comments" : ["Show comments", "Comments tonen"],
 };

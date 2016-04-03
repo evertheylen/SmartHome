@@ -3,6 +3,14 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     $rootScope.tab = "sociallink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     componentHandler.upgradeDom();
+    
+    
+	$scope.open_dialog = function (element_id) {
+        var element = document.getElementById(element_id);
+        element.showModal();
+        $rootScope.$emit(element_id + "_open");
+        componentHandler.upgradeDom();
+    } 
 });
 
 angular.module("overwatch").directive('myEnter', function () {
@@ -17,6 +25,10 @@ angular.module("overwatch").directive('myEnter', function () {
             }
         });
     };
+});
+
+angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
+
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {
