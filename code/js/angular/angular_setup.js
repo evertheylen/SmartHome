@@ -203,10 +203,11 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
         })
         .state('state_social', {
             url: "/social",
+            abstract: true,
             templateUrl: "/html/partials/social_tmp.html"
         })
         .state('state_social.status', {
-            url : "/social",
+            url : "",
             templateUrl: "/html/partials/social_status_tmp.html"
         });
     $locationProvider.html5Mode(true);
