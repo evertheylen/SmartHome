@@ -35,6 +35,7 @@ angular.module("overwatch").controller("create_groupController", function($scope
             var group = {};
             group.name = $scope.group_name;
             group.is_public = $scope.group_public;
+            $scope.groups.push(group);
             document.getElementById('dlgGroup').close();
         }
     }
