@@ -6,15 +6,14 @@
 		<!-- The menu on the left side -->
 		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
 			<div id="socialLeftMenu">
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					My profile
-				</button>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					My friends
-				</button>
+			    <a ui-sref="state_social.index" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-bind="i18n('homelink')">
+			    </a>
+				<a ui-sref="state_social.profile" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-bind="i18n('my_profile')">
+				</a>
+				<a ui-sref="state_social.friends" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-bind="i18n('my_friends')">
+				</a>
 				<div class="menuGroup">Groups:</div>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					Group A
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups" on-finish-render="ngRepeatFinished" ng-bind="group.name">
 				</button>
 				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
 					Group B
@@ -25,58 +24,13 @@
 			</div>
 		</div>
 
-
-		<!-- Status field -->
-		<div ng-controller="statusController" class="mdl-cell mdl-cell--6-col">
-			<!-- TODO Angular shit is pure nonsense at the moment -->
-			<div class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
-				<div class="mdl-card__title">
-					<h2 class="mdl-card__title-text">Sample Data {{$index + graphs.length}}</h2>
-					<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-						<i class="material-icons">share</i>
-					</button>
-					<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
-					    <i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
-				    </button>
-				</div>
-				<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
-				<div class="mdl-card__supporting-text">
-					dis be my status niggas, i haz authority to write whatever i wantz
-				</div>
-				<div class="mdl-card__actions mdl-card--border">
-					<a id="likes_click" class="notClicked" ng-click="add('likes');"><i class="material-icons md-15 clickable">thumb_up</i> {{likes}}</a>
-					<a id="dislikes_click" class="notClicked" ng-click="add('dislikes');"><i class="material-icons md-15 clickable">thumb_down</i> {{dislikes}}</a>
-					<a class="spacer"></a>
-					<!-- TODO change this to hide comments when show comments is pressed -->
-					<a id="btnShowComments" ng-click="comments_active = !comments_active";>Show comments</a>
-				</div>
-				<div class="commentSection {{comments_active ? 'activated' : ''}}" id="comment_section">
-					<div ng-repeat="comment in comments | index track by $index" on-finish-render-comments="ngRepeatFinishedComments" class="comment">
-						<div class="name" ng-bind="comment.name"></div>
-						<div class="text" ng-bind="comment.text"></div>
-						<div class="commentFooter">
-							<div class="date" ng-bind="comment.date"></div>
-							<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.index)"></div>
-						</div>
-					</div>
-				</div>
-				<form action="#">
-					<div class="mdl-textfield mdl-js-textfield" id="comment_parent">
-						<input class="mdl-textfield__input" type="text" id="comment" style="margin: 15px;" ng-model="new_comment" my-enter="push_comment();"></input>
-						<label class="mdl-textfield__label" for="comment" style="margin: 15px;">Comment on this status...</label>
-					</div>
-				</form>
-			</div>
-		</div>
-		
+        <div ui-view></div>
 		<!-- The menu on the right side -->
 		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
 			<div id="socialRightMenu">
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					Find friends
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-bind="i18n('find_friends')">
 				</button>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					Create group
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-click="open_dialog('dlgGroup');" ng-bind="i18n('create_group')">
 				</button>
 			</div>
 		</div>
@@ -90,29 +44,29 @@
 
 
 	<!-- Create group dialog -->
-    <dialog id="dlgGroup" class="mdl-dialog">
-        <h4 class="mdl-dialog__title">Create group</h4>
+    <dialog ng-controller="create_groupController" id="dlgGroup" class="mdl-dialog">
+        <h4 class="mdl-dialog__title" ng-bind="i18n('create_group')"></h4>
         <div class="mdl-dialog__content">
-            <form name="group_form">
+            <form name="group_form" ng-model="group_form">
                 <div id="txtfield_GroupName" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="input_GroupName" name="groupName" required>
-                    <label class="mdl-textfield__label" for="input_GroupName"></label>
+                    <input class="mdl-textfield__input" type="text" id="input_GroupName" name="groupName" ng-model="group_name" required>
+                    <label class="mdl-textfield__label" for="input_GroupName" ng-bind="i18n('group_name')"></label>
                 </div>
 				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="publicOption">
-					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" value="1" checked>
-					<span class="mdl-radio__label">Public group</span>
+					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" ng-model="group_public" value="1" checked>
+					<span class="mdl-radio__label" ng-bind="i18n('group_public')"></span>
 				</label>
 				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="secretOption">
 					<input type="radio" id="secretOption" class="mdl-radio__button" name="groupOptions" value="2">
-					<span class="mdl-radio__label">Secret group</span>
+					<span class="mdl-radio__label" ng-bind="i18n('group_secret')"></span>
 				</label>	
             </form>
             <div style="margin-top: 5px;">
                 <button id="btnGroupCreate" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; display: inline; margin-left: 5%;">Create
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('create')" ng-click="create_group();">
                 </button>
                 <button id="btnGroupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;">Back
+                    style="width: 45%; display: inline;" ng-bind="i18n('back')" ng-click="back();">
                 </button>
             </div>
         </div>

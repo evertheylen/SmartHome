@@ -3,6 +3,16 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     $rootScope.tab = "sociallink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     componentHandler.upgradeDom();
+    
+    
+    $scope.groups = [] // TODO Get from database
+    
+	$scope.open_dialog = function (element_id) {
+        var element = document.getElementById(element_id);
+        element.showModal();
+        $rootScope.$emit(element_id + "_open");
+        componentHandler.upgradeDom();
+    } 
 });
 
 angular.module("overwatch").directive('myEnter', function () {
@@ -19,6 +29,29 @@ angular.module("overwatch").directive('myEnter', function () {
     };
 });
 
+angular.module("overwatch").controller("profileController", function($scope, $rootScope) {
+
+});
+
+angular.module("overwatch").controller("friendsController", function($scope, $rootScope) {
+
+});
+
+angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
+    $scope.create_group = function() {
+        if ($scope.group_form.$valid) {
+            var group = {};
+            group.name = $scope.group_name;
+            group.is_public = $scope.group_public;
+            $scope.groups.push(group);
+            document.getElementById('dlgGroup').close();
+        }
+    }
+    $scope.back = function() {
+        document.getElementById('dlgGroup').close();
+    }
+});
+
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {
     $scope.comments = [];
     
@@ -31,14 +64,28 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.add = function(what) {
         switch (what) {
           case 'likes':
-            $scope.likes += 1;
-            removeClass(document.getElementById('likes_click'), 'notClicked');
-            addClass(document.getElementById('likes_click'), 'clicked');
+            if (hasClass(document.getElementById('likes_click'), 'notClicked')) {
+                if (hasClass(document.getElementById('dislikes_click'), 'clicked')) {
+                    $scope.dislikes -= 1;
+                    removeClass(document.getElementById('dislikes_click'), 'clicked');
+                    addClass(document.getElementById('dislikes_click'), 'notClicked');
+                }
+                $scope.likes += 1;
+                removeClass(document.getElementById('likes_click'), 'notClicked');
+                addClass(document.getElementById('likes_click'), 'clicked');
+            }
             break;
           case 'dislikes':
-            $scope.dislikes += 1;
-            removeClass(document.getElementById('dislikes_click'), 'notClicked');
-            addClass(document.getElementById('dislikes_click'), 'clicked');
+            if (hasClass(document.getElementById('dislikes_click'), 'notClicked')) {
+                if (hasClass(document.getElementById('likes_click'), 'clicked')) {
+                    $scope.likes -= 1;
+                    removeClass(document.getElementById('likes_click'), 'clicked');
+                    addClass(document.getElementById('likes_click'), 'notClicked');
+                }
+                $scope.dislikes += 1;
+                removeClass(document.getElementById('dislikes_click'), 'notClicked');
+                addClass(document.getElementById('dislikes_click'), 'clicked');
+            }
             break;
         }
     };
@@ -51,6 +98,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             comment.date = getCurrentDate();
             $scope.comments.push(comment);
             removeClass(document.getElementById('comment_parent'), 'is-focused');
+            removeClass(document.getElementById('comment_parent'), 'is-dirty');
             console.log("new comment :D");
             console.log(comment);
             $scope.new_comment = "";
@@ -115,7 +163,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     var comment = {};
     comment.name = 'Adolf Hitler';
-    comment.text = '&lt;disconnected from your channel&gt;';
+    comment.text = '<disconnected from your channel>';
     comment.date = '30/04/1945';
     $scope.comments.push(comment);
 });
