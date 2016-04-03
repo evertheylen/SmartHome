@@ -61,4 +61,11 @@ var html_strings = {
     "close" : ["Close", "Sluiten"],
     "delete_comment" : ["Delete comment", "Comment verwijderen"],
     "show_comments" : ["Show comments", "Comments tonen"],
+    "comment_status" : ["Comment on this status...", "Comment op deze status..."],
+    "find_friends" : ["Find friends", "Vrienden zoeken"],
+    "create_group" : ["Create group", "Groep maken"],
+    "group_name" : ["Group name", "Groepsnaam"],
+    "group_public" : ["Public group", "Publieke groep"],
+    "group_secret" : ["Secret group", "Geheime groep"],
+    "create" : ["Create", "Aanmaken"],s
 };
