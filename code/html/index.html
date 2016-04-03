@@ -37,7 +37,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 	<script src="/js/angular/angular-chart.min.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
 </head>
 <body>
     <script>
@@ -69,14 +69,14 @@
       <div id="main_drawer" class="mdl-layout__drawer">
         <span class="mdl-layout-title">OverWatch</span>
         <nav class="mdl-navigation">
-          <a class="header_a mdl-navigation__link" href="/home" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
-          <a class="header_a mdl-navigation__link" href="/statistics" ng-bind="i18n('statisticslink')" ng-click="hideDrawer()"></a>
-          <a class="header_a mdl-navigation__link" href="/sensors" ng-bind="i18n('sensorslink')" ng-click="hideDrawer()"></a>
-          <a class="header_a mdl-navigation__link" href="/social" ng-bind="i18n('sociallink')" ng-click="hideDrawer()"></a>
+          <a class="header_a mdl-navigation__link" ui-sref="state_home" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
+          <a class="header_a mdl-navigation__link" ui-sref="state_statistics" ng-bind="i18n('statisticslink')" ng-click="hideDrawer()"></a>
+          <a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-bind="i18n('sensorslink')" ng-click="hideDrawer()"></a>
+          <a class="header_a mdl-navigation__link" ui-sref="state_social" ng-bind="i18n('sociallink')" ng-click="hideDrawer()"></a>
         </nav>
       </div>
       <main class="mdl-layout__content">
-        <div ng-view></div>
+        <div ui-view></div>
         <!-- The confirm dialog-->
         <dialog id="dlgConfirm" class="mdl-dialog">
             <h4 class="mdl-dialog__title" ng-bind="i18n('confirm_title')"></h4>

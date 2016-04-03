@@ -2,7 +2,7 @@
 //  Cookie for the internationalization
 
 
-angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js'])
+angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js', 'ui.router'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',
@@ -163,7 +163,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	
 });
 
-angular.module("overwatch").config(["$routeProvider", "$locationProvider",
+/*angular.module("overwatch").config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){
     $routeProvider.when("/", {
         templateUrl: "/html/partials/index_tmp.html"
@@ -179,7 +179,34 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
       redirectTo: "/"
     });
     $locationProvider.html5Mode(true);
-}]);
+}]);*/
+
+angular.module("overwatch").config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+    $urlRouterProvider.otherwise("/state_index");
+    
+    $stateProvider
+        .state('state_index', {
+            url: "/",
+            templateUrl: "/html/partials/index_tmp.html"
+        })
+        .state('state_home', {
+            url: "/home",
+            templateUrl: "/html/partials/home_tmp.html"
+        })
+        .state('state_statistics', {
+            url: "/statistics",
+            templateUrl: "/html/partials/statistics_tmp.html"
+        })        
+        .state('state_sensors', {
+            url: "/sensors",
+            templateUrl: "/html/partials/sensors_tmp.html"
+        })
+        .state('state_social', {
+            url: "/",
+            templateUrl: "/html/partials/social_tmp.html"
+        });
+    $locationProvider.html5Mode(true);
+});
 
 angular.module("overwatch").config(["ChartJsProvider", function(ChartJsProvider) {
     ChartJsProvider.setOptions({
