@@ -31,14 +31,24 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.add = function(what) {
         switch (what) {
           case 'likes':
-            $scope.likes += 1;
-            removeClass(document.getElementById('likes_click'), 'notClicked');
-            addClass(document.getElementById('likes_click'), 'clicked');
+            if (hasClass(document.getElementById('likes_click'), 'notClicked')) {
+                removeClass(document.getElementById('dislikes_click'), 'clicked');
+                addClass(document.getElementById('dislikes_click'), 'notClicked');
+                removeClass(document.getElementById('likes_click'), 'notClicked');
+                addClass(document.getElementById('likes_click'), 'clicked');
+                $scope.dislikes -= 1;
+                $scope.likes += 1;
+            }
             break;
           case 'dislikes':
-            $scope.dislikes += 1;
-            removeClass(document.getElementById('dislikes_click'), 'notClicked');
-            addClass(document.getElementById('dislikes_click'), 'clicked');
+            if (hasClass(document.getElementById('dislikes_click'), 'notClicked')) {
+                removeClass(document.getElementById('likes_click'), 'clicked');
+                addClass(document.getElementById('likes_click'), 'notClicked');
+                removeClass(document.getElementById('dislikes_click'), 'notClicked');
+                addClass(document.getElementById('dislikes_click'), 'clicked');
+                $scope.likes -= 1;
+                $scope.dislikes += 1;
+            }
             break;
         }
     };
@@ -115,7 +125,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     var comment = {};
     comment.name = 'Adolf Hitler';
-    comment.text = '&lt;disconnected from your channel&gt;';
+    comment.text = '<disconnected from your channel>';
     comment.date = '30/04/1945';
     $scope.comments.push(comment);
 });
