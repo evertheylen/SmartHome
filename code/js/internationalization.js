@@ -67,5 +67,5 @@ var html_strings = {
     "group_name" : ["Group name", "Groepsnaam"],
     "group_public" : ["Public group", "Publieke groep"],
     "group_secret" : ["Secret group", "Geheime groep"],
-    "create" : ["Create", "Aanmaken"],s
+    "create" : ["Create", "Aanmaken"],
 };
