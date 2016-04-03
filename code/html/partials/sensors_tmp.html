@@ -160,9 +160,9 @@
                 <div ng-messages="sensor_form.sensorType.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>				
-                <div id="txtfield_SensorUnitPrice" class="mdl-selectfield">
-                    <label ng-bind="i18n('unit_price')"></label>
-                    <input type="number" ng-model="sen_unit_price" name="sensorUnitPrice" required></input>
+                <div id="txtfield_SensorUnitPrice" class="mdl-textfield mdl-js-textfield">
+                    <label ng-bind="i18n('unit_price')" class="mdl-textfield__label" for="input_SensorUnitPrice"></label>
+                    <input type="number" class="mdl-textfield__input" id="input_SensorUnitPrice" ng-model="sen_unit_price" name="sensorUnitPrice" required></input>
                 </div>
                 <div ng-messages="sensor_form.sensorUnitPrice.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
