@@ -181,7 +181,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     $locationProvider.html5Mode(true);
 }]);*/
 
-angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise("/state_index");
     
     $stateProvider
@@ -205,7 +205,7 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", func
             url: "/",
             templateUrl: "/html/partials/social_tmp.html"
         });
-    //$locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 }]);
 
 angular.module("overwatch").config(["ChartJsProvider", function(ChartJsProvider) {
