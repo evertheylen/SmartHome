@@ -5,6 +5,8 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     componentHandler.upgradeDom();
     
     
+    $scope.groups = [] // TODO Get from database
+    
 	$scope.open_dialog = function (element_id) {
         var element = document.getElementById(element_id);
         element.showModal();
@@ -28,7 +30,17 @@ angular.module("overwatch").directive('myEnter', function () {
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
-
+    $scope.create_group = function() {
+        if ($scope.group_form.$valid) {
+            var group = {};
+            group.name = $scope.group_name;
+            group.is_public = $scope.group_public;
+            document.getElementById('dlgGroup').close();
+        }
+    }
+    $scope.back = function() {
+        document.getElementById('dlgGroup').close();
+    }
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {

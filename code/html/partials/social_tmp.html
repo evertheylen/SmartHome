@@ -13,8 +13,7 @@
 					My friends
 				</button>
 				<div class="menuGroup">Groups:</div>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					Group A
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups" on-finish-render="ngRepeatFinished" ng-bind="group.name">
 				</button>
 				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
 					Group B
@@ -91,13 +90,13 @@
     <dialog ng-controller="create_groupController" id="dlgGroup" class="mdl-dialog">
         <h4 class="mdl-dialog__title" ng-bind="i18n('create_group')"></h4>
         <div class="mdl-dialog__content">
-            <form name="group_form">
+            <form name="group_form" ng-model="group_form">
                 <div id="txtfield_GroupName" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="input_GroupName" name="groupName" required>
+                    <input class="mdl-textfield__input" type="text" id="input_GroupName" name="groupName" ng-model="group_name" required>
                     <label class="mdl-textfield__label" for="input_GroupName" ng-bind="i18n('group_name')"></label>
                 </div>
 				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="publicOption">
-					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" value="1" checked>
+					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" ng-model="group_public" value="1" checked>
 					<span class="mdl-radio__label" ng-bind="i18n('group_public')"></span>
 				</label>
 				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="secretOption">
@@ -107,10 +106,10 @@
             </form>
             <div style="margin-top: 5px;">
                 <button id="btnGroupCreate" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('create')">
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('create')" ng-click="create_group();">
                 </button>
                 <button id="btnGroupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-bind="i18n('back')">
+                    style="width: 45%; display: inline;" ng-bind="i18n('back')" ng-click="back();">
                 </button>
             </div>
         </div>
