@@ -65,6 +65,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             comment.date = getCurrentDate();
             $scope.comments.push(comment);
             removeClass(document.getElementById('comment_parent'), 'is-focused');
+            removeClass(document.getElementById('comment_parent'), 'is-dirty');
             console.log("new comment :D");
             console.log(comment);
             $scope.new_comment = "";
