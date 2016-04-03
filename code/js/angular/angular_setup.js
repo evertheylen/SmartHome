@@ -182,7 +182,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 }]);*/
 
 angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
-    $urlRouterProvider.otherwise("/state_index");
+    //$urlRouterProvider.otherwise("/state_index");
     
     $stateProvider
         .state('state_index', {
@@ -202,7 +202,7 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
             templateUrl: "/html/partials/sensors_tmp.html"
         })
         .state('state_social', {
-            url: "/",
+            url: "/social",
             templateUrl: "/html/partials/social_tmp.html"
         });
     $locationProvider.html5Mode(true);
