@@ -204,7 +204,7 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
         .state('state_social', {
             url: "/social",
             templateUrl: "/html/partials/social_tmp.html"
-        });
+        })
         .state('state_social.status', {
             url : "/social",
             templateUrl: "/html/partials/social_status_tmp.html"
