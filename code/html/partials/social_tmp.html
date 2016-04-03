@@ -6,12 +6,10 @@
 		<!-- The menu on the left side -->
 		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
 			<div id="socialLeftMenu">
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					My profile
-				</button>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent">
-					My friends
-				</button>
+				<a ui-sref="state_social.profile" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-bind="i18n('my_profile')">
+				</a>
+				<a ui-sref="state_social.friends" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-bind="i18n('my_friends')">
+				</a>
 				<div class="menuGroup">Groups:</div>
 				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups" on-finish-render="ngRepeatFinished" ng-bind="group.name">
 				</button>

@@ -68,4 +68,6 @@ var html_strings = {
     "group_public" : ["Public group", "Publieke groep"],
     "group_secret" : ["Secret group", "Geheime groep"],
     "create" : ["Create", "Aanmaken"],
+    "my_profile" : ["My Profile", "Mijn Profiel"],
+    "my_friends" : ["My Friends", "Mijn Vrienden"],
 };
