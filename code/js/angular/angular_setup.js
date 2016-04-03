@@ -209,7 +209,17 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
         .state('state_social.index', {
             url : "",
             templateUrl: "/html/partials/social_status_tmp.html"
-        });
+        })
+        .state('state_social.profile', {
+            url : "",
+            templateUrl: "/html/partials/social_profile_tmp.html"
+        })
+        .state('state_social.friends', {
+            url : "",
+            templateUrl: "/html/partials/social_friends_tmp.html"
+        });        
+        
+        
     $locationProvider.html5Mode(true);
 }]);
 

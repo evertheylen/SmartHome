@@ -29,6 +29,14 @@ angular.module("overwatch").directive('myEnter', function () {
     };
 });
 
+angular.module("overwatch").controller("profileController", function($scope, $rootScope) {
+
+});
+
+angular.module("overwatch").controller("friendsController", function($scope, $rootScope) {
+
+});
+
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
     $scope.create_group = function() {
         if ($scope.group_form.$valid) {
