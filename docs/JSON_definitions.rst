@@ -58,7 +58,7 @@ Definition for object type ``Sensor``
 
     {
         "SID": "<class 'int'>",
-        "type": "<sparrow.entity.Enum object at 0x7fae77194c18>",
+        "type": "Enum('water', 'electricity', 'gas', 'other')",
         "title": "<class 'str'>",
         "EUR_per_unit": "<class 'float'>",
         "user_UID": "<class 'int'>",
@@ -151,7 +151,7 @@ Definition for object type ``Membership``
 ::
 
     {
-        "status": "<sparrow.entity.Enum object at 0x7fae76f41dd8>",
+        "status": "Enum('ADMIN', 'MEMBER', 'PENDING', 'BANNED')",
         "last_change": "<class 'int'>",
         "user_UID": "<class 'int'>",
         "group_GID": "<class 'int'>"
