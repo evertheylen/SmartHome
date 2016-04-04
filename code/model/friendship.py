@@ -1,9 +1,10 @@
 
-from .owentity import *
-from .user import User
 from sparrow import *
 
-class Friendship(OwRTEntity):
+from .owentity import *
+from .user import User
+
+class Friendship(OwEntity):
     user1 = RTReference(User)
     user2 = RTReference(User)
     
@@ -32,4 +33,4 @@ class Friendship(OwRTEntity):
         f = await Friendship.get_by_key(u1, u2).single(db)
         await f.delete(db)
 
-is_friend_req = Friends.get(Friends.key == (Field("u1"), Field("u2"))).to_raw()
+is_friend_req = Friendship.get(Friendship.key == (Field("u1"), Field("u2"))).to_raw()

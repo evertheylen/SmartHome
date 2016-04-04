@@ -1,6 +1,7 @@
 
-from .owentity import *
 from sparrow import *
+
+from .owentity import *
 from .wall import Wall
 
 class Group(RTOwEntity):

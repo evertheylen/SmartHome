@@ -115,7 +115,7 @@ class OverWatch:
         # The database is not managed by the model, but it's not a big deal really.
         # It could be managed by the model, but I prefer to keep the model clean of that.
         self.model = sparrow.SparrowModel(ioloop, db_args=config["database"], debug=config["debug"],
-            classes=[model.User, model.Location, model.Sensor, model.Value])
+            classes=model.social_pre + model.base + model.social)
 
         # Now of course, set the controllers references too.
         self.controller.model = self.model

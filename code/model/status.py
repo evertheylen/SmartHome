@@ -4,7 +4,7 @@ from .user import User
 from .wall import Wall
 from sparrow import *
 
-class Status(OwRTEntity):
+class Status(RTOwEntity):
     key = SID = KeyProperty()
     author = RTReference(User)
     wall = RTReference(Wall)

@@ -1,5 +1,6 @@
 
 from sparrow import *
+
 from .owentity import *
 from .user import User
 
@@ -14,7 +15,6 @@ class Location(RTOwEntity):
     postalcode = Property(int)
     country = Property(str, constraint=lambda d: len(d) <= 100)
     
-    elec_price = Property(float) # this will be the EUR/KWH
     user = Reference(User)
     
     def is_authorized(self, type, usr):
