@@ -58,7 +58,7 @@ Definition for object type ``Sensor``
 
     {
         "SID": "<class 'int'>",
-        "type": "<sparrow.entity.Enum object at 0x7fc6bf7fd668>",
+        "type": "<sparrow.entity.Enum object at 0x7fae77194c18>",
         "title": "<class 'str'>",
         "EUR_per_unit": "<class 'float'>",
         "user_UID": "<class 'int'>",
@@ -72,10 +72,13 @@ Definition for object type ``Value``
 ------------------------------------
 
 Definition is custom!
-The documentation says: format is "[time, value]" (to save space)
+The documentation says:
+
+    format is ``[time, value]`` (to save space)
 
 Key properties are (might not be in definition): ``sensor_SID``, ``time``
-\There might be a "for" attribute needed when getting:
+
+There might be a "for" attribute needed when getting:
 
 ::
 
@@ -148,7 +151,7 @@ Definition for object type ``Membership``
 ::
 
     {
-        "status": "<sparrow.entity.Enum object at 0x7fc6bf5a9e10>",
+        "status": "<sparrow.entity.Enum object at 0x7fae76f41dd8>",
         "last_change": "<class 'int'>",
         "user_UID": "<class 'int'>",
         "group_GID": "<class 'int'>"
