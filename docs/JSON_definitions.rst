@@ -8,6 +8,7 @@ Definition for object type ``Wall``
 -----------------------------------
 
 ::
+
     {
         "WID": "<class 'int'>"
     }
@@ -19,6 +20,7 @@ Definition for object type ``User``
 -----------------------------------
 
 ::
+
     {
         "UID": "<class 'int'>",
         "first_name": "<class 'str'>",
@@ -34,6 +36,7 @@ Definition for object type ``Location``
 ---------------------------------------
 
 ::
+
     {
         "LID": "<class 'int'>",
         "description": "<class 'str'>",
@@ -52,9 +55,10 @@ Definition for object type ``Sensor``
 -------------------------------------
 
 ::
+
     {
         "SID": "<class 'int'>",
-        "type": "<sparrow.entity.Enum object at 0x7f30aed42518>",
+        "type": "<sparrow.entity.Enum object at 0x7fc6bf7fd668>",
         "title": "<class 'str'>",
         "EUR_per_unit": "<class 'float'>",
         "user_UID": "<class 'int'>",
@@ -74,6 +78,7 @@ Key properties are (might not be in definition): ``sensor_SID``, ``time``
 \There might be a "for" attribute needed when getting:
 
 ::
+
     "for": {
         "what": "Sensor",
         "SID": "<class 'int'>"
@@ -84,6 +89,7 @@ Definition for object type ``Status``
 -------------------------------------
 
 ::
+
     {
         "SID": "<class 'int'>",
         "date": "<class 'int'>",
@@ -99,6 +105,7 @@ Definition for object type ``Like``
 -----------------------------------
 
 ::
+
     {
         "status_SID": "<class 'int'>",
         "user_UID": "<class 'int'>"
@@ -111,6 +118,7 @@ Definition for object type ``Friendship``
 -----------------------------------------
 
 ::
+
     {
         "user1_UID": "<class 'int'>",
         "user2_UID": "<class 'int'>"
@@ -123,6 +131,7 @@ Definition for object type ``Group``
 ------------------------------------
 
 ::
+
     {
         "GID": "<class 'int'>",
         "title": "<class 'str'>",
@@ -137,8 +146,9 @@ Definition for object type ``Membership``
 -----------------------------------------
 
 ::
+
     {
-        "status": "<sparrow.entity.Enum object at 0x7f30aeaee748>",
+        "status": "<sparrow.entity.Enum object at 0x7fc6bf5a9e10>",
         "last_change": "<class 'int'>",
         "user_UID": "<class 'int'>",
         "group_GID": "<class 'int'>"
