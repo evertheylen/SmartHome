@@ -45,9 +45,11 @@ def ow_test(method):
 class SimpleAdd(OverWatchTest):
     def to_insert(self):
         return [
+            # Wall: without a wall a user cant be initialized
+            model.Wall(is_user=True),
             # Users
-            model.User(first_name="Evert", last_name="Heylen", email="e@e", password="testtest"),
-            model.User(first_name="Anthony", last_name="Hermans", email="a@a", password="seeecret")
+            model.User(first_name="Evert", last_name="Heylen", email="e@e", password="testtest",wall=1),
+            model.User(first_name="Anthony", last_name="Hermans", email="a@a", password="seeecret",wall=1)
         ]
 
     @ow_test
@@ -59,11 +61,16 @@ class SimpleAdd(OverWatchTest):
 
 class SimpleEdit(OverWatchTest):
     def to_insert(self):
+        print(model.Sensor.type_type)
         return [
-            # Users
-            model.User(first_name="Anthony", last_name="Hermans", email="a@a", password="seeecret"),
+            # Wall
+            model.Wall(is_user=True),
+            # User
+            model.User(first_name="Anthony", last_name="Hermans", email="a@a", password="seeecret",wall=1),
+            # Location
             model.Location(user=1, description="Location 1", number=4, street="Bist", city="Lier", postalcode=2000, country="Belgium", elec_price=12.45),
-            model.Sensor(type="Electricity", title="Measure shit 1", user= 1, location=1)
+            # Sensor
+            model.Sensor(type="electricity", title="Measure shit 1", user= 1, location=1,EUR_per_unit=6.69)
         ]
 
     @ow_test
@@ -73,8 +80,33 @@ class SimpleEdit(OverWatchTest):
         s = await model.Sensor.find_by_key(1, self.db)
         self.assertEqual(a.first_name, "Anthony")
         self.assertEqual(l.user, 1)
-        self.assertEqual(s.type, "Electricity")
-        s.edit_from_json({"type": "Fire", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1})
+        self.assertEqual(s.type, "electricity")
+        s.edit_from_json({"type": "gas", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1})
         await s.update(self.db)
-        self.assertEqual(s.type, "Fire")
+        self.assertEqual(s.type, "gas")
         self.assertEqual(s.title, "Measure more shit 2")
+
+class SocialTabTest(OverWatchTest):
+        def to_insert(self):
+            return [
+                # Walls
+                model.Wall(is_user=True),
+                model.Wall(is_user=True),
+                # Users
+                model.User(first_name="Anthony", last_name="Hermans", email="a@a", password="seeecret",wall=1),
+                model.User(first_name="Evert", last_name="Heylen", email="e@a", password="seeecret",wall=2),
+                # Location
+                model.Location(user=1, description="Location 1", number=4, street="Bist", city="Lier", postalcode=2000, country="Belgium", elec_price=12.45),
+                # Sensor
+                model.Sensor(type="electricity", title="Measure shit 1", user= 1, location=1,EUR_per_unit=6.69)
+            ]
+
+        @ow_test
+        async def test_social(self):
+            a = await model.User.find_by_key(1, self.db)
+            e = await model.User.find_by_key(2, self.db)
+            l = await model.Location.find_by_key(1, self.db)
+            s = await model.Sensor.find_by_key(1, self.db)
+            w = await model.Wall.find_by_key(1,self.db)
+            self.assertEqual(a.first_name, "Anthony")
+            self.assertEqual(e.first_name, "Evert")
