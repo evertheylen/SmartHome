@@ -5,23 +5,31 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     // Sample data
     
-    $scope.locations = [{"desc": "Campus Middelheim", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Middelheimlaan", "number": 1}, 
-			    {"desc": "Campus Groenenborger", "country": "Belgium", "city": "Antwerp", "postalcode": 2020, "street": "Groenenborgerlaan", "number": 171}, 
-			    {"desc": "Campus Drie Eiken", "country": "Belgium", "city": "Antwerp", "postalcode": 2610, "street": "Universiteitsplein", "number": 1}];
-	
-    $scope.types = ["Electricity", "Movement", "Water", "Temperature", "Other"];
-	
+    $scope.open = function (id) {
+      document.getElementById(id).checked = !document.getElementById(id).checked;      
+    }
+    
+    $scope.houses = [];
+
+	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		$scope.houses = response.houses;
+		$scope.$apply();
+	});
+
+	$scope.sensors = [];
+
+	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		$scope.sensors = response.sensors;
+		$scope.$apply();
+	});
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
-	
-	$scope.sensors = [{"name": "Sensor 1", "location": "Campus Middelheim", "type": "Electricity", "tags": [$scope.tags[1]]}, 
-			  {"name": "Sensor 2", "location": "Campus Groenenborger", "type": "Movement", "tags": [$scope.tags[0], $scope.tags[1]]}];
 	
     $scope.aggregate_by = [false, false, false];
     $scope.select_locs = [];
     $scope.select_types = [];
     $scope.select_sensors = [];
     
-    for (i = 0; i< $scope.locations.length; i++) {
+    for (i = 0; i< $scope.houses.length; i++) {
         $scope.select_locs.push(false);
     }
     
@@ -36,7 +44,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_all = function (type) {
         switch (type) {
             case "location" : 
-                for (i=0; i < $scope.locations.length; i++) {
+                for (i=0; i < $scope.houses.length; i++) {
                     $scope.select_locs[i] = $scope.all_locs;
                     if ($scope.all_locs) {
                         addClass(document.getElementById("label-location_" + i), "is-checked");
@@ -74,12 +82,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var checkCount = 0;
         switch (type) {
             case "location" :
-                for (i=0; i < $scope.locations.length; i++) {
+                for (i=0; i < $scope.houses.length; i++) {
                     if ($scope.select_locs[i]) {
                         checkCount++;
                     }
                 }
-                $scope.all_locs = ( checkCount === $scope.locations.length);
+                $scope.all_locs = ( checkCount === $scope.houses.length);
                 if ($scope.all_locs) {
                     addClass(document.getElementById("label-all_locations"), "is-checked");
                 } else {
@@ -122,6 +130,63 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
     */
+    
+    // Graphs
+    
+    $scope.importants = [false, false, false, false, false, false];
+    var layout = document.getElementById("mainLayout");
+    if (hasClass(layout, "mdl-layout--no-drawer-button")) {
+        removeClass(layout, "mdl-layout--no-drawer-button");
+    }
+
+	$scope.mark_important = function mark_important(element_id) {
+	    var element = document.getElementById('important_icon-'+element_id);
+	    if (hasClass(element, "yellow")) {
+	        removeClass(element, "yellow");
+	        addClass(element, "white");
+	    } else if (hasClass(element, "white")) {
+	        removeClass(element, "white");
+	        addClass(element, "yellow");
+	    }
+	    $scope.importants[element_id] = !$scope.importants[element_id];
+	};
+    
+    $scope.graphs = [];
+    $scope.graphs_single = [];
+    var graph_types = ["Line", "Bar", "Radar"];
+    var graph_types_single = ["Pie", "PolarArea", "Doughnut"];
+    for (i=0; i < 3; i++) {
+        graph = {};
+        graph.type = graph_types[i];
+        graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        graph.series = ['Series A', 'Series B'];
+        graph.data = [
+            [65, 59,80,81,56,55,40,59,54,53,30,12],
+            [28,48,40,19,86,27,90,40,78,45,01,45]
+        ];
+        $scope.graphs.push(graph);  
+    }
+    $timeout(function () {
+        for(i=0; i < 3; i++) {
+            $scope.graphs[i].data = [
+                [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12],
+                [65, 59, 80, 81, 56, 55, 40, 50,78,45,01,45]
+            ];
+        }        
+        
+    }, 5000);
+    for (i=0; i < 3; i++) {
+        graph = {};
+        graph.type = graph_types_single[i];
+        graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        graph.data = [65, 59,80,81,56,55,40,59,54,53,30,12];
+        $scope.graphs_single.push(graph);  
+    }   
+    $timeout(function () {
+        for (i=0; i < 3; i++) {
+            $scope.graphs_single[i].data = [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12];
+        }
+    }, 5000); 
     
     componentHandler.upgradeDom();
 });

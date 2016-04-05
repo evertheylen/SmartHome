@@ -1,4 +1,10 @@
 
+import sys
+import pdb
+tb = pdb.traceback
+import urllib
+import json
+
 import tornado
 import tornado.websocket
 from tornado import gen
@@ -7,7 +13,6 @@ import sparrow
 
 from util import *
 
-import json
 
 class Request:
     def __init__(self, conn, ID, dct):
@@ -36,20 +41,84 @@ class Request:
             "error": dct
         })
     
-async def wrap_errors(controller, req):
+    
+issue_text = """
+
+Exception while responding to JSON message.
+
+**How to reproduce**:
+
+
+                                                                                                                        <<<<<<< EDIT ME
+
+
+JSON message:
+
+```
+{msg}
+```
+
+**Expected results**:
+
+
+                                                                                                                        <<<<<<< EDIT ME
+
+
+**Traceback**:
+
+```
+{traceback}
+```
+
+"""
+
+async def create_github_link(controller, req, e):
+    body = issue_text.format(traceback=tb.format_exc(), msg=json.dumps(req.metadata, indent=4))
+    title = "Exception in backend: " + type(e).__name__ + ": " + str(e)
+    url = "https://github.com/evertheylen/SmartHome/issues/new?title={title}&body={body}".format(
+        title=urllib.parse.quote_plus(title), body=urllib.parse.quote_plus(body))
+    controller.logger.error(tb.format_exc())
+    await req.error({"short": "fatal", "long": "PLEASE make a github issue by clicking here: {}".format(url)})
+
+
+async def simply_log(controller, req, exc):
+    controller.logger.error(tb.format_exc())
+
+
+def manual_exception_chain(a, b):
     try:
-        await controller.handle_request(req)
-    except sparrow.CantSetProperty as e:
+        raise a from b
+    except Exception as e:
+        return e
+
+async def handle_error(e, controller, req, backup):
+    if isinstance(e, Error):
         controller.logger.warning(str(e))
-        await req.error({"short": "edit_fail", "long": str(e)})
-    except Error as e:
-        controller.logger.warning(str(e))
+        controller.logger.warning(tb.format_exc())
         await req.error(e.json_repr())
+    elif isinstance(e, sparrow.NotSingle):
+        e = manual_exception_chain(NotFound(str(e)), e)
+        await handle_error(e, controller, req, backup)  # yay error recursion
+    else:
+        await backup(controller, req, e)
+    
+
+def create_wrap_errors(_backup):
+    def f(backup=_backup):
+        async def wrap_errors(controller, req, backup=_backup):
+            try:
+                await controller.handle_request(req)
+            except Exception as e:
+                await handle_error(e, controller, req, backup)
+        return wrap_errors
+    return f()
 
 
-def create_WsHandler(controller):
+def create_WsHandler(controller, debug=True):
     clients = set()
-
+    
+    wrap_errors = create_wrap_errors(create_github_link if debug else simply_log)
+    
     class WsHandler(tornado.websocket.WebSocketHandler, sparrow.Listener):
         def open(self, *args):
             #self.stream.set_nodelay(True)

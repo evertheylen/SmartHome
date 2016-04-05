@@ -1,6 +1,8 @@
 
-from .owentity import *
 from sparrow import *
+
+from .owentity import *
+from .wall import Wall
 
 class User(RTOwEntity):
     key = UID = KeyProperty()
@@ -9,8 +11,9 @@ class User(RTOwEntity):
     last_name = Property(str, constraint=lambda p: 1 <= len(p) <= 100)
     password = Property(str, constraint=lambda p: 8 <= len(p) <= 100, json=False)
     email = Property(str, constraint=lambda p: 1 <= len(p) <= 100, sql_extra="UNIQUE")
-#   group = Reference(Group)
-#   wall = Reference(Wall)
+    
+    # Social stuff
+    wall = Reference(Wall)
     
     def is_authorized(self, type, usr, **kwargs):
         return self == usr

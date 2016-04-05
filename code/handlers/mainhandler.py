@@ -12,6 +12,8 @@ def create_MainHandler(controller):
             self.write(content)
             
         def post(self, *args):
+            f = open(localdir("html/index.html"), "r")
+            content = str(f.read())
             self.write(content)
     
     return MainHandler

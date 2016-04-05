@@ -18,16 +18,16 @@
 							</th>
 					</thead>
 					<tbody>
-						<tr ng-repeat="house in houses track by house.LID" on-finish-render="ngRepeatFinished">
-							<td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
-							<td>
-								<button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgLocation', $index);"><i class="material-icons">edit</i></button>
-								<button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
-							</td>
+						<tr ng-repeat="house in houses track by house.LID" ng-controller="location_objController" on-finish-render="ngRepeatFinished">
+							    <td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
+							    <td>
+								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog(true);"><i class="material-icons">edit</i></button>
+								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
+							    </td>
 						</tr>	
 					</tbody>
 				</table>
-				<button id="btnAddLoc" ng-click="reset_loc();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_location')">
+				<button id="btnAddLoc" ng-click="reset_loc(); open_dialog('dlgLocation')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent spacedButton" ng-bind="i18n('add_location')">
 				</button>
 			</div>
 		</div>
@@ -69,15 +69,15 @@
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index track by sensor.SID" on-finish-render="ngRepeatFinished">
-                            <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
-				            <td>TODO NAME!! ID: {{sensor.location_LID}}</td> <!--TODOs-->
-				            <td ng-bind="sensor.type"></td>
-				            <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
-							<td>
-								<button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog('dlgSensor', sensor.index, true);"><i class="material-icons">edit</i></button>
-								<button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
-							</td>
+						<tr ng-controller="sensor_objController" ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index track by sensor.SID" on-finish-render="ngRepeatFinished">
+                                <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
+				                <td>TODO NAME!! ID: {{sensor.location_LID}}</td> <!--TODOs-->
+				                <td ng-bind="i18n(sensor.type)"></td>
+				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
+							    <td>
+								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
+								    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
+							    </td>
 						</tr>
 					</tbody>
 				</table>
@@ -95,7 +95,7 @@
 
 				<div style="margin: 5px;"></div>
 
-				<button id="btnAddSensor" ng-click="reset_sen();" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_sensor')">
+				<button id="btnAddSensor" ng-click="reset_sen(); open_dialog('dlgSensor')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent spacedButton" ng-bind="i18n('add_sensor')">
 				</button>
 			</div>
 		</div>
@@ -110,7 +110,7 @@
 	</div>
 
 	<!--Add sensor dialog-->
-    <dialog id="dlgSensor" class="mdl-dialog">
+    <dialog id="dlgSensor" class="mdl-dialog" ng-controller="sensor_dialogController">
         <h4 class="mdl-dialog__title" ng-bind="edit_sen"></h4>
         <div class="mdl-dialog__content">
             <form name="sensor_form">
@@ -152,7 +152,7 @@
 				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
 				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
 				        <li>
-				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="type">
+				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="i18n(type)">
 				            </li>
 				        </li>
 				    </ul>
@@ -160,6 +160,13 @@
                 <div ng-messages="sensor_form.sensorType.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>				
+                <div id="txtfield_SensorUnitPrice" class="mdl-textfield mdl-js-textfield">
+                    <label ng-bind="i18n('unit_price')" class="mdl-textfield__label" for="input_SensorUnitPrice"></label>
+                    <input type="number" class="mdl-textfield__input" id="input_SensorUnitPrice" ng-model="sen_unit_price" name="sensorUnitPrice" required></input>
+                </div>
+                <div ng-messages="sensor_form.sensorUnitPrice.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>
             </form>
             <div>
                 <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
@@ -173,7 +180,7 @@
     </dialog>
 
 	<!--TODO Maybe adjust this information, i don't know if this is enough-->
-	<dialog id="dlgLocation" class="mdl-dialog">
+	<dialog id="dlgLocation" class="mdl-dialog" ng-controller="location_dialogController">
         <h4 class="mdl-dialog__title" ng-bind="edit_loc"></h4>
         <div class="mdl-dialog__content">
             <form name="house_form">
@@ -212,6 +219,8 @@
                 <div ng-messages="house_form.houseNr.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
+                
+                <!-- TODO Remove this when the format updates-->
                 <div id="txtfield_LocationElecPrice" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="houseElecPrice" required>
                     <label class="mdl-textfield__label" for="input_LocationElecPrice" ng-bind="i18n('elec_price')"></label>

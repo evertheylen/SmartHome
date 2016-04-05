@@ -2,7 +2,7 @@
 //  Cookie for the internationalization
 
 
-angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js'])
+angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js', 'ui.router'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',
@@ -10,6 +10,19 @@ angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessag
             if (scope.$last === true) {
                 $timeout(function () {
                     scope.$emit('ngRepeatFinished');
+                });
+            }
+        }
+    }
+});
+
+angular.module("overwatch").directive('onFinishRenderComments', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinishedComments');
                 });
             }
         }
@@ -95,6 +108,13 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
         componentHandler.upgradeDom();
     });
+
+    $scope.$on("ngRepeatFinishedComments", function(ngRepeatFinishedEvent) {
+        document.getElementById("comment_section").scrollTop = document.getElementById("comment_section").scrollHeight;
+        console.log("height set for comments");
+        componentHandler.upgradeDom();
+    });
+    
 	$rootScope.confirm_dialog = document.getElementById('dlgConfirm');
 	$rootScope.confirm = function (value) {  
 	    $scope.$broadcast("confirmation", value);
@@ -134,9 +154,16 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	        $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 	    }
 	};
+	
+	$rootScope.types = ["electricity_type", "gas_type", "water_type"];
+	
+	$rootScope.update_me = function(scope) {
+	    scope.$apply();
+	};
+	
 });
 
-angular.module("overwatch").config(["$routeProvider", "$locationProvider",
+/*angular.module("overwatch").config(["$routeProvider", "$locationProvider",
   function($routeProvider, $locationProvider){
     $routeProvider.when("/", {
         templateUrl: "/html/partials/index_tmp.html"
@@ -151,6 +178,48 @@ angular.module("overwatch").config(["$routeProvider", "$locationProvider",
     }).otherwise({
       redirectTo: "/"
     });
+    $locationProvider.html5Mode(true);
+}]);*/
+
+angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
+    $urlRouterProvider.otherwise("/");
+    
+    $stateProvider
+        .state('state_index', {
+            url: "/",
+            templateUrl: "/html/partials/index_tmp.html"
+        })
+        .state('state_home', {
+            url: "/home",
+            templateUrl: "/html/partials/home_tmp.html"
+        })
+        .state('state_statistics', {
+            url: "/statistics",
+            templateUrl: "/html/partials/statistics_tmp.html"
+        })        
+        .state('state_sensors', {
+            url: "/sensors",
+            templateUrl: "/html/partials/sensors_tmp.html"
+        })
+        .state('state_social', {
+            url: "/social",
+            abstract: true,
+            templateUrl: "/html/partials/social_tmp.html"
+        })
+        .state('state_social.index', {
+            url : "",
+            templateUrl: "/html/partials/social_status_tmp.html"
+        })
+        .state('state_social.profile', {
+            url : "",
+            templateUrl: "/html/partials/social_profile_tmp.html"
+        })
+        .state('state_social.friends', {
+            url : "",
+            templateUrl: "/html/partials/social_friends_tmp.html"
+        });        
+        
+        
     $locationProvider.html5Mode(true);
 }]);
 

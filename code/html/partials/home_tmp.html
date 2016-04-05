@@ -1,14 +1,9 @@
 <!--card1-->
 <div ng-controller="homeController">
     <!--The actual grid-->
-    <div>{{gettime()}}</div>
 	<div class="mdl-grid">
 		<!--cards-->
 		<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
-		    <div ng-controller="child">
-		    {{gettime()}}
-            {{update_me(this)}}
-		    </div>
 			<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 				<div class="mdl-card__title">
 					<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>

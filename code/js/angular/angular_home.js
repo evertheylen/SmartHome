@@ -1,29 +1,4 @@
-angular.module("overwatch").controller("child", function($scope, $rootScope, Auth, $timeout) {
-$scope.gettime = function() {
-      d = new Date();
-      return d.getTime();
-  }
-}
-
-function update_me(scope) {
-  setTimeout(function() {
-    alert("wtf");
-    scope.$apply();
-  }, 2000);
-}
-
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout) {
-var d = new Date();
-    $scope.gettime = function() {
-        d = new Date();
-        return d.getTime();
-    }
-    
-    $timeout(function () {
-        alert("uitgevoerd");
-        $scope.$apply();
-    }, 5000);
-
     $rootScope.tab = "homelink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $rootScope.auth_user = Auth.getUser();

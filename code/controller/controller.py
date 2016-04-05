@@ -5,7 +5,6 @@
 import hashlib
 import random
 from functools import wraps
-from collections import defaultdict
 import types
 from concurrent.futures import ThreadPoolExecutor
 import passlib.hash  # For passwords
@@ -95,7 +94,7 @@ class Controller(metaclass=MetaController):
             return None
     
     async def conn_close(self, conn):
-        pass
+        pass  # TODO?
     
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
@@ -139,8 +138,11 @@ class Controller(metaclass=MetaController):
         else:
             # Manual initialisation because password isn't in json
             hash = await self.create_password(req.data["password"])
+            w = Wall(is_user=True)
+            await w.insert(self.db)
             u = User(email=req.data["email"], password=hash,
-                     first_name=req.data["first_name"], last_name=req.data["last_name"])
+                     first_name=req.data["first_name"], last_name=req.data["last_name"],
+                     wall=w.key)
             await u.insert(self.db)
             await req.answer({
                 "status": "success",
@@ -278,7 +280,7 @@ class Controller(metaclass=MetaController):
             await l.check_auth(req)
             l.edit_from_json(req.data)
             await l.update(self.db)
-            await req.answer(u.json_repr())
+            await req.answer(l.json_repr())
         
         @case("Sensor")
         async def sensor(self, req):
@@ -286,7 +288,7 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             s.edit_from_json(req.data)
             await s.update(self.db)
-            await req.answer(u.json_repr())
+            await req.answer(s.json_repr())
 
     # TODO handle FOREIGN KEY constraints (CASCADE?)
     @handle_ws_type("delete")
