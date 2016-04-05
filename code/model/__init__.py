@@ -14,3 +14,4 @@ from .membership import Membership
 social_pre = [Wall]
 social = [Status, Like, Friendship, Group, Membership]
 
+from .tag import Tag
