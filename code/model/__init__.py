@@ -3,7 +3,8 @@ from .sensor import Sensor
 from .user import User
 from .value import Value
 from .location import Location
-base = [User, Location, Sensor, Value]
+from .tag import Tag
+base = [User, Location, Sensor, Value, Tag]
 
 from .status import Status
 from .like import Like
@@ -13,5 +14,3 @@ from .group import Group
 from .membership import Membership
 social_pre = [Wall]
 social = [Status, Like, Friendship, Group, Membership]
-
-from .tag import Tag

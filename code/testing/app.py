@@ -86,7 +86,7 @@ class SimpleEdit(OverWatchTest):
         self.assertEqual(s.type, "gas")
         self.assertEqual(s.title, "Measure more shit 2")
 
-class SocialTabTest(OverWatchTest):
+class SocialTab(OverWatchTest):
         def to_insert(self):
             return [
                 # Walls
@@ -98,7 +98,11 @@ class SocialTabTest(OverWatchTest):
                 # Location
                 model.Location(user=1, description="Location 1", number=4, street="Bist", city="Lier", postalcode=2000, country="Belgium", elec_price=12.45),
                 # Sensor
-                model.Sensor(type="electricity", title="Measure shit 1", user= 1, location=1,EUR_per_unit=6.69)
+                model.Sensor(type="electricity", title="Measure shit 1", user= 1, location=1,EUR_per_unit=6.69),
+                # Tag
+                model.Tag(text="ik zen een specialleke",sensor=1),
+                # Friendship
+                model.Friendship(user1=1,user2=2)
             ]
 
         @ow_test
@@ -108,5 +112,8 @@ class SocialTabTest(OverWatchTest):
             l = await model.Location.find_by_key(1, self.db)
             s = await model.Sensor.find_by_key(1, self.db)
             w = await model.Wall.find_by_key(1,self.db)
+            t = await model.Tag.find_by_key((1,"ik zen een specialleke"),self.db)
             self.assertEqual(a.first_name, "Anthony")
             self.assertEqual(e.first_name, "Evert")
+            self.assertEqual(s.EUR_per_unit,6.69)
+            f = await model.Friendship.find_by_key((1,2),self.db)
