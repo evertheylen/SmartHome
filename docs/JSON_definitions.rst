@@ -110,6 +110,7 @@ Definition for object type ``Like``
 ::
 
     {
+        "positive": "<class 'bool'>",
         "status_SID": "<class 'int'>",
         "user_UID": "<class 'int'>"
     }

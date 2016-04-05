@@ -8,4 +8,5 @@ from .user import User
 class Like(OwEntity):
     status = RTReference(Status)
     user = Reference(User)
+    positive = Property(bool)
     key = Key(status, user)

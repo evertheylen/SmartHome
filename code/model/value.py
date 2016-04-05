@@ -10,7 +10,7 @@ class Value(OwEntity):
     key = Key(sensor, time)
     
     def json_repr(self):
-        """format is "[time, value]" (to save space)"""
+        """format is ``[time, value]`` (to save space)"""
         return [self.time, self.value]
     
     async def is_authorized(self, type, usr, db, **kwargs):
