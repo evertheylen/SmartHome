@@ -1,93 +1,70 @@
-var currentId = 0;
 handlers = {}; // specify functions to deal with server messages (that aren't a reply)
 answers = {};  // specify functions that need to be called when the server answers
+var currentId = 0; // Every request sent gets an ID.
 var requests = new Queue();  // Queue for strings that are waiting to be sent to the server.
+var reconnectLimit = 10; // The maximum amount of times a websocket is allowed to reconnect.
+var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
-	//websocket = new WebSocket("ws://localhost:8002/ws");
 
 	websocket.request = function (requestObject, f) {
 		// Data can be any object literal or prototype with the toJSON method.
 		answers[currentId] = f;
 		requestObject.ID = currentId;
-		currentId+=1;
+		currentId++;
 		var stringToSend = JSON.stringify(requestObject);
 		if(websocket.readyState == 1) {
 			// Send the request to the server.
 			websocket.send(stringToSend);
-			console.log("Sent data to server:");
+			console.log("Sent data to the server:");
 			console.log(stringToSend);
 		}
 		else {
 			// Add the request to the waiting list.
 			requests.enqueue(stringToSend);
-			console.log("Websocket request queued until connection has been established.");
+			console.log("Websocket request has been queued until connection has been established.");
 		}
 	}
 
 	websocket.onopen = function() {
 		console.log("Websocket opened");
+		// Reset the reconnect counter.
+		reconnects = 0;
 		// Handle all the requests that have been waiting.
 		while (!requests.isEmpty())
 			websocket.send(requests.dequeue());
 	};
 
 	websocket.onclose = function() {
-		// Currently nothing happens when the socket is closed.
 		console.log("Websocket closed");
+		if (reconnects < reconnectLimit) {
+			reconnects++;
+			console.log("Attempting to reconnect");
+			connect_to_websocket();
+		}
 	};
 
 	websocket.onmessage = function(evt) {
-		console.log("Received data from server:");
+		console.log("Received data from the server:");
 		console.log(evt.data);
-		var receivedObject = null;
-		var polishedObject = null;
-		var type = "";
+		var receivedObject = {};
+		var polishedObject = {};
 		try {
 			receivedObject = JSON.parse(evt.data);
-			type = receivedObject["type"];
-			switch(type) {
-				case "signup":
-					polishedObject = signup_response(receivedObject);
-					break;
-				case "login":
-					polishedObject = login_response(receivedObject);
-					break;
-				case "error":
-					polishedObject = error_response(receivedObject);
-					break;
-				case "add":
-					polishedObject = add_response(receivedObject);
-					break;
-				case "delete":
-					polishedObject = delete_response(receivedObject);
-					break;
-				case "get":
-					polishedObject = get_response(receivedObject);
-					break;
-				case "get_all":
-					polishedObject = get_all_response(receivedObject);
-					break;
-				case "edit":
-					polishedObject = edit_response(receivedObject);
-					break;
-			}
-		}
-		catch(SyntaxError) {
-	    		// Handle the error.
-	    		console.log(SyntaxError);
-			console.log(evt);
-			alert(SyntaxError);
-			return;
-		}
-		if(receivedObject != null) {
+			polishedObject = window[receivedObject["type"] + "_response"](receivedObject);
 			if (receivedObject.hasOwnProperty("ID")) {
 				answers[receivedObject.ID](polishedObject);
-			} else {
-				handlers[receivedObject.type](polishedObject);
-			}
+				return;
+			} 
 		}
+		catch(err) {
+	    		console.log(err);
+			alert(err);
+			return;
+		}
+		if (receivedObject.hasOwnProperty("type")) 
+			handlers[receivedObject.type](polishedObject);
 	};
 
 	websocket.onerror = function(evt) {
@@ -109,10 +86,7 @@ function login_response(response) {
 	if(data["status"] == "success") {
 		// Currently this cookie will only be alive for 1 day.
 		setCookie("session", data["session"], 1);
-		userData = data["user"];
-		user = new User();
-		user.fill(userData);
-		return {success: true, user: user};
+		return {success: true, user: getFilledObject("User", data["user"])};
 	}
 	return {success: false, reason: data["reason"]};
 }
@@ -132,26 +106,8 @@ function error_response(response) {
 }
 
 function add_response(response) {
-	what = response["what"];
-	switch(what) {
-		case "Sensor":
-			sensorData = response["data"];
-			sensor = new Sensor();
-			sensor.fill(sensorData);
-			return {success: true, for: response["for"], sensor: sensor};
-		case "User":
-			userData = response["data"];
-			user = new User();
-			user.fill(userData);
-			return {success: true, for: response["for"],  user: user};
-		case "Location":
-			houseData = response["data"];
-			house = new Location();
-			house.fill(houseData);
-			return {success: true, for: response["for"], house: house};
-		default:
-			break;
-	}	
+	object = getFilledObject(response["what"], response["data"]);
+	return {success: true, for: response["for"], object: object};	
 }
 
 function delete_response(response) {
@@ -161,84 +117,38 @@ function delete_response(response) {
 }
 
 function get_response(response) {
-	what = response["what"];
-	switch(what) {
-		case "Sensor":
-			sensorData = response["data"];
-			sensor = new Sensor();
-			sensor.fill(sensorData);
-			return {for: response["for"], sensor: sensor};
-		case "User":
-			userData = response["data"];
-			user = new User();
-			user.fill(userData);
-			return {for: response["for"], user: user};
-		case "Location":
-			houseData = response["data"];
-			house = new Location();
-			house.fill(houseData);
-			return {for: response["for"], house: house};
-		default:
-			break;
-	}
-	return {};	
+	object = getFilledObject(response["what"], response["data"]);
+	return {for: response["for"], object: object};
 }
 
 function get_all_response(response) {
-	what = response["what"];
-	switch(what) {
-		case "Sensor":
-			var sensors_response = [];
-			for(i = 0; i < response["data"].length; i++) {
-				sensorData = response["data"][i];
-				sensor = new Sensor();
-				sensor.fill(sensorData);
-				sensors_response.push(sensor);
-			}
-			return {for: response["for"], sensors: sensors_response};
-		case "User":
-			var users = [];
-			for(i = 0; i < response["data"].length; i++) {
-				userData = response["data"][i];
-				user = new User();
-				user.fill(userData);
-				users.push(user);
-			}
-			return {for: response["for"], users: users};
-		case "Location":
-			var houses = [];
-			for(i = 0; i < response["data"].length; i++) {
-				houseData = response["data"][i];
-				house = new Location();
-				house.fill(houseData);
-				houses.push(house);
-			}
-			return {for: response["for"], houses: houses};
-		default:
-			break;
-	}
-	return {};
+	objects = {};
+	responseData = response["data"];
+	for(i = 0; i < responseData.length; i++)
+		objects.push(getFilledObject(response["what"], responseData[i]));
+	return {for: response["for"], what: objects};
 }
 
 function edit_response(response) {
+	object = getFilledObject(response["what"], response["data"]);
+	return object.toJSON();
+}
+
+function getFilledObject(what, objectData) {
+	object = {};
 	switch(what) {
 		case "Sensor":
-			sensorData = response["data"];
-			sensor = new Sensor();
-			sensor.fill(sensorData);
-			return sensor.toJSON();
-		case "User":
-			userData = response["data"];
-			user = new User();
-			user.fill(userData);
-			return user.toJSON();
-		case "Location":
-			houseData = response["data"];
-			house = new Location();
-			house.fill(houseData);
-			return house.toJSON();
-		default:
+			object = new Sensor();
 			break;
+		case "User":
+			object = new User();
+			break;
+		case "Location":
+			object = new Location();
+			break;
+		default:
+			throw new Error("'What' in websocket request is of unknown type.");
 	}
-	return {};
+	object.fill(objectData);
+	return object;
 }
