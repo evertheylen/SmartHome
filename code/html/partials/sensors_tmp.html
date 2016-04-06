@@ -219,10 +219,7 @@
                 <div ng-messages="house_form.houseNr.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
-                
-                <div ng-messages="house_form.houseElecPrice.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>                                    
+                                              
                 <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_description" class="mdl-textfield__input" type="text" id="input_LocationDesc" name="houseDesc" required>
                     <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
