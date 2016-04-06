@@ -374,7 +374,6 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 		    addClass(document.getElementById("txtfield_LocationZip"), "is-dirty");
 		    addClass(document.getElementById("txtfield_LocationStreet"), "is-dirty");
 		    addClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
-		    addClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
 		    addClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
 		    if (hasClass(document.getElementById("txtfield_LocationCountry"), "is-invalid")) {
 			    removeClass(document.getElementById("txtfield_LocationCountry"), "is-invalid");
@@ -391,9 +390,6 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 		    if (hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
 			    removeClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
 		    }
-		    if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
-			    removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
-		    }		
 		    if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
 			    removeClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		    }                                
@@ -423,9 +419,6 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 		    if (hasClass(document.getElementById("txtfield_LocationNr"), "is-dirty")) {
 			    removeClass(document.getElementById("txtfield_LocationNr"), "is-dirty");
 		    }
-		    if (hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty")) {
-			    removeClass(document.getElementById("txtfield_LocationElecPrice"), "is-dirty");
-		    }		
 		    if (hasClass(document.getElementById("txtfield_LocationDesc"), "is-dirty")) {
 			    removeClass(document.getElementById("txtfield_LocationDesc"), "is-dirty");
 		    }
