@@ -128,7 +128,7 @@ function get_all_response(response) {
 	responseData = response["data"];
 	console.log("ResponseData: " + responseData);
 	console.log("ResponseDataM: " + response["data"]);
-	for(i = 0; i < responseData.length; i++)
+	for(i = 0; i < response["data"].length; i++)
 		objects.push(getFilledObject(response["what"], responseData[i]));
 	return {for: response["for"], what: objects};
 }
