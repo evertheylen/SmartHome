@@ -20,14 +20,14 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     $scope.houses = [];
 
 	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
-		$scope.houses = response.houses;
+		$scope.houses = response.objects;
 		$scope.$apply();
 	});
 
 	$scope.sensors = [];
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
-		$scope.sensors = response.sensors;
+		$scope.sensors = response.objects;
 		updateFilteredSensors();
 		$scope.$apply();
 	});
