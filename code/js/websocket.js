@@ -122,7 +122,7 @@ function get_response(response) {
 }
 
 function get_all_response(response) {
-	objects = {};
+	objects = [];
 	responseData = new Array(response["data"]);
 	for(i = 0; i < responseData.length; i++)
 		objects.push(getFilledObject(response["what"], responseData[i]));
