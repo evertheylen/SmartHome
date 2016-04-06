@@ -297,7 +297,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 			if (edit) {
 				// Edit Sensor TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
 				// TODO Don't forget the unit price when the format updates :)
-				var sensor = new Sensor($scope.sen_SID, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, $scope.sen_house);
+				var sensor = new Sensor($scope.sen_SID, $scope.sen_type, $scope.sen_name, $sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
 				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function() {
@@ -306,7 +306,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				// Add Sensor
 				
 				// TODO Don't forget the unit price when the format updates :)				
-				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $rootScope.auth_user.UID, $scope.sen_house);
+				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.house = $scope.sen_house;
 				delete new_sensor.SID;
@@ -459,7 +459,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 				*/
 				
 				var house = new Location($scope.loc_LID, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
-								$scope.loc_elec_price, $rootScope.auth_user.UID);
+							 $rootScope.auth_user.UID);
 				var houseObject = house.toJSON();
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
 					//$scope.houses[edit_loc_id] = response; //TODO Will be done through jeroen's updates
@@ -467,7 +467,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 			} else {
 				// Add house
 				var new_house = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
-								$scope.loc_elec_price, $rootScope.auth_user.UID);
+							     $rootScope.auth_user.UID);
 				delete new_house.LID;
 				var houseObject = new_house.toJSON();
 				ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
