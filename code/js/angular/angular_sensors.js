@@ -437,9 +437,6 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 		    if (!hasClass(document.getElementById("txtfield_LocationNr"), "is-invalid")) {
 			    addClass(document.getElementById("txtfield_LocationNr"), "is-invalid");
 		    }
-		    if (!hasClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid")) {
-			    addClass(document.getElementById("txtfield_LocationElecPrice"), "is-invalid");
-		    }
 		    if (!hasClass(document.getElementById("txtfield_LocationDesc"), "is-invalid")) {
 			    addClass(document.getElementById("txtfield_LocationDesc"), "is-invalid");
 		    }
