@@ -297,7 +297,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 			if (edit) {
 				// Edit Sensor TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
 				// TODO Don't forget the unit price when the format updates :)
-				var sensor = new Sensor($scope.sen_SID, $scope.sen_type, $scope.sen_name, $sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
+				var sensor = new Sensor($scope.sen_SID, $scope.sen_type, $scope.sen_name, $scope.sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
 				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function() {
@@ -306,7 +306,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				// Add Sensor
 				
 				// TODO Don't forget the unit price when the format updates :)				
-				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
+				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $scope.sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
 				//new_sensor.tags = $scope.sen_tags;
 				//new_sensor.house = $scope.sen_house;
 				delete new_sensor.SID;
