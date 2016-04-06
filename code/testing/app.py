@@ -61,7 +61,6 @@ class SimpleAdd(OverWatchTest):
 
 class SimpleEdit(OverWatchTest):
     def to_insert(self):
-        print(model.Sensor.type_type)
         return [
             # Wall
             model.Wall(is_user=True),
@@ -92,9 +91,13 @@ class SocialTab(OverWatchTest):
                 # Walls
                 model.Wall(is_user=True),
                 model.Wall(is_user=True),
+                model.Wall(is_user=True),
+                # Group
+                model.Group(title="The swaggionistas",description="A group for fashionista's with an infinity of SWAG",wall=1),
                 # Users
                 model.User(first_name="Anthony", last_name="Hermans", email="a@a", password="seeecret",wall=1),
                 model.User(first_name="Evert", last_name="Heylen", email="e@a", password="seeecret",wall=2),
+                model.User(first_name="Stijn", last_name="Janssens", email="s@a", password="seeecret",wall=3),
                 # Location
                 model.Location(user=1, description="Location 1", number=4, street="Bist", city="Lier", postalcode=2000, country="Belgium", elec_price=12.45),
                 # Sensor
@@ -102,11 +105,18 @@ class SocialTab(OverWatchTest):
                 # Tag
                 model.Tag(text="ik zen een specialleke",sensor=1),
                 # Friendship
-                model.Friendship(user1=1,user2=2)
+                model.Friendship(user1=1,user2=2),
+                # Status
+                model.Status(author=1,wall=1,date=30,date_edited=30),
+                # Membership
+                model.Membership(status="MEMBER",user=1,group=1,last_change=1),
+                # Like
+                model.Like(status=1,user=2,positive=True)
             ]
 
         @ow_test
         async def test_social(self):
+            # General tests
             a = await model.User.find_by_key(1, self.db)
             e = await model.User.find_by_key(2, self.db)
             l = await model.Location.find_by_key(1, self.db)
@@ -116,4 +126,27 @@ class SocialTab(OverWatchTest):
             self.assertEqual(a.first_name, "Anthony")
             self.assertEqual(e.first_name, "Evert")
             self.assertEqual(s.EUR_per_unit,6.69)
+
+            # Social tests
             f = await model.Friendship.find_by_key((1,2),self.db)
+            mem = await model.Membership.find_by_key((1,1),self.db)
+            stat = await model.Status.find_by_key(1,self.db)
+            like = await model.Like.find_by_key((1,2),self.db)
+
+            # Friendship tests here
+            # weird notation here (1,) ?
+            self.assertEqual(f.user1,(1,))
+            self.assertEqual(f.user2,(2,))
+            # Make frienship between Anthony and Stijn
+            await model.Friendship.make_friend(1,3,self.db)
+            # Now deletes this latest Friendship
+            # Incoming error : AttributeError: type object 'Friendship' has no attribute 'get_by_key'
+            # await model.Friendship.unfriend(1,3,self.db)
+
+            # Like tests here
+            self.assertEqual(like.status,(1,))
+
+            # Membership tests here
+            self.assertEqual(mem.status, "MEMBER")
+            self.assertEqual(mem.user,(1,))
+            self.assertEqual(mem.group, (1,))
