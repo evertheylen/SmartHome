@@ -52,9 +52,7 @@ function connect_to_websocket() {
 		var polishedObject = {};
 		try {
 			receivedObject = JSON.parse(evt.data);
-			console.log("Before polished Object");
 			polishedObject = window[receivedObject["type"] + "_response"](receivedObject);
-			console.log("After polished Object");
 			if (receivedObject.hasOwnProperty("ID")) {
 				answers[receivedObject.ID](polishedObject);
 				return;
@@ -77,7 +75,6 @@ function connect_to_websocket() {
 }
 
 function signup_response(response) {
-	console.log("Has been reached");
 	data = response["data"];
 	if(data["status"] == "success")
 		return {success: true, UID: data["UID"]};
@@ -126,11 +123,13 @@ function get_response(response) {
 
 function get_all_response(response) {
 	objects = {};
-	responseData = response["data"];
+	responseData = new Array(response["data"]);
 	for(i = 0; i < responseData.length; i++)
 		objects.push(getFilledObject(response["what"], responseData[i]));
 	return {for: response["for"], what: objects};
 }
+
+{"type": "get_all", "what": "Sensor", "for": {"UID": 4, "what": "User"}, "data": [], "ID": 3}
 
 function edit_response(response) {
 	object = getFilledObject(response["what"], response["data"]);
