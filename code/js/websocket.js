@@ -129,8 +129,6 @@ function get_all_response(response) {
 	return {for: response["for"], what: objects};
 }
 
-{"type": "get_all", "what": "Sensor", "for": {"UID": 4, "what": "User"}, "data": [], "ID": 3}
-
 function edit_response(response) {
 	object = getFilledObject(response["what"], response["data"]);
 	return object.toJSON();
