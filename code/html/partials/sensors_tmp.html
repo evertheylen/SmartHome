@@ -220,11 +220,6 @@
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
                 
-                <!-- TODO Remove this when the format updates-->
-                <div id="txtfield_LocationElecPrice" class="mdl-textfield mdl-js-textfield textfield-demo">
-                    <input ng-model="loc_elec_price" class="mdl-textfield__input" type="number" id="input_LocationElecPrice" name="houseElecPrice" required>
-                    <label class="mdl-textfield__label" for="input_LocationElecPrice" ng-bind="i18n('elec_price')"></label>
-                </div>
                 <div ng-messages="house_form.houseElecPrice.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                                    
