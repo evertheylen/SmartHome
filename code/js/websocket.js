@@ -52,7 +52,9 @@ function connect_to_websocket() {
 		var polishedObject = {};
 		try {
 			receivedObject = JSON.parse(evt.data);
+			console.log("Before polished Object");
 			polishedObject = window[receivedObject["type"] + "_response"](receivedObject);
+			console.log("After polished Object");
 			if (receivedObject.hasOwnProperty("ID")) {
 				answers[receivedObject.ID](polishedObject);
 				return;
@@ -75,6 +77,7 @@ function connect_to_websocket() {
 }
 
 function signup_response(response) {
+	console.log("Has been reached");
 	data = response["data"];
 	if(data["status"] == "success")
 		return {success: true, UID: data["UID"]};
