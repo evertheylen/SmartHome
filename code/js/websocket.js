@@ -124,9 +124,9 @@ function get_response(response) {
 function get_all_response(response) {
 	objects = [];
 	responseData = response["data"];
-	for(i = 0; i < response["data"].length; i++)
+	for(i = 0; i < responseData.length; i++)
 		objects.push(getFilledObject(response["what"], responseData[i]));
-	return {for: response["for"], what: objects};
+	return {for: response["for"], objects: objects};
 }
 
 function edit_response(response) {

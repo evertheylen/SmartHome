@@ -345,7 +345,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					break;
 				}
 				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
-	    			toChange.innerHTML = response.house.description;
+	    			toChange.innerHTML = response.object.description;
     				$scope.sen_house = value;
     				$scope.$apply();
 	            }); 
@@ -481,7 +481,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 				delete new_house.LID;
 				var houseObject = new_house.toJSON();
 				ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
-					new_house.LID = response.house.LID;	
+					new_house.LID = response.object.LID;	
 					console.log("Pre house added");
 			        $scope.houses.push(new_house);
 			        console.log("house added");
