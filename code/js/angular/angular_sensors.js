@@ -177,7 +177,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 				var element;
 				var emit = true;
 				if (elem === 'dlgSensor') {
-						if ($scope.locations.length === 0) {
+						if ($scope.houses.length === 0) {
 								element = document.getElementById("dlgNoLocation");
 								emit = false;
 						} else {
@@ -236,7 +236,7 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
 	$scope.open_dialog = function () {
 				var element;
-				if ($scope.locations.length === 0) {
+				if ($scope.houses.length === 0) {
 						element = document.getElementById("dlgNoLocation");
         } else {
 						element = document.getElementById("dlgSensor");
@@ -244,7 +244,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 				}
 				console.log("$scope.locations.length: " + $scope.locations.length + " element: " + element);
         element.showModal();
-				if ($scope.locations.length > 0) {
+				if ($scope.houses.length > 0) {
 						$rootScope.$emit("dlgSensor_open");
         }
         componentHandler.upgradeDom();
