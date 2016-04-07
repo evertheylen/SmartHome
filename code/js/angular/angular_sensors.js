@@ -221,10 +221,18 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
 	$scope.open_dialog = function () {
+				var element;
+				if ($scope.locations.length === 0) {
+						element = document.getElementById("dlgNoLocation");
+        } else {
+						element = document.getElementById("dlgSensor");
+						dlgSensor_setup.setSensor($scope.sensor);
+				}
         var element = document.getElementById("dlgSensor");
-        dlgSensor_setup.setSensor($scope.sensor);
         element.showModal();
-        $rootScope.$emit("dlgSensor_open");
+				if ($scope.locations.length > 0) {
+						$rootScope.$emit("dlgSensor_open");
+        }
         componentHandler.upgradeDom();
     } 
 });

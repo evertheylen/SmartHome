@@ -238,6 +238,19 @@
             </div>
         </div>
     </dialog>
+			<!-- The confirm dialog-->
+		<dialog id="dlgNoLocation" class="mdl-dialog">
+				<h4 class="mdl-dialog__title" ng-bind="i18n('no_location_title')"></h4>
+				<div class="mdl-dialog__content">
+						<p ng-bind="i18n('no_location_text')">
+						<div>
+								<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+								<button id="btnConfirmContinue" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+										style="width: 45%; display: inline;" ng-click="document.getElementById('dlgNoLocation').close()" ng-bind="i18n('ok')">
+								</button>
+						</div>
+				</div>
+		</dialog>       
 </div>
 <script>
 </script>

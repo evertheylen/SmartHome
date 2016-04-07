@@ -49,7 +49,7 @@ var html_strings = {
     "mark_important": ["Mark as important", "Markeren als belangrijk"],
     "confirm_title": ["Confirmation", "Bevestiging"],
     "confirm_text": ["This item will be removed permanently from your interface.\nAre you sure you want to continue?", 
-    "Dit item zal voorgoed verwijderd worden uit uw interface.\nBent u zeker dat u wilt doorgaan?"],
+                     "Dit item zal voorgoed verwijderd worden uit uw interface.\nBent u zeker dat u wilt doorgaan?"],
     "continue": ["Continue", "Doorgaan"],
     "cancel": ["Cancel", "Annuleren"],
     "share" : ["Share", "Deel"],
@@ -69,4 +69,8 @@ var html_strings = {
     "create" : ["Create", "Aanmaken"],
     "my_profile" : ["My Profile", "Mijn Profiel"],
     "my_friends" : ["My Friends", "Mijn Vrienden"],
+    "no_location_title" : ["No Locations Available", "Geen Locaties Beschikbaar"],
+    "no_location_text" : ["It is not allowed to add sensors when you have not added any locations yet.\nPlease add a location first.",
+                          "Het is niet toegestaan om sensors toe te voegen wanneer u nog geen locaties heeft toegevoegd.\nGelieve eerst een locatie aan te maken."],
+    "ok" : ["Okay", "OK"],
 };
