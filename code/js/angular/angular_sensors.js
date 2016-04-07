@@ -228,6 +228,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 						element = document.getElementById("dlgSensor");
 						dlgSensor_setup.setSensor($scope.sensor);
 				}
+				console.log("$scope.locations.length: " + $scope.locations.length + " element: " + element);
         element.showModal();
 				if ($scope.locations.length > 0) {
 						$rootScope.$emit("dlgSensor_open");
