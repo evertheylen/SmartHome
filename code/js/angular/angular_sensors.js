@@ -174,9 +174,23 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	});
 
 	$scope.open_dialog = function (elem) {
-        var element = document.getElementById(elem);
+				var element;
+				var emit = true;
+				if (elem === 'dlgSensor') {
+						if ($scope.locations.length === 0) {
+								element = document.getElementById("dlgNoLocation");
+								emit = false;
+						} else {
+								element = document.getElementById("dlgSensor");
+								dlgSensor_setup.setSensor($scope.sensor);
+						}
+        } else {
+						element = document.getElementById("dlgLocation");
+				}
         element.showModal();
-        $rootScope.$emit(elem + "_open");
+				if (emit) {
+						$rootScope.$emit(elem + "_open");
+        }
         componentHandler.upgradeDom();
     }  
 	
