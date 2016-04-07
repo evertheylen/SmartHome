@@ -139,6 +139,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	document.getElementById('btnSensorBack').addEventListener('click', function(){
 		document.getElementById('dlgSensor').close();
 	});
+	
+	document.getElementById('btnNoLocationOk').addEventListener('click', function(){
+		document.getElementById('dlgNoLocation').close();
+	});
 
 	var delete_id = null;    // TODO Nasty global vars
 	var delete_from = null;
