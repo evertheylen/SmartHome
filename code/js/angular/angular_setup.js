@@ -155,31 +155,13 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    }
 	};
 	
-	$rootScope.types = ["electricity_type", "gas_type", "water_type"];
+	$rootScope.types = ["electricity", "gas", "water"];
 	
 	$rootScope.update_me = function(scope) {
 	    scope.$apply();
 	};
 	
 });
-
-/*angular.module("overwatch").config(["$routeProvider", "$locationProvider",
-  function($routeProvider, $locationProvider){
-    $routeProvider.when("/", {
-        templateUrl: "/html/partials/index_tmp.html"
-    }).when("/home", {
-      templateUrl: "/html/partials/home_tmp.html"
-    }).when("/statistics", {
-      templateUrl: "/html/partials/statistics_tmp.html"
-    }).when("/sensors", {
-      templateUrl: "/html/partials/sensors_tmp.html"
-    }).when("/social", {
-      templateUrl: "/html/partials/social_tmp.html"
-    }).otherwise({
-      redirectTo: "/"
-    });
-    $locationProvider.html5Mode(true);
-}]);*/
 
 angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise("/");
