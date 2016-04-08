@@ -140,8 +140,7 @@ class SocialTab(OverWatchTest):
             # Make frienship between Anthony and Stijn
             await model.Friendship.make_friend(1,3,self.db)
             # Now deletes this latest Friendship
-            # Incoming error : AttributeError: type object 'Friendship' has no attribute 'get_by_key'
-            # await model.Friendship.unfriend(1,3,self.db)
+            await model.Friendship.unfriend(1,3,self.db)
 
             # Like tests here
             self.assertEqual(like.status,(1,))

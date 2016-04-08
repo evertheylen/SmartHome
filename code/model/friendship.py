@@ -30,7 +30,7 @@ class Friendship(OwEntity):
             u1, u2 = u2, u1
         # Possibly not very efficient, but needed for consistency with caching
         # TODO
-        f = await Friendship.get_by_key(u1, u2).single(db)
+        f = await Friendship.find_by_key((u1, u2),db)
         await f.delete(db)
 
 is_friend_req = Friendship.get(Friendship.key == (Field("u1"), Field("u2"))).to_raw()
