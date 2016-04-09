@@ -68,17 +68,17 @@ def check_for_type(req: "Request", typ: str):
 
 class Controller(metaclass=MetaController):
     executor = ThreadPoolExecutor(4)
-    
+
     # General methods
     # ---------------
-    
+
     def __init__(self, logger, model):
         self.logger = logger
         self.model = model
 
         self.sessions = {}
         # Session --> User.key
-    
+
     async def handle_request(self, req):
         # See metaclass
         # Kind of a switch class too, but I'd like to keep it flat
@@ -86,47 +86,47 @@ class Controller(metaclass=MetaController):
             await Controller.wshandlers[req.metadata["type"]](self, req)
         else:
             self.logger.error("No handler for %s in Controller"%req.metadata["type"])
-    
+
     async def get_user(self, session):
         if session in self.sessions:
             return await User.find_by_key(self.sessions[session], self.db)
         else:
             return None
-    
+
     async def conn_close(self, conn):
         pass  # TODO?
-    
+
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
     class switch_what(switch):
         """Base class for switch selecting on "what"."""
         def select(self, req):
             return req.metadata["what"]
-        
+
         def default(self, req):
             raise Error("unknown_object_type", "Object type '{}' not recognized".format(req.metadata["what"]))
-    
-    
+
+
     # Helper methods
     # --------------
-    
+
     @property
     def db(self):
         """Shortcut (simple getter)"""
         return self.model.db
-    
+
     @blocking  # executed on Controller.executor
     def create_password(self, p):
         return passlib.hash.bcrypt.encrypt(p, rounds=13)
-    
+
     @blocking
     def verify_password(self, hashed, p):
         return passlib.hash.bcrypt.verify(p, hashed)
-    
-    
+
+
     # Websocket handlers
     # ------------------
-    
+
     # TODO take queries out of function and add the to the model so they can be printed
 
     @handle_ws_type("signup")
@@ -157,7 +157,7 @@ class Controller(metaclass=MetaController):
             await req.answer({"status": "failure", "reason": "email_unknown"})
             return
         u = res.single()
-    
+
         if (await self.verify_password(u.password, req.data["password"])):
             session = hashlib.md5(bytes(str(random.random())[2:] + "WoordPopNoordzee", "utf8")).hexdigest()
             self.sessions[session] = u.key
@@ -187,7 +187,7 @@ class Controller(metaclass=MetaController):
                 await req.answer(l.json_repr())
             else:
                 raise Authentication("wrong", "You gave a wrong user_UID.")
-            
+
         @case("Sensor")
         async def sensor(self, req):
             l = await Location.find_by_key(req.data["location_LID"], self.db)
@@ -198,7 +198,7 @@ class Controller(metaclass=MetaController):
                 await req.answer(s.json_repr())
             else:
                 raise Authentication("wrong", "You gave a wrong user_UID.")
-        
+
         @case("Value")
         async def value(self, req):
             check_for_type(req, "Sensor")
@@ -206,8 +206,23 @@ class Controller(metaclass=MetaController):
             await v.check_auth(req, db=self.db)
             await v.insert(self.db)
             await req.answer(v.json_repr())
-        
-            
+
+        @case("Group")
+        async def group(self, req):
+            g = Group(json_dict=req.data)
+            await g.check_auth(req, db=self.db)
+            await g.insert(self.db)
+            await req.answer(g.json_repr())
+
+        @case("Wall")
+        async def wall(self, req):
+            w = Wall(is_user=req.data["is_user"])
+            await w.check_auth(req, db=self.db)
+            await w.insert(self.db)
+            await req.answer(w.json_repr())
+
+
+
     @handle_ws_type("get")
     @require_user_level(1)
     class handle_get(switch_what):
@@ -216,14 +231,14 @@ class Controller(metaclass=MetaController):
             l = await Location.find_by_key(req.data["LID"], self.db)
             await l.check_auth(req)
             await req.answer(l.json_repr())
-    
+
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)
             await s.check_auth(req)
             await req.answer(s.json_repr())
-    
-    
+
+
     # TODO currently permissions are a bit weird: handle_get will trust the Sensor/Value's is_authorized,
     # but handle_get_all will trust the User's is_authorized...
     @handle_ws_type("get_all")
@@ -236,25 +251,25 @@ class Controller(metaclass=MetaController):
             await u.check_auth(req)
             locations = await Location.get(Location.user == u.key).all(self.db)
             await req.answer([l.json_repr() for l in locations])
-        
+
         @case("Sensor")
         class sensor(switch):
             select = lambda self, req: req.metadata["for"]["what"]
-            
+
             @case("User")
             async def for_user(self, req):
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
                 await u.check_auth(req)
                 sensors = await Sensor.get(Sensor.user == u.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
-            
+
             @case("Location")
             async def for_location(self, req):
                 l = await Location.find_by_key(req.metadata["for"]["LID"], self.db)
                 await l.check_auth(req)
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
-            
+
         @case("Value")
         async def value(self, req):
             check_for_type(req, "Sensor")
@@ -262,7 +277,7 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             values = await Value.get(Value.sensor == s.key).all(self.db)
             await req.answer([s.json_repr() for v in values])
-    
+
     @handle_ws_type("edit")
     @require_user_level(1)
     class handle_edit(switch_what):
@@ -273,7 +288,7 @@ class Controller(metaclass=MetaController):
             u.edit_from_json(req.data)
             await u.update(self.db)
             await req.answer(u.json_repr())
-        
+
         @case("Location")
         async def location(self, req):
             l = await Location.find_by_key(req.data["LID"], self.db)
@@ -281,7 +296,7 @@ class Controller(metaclass=MetaController):
             l.edit_from_json(req.data)
             await l.update(self.db)
             await req.answer(l.json_repr())
-        
+
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)
@@ -293,14 +308,14 @@ class Controller(metaclass=MetaController):
     # TODO handle FOREIGN KEY constraints (CASCADE?)
     @handle_ws_type("delete")
     @require_user_level(1)
-    class handle_delete(switch_what):        
+    class handle_delete(switch_what):
         @case("Location")
         async def location(self, req):
             l = await Location.find_by_key(req.data["LID"], self.db)
             await l.check_auth(req)
             await l.delete(self.db)
             await req.answer({"status": "success"})
-            
+
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)

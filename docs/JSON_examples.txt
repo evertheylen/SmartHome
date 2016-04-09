@@ -15,6 +15,13 @@ logout
 {"type": "logout", "ID": 300}
 
 
+group_add
+{"type":"add","what":"Group","data":{"title":"Secret group","description":"No one here","wall_WID":1},"ID":3}
+
+wall_add
+{"type":"add","what":"Wall","data":{"is_user":"True"},"ID":3}
+
+
 
 loc_add
 {"type":"add","what":"Location","data":{"user_UID":1, "description": "Location 1", "number": 4, "street": "Bist", "city": "Lier", "postalcode": 2000, "country": "Belgium", "elec_price": 12.45},"ID":3}
