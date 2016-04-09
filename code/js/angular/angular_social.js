@@ -5,7 +5,17 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     componentHandler.upgradeDom();
     
     
-    $scope.groups = [] // TODO Get from database
+	$scope.groups = [] // TODO Get from database
+
+	/*
+
+	ws.request({type: "get_all", what: "Group", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		$scope.groups = response.objects;
+		$scope.$apply();
+	});
+
+	*/
+
     
 	$scope.open_dialog = function (element_id) {
         var element = document.getElementById(element_id);
