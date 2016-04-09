@@ -1,9 +1,11 @@
-handlers = {}; // specify functions to deal with server messages (that aren't a reply)
-answers = {};  // specify functions that need to be called when the server answers
-var currentId = 0; // Every request sent gets an ID.
+var handlers = {}; // specify functions to deal with server messages (that aren't a reply)
+var answers = {};  // specify functions that need to be called when the server answers
+var currentId = 0; // ID to use for the next request.
 var requests = new Queue();  // Queue for strings that are waiting to be sent to the server.
 var reconnectLimit = 10; // The maximum amount of times a websocket is allowed to reconnect.
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
+
+var cache = {Sensor: [], Location: [], User: [], Group: []}; 
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
@@ -146,9 +148,17 @@ function getFilledObject(what, objectData) {
 		case "Location":
 			object = new Location();
 			break;
+		case: "Group":
+			object = new Group();
+			break;
 		default:
 			throw new Error("'What' in websocket request is of unknown type.");
 	}
 	object.fill(objectData);
 	return object;
+}
+
+function searchCache(type, key) {
+	
+
 }

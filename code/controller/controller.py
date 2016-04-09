@@ -221,7 +221,33 @@ class Controller(metaclass=MetaController):
             await w.insert(self.db)
             await req.answer(w.json_repr())
 
+        @case("Status")
+        async def status(self, req):
+            s = Status(json_dict=req.data)
+            await s.check_auth(req, db=self.db)
+            await s.insert(self.db)
+            await req.answer(s.json_repr())
 
+        @case("Like")
+        async def like(self, req):
+            l = Like(json_dict=req.data)
+            await l.check_auth(req, db=self.db)
+            await l.insert(self.db)
+            await req.answer(l.json_repr())
+
+        @case("Friendship")
+        async def friendship(self, req):
+            f = Friendship(json_dict=req.data)
+            await f.check_auth(req, db=self.db)
+            await f.insert(self.db)
+            await req.answer(f.json_repr())
+
+        @case("Membership")
+        async def membership(self, req):
+            m = Membership(json_dict=req.data)
+            await m.check_auth(req, db=self.db)
+            await m.insert(self.db)
+            await req.answer(m.json_repr())
 
     @handle_ws_type("get")
     @require_user_level(1)
