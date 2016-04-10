@@ -261,6 +261,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 	//$scope.get_loc = function () {
 			ws.request({type: "get", what: "Location", data: {LID: $scope.sensor.location_LID}}, function(response) {
 				$scope.location_name = response.object.description;
+				$scope.$apply();
 			});
 	//}
 });
