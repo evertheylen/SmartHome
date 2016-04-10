@@ -103,7 +103,7 @@ class SocialTab(OverWatchTest):
                 # Sensor
                 model.Sensor(type="electricity", title="Measure shit 1", user= 1, location=1,EUR_per_unit=6.69),
                 # Tag
-                model.Tag(text="ik zen een specialleke",sensor=1),
+                model.Tag(description="ik zen een specialleke",sensor=1),
                 # Friendship
                 model.Friendship(user1=1,user2=2),
                 # Status
