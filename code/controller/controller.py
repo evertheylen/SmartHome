@@ -207,6 +207,14 @@ class Controller(metaclass=MetaController):
             await v.insert(self.db)
             await req.answer(v.json_repr())
 
+        @case("Tag")
+        async def tag(self, req):
+            check_for_type(req, "Sensor")
+            t = Tag(sensor=req.metadata["for"]["SID"], description=req.data["description"])
+            await t.check_auth(req, db=self.db)
+            await t.insert(self.db)
+            await req.answer(t.json_repr())
+
         @case("Group")
         async def group(self, req):
             g = Group(json_dict=req.data)
