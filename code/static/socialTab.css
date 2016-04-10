@@ -74,15 +74,19 @@
 
 #socialRightMenu{
 	margin-top: 40px;
-	margin-left: 40px;
 }
 
 #socialLeftMenu{
 	margin-top: 40px;
-	margin-left: 40px;
 }
 
 .menuGroup{
 	margin-top: 15px;
 	color: #A0A0A0;
+	margin-left: 30px;
+}
+
+.socialMenuButton{
+	width: 100%;
+	padding: 0px;
 }
