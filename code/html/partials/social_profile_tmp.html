@@ -1,8 +1,16 @@
 <div ng-controller="profileController">
 	<!-- NOTE: this structure can be used to show someone else's profile, it doesn't have to be "MY profile" -->
-    <div class="profileHeader">*insert name here*'s profile:</div>
+    <div class="profileHeader">{{auth_user.first_name}}'s profile:</div>
 	<div class="profileCategory">
-		<div class="profileTitle">Fun facts about *insert name here*</div>
+		<div class="profileTitle">Fun facts about {{auth_user.first_name}}</div>
+		<div class="profileInfo">
+			<div class="profileSubject">Full name:</div>
+			<div class="profileResult">{{auth_user.first_name}} {{auth_user.last_name}}</div>
+		</div>
+		<div class="profileInfo">
+			<div class="profileSubject">Email:</div>
+			<div class="profileResult">{{auth_user.email}}</div>
+		</div>
 		<div class="profileInfo">
 			<div class="profileSubject">Status:</div>
 			<div class="profileResult">super gay</div>
