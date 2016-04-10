@@ -327,8 +327,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				delete sensorObject.index;
 				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function(response) {
 						for (var i = 0; i < $scope.sensors.length; i++) {
-								if ($scope.sensors[i].SID === response.object.SID) {
-										$scope.sensors[i] = response.object;
+								if ($scope.sensors[i].SID === response.SID) {
+										$scope.sensors[i] = response;
 										updateFilteredSensors();
 										$scope.$apply();
                 }
@@ -496,8 +496,8 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
 					//$scope.houses[edit_loc_id] = response.object; //TODO Will be done through jeroen's updates
 						for (var i = 0; i < $scope.houses.length; i++) {
-								if ($scope.houses[i].LID === response.object.LID) {
-										$scope.houses[i] = response.object;
+								if ($scope.houses[i].LID === response.LID) {
+										$scope.houses[i] = response;
 										$scope.$apply();
                 }
             }
