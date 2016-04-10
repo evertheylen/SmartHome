@@ -326,10 +326,9 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
 				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function(response) {
-						$scope.sensor = response.object;
 						for (var i = 0; i < $scope.sensors.length; i++) {
-								if ($scope.sensors[i].SID === $scope.sensor.SID) {
-										$scope.sensors[i] = $scope.sensor;
+								if ($scope.sensors[i].SID === response.object.SID) {
+										$scope.sensors[i] = response.object;
 										updateFilteredSensors();
 										$scope.$apply();
                 }
@@ -496,10 +495,9 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 				var houseObject = house.toJSON();
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
 					//$scope.houses[edit_loc_id] = response.object; //TODO Will be done through jeroen's updates
-						$scope.house = response.object;
 						for (var i = 0; i < $scope.houses.length; i++) {
-								if ($scope.houses[i].SID === $scope.house.SID) {
-										$scope.houses[i] = $scope.house;
+								if ($scope.houses[i].LID === response.object.LID) {
+										$scope.houses[i] = response.object;
 										$scope.$apply();
                 }
             }
