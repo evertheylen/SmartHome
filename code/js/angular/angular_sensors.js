@@ -258,12 +258,20 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
         }
         componentHandler.upgradeDom();
   }
-	//$scope.get_loc = function () {
+	get_loc = function () {
 			ws.request({type: "get", what: "Location", data: {LID: $scope.sensor.location_LID}}, function(response) {
 				$scope.location_name = response.object.description;
 				$scope.$apply();
 			});
-	//}
+	}
+	
+	get_loc();
+	
+	$rootScope.$on("update_loc", function() {
+			get_loc();
+	});
+		
+	
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
@@ -343,6 +351,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 										$scope.sensors[i] = response;
 										updateFilteredSensors();
 										$scope.$apply();
+										$rootScope.$emit("update_loc");
                 }
             }
 				});
