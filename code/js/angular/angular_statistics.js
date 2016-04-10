@@ -5,8 +5,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     // Sample data
     
-    $scope.open = function (id) {
-      document.getElementById(id).checked = !document.getElementById(id).checked;      
+    $scope.open_box = function (id) {
+      if (hasClass(document.getElementById("box" + id), "open")) {
+        removeClass(document.getElementById("box" + id), "open");
+      } else {
+        addClass(document.getElementById("box" + id), "open");
+      }
     }
     
     $scope.houses = [];
