@@ -269,6 +269,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 	
 	$rootScope.$on("update_loc", function() {
 			get_loc();
+			$scope.$apply();
 	});
 		
 	
