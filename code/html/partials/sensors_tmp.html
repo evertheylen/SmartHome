@@ -77,7 +77,7 @@
 					<tbody id="table_body">
 						<tr ng-controller="sensor_objController" ng-repeat="sensor in sensors | orderBy: selected_order | startFrom: (currentPage-1)*numPerPage | limitTo : numPerPage | index track by sensor.SID" on-finish-render="ngRepeatFinished">
                                 <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
-				                <td>TODO NAME!! ID: {{sensor.location_LID}}</td> <!--TODOs-->
+				                <td>{{ws.request({type: "get", what: "Location", data: {LID: sensor.location_LID}}, function(response) {return response.object.description}}</td> <!--TODOs TODO NAME!! ID: {{sensor.location_LID}}-->
 				                <td ng-bind="i18n(sensor.type)"></td>
 												<td ng-bind="sensor.EUR_per_unit"></td>
 				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
