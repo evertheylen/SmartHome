@@ -325,7 +325,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				var sensor = new Sensor($scope.sen_SID, $scope.sen_type, $scope.sen_name, $scope.sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
-				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function() {
+				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function(response) {
+						$scope.sensor = response.object;
 				});
 			} else {
 				// Add Sensor
@@ -487,7 +488,8 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 							 $rootScope.auth_user.UID);
 				var houseObject = house.toJSON();
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
-					//$scope.houses[edit_loc_id] = response; //TODO Will be done through jeroen's updates
+					//$scope.houses[edit_loc_id] = response.object; //TODO Will be done through jeroen's updates
+					$scope.house = response.object;
 				});
 			} else {
 				// Add house
