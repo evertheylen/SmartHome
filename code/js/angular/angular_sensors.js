@@ -266,13 +266,6 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 	}
 	
 	get_loc();
-	
-	$rootScope.$on("update_loc", function() {
-			get_loc();
-			$scope.$apply();
-	});
-		
-	
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
@@ -352,7 +345,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 										$scope.sensors[i] = response;
 										updateFilteredSensors();
 										$scope.$apply();
-										$rootScope.$emit("update_loc");
                 }
             }
 				});
