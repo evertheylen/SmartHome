@@ -148,7 +148,7 @@ function getFilledObject(what, objectData) {
 		case "Location":
 			object = new Location();
 			break;
-		case: "Group":
+		case "Group":
 			object = new Group();
 			break;
 		default:
