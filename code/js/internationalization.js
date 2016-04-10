@@ -32,7 +32,7 @@ var html_strings = {
     "postalcode": ["ZIP / Postal Code", "Postcode"],
     "street": ["Street", "Straat"],
     "number": ["Number", "Huisnummer"],
-    "unit_price": ["Usage cost (per unit)", "Verbruikskost (per eenheid⁾"],
+    "unit_price": ["Usage cost (per unit)", "Verbruikskost (per eenheid)"],
     "edit_location": ["Edit location", "Locatie bewerken"],
     "add_location": ["Add location", "Locatie toevoegen"],
     "del_location": ["Delete location", "Locatie verwijderen"],

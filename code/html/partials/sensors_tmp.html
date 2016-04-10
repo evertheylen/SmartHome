@@ -58,6 +58,12 @@
     							<span>Type</span>
 							</th>
 							<th>
+								<button ng-click="set_order('EUR_per_unit', 'sort_price')" id="sort_price" class="mdl-button mdl-js-button mdl-button--icon">
+										<i class="material-icons md-10">play_arrow</i>
+								</button>
+								<span ng-bind="i18n('unit_price')"></span>
+							</th>
+							<th>
 								<button ng-click="set_order('tags', 'sort_tags')" id="sort_tags" class="mdl-button mdl-js-button mdl-button--icon">
 								    <i class="material-icons md-10 ">play_arrow</i>
 								</button>  
@@ -73,6 +79,7 @@
                                 <td class="mdl-data-table__cell--non-numeric" ng-bind="sensor.title"></td>
 				                <td>TODO NAME!! ID: {{sensor.location_LID}}</td> <!--TODOs-->
 				                <td ng-bind="i18n(sensor.type)"></td>
+												<td ng-bind="sensor.EUR_per_unit"></td>
 				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							    <td>
 								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
