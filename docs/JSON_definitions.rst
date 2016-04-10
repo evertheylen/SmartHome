@@ -67,6 +67,26 @@ Definition for object type ``Sensor``
 
 Key properties are (might not be in definition): ``SID``
 
+Definition for object type ``Tag``
+-------------------------------------
+
+::
+
+    {
+        "description": "<class 'str'>",
+        "sensor_SID": "<class 'int'>"
+    }
+
+Key properties are (might not be in definition): ``sensor_SID``,``description``
+
+There might be a "for" attribute needed when getting:
+
+::
+
+    "for": {
+        "what": "Sensor",
+        "SID": "<class 'int'>"
+    }
 
 Definition for object type ``Value``
 ------------------------------------
