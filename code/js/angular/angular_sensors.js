@@ -276,7 +276,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		    $scope.sen_tags = sen.tags;
 		    $scope.sen_house = sen.location_LID;
 		    $scope.sen_SID = sen.SID;
-		    $scope.sen_unit_price = sen.unit_price;
+		    $scope.sen_unit_price = sen.EUR_per_unit;
 		    $scope.dropDownClick(sen.type, 'select_type', 'dropDownType', 'type');
 		    $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
 
