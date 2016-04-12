@@ -1,12 +1,12 @@
 function DataType() {
-	// Used to track how the object was received from the database.
-	this.db_log = [];
+	// Used to track in which scopes the object is being used
+	this._scopes = [];
 
 	this.toJSON = function() {
 		var tmp = {};
 
 		for(var key in this) {
-			if(typeof this[key] !== 'function') {
+			if(typeof this[key] !== 'function' && key[0] != "_") {
 				tmp[key] = this[key];
 			}
 		}
@@ -22,4 +22,5 @@ function DataType() {
 			}
 		}
 	}
+
 }
