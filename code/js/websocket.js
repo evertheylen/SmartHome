@@ -175,17 +175,6 @@ function edit_response(response) {
 	return cache.getObject(type, key, data);
 }
 
-	{
-		"ID": 123,
-		"type": "live_add",
-		"for": {
-			"what": User,
-			"UID": 1,
-		},
-		"what": "Location",
-		"data": {"LID": 4, ...} 
-	}
-
 function live_add_response(response) {
 	var type = response["what"];
 	var data = response["data"];
@@ -198,18 +187,6 @@ function live_add_response(response) {
 	// Update all html references of the parent.
 	return {for: response["for"], object: object};
 }
-
-
-	"for": {
-		"what": <class of Object B>,
-		<Key of object B>: 123,
-	},
-
-	{
-		"what": "<class name>",
-		"data": <entire definition with ID of object A>
-	}
-
 
 function live_delete_response(response) {
 	var type = response["what"];
@@ -227,8 +204,6 @@ function live_delete_response(response) {
 	return true;
 }
 
-
-
 function live_edit_response(response) {
 	/*
 	{
@@ -240,8 +215,6 @@ function live_edit_response(response) {
 	Return Type + Key
 	*/
 }
-
-
 
 function getFilledObject(what, objectData) {
 	object = {};
