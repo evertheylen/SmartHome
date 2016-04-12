@@ -6,13 +6,13 @@ var reconnectLimit = 10; // The maximum amount of times a websocket is allowed t
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
 
 // Used to avoid duplicates of the same object. 
-var cache = {
-		this.Sensor: [];
-		this.Location: []; 
-		this.User: [];
-		this.Group: [];
+function cache {
+		Sensor: [];
+		Location: []; 
+		User: [];
+		Group: [];
 
-		this.searchKey = function(type, key) {
+		searchKey = function(type, key) {
 			var array = cache[type];
 			for (var i=0; i < array.length; i++) {
 				if (array[i].key === key) 
@@ -21,7 +21,7 @@ var cache = {
 			return -1;
 		};
 
-		this.getObject = function(type, key, data) {
+		getObject = function(type, key, data) {
 			var index = searchKey(type, key);
 			var object = null;
 			if(index === -1) {
@@ -38,7 +38,7 @@ var cache = {
 			return object;
 		};
 
-		this.remove = function(type, key) {
+		remove = function(type, key) {
 			var index = searchKey(type, key);
 			if(index !== -1) {
 				cache[type].splice(index, 1);
