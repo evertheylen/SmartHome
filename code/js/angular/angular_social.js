@@ -54,7 +54,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
 		$scope.$apply();
 	});
   
-  add_friend = function (index) {
+  $scope.add_friend = function (index) {
     console.log("Added " + $scope.users[index].UID + " as a friend :) ");
     // TODO
   }
