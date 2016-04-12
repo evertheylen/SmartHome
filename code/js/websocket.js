@@ -88,6 +88,7 @@ function connect_to_websocket() {
 	websocket.onmessage = function(evt) {
 		console.log("Received data from the server:");
 		console.log(evt.data);
+		console.log("DEBUG CACHE:" + cache);
 		var receivedObject = {};
 		var polishedObject = {};
 		try {
