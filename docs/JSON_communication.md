@@ -372,13 +372,13 @@ Edit in sensoren van location_LID, als _location != null moet je er de juiste lo
 Example:
 	{
 		"ID": 123,
-		"type": "add",
+		"type": "live_add",
 		"for": {
-			"what": Sensor,
-			"SID": 1,
+			"what": User,
+			"UID": 1,
 		},
 		"what": "Location",
-		"data": {"LID": 4, ...}
+		"data": {"LID": 4, ...} 
 	}
 		
 
