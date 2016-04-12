@@ -316,6 +316,14 @@ class Controller(metaclass=MetaController):
             values = await Value.get(Value.sensor == s.key).all(self.db)
             await req.answer([s.json_repr() for v in values])
 
+        @case("User")
+        async def user(self, req):
+            check_for_type(req, "User")
+            u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
+            await u.check_auth(req)
+            users = await User.get().all(self.db)
+            await req.answer([u.json_repr() for v in users])
+
     @handle_ws_type("edit")
     @require_user_level(1)
     class handle_edit(switch_what):
