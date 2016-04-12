@@ -12,7 +12,7 @@ var cache = {
 		User: [],
 		Group: [],
 
-		searchKey = function(type, key) {
+		searchKey: function(type, key) {
 			var array = cache[type];
 			for (var i=0; i < array.length; i++) {
 				if (array[i].key === key) 
@@ -21,7 +21,7 @@ var cache = {
 			return -1;
 		},
 
-		getObject = function(type, key, data) {
+		getObject: function(type, key, data) {
 			var index = searchKey(type, key);
 			var object = null;
 			if(index === -1) {
@@ -38,7 +38,7 @@ var cache = {
 			return object;
 		},
 
-		remove = function(type, key) {
+		remove: function(type, key) {
 			var index = searchKey(type, key);
 			if(index !== -1) {
 				cache[type].splice(index, 1);
