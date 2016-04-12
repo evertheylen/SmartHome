@@ -166,14 +166,16 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			if (delete_from == $scope.sensors) {
 				console.log("Delete_id: " + delete_id);
 				ws.request({type: "delete", what: "Sensor", data: {"SID": $scope.sensors[delete_id].SID}}, function(success) {
-                    updateFilteredSensors();
+                    			updateFilteredSensors();
 					$scope.$apply();
 				});
+				cache.remove("Sensor", $scope.sensors[delete_id].SID);
 			} else {
-			    console.log("Delete_id: " + delete_id);
-			    ws.request({type: "delete", what: "Location", data: {"LID": $scope.houses[delete_id].LID}}, function(success) {
-			        $scope.$apply();
-			    });
+				console.log("Delete_id: " + delete_id);
+				ws.request({type: "delete", what: "Location", data: {"LID": $scope.houses[delete_id].LID}}, function(success) {
+					$scope.$apply();
+				});
+				cache.remove("Location", $scope.houses[delete_id].LID);
 			}
 			if (delete_from.length === 1) {
 				delete_from.length = 0;

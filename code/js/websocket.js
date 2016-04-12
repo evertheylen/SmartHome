@@ -70,6 +70,7 @@ function connect_to_websocket() {
 	};
 
 	websocket.onerror = function(evt) {
+		// Currently nothing happens when a websocket error has occured.
 		console.log("Websocket Error occured: " + evt.data);
 	};
 
@@ -86,7 +87,7 @@ function signup_response(response) {
 function login_response(response) {
 	data = response["data"];
 	if(data["status"] == "success") {
-		// Currently this cookie will only be alive for 1 day.
+		// This cookie will only be alive for 1 day.
 		setCookie("session", data["session"], 1);
 		return {success: true, user: getFilledObject("User", data["user"])};
 	}
@@ -119,7 +120,22 @@ function delete_response(response) {
 }
 
 function get_response(response) {
-	object = getFilledObject(response["what"], response["data"]);
+	var type = response["what"];
+	var data = response["data"];
+	var key = data[getKeyName(type)];  
+	var index = searchCache(type, key);
+	if(index === -1) {
+		// The object is not in the cache.
+		var object = getFilledObject(type, data);
+		var cacheKeyObject = {key: key, object: object};
+		return object;	
+	}
+	else {
+		// The object is in the cache.
+		var object = cache[type][index].object;
+		// object.update(data);
+		return object;
+	}
 	return {for: response["for"], object: object};
 }
 
@@ -158,7 +174,26 @@ function getFilledObject(what, objectData) {
 	return object;
 }
 
-function searchCache(type, key) {
-	
+function getKeyName(type) {
+	switch(what) {
+		case "Sensor":
+			return "SID";
+		case "User":
+			return "UID";
+		case "Location":
+			return "LID";
+		case "Group":
+			return "GID";
+		default:
+			throw new Error("'What' in websocket request is of unknown type.");
+	}	
+}
 
+function searchCache(type, key) {
+	var array = cache[type];
+	for (var i=0; i < array.length; i++) {
+		if (array[i].key === key) 
+		    return i;
+	}
+	return -1;
 }

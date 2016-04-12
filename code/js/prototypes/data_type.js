@@ -1,4 +1,7 @@
 function DataType() {
+	// Used to track how the object was received from the database.
+	this.db_log = [];
+
 	this.toJSON = function() {
 		var tmp = {};
 
