@@ -22,13 +22,12 @@ var cache = {
 		},
 
 		getObject: function(type, key, data) {
-			var index = searchKey(type, key);
+			var index = cache.searchKey(type, key);
 			var object = null;
 			if(index === -1) {
 				// If the object is not in the cache.
 				object = getFilledObject(type, data);
-				var cacheKeyObject = {key: key, object: object};
-				cache[type].push(cacheKeyObject);
+				cache[type].push({key: key, object: object});
 			}
 			else {
 				// If the object has been found.
@@ -39,7 +38,7 @@ var cache = {
 		},
 
 		remove: function(type, key) {
-			var index = searchKey(type, key);
+			var index = cache.searchKey(type, key);
 			if(index !== -1) {
 				cache[type].splice(index, 1);
 			}
