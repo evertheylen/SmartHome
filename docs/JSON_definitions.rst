@@ -30,8 +30,9 @@ Definition for object type ``User``
         "admin":"<class 'bool'>",
     }
 
+The ``admin`` property isn't required, it will be ``False`` by default.
+
 Key properties are (might not be in definition): ``UID``
-The ``admin`` property isn't required, if it isn't provided in the request the admin property will be ``False`` by default.
 
 Definition for object type ``Location``
 ---------------------------------------
