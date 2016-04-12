@@ -93,7 +93,7 @@ function connect_to_websocket() {
 		for (var i=0; i < cache.Sensor.length; i++) {
 			console.log(JSON.stringify(cache.Sensor[i]));
 		}
-		console.log("Locations:);
+		console.log("Locations:");
 		for (var i=0; i < cache.Location.length; i++) {
 			console.log(JSON.stringify(cache.Location[i]));
 		}
