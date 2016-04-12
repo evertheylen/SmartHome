@@ -5,7 +5,46 @@ var requests = new Queue();  // Queue for strings that are waiting to be sent to
 var reconnectLimit = 10; // The maximum amount of times a websocket is allowed to reconnect.
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
 
-var cache = {Sensor: [], Location: [], User: [], Group: []}; 
+// Used to avoid duplicates of the same object. 
+var cache = {
+		this.Sensor: [];
+		this.Location: []; 
+		this.User: [];
+		this.Group: [];
+
+		this.searchKey = function(type, key) {
+			var array = cache[type];
+			for (var i=0; i < array.length; i++) {
+				if (array[i].key === key) 
+				    return i;
+			}
+			return -1;
+		};
+
+		this.getObject = function(type, key, data) {
+			var index = searchKey(type, key);
+			var object = null;
+			if(index === -1) {
+				// If the object is not in the cache.
+				object = getFilledObject(type, data);
+				var cacheKeyObject = {key: key, object: object};
+				cache[type].push(cacheKeyObject);
+			}
+			else {
+				// If the object has been found.
+				object = cache[type][index].object;
+				object.fill(data);
+			}
+			return object;
+		};
+
+		this.remove = function(type, key) {
+			var index = searchKey(type, key);
+			if(index !== -1) {
+				cache[type].splice(index, 1);
+			}
+		}
+}; 
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
@@ -95,22 +134,16 @@ function login_response(response) {
 }
 
 function error_response(response) {
-	// Todo: Decide on how to handle the errors.
-	error_type = response["error"]["short"];
-	switch(error_type) {
-		case "type_error":
-			arg[0] = "type_error";
-			break;
-		default:
-			arg[0] = "Undefined";
-	}
-	arg[1] = data["error"]["long"];
-	return arg;
+	error_type = response["data"]["short"];
+	throw new Error(response["data"]["short"]);
 }
 
 function add_response(response) {
-	object = getFilledObject(response["what"], response["data"]);
-	return {success: true, for: response["for"], object: object};	
+	var type = response["what"];
+	var data = response["data"];
+	var object = getFilledObject(type, data);
+	cache[type].push({key: data[getKeyName(type)], object: object});
+	return {success: true, for: response["for"], object: object};
 }
 
 function delete_response(response) {
@@ -123,33 +156,24 @@ function get_response(response) {
 	var type = response["what"];
 	var data = response["data"];
 	var key = data[getKeyName(type)];  
-	var index = searchCache(type, key);
-	if(index === -1) {
-		// The object is not in the cache.
-		var object = getFilledObject(type, data);
-		var cacheKeyObject = {key: key, object: object};
-		return object;	
-	}
-	else {
-		// The object is in the cache.
-		var object = cache[type][index].object;
-		// object.update(data);
-		return object;
-	}
-	return {for: response["for"], object: object};
+	return {for: response["for"], object: cache.getObject(type, key, data)}
 }
 
 function get_all_response(response) {
-	objects = [];
-	responseData = response["data"];
-	for(i = 0; i < responseData.length; i++)
-		objects.push(getFilledObject(response["what"], responseData[i]));
+	var objects = [];
+	var type = response["what"];
+	var data = response["data"];
+	var keyName = getKeyName(type);  
+	for(i = 0; i < data.length; i++)
+		objects.push(cache.getObject(type, data[i][keyName], data[i]));
 	return {for: response["for"], objects: objects};
 }
 
 function edit_response(response) {
-	object = getFilledObject(response["what"], response["data"]);
-	return object.toJSON();
+	var type = response["what"];
+	var data = response["data"];
+	var key = data[getKeyName(type)];  
+	return cache.getObject(type, key, data);
 }
 
 function getFilledObject(what, objectData) {
@@ -175,7 +199,7 @@ function getFilledObject(what, objectData) {
 }
 
 function getKeyName(type) {
-	switch(what) {
+	switch(type) {
 		case "Sensor":
 			return "SID";
 		case "User":
@@ -187,13 +211,4 @@ function getKeyName(type) {
 		default:
 			throw new Error("'What' in websocket request is of unknown type.");
 	}	
-}
-
-function searchCache(type, key) {
-	var array = cache[type];
-	for (var i=0; i < array.length; i++) {
-		if (array[i].key === key) 
-		    return i;
-	}
-	return -1;
 }
