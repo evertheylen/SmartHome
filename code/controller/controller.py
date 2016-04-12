@@ -138,11 +138,14 @@ class Controller(metaclass=MetaController):
         else:
             # Manual initialisation because password isn't in json
             hash = await self.create_password(req.data["password"])
+            isAdmin = False
             w = Wall(is_user=True)
             await w.insert(self.db)
+            if "admin" in req.data: isAdmin = True
+            print(isAdmin)
             u = User(email=req.data["email"], password=hash,
                      first_name=req.data["first_name"], last_name=req.data["last_name"],
-                     wall=w.key)
+                     wall=w.key,admin=isAdmin)
             await u.insert(self.db)
             await req.answer({
                 "status": "success",
