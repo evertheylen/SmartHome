@@ -27,10 +27,12 @@ Definition for object type ``User``
         "last_name": "<class 'str'>",
         "email": "<class 'str'>",
         "wall_WID": "<class 'int'>"
+        "admin":"<class 'bool'>",
     }
 
-Key properties are (might not be in definition): ``UID``
+The ``admin`` property isn't required, it will be ``False`` by default.
 
+Key properties are (might not be in definition): ``UID``
 
 Definition for object type ``Location``
 ---------------------------------------

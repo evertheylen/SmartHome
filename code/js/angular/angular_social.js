@@ -47,6 +47,14 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
 
 });
 
+angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope) {
+	ws.request({type: "get_all", what: "User", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		$scope.users = response.objects;
+		$scope.$apply();
+	});
+});
+
+
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
     $scope.create_group = function() {
         if ($scope.group_form.$valid) {
