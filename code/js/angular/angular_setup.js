@@ -153,6 +153,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    if ($rootScope.tab != "") {
 	        $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 	    }
+      componentHandler.upgradeDom();
 	};
 	
 	$rootScope.types = ["electricity", "gas", "water"];
