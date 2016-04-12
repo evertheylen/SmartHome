@@ -6,7 +6,7 @@ var reconnectLimit = 10; // The maximum amount of times a websocket is allowed t
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
 
 // Used to avoid duplicates of the same object. 
-function cache {
+var cache = {
 		Sensor: [];
 		Location: []; 
 		User: [];
@@ -43,7 +43,7 @@ function cache {
 			if(index !== -1) {
 				cache[type].splice(index, 1);
 			}
-		}
+		};
 }; 
 
 function connect_to_websocket() {
