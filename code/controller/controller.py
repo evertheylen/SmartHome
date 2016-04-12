@@ -141,7 +141,7 @@ class Controller(metaclass=MetaController):
             isAdmin = False
             w = Wall(is_user=True)
             await w.insert(self.db)
-            if "admin" in req.data: isAdmin = True
+            if "admin" in req.data: isAdmin = req.data["admin"]
             print(isAdmin)
             u = User(email=req.data["email"], password=hash,
                      first_name=req.data["first_name"], last_name=req.data["last_name"],
