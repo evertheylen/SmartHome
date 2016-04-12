@@ -73,4 +73,5 @@ var html_strings = {
     "no_location_text" : ["It is not allowed to add sensors when you have not added any locations yet.\nPlease add a location first.",
                           "Het is niet toegestaan om sensors toe te voegen wanneer u nog geen locaties heeft toegevoegd.\nGelieve eerst een locatie aan te maken."],
     "ok" : ["Okay", "OK"],
+    "search_friend" : ["Search friends", "Vrienden zoeken"]
 };

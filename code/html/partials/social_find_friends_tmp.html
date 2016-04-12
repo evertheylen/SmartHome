@@ -1,4 +1,11 @@
 <div ng-controller="find_friendsController">
+    <span class="mdl-button mdl-js-button mdl-button--icon" for="sample6">
+        <i class="material-icons">search</i>
+    </span>
+    <div id="txtfield_search_friend" class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" id="input_GroupName" name="searchFriend" ng-model="search_friend">
+        <label class="mdl-textfield__label" for="input_GroupName" ng-bind="i18n('search_friend')"></label>
+    </div>
     <div ng-repeat="user in users" on-finish-render="ngRepeatFinished">
       {{user.first_name}} {{user.last_name}}
     </div>
