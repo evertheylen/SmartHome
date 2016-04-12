@@ -20,6 +20,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     $scope.houses = [];
 
 	ws.request({type: "get_all", what: "Location", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		for (var i = 0; i < response.objects.length; i++)
+			response.objects[i]._scopes.push($scope);
 		$scope.houses = response.objects;
 		$scope.$apply();
 	});
@@ -27,6 +29,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.sensors = [];
 
 	ws.request({type: "get_all", what: "Sensor", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		for (var i = 0; i < response.objects.length; i++)
+			response.objects[i]._scopes.push($scope);
 		$scope.sensors = response.objects;
 		updateFilteredSensors();
 		$scope.$apply();
@@ -262,6 +266,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
   }
 	get_loc = function () {
 			ws.request({type: "get", what: "Location", data: {LID: $scope.sensor.location_LID}}, function(response) {
+				response.object._scopes.push($scope);
 				$scope.location_name = response.object.description;
 				$scope.$apply();
 			});
@@ -361,7 +366,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				
 				var sensorObject = new_sensor.toJSON();
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
-					new_sensor.SID = response.object.SID;
+					response.object._scopes.push($scope);
+					new_sensor = response.object;
 					ws.request({type: "get", what: "Location", data: {LID: response.object.location_LID}}, function(response) {
 	        			$scope.sensors.push(new_sensor);
 				        updateFilteredSensors();
@@ -393,6 +399,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					break;
 				}
 				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
+				response.object._scopes.push($scope);
 	    			toChange.innerHTML = response.object.description;
     				$scope.sen_house = value;
     				$scope.$apply();
@@ -525,7 +532,8 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 				delete new_house.LID;
 				var houseObject = new_house.toJSON();
 				ws.request({type: "add", what: "Location", data: houseObject}, function(response) {
-					new_house.LID = response.object.LID;	
+					response.object._scopes.push($scope);
+					new_house = response.object;	
 					console.log("Pre house added");
 			        $scope.houses.push(new_house);
 			        console.log("house added");
