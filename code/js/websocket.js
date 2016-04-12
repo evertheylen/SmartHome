@@ -89,9 +89,18 @@ function connect_to_websocket() {
 		console.log("Received data from the server:");
 		console.log(evt.data);
 		console.log("DEBUG CACHE:");
-		console.log("Sensors:" + cache.Sensor);
-		console.log("Locations:" + cache.Location);
-		console.log("User:" + cache.User);
+		console.log("Sensors:");
+		for (var i=0; i < cache.Sensor.length; i++) {
+			console.log(JSON.stringify(cache.Sensor[i]));
+		}
+		console.log("Locations:);
+		for (var i=0; i < cache.Location.length; i++) {
+			console.log(JSON.stringify(cache.Location[i]));
+		}
+		console.log("User:");
+		for (var i=0; i < cache.User.length; i++) {
+			console.log(JSON.stringify(cache.User[i]));
+		}
 		var receivedObject = {};
 		var polishedObject = {};
 		try {
