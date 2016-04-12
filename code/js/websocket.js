@@ -7,10 +7,10 @@ var reconnects = 0; // The amount of times the websocket has attempted to reconn
 
 // Used to avoid duplicates of the same object. 
 var cache = {
-		Sensor: [];
-		Location: []; 
-		User: [];
-		Group: [];
+		Sensor: [],
+		Location: [],
+		User: [],
+		Group: [],
 
 		searchKey = function(type, key) {
 			var array = cache[type];
@@ -19,7 +19,7 @@ var cache = {
 				    return i;
 			}
 			return -1;
-		};
+		},
 
 		getObject = function(type, key, data) {
 			var index = searchKey(type, key);
@@ -36,14 +36,14 @@ var cache = {
 				object.fill(data);
 			}
 			return object;
-		};
+		},
 
 		remove = function(type, key) {
 			var index = searchKey(type, key);
 			if(index !== -1) {
 				cache[type].splice(index, 1);
 			}
-		};
+		}
 }; 
 
 function connect_to_websocket() {
