@@ -77,16 +77,16 @@ def shell_thread(**kwargs):
         f = open(hist_loc, "x")
         f.write("\n")
         f.close()
-    readline.read_history_file(hist_loc)
+    # readline.read_history_file(hist_loc)
     # Opens a Python shell
-    
+
     todo = TodoPointer()
-    
+
     def snip(location, _todo=todo):
         _todo.location = location
-    
+
     console.locals["snip"] = snip
-    
+
     buf = []
     def get_input(prompt):
         if len(buf) > 0:
@@ -95,13 +95,13 @@ def shell_thread(**kwargs):
             return l
         else:
             return input(prompt)
-    
+
     while True:
         try:
             c = get_input(">>> ")
             if (not c == ""):
                 if console.push(c): # console.push(c) executes the string c in the console.
-                                    # if it is True, it means it expects more input 
+                                    # if it is True, it means it expects more input
                                     # (for example a function definition)
                     _input = ' '
                     totalcommand = ''
@@ -109,7 +109,7 @@ def shell_thread(**kwargs):
                         _input = get_input('... ')
                         totalcommand += _input+'\n'
                     console.push(totalcommand)
-                
+
                 if todo.location is not None:
                     with open(todo.location, 'r') as f:
                         code = f.readlines()
@@ -122,7 +122,7 @@ def shell_thread(**kwargs):
         except Exception as e:
             console.showtraceback()
         readline.write_history_file(hist_loc)
-    
+
 def server_thread(ow: OverWatch):
     ow.run()
 
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     config = get_config(options.config)
     config["tornado_app_settings"]["autoreload"] = False
     ow = OverWatch(config)
-    
+
     server = threading.Thread(target=server_thread, args=(ow,))
     shell = threading.Thread(target=shell_thread, kwargs={"ow": ow})
     server.start()
@@ -139,4 +139,3 @@ if __name__ == "__main__":
     shell.join()
     ioloop.stop()
     server.join()
-    

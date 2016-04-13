@@ -319,11 +319,7 @@ class Controller(metaclass=MetaController):
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
             users = await User.get(User.key != u.key).all(self.db)
-            # print("commence")
-            # users = await User.raw("SELECT * FROM table_user").all(self.db)
-            # print(users)
-            # print("PASSED")
-            await req.answer([u.json_repr() for v in users])
+            await req.answer([u.json_repr() for u in users])
 
     @handle_ws_type("edit")
     @require_user_level(1)
