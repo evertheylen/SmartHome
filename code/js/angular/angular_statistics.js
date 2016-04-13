@@ -34,7 +34,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_sensors = [];
     
     $scope.filtered_sensors = $scope.sensors;
-    
+    $scope.$watch("filtered_sensors", function() {
+        $scope.$apply();
+        componentHandler.upgradeDom();
+    });
     for (i = 0; i< $scope.houses.length; i++) {
         $scope.select_locs.push(false);
     }
