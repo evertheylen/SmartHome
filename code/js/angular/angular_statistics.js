@@ -129,6 +129,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                       }
                     }
                 } else {
+                  console.log("Unchecked a location");
                   for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.filtered_sensors[i].location_LID != $scope.houses[index].LID) {
                         console.log(i + "th sensor doesnt have correct LID!");
