@@ -57,9 +57,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     $scope.select_locs[i] = $scope.all_locs;
                     if ($scope.all_locs) {
                         var select_types = [];
-                        for (i = 0; i < $scope.types.length; i ++) {
-                          if ($scope.select_types[i]) {
-                              select_types.push($scope.types[i]);
+                        for (j = 0; j < $scope.types.length; j ++) {
+                          if ($scope.select_types[j]) {
+                              select_types.push($scope.types[j]);
                           }
                         }
                         addClass(document.getElementById("label-location_" + i), "is-checked");
@@ -87,9 +87,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     $scope.select_types[i] = $scope.all_types;
                     if ($scope.all_types) {
                         var select_houses = [];
-                        for (i = 0; i < $scope.houses.length; i++) {
-                            if ($scope.select_locs[i]) {
-                                  select_houses.push($scope.houses[i].LID);
+                        for (j = 0; j < $scope.houses.length; j++) {
+                            if ($scope.select_locs[j]) {
+                                  select_houses.push($scope.houses[j].LID);
                             }
                         }
                         addClass(document.getElementById("label-type_" + i), "is-checked");
