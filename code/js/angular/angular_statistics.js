@@ -54,14 +54,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     $scope.select_locs[i] = $scope.all_locs;
                     if ($scope.all_locs) {
                         addClass(document.getElementById("label-location_" + i), "is-checked");
-                        for (j = 0; j < $scope.sensors.length(); j++) {
+                        for (j = 0; j < $scope.sensors.length; j++) {
                           if ($scope.sensors[j].location_LID === $scope.houses[i].LID) {
                               $scope.filtered_sensors.push($scope.sensors[j]);
                           }
                         }
                     } else {
                         removeClass(document.getElementById("label-location_" + i), "is-checked");
-                        for (j = 0; j < $scope.filtered_sensors.length(); j++) {
+                        for (j = 0; j < $scope.filtered_sensors.length; j++) {
                           if ($scope.filtered_sensors[j].location_LID != $scope.houses[i].LID) {
                               $scope.filtered_sensors.slice(j, 1);
                           }
@@ -75,14 +75,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     $scope.select_types[i] = $scope.all_types;
                     if ($scope.all_types) {
                         addClass(document.getElementById("label-type_" + i), "is-checked");
-                        for (j = 0; j < $scope.sensors.length(); j++) {
+                        for (j = 0; j < $scope.sensors.length; j++) {
                           if ($scope.sensors[j].type === $scope.houses[i].type) {
                               $scope.filtered_sensors.push($scope.sensors[j]);
                           }
                         }
                     } else {
                         removeClass(document.getElementById("label-type_" + i), "is-checked");
-                        for (j = 0; j < $scope.filtered_sensors.length(); j++) {
+                        for (j = 0; j < $scope.filtered_sensors.length; j++) {
                           if ($scope.filtered_sensors[j].type != $scope.houses[i].type) {
                               $scope.filtered_sensors.slice(j, 1);
                           }
@@ -124,13 +124,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     removeClass(document.getElementById("label-all_locations"), "is-checked");
                 };
                 if (checked) {
-                    for (i = 0; i < $scope.sensors.length(); i++) {
+                    for (i = 0; i < $scope.sensors.length; i++) {
                       if ($scope.sensors[i].location_LID === $scope.houses[index].LID) {
                           $scope.filtered_sensors.push($scope.sensors[i]);
                       }
                     }
                 } else {
-                  for (i = 0; i < $scope.filtered_sensors.length(); i++) {
+                  for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.filtered_sensors[i].location_LID != $scope.houses[index].LID) {
                         $scope.filtered_sensors.slice(i, 1);
                     }
@@ -155,13 +155,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     removeClass(document.getElementById("label-all_types"), "is-checked");
                 };
                 if (checked) {
-                    for (i = 0; i < $scope.sensors.length(); i++) {
+                    for (i = 0; i < $scope.sensors.length; i++) {
                       if ($scope.sensors[i].type === $scope.houses[index].type) {
                           $scope.filtered_sensors.push($scope.sensors[i]);
                       }
                     }
                 } else {
-                  for (i = 0; i < $scope.filtered_sensors.length(); i++) {
+                  for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.filtered_sensors[i].type != $scope.houses[index].type) {
                         $scope.filtered_sensors.slice(i, 1);
                     }
