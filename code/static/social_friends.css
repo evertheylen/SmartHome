@@ -1,0 +1,29 @@
+.friend{
+	margin: 10%;
+	margin-bottom: 20px;
+	margin-top: 0%;
+}
+
+.name{
+	font-size: 20px;
+	color: #448AFF;
+}
+
+.name:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.actionList{
+	margin-left: 10%;
+}
+
+.friendsAction{
+	font-size: 12px;
+	color: #448AFF;
+}
+
+.friendsAction:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
