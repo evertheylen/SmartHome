@@ -48,10 +48,19 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
 });
 
 angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope) {
-	ws.request({type: "get_all", what: "User", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+	$scope.users = [];
+  ws.request({type: "get_all", what: "User", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
 		$scope.users = response.objects;
+    for (i = 0 ; i < $scope.users.length; i++) {
+        $scope.users[i].full_name = $scope.users[i].first_name + " " + $scope.users[i].last_name;
+    }
 		$scope.$apply();
 	});
+  
+  $scope.add_friend = function (index) {
+    console.log("Added " + $scope.users[index].UID + " as a friend :) ");
+    // TODO
+  }
 });
 
 

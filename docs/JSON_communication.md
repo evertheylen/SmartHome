@@ -352,22 +352,35 @@ Apart from that you can also unregister from all objects:
 
 ## Live updates type
 
-Todo: get all in sensors + kijken in berichten (zonder register sensors) + terug naar sensors, gebeurd weer een get all maar dan rekening houden met de cache, dus gewoon de cache update en nieuwe sensoren toevoegen.
+Todo: 
 
-Edit in sensoren van location_LID, als _location != null moet ge er de juiste locatie insteken.
+Edit in sensoren van location_LID, als _location != null moet je er de juiste locatie insteken.
 
 ### Add
 
 	{
 		"ID": 123,
-		"type": "add",
+		"type": "live_add",
 		"for": {
 			"what": <class of Object B>, // update all html references of this object
 			<Key of object B>: 123,
 		},
-		"what": "<class>",
+		"what": "<class name>",
 		"data": <entire definition with ID of object A> // Add this object to the cache
 	}
+
+Example:
+	{
+		"ID": 123,
+		"type": "live_add",
+		"for": {
+			"what": User,
+			"UID": 1,
+		},
+		"what": "Location",
+		"data": {"LID": 4, ...} 
+	}
+		
 
 ### Delete
 
@@ -379,8 +392,8 @@ Edit in sensoren van location_LID, als _location != null moet ge er de juiste lo
 
 	{
 		"ID": 123,
-		"type": "delete",
-		"what": "<class>",
+		"type": "live_delete",
+		"what": "<class name>",
 		"data": <entire definition with ID of object A>
 	}
 
@@ -388,7 +401,7 @@ Edit in sensoren van location_LID, als _location != null moet ge er de juiste lo
 
 {
 	"ID": 123,
-	"type": "edit",
-	"what": "<class>",
+	"type": "live_edit",
+	"what": "<class name>",
 	"data": <entire definition with ID of object>
 }
