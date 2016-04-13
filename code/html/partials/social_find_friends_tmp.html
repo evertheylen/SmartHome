@@ -7,7 +7,7 @@
         <label class="mdl-textfield__label" for="input_GroupName" ng-bind="i18n('find_friends')"></label>
     </div>
     <!-- TODO Change this to track by user.UID when backend fixes its misery-->
-    <div ng-repeat="user in users | filter:search_friend track by $index" on-finish-render="ngRepeatFinished">
+    <div ng-repeat="user in users | filter:search_friend track by user.UID" on-finish-render="ngRepeatFinished">
       <div>{{user.first_name}} {{user.last_name}}</div>
       <div>{{user.email}}</div>
       <button id="btnAddFriend" ng-click="add_friend($index);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_friend')">
