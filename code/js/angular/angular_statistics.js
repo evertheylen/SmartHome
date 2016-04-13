@@ -148,7 +148,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     }
                     console.log("Checked location: sensors.length: " + $scope.sensors.length)
                     for (i = 0; i < $scope.sensors.length; i++) {
-                      if ($scope.sensors[i].location_LID === $scope.houses[index].LID && $scope.sensors[i].type in select_types) {
+                      if ($scope.sensors[i].location_LID === $scope.houses[index].LID && select_types.contains($scope.sensors[i].type)) {
                           console.log("Location " + i + " adding");
                           $scope.filtered_sensors.push($scope.sensors[i]);
                           console.log("Length of filtered: " + $scope.filtered_sensors.length);
@@ -188,7 +188,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                       }
                   }
                     for (i = 0; i < $scope.sensors.length; i++) {
-                      if ($scope.sensors[i].type === $scope.types[index] && $scope.sensors[i].location_LID in select_houses) {
+                      if ($scope.sensors[i].type === $scope.types[index] && select_houses.contains($scope.sensors[i].location_LID)) {
                           $scope.filtered_sensors.push($scope.sensors[i]);
                       }
                     }
