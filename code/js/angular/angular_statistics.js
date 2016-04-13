@@ -33,7 +33,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_types = [];
     $scope.select_sensors = [];
     
-    $scope.filtered_sensors = $scope.sensors;
+    $scope.filtered_sensors = [];
     $scope.$watch("filtered_sensors", function() {
         console.log("Filtered_sensors changed!")
         componentHandler.upgradeDom();
@@ -107,16 +107,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     }; 
     
-    $scope.checkStatus = function (type, index) {
+    $scope.checkStatus = function (type, index, checked) {
         var checkCount = 0;
-        var checked = false;
         switch (type) {
             case "location" :
                 for (i=0; i < $scope.houses.length; i++) {
                     if ($scope.select_locs[i]) {
-                        if (index === i) {
-                            checked = true;
-                        }
                         checkCount++;
                     }
                 }
@@ -145,9 +141,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             case "type" :
                 for (i=0; i < $scope.types.length; i++) {
                     if ($scope.select_types[i]) {
-                       if (index === i) {
-                            checked = true;
-                        }
                         checkCount++;
                     }
                 }
