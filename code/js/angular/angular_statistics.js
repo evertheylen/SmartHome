@@ -63,6 +63,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                           }
                         }
                     } else {
+                        var copy = [];
                         removeClass(document.getElementById("label-location_" + i), "is-checked");
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
                           if ($scope.filtered_sensors[j].location_LID != $scope.houses[i].LID) {
@@ -86,6 +87,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                           }
                         }
                     } else {
+                        var copy = [];
                         removeClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
                           if ($scope.filtered_sensors[j].type === $scope.houses[i].type) {
@@ -135,6 +137,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                       }
                     }
                 } else {
+                  var copy = [];
                   console.log("Unchecked a location filtered_sensors.length: " + $scope.filtered_sensors.length)
                   for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.filtered_sensors[i].location_LID === $scope.houses[index].LID) {
