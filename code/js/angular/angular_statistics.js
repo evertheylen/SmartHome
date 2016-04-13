@@ -67,8 +67,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
                           if ($scope.filtered_sensors[j].location_LID != $scope.houses[i].LID) {
                               $scope.filtered_sensors.splice(j, 1);
-                          }
-                        }
+                              copy.push($scope.filtered_sensors[i]);
+                         }
+                       }
+                       $scope.filtered_sensors = copy;
                     }
                 };
                 break;
@@ -87,9 +89,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         removeClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
                           if ($scope.filtered_sensors[j].type === $scope.houses[i].type) {
-                              $scope.filtered_sensors.splice(j, 1);
+                              copy.push($scope.filtered_sensors[i]);
                           }
                         }
+                        $scope.filtered_sensors = copy;
                     }
                 };
                 break;
@@ -136,10 +139,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                   for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.filtered_sensors[i].location_LID === $scope.houses[index].LID) {
                         console.log(i + "th sensor doesnt have correct LID!");
-                        $scope.filtered_sensors.splice(i, 1);
-                        console.log("Length of filtered: " + $scope.filtered_sensors.length);
+                        copy.push($scope.filtered_sensors[i]);
                     }
                   }
+                  $scope.filtered_sensors = copy;
                 };
                 
                 break;
@@ -163,11 +166,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                       }
                     }
                 } else {
+                  var copy = [];
                   for (i = 0; i < $scope.filtered_sensors.length; i++) {
-                    if ($scope.filtered_sensors[i].type === $scope.houses[index].type) {
-                        $scope.filtered_sensors.splice(i, 1);
+                    if ($scope.filtered_sensors[i].type != $scope.houses[index].type) {
+                        copy.push($scope.filtered_sensors[i]);
                     }
                   }
+                  $scope.filtered_sensors = copy;
                 }
                 break;            
                 
