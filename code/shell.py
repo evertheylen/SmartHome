@@ -77,7 +77,7 @@ def shell_thread(**kwargs):
         f = open(hist_loc, "x")
         f.write("\n")
         f.close()
-    # readline.read_history_file(hist_loc)
+    readline.read_history_file(hist_loc)
     # Opens a Python shell
 
     todo = TodoPointer()
