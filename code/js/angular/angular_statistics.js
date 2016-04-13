@@ -64,7 +64,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                         addClass(document.getElementById("label-location_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
-                          if ($scope.sensors[j].location_LID === $scope.houses[i].LID && $scope.sensors[j].type in select_types) {
+                          if ($scope.sensors[j].location_LID === $scope.houses[i].LID && select_types.indexOf($scope.sensors[i].type) != -1) {
                               $scope.filtered_sensors.push($scope.sensors[j]);
                           }
                         }
@@ -94,7 +94,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                         addClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
-                          if ($scope.sensors[j].type === $scope.types[i] && $scope.sensors[j].location_LID in select_houses) {
+                          if ($scope.sensors[j].type === $scope.types[i] && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
                               $scope.filtered_sensors.push($scope.sensors[j]);
                           }
                         }

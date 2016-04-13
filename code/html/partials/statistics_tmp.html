@@ -1,7 +1,4 @@
 <div ng-controller="statisticsController">
-	<div ng-repeat="sensor in filtered_sensors track by sensor.SID" on-finish-render="ngRepeatFinished">
-		{{sensor.location_LID}} {{sensor.type}} {{sensor.name}}
-	</div>
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
 	<div id="box1" class="box" style="z-index: -4;">
 		<div class="header">
@@ -190,20 +187,19 @@
 					        </tr>
 					    </thead>
 					    <tbody>
-					        <tr>
+					        <tr ng-repeat="sensor in filtered_sensors track by sensor.SID" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-13">
 					                        <input type="checkbox" id="list-checkbox-13" class="mdl-checkbox__input" checked />
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;">
-					                     Sensor
+					                <span style="display: inline-block;" ng-bind="sensor.title">
 					                </span>
 					            </td>
-					            <td>Home1</td>
-					            <td>aType</td>
-					            <td>tags</td>
+					            <td ng-bind="sensor.location_LID"></td>
+					            <td ng-bind="sensor.type"></td>
+					            <td ng-bind="sensor.tags"></td>
 					        </tr>
 					        <tr>
 					            <td class="mdl-data-table__cell--non-numeric">
