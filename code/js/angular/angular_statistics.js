@@ -56,9 +56,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 for (i=0; i < $scope.houses.length; i++) {
                     $scope.select_locs[i] = $scope.all_locs;
                     if ($scope.all_locs) {
+                        var select_types = [];
+                        for (i = 0; i < $scope.types.length; i ++) {
+                          if ($scope.select_types[i]) {
+                              select_types.push($scope.types[i]);
+                          }
+                        }
                         addClass(document.getElementById("label-location_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
-                          if ($scope.sensors[j].location_LID === $scope.houses[i].LID) {
+                          if ($scope.sensors[j].location_LID === $scope.houses[i].LID && $scope.sensors[j].type in select_types) {
                               $scope.filtered_sensors.push($scope.sensors[j]);
                           }
                         }
@@ -80,9 +86,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 for (i=0; i < $scope.types.length; i++) {
                     $scope.select_types[i] = $scope.all_types;
                     if ($scope.all_types) {
+                        var select_houses = [];
+                        for (i = 0; i < $scope.houses.length; i++) {
+                            if ($scope.select_locs[i]) {
+                                  select_houses.push($scope.houses[i].LID);
+                            }
+                        }
                         addClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
-                          if ($scope.sensors[j].type === $scope.types[i]) {
+                          if ($scope.sensors[j].type === $scope.types[i] && $scope.sensors[j].location_LID in select_houses) {
                               $scope.filtered_sensors.push($scope.sensors[j]);
                           }
                         }
@@ -128,9 +140,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     removeClass(document.getElementById("label-all_locations"), "is-checked");
                 };
                 if (checked) {
+                    var select_types = [];
+                    for (i = 0; i < $scope.types.length; i ++) {
+                      if ($scope.select_types[i]) {
+                          select_types.push($scope.types[i]);
+                      }
+                    }
                     console.log("Checked location: sensors.length: " + $scope.sensors.length)
                     for (i = 0; i < $scope.sensors.length; i++) {
-                      if ($scope.sensors[i].location_LID === $scope.houses[index].LID) {
+                      if ($scope.sensors[i].location_LID === $scope.houses[index].LID && $scope.sensors[i].type in select_types) {
                           console.log("Location " + i + " adding");
                           $scope.filtered_sensors.push($scope.sensors[i]);
                           console.log("Length of filtered: " + $scope.filtered_sensors.length);
@@ -163,8 +181,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     removeClass(document.getElementById("label-all_types"), "is-checked");
                 };
                 if (checked) {
+                  var select_houses = [];
+                  for (i = 0; i < $scope.houses.length; i++) {
+                      if ($scope.select_locs[i]) {
+                            select_houses.push($scope.houses[i].LID);
+                      }
+                  }
                     for (i = 0; i < $scope.sensors.length; i++) {
-                      if ($scope.sensors[i].type === $scope.types[index]) {
+                      if ($scope.sensors[i].type === $scope.types[index] && $scope.sensors[i].location_LID in select_houses) {
                           $scope.filtered_sensors.push($scope.sensors[i]);
                       }
                     }
