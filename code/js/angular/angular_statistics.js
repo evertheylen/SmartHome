@@ -123,20 +123,24 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     removeClass(document.getElementById("label-all_locations"), "is-checked");
                 };
                 if (checked) {
+                    console.log("Checked location: sensors.length: " + $scope.sensors.length)
                     for (i = 0; i < $scope.sensors.length; i++) {
                       if ($scope.sensors[i].location_LID === $scope.houses[index].LID) {
+                          console.log("Location " + i + " adding");
                           $scope.filtered_sensors.push($scope.sensors[i]);
+                          console.log("Length of filtered: " + $scope.filtered_sensors.length);
                       }
                     }
                 } else {
-                  console.log("Unchecked a location");
+                  console.log("Unchecked a location filtered_sensors.length: " + $scope.filtered_sensors.length)
                   for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.filtered_sensors[i].location_LID != $scope.houses[index].LID) {
                         console.log(i + "th sensor doesnt have correct LID!");
                         $scope.filtered_sensors.slice(i, 1);
+                        console.log("Length of filtered: " + $scope.filtered_sensors.length);
                     }
                   }
-                }
+                };
                 
                 break;
                 
