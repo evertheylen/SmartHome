@@ -209,6 +209,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         checkCount++;
                     }
                 }
+                $scope.all_tags = ( checkCount === $scope.tags.length);
+                if ($scope.all_tags) {
+                    addClass(document.getElementById("label-all_tags"), "is-checked");
+                } else {
+                    removeClass(document.getElementById("label-all_tags"), "is-checked");
+                };
                 break;                
         }
     };
