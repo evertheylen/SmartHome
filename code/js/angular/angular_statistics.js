@@ -90,7 +90,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         var copy = [];
                         removeClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
-                          if ($scope.filtered_sensors[j].type === $scope.houses[i].type) {
+                          if ($scope.filtered_sensors[j].type != $scope.houses[i].type) {
                               copy.push($scope.filtered_sensors[i]);
                           }
                         }
@@ -140,7 +140,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                   var copy = [];
                   console.log("Unchecked a location filtered_sensors.length: " + $scope.filtered_sensors.length)
                   for (i = 0; i < $scope.filtered_sensors.length; i++) {
-                    if ($scope.filtered_sensors[i].location_LID === $scope.houses[index].LID) {
+                    if ($scope.filtered_sensors[i].location_LID != $scope.houses[index].LID) {
                         console.log(i + "th sensor doesnt have correct LID!");
                         copy.push($scope.filtered_sensors[i]);
                     }
