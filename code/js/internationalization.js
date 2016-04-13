@@ -55,7 +55,7 @@ var html_strings = {
     "share" : ["Share", "Deel"],
     "aggregate_loc" : ["Aggregate by location", "Groepeer per locatie"],
     "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
-    "aggregate_sensor" : ["Aggregate by sensor", "Groepeer per sensor"],
+    "aggregate_tag" : ["Aggregate by tag", "Groepeer per tag"],
     "open" : ["Open", "Openen"],
     "close" : ["Close", "Sluiten"],
     "delete_comment" : ["Delete comment", "Comment verwijderen"],

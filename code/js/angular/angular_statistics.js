@@ -26,12 +26,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 		$scope.sensors = response.objects;
 		$scope.$apply();
 	});
-	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
+	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}]; //TODO Get via db :D
 	
     $scope.aggregate_by = [false, false, false];
     $scope.select_locs = [];
     $scope.select_types = [];
-    $scope.select_sensors = [];
+    $scope.select_tags = [];
     
     $scope.filtered_sensors = [];
     $scope.$watch("filtered_sensors", function() {
@@ -46,8 +46,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         $scope.select_types.push(false);
     }
     
-    for (i = 0; i < $scope.sensors.length; i++) {
-        $scope.select_sensors.push(false);
+    for (i = 0; i < $scope.tags.length; i++) {
+        $scope.select_tags.push(false);
     }   
     
     $scope.select_all = function (type) {
@@ -111,13 +111,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 };
                 break;
 
-            case "sensor" :
-                for (i=0; i < $scope.sensors.length; i++) {
-                    $scope.select_sensors[i] = $scope.all_sensors;
-                    if ($scope.all_sensors) {
-                        addClass(document.getElementById("label-sensor_" + i), "is-checked");
+            case "tag" :
+                for (i=0; i < $scope.tags.length; i++) {
+                    $scope.select_tags[i] = $scope.all_tags;
+                    if ($scope.all_tags) {
+                        addClass(document.getElementById("label-tag_" + i), "is-checked");
                     } else {
-                        removeClass(document.getElementById("label-sensor_" + i), "is-checked");
+                        removeClass(document.getElementById("label-tag_" + i), "is-checked");
                     }
                 };
                 break;
@@ -203,9 +203,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 }
                 break;            
                 
-            case "sensor" :
-                for (i=0; i < $scope.sensors.length; i++) {
-                    if ($scope.select_sensors[i]) {
+            case "tag" :
+                for (i=0; i < $scope.tags.length; i++) {  // TODO Do filtering with tags (Check in db for tags and sensors)
+                    if ($scope.select_tags[i]) {
                         checkCount++;
                     }
                 }
