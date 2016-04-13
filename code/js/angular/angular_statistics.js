@@ -36,7 +36,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.filtered_sensors = $scope.sensors;
     $scope.$watch("filtered_sensors", function() {
         console.log("Filtered_sensors changed!")
-        $scope.$apply();
         componentHandler.upgradeDom();
     });
     for (i = 0; i< $scope.houses.length; i++) {
