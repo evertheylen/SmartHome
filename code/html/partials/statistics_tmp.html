@@ -1,4 +1,7 @@
 <div ng-controller="statisticsController">
+	<div ng-repeat="sensor in filtered_sensors track by sensor.SID" on-finish-render="ngRepeatFinished">
+		{{sensor.location_LID}} {{sensor.type}} {{sensor.name}}
+	</div>
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
 	<div id="box1" class="box" style="z-index: -4;">
 		<div class="header">
@@ -61,7 +64,7 @@
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-location_{{$index}}" for="list-checkbox-location_{{$index}}">
-					                        <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location')"/>
+					                        <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location', $index)"/>
 					                    </label>
 					                </span>
 					                <span style="display: inline-block;" ng-bind="house.description"></span>
@@ -93,7 +96,7 @@
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-type_{{$index}}" for="list-checkbox-type_{{$index}}">
-					                        <input type="checkbox" id="list-checkbox-type_{{$index}}" class="mdl-checkbox__input" ng-model="select_types[$index]" ng-change="checkStatus('type')"/>
+					                        <input type="checkbox" id="list-checkbox-type_{{$index}}" class="mdl-checkbox__input" ng-model="select_types[$index]" ng-change="checkStatus('type', $index)"/>
 					                    </label>
 					                </span>
 					                <span style="display: inline-block;" ng-bind="i18n(type)"></span>
@@ -124,7 +127,7 @@
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-sensor_{{$index}}" for="list-checkbox-sensor_{{$index}}">
-					                        <input type="checkbox" id="list-checkbox-sensor_{{$index}}" class="mdl-checkbox__input" ng-model="select_sensors[$index]" ng-change="checkStatus('sensor')"/>
+					                        <input type="checkbox" id="list-checkbox-sensor_{{$index}}" class="mdl-checkbox__input" ng-model="select_sensors[$index]" ng-change="checkStatus('sensor', $index)"/>
 					                    </label>
 					                </span>
 					                <span style="display: inline-block;" ng-bind="sensor.title"></span>
