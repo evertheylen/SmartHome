@@ -138,14 +138,12 @@ class Controller(metaclass=MetaController):
         else:
             # Manual initialisation because password isn't in json
             hash = await self.create_password(req.data["password"])
-            # isAdmin = False
             w = Wall(is_user=True)
             await w.insert(self.db)
-            # if "admin" in req.data: isAdmin = req.data["admin"]
             u = User(email=req.data["email"], password=hash,
                      first_name=req.data["first_name"], last_name=req.data["last_name"],
                      wall=w.key,
-                    #  admin=isAdmin
+                     admin=False,
                     )
             await u.insert(self.db)
             await req.answer({
@@ -321,7 +319,11 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
-            users = await User.get().all(self.db)
+            users = await User.get(User.key != u.key).all(self.db)
+            # print("commence")
+            # users = await User.raw("SELECT * FROM table_user").all(self.db)
+            # print(users)
+            # print("PASSED")
             await req.answer([u.json_repr() for v in users])
 
     @handle_ws_type("edit")

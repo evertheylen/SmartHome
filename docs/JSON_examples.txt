@@ -9,7 +9,7 @@ login
 {"type": "login", "ID": 20, "data": {"email": "user_1@mail", "password": "testtest"}}
 
 login2
-{"type": "login", "ID": 21, "data": {"email": "ant@mail", "password": "testtest"}}
+{"type": "login", "ID": 21, "data": {"email": "user_2@mail", "password": "testtest"}}
 
 logout
 {"type": "logout", "ID": 300}
@@ -54,6 +54,9 @@ sensor_getall_for_loc
 
 sensor_getall_for_user1
 {"type": "get_all", "ID": 600, "what": "Sensor", "for": {"what": "User", "UID": 1}}
+
+user_get_all_for_user1
+{"type":"get_all","what":"User","for":{"what":"User","UID":1},"ID":2}
 
 
 delete_sensor1
