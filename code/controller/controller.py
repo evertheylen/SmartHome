@@ -142,9 +142,8 @@ class Controller(metaclass=MetaController):
             await w.insert(self.db)
             u = User(email=req.data["email"], password=hash,
                      first_name=req.data["first_name"], last_name=req.data["last_name"],
-                     wall=w.key,
                      admin=False,
-                    )
+                     wall=w.key,)
             await u.insert(self.db)
             await req.answer({
                 "status": "success",
