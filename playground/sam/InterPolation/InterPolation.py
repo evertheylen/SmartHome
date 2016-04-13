@@ -19,6 +19,8 @@ class InterPolate:
         self.dataPoints = []
         # P_ij is a reference to the Numerical Analasys course 2Ba-Inf University Antwerp p21-22
         self.P_ij = None
+        # just to remember which Pi i'm on
+        self.Neville = 0
 
     def info(self):
         # Prints the optional string you gave to this object
@@ -28,6 +30,7 @@ class InterPolate:
     def getMaximumTime(self):
         # Of course you cannot exceed your previous data point, that would be extrapolation
         # this is the maximum value you can submit in InterPolate.getData(self, point)
+           # TODO remove this function, its baaaaaaad
         if (len(self.dataPoints) == 0):
             return 0;
         total = 0;
@@ -40,15 +43,73 @@ class InterPolate:
         # data is the data gathered over the period defined by length 
         # obvious arguments
         # TODO add exception maybe (prevent hax like negative length)
-        self.dataPoints.append(DataPoint(length, data))
+        if (len(self.dataPoints) == 0):
+            dataPointStart = 0
+        else:
+            dataPointStart = self.dataPoints[len(self.dataPoints) - 1].length
+        newLength = length + dataPointStart
+        self.dataPoints.append(DataPoint(newLength, data))
+        self.adjustNeville()
 
     def adjustNeville(self):
         # For in-class use only
         # Adds the DataPoint in the back of self.dataPoints using the Neville Method
         # This function is a reference to the Numerical Analasys course 2Ba-Inf University Antwerp p21-22
-        i = i+1
-        
+        data = self.dataPoints[len(self.dataPoints) - 1].data
+        length = self.dataPoints[len(self.dataPoints) - 1].length
+        if (self.P_ij == None):
+            # base case
+            poly = Polynomial()
+            poly.setCoeff(data, 0)
+            self.P_ij = {"0": [poly, length]}
+            self.Neville += 1
+            return
+        # see p 22 of the course (the table; here we generate a row)
+        currentIndex = ""
+        for i in range(0, self.Neville + 1):
+            if (i != 0):
+                currentIndex = str(self.Neville - i) + "," + currentIndex
+            else:
+                currentIndex = str(self.Neville - i)
+            tj = self.dataPoints[self.Neville - i].length
+            tjk = self.dataPoints[self.Neville].length
+            tj_data = self.dataPoints[self.Neville - i].data
+            tjk_data = self.dataPoints[self.Neville].data
+            NevillePoly = self.createNeville(currentIndex, tj, tjk, tj_data, tjk_data)
+            self.P_ij[currentIndex] = [NevillePoly, length]
+        self.Neville += 1
 
+    def createNeville(self, index, tj, tjk, tj_data, tjk_data):
+        # Creates Neville Polynome with that index (see course referred to)
+        # Assumes all needed Polynomes exist
+        # don't use this outside the class pls
+        # tjk refers to t(j + k) in t
+        indices = index.split(",")
+        if (len(indices) == 1):
+            poly = Polynomial()
+            poly.setCoeff(tjk_data, 0)
+            return poly
+        needed = indices[:]
+        del needed[0]
+        neededIndex = ",".join(needed)
+
+        poly1 = self.P_ij[neededIndex][0]
+        needed2 = indices[:]
+        del needed2[len(needed2) - 1]
+        neededIndex2 = ",".join(needed2)
+        poly2 = self.P_ij[neededIndex2][0]
+
+        poly11 = Polynomial()
+        poly11.setCoeff(1, 1)
+        poly11.setCoeff(-tj, 0)
+
+        poly22 = Polynomial()
+        poly22.setCoeff(1, 1)
+        poly22.setCoeff(-tjk, 0)
+
+        resultPolyNomial = (poly11 * poly1 - poly22 * poly2)
+        resultPolyNomial.divide(tjk - tj)
+        return resultPolyNomial
 
 
 
@@ -99,6 +160,13 @@ class Polynomial:
         newPoly.normalize()
         return newPoly
 
+    def __sub__(self, otherPolynomial):
+        poly = Polynomial()
+        for i in range(len(otherPolynomial.coeff)):
+            poly.setCoeff(-otherPolynomial.getCoeff(i), i)
+        retVal = poly.__add__(self)
+        return retVal
+
     def __mul__(self, otherPolynomial):
         newPoly = Polynomial()
         newPoly.setCoeff(0, self.degree() + otherPolynomial.degree())
@@ -109,6 +177,16 @@ class Polynomial:
                 newPoly.setCoeff(oldCoeff + addCoeff, i + j)
         newPoly.normalize()
         return newPoly
+
+    def divide(self, integer):
+        for i in range(len(self.coeff)):
+            self.coeff[i] /= integer
+
+    def getValue(self, point):
+        total = self.coeff[0]
+        for i in range(1, len(self.coeff)):
+            total += self.coeff[i] * pow(point, i)
+        return total
 
     def __str__(self):
         retVal = "P(X) = "
@@ -125,7 +203,13 @@ class Polynomial:
             retVal += str(abs(self.coeff[i])) + "X^(" + str(i) + ")"
         return retVal
 
+IP = InterPolate(False)
+IP.addDataPoint(5,78)
+IP.addDataPoint(5,61)
+IP.addDataPoint(5,48)
+IP.addDataPoint(5,36)
+IP.addDataPoint(5,29)
+IP.addDataPoint(5,22)
 
-
-
+print(IP.P_ij["0,1,2,3,4,5"][0].getValue(18))
 
