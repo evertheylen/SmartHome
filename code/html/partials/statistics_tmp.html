@@ -236,8 +236,8 @@
 					<form action="#">
 						<span style="font-size: x-large;" ng-bind="i18n('show_data_from')"></span>
 						<span id="sinceInput" class="mdl-textfield mdl-js-textfield">
-						    <input class="mdl-textfield__input" type="number" pattern="[1-9][0-9]*" id="inputNumber"/>
-						    <label class="mdl-textfield__label" for="inputNumber" ng-bind="i18n('amount')" ng-model="number_of_time_back"></label>
+						    <input class="mdl-textfield__input" type="number" pattern="[1-9][0-9]*" id="inputNumber" ng-model="number_of_time_back"/>
+						    <label class="mdl-textfield__label" for="inputNumber" ng-bind="i18n('amount')"></label>
 						    <span class="mdl-textfield__error" ng-bind="i18n('amount_error')"></span>
 						</span>
 						<span style="font-size: x-large;" ng-bind="i18n('back')"></span>
