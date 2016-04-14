@@ -253,7 +253,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
       }
     });
     $scope.total_days = 0;
-    
+    $scope.type_of_time = "days";
     
     // GRAPH MAKING
     
@@ -299,7 +299,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             graph.data.push(sensor_data);
         }
         $scope.graphs.push(graph);
-        $scope.open_box(4);
+        if (!hasClass(document.getElementById("box4"), "open")) {
+          $scope.open_box(4);
+        }
         componentHandler.upgradeDom();
     }
     
