@@ -246,35 +246,29 @@
 						</div>
 					</form>
 				</div>
-				<div id="txtfield_SensorType" class="mdl-selectfield">
-				    <label>Type</label>
-				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');" ng-bind="i18n('pick_type')">
-				    </button>
-				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
-				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
-				        <li>
-				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="i18n(type)">
-				            </li>
-				        </li>
-				    </ul>
-				</div>
 				<div class="mdl-cell mdl-cell--2-col">
-					<div  id="txtfield_TimeUnit" class="mdl-selectfield">
-						<button id="dropDownTimeUnit" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_time_unit').parentNode, 'is-visible');" ng-bind="i18n('pick_time_unit')">
-						</button>
-						<input type="hidden" ng-model="time_unit" name="selectTimeUnit" required></input>
-						<ul  id="select_time_unit" class="mdl-menu mdl-menu--bottom-left" for="dropDownTimeUnit"
-							style="overflow-y: scroll; max-height: 140px;">
-							<li>
-								<li id="btnSelect-TU-0" class="mdl-menu__item" ng-click="dropDownClick('days')" tabindex="-1" ng-bind="i18n('days')">
-								</li>
-								<li id="btnSelect-TU-1" class="mdl-menu__item" ng-click="dropDownClick('months')" tabindex="-1" ng-bind="i18n('months')">
-								</li>
-								<li id="btnSelect-TU-2" class="mdl-menu__item" ng-click="dropDownClick('years')" tabindex="-1" ng-bind="i18n('years')">
-								</li>
-							</li>
-						</ul>
-					</div>
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked/>
+						<span class="mdl-radio__label">Days</span>
+					</label>
+					<div id="spacer1" style="display: block"></div>
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+						<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2"/>
+						<span class="mdl-radio__label">Months</span>
+					</label>
+					<div id="spacer2" style="display: block"></div>
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+						<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3"/>
+						<span class="mdl-radio__label">Years</span>
+					</label>
+				</div>
+				<div class="mdl-cell mdl-cell--8-col">
+					<span style="float: right;">
+						<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
+						    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
+						    <span class="mdl-checkbox__label">Merge if possible</span>
+						</label>
+					</span>
 				</div>
 				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col" ng-bind="i18n('show_data')">
 				</button>

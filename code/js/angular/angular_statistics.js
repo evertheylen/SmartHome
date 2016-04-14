@@ -235,54 +235,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     };
 
-    // Dropdown selection
-    /*	$scope.dropDownClick = function (what) {
-		var toChange = document.getElementById("dropDownTimeUnit");
-		switch (what) {
-			case 'days':
-					  toChange.innerHTML = $scope.i18n("days");
-					  break;
-			case 'months':
-            toChange.innerHTML = $scope.i18n("months");
-            break;
-      case 'years':
-            toChange.innerHTML = $scope.i18n("years");
-            break;
-		}
-		removeClass(document.getElementById("select_time_unit").parentNode, "is-visible");
-	}*/
-  
-  	$scope.dropDownClick = function (value, menu, button, ng_model) {
-      console.log("Clicked selection :D");
-    var toChange = document.getElementById(button);
-		toChange.innerHTML = value;
-		switch (ng_model) {
-			case 'type':
-			    	if (value === null) {
-					    toChange.innerHTML = $scope.i18n("pick_type");
-					    break;
-			    	} else {
-			    	    toChange.innerHTML = $scope.i18n(value);
-			    	}
-				    $scope.sen_type = value;
-				    break;
-			case 'house':
-				if (value === null) {
-					toChange.innerHTML = $scope.i18n("pick_loc");
-					break;
-				}
-				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
-				response.object._scopes.push($scope);
-	    			toChange.innerHTML = response.object.description;
-    				$scope.sen_house = value;
-    				$scope.$apply();
-	            }); 
-				break; 
-		}
-		removeClass(document.getElementById(menu).parentNode, "is-visible");
-	}
-  componentHandler.upgradeDom();
- 
     //Aggregation:
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
