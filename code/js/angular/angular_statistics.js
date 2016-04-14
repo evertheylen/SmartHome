@@ -299,6 +299,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             graph.data.push(sensor_data);
         }
         $scope.graphs.push(graph);
+        $scope.open_box(4);
         componentHandler.upgradeDom();
     }
     
