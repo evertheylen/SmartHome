@@ -247,7 +247,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
           $scope.total_days = 365*$scope.number_of_time_back;
           break;
       }
-      $scope.$apply();
     });
     $scope.total_days = 0;
     
