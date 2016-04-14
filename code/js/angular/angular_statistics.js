@@ -281,6 +281,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
+  componentHandler.upgradeDom();
  
     //Aggregation:
     /*
