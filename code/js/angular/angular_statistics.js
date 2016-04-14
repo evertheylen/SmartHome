@@ -286,7 +286,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             };
             break;
           case 'years' :
-            for(i=0; i < $scope.total_years; i+=365) {
+            for(i=0; i < $scope.total_days; i+=365) {
               graph.labels.push("year " + i/365);
             }
         }
