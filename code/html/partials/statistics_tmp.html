@@ -248,17 +248,17 @@
 				</div>
 				<div class="mdl-cell mdl-cell--2-col">
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked/>
+						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="days" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label">Days</span>
 					</label>
 					<div id="spacer1" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-						<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2"/>
+						<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="months" ng-model="type_of_time"/>
 						<span class="mdl-radio__label">Months</span>
 					</label>
 					<div id="spacer2" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-						<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3"/>
+						<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="years" ng-model="type_of_time"/>
 						<span class="mdl-radio__label">Years</span>
 					</label>
 				</div>
@@ -272,6 +272,7 @@
 				</div>
 				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col" ng-bind="i18n('show_data')">
 				</button>
+				<span>{{total_days}}</span>
 			</div>
 
 

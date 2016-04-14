@@ -235,6 +235,22 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     };
 
+    $scope.$watch("number_of_time_back + type_of_time", function() {
+      switch ($scope.type_of_time) {
+        case "days":
+          $scope.total_days = $scope.number_of_time_back;
+          break;
+        case "months":
+          $scope.total_days = 30*$scope.number_of_time_back;
+          break;
+        case "years":
+          $scope.total_days = 365*$scope.number_of_time_back;
+          break;
+      }
+      $scope.$apply();
+    });
+    $scope.total_days = 0;
+    
     //Aggregation:
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
