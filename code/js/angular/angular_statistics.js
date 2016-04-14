@@ -233,7 +233,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         checkCount++;
                     }
                }
-               $scope.all_sensors = ( checkCount === $scope.sensors.length);
+               $scope.all_sensors = ( checkCount === $scope.filtered_sensors.length);
                if ($scope.all_sensors) {
                     addClass(document.getElementById("label-all_sensors"), "is-checked");
                } else {
