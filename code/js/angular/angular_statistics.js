@@ -11,6 +11,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
       } else {
         addClass(document.getElementById("box" + id), "open");
       }
+      componentHandler.upgradeDom();
     }
     
     $scope.houses = [];
