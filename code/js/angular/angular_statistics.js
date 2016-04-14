@@ -243,6 +243,22 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     };
 
+    // Dropdown selection
+    	$scope.dropDownClick = function (what) {
+		var toChange = document.getElementById("dropDownTimeUnit");
+		switch (what) {
+			case 'days':
+					  toChange.innerHTML = $scope.i18n("days");
+					  break;
+			case 'months':
+            toChange.innerHTML = $scope.i18n("months");
+            break;
+      case 'years':
+            toChange.innerHTML = $scope.i18n("years");
+            break;
+		}
+		removeClass(document.getElementById("select_time_unit").parentNode, "is-visible");
+	}
  
     //Aggregation:
     /*

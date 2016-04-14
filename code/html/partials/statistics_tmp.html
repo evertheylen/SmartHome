@@ -238,38 +238,31 @@
 						<span id="sinceInput" class="mdl-textfield mdl-js-textfield">
 						    <input class="mdl-textfield__input" type="number" pattern="[1-9][0-9]*" id="inputNumber"/>
 						    <label class="mdl-textfield__label" for="inputNumber" ng-bind="i18n('amount')" ng-model="number_of_time_back"></label>
-						    <span class="mdl-textfield__error">Input must be a number greater than 0!</span>
+						    <span class="mdl-textfield__error" ng-bind="i18n('amount_error')"></span>
 						</span>
 						<span style="font-size: x-large;" ng-bind="i18n('back')"></span>
-						<div class="mdl-tooltip" for="sinceInput">
-						    Amount of days/months/years you want to look back in time
+						<div class="mdl-tooltip" for="sinceInput" ng-bind="i18n('amount_help')">
+						    
 						</div>
 					</form>
 				</div>
-
 				<div class="mdl-cell mdl-cell--2-col">
-					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked/>
-						<span class="mdl-radio__label">Days</span>
-					</label>
-					<div id="spacer1" style="display: block"></div>
-					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-						<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2"/>
-						<span class="mdl-radio__label">Months</span>
-					</label>
-					<div id="spacer2" style="display: block"></div>
-					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-						<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3"/>
-						<span class="mdl-radio__label">Years</span>
-					</label>
-				</div>
-				<div class="mdl-cell mdl-cell--8-col">
-					<span style="float: right;">
-						<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
-						    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
-						    <span class="mdl-checkbox__label" ng-bind="i18n('merge_checkbox')"></span>
-						</label>
-					</span>
+					<div  id="txtfield_SensorLocation" class="mdl-selectfield">
+						<button id="dropDownTimeUnit" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_time_unit').parentNode, 'is-visible');" ng-bind="i18n('pick_time_unit')">
+						</button>
+						<input type="hidden" ng-model="time_unit" name="selectTimeUnit" required></input>
+						<ul  id="select_time_unit" class="mdl-menu mdl-menu--bottom-left" for="dropDownTimeUnit"
+							style="overflow-y: scroll; max-height: 140px;">
+							<li>
+								<li id="btnSelect-TU-0" class="mdl-menu__item" ng-click="dropDownClick('days')" tabindex="-1" ng-bind="i18n('days')">
+								</li>
+								<li id="btnSelect-TU-0" class="mdl-menu__item" ng-click="dropDownClick('months')" tabindex="-1" ng-bind="i18n('months')">
+								</li>
+								<li id="btnSelect-TU-0" class="mdl-menu__item" ng-click="dropDownClick('years')" tabindex="-1" ng-bind="i18n('years')">
+								</li>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col" ng-bind="i18n('show_data')">
 				</button>

@@ -82,4 +82,10 @@ var html_strings = {
     "merge_checkbox" : ["Merge if possible", "Samenvoegen indien mogelijk"],
     "show_data_from" : ["Show data from ", "Toon data van "],
     "amount" : ["number", "aantal"],
+    "amount_help" : ["Amount of days/months/years you want to look back in time", "Aantal dagen/maanden/jaren terug, waarvan u de data wilt bekijken"],
+    "amount_error" : ["Input must be a number greater than 0!", "Input moet groter zijn dan 0!"],
+    "pick_time_unit" : ["Pick a time unit", "Kies een tijdseenheid"],
+    "days" : ["Days", "Dagen"],
+    "months" : ["Months", "Maanden"],
+    "years" : ["Years", "Jaren"],
 };
