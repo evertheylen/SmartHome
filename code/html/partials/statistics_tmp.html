@@ -247,7 +247,7 @@
 					</form>
 				</div>
 				<div class="mdl-cell mdl-cell--2-col">
-					<div  id="txtfield_SensorLocation" class="mdl-selectfield">
+					<div  id="txtfield_TimeUnit" class="mdl-selectfield">
 						<button id="dropDownTimeUnit" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_time_unit').parentNode, 'is-visible');" ng-bind="i18n('pick_time_unit')">
 						</button>
 						<input type="hidden" ng-model="time_unit" name="selectTimeUnit" required></input>
@@ -256,9 +256,9 @@
 							<li>
 								<li id="btnSelect-TU-0" class="mdl-menu__item" ng-click="dropDownClick('days')" tabindex="-1" ng-bind="i18n('days')">
 								</li>
-								<li id="btnSelect-TU-0" class="mdl-menu__item" ng-click="dropDownClick('months')" tabindex="-1" ng-bind="i18n('months')">
+								<li id="btnSelect-TU-1" class="mdl-menu__item" ng-click="dropDownClick('months')" tabindex="-1" ng-bind="i18n('months')">
 								</li>
-								<li id="btnSelect-TU-0" class="mdl-menu__item" ng-click="dropDownClick('years')" tabindex="-1" ng-bind="i18n('years')">
+								<li id="btnSelect-TU-2" class="mdl-menu__item" ng-click="dropDownClick('years')" tabindex="-1" ng-bind="i18n('years')">
 								</li>
 							</li>
 						</ul>
