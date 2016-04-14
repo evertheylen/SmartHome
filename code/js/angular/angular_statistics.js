@@ -269,10 +269,26 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
       }
         var graph = {};
         graph.type = "Line";
-        graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        graph.labels = [];
         graph.series = [];
         for (i = 0; i < final_sensors.length; i++) {
           graph.series.push(final_sensors[i].title);
+        }
+        switch ($scope.type_of_time) {
+          case 'days' :
+            for (i=0; i < $scope.total_days; i++) {
+              graph.labels.push("day " + i);
+            };
+            break;
+          case 'months' :
+            for (i=0; i < $scope.total_days; i+=30) {
+              graph.labels.push("month " + i);
+            };
+            break;
+          case 'years' :
+            for(i=0; i < $scope.total_years; i+=365) {
+              graph.labels.push("year " + i);
+            }
         }
         graph.data = [];
         for (i = 0; i < final_sensors.length; i++) {
