@@ -77,5 +77,9 @@ var html_strings = {
     "box1_title" : ["Select sensors by locations, types or tags", "Selecteer sensors op basis van locaties, types or tags"],
     "box2_title" : ["Refine your selection by selecting sensors individually", "Verfijn uw zoekopdracht door sensors individueel te selecteren"],
     "box3_title" : ["Choose the timespan", "Kies de tijdspanne"],
-    "box4_title" : ["Resulting graphs", "Resulterende grafieken"]
+    "box4_title" : ["Resulting graphs", "Resulterende grafieken"],
+    "show_data" : ["Show data", "Toon data"],
+    "merge_checkbox" : ["Merge if possible", "Samenvoegen indien mogelijk"],
+    "show_data_from" : ["Show data from ", "Toon data van "],
+    "amount" : ["number", "aantal"],
 };
