@@ -74,4 +74,8 @@ var html_strings = {
                           "Het is niet toegestaan om sensors toe te voegen wanneer u nog geen locaties heeft toegevoegd.\nGelieve eerst een locatie aan te maken."],
     "ok" : ["Okay", "OK"],
     "add_friend" : ["Add friend", "Vriend toevoegen"],
+    "box1_title" : ["Select sensors by locations, types or tags", "Selecteer sensors op basis van locaties, types or tags"],
+    "box2_title" : ["Refine your selection by selecting sensors individually", "Verfijn uw zoekopdracht door sensors individueel te selecteren"],
+    "box3_title" : ["Choose the timespan", "Kies de tijdspanne"],
+    "box4_title" : ["Resulting graphs", "Resulterende grafieken"]
 };
