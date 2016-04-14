@@ -264,7 +264,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             final_sensors.push($scope.filtered_sensors[i]);
           }
       }
-      
+      if (final_sensors.length === 0 || $scope.total_days === 0) {
+        return;
+      }
         var graph = {};
         graph.type = "Line";
         graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -272,10 +274,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         for (i = 0; i < final_sensors.length; i++) {
           graph.series.push(final_sensors[i].title);
         }
-        graph.data = [
-            [65, 59,80,81,56,55,40,59,54,53,30,12],
-            [28,48,40,19,86,27,90,40,78,45,01,45]
-        ];
+        graph.data = [];
+        for (i = 0; i < final_sensors.length; i++) {
+            var sensor_data = [];
+            for (j=0; j < $scope.total_days; j++) {
+              sensor_data.push(Math.random() * (400 - 20) + 20);
+            }
+            graph.data.push(sensor_data);
+        }
         $scope.graphs.push(graph);
         componentHandler.upgradeDom();
     }

@@ -312,7 +312,6 @@
 					</div>
 					<div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')">
 					</div>
-					<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
 				</div>
 				<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
 				</div>
