@@ -36,10 +36,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_sensors = [];
     
     $scope.filtered_sensors = [];
-    $scope.$watch("filtered_sensors", function() {
-        console.log("Filtered_sensors changed!")
-        componentHandler.upgradeDom();
-    });
     for (i = 0; i< $scope.houses.length; i++) {
         $scope.select_locs.push(false);
     }
@@ -158,20 +154,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                           select_types.push($scope.types[i]);
                       }
                     }
-                    console.log("Checked location: sensors.length: " + $scope.sensors.length)
                     for (i = 0; i < $scope.sensors.length; i++) {
                       if ($scope.sensors[i].location_LID === $scope.houses[index].LID && select_types.indexOf($scope.sensors[i].type) != -1) {
-                          console.log("Location " + i + " adding");
                           $scope.filtered_sensors.push($scope.sensors[i]);
-                          console.log("Length of filtered: " + $scope.filtered_sensors.length);
                       }
                     }
                 } else {
                   var copy = [];
-                  console.log("Unchecked a location filtered_sensors.length: " + $scope.filtered_sensors.length)
                   for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.filtered_sensors[i].location_LID != $scope.houses[index].LID) {
-                        console.log(i + "th sensor doesnt have correct LID!");
                         copy.push($scope.filtered_sensors[i]);
                     }
                   }
@@ -245,7 +236,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
 
     // Dropdown selection
-    	$scope.dropDownClick = function (what) {
+    /*	$scope.dropDownClick = function (what) {
 		var toChange = document.getElementById("dropDownTimeUnit");
 		switch (what) {
 			case 'days':
@@ -259,6 +250,36 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             break;
 		}
 		removeClass(document.getElementById("select_time_unit").parentNode, "is-visible");
+	}*/
+  
+  	$scope.dropDownClick = function (value, menu, button, ng_model) {
+      console.log("Clicked selection :D");
+    var toChange = document.getElementById(button);
+		toChange.innerHTML = value;
+		switch (ng_model) {
+			case 'type':
+			    	if (value === null) {
+					    toChange.innerHTML = $scope.i18n("pick_type");
+					    break;
+			    	} else {
+			    	    toChange.innerHTML = $scope.i18n(value);
+			    	}
+				    $scope.sen_type = value;
+				    break;
+			case 'house':
+				if (value === null) {
+					toChange.innerHTML = $scope.i18n("pick_loc");
+					break;
+				}
+				ws.request({type: "get", what: "Location", data: {LID: value}}, function(response) {
+				response.object._scopes.push($scope);
+	    			toChange.innerHTML = response.object.description;
+    				$scope.sen_house = value;
+    				$scope.$apply();
+	            }); 
+				break; 
+		}
+		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
  
     //Aggregation:
