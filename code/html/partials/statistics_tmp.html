@@ -173,8 +173,8 @@
 					            <th class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <!--This checkbox selects all the sensors-->
-					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-12">
-					                        <input type="checkbox" id="list-checkbox-12" class="mdl-checkbox__input" checked />
+					                    <label id="sensor-all_tags" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-12">
+					                        <input type="checkbox" id="list-checkbox-all_sensors" class="mdl-checkbox__input" ng-model="all_sensors" ng-change="select_all('sensor')"/>
 					                    </label>
 					                </span>
 					                <span style="display: inline-block;">
@@ -190,8 +190,8 @@
 					        <tr ng-repeat="sensor in filtered_sensors track by sensor.SID" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
-					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-13">
-					                        <input type="checkbox" id="list-checkbox-13" class="mdl-checkbox__input" checked />
+					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-sensor_{{$index}}" for="list-checkbox-13">
+					                        <input type="checkbox" id="list-checkbox-sensor_{{$index}}" class="mdl-checkbox__input" ng-model="select_tags[$index]" ng-change="checkStatus('sensor', $index)"/>
 					                    </label>
 					                </span>
 					                <span style="display: inline-block;" ng-bind="sensor.title">

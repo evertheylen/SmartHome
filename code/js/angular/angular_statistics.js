@@ -32,6 +32,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_locs = [];
     $scope.select_types = [];
     $scope.select_tags = [];
+    $scope.select_sensors = [];
     
     $scope.filtered_sensors = [];
     $scope.$watch("filtered_sensors", function() {
@@ -121,6 +122,16 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     }
                 };
                 break;
+            case "sensor" :
+              for (i=0; i < $scope.filtered_sensors.length; i++) {
+                  $scope.select_sensors[i] = $scope.all_sensors;
+                  if ($scope.all_sensors) {
+                      addClass(document.getElementById("label-sensor_" + i), "is-checked");
+                  } else {
+                      removeClass(document.getElementById("label-sensor_" + i), "is-checked");
+                  }
+              };
+              break;
         }
     }; 
     
@@ -215,7 +226,20 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 } else {
                     removeClass(document.getElementById("label-all_tags"), "is-checked");
                 };
-                break;                
+                break;
+            case "sensor" :
+               for (i = 0; i < $scope.filtered_sensors.length; i++) {
+                    if ($scope.select_sensors[i]) {
+                        checkCount++;
+                    }
+               }
+               $scope.all_sensors = ( checkCount === $scope.sensors.length);
+               if ($scope.all_sensors) {
+                    addClass(document.getElementById("label-all_sensors"), "is-checked");
+               } else {
+                    removeClass(document.getElementById("label-all_sensors"), "is-checked");
+               }
+               break;
         }
     };
 
