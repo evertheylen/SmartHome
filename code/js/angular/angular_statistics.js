@@ -282,12 +282,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             break;
           case 'months' :
             for (i=0; i < $scope.total_days; i+=30) {
-              graph.labels.push("month " + i);
+              graph.labels.push("month " + i/30);
             };
             break;
           case 'years' :
             for(i=0; i < $scope.total_years; i+=365) {
-              graph.labels.push("year " + i);
+              graph.labels.push("year " + i/365);
             }
         }
         graph.data = [];
