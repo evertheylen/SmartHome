@@ -236,6 +236,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
 
     $scope.$watch("number_of_time_back + type_of_time", function() {
+      if (!($scope.number_of_time_back > 0)) {
+          $scope.total_days = 0;
+          return;
+      }
       switch ($scope.type_of_time) {
         case "days":
           $scope.total_days = $scope.number_of_time_back;
