@@ -249,7 +249,7 @@ class Controller(metaclass=MetaController):
             if req.data["user1_UID"] > req.data["user2_UID"]:
                 req.data["user1_UID"], req.data["user2_UID"] = req.data["user2_UID"], req.data["user1_UID"]
             if await Friendship.contains(req.data["user1_UID"],req.data["user2_UID"],self.db):
-                await req.answer({"status": "failure", "reason": "friendship already exists"})
+                raise Error("failure", "Friendship already exists.")
             else:
                 f = Friendship(json_dict=req.data)
                 await f.check_auth(req, db=self.db)
