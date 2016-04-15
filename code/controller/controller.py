@@ -247,9 +247,7 @@ class Controller(metaclass=MetaController):
         @case("Friendship")
         async def friendship(self, req):
             if req.data["user1_UID"] > req.data["user2_UID"]:
-                tempVar = req.data["user1_UID"]
-                req.data["user1_UID"] = req.data["user2_UID"]
-                req.data["user2_UID"] = tempVar
+                req.data["user1_UID"], req.data["user2_UID"] = req.data["user2_UID"], req.data["user1_UID"]
             if await Friendship.contains(req.data["user1_UID"],req.data["user2_UID"],self.db):
                 await req.answer({"status": "failure", "reason": "friendship already exists"})
             else:
