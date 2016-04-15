@@ -58,6 +58,9 @@ sensor_getall_for_user1
 user_get_all_for_user1
 {"type":"get_all","what":"User","for":{"what":"User","UID":1},"ID":2}
 
+group_get_all_for_user1
+{"type":"get_all","what":"Group","for":{"what":"User","UID":1},"ID":0}
+
 
 delete_sensor1
 {"ID":"9", "type": "delete", "what": "Sensor", "data": {"SID": 1}}

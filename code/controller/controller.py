@@ -246,10 +246,15 @@ class Controller(metaclass=MetaController):
 
         @case("Friendship")
         async def friendship(self, req):
-            f = Friendship(json_dict=req.data)
-            await f.check_auth(req, db=self.db)
-            await f.insert(self.db)
-            await req.answer(f.json_repr())
+            if req.data["user1_UID"] > req.data["user2_UID"]:
+                req.data["user1_UID"], req.data["user2_UID"] = req.data["user2_UID"], req.data["user1_UID"]
+            if await Friendship.contains(req.data["user1_UID"],req.data["user2_UID"],self.db):
+                await req.answer({"status": "failure", "reason": "friendship already exists"})
+            else:
+                f = Friendship(json_dict=req.data)
+                await f.check_auth(req, db=self.db)
+                await f.insert(self.db)
+                await req.answer(f.json_repr())
 
         @case("Membership")
         async def membership(self, req):
@@ -320,6 +325,19 @@ class Controller(metaclass=MetaController):
             await u.check_auth(req)
             users = await User.get(User.key != u.key).all(self.db)
             await req.answer([u.json_repr() for u in users])
+
+        @case("Group")
+        async def group(self, req):
+            check_for_type(req, "User")
+            u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
+            await u.check_auth(req)
+            memberships = await Membership.get(Membership.user == u.key).all(self.db)
+            print(await Membership.get(Membership.user == u.key).count(self.db))
+            groups = await Group.get(Group.key in [Membership.group for Membership in memberships]).all(self.db)
+            await req.answer([g.json_repr() for g in groups])
+
+
+        {"type":"get_all","what":"Group","for":{"what":"User","UID":4},"ID":0}
 
     @handle_ws_type("edit")
     @require_user_level(1)
