@@ -311,11 +311,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             	var sensor_data = [];
 		ws.request({type: "get_all", what: "Value", for: {what: "Sensor", SID: sensor_SID}, where: {field: "Value.time", op: "gt", value: date.getTime()}}, function(response) {
 			for(i = 0; i < response.objects.length; i++) 
-				sensor_data.push(response.objects[i].value);
+				sensor_data.push(response.objects[i][1]);
 			$scope.$apply();
 		}
             	graph.data.push(sensor_data);
-	}
+	});
 
         $scope.graphs.push(graph);
         if (!hasClass(document.getElementById("box4"), "open")) {
