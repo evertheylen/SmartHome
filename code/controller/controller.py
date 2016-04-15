@@ -246,10 +246,17 @@ class Controller(metaclass=MetaController):
 
         @case("Friendship")
         async def friendship(self, req):
-            f = Friendship(json_dict=req.data)
-            await f.check_auth(req, db=self.db)
-            await f.insert(self.db)
-            await req.answer(f.json_repr())
+            if req.data["user1_UID"] > req.data["user2_UID"]:
+                tempVar = req.data["user1_UID"]
+                req.data["user1_UID"] = req.data["user2_UID"]
+                req.data["user2_UID"] = tempVar
+            if await Friendship.contains(req.data["user1_UID"],req.data["user2_UID"],self.db):
+                await req.answer({"status": "failure", "reason": "friendship already exists"})
+            else:
+                f = Friendship(json_dict=req.data)
+                await f.check_auth(req, db=self.db)
+                await f.insert(self.db)
+                await req.answer(f.json_repr())
 
         @case("Membership")
         async def membership(self, req):
