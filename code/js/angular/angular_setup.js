@@ -40,7 +40,7 @@ angular.module('overwatch').filter('startFrom', function() {
 });
 
 angular.module("overwatch").run(function($rootScope, $location, Auth) {
-    $rootScope.$on('$routeChangeStart', function(event) {
+    $rootScope.$on('$stateChangeStart', function(event) {
         //console.log(Auth.getUser());
         console.log(Auth.isLoggedIn());
         if (!Auth.isLoggedIn() && $location.path() != '/') {
