@@ -10,7 +10,8 @@ Definition for object type ``Wall``
 ::
 
     {
-        "WID": "<class 'int'>"
+        "WID": "<class 'int'>",
+        "is_user":"<class 'bool'>"
     }
 
 Key properties are (might not be in definition): ``WID``
