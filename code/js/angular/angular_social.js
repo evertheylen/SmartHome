@@ -84,7 +84,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
     $scope.create_group = function() {
         if ($scope.group_form.$valid) {
-            var wall = new Wall(-1);
+            var wall = new Wall(-1, false);
             delete wall.WID;
             var group = new Group(-1, $scope.group_name, "desc", 0);
             delete group.GID;
@@ -95,7 +95,6 @@ angular.module("overwatch").controller("create_groupController", function($scope
             }, function(response) {
                 wall = response.object;
                 group.wall_WID = wall.WID;
-                // group.is_public = $scope.group_public;
                 ws.request({
                     type: "add",
                     what: "Group",

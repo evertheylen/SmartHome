@@ -1,6 +1,7 @@
 Wall.prototype = new DataType();
 Wall.prototype.constructor = Wall;
 
-function Wall(WID) {
+function Wall(WID, is_user) {
 	this.WID = WID
+    this.is_user = is_user;
 }
