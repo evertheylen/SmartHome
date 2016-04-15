@@ -101,12 +101,12 @@ angular.module("overwatch").controller("create_groupController", function($scope
                     data: group.toJSON()
                 }, function(response) {
                     group = response.object;
+                    $scope.groups.push(group);
                     $scope.$apply();
                 });
                 $scope.$apply();
             });
 
-            $scope.groups.push(group);
             document.getElementById('dlgGroup').close();
         }
     }
