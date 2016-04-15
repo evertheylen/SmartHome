@@ -86,26 +86,27 @@ angular.module("overwatch").controller("create_groupController", function($scope
         if ($scope.group_form.$valid) {
             var wall = new Wall(-1);
             delete wall.WID;
+            var group = new Group(-1, $scope.group_name, "desc", 0);
+            delete group.GID;
             ws.request({
                 type: "add",
                 what: "Wall",
                 data: wall.toJSON()
             }, function(response) {
                 wall = response.object;
+                group.wall_WID = wall.WID;
+                // group.is_public = $scope.group_public;
+                ws.request({
+                    type: "add",
+                    what: "Group",
+                    data: group.toJSON()
+                }, function(response) {
+                    group = response.object;
+                    $scope.$apply();
+                });
                 $scope.$apply();
             });
 
-            var group = new Group(-1, $scope.group_name, "desc", wall.WID);
-            delete group.GID;
-            // group.is_public = $scope.group_public;
-            ws.request({
-                type: "add",
-                what: "Group",
-                data: group.toJSON()
-            }, function(response) {
-                group = response.object;
-                $scope.$apply();
-            });
             $scope.groups.push(group);
             document.getElementById('dlgGroup').close();
         }
