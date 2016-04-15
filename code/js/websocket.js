@@ -7,9 +7,14 @@ var reconnects = 0; // The amount of times the websocket has attempted to reconn
 
 // Used to avoid duplicates of the same object. 
 var cache = {
-	Sensor: [],
-	Location: [],
+    Wall: [],
 	User: [],
+	Location: [],
+	Sensor: [],
+    Tag: [],
+    Status: [],
+    Like: [],
+    Friendship: [],
 	Group: [],
 
 	searchKey: function(type, key) {
@@ -225,35 +230,38 @@ function live_edit_response(response) {
 function getFilledObject(what, objectData) {
 	object = {};
 	switch(what) {
-		case "Sensor":
-			object = new Sensor();
-			break;
+        case "Wall":
+            object = new Wall();
+            break;
 		case "User":
 			object = new User();
 			break;
 		case "Location":
 			object = new Location();
 			break;
-		case "Group":
-			object = new Group();
-			break;
-		case "Friendship":
-			object = new Friendship();
-			break;
-        case "Like": 
-            object = new Like();
-            break;
-        case "Status":
-            object = new Status();
-            break;
-		case "Value":
-			object = new Value();	
+		case "Sensor":
+			object = new Sensor();
 			break;
 		/*
 		case "Tag":
 			object = new Tag();
 			break;
 		*/
+		case "Value":
+			object = new Value();	
+			break;
+        case "Status":
+            object = new Status();
+            break;
+        case "Like": 
+            object = new Like();
+            break;
+		case "Friendship":
+			object = new Friendship();
+			break;
+		case "Group":
+			object = new Group();
+			break;
 		default:
 			throw new Error("'What' in websocket request is of unknown type.");
 	}
@@ -264,24 +272,26 @@ function getFilledObject(what, objectData) {
 function getKey(type, data) {
     var key = [];
 	switch(type) {
-		case "Sensor":
-			key = ["SID"];
+        case "Wall":
+            key = ["WID"];
 		case "User":
 			key = ["UID"];
 		case "Location":
 		    key = ["LID"];
-		case "Group":
-			return ["GID"];
+		case "Sensor":
+			key = ["SID"];
 		case "Tag":
 			key = [""];
-		case "Friendship":
-			key = ["user_UID1", "user_UID2"];
-        case "Like":
-            key = ["status_SID", "user_UID"];
-        case "Status":
-            key = ["SID"];
 		case "Value":
 			key = ["sensor_SID"];
+        case "Status":
+            key = ["SID"];
+        case "Like":
+            key = ["status_SID", "user_UID"];
+		case "Friendship":
+			key = ["user_UID1", "user_UID2"];
+		case "Group":
+			return ["GID"];
 		default:
 			throw new Error("'What' in websocket request is of unknown type.");
 	}	
