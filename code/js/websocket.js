@@ -1,7 +1,7 @@
 var handlers = {}; // specify functions to deal with server messages (that aren't a reply)
 var answers = {};  // specify functions that need to be called when the server answers
 var currentId = 0; // ID to use for the next request.
-var requests = new Queue();  // Queue for strings that are waiting to be sent to the server.
+var requests = new Queue();  // Queue for requests that are waiting to be sent to the server.
 var reconnectLimit = 10; // The maximum amount of times a websocket is allowed to reconnect.
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
 
@@ -37,11 +37,10 @@ var cache = {
 			return object;
 		},
 
-		remove: function(type, key) {
+		removeObject: function(type, key) {
 			var index = cache.searchKey(type, key);
-			if(index !== -1) {
+			if(index !== -1)
 				cache[type].splice(index, 1);
-			}
 		}
 }; 
 
@@ -231,6 +230,14 @@ function getFilledObject(what, objectData) {
 		case "Group":
 			object = new Group();
 			break;
+		case "Value":
+			object = new Value();	
+			break;
+		/*
+		case "Tag":
+			object = new Tag();
+			break;
+		*/
 		default:
 			throw new Error("'What' in websocket request is of unknown type.");
 	}
@@ -248,6 +255,10 @@ function getKeyName(type) {
 			return "LID";
 		case "Group":
 			return "GID";
+		case "Tag":
+			return "";
+		case "Value":
+			return "sensor_SID";
 		default:
 			throw new Error("'What' in websocket request is of unknown type.");
 	}	
