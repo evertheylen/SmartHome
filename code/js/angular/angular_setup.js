@@ -39,14 +39,15 @@ angular.module('overwatch').filter('startFrom', function() {
     }
 });
 
-angular.module("overwatch").run(function($rootScope, $location, Auth) {
-    $rootScope.$on('$routeChangeStart', function(event) {
+angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
+    $rootScope.$on('$stateChangeStart', function(event) {
         //console.log(Auth.getUser());
         console.log(Auth.isLoggedIn());
         if (!Auth.isLoggedIn() && $location.path() != '/') {
             event.preventDefault();
             console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
             $location.path('/');
+            $state.transitionTo('state_index');
         } else if ($location.path() != '/') {
             console.log("Pass :)");
         }  
