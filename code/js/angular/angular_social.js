@@ -9,7 +9,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
 
     ws.request({
         type: "get_all",
-        what: "Group",
+        what: "group",
         for: {
             what: "User",
             UID: $rootScope.auth_user.UID
