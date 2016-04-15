@@ -15,8 +15,13 @@ var cache = {
 	searchKey: function(type, key) {
 		var array = cache[type];
 		for (var i=0; i < array.length; i++) {
-			if (array[i].key === key) 
-			    return i;
+			if (!array[i].key || !key || array[i].length != key.length)
+				continue;
+			for (var i = 0; i < array[i].length; i++) {    
+				if (this[i] != array[i])
+			    		continue   
+			}
+			return i;
 		}
 		return -1;
 	},
@@ -141,7 +146,7 @@ function add_response(response) {
 	var type = response["what"];
 	var data = response["data"];
 	var object = getFilledObject(type, data);
-	cache[type].push({key: data[getKeyName(type)], object: object});
+	cache[type].push({key: data[getKey(type)], object: object});
 	return {success: true, for: response["for"], object: object};
 }
 
@@ -154,7 +159,7 @@ function delete_response(response) {
 function get_response(response) {
 	var type = response["what"];
 	var data = response["data"];
-	var key = data[getKeyName(type)];  
+	var key = data[getKey(type)];  
 	return {for: response["for"], object: cache.getObject(type, key, data)}
 }
 
@@ -164,16 +169,16 @@ function get_all_response(response) {
 	var data = response["data"];
 	if(type == "value")
 		return {for: response["for"], objects: data};
-	var keyName = getKeyName(type);  
+	var key = getKey(type);  
 	for(i = 0; i < data.length; i++)
-		objects.push(cache.getObject(type, data[i][keyName], data[i]));
+		objects.push(cache.getObject(type, data[i][key], data[i]));
 	return {for: response["for"], objects: objects};
 }
 
 function edit_response(response) {
 	var type = response["what"];
 	var data = response["data"];
-	var key = data[getKeyName(type)];  
+	var key = data[getKey(type)];  
 	return cache.getObject(type, key, data);
 }
 
@@ -181,11 +186,11 @@ function live_add_response(response) {
 	var type = response["what"];
 	var data = response["data"];
 	var object = getFilledObject(type, data);
-	cache[type].push({key: data[getKeyName(type)], object: object});
+	cache[type].push({key: data[getKey(type)], object: object});
 
 	var parentData = response["for"];
 	var parentType = parentData["what"];
-	var parent = cache.getObject(parentType, parentData[getKeyName(parentType)], null);  
+	var parent = cache.getObject(parentType, parentData[getKey(parentType)], null);  
 	// Update all html references of the parent.
 	return {for: response["for"], object: object};
 }
@@ -194,12 +199,12 @@ function live_delete_response(response) {
 	var type = response["what"];
 	var data = response["data"];
 	var object = getFilledObject(type, data);
-	cache[type].push({key: data[getKeyName(type)], object: object});
+	cache[type].push({key: data[getKey(type)], object: object});
 
 	if(response["for"] != undefined) {
 		var parentData = response["for"];
 		var parentType = parentData["what"];
-		var parent = cache.getObject(parentType, parentData[getKeyName(parentType)], null);  
+		var parent = cache.getObject(parentType, parentData[getKey(parentType)], null);  
 		// Update all html references of the parent.
 		return true;
 	}
@@ -236,6 +241,9 @@ function getFilledObject(what, objectData) {
 		case "Friendship":
 			object = new Friendship();
 			break;
+        case "Like": 
+            object = new Like();
+            break;
 		case "Value":
 			object = new Value();	
 			break;
@@ -251,20 +259,24 @@ function getFilledObject(what, objectData) {
 	return object;
 }
 
-function getKeyName(type) {
+function getKey(type) {
 	switch(type) {
 		case "Sensor":
-			return "SID";
+			return ["SID"];
 		case "User":
-			return "UID";
+			return ["UID"];
 		case "Location":
-			return "LID";
+			return ["LID"];
 		case "Group":
-			return "GID";
+			return ["GID"];
 		case "Tag":
-			return "";
+			return [""];
+		case "Friendship":
+			return ["user_UID1", "user_UID2"];
+        case "Like":
+            return ["status_SID", "user_UID"];
 		case "Value":
-			return "sensor_SID";
+			return ["sensor_SID"];
 		default:
 			throw new Error("'What' in websocket request is of unknown type.");
 	}	
