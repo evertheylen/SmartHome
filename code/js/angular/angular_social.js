@@ -3,33 +3,35 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     $rootScope.tab = "sociallink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     componentHandler.upgradeDom();
-    
-    
-	$scope.groups = [] // TODO Get from database
 
-	/*
 
-	ws.request({type: "get_all", what: "Group", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
-		$scope.groups = response.objects;
-		$scope.$apply();
-	});
+    $scope.groups = []
 
-	*/
+    ws.request({
+        type: "get_all",
+        what: "Group",
+        for: {
+            what: "User",
+            UID: $rootScope.auth_user.UID
+        }
+    }, function(response) {
+        $scope.groups = response.objects;
+        $scope.$apply();
+    });
 
-    
-	$scope.open_dialog = function (element_id) {
+    $scope.open_dialog = function(element_id) {
         var element = document.getElementById(element_id);
         element.showModal();
         $rootScope.$emit(element_id + "_open");
         componentHandler.upgradeDom();
-    } 
+    }
 });
 
-angular.module("overwatch").directive('myEnter', function () {
-    return function (scope, element, attrs) {
-        element.bind("keydown keypress", function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
+angular.module("overwatch").directive('myEnter', function() {
+    return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+            if (event.which === 13) {
+                scope.$apply(function() {
                     scope.$eval(attrs.myEnter);
                 });
 
@@ -48,19 +50,32 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
 });
 
 angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope) {
-	$scope.users = [];
-  ws.request({type: "get_all", what: "User", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
-		$scope.users = response.objects;
-    for (i = 0 ; i < $scope.users.length; i++) {
-        $scope.users[i].full_name = $scope.users[i].first_name + " " + $scope.users[i].last_name;
-    }
+    $scope.users = [];
+    ws.request({
+        type: "get_all",
+        what: "User",
+        for: {
+            what: "User",
+            UID: $rootScope.auth_user.UID
+        }
+    }, function(response) {
+        $scope.users = response.objects;
+        for (i = 0; i < $scope.users.length; i++) {
+            $scope.users[i].full_name = $scope.users[i].first_name + " " + $scope.users[i].last_name;
+        }
+        $scope.$apply();
+    });
+
+    $scope.add_friend = function(index) {
+        ws.request({
+            type: "add",
+            what: "friendship",
+            data: {user1_UID: $rootScope.auth_user.UID, user2_UID: $scope.users[index].UID}
+        }, function(response) {
+		// TODO
 		$scope.$apply();
-	});
-  
-  $scope.add_friend = function (index) {
-    console.log("Added " + $scope.users[index].UID + " as a friend :) ");
-    // TODO
-  }
+        });
+    }
 });
 
 
@@ -81,43 +96,43 @@ angular.module("overwatch").controller("create_groupController", function($scope
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {
     $scope.comments = [];
-    
-    $scope.delete = function (index) {
+
+    $scope.delete = function(index) {
         $scope.comments.splice(index, 1);
     }
-    
+
     $scope.likes = 0;
     $scope.dislikes = 0;
     $scope.add = function(what) {
         switch (what) {
-          case 'likes':
-            if (hasClass(document.getElementById('likes_click'), 'notClicked')) {
-                if (hasClass(document.getElementById('dislikes_click'), 'clicked')) {
-                    $scope.dislikes -= 1;
-                    removeClass(document.getElementById('dislikes_click'), 'clicked');
-                    addClass(document.getElementById('dislikes_click'), 'notClicked');
+            case 'likes':
+                if (hasClass(document.getElementById('likes_click'), 'notClicked')) {
+                    if (hasClass(document.getElementById('dislikes_click'), 'clicked')) {
+                        $scope.dislikes -= 1;
+                        removeClass(document.getElementById('dislikes_click'), 'clicked');
+                        addClass(document.getElementById('dislikes_click'), 'notClicked');
+                    }
+                    $scope.likes += 1;
+                    removeClass(document.getElementById('likes_click'), 'notClicked');
+                    addClass(document.getElementById('likes_click'), 'clicked');
                 }
-                $scope.likes += 1;
-                removeClass(document.getElementById('likes_click'), 'notClicked');
-                addClass(document.getElementById('likes_click'), 'clicked');
-            }
-            break;
-          case 'dislikes':
-            if (hasClass(document.getElementById('dislikes_click'), 'notClicked')) {
-                if (hasClass(document.getElementById('likes_click'), 'clicked')) {
-                    $scope.likes -= 1;
-                    removeClass(document.getElementById('likes_click'), 'clicked');
-                    addClass(document.getElementById('likes_click'), 'notClicked');
+                break;
+            case 'dislikes':
+                if (hasClass(document.getElementById('dislikes_click'), 'notClicked')) {
+                    if (hasClass(document.getElementById('likes_click'), 'clicked')) {
+                        $scope.likes -= 1;
+                        removeClass(document.getElementById('likes_click'), 'clicked');
+                        addClass(document.getElementById('likes_click'), 'notClicked');
+                    }
+                    $scope.dislikes += 1;
+                    removeClass(document.getElementById('dislikes_click'), 'notClicked');
+                    addClass(document.getElementById('dislikes_click'), 'clicked');
                 }
-                $scope.dislikes += 1;
-                removeClass(document.getElementById('dislikes_click'), 'notClicked');
-                addClass(document.getElementById('dislikes_click'), 'clicked');
-            }
-            break;
+                break;
         }
     };
-    
-    $scope.push_comment = function () {
+
+    $scope.push_comment = function() {
         if ($scope.new_comment != "") {
             var comment = {};
             comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
@@ -130,10 +145,10 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             console.log(comment);
             $scope.new_comment = "";
             componentHandler.upgradeDom();
-            
+
         }
     }
-    
+
     var comment = {};
     comment.name = 'Adolf Hitler';
     comment.text = 'Gutentag Poland, wir kommen für ihren arschen.';
@@ -156,7 +171,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     comment.name = 'Charles De Gaulle';
     comment.text = "JE SURRENDER!";
     comment.date = '01/09/1939';
-    $scope.comments.push(comment);    
+    $scope.comments.push(comment);
 
     var comment = {};
     comment.name = 'Maciej Rataj';
@@ -174,13 +189,13 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     comment.name = 'Adolf Hitler';
     comment.text = 'Nein nein, ich schwer es!';
     comment.date = '22/06/1941';
-    $scope.comments.push(comment);    
+    $scope.comments.push(comment);
 
     var comment = {};
     comment.name = 'Theodore Roosevelt jr.';
     comment.text = "Looks like y'all need some democracy!";
     comment.date = '06/06/1944';
-    $scope.comments.push(comment); 
+    $scope.comments.push(comment);
 
     var comment = {};
     comment.name = 'Adolf Hitler';

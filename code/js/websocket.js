@@ -7,41 +7,41 @@ var reconnects = 0; // The amount of times the websocket has attempted to reconn
 
 // Used to avoid duplicates of the same object. 
 var cache = {
-		Sensor: [],
-		Location: [],
-		User: [],
-		Group: [],
+	Sensor: [],
+	Location: [],
+	User: [],
+	Group: [],
 
-		searchKey: function(type, key) {
-			var array = cache[type];
-			for (var i=0; i < array.length; i++) {
-				if (array[i].key === key) 
-				    return i;
-			}
-			return -1;
-		},
-
-		getObject: function(type, key, data) {
-			var index = cache.searchKey(type, key);
-			var object = null;
-			if(index === -1) {
-				// If the object is not in the cache.
-				object = getFilledObject(type, data);
-				cache[type].push({key: key, object: object});
-			}
-			else {
-				// If the object has been found.
-				object = cache[type][index].object;
-				object.fill(data);
-			}
-			return object;
-		},
-
-		removeObject: function(type, key) {
-			var index = cache.searchKey(type, key);
-			if(index !== -1)
-				cache[type].splice(index, 1);
+	searchKey: function(type, key) {
+		var array = cache[type];
+		for (var i=0; i < array.length; i++) {
+			if (array[i].key === key) 
+			    return i;
 		}
+		return -1;
+	},
+
+	getObject: function(type, key, data) {
+		var index = cache.searchKey(type, key);
+		var object = null;
+		if(index === -1) {
+			// If the object is not in the cache.
+			object = getFilledObject(type, data);
+			cache[type].push({key: key, object: object});
+		}
+		else {
+			// If the object has been found.
+			object = cache[type][index].object;
+			object.fill(data);
+		}
+		return object;
+	},
+
+	removeObject: function(type, key) {
+		var index = cache.searchKey(type, key);
+		if(index !== -1)
+			cache[type].splice(index, 1);
+	}
 }; 
 
 function connect_to_websocket() {
@@ -132,8 +132,9 @@ function login_response(response) {
 }
 
 function error_response(response) {
-	error_type = response["data"]["short"];
-	throw new Error(response["data"]["short"]);
+	var error_type = response["data"]["short"];
+	var error_description = response["data"]["long"];
+	throw new Error(error_type + ": " + error_description);
 }
 
 function add_response(response) {
@@ -161,6 +162,8 @@ function get_all_response(response) {
 	var objects = [];
 	var type = response["what"];
 	var data = response["data"];
+	if(type == "value")
+		return {for: response["for"], objects: data};
 	var keyName = getKeyName(type);  
 	for(i = 0; i < data.length; i++)
 		objects.push(cache.getObject(type, data[i][keyName], data[i]));
@@ -229,6 +232,9 @@ function getFilledObject(what, objectData) {
 			break;
 		case "Group":
 			object = new Group();
+			break;
+		case "Friendship":
+			object = new Friendship();
 			break;
 		case "Value":
 			object = new Value();	
