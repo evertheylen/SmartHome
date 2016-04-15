@@ -63,7 +63,7 @@
           <!-- Navigation -->
           <nav class="mdl-navigation">
             <button id="btnLogin" type="button"
-            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"  ng-bind="i18n('login')">
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-hide=logged_in ng-bind="i18n('login')">
             </button>
             <button id="btnLogout" type="button"
             class="mdl-button mdl-js-button mdl-button--fab mdl-button--accent" ng-click="logout()" ng-show=logged_in>
