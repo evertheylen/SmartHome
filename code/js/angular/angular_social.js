@@ -95,10 +95,11 @@ angular.module("overwatch").controller("create_groupController", function($scope
             }, function(response) {
                 wall = response.object;
                 group.wall_WID = wall.WID;
+                var groupData = group.toJSON(); 
                 ws.request({
                     type: "add",
                     what: "Group",
-                    data: group.toJSON()
+                    data: groupData
                 }, function(response) {
                     group = response.object;
                     $scope.$apply();
