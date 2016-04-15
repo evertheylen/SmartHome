@@ -7,6 +7,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
 
     $scope.groups = []
 
+    /*
     ws.request({
         type: "get_all",
         what: "group",
@@ -18,6 +19,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         $scope.groups = response.objects;
         $scope.$apply();
     });
+    */
 
     $scope.open_dialog = function(element_id) {
         var element = document.getElementById(element_id);
