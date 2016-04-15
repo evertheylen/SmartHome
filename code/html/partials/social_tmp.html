@@ -13,7 +13,7 @@
 				<a ui-sref="state_social.friends" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-bind="i18n('my_friends')">
 				</a>
 				<div class="menuGroup">Groups:</div>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.name">
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.title">
 				</button>
 				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton">
 					Group B
