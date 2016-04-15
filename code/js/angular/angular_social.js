@@ -86,7 +86,7 @@ angular.module("overwatch").controller("create_groupController", function($scope
         if ($scope.group_form.$valid) {
             var group = new Group(-1, $scope.group_name, "desc", 0);
             delete group.GID;
-            delete group.wall_WID;
+            //delete group.wall_WID;
             // group.is_public = $scope.group_public;
             ws.request({
                 type: "add",
