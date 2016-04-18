@@ -128,6 +128,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	}
 	
 	$scope.$on('$locationChangeStart', function() {
+      console.log("State: " + $location.state());
 	    console.log("Changing Location: " + $location.path());
 	});
 	
