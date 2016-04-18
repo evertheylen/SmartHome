@@ -1,8 +1,8 @@
 <div ng-controller="friendsController">
 	<div style="margin: 20px;"></div>
-    <div class="friend">
+	<div ng-repeat="friendObj in friends track by friendObj.UID" on-finish-render="ngRepeatFinished" class="friend">
 		<div class="name">
-			Sam Mylle
+			{{friendObj.first_name + " " + friendObj.last_name}}
 		</div>
 		<div class="actionList">
 			<div class="friendsAction">
@@ -13,70 +13,6 @@
 			</div>
 			<div class="friendsAction">
 				delete friend
-			</div>
-		</div>
-	</div>
-    <div class="friend">
-		<div class="name">
-			de vlaamse leeuw
-		</div>
-		<div class="actionList">
-			<div class="friendsAction">
-				draw dicks on walloon's wall
-			</div>
-			<div class="friendsAction">
-				remove kebab
-			</div>
-			<div class="friendsAction">
-				remove croissant
-			</div>
-		</div>
-	</div>
-    <div class="friend">
-		<div class="name">
-			joseph Stalin
-		</div>
-		<div class="actionList">
-			<div class="friendsAction">
-				in soviet russia...
-			</div>
-			<div class="friendsAction">
-				kill him, he is of enemy of state
-			</div>
-			<div class="friendsAction">
-				wodka
-			</div>
-		</div>
-	</div>
-    <div class="friend">
-		<div class="name">
-			Anders Breivik
-		</div>
-		<div class="actionList">
-			<div class="friendsAction">
-				suggest summer camp
-			</div>
-			<div class="friendsAction">
-				remove kebab
-			</div>
-			<div class="friendsAction">
-				b&oslash;rk b&oslash;rk
-			</div>
-		</div>
-	</div>
-    <div class="friend">
-		<div class="name">
-			salah abdeslam
-		</div>
-		<div class="actionList">
-			<div class="friendsAction">
-				allahu ahkbar
-			</div>
-			<div class="friendsAction">
-				disguise as refugee
-			</div>
-			<div class="friendsAction">
-				explode
 			</div>
 		</div>
 	</div>

@@ -40,6 +40,18 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
 });
 
 angular.module("overwatch").controller("friendsController", function($scope, $rootScope) {
+    $scope.friends = [];
+    ws.request({
+        type: "get_all",
+        what: "Friendship",
+        for: {
+          what: "User",
+          UID: $rootScope.auth_user.UID
+        }
+    }, function(response) {
+        $scope.friends = response.objects;
+        $scope.$apply();
+    });
 
 });
 
