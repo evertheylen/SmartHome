@@ -185,24 +185,24 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
             url: "/sensors",
             templateUrl: "/html/partials/sensors_tmp.html"
         })
-        .state('state_social', {
+        .state('social', {
             url: "/social",
             abstract: true,
             templateUrl: "/html/partials/social_tmp.html"
         })
-        .state('state_social.index', {
+        .state('social.index', {
             url : "",
             templateUrl: "/html/partials/social_status_tmp.html"
         })
-        .state('state_social.profile', {
+        .state('social.profile', {
             url : "",
             templateUrl: "/html/partials/social_profile_tmp.html"
         })
-        .state('state_social.friends', {
+        .state('social.friends', {
             url : "",
             templateUrl: "/html/partials/social_friends_tmp.html"
         })
-        .state('state_social.find_friends', {
+        .state('social.find_friends', {
             url : "",
             templateUrl: "/html/partials/social_find_friends_tmp.html"
         });        
