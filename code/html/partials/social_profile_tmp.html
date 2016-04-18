@@ -14,7 +14,7 @@
 		<div class="profileInfo">
 			<div class="profileSubject">Profile Pic:</div>
 			{{get_hash()}}
-			<img src="http://www.gravatar.com/avatar/{{CryptoJS.MD5(String.toLowerCase(String.trim(auth_user.email)));}}" />
+			<img src="http://www.gravatar.com/avatar/{{get_hash()}}" />
 		</div>
 		<div class="profileInfo">
 			<div class="profileSubject">Status:</div>
