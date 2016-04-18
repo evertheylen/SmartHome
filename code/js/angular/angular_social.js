@@ -41,8 +41,8 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
     console.log($rootScope.auth_user.email);
     console.log($rootScope.auth_user.email.trim());
     console.log($rootScope.auth_user.email.trim().toLowerCase());
-    console.log(CryptoJS.MD5($rootScope.auth_user.email.trim().toLowerCase().toString()));
-    return CryptoJS.MD5($rootScope.auth_user.email.trim().toLowerCase().toString());
+    console.log(calcMD5($rootScope.auth_user.email.trim().toLowerCase()));
+    return calcMD5($rootScope.auth_user.email.trim().toLowerCase());
   }
 });
 
