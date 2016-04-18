@@ -54,6 +54,11 @@ angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
     });  
 });
 
+angular.module('app').run(['$state', '$stateParams',
+    function($state, $stateParams) {
+        //this solves page refresh and getting back to state
+}]);
+
 angular.module("overwatch").factory('Auth', function($rootScope) {
     return {
         setUser : function(user) {
