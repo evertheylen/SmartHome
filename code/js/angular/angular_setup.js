@@ -211,11 +211,7 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
         .state('social.find_friends', {
             url : "",
             templateUrl: "/html/partials/social_find_friends_tmp.html"
-        })
-        .state('profile'), {
-            url: "/profile",
-            templateUrl: "/html/partials/social_profile_tmp.html"
-        };        
+        });        
         
         
     $locationProvider.html5Mode(true);
