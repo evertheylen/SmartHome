@@ -330,15 +330,13 @@ class Controller(metaclass=MetaController):
         async def group(self, req):
             if "for" in req.metadata:
                 check_for_type(req, "User")
-                print("for is PRESENT")
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
                 await u.check_auth(req)
                 memberships = await Membership.get(Membership.user == u.key).all(self.db)
                 groups = await Group.get(Group.key in [Membership.group for Membership in memberships]).all(self.db)
                 await req.answer([g.json_repr() for g in groups])
             else:
-                print("for is NOT PRESENT")
-                groups = await Group.get().all(self.db)
+                groups = await Group.get(Group.public == True).all(self.db)
                 await req.answer([g.json_repr() for g in groups])
 
     @handle_ws_type("edit")
