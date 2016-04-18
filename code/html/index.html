@@ -49,8 +49,8 @@
 </head>
 <body>
     <script>
-			console.log("Setting base href to " + document.location);
-			
+			console.log("Setting base href to " + document.location.origin);
+			console.log("Setting base href to " + window.location.origin);
 			// TODO POSSIBLY VERY LOUCHE!
       document.write('<base href="' + document.location.origin + '" />');
     </script>
