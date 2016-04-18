@@ -37,9 +37,6 @@ angular.module("overwatch").directive('myEnter', function() {
 });
 
 angular.module("overwatch").controller("profileController", function($scope, $rootScope) {
-  $scope.get_hash = function () {
-    return calcMD5($rootScope.auth_user.email.trim().toLowerCase());
-  }
 });
 
 angular.module("overwatch").controller("friendsController", function($scope, $rootScope) {
