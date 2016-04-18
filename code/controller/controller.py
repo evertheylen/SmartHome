@@ -339,6 +339,16 @@ class Controller(metaclass=MetaController):
                 groups = await Group.get(Group.public == True).all(self.db)
                 await req.answer([g.json_repr() for g in groups])
 
+        @case("Friendship")
+        async def friendship(self, req):
+            check_for_type(req, "User")
+            u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
+            await u.check_auth(req)
+            friendships = await Friendship.get(Friendship.user1 == u.key or Friendship.user2 == u.key).all(self.db)
+            users = await User.get(User.key in [Friendship.key for Friendship in friendships]).all(self.db)
+            # print(await User.get(User.key in [Friendship.key for Friendship in friendships]).count(self.db))
+            await req.answer([u.json_repr() for u in users])
+
     @handle_ws_type("edit")
     @require_user_level(1)
     class handle_edit(switch_what):
