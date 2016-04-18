@@ -94,7 +94,7 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
     }
 });
 
-angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth) {
+angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $state) {
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
