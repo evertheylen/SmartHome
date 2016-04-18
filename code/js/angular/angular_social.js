@@ -13,13 +13,22 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         $scope.groups = response.objects;
         $scope.$apply();
     });
-
+    
     $scope.open_dialog = function(element_id) {
         var element = document.getElementById(element_id);
         element.showModal();
         $rootScope.$emit(element_id + "_open");
         componentHandler.upgradeDom();
     }
+});
+
+angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope) {
+    $scope.statuses = []; // @Stijn: Ja, dit is correct engels. 
+    ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.WID}}, function(response) {
+        statuses = response.object;  
+        $scope.$apply();
+    });
+
 });
 
 angular.module("overwatch").directive('myEnter', function() {
@@ -147,27 +156,27 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.likes = 0;
     $scope.dislikes = 0;
     
-    /*
-    for(i = 0; i < statuses.length; i++) {
-        var status = statuses[i];
-        status._likes = [];
-        status._user_like = null; 
-	    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: status.SID}}, function(response) {
-            status._likes = response.objects;
-		    for(i = 0; i < response.objects.length; i++) {
-                var like = response.objects[i];
-                if(like.user_UID == $rootScope.auth_user.UID) 
-                    user_like = like; 
-			    if (like.positive) {
-                    status._likes++;
-                    continue;
-                }
-                status._dislikes++;
-            }
-		    $scope.$apply();
-	    });
-    }
-    */
+    //for(i = 0; i < statuses.length; i++) {
+    //var status = statuses[i];
+    //status._likes = [];
+    //status._user_like = null;
+    //status._likes = [];
+    $scope.user_like = null;
+    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.SID}}, function(response) {
+          //status._likes = response.objects;
+      for(i = 0; i < response.objects.length; i++) {
+              var like = response.objects[i];
+              if(like.user_UID == $rootScope.auth_user.UID) 
+                  user_like = like; 
+        if (like.positive) {
+                  $scope.likes++;
+                  continue;
+              }
+              $scope.dislikes++;
+          }
+      $scope.$apply();
+    });
+   // }
 
     $scope.add = function(what) {
         switch (what) {
@@ -176,26 +185,22 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     if (hasClass(document.getElementById('dislikes_click'), 'clicked')) {
                         $scope.dislikes--;
 
-                        /*
-                    	ws.request({type: "edit", what: "Like", data: status._user_like.toJSON()}, function(response) {
+                    	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
                             // @Stijn: Uw status._likes object is nu wel niet meer up-to-date 
                             //         maar normaal gebruikt ge die enkel om de initiele like
                             //         waarden te tonen aangezien enkel _user_like veranderd.
                             //         Deze comment geldt voor alle requests in deze switch.
 		                    $scope.$apply();
-                        }
-                        */
+                        });
 
                         removeClass(document.getElementById('dislikes_click'), 'clicked');
                         addClass(document.getElementById('dislikes_click'), 'notClicked');
                     }
                     else {
-                        /*
-                        status._user_like = new Like(true, status.SID, $rootScope.auth_user.UID);
-                    	ws.request({type: "add", what: "Like", data: status._user_like.toJSON()}, function(response) {
+                        status._user_like = new Like(true, $scope.SID, $rootScope.auth_user.UID);
+                    	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
-                        }
-                        */
+                        });
                     }              
                     $scope.likes++;  
                     removeClass(document.getElementById('likes_click'), 'notClicked');
@@ -207,22 +212,18 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     if (hasClass(document.getElementById('likes_click'), 'clicked')) {
                         $scope.likes--;
 
-                        /*
-                    	ws.request({type: "edit", what: "Like", data: status._user_like.toJSON()}, function(response) {
+                    	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
-                        }
-                        */
+                        });
                     
                         removeClass(document.getElementById('likes_click'), 'clicked');
                         addClass(document.getElementById('likes_click'), 'notClicked');
                     }
                     else {
-                        /*
-                        status._user_like = new Like(true, status.SID, $rootScope.auth_user.UID);
-                    	ws.request({type: "add", what: "Like", data: status._user_like.toJSON()}, function(response) {
+                        status._user_like = new Like(true, $scope.SID, $rootScope.auth_user.UID);
+                    	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
-                        }
-                        */
+                        });
                     }
                     $scope.dislikes++;
                     removeClass(document.getElementById('dislikes_click'), 'notClicked');
