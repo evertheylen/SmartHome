@@ -40,9 +40,9 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
   $scope.get_hash = function () {
     console.log($rootScope.auth_user.email);
     console.log($rootScope.auth_user.email.trim());
-    console.log(String.toLowerCase($rootScope.auth_user.email.trim()));
-    console.log(CryptoJS.MD5(String.toLowerCase($rootScope.auth_user.email.trim())));
-    return CryptoJS.MD5(String.toLowerCase($rootScope.auth_user.email.trim()));
+    console.log($rootScope.auth_user.email.trim().toLowerCase());
+    console.log(CryptoJS.MD5($rootScope.auth_user.email.trim().toLowerCase()));
+    return CryptoJS.MD5($rootScope.auth_user.email.trim().toLowerCase());
   }
 });
 
