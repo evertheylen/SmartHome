@@ -50,6 +50,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
         }
     }, function(response) {
         $scope.friends = response.objects;
+        console.log($scope.friends);
         $scope.$apply();
     });
 
