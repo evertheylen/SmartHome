@@ -128,7 +128,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	}
 	
 	$scope.$on('$locationChangeStart', function() {
-      console.log("State: " + $location.state());
+      if ($location.path() === "/profile") {
+        $state.transitionTo('social.profile');
+      }
+      
+    
 	    console.log("Changing Location: " + $location.path());
 	});
 	
