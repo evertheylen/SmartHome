@@ -191,15 +191,15 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
             templateUrl: "/html/partials/social_tmp.html"
         })
         .state('social.index', {
-            url : "",
+            url : "/index",
             templateUrl: "/html/partials/social_status_tmp.html"
         })
         .state('social.profile', {
-            url : "",
+            url : "/profile",
             templateUrl: "/html/partials/social_profile_tmp.html"
         })
         .state('social.friends', {
-            url : "",
+            url : "/friends",
             templateUrl: "/html/partials/social_friends_tmp.html"
         })
         .state('social.find_friends', {
