@@ -112,7 +112,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     }
     
     $scope.get_hash = function () {
-      return calcMD5($rootScope.auth_user.email.trim().toLowerCase());
+      if ($location.path() != "/") {
+        return calcMD5($rootScope.auth_user.email.trim().toLowerCase());
+      }
     }
     
     $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
