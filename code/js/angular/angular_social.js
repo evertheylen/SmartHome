@@ -38,11 +38,11 @@ angular.module("overwatch").directive('myEnter', function() {
 
 angular.module("overwatch").controller("profileController", function($scope, $rootScope) {
   $scope.get_hash = function () {
-    console.log(auth_user.email);
-    console.log(String.trim(auth_user.email));
-    console.log(String.toLowerCase(String.trim(auth_user.email)));
-    console.log(CryptoJS.MD5(String.toLowerCase(String.trim(auth_user.email))));
-    return CryptoJS.MD5(String.toLowerCase(String.trim(auth_user.email)));
+    console.log($rootScope.auth_user.email);
+    console.log(String.trim($rootScope.auth_user.email));
+    console.log(String.toLowerCase(String.trim($rootScope.auth_user.email)));
+    console.log(CryptoJS.MD5(String.toLowerCase(String.trim($rootScope.auth_user.email))));
+    return CryptoJS.MD5(String.toLowerCase(String.trim($rootScope.auth_user.email)));
   }
 });
 
