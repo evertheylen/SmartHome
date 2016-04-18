@@ -163,6 +163,7 @@ Definition for object type ``Group``
         "GID": "<class 'int'>",
         "title": "<class 'str'>",
         "description": "<class 'str'>",
+        "public": "<class 'bool'>",
         "wall_WID": "<class 'int'>"
     }
 
