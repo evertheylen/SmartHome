@@ -52,7 +52,7 @@
 			console.log("Setting base href to " + document.location);
 			
 			// TODO POSSIBLY VERY LOUCHE!
-      document.write('<base href="http://jarvis.ydns.eu:8888/"/>');
+      document.write('<base href="' + window.location.origin + '" />');
     </script>
     <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header id="mainHeader" class="mdl-layout__header">
