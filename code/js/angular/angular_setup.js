@@ -94,7 +94,7 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
     }
 });
 
-angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $state) {
+angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth) {
     $scope.i18n = function(input) {
         return html_strings[input][$scope.language];
     };
@@ -128,12 +128,6 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	}
 	
 	$scope.$on('$locationChangeStart', function() {
-      if ($location.path() === "/profile") {
-        $state.transitionTo('social.profile');
-        $location.path('/profile');
-      }
-      
-    
 	    console.log("Changing Location: " + $location.path());
 	});
 	
@@ -197,24 +191,24 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
             templateUrl: "/html/partials/sensors_tmp.html"
         })
         .state('social', {
-            url: "/social",
+            url: "",
             abstract: true,
             templateUrl: "/html/partials/social_tmp.html"
         })
         .state('social.index', {
-            url : "/index",
+            url : "/social/index",
             templateUrl: "/html/partials/social_status_tmp.html"
         })
         .state('social.profile', {
-            url : "/profile",
+            url : "/social/profile",
             templateUrl: "/html/partials/social_profile_tmp.html"
         })
         .state('social.friends', {
-            url : "/friends",
+            url : "/social/friends",
             templateUrl: "/html/partials/social_friends_tmp.html"
         })
         .state('social.find_friends', {
-            url : "",
+            url : "/social/find_friends",
             templateUrl: "/html/partials/social_find_friends_tmp.html"
         });        
         
