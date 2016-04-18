@@ -38,10 +38,6 @@ angular.module("overwatch").directive('myEnter', function() {
 
 angular.module("overwatch").controller("profileController", function($scope, $rootScope) {
   $scope.get_hash = function () {
-    console.log($rootScope.auth_user.email);
-    console.log($rootScope.auth_user.email.trim());
-    console.log($rootScope.auth_user.email.trim().toLowerCase());
-    console.log(calcMD5($rootScope.auth_user.email.trim().toLowerCase()));
     return calcMD5($rootScope.auth_user.email.trim().toLowerCase());
   }
 });

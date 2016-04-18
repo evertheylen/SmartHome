@@ -80,6 +80,10 @@
       </header>
       <div id="main_drawer" class="mdl-layout__drawer">
         <span class="mdl-layout-title">OverWatch</span>
+				<span>
+					<img src="http://www.gravatar.com/avatar/{{get_hash()}}?s=50" />
+					<a ui-sref="social.profile">{{auth_user.first_name + " " + auth_user.last_name}}</a>
+				</span>
         <nav class="mdl-navigation">
           <a class="header_a mdl-navigation__link" ui-sref="state_home" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
           <a class="header_a mdl-navigation__link" ui-sref="state_statistics" ng-bind="i18n('statisticslink')" ng-click="hideDrawer()"></a>
