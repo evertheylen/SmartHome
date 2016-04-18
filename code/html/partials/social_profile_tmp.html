@@ -13,8 +13,8 @@
 		</div>
 		<div class="profileInfo">
 			<div class="profileSubject">Profile Pic:</div>
-			{{CryptoJS.MD5(String.toLowerCase(String.trim(user.email)));}}
-			<img src="http://www.gravatar.com/avatar/{{CryptoJS.MD5(String.toLowerCase(String.trim(user.email)));}}" />
+			{{CryptoJS.MD5(String.toLowerCase(String.trim(auth_user.email)));}}
+			<img src="http://www.gravatar.com/avatar/{{CryptoJS.MD5(String.toLowerCase(String.trim(auth_user.email)));}}" />
 		</div>
 		<div class="profileInfo">
 			<div class="profileSubject">Status:</div>
