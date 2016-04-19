@@ -21,6 +21,7 @@
 	<link rel="stylesheet" href="/static/social_profile.css">
 	<link rel="stylesheet" href="/static/social_friends.css">
 	<link rel="stylesheet" href="/static/style.css">
+	<link rel="stylesheet" href="/static/adminColors.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
@@ -92,10 +93,10 @@
 					<a ui-sref="social.profile">{{auth_user.first_name + " " + auth_user.last_name}}</a>
 				</span>
         <nav class="mdl-navigation">
-          <a class="header_a mdl-navigation__link" ui-sref="state_home" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
-          <a class="header_a mdl-navigation__link" ui-sref="state_statistics" ng-bind="i18n('statisticslink')" ng-click="hideDrawer()"></a>
-          <a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-bind="i18n('sensorslink')" ng-click="hideDrawer()"></a>
-          <span class="header_a mdl-navigation__link" style="text-decoration: underline;" ng-bind="i18n('sociallink')"></span>
+			<a class="header_a mdl-navigation__link" ui-sref="state_home" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
+			<a class="header_a mdl-navigation__link" ui-sref="state_statistics" ng-bind="i18n('statisticslink')" ng-click="hideDrawer()"></a>
+			<a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-bind="i18n('sensorslink')" ng-click="hideDrawer()"></a>
+			<span class="header_a mdl-navigation__link" style="text-decoration: underline;" ng-bind="i18n('sociallink')"></span>
 					<!-- TODO fix this pls, the link clickin' aint workin' -->
 					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()">
 						<p class="mdl-navigation__link--subcategory" ui-sref="social.index" ng-bind="i18n('homelink')"></p>
