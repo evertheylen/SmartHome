@@ -58,6 +58,14 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
           UID: $rootScope.auth_user.UID
         }
     }, function(response) {
+        var friendships = response.objects;
+        for(var i = 0; i < friendships.length; i++) {
+            if(friendships[i].user1_UID == $rootScope.auth_user.UID) {
+                $scope.friends.push(friendships[i].user2_UID);
+                continue;
+            }
+            $scope.friends.push(friendships[i].user1_UID;
+        }
         $scope.friends = response.objects;
         console.log($scope.friends);
         $scope.$apply();
