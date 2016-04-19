@@ -21,7 +21,6 @@
 	<link rel="stylesheet" href="/static/social_profile.css">
 	<link rel="stylesheet" href="/static/social_friends.css">
 	<link rel="stylesheet" href="/static/style.css">
-	<link rel="stylesheet" href="/static/adminColors.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
@@ -50,12 +49,10 @@
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
 	<script src="/js/md5.js"></script>
+	<script src="/js/angular/angular-css-injector.min.js"></script>
 </head>
 <body>
     <script>
-			console.log("Setting base href to " + document.location.origin);
-			console.log("Setting base href to " + window.location.origin);
-			// TODO POSSIBLY VERY LOUCHE!
       document.write('<base href="' + document.location.origin + '/" />');
     </script>
     <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -83,14 +80,10 @@
       </header>
       <div id="main_drawer" class="mdl-layout__drawer">
         <span class="mdl-layout-title mainColor">
-			<p class="mdl-layout-title" style="color: white; margin-top: 10px;">OverWatch</p>
+					<p class="mdl-layout-title" style="color: white; margin-top: 10px;">OverWatch</p>
 			<!-- TODO make this img and email/name dynamic -->
-			<img class="profileImage" style="display: block;" src="https://pbs.twimg.com/profile_images/457164810052857856/cXNMHcHF.jpeg"></img>
-			<span style="font-size: 12px; color: white">sammylle@lol.com</span>
-		</span>
-				<span>
-					<img src="http://www.gravatar.com/avatar/{{get_hash()}}?s=50&d=identicon" />
-					<a ui-sref="social.profile">{{auth_user.first_name + " " + auth_user.last_name}}</a>
+					<img class="profileImage" style="display: block;" src="http://www.gravatar.com/avatar/{{get_hash()}}?s=50&d=identicon" />
+					<a ui-sref="social.profile" style="font-size: 12px; color: white; text-decoration: none">{{auth_user.email}}</a>
 				</span>
         <nav class="mdl-navigation">
 			<a class="header_a mdl-navigation__link" ui-sref="state_home" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
@@ -98,17 +91,17 @@
 			<a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-bind="i18n('sensorslink')" ng-click="hideDrawer()"></a>
 			<span class="header_a mdl-navigation__link" style="text-decoration: underline;" ng-bind="i18n('sociallink')"></span>
 					<!-- TODO fix this pls, the link clickin' aint workin' -->
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()">
-						<p class="mdl-navigation__link--subcategory" ui-sref="social.index" ng-bind="i18n('homelink')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.index">
+						<p class="mdl-navigation__link--subcategory" ng-bind="i18n('homelink')"></p>
 					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()">
-						<p class="mdl-navigation__link--subcategory" ui-sref="social.profile" ng-bind="i18n('my_profile')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.profile">
+						<p class="mdl-navigation__link--subcategory" ng-bind="i18n('my_profile')"></p>
 					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()">
-						<p class="mdl-navigation__link--subcategory" ui-sref="social.friends" ng-bind="i18n('my_friends')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.friends">
+						<p class="mdl-navigation__link--subcategory" ng-bind="i18n('my_friends')"></p>
 					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin">
-						<p class="mdl-navigation__link--subcategory" ui-sref="state_admin" ng-bind="i18n('adminlink')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin"
+						ui-sref="state_admin" ng-bind="i18n('adminlink')">
 					</a>
 				</nav>
       </div>

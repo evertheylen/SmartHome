@@ -2,7 +2,7 @@
 //  Cookie for the internationalization
 
 
-angular.module("overwatch", ['ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js', 'ui.router'])
+angular.module("overwatch", ['angular.css.injector', 'ui.bootstrap', 'ngRoute', 'ngTagsInput', 'ngMessages', 'ngCookies', 'googlechart', 'chart.js', 'ui.router'])
     .directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',
@@ -66,7 +66,7 @@ angular.module('overwatch').run(['$state', '$stateParams',
         //this solves page refresh and getting back to state
 }]);
 
-angular.module("overwatch").factory('Auth', function($rootScope) {
+angular.module("overwatch").factory('Auth', function($rootScope, cssInjector) {
     return {
         setUser : function(user) {
             console.log("USER COOKIE: " + JSON.stringify(user.toJSON()));
@@ -78,6 +78,11 @@ angular.module("overwatch").factory('Auth', function($rootScope) {
                 var temp_user = JSON.parse(getCookie("user"));
                 console.log(temp_user);
                 var user =  new User(temp_user["UID"], temp_user["first_name"], temp_user["last_name"], temp_user["email"], temp_user["wall_WID"], temp_user["admin"]);
+                if (user.admin) {
+                  cssInjector.add("/static/adminColors.css");
+                } else {
+                  cssInjector.removeAll();
+                }
                 console.log(user);
                 return user;
             } else {
