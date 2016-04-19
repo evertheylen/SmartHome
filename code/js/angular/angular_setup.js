@@ -80,6 +80,8 @@ angular.module("overwatch").factory('Auth', function($rootScope, cssInjector) {
                 var user =  new User(temp_user["UID"], temp_user["first_name"], temp_user["last_name"], temp_user["email"], temp_user["wall_WID"], temp_user["admin"]);
                 if (user.admin) {
                   cssInjector.add("/static/adminColors.css");
+                } else {
+                  cssInjector.removeAll();
                 }
                 console.log(user);
                 return user;
