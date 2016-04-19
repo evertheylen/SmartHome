@@ -40,7 +40,7 @@ angular.module('overwatch').filter('startFrom', function() {
 });
 
 angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
-    $rootScope.$on('$stateChangeStart', function(event) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         //console.log(Auth.getUser());
         console.log(Auth.isLoggedIn());
         if (!Auth.isLoggedIn() && $location.path() != '/') {
@@ -52,7 +52,7 @@ angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
             event.preventDefault();
             console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
             //$location.path('/');
-            //$state.transitionTo('state_index');   
+            $state.transitionTo(fromState);   
         }else if ($location.path() != '/') {
             console.log("Pass :)");
         }  
