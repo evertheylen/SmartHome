@@ -17,7 +17,7 @@
 			<div class="mdl-grid">
 
 
-				<div class="mdl-cell mdl-cell--4-col">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
 					        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by[0]"/>
@@ -25,7 +25,7 @@
 					</span>
 					<span style="display: inline-block;" ng-bind="i18n('aggregate_loc')"></span>
 				</div>
-				<div class="mdl-cell mdl-cell--4-col">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
 					        <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" ng-model="aggregate_by[1]"/>
@@ -33,7 +33,7 @@
 					</span>
 					<span style="display: inline-block;" ng-bind="i18n('aggregate_type')"></span>
 				</div>
-				<div class="mdl-cell mdl-cell--4-col">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
 					        <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" ng-model="aggregate_by[2]"/>
@@ -41,7 +41,7 @@
 					</span>
 					<span style="display: inline-block;" ng-bind="i18n('aggregate_tag')"></span>
 				</div>
-				<div class="mdl-cell mdl-cell--4-col">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -73,7 +73,7 @@
 				</div>
 
 				<!--Type table-->
-				<div class="mdl-cell mdl-cell--4-col">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -104,7 +104,7 @@
 				</div>
 
 				<!--Sensors table-->
-				<div class="mdl-cell mdl-cell--4-col">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -166,7 +166,7 @@
 			<div class="mdl-grid">
 
     			<!--Table with sensors-->
-				<div class="mdl-cell mdl-cell--12-col">
+				<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone">
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -232,7 +232,7 @@
 		<div class="boxContent">
 			<div class="mdl-grid">
 
-				<div class="mdl-cell mdl-cell--2-col">
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
 					<form action="#">
 						<span style="font-size: x-large;" ng-bind="i18n('show_data_from')"></span>
 						<span id="sinceInput" class="mdl-textfield mdl-js-textfield">
@@ -245,7 +245,7 @@
 						</div>
 					</form>
 				</div>
-				<div class="mdl-cell mdl-cell--2-col">
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
 						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="days" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label">Days</span>
@@ -261,7 +261,7 @@
 						<span class="mdl-radio__label">Years</span>
 					</label>
 				</div>
-				<div class="mdl-cell mdl-cell--8-col">
+				<div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-phone">
 					<span style="float: right;">
 						<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
 						    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
@@ -269,7 +269,7 @@
 						</label>
 					</span>
 				</div>
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col" ng-bind="i18n('show_data')" ng-click="make_graph();">
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col-desktop mdl-cell--1-col-phone" ng-bind="i18n('show_data')" ng-click="make_graph();">
 				</button>
 			</div>
 		</div>
@@ -295,7 +295,7 @@
 		<div class="boxContent">
 			<div class="mdl-grid">
 				<!--cards-->
-				<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col">
+				<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 					<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
 							<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>

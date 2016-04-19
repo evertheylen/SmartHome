@@ -2,9 +2,9 @@
 
 	<div class="mdl-grid">
 
-		<div class="mdl-cell mdl-cell--1-col"></div>
+		<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
 		<!-- The menu on the left side -->
-		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
+		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" style="background-color: #E8E8E8;">
 			<div id="socialLeftMenu">
 				<div class="menuGroup">Groups:</div>
 				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.title">
@@ -17,11 +17,11 @@
 				</button>
 			</div>
 		</div>
-		<div class="mdl-cell mdl-cell--6-col">
+		<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
         	<div ui-view></div>
 		</div>
 		<!-- The menu on the right side -->
-		<div class="mdl-cell mdl-cell--2-col" style="background-color: #E8E8E8;">
+		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" style="background-color: #E8E8E8;">
 			<div id="socialRightMenu">
 				<a ui-sref="social.find_friends" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-bind="i18n('find_friends')">
 				</a>
@@ -32,7 +32,7 @@
 
 
 
-		<div class="mdl-cell mdl-cell--1-col"></div>
+		<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
 	</div>
 
 
