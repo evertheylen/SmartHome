@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="/static/angular-chart.min.css">
 	<link rel="stylesheet" href="/static/social_profile.css">
 	<link rel="stylesheet" href="/static/social_friends.css">
+	<link rel="stylesheet" href="/static/style.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
@@ -80,7 +81,12 @@
         </div>
       </header>
       <div id="main_drawer" class="mdl-layout__drawer">
-        <span class="mdl-layout-title">OverWatch</span>
+        <span class="mdl-layout-title mainColor">
+			<p class="mdl-layout-title" style="color: white; margin-top: 10px;">OverWatch</p>
+			<!-- TODO make this img and email/name dynamic -->
+			<img class="profileImage" style="display: block;" src="https://pbs.twimg.com/profile_images/457164810052857856/cXNMHcHF.jpeg"></img>
+			<span style="font-size: 12px; color: white">sammylle@lol.com</span>
+		</span>
 				<span>
 					<img src="http://www.gravatar.com/avatar/{{get_hash()}}?s=50&d=identicon" />
 					<a ui-sref="social.profile">{{auth_user.first_name + " " + auth_user.last_name}}</a>
