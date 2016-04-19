@@ -5,6 +5,9 @@ from .owentity import *
 from .user import User
 
 class Friendship(OwEntity):
+    # status_type = Enum("FRIENDS", "PENDING")
+    #
+    # status = Property(status_type)
     user1 = RTReference(User)
     user2 = RTReference(User)
 

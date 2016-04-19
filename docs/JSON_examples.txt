@@ -30,13 +30,13 @@ wall_add
 {"type":"add","what":"Wall","data":{"is_user":"True"},"ID":3}
 
 status_add
-{"type":"add","what":"Status","data":{"SID":1,"date":12,"date_edited":12,"author_UID":4,"wall_WID":2},"ID":4}
+{"type":"add","what":"Status","data":{"SID":1,"date":12,"date_edited":12,"author_UID":1,"wall_WID":2},"ID":4}
 
 like_add
-{"type":"add","what":"Like","data":{"positive": "False","status_SID":1,"user_UID":4},"ID":3}
+{"type":"add","what":"Like","data":{"positive": "False","status_SID":1,"user_UID":1},"ID":3}
 
 friendship_add
-{"type":"add","what":"Friendship","data":{"user1_UID": 1,"user2_UID":4},"ID":3}
+{"type":"add","what":"Friendship","data":{"user1_UID": 1,"user2_UID":2},"ID":3}
 
 membership_add
 {"type":"add","what":"Membership","data":{"status": "MEMBER","last_change": 10,"user_UID": 4,"group_GID": 1},"ID":3}
@@ -61,6 +61,11 @@ user_get_all_for_user1
 group_get_all_for_user1
 {"type":"get_all","what":"Group","for":{"what":"User","UID":1},"ID":0}
 
+friends_get_all_for_user1
+{"type":"get_all","what":"Friendship","for":{"what":"User","UID": 1},"ID":3}
+
+status_get_all_for_wall1
+{"type":"get_all","what":"Status","for":{"what":"Wall","WID":1},"ID":2}
 
 delete_sensor1
 {"ID":"9", "type": "delete", "what": "Sensor", "data": {"SID": 1}}
