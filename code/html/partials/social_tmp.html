@@ -48,11 +48,11 @@
                     <label class="mdl-textfield__label" for="input_GroupName" ng-bind="i18n('group_name')"></label>
                 </div>
 				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="publicOption">
-					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" ng-model="group_public" value="1" checked>
+					<input type="radio" id="publicOption" class="mdl-radio__button" name="groupOptions" ng-model="group_public" ng-value="true" checked>
 					<span class="mdl-radio__label" ng-bind="i18n('group_public')"></span>
 				</label>
 				<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="secretOption">
-					<input type="radio" id="secretOption" class="mdl-radio__button" name="groupOptions" value="2">
+					<input type="radio" id="secretOption" class="mdl-radio__button" name="groupOptions" ng-value="false">
 					<span class="mdl-radio__label" ng-bind="i18n('group_secret')"></span>
 				</label>	
             </form>
