@@ -37,6 +37,15 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	});
 	
 	$scope.tags = [{text: "keuken"}, {text: "kerstverlichting"}];
+
+
+	ws.request({type: "get_all", what: "Tag", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		for (var i = 0; i < response.objects.length; i++)
+			response.objects[i]._scopes.push($scope);
+		$scope.sensors = response.objects;
+		updateFilteredSensors();
+		$scope.$apply();
+	});
     
 	$scope.required = true;
 	$scope.selected_order = null;
