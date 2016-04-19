@@ -87,4 +87,5 @@ var html_strings = {
     "days" : ["Days", "Dagen"],
     "months" : ["Months", "Maanden"],
     "years" : ["Years", "Jaren"],
+    "upload_file" : ["Upload a data file", "Laad een data file in"],
 };
