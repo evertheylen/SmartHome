@@ -98,17 +98,17 @@
 			<a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-bind="i18n('sensorslink')" ng-click="hideDrawer()"></a>
 			<span class="header_a mdl-navigation__link" style="text-decoration: underline;" ng-bind="i18n('sociallink')"></span>
 					<!-- TODO fix this pls, the link clickin' aint workin' -->
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()">
-						<p class="mdl-navigation__link--subcategory" ui-sref="social.index" ng-bind="i18n('homelink')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.index">
+						<p class="mdl-navigation__link--subcategory" ng-bind="i18n('homelink')"></p>
 					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()">
-						<p class="mdl-navigation__link--subcategory" ui-sref="social.profile" ng-bind="i18n('my_profile')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.profile">
+						<p class="mdl-navigation__link--subcategory" ng-bind="i18n('my_profile')"></p>
 					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()">
-						<p class="mdl-navigation__link--subcategory" ui-sref="social.friends" ng-bind="i18n('my_friends')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.friends">
+						<p class="mdl-navigation__link--subcategory" ng-bind="i18n('my_friends')"></p>
 					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin">
-						<p class="mdl-navigation__link--subcategory" ui-sref="state_admin" ng-bind="i18n('adminlink')"></p>
+					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin"
+						ui-sref="state_admin" ng-bind="i18n('adminlink')">
 					</a>
 				</nav>
       </div>
