@@ -10,4 +10,4 @@ class Status(RTOwEntity):
     wall = RTReference(Wall)
     date = Property(int)
     date_edited = Property(int)  # If they are the same, no edits
-
+    # text = Property(str)
