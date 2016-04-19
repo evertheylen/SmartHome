@@ -47,6 +47,8 @@
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
 	<script src="/js/md5.js"></script>
+	<script src="/js/webtoolkit.aim.js" type="text/javascript"><!--mce:0--></script>
+  <script type="text/javascript"><!--mce:1--></script>
 </head>
 <body>
     <script>
@@ -92,8 +94,10 @@
 					<a class="header_a mdl-navigation__link" style="font-size: 75%" ui-sref="social.index" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
 					<a class="header_a mdl-navigation__link" style="font-size: 75%" ui-sref="social.profile" ng-bind="i18n('my_profile')" ng-click="hideDrawer()"></a>
 					<a class="header_a mdl-navigation__link" style="font-size: 75%" ui-sref="social.friends" ng-bind="i18n('my_friends')" ng-click="hideDrawer()"></a>
-					<span class="header_a mdl-navigation__link" ng-bind="i18n('upload_file')"></span>
-					<input type="file" name="upfile">
+					<form>
+						<label class="header_a mdl-navigation__link" ng-bind="i18n('upload_file')" for="upfile"></label>
+						<input type="file" name="upfile" onchange="javascript:this.form.submit();">
+					</form>
 				</nav>
       </div>
       <main class="mdl-layout__content">
