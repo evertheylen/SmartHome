@@ -52,7 +52,7 @@ angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
             event.preventDefault();
             console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
             //$location.path('/');
-            $state.transitionTo(fromState);   
+            $state.transitionTo(fromState.name);   
         }else if ($location.path() != '/') {
             console.log("Pass :)");
         }  
