@@ -64,7 +64,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                 $scope.friends.push(friendships[i].user2_UID);
                 continue;
             }
-            $scope.friends.push(friendships[i].user1_UID;
+            $scope.friends.push(friendships[i].user1_UID);
         }
         $scope.friends = response.objects;
         console.log($scope.friends);
