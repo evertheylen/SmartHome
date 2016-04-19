@@ -49,7 +49,7 @@
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
 	<script src="/js/md5.js"></script>
-	{{auth_user.admin ? <link rel="stylesheet" href="/static/adminColors.css"> : ''}}
+	<link ng-show="auth_user.admin" rel="stylesheet" href="/static/adminColors.css">
 </head>
 <body>
     <script>
