@@ -93,6 +93,7 @@
 					<a class="header_a mdl-navigation__link" style="font-size: 75%" ui-sref="social.index" ng-bind="i18n('homelink')" ng-click="hideDrawer()"></a>
 					<a class="header_a mdl-navigation__link" style="font-size: 75%" ui-sref="social.profile" ng-bind="i18n('my_profile')" ng-click="hideDrawer()"></a>
 					<a class="header_a mdl-navigation__link" style="font-size: 75%" ui-sref="social.friends" ng-bind="i18n('my_friends')" ng-click="hideDrawer()"></a>
+					<a class="header_a mdl-navigation__link" ui-sref="state_admin" ng-bind="i18n('adminlink')" ng-click="hideDrawer()" ng-show="auth_user.admin"></a>
 				</nav>
       </div>
       <main class="mdl-layout__content">
@@ -136,15 +137,16 @@
     <script src="/js/angular/angular_home.js"></script>
     <script src="/js/angular/angular_sensors.js"></script>
     <script src="/js/angular/angular_statistics.js"></script>
-	<script src="/js/angular/angular_social.js"></script>
-	<script id="template/pagination/pagination.html" type="text/ng-template">
-		<ul class="pagination">
-			<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
-			<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
-			<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
-			<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
-			<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
-		</ul>
-	</script>
+		<script src="/js/angular/angular_social.js"></script>
+		<script src="/js/angular/angular_admin.js"></script>
+		<script id="template/pagination/pagination.html" type="text/ng-template">
+			<ul class="pagination">
+				<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
+				<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
+				<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
+				<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
+				<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
+			</ul>
+		</script>
 </body>
 </html>

@@ -40,7 +40,7 @@ angular.module('overwatch').filter('startFrom', function() {
 });
 
 angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
-    $rootScope.$on('$stateChangeStart', function(event) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         //console.log(Auth.getUser());
         console.log(Auth.isLoggedIn());
         if (!Auth.isLoggedIn() && $location.path() != '/') {
@@ -48,7 +48,12 @@ angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
             console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
             $location.path('/');
             $state.transitionTo('state_index');
-        } else if ($location.path() != '/') {
+        } else if (Auth.isLoggedIn() &&$location.path() == "/admin" && !Auth.getUser().admin) {
+            event.preventDefault();
+            console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
+            //$location.path('/');
+            $state.transitionTo(fromState.name);   
+        }else if ($location.path() != '/') {
             console.log("Pass :)");
         }  
     });  
@@ -216,6 +221,10 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
         .state('social.find_friends', {
             url : "/social/find_friends",
             templateUrl: "/html/partials/social_find_friends_tmp.html"
+        })
+        .state('state_admin', {
+            url : "/admin",
+            templateUrl: "/html/partials/admin_tmp.html"
         });        
         
         

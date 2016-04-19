@@ -8,6 +8,7 @@ var html_strings = {
     "statisticslink": ["Statistics", "Statistieken"],
     "sensorslink": ["Sensors", "Sensoren"],
     "sociallink": ["Social", "Sociaal"],
+    "adminlink": ["Admin", "Beheerder"],
     "contact": ["Contact ", "Contacteer "],
     "about": ["About ", "Over "],
     "language": ["Language", "Taal"],
