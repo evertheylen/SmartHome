@@ -43,3 +43,13 @@
 	background-repeat: repeat-x;
 	background-size: contain;;
 }
+
+.mdl-navigation__link--subcategory{
+	margin-bottom: 0px;
+	padding-left: 10px;
+	font-size: 85%;
+}
+
+.mdl-navigation__link--subcategory:hover{
+	cursor: pointer;
+}
