@@ -21,7 +21,6 @@
 	<link rel="stylesheet" href="/static/social_profile.css">
 	<link rel="stylesheet" href="/static/social_friends.css">
 	<link rel="stylesheet" href="/static/style.css">
-	<link rel="stylesheet" href="/static/adminColors.css">
 	<script defer src="https://code.getmdl.io/1.1.1/material.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.js"></script>
@@ -50,6 +49,7 @@
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
 	<script src="/js/md5.js"></script>
+	{{auth_user.admin ? <link rel="stylesheet" href="/static/adminColors.css"> : ''}}
 </head>
 <body>
     <script>
