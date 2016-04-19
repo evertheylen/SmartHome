@@ -48,11 +48,11 @@ angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
             console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
             $location.path('/');
             $state.transitionTo('state_index');
-        } else if (Auth.isLoggedIn() &&$location.path() == "/admin" && !Auth.getUser().admin) {
+        /*} else if (Auth.isLoggedIn() &&$location.path() == "/admin" && !Auth.getUser().admin) {
             event.preventDefault();
             console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
             //$location.path('/');
-            $state.transitionTo(fromState.name);   
+            $state.transitionTo(fromState.name);   */
         }else if ($location.path() != '/') {
             console.log("Pass :)");
         }  
@@ -138,8 +138,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    $rootScope.confirm_dialog.close();
 	}
 	
-	$scope.$on('$locationChangeStart', function() {
+	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
 	    console.log("Changing Location: " + $location.path());
+      if ($location.path() === "/admin" && !Auth.getUser.admin) {
+        $location.url(oldUrl);
+      }
 	});
 	
 	$scope.$on('$locationChangeSuccess', function() {
