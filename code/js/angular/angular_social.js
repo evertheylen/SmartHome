@@ -23,7 +23,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
 });
 
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope) {
-    $scope.statuses = []; // @Stijn: Ja, dit is correct engels. 
+    $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
         statuses = response.object;  
         $scope.$apply();
@@ -111,7 +111,7 @@ angular.module("overwatch").controller("create_groupController", function($scope
         if ($scope.group_form.$valid) {
             var wall = new Wall(-1, false);
             delete wall.WID;
-            var group = new Group(-1, $scope.group_name, "desc", 0);
+            var group = new Group(-1, $scope.group_name, "desc", $scope.group_public, 0);
             delete group.GID;
             ws.request({
                 type: "add",
