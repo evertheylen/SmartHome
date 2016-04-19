@@ -51,6 +51,7 @@ angular.module("overwatch").run(function($rootScope, $location, Auth, $state) {
         } else if (Auth.isLoggedIn() &&$location.path() == "/admin" && !Auth.getUser().admin) {
             event.preventDefault();
             console.log("Gandalf calmly states that you have no rights to access these pages...\n'YOU SHALL NOT PASS - Gandalf'");
+            return $state.go(fromState.name);
             //$location.path('/');
             //$state.transitionTo(fromState.name);   */
         }else if ($location.path() != '/') {
