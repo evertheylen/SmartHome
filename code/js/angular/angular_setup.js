@@ -141,6 +141,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
 	    console.log("Changing Location: " + $location.path());
       if ($location.path() === "/admin" && !Auth.getUser.admin) {
+          console.log(oldUrl + " <- old new -> " + newUrl);
         $location.url(oldUrl);
       }
 	});
