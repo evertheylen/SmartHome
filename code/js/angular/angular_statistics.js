@@ -4,7 +4,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 
     // Sample data
+    var is_box2_opened = false;
     $scope.open_box = function(id) {
+      if (id==2 && !is_box2_opened) {
+        $scope.select_all('sensor');
+        addClass(document.getElementById("label-all_sensors"), "is-checked");
+        is_box2_opened = true;
+      }
         if (hasClass(document.getElementById("box" + id), "open")) {
             removeClass(document.getElementById("box" + id), "open");
         } else {
@@ -274,6 +280,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     // GRAPH MAKING
     $scope.make_graph = function() {
         var final_sensors = [];
+        if (!is_box2_opened) {
+          final_sensors = $scope.filtered_sensors;
+        }
         for (i = 0; i < $scope.filtered_sensors.length; i++) {
             if ($scope.select_sensors[i]) {
                 final_sensors.push($scope.filtered_sensors[i]);
