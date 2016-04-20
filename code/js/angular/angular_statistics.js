@@ -14,6 +14,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         componentHandler.upgradeDom();
         if (id==2 && !is_box2_opened) {
             document.getElementById('list-checkbox-all_sensors').click();
+            is_box2_opened = true;
             componentHandler.upgradeDom();
         }
     }
@@ -279,10 +280,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     // GRAPH MAKING
     $scope.make_graph = function() {
         var final_sensors = [];
-        if (!is_box2_opened) {
-          final_sensors = $scope.filtered_sensors;
-        }
         for (i = 0; i < $scope.filtered_sensors.length; i++) {
+            if (!is_box2_opened) {
+                final_sensors = $scope.filtered_sensors;
+                break;
+            }
             if ($scope.select_sensors[i]) {
                 final_sensors.push($scope.filtered_sensors[i]);
             }
