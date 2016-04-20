@@ -139,6 +139,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
         componentHandler.upgradeDom();
     });
     
+    $rootScope.share = function() {
+      document.getElementById("dlgShare").showModal();
+    }
+    
 	$rootScope.confirm_dialog = document.getElementById('dlgConfirm');
 	$rootScope.confirm = function (value) {  
 	    $scope.$broadcast("confirmation", value);

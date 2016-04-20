@@ -89,4 +89,7 @@ var html_strings = {
     "months" : ["Months", "Maanden"],
     "years" : ["Years", "Jaren"],
     "upload_file" : ["Upload a data file", "Laad een data file in"],
+    "share_title" : ["Share the graph", "Deel de grafiek"],
+    "share_text" : ["You can choose to post this graph on your own wall, visible to all of your friends, or in a group, visible to all the group members.",
+                    "Je kan kiezen om deze grafiek op je prikbord te plaatsen, zichtbaar voor al je vrienden, of in een groep, zichtbaar voor alle leden."],
 };
