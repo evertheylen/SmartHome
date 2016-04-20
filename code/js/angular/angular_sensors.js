@@ -4,12 +4,14 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 	$rootScope.auth_user = Auth.getUser();
 	$scope.add_autocomplete = function (tag) {
+        /*
 		var i = $scope.tags.length;
 		while (i--) {
-			if ($scope.tags[i].description === tag.description)
+			if ($scope.tags[i].description === tag.text)
 				return;
 		}
 		$scope.tags.push(tag);
+        */
 	};
 
 	$scope.check_autocomplete = function (query) {
@@ -358,7 +360,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				// Edit Sensor 
                 // Add New Tags
                 for(var i = 0; i < $scope.sen_tags.length; i++) {
-                    var new_tag = new Tag($scope.sen_tags[i], $scope.sen_SID);
+                    var new_tag = new Tag($scope.sen_tags[i].text, $scope.sen_SID);
 			        ws.request({type: "add", what: "Tag", data: new_tag}, function(response) {
 				        response.object._scopes.push($scope);
 				        new_tag = response.object;
@@ -399,7 +401,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     */
                     // Add Tags
                     for(var i = 0; i < $scope.sen_tags.length; i++) {
-                        var new_tag = new Tag($scope.sen_tags[i], new_sensor.SID);
+                        var new_tag = new Tag($scope.sen_tags[i].text, new_sensor.SID);
 				        ws.request({type: "add", what: "Tag", data: new_tag}, function(response) {
 					        response.object._scopes.push($scope);
 					        new_tag = response.object;
@@ -537,19 +539,17 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 	$scope.save_loc = function save_loc() {
 		if ($scope.house_form.$valid) {
 			if (edit) {
-				// Edit house // TODO This doesnt get locally updated anymore because via the live system Jeroen will issue an update to the updated location! (So for the moment only updates on get_all == f5)
-				/*$scope.houses[edit_loc_id].description = $scope.loc_description;
-				$scope.houses[edit_loc_id].number = $scope.loc_number;
-				$scope.houses[edit_loc_id].street = $scope.loc_street;
-				$scope.houses[edit_loc_id].city = $scope.loc_city;
-				$scope.houses[edit_loc_id].postalcode = $scope.loc_postalcode;
-				$scope.houses[edit_loc_id].country = $scope.loc_country;
-				$scope.houses[edit_loc_id].elec_price = $scope.loc_elec_price;
-				$scope.houses[edit_loc_id].user_UID = $rootScope.auth_user.UID;
+				// Edit house 
+                /*
+                TODO This doesnt get locally updated anymore because via the live system Jeroen will issue an update 
+                     to the updated location! (So for the moment only updates on get_all == f5)
+				    $scope.houses[edit_loc_id].description = $scope.loc_description;
+				    $scope.houses[edit_loc_id].number = $scope.loc_number;
 				*/
 				
-				var house = new Location($scope.loc_LID, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country, 
-							 $rootScope.auth_user.UID);
+				var house = new Location($scope.loc_LID, $scope.loc_description, $scope.loc_number, 
+                                         $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, 
+                                         $scope.loc_country, $rootScope.auth_user.UID);
 				var houseObject = house.toJSON();
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
 					//$scope.houses[edit_loc_id] = response.object; //TODO Will be done through jeroen's updates
