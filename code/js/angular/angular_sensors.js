@@ -176,18 +176,25 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.$on("confirmation", function (event, value) {
 		if (value) {
 			if (delete_from == $scope.sensors) {
-				console.log("Delete_id: " + delete_id);
-				ws.request({type: "delete", what: "Sensor", data: {"SID": $scope.sensors[delete_id].SID}}, function(success) {
-                    			updateFilteredSensors();
+                var delete_sensor_SID = $scope.sensors[delete_id].SID; 
+				ws.request({type: "delete", what: "Tag", data: {"sensor_SID": delete_sensor_SID}}, function(success) {
 					$scope.$apply();
 				});
-				cache.remove("Sensor", $scope.sensors[delete_id].SID);
+                for(var i = 0; i < $scope.tags.length; i++) {
+                    if($scope.tags[i].sensor_SID == delete_sensor_SID) 
+   				        cache.removeObject("Tag", [$scope.tags[i].description, delete_sensor_SID]);
+                }
+				ws.request({type: "delete", what: "Sensor", data: {"SID": delete_sensor_SID}}, function(success) {
+        			updateFilteredSensors();
+					$scope.$apply();
+				});
+				cache.removeObject("Sensor", delete_sensor_SID);
 			} else {
 				console.log("Delete_id: " + delete_id);
 				ws.request({type: "delete", what: "Location", data: {"LID": $scope.houses[delete_id].LID}}, function(success) {
 					$scope.$apply();
 				});
-				cache.remove("Location", $scope.houses[delete_id].LID);
+				cache.removeObject("Location", $scope.houses[delete_id].LID);
 			}
 			if (delete_from.length === 1) {
 				delete_from.length = 0;
@@ -349,40 +356,56 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 	$scope.save_sen = function save_sen() {
 		if ($scope.sensor_form.$valid) {
 			if (edit) {
-				// Edit Sensor TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
+				// Edit Sensor 
+                // Add New Tags
+                for(var i = 0; i < $scope.sen_tags.length; i++) {
+                    var new_tag = new Tag($scope.sen_tag[i], $scope.sen_SID);
+			        ws.request({type: "add", what: "Tag", data: new_tag}, function(response) {
+				        response.object._scopes.push($scope);
+				        new_tag = response.object;
+                        $scope.tags.push(new_tag);
+ 	                });                
+                }
+
+                // TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
 				// TODO Don't forget the unit price when the format updates :)
 				var sensor = new Sensor($scope.sen_SID, $scope.sen_type, $scope.sen_name, $scope.sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
 				var sensorObject = sensor.toJSON();
 				delete sensorObject.index;
 				ws.request({type: "edit", what: "Sensor", data: sensorObject}, function(response) {
-						for (var i = 0; i < $scope.sensors.length; i++) {
-								if ($scope.sensors[i].SID === response.SID) {
-										$scope.sensors[i] = response;
-										updateFilteredSensors();
-										$scope.$apply();
-                }
-            }
+					for (var i = 0; i < $scope.sensors.length; i++) {
+							if ($scope.sensors[i].SID === response.SID) {
+									$scope.sensors[i] = response;
+									updateFilteredSensors();
+									$scope.$apply();
+                            }
+                    }
 				});
 			} else {
 				// Add Sensor
-				
 				// TODO Don't forget the unit price when the format updates :)				
 				var new_sensor = new Sensor(-1, $scope.sen_type, $scope.sen_name, $scope.sen_unit_price, $rootScope.auth_user.UID, $scope.sen_house);
-				//new_sensor.tags = $scope.sen_tags;
-				//new_sensor.house = $scope.sen_house;
 				delete new_sensor.SID;
-				
 				var sensorObject = new_sensor.toJSON();
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
 					response.object._scopes.push($scope);
 					new_sensor = response.object;
+                    // TODO @Stijn, waarom die get location hier?
 					ws.request({type: "get", what: "Location", data: {LID: response.object.location_LID}}, function(response) {
 	        			$scope.sensors.push(new_sensor);
 				        updateFilteredSensors();
 				        $scope.$apply();
 	                }); 
+                    // Add Tags
+                    for(var i = 0; i < $scope.sen_tags.length; i++) {
+                        var new_tag = new Tag($scope.sen_tag[i], new_sensor.SID);
+				        ws.request({type: "add", what: "Tag", data: new_tag}, function(response) {
+					        response.object._scopes.push($scope);
+					        new_tag = response.object;
+                            $scope.tags.push(new_tag);
+     	                });                
+                    }
 				});     
-				
 			}
 			document.getElementById("dlgSensor").close();
 		}
@@ -526,12 +549,12 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 				var houseObject = house.toJSON();
 				ws.request({type: "edit", what: "Location", data: houseObject}, function(response) {
 					//$scope.houses[edit_loc_id] = response.object; //TODO Will be done through jeroen's updates
-						for (var i = 0; i < $scope.houses.length; i++) {
-								if ($scope.houses[i].LID === response.LID) {
-										$scope.houses[i] = response;
-										$scope.$apply();
-                }
-            }
+				    for (var i = 0; i < $scope.houses.length; i++) {
+						    if ($scope.houses[i].LID === response.LID) {
+								    $scope.houses[i] = response;
+								    $scope.$apply();
+                            }
+                    }
 				});
 			} else {
 				// Add house
