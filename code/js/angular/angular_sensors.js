@@ -6,9 +6,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.add_autocomplete = function (tag) {
 		var i = $scope.tags.length;
 		while (i--) {
-			if ($scope.tags[i].text === tag.text) {
+			if ($scope.tags[i].description === tag.description)
 				return;
-			}
 		}
 		$scope.tags.push(tag);
 	};

@@ -50,11 +50,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         $scope.$apply();
     });
 
-    $scope.tags = [{
-        text: "keuken"
-    }, {
-        text: "kerstverlichting"
-    }]; //TODO Get via database.
+	$scope.tags = [];
+
+	ws.request({type: "get_all", what: "Tag", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		for (var i = 0; i < response.objects.length; i++)
+			response.objects[i]._scopes.push($scope);
+		$scope.tags = response.objects;
+		updateFilteredSensors();
+		$scope.$apply();
+	});
 
     $scope.aggregate_by = [false, false, false];
     $scope.select_locs = [];
