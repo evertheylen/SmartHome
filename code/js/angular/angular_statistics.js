@@ -6,17 +6,18 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     // Sample data
     var is_box2_opened = false;
     $scope.open_box = function(id) {
-      if (id==2 && !is_box2_opened) {
-        $scope.select_all('sensor');
-        addClass(document.getElementById("label-all_sensors"), "is-checked");
-        is_box2_opened = true;
-      }
         if (hasClass(document.getElementById("box" + id), "open")) {
             removeClass(document.getElementById("box" + id), "open");
         } else {
             addClass(document.getElementById("box" + id), "open");
         }
         componentHandler.upgradeDom();
+        if (id==2 && !is_box2_opened) {
+            $scope.select_all('sensor');
+            addClass(document.getElementById("label-all_sensors"), "is-checked");
+            is_box2_opened = true;
+            componentHandler.upgradeDom();
+        }
     }
 
     // Default opening
