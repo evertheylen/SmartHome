@@ -135,7 +135,7 @@
 										<input type="hidden" ng-model="share_type" name="shareType" required></input>
 										<ul id="select_share" class="mdl-menu mdl-menu--bottom-left" for="dropDownShare" style="overflow-y: scroll; max-height: 140px;">
 												<li>
-														<li ng-repeat="group in groups track by group.GID" id="btnSelect-share-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(group.title, 'select_share', 'dropDownShare', 'share')" tabindex="-1" ng-bind="i18n('share')">
+														<li ng-repeat="group in groups track by group.GID" id="btnSelect-share-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(group.title, 'select_share', 'dropDownShare', 'share')" tabindex="-1" ng-bind="group.title">
 														</li>
 												</li>
 										</ul>

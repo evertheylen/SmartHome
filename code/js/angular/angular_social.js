@@ -118,7 +118,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     
     $timeout(function() {
 		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
-			removeClass(document.getElementById("select_sharee"), "mdl-js-menu");
+			removeClass(document.getElementById("select_share"), "mdl-js-menu");
 		    }
 		    addClass(document.getElementById("select_share"), "mdl-js-menu");
 		}, 0);
