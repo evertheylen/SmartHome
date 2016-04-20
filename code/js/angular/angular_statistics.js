@@ -13,6 +13,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         componentHandler.upgradeDom();
     }
 
+    // Default opening
+    $scope.open_box(1);
+    $scope.open_box(3);
+    
     $scope.houses = [];
     $scope.sensors = [];
 
