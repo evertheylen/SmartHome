@@ -4,6 +4,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
 
     // Sample data
+    var is_box2_opened = false;
     $scope.open_box = function(id) {
         if (hasClass(document.getElementById("box" + id), "open")) {
             removeClass(document.getElementById("box" + id), "open");
@@ -11,8 +12,17 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             addClass(document.getElementById("box" + id), "open");
         }
         componentHandler.upgradeDom();
+        if (id==2 && !is_box2_opened) {
+            document.getElementById('list-checkbox-all_sensors').click();
+            is_box2_opened = true;
+            componentHandler.upgradeDom();
+        }
     }
 
+    // Default opening
+    $scope.open_box(1);
+    $scope.open_box(3);
+    
     $scope.houses = [];
     $scope.sensors = [];
 
@@ -74,7 +84,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                         addClass(document.getElementById("label-location_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
-                            if ($scope.sensors[j].location_LID === $scope.houses[i].LID && select_types.indexOf($scope.sensors[i].type) != -1) {
+                            if ($scope.sensors[j].location_LID === $scope.houses[i].LID && select_types.indexOf($scope.sensors[j].type) != -1) {
                                 $scope.filtered_sensors.push($scope.sensors[j]);
                             }
                         }
@@ -104,7 +114,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                         addClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
-                            if ($scope.sensors[j].type === $scope.types[i] && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
+                            if ($scope.sensors[j].type === $scope.types[i] && select_houses.indexOf($scope.sensors[j].location_LID) != -1) {
                                 $scope.filtered_sensors.push($scope.sensors[j]);
                             }
                         }
@@ -271,6 +281,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.make_graph = function() {
         var final_sensors = [];
         for (i = 0; i < $scope.filtered_sensors.length; i++) {
+            if (!is_box2_opened) {
+                final_sensors = $scope.filtered_sensors;
+                break;
+            }
             if ($scope.select_sensors[i]) {
                 final_sensors.push($scope.filtered_sensors[i]);
             }
@@ -309,11 +323,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         for (i = 0; i < final_sensors.length; i++) {
 		var sensor_SID = final_sensors[i].SID;
             	var sensor_data = [];
-		ws.request({type: "get_all", what: "Value", for: {what: "Sensor", SID: sensor_SID}, where: {field: "Value.time", op: "gt", value: date.getTime()}}, function(response) {
+              for (j=0; j < $scope.total_days; j++) {
+                 sensor_data.push(Math.random() * (400 - 20) + 20);
+              }
+	/*	ws.request({type: "get_all", what: "Value", for: {what: "Sensor", SID: sensor_SID}, where: {field: "Value.time", op: "gt", value: date.getTime()}}, function(response) {
 			for(i = 0; i < response.objects.length; i++) 
 				sensor_data.push(response.objects[i][1]);
 			$scope.$apply();
-		});
+		});*/ // TODO
             	graph.data.push(sensor_data);
 	}
         $scope.graphs.push(graph);
