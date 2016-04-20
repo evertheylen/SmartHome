@@ -129,8 +129,8 @@
             <div class="mdl-dialog__content">
                 <p ng-bind="i18n('share_text')">
 													<div id="txtfield_ShareType" class="mdl-selectfield">
-				    <label>Type</label>
-				    <button id="dropDownShare" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_share').parentNode, 'is-visible');" ng-bind="i18n('pick_share')">
+				    <label ng-bind="i18n('share_with')"></label>
+				    <button id="dropDownShare" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_share').parentNode, 'is-visible');">
 				    </button>
 				    <input type="hidden" ng-model="share_type" name="shareType" required></input>
 				    <ul id="select_share" class="mdl-menu mdl-menu--bottom-left" for="dropDownShare" style="overflow-y: scroll; max-height: 140px;">
