@@ -391,11 +391,14 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					response.object._scopes.push($scope);
 					new_sensor = response.object;
                     // TODO @Stijn, waarom die get location hier?
+                    /*
 					ws.request({type: "get", what: "Location", data: {LID: response.object.location_LID}}, function(response) {
 	        			$scope.sensors.push(new_sensor);
 				        updateFilteredSensors();
 				        $scope.$apply();
 	                }); 
+                    */
+        			$scope.sensors.push(new_sensor);
                     // Add Tags
                     for(var i = 0; i < $scope.sen_tags.length; i++) {
                         var new_tag = new Tag($scope.sen_tags[i], new_sensor.SID);
