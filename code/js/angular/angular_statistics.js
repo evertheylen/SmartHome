@@ -13,9 +13,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         componentHandler.upgradeDom();
         if (id==2 && !is_box2_opened) {
-            $scope.select_all('sensor');
-            addClass(document.getElementById("label-all_sensors"), "is-checked");
-            is_box2_opened = true;
+            document.getElementById('list-checkbox-all_sensors').click();
             componentHandler.upgradeDom();
         }
     }
