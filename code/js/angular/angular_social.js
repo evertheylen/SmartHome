@@ -138,6 +138,15 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
+  
+    $scope.back = function () {
+        document.getElementById('dlgShare').close();
+    };
+    
+    $scope.continue = function () {
+        // TODO!!
+        document.getElementById("dlgShare").close();
+    }
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
