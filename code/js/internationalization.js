@@ -94,4 +94,5 @@ var html_strings = {
                     "Je kan kiezen om deze grafiek op je prikbord te plaatsen, zichtbaar voor al je vrienden, of in een groep, zichtbaar voor alle leden."],
     "share_with" : ["Share with ", "Deel met "],
     "wall" : ["Wall", "Prikbord"],
+    "pick_share" : ["choose a method", "kies een methode"],
 };

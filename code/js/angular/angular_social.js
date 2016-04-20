@@ -145,8 +145,12 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     
     $scope.continue = function () {
         // TODO!!
-        document.getElementById("dlgShare").close();
+        if ($scope.share_form.$valid) {
+            document.getElementById("dlg Share").close();
+        }
     }
+    
+    $scope.dropDownClick(null, 'select_share', 'dropDownShare','share');
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {

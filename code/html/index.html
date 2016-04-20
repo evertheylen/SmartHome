@@ -128,28 +128,30 @@
             <h4 class="mdl-dialog__title" ng-bind="i18n('share_title')"></h4>
             <div class="mdl-dialog__content">
                 <p ng-bind="i18n('share_text')">
-								<div id="txtfield_ShareType" class="mdl-selectfield is-invalid">
-										<label ng-bind="i18n('share_with')"></label>
-										<button id="dropDownShare" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_share').parentNode, 'is-visible');">
-										</button>
-										<input type="hidden" ng-model="share_type" name="shareType" required></input>
-										<ul id="select_share" class="mdl-menu mdl-menu--bottom-left" for="dropDownShare" style="overflow-y: scroll; max-height: 140px;">
-												<li>
-														<li id="btnSelect-share-wall" class="mdl-menu__item" ng-click="dropDownClick(i18n('wall'), 'select_share', 'dropDownShare', 'share')" tabindex="-1" ng-bind="i18n('wall')"></li>
-														<li ng-repeat="group in groups track by group.GID" id="btnSelect-share-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(group.title, 'select_share', 'dropDownShare', 'share')" tabindex="-1" ng-bind="group.title">
+								<form name="shareForm">
+										<div id="txtfield_ShareType" class="mdl-selectfield is-invalid">
+												<label ng-bind="i18n('share_with')"></label>
+												<button id="dropDownShare" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_share').parentNode, 'is-visible');" ng-bind="i18n('pick_share')">
+												</button>
+												<input type="hidden" ng-model="share_type" name="shareType" required></input>
+												<ul id="select_share" class="mdl-menu mdl-menu--bottom-left" for="dropDownShare" style="overflow-y: scroll; max-height: 140px;">
+														<li>
+																<li id="btnSelect-share-wall" class="mdl-menu__item" ng-click="dropDownClick(i18n('wall'), 'select_share', 'dropDownShare', 'share')" tabindex="-1" ng-bind="i18n('wall')"></li>
+																<li ng-repeat="group in groups track by group.GID" id="btnSelect-share-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(group.title, 'select_share', 'dropDownShare', 'share')" tabindex="-1" ng-bind="group.title">
+																</li>
 														</li>
-												</li>
-										</ul>
-								</div>
-                <div>
-                    <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
-                    <button id="btnConfirmContinue" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="width: 45%; display: inline;" ng-click="continue();" ng-bind="i18n('continue')">
-                    </button>
-                    <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="width: 45%; display: inline;" ng-click="back();" ng-bind="i18n('cancel')">
-                    </button>
-                </div>
+												</ul>
+										</div>
+										<div>
+												<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
+												<button id="btnConfirmContinue" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+														style="width: 45%; display: inline;" ng-click="continue();" ng-bind="i18n('continue')">
+												</button>
+												<button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+														style="width: 45%; display: inline;" ng-click="back();" ng-bind="i18n('cancel')">
+												</button>
+										</div>
+								</form>
             </div>
         </dialog>  
       </main>
