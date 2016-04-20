@@ -93,4 +93,5 @@ var html_strings = {
     "share_text" : ["You can choose to post this graph on your own wall, visible to all of your friends, or in a group, visible to all the group members.",
                     "Je kan kiezen om deze grafiek op je prikbord te plaatsen, zichtbaar voor al je vrienden, of in een groep, zichtbaar voor alle leden."],
     "share_with" : ["Share with ", "Deel met "],
+    "wall" : ["Wall", "Prikbord"],
 };
