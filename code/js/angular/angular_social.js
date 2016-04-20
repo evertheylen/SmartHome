@@ -106,7 +106,31 @@ angular.module("overwatch").controller("find_friendsController", function($scope
 });
 
 angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth) {
-  
+    $scope.groups = []
+
+    ws.request({
+        type: "get_all",
+        what: "Group",
+    }, function(response) {
+        $scope.groups = response.objects;
+        $scope.$apply();
+    });
+  	$scope.dropDownClick = function (value, menu, button, ng_model) {
+		var toChange = document.getElementById(button);
+		toChange.innerHTML = value;
+		switch (ng_model) {
+			case 'share':
+			    	if (value === null) {
+					    toChange.innerHTML = $scope.i18n("pick_share");
+					    break;
+			    	} else {
+			    	    toChange.innerHTML = value;
+			    	}
+				    $scope.share_type = value;
+				    break;
+		}
+		removeClass(document.getElementById(menu).parentNode, "is-visible");
+	}
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
