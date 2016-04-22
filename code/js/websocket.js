@@ -184,9 +184,9 @@ function get_all_response(response) {
         if(type == "Tag")
             continue;
         console.log(type + " i: " + i);
-        console.log("data[i] before: " + data[i]);
+        console.log("data["+i+"] before: " + data[i]);
         var key = getKey(type, data[i]);
-        console.log("data[i] after: " + data[i]);
+        console.log("data["+i+"] after: " + data[i]);
 		objects.push(cache.getObject(type, key, data[i]));
     }
     //console.log("Done pushing objects");
@@ -261,16 +261,15 @@ function getFilledObject(what, objectData) {
 }
 
 function getKey(type, data) {
-    console.log("data1: " + data);
     for(i = 0; i < dataTypes.length; i++) {
-       console.log("data2: " + data + " i: " + i);
         if(dataTypes[i].prototype.getName() == type) {
-            console.log("data3: " + data);
             var key = dataTypes[i].prototype._key;
             var tmp = [];
+            /*
             for (j = 0; j < key.length; j++) 
                 tmp.push(data[key[j]]);
-            console.log("data4: " + data);
+            */
+            console.log("data: " + data);
             return tmp;
         }
     }
