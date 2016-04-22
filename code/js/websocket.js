@@ -234,8 +234,8 @@ function getFilledObject(what, objectData) {
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == what) {
             var object = new dataTypes[i]();
-            console.log("Object: " + object.toJSON());
-            console.log("ObjData: " + objectData.toJSON());
+            console.log("Object: " + object.stringify());
+            console.log("ObjData: " + objectData.stringify());
             object.fill(objectData);
             return object;    
         }
