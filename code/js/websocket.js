@@ -261,17 +261,16 @@ function getFilledObject(what, objectData) {
 }
 
 function getKey(type, data) {
-    console.log("Getting key");
+    console.log("data1: " + data);
     for(i = 0; i < dataTypes.length; i++) {
+       console.log("data2: " + data + " i: " + i);
         if(dataTypes[i].prototype.getName() == type) {
+            console.log("data3: " + data);
             var key = dataTypes[i].prototype._key;
             var tmp = [];
-            //console.log("Data: " + data);
-            console.log("Getting key for: " + type);
             for (j = 0; j < key.length; j++) 
                 tmp.push(data[key[j]]);
-            //console.log("worked");
-            console.log("Key returned: " + tmp);
+            console.log("data4: " + data);
             return tmp;
         }
     }
