@@ -228,79 +228,25 @@ function live_edit_response(response) {
 }
 
 function getFilledObject(what, objectData) {
-	object = {};
-
-    if() {
-
-
+    for(i = 0; i < dataTypes.length; i++) {
+        if(dataTypes[i].getName() == what) {
+            var object = new dataTypes[i]();
+            object.fill(objectData);
+            return object;    
+        }
     }
-
-	switch(what) {
-        case "Wall":
-            object = new Wall();
-            break;
-		case "User":
-			object = new User();
-			break;
-		case "Location":
-			object = new Location();
-			break;
-		case "Sensor":
-			object = new Sensor();
-			break;
-		case "Tag":
-			object = new Tag();
-			break;
-		case "Value":
-			object = new Value();	
-			break;
-        case "Status":
-            object = new Status();
-            break;
-        case "Like": 
-            object = new Like();
-            break;
-		case "Friendship":
-			object = new Friendship();
-			break;
-		case "Group":
-			object = new Group();
-			break;
-		default:
-			throw new Error("'What' in websocket request is of unknown type.");
-	}
-	object.fill(objectData);
-	return object;
+    throw new Error("'What' in websocket request is of unknown type.");
 }
 
 function getKey(type, data) {
-    var key = [];
-	switch(type) {
-        case "Wall":
-            key = ["WID"];
-		case "User":
-			key = ["UID"];
-		case "Location":
-		    key = ["LID"];
-		case "Sensor":
-			key = ["SID"];
-		case "Tag":
-			key = [""];
-		case "Value":
-			key = ["sensor_SID"];
-        case "Status":
-            key = ["SID"];
-        case "Like":
-            key = ["status_SID", "user_UID"];
-		case "Friendship":
-			key = ["user_UID1", "user_UID2"];
-		case "Group":
-			return ["GID"];
-		default:
-			throw new Error("'What' in websocket request is of unknown type.");
-	}	
-    var tmp = [];
-    for (i = 0; i < key.length; i++)
-        tmp.push(data.key[i]);
-    return tmp;
+    for(i = 0; i < dataTypes.length; i++) {
+        if(dataTypes[i].getName() == type) {
+            var key = dataTypes[i]._key;
+            var tmp = [];
+            for (j = 0; j < key.length; j++) 
+                tmp.push(data.key[j]);
+            return tmp;
+        }
+    }
+	throw new Error("'What' in websocket request is of unknown type.");   
 }
