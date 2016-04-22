@@ -108,7 +108,7 @@ function connect_to_websocket() {
 			} 
 		}
 		catch(err) {
-    		console.log(err, 'background: #222; color: #bada55');
+    		console.log('%c' + err, 'color: #ff0000');
 			return;
 		}
 		if (receivedObject.hasOwnProperty("type")) 
