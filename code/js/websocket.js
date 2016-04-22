@@ -172,10 +172,12 @@ function get_all_response(response) {
 	var objects = [];
 	var type = response["what"];
 	var data = response["data"];
+    console.log("Get all response");
 	if(type == "value")
 		return {for: response["for"], objects: data};
 	for(i = 0; i < data.length; i++)
 		objects.push(cache.getObject(type, getKey(type, data[i]), data[i]));
+    console.log("Done pushing objects");
 	return {for: response["for"], objects: objects};
 }
 
@@ -228,6 +230,7 @@ function live_edit_response(response) {
 }
 
 function getFilledObject(what, objectData) {
+    console.log("Getting filled object");
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == what) {
             var object = new dataTypes[i]();
@@ -239,6 +242,7 @@ function getFilledObject(what, objectData) {
 }
 
 function getKey(type, data) {
+    console.log("Getting key");
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == type) {
             var key = dataTypes[i].prototype._key;
