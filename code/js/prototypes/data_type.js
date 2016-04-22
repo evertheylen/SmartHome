@@ -12,7 +12,7 @@ function DataType() {
 		}
 
 		return tmp;
-    	}
+	};
 
 	// Caution: Can throw syntax error if key not in ObjectData.
 	this.fill = function(objectData) {
@@ -20,7 +20,12 @@ function DataType() {
 			if(typeof this[key] !== 'function' && key[0] != "_") {
 				this[key] = objectData[key];
 			}
-		}
-	}
+	    }
+	};
 
+    this.getName = function() { 
+        var funcNameRegex = /function (.{1,})\(/;
+        var results = (funcNameRegex).exec((this).constructor.toString());
+        return (results && results.length > 1) ? results[1] : "";
+    };
 }
