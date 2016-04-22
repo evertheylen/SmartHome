@@ -6,4 +6,5 @@ function Membership(status, last_change, user_UID, group_GID) {
 	this.last_change = last_change;
 	this.user_UID = user_UID;
 	this.group_GID = group_GID;
+    this._key = ["user_UID", "group_GID"];
 }

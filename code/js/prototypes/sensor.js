@@ -8,4 +8,5 @@ function Sensor(SID, type, title, EUR_per_unit, user_UID, location_LID) {
 	this.EUR_per_unit = EUR_per_unit;
 	this.user_UID = user_UID;
 	this.location_LID = location_LID;
+    this._key = ["SID"];
 }

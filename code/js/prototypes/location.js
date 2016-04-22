@@ -10,4 +10,5 @@ function Location(LID, description, number, street, city, postalcode, country, u
 	this.postalcode = postalcode;
 	this.country = country;
 	this.user_UID = user_UID;
+    this._key = ["LID"];
 }

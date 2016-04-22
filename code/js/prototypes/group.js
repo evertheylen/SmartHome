@@ -7,4 +7,5 @@ function Group(GID, title, description, public, wall_WID) {
 	this.description = description;
     this.public = public;
 	this.wall_WID = wall_WID;
+    this._key = ["GID"];
 }
