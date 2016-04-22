@@ -36,11 +36,9 @@ class Request:
     async def error(self, dct):
         await self.conn.send({
             "ID": self.ID,
-            "type": self.metadata["type"],
-            "data": "failure",
-            "error": dct
+            "type": "error",
+            "data": dct,
         })
-    
     
 issue_text = """
 
