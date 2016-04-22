@@ -36,8 +36,10 @@ var cache = {
 		var index = cache.searchKey(type, key);
 		var object = null;
 		if(index === -1) {
+            console.log("getObject not found in cache");
 			// If the object is not in the cache.
 			object = getFilledObject(type, data);
+            console.log("getObject Object found, key: " + key);
 			cache[type].push({key: key, object: object});
 		}
 		else {
@@ -45,6 +47,7 @@ var cache = {
 			object = cache[type][index].object;
 			object.fill(data);
 		}
+        console.log("getObject returning object");
 		return object;
 	},
 
@@ -240,6 +243,7 @@ function getFilledObject(what, objectData) {
             //console.log("Object: " + object.stringify());
             //console.log("ObjData: " + objectData.stringify());
             object.fill(objectData);
+            console.log("Object returned");
             return object;    
         }
     }
@@ -256,6 +260,7 @@ function getKey(type, data) {
             for (j = 0; j < key.length; j++) 
                 tmp.push(data[key[j]]);
             //console.log("worked");
+            console.log("Key returned: " + tmp);
             return tmp;
         }
     }
