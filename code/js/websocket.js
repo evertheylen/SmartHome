@@ -108,7 +108,7 @@ function connect_to_websocket() {
 			} 
 		}
 		catch(err) {
-    		console.log('%c Websocket Error occured: \n' + err.message, 'color: #ff0000');
+    		console.log('%c Websocket Error occured: ' + err.message, 'color: #ff0000');
 			return;
 		}
 		if (receivedObject.hasOwnProperty("type")) 
