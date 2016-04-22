@@ -402,7 +402,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     // Add Tags
                     for(var i = 0; i < $scope.sen_tags.length; i++) {
                         var new_tag = new Tag($scope.sen_tags[i].text, new_sensor.SID);
-				        ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: $scope.sen_SID}}, function(response) {
+				        ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: new_sensor.SID}}, function(response) {
 					        response.object._scopes.push($scope);
 					        new_tag = response.object;
                             $scope.tags.push(new_tag);
