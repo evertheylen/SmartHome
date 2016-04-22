@@ -57,7 +57,7 @@ var cache = {
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 
-	websocket.request = function (requestObject, f) {
+	websocket.request = function (requestObject, scope, f) {
 		// Data can be any object literal or prototype with the toJSON method.
 		answers[currentId] = f;
 		requestObject.ID = currentId;
@@ -242,11 +242,9 @@ function getFilledObject(what, objectData) {
 		case "Sensor":
 			object = new Sensor();
 			break;
-		/*
 		case "Tag":
 			object = new Tag();
 			break;
-		*/
 		case "Value":
 			object = new Value();	
 			break;
