@@ -241,15 +241,10 @@ function getFilledObject(what, objectData) {
 function getKey(type, data) {
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == type) {
-            console.log(type + " recognized");
             var key = dataTypes[i].prototype._key;
-            console.log("Key: " + key);
-            console.log("KeyLength: " + key.length);
-            console.log("Key[0]: " + key[0]);
             var tmp = [];
             for (j = 0; j < key.length; j++) 
                 tmp.push(data[key[j]]);
-            console.log("Tmp: " + tmp);
             return tmp;
         }
     }
