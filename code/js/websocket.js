@@ -184,8 +184,10 @@ function get_all_response(response) {
         if(type == "Tag")
             continue;
         console.log(type + " i: " + i);
-        console.log("data[i]: " + data[i]);
-		objects.push(cache.getObject(type, getKey(type, data[i]), data[i]));
+        console.log("data[i] before: " + data[i]);
+        var key = getKey(type, data[i]);
+        console.log("data[i] after: " + data[i]);
+		objects.push(cache.getObject(type, key, data[i]));
     }
     //console.log("Done pushing objects");
 	return {for: response["for"], objects: objects};
@@ -269,7 +271,7 @@ function getKey(type, data) {
             for (j = 0; j < key.length; j++) 
                 tmp.push(data[key[j]]);
             //console.log("worked");
-            //console.log("Key returned: " + tmp);
+            console.log("Key returned: " + tmp);
             return tmp;
         }
     }
