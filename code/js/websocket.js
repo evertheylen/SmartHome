@@ -243,8 +243,10 @@ function getKey(type, data) {
         if(dataTypes[i].prototype.getName() == type) {
             var key = dataTypes[i].prototype._key;
             var tmp = [];
+            console.log("Data: " + data);
             for (j = 0; j < key.length; j++) 
                 tmp.push(data[key[j]]);
+            console.log("worked");
             return tmp;
         }
     }
