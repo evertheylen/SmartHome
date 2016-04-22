@@ -229,7 +229,7 @@ function live_edit_response(response) {
 
 function getFilledObject(what, objectData) {
     for(i = 0; i < dataTypes.length; i++) {
-        if(dataTypes[i].getName() == what) {
+        if(dataTypes[i].prototype.getName() == what) {
             var object = new dataTypes[i]();
             object.fill(objectData);
             return object;    
@@ -240,8 +240,8 @@ function getFilledObject(what, objectData) {
 
 function getKey(type, data) {
     for(i = 0; i < dataTypes.length; i++) {
-        if(dataTypes[i].getName() == type) {
-            var key = dataTypes[i]._key;
+        if(dataTypes[i].prototype.getName() == type) {
+            var key = dataTypes[i].prototype._key;
             var tmp = [];
             for (j = 0; j < key.length; j++) 
                 tmp.push(data.key[j]);
