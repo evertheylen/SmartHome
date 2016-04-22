@@ -33,15 +33,11 @@ var cache = {
 	},
 
 	getObject: function(type, key, data) {
-        console.log("getObject key: " + key);
-        console.log("getObject data: " + data);
 		var index = cache.searchKey(type, key);
 		var object = null;
 		if(index === -1) {
-            //console.log("getObject not found in cache");
 			// If the object is not in the cache.
 			object = getFilledObject(type, data);
-            //console.log("getObject Object found, key: " + key);
 			cache[type].push({key: key, object: object});
 		}
 		else {
@@ -49,7 +45,6 @@ var cache = {
 			object = cache[type][index].object;
 			object.fill(data);
 		}
-        //console.log("getObject returning object");
 		return object;
 	},
 
@@ -177,19 +172,10 @@ function get_all_response(response) {
 	var objects = [];
 	var type = response["what"];
 	var data = response["data"];
-    //console.log("Get all response");
 	if(type == "value")
 		return {for: response["for"], objects: data};
-	for(i = 0; i < data.length; i++) {
-        if(type == "Tag")
-            continue;
-        console.log(type + " i: " + i);
-        console.log("data["+i+"] before: " + data[i]);
-        var key = getKey(type, data[i]);
-        console.log("data["+i+"] after: " + data[i]);
-		objects.push(cache.getObject(type, key, data[i]));
-    }
-    //console.log("Done pushing objects");
+	for(var i = 0; i < data.length; i++)
+		objects.push(cache.getObject(type, getKey(type, data[i]), data[i]));
 	return {for: response["for"], objects: objects};
 }
 
@@ -242,18 +228,10 @@ function live_edit_response(response) {
 }
 
 function getFilledObject(what, objectData) {
-    console.log("Getting filled object");
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == what) {
             var object = new dataTypes[i]();
-            //console.log("ObjectType: " + dataTypes[i]);
-            //console.log("Object: " + object.stringify());
-            //console.log("ObjData: " + objectData.stringify());
-            console.log("Getting object for: " + what);
-            console.log(object.getName());
-            console.log(objectData);
             object.fill(objectData);
-            ///console.log("Object returned");
             return object;    
         }
     }
@@ -261,13 +239,12 @@ function getFilledObject(what, objectData) {
 }
 
 function getKey(type, data) {
-    for(n = 0; n < dataTypes.length; n++) {
+    for(var n = 0; n < dataTypes.length; n++) {
         if(dataTypes[n].prototype.getName() == type) {
             var key = dataTypes[n].prototype._key;
             var tmp = [];
-            for (j = 0; j < key.length; j++) 
-                tmp.push(data[key[j]]);
-            console.log("data: " + data);
+            for (m = 0; m < key.length; m++) 
+                tmp.push(data[key[m]]);
             return tmp;
         }
     }
