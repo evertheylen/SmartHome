@@ -175,8 +175,10 @@ function get_all_response(response) {
     console.log("Get all response");
 	if(type == "value")
 		return {for: response["for"], objects: data};
-	for(i = 0; i < data.length; i++)
+	for(i = 0; i < data.length; i++) {
+        console.log(type + " i: " + i);
 		objects.push(cache.getObject(type, getKey(type, data[i]), data[i]));
+    }
     console.log("Done pushing objects");
 	return {for: response["for"], objects: objects};
 }
