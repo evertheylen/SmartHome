@@ -182,6 +182,7 @@ function get_all_response(response) {
         if(type == "Tag")
             continue;
         console.log(type + " i: " + i);
+        console.log("data[i]: " + data[i]);
 		objects.push(cache.getObject(type, getKey(type, data[i]), data[i]));
     }
     //console.log("Done pushing objects");
