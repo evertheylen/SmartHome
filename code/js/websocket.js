@@ -33,6 +33,8 @@ var cache = {
 	},
 
 	getObject: function(type, key, data) {
+        console.log("getObject key: " + key);
+        console.log("getObject data: " + data);
 		var index = cache.searchKey(type, key);
 		var object = null;
 		if(index === -1) {
