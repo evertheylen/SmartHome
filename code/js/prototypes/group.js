@@ -1,5 +1,6 @@
 Group.prototype = new DataType();
 Group.prototype.constructor = Group;
+Group.prototype._key = ["GID"];
 
 function Group(GID, title, description, public, wall_WID) {
 	this.GID = GID;
@@ -7,5 +8,4 @@ function Group(GID, title, description, public, wall_WID) {
 	this.description = description;
     this.public = public;
 	this.wall_WID = wall_WID;
-    this._key = ["GID"];
 }

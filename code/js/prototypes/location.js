@@ -1,5 +1,6 @@
 Location.prototype = new DataType();
 Location.prototype.constructor = Location;
+Location.prototype._key = ["LID"];
 
 function Location(LID, description, number, street, city, postalcode, country, user_UID) {
 	this.LID = LID;
@@ -10,5 +11,4 @@ function Location(LID, description, number, street, city, postalcode, country, u
 	this.postalcode = postalcode;
 	this.country = country;
 	this.user_UID = user_UID;
-    this._key = ["LID"];
 }

@@ -1,5 +1,6 @@
 User.prototype = new DataType();
 User.prototype.constructor = User;
+User.prototype._key = ["UID"];
 
 function User(UID, first_name, last_name, email, wall_WID, admin) {
 	this.UID = UID;
@@ -8,5 +9,4 @@ function User(UID, first_name, last_name, email, wall_WID, admin) {
 	this.email = email;
 	this.wall_WID = wall_WID;
     this.admin = admin;
-    this._key = ["UID"];
 }
