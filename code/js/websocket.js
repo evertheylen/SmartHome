@@ -246,7 +246,7 @@ function getFilledObject(what, objectData) {
             //console.log("ObjData: " + objectData.stringify());
             console.log("Getting object for: " + what);
             console.log(object.getName());
-            console.log(objectData.toJSON());
+            console.log(objectData);
             object.fill(objectData);
             ///console.log("Object returned");
             return object;    
