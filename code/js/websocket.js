@@ -248,7 +248,7 @@ function getKey(type, data) {
             console.log("Key[0]: " + key[0]);
             var tmp = [];
             for (j = 0; j < key.length; j++) 
-                tmp.push(data.(key[j]));
+                tmp.push(data[key[j]]);
             console.log("Tmp: " + tmp);
             return tmp;
         }
