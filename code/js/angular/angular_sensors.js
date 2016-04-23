@@ -195,11 +195,6 @@ return deferred.promise;
 			if (delete_from == $scope.sensors) {
                 var delete_sensor_SID = $scope.sensors[delete_id].SID; 
 				ws.request({type: "delete", what: "Tag", for: {what: "Sensor", SID: delete_sensor_SID}}, function(success) {
-                    for(var i = 0; i < $scope.tags.length; i++) 
-			            cache.removeObject("Tag", [$scope.tags[i].text, delete_sensor_SID]);
-
-                    $scope.tags = $scope.tags.filter(function (el) {return el.SID !== delete_sensor_SID;});
-
 				    ws.request({type: "delete", what: "Sensor", data: {SID: delete_sensor_SID}}, function(success) {
             			updateFilteredSensors();
 					    $scope.$apply();
@@ -381,6 +376,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				// Edit Sensor 
                 // Add New Tags
                 for(var i = 0; i < $scope.sen_tags.length; i++) {
+                    if(searchKey("Tag", [$scope.sen_SID, $scope.sen_tags[i]]) === -1)
+                        continue;
                     var new_tag = new Tag($scope.sen_tags[i].text, $scope.sen_SID);
 			        ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: $scope.sen_SID}}, function(response) {
 				        response.object._scopes.push($scope);
