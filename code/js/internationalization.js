@@ -99,4 +99,5 @@ var html_strings = {
     "data_title" : ["Upload data", "Upload data"],
     "data_text" : ["Generate a new data file through our elecsim script and upload this file with the following button.",
                    "Genereer een nieuwe data file met ons elecsim script en upload deze file met onderstaande knop."],
+    "send" : ["Send", "Versturen"],
 };
