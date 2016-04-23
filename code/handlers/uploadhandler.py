@@ -43,14 +43,14 @@ def create_UploadHandler(controller):
             for i, name in enumerate(data[0][2:-1]):
                 csv_sensor = CsvSensor(name)
                 sensor = await Sensor.find_by_key(csv_sensor.ID, controller.db)
-                sensors.append((i, CsvSensor(name)))
+                sensors.append((i, CsvSensor(name), sensor))
                 
             
             for (i, csv_sensor, sensor) in sensors:
                 for row in data[1:]:
-                    value = row[i]
-                    time = datetime.strptime(row[0], csv_date_format)
-                    v = Value(value=value, time=time, sensor=sensor)
+                    value = row[i+2]
+                    time = datetime.strptime(row[0], csv_date_format).timestamp()
+                    v = Value(value=value, time=time, sensor=sensor.key)
                     await v.insert(controller.db)
             
                     

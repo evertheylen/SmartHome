@@ -473,7 +473,7 @@ def generate_date_single_day(Dwell: Dict, ResultofOccupancySim: int, bWeekend: b
     # make output
     # array for each minute of day starting from 00.00 until 23.59 (24 * 60 = 1440)
     # for each device that is active in household + for total lights
-    header = [lightSensor.full_name]
+    header = ["Total", lightSensor.full_name]
     active_devices = []
     for j in range(0, 33):
         if j in Dwell:

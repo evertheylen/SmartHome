@@ -432,15 +432,3 @@ class Controller(metaclass=MetaController):
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
 
-
-    # Special types
-    # -------------
-
-    @handle_ws_type("get_config")
-    @require_user_level(1)
-    async def get_config(self, req):
-        locations = await Location.get(Location.user == req.conn.user).all(self.db)
-        config = []
-        for l in locations:
-            config.append(await sim.create_elecsim_config(l, self.db))
-        await req.answer({"config": json.dumps(config, indent=4)})
