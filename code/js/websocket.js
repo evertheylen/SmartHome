@@ -8,10 +8,6 @@ var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Gr
 
 // Used to avoid duplicates of the same object. 
 var cache = {
-    Tag: [Key, Object]
-    Tag: [{key: [12, "JeroenTag1"], object: {sensor_SID: 12, text: "JeroenTag1"}}, [], ...]
-
-
     Wall: [],
 	User: [],
 	Location: [],
