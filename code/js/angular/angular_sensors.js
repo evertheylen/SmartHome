@@ -15,7 +15,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	};
 
 	$scope.check_autocomplete = function (query) {
-		console.log("Autocomplete: " + $scope.tags);
+		//console.log("Autocomplete: " + $scope.tags);
 		return $filter('filter')($scope.tags, query);
 	};
 
