@@ -273,7 +273,7 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 		})
 		.state('get_config', {
 			url : "/get_config"
-		};        
+		});        
 		
 		
 	$locationProvider.html5Mode(true);
