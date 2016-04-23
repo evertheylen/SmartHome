@@ -92,19 +92,20 @@
 			<a class="header_a mdl-navigation__link" ui-sref="state_statistics" ng-click="hideDrawer()"><i class="material-icons drawerIcon">multiline_chart</i><span ng-bind="i18n('statisticslink')"></span></a>
 			<a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-click="hideDrawer()"><i class="material-icons drawerIcon">settings_remote</i><span ng-bind="i18n('sensorslink')"></span></a>
 			<span class="header_a mdl-navigation__link" style="text-decoration: underline;" ng-bind="i18n('sociallink')"></span>
-					<!-- TODO fix this pls, the link clickin' aint workin' -->
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.index">
-						<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">notifications</i><span ng-bind="i18n('homelink')"></span></p>
-					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.profile">
-						<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">person</i><span ng-bind="i18n('my_profile')"></span></p>
-					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.friends">
-						<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">people</i><span ng-bind="i18n('my_friends')"></span></p>
-					</a>
-					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin"
-						ui-sref="state_admin"><i class="material-icons drawerIcon">supervisor_account</i><span ng-bind="i18n('adminlink')"></span>
-					</a>
+			<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.index">
+				<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">notifications</i><span ng-bind="i18n('homelink')"></span></p>
+			</a>
+			<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.profile">
+				<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">person</i><span ng-bind="i18n('my_profile')"></span></p>
+			</a>
+			<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.friends">
+				<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">people</i><span ng-bind="i18n('my_friends')"></span></p>
+			</a>
+			<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin"
+				ui-sref="state_admin"><i class="material-icons drawerIcon">supervisor_account</i><span ng-bind="i18n('adminlink')"></span>
+			</a>
+			<button class="header_a mdl-navigation__link" ng-click="hideDrawer(); dlgData.showModal();" ng-bind="i18n('datalink')">
+			</button>
 				</nav>
       </div>
       <main class="mdl-layout__content">
@@ -121,6 +122,17 @@
                     </button>
                     <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                         style="width: 45%; display: inline;" ng-click="confirm(false);" ng-bind="i18n('cancel')">
+                    </button>
+                </div>
+            </div>
+        </dialog>
+				<dialog id="dlgData" class="mdl-dialog">
+            <h4 class="mdl-dialog__title" ng-bind="i18n('data_title')"></h4>
+            <div class="mdl-dialog__content">
+                <p ng-bind="i18n('data_text')">
+                <div>
+                    <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                        style="width: 45%; display: inline;" ng-click="document.getElementById('dlgData').close()" ng-bind="i18n('cancel')">
                     </button>
                 </div>
             </div>
