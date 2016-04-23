@@ -1,8 +1,8 @@
 Tag.prototype = new DataType();
 Tag.prototype.constructor = Tag;
-Tag.prototype._key = ["sensor_SID", "description"];
+Tag.prototype._key = ["sensor_SID", "text"];
 
-function Tag(description, sensor_SID) {
-    this.description = description;
+function Tag(text, sensor_SID) {
+    this.text = text;
     this.sensor_SID = sensor_SID;
 }
