@@ -13,11 +13,15 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.tags.push(tag);
         */
 	};
-
-	$scope.check_autocomplete = function (query) {
+$scope.check_autocomplete = function($query) {
+var deferred = $q.defer();
+deferred.resolve($filter('filter')($scope.tags, {text: $query}));
+return deferred.promise;
+}
+/*	$scope.check_autocomplete = function (query) {
 		//console.log("Autocomplete: " + $scope.tags);
 		return $filter('filter')($scope.tags, query);
-	};
+	};*/
 
     $scope.houses = [];
 
