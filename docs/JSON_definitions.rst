@@ -80,7 +80,7 @@ Definition for object type ``Tag``
         "sensor_SID": "<class 'int'>"
     }
 
-Key properties are (might not be in definition): ``sensor_SID``, ``description``
+Key properties are (might not be in definition): ``sensor_SID``, ``text``
 
 There might be a "for" attribute needed when getting:
 
