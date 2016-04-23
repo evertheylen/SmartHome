@@ -386,6 +386,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                                 return;
                         }
                         $scope.tags.push(response.object);
+					    updateFilteredSensors();
+						$scope.$apply();
  	                });                
                 }
 
