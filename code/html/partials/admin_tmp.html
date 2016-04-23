@@ -1,4 +1,19 @@
 <div ng-controller="adminController">
-ADMIN PAGE FEEST
 
-</div>
+	<div id="terminal">
+		<div id="output">
+			output (command followed by the result of the command)<br>
+			maybe postgres like (start the command by typing "begin",<br> press enter,
+			<br>break command is as many lines as you like
+			<br>and end the command by typing "end" and hit enter)
+		</div>
+		<div id="input">
+			<div class="terminalHead">&gt;</div><input class="terminalInput"/>
+		</div>
+	</div>
+
+	<button id="btnGenerateReport" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+		Generate Report
+	</button>
+
+</body>
