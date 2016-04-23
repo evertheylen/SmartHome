@@ -73,6 +73,9 @@ status_get_all_for_wall1
 tag_get_all_for_sensor1
 {"type": "get_all", "ID": 600, "what": "Tag", "for": {"what": "Sensor", "SID": 1}}
 
+tag_get_all_for_autocompletion
+{"type": "get_all", "ID": 600, "what": "Tag"}
+
 delete_sensor1
 {"ID":"9", "type": "delete", "what": "Sensor", "data": {"SID": 1}}
 

@@ -55,6 +55,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
                         $scope.tags.push(temp_tags[i]);
                 }
 		        updateFilteredSensors();
+						temp_tags = JSON.stringify($scope.tags, null, 4); // (Optional) beautiful indented output.
+		console.log("Tags: " + temp_tags);
 		        $scope.$apply();
 	        });
         }
@@ -307,9 +309,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 	}
 
 	ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.sensor.SID}}, function(response) {
-		$scope.tags = response.objects;
-		temp_tags = JSON.stringify($scope.tags, null, 4); // (Optional) beautiful indented output.
-		console.log("Tags for sensor " + $scope.sensor.title + ": " + temp_tags);
+		$scope.sensor.tags = response.objects;
 		$scope.$apply();
 	});
 	
@@ -331,7 +331,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		    $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
 
 		    addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
-		    //addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+		    addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
 		    addClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
 		    if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid")) {
 		        removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid");
@@ -363,9 +363,9 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
             if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty")) {
                 removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
             }		    
-		    //if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
-		    //  removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
-		    //}
+		    if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
+				  removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+		    }
 		    if (!hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
 			    addClass(document.getElementById("txtfield_SensorName"), "is-invalid");
 		    }
