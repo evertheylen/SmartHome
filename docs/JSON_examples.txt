@@ -70,6 +70,9 @@ friends_get_all_for_user1
 status_get_all_for_wall1
 {"type":"get_all","what":"Status","for":{"what":"Wall","WID":1},"ID":2}
 
+tag_get_all_for_sensor1
+{"type": "get_all", "ID": 600, "what": "Tag", "for": {"what": "Sensor", "SID": 1}}
+
 delete_sensor1
 {"ID":"9", "type": "delete", "what": "Sensor", "data": {"SID": 1}}
 
