@@ -225,7 +225,7 @@ return deferred.promise;
 								emit = false;
 						} else {
 								element = document.getElementById("dlgSensor");
-								dlgSensor_setup.setSensor($scope.sensor);
+								dlgSensor_setup.setSensor($scope.sensor, $scope);
 						}
         } else {
 						element = document.getElementById("dlgLocation");
@@ -265,14 +265,20 @@ angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
 
 angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
     var sen;
+		var scope;
     return {
-        setSensor : function(sensor) {
+        setSensor : function(sensor, _scope) {
             sen = sensor;
+						scope = _scope;
         },
         
         getSensor : function() {
             return sen;
-        }
+        },
+				
+				getScope : function () {
+						return scope;
+				}
     }
 });
 
@@ -283,7 +289,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 						element = document.getElementById("dlgNoLocation");
         } else {
 						element = document.getElementById("dlgSensor");
-						dlgSensor_setup.setSensor($scope.sensor);
+						dlgSensor_setup.setSensor($scope.sensor, $scope);
 				}
         element.showModal();
 				if ($scope.houses.length > 0) {
@@ -299,12 +305,15 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 			});
 	}
 
-	ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.sensor.SID}}, function(response) {
-		$scope.sensor.tags = response.objects;
-		$scope.$apply();
-	});
+	get_tags = function () {
+			ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.sensor.SID}}, function(response) {
+				$scope.sensor.tags = response.objects;
+				$scope.$apply();
+			});
+	}
 	
 	get_loc();
+	get_tags();
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
@@ -313,6 +322,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 	    if (sen != null) {
             console.log("In sensor_dialogController edit right now");
 	        edit = true;
+					$scope.sen_scope = dlgSensor_setup.getScope();
 		    $scope.sen_name = sen.title;
 		    $scope.sen_type = sen.type;
 		    $scope.sen_tags = sen.tags;
@@ -388,6 +398,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                                 return;
                         }
                         $scope.tags.push(response.object);
+												$scope.sen_scope.get_tags();
 					    updateFilteredSensors();
 						$scope.$apply();
  	                });                
