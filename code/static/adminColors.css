@@ -1,3 +1,52 @@
 #mainHeader, .mainColor{
 	background-color: #8E031C;
 }
+
+#terminal{
+	background-color: black;
+	height: auto;
+	max-height: 500px;
+}
+
+#input{
+	background-color: transparent;
+	height: 30px;
+	display: flex;
+}
+
+#output{
+	color: green;
+	font-weight: bold;
+	font-size: 20px;
+	background-color: transparent;
+	border: none;
+	height: auto;
+}
+
+.terminalInput{
+	color: green;
+	font-weight: bold;
+	font-size: 20px;
+	background-color: transparent;
+	border: none;
+	height: 100%;
+	display: inline;
+	flex-grow: 1;
+	padding: 0px;
+}
+
+.terminalInput:focus{
+	outline: none;
+}
+
+.terminalHead{
+	color: green;
+	font-weight: bold;
+	font-size: 20px;
+	background-color: transparent;
+	border: none;
+	height: 100%;
+	display: inline;
+	margin-right: 4px;
+	padding-top: 5px;
+}
