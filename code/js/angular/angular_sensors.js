@@ -40,26 +40,27 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	
 	$scope.tags = [];
 
-	ws.request({type: "get_all", what: "Tag", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
-		var temp_tags = [];
-		for (var i = 0; i < response.objects.length; i++)
-			response.objects[i]._scopes.push($scope);
-		temp_tags = response.objects;
-		for (i=0; i<temp_tags.length; i++) {
-			add = true;
-			for (j=0; i<$scope.tags.length; j++) {
-        if ($scope.tags[j].text === temp_tags[i].text) {
-						add= false;
-						break;
-        }
-      }
-			if (add) {
-        $scope.tags.push(temp_tags[i]);
-      }
+    for(var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
+	    ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.sensors[sensorIndex].SID}}, function(response) {
+		    for (var i = 0; i < response.objects.length; i++)
+			    response.objects[i]._scopes.push($scope);
+            // Add if the tag does not already exist.
+		    var temp_tags = response.objects;
+		    for (var i = 0; i < temp_tags.length; i++) {
+                var exists = false;
+                for(j = 0; j < $scope.tags.length; j++) {
+                    if(temp_tags[i].text == $scope.tags[j].text) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if(!exists)
+                    $scope.tags.push(temp_tags[i]);
+            }
+		    updateFilteredSensors();
+		    $scope.$apply();
+	    });
     }
-		updateFilteredSensors();
-		$scope.$apply();
-	});
     
 	$scope.required = true;
 	$scope.selected_order = null;
@@ -302,7 +303,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 			});
 	}
 
-	ws.request({type: "get_all", what: "Tag", "for": {"what": "Sensor", "SID": $scope.SID}}, function(response) {
+	ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.SID}}, function(response) {
 		$scope.tags = response.objects;
 		$scope.$apply();
 	});
