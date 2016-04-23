@@ -88,22 +88,22 @@
 					<a ui-sref="social.profile" ng-click="hideDrawer()" style="font-size: 12px; color: white; text-decoration: none">{{auth_user.email}}</a>
 				</span>
         <nav class="mdl-navigation">
-			<a class="header_a mdl-navigation__link" ui-sref="state_home" ng-click="hideDrawer()"><i class="material-icons">home</i><span ng-bind="i18n('homelink')"></span></a>
-			<a class="header_a mdl-navigation__link" ui-sref="state_statistics" ng-click="hideDrawer()"><i class="material-icons">multiline_chart</i><span ng-bind="i18n('statisticslink')"></span></a>
-			<a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-click="hideDrawer()"><i class="material-icons">settings_remote</i><span ng-bind="i18n('sensorslink')"></span></a>
+			<a class="header_a mdl-navigation__link" ui-sref="state_home" ng-click="hideDrawer()"><i class="material-icons drawerIcon">home</i><span ng-bind="i18n('homelink')"></span></a>
+			<a class="header_a mdl-navigation__link" ui-sref="state_statistics" ng-click="hideDrawer()"><i class="material-icons drawerIcon">multiline_chart</i><span ng-bind="i18n('statisticslink')"></span></a>
+			<a class="header_a mdl-navigation__link" ui-sref="state_sensors" ng-click="hideDrawer()"><i class="material-icons drawerIcon">settings_remote</i><span ng-bind="i18n('sensorslink')"></span></a>
 			<span class="header_a mdl-navigation__link" style="text-decoration: underline;" ng-bind="i18n('sociallink')"></span>
 					<!-- TODO fix this pls, the link clickin' aint workin' -->
 					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.index">
-						<p class="mdl-navigation__link--subcategory"><i class="material-icons">notifications</i><span ng-bind="i18n('homelink')"></span></p>
+						<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">notifications</i><span ng-bind="i18n('homelink')"></span></p>
 					</a>
 					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.profile">
-						<p class="mdl-navigation__link--subcategory"><i class="material-icons">person</i><span ng-bind="i18n('my_profile')"></span></p>
+						<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">person</i><span ng-bind="i18n('my_profile')"></span></p>
 					</a>
 					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.friends">
-						<p class="mdl-navigation__link--subcategory"><i class="material-icons">people</i><span ng-bind="i18n('my_friends')"></span></p>
+						<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">people</i><span ng-bind="i18n('my_friends')"></span></p>
 					</a>
 					<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin"
-						ui-sref="state_admin"><i class="material-icons">supervisor_account</i><span ng-bind="i18n('adminlink')"></span>
+						ui-sref="state_admin"><i class="material-icons drawerIcon">supervisor_account</i><span ng-bind="i18n('adminlink')"></span>
 					</a>
 				</nav>
       </div>
