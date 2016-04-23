@@ -8,6 +8,10 @@ var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Gr
 
 // Used to avoid duplicates of the same object. 
 var cache = {
+    Tag: [Key, Object]
+    Tag: [{key: [12, "JeroenTag1"], object: {sensor_SID: 12, text: "JeroenTag1"}}, [], ...]
+
+
     Wall: [],
 	User: [],
 	Location: [],
@@ -21,10 +25,10 @@ var cache = {
 	searchKey: function(type, key) {
 		var array = cache[type];
 		for (var i=0; i < array.length; i++) {
-			if (!array[i].key || !key || array[i].length != key.length)
+			if (!array[i].key || !key || array[i].key.length != key.length)
 				continue;
-			for (var i = 0; i < array[i].length; i++) {    
-				if (this[i] != array[i])
+			for (var j = 0; j < array[i].key.length; j++) {    
+				if (this[j] != array[i].key[j])
 			    		continue   
 			}
 			return i;
