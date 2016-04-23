@@ -6,7 +6,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
     
     $scope.enter_command = function() {
       console.log("entered");
-      document.getElementById('output').innerHTML += document.getElementById("terminal_input").innerHTML;
-      document.getElementById("terminal_input").innerHTML = "";
+      document.getElementById('output').innerHTML += $scope.prompt;
+      $scope.prompt = "";
     }
 });	
