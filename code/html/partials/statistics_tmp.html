@@ -187,7 +187,7 @@
 					        </tr>
 					    </thead>
 					    <tbody>
-					        <tr ng-repeat="sensor in filtered_sensors track by sensor.SID" on-finish-render="ngRepeatFinished">
+					        <tr ng-repeat="sensor in filtered_sensors track by sensor.SID" ng-controller="sensor_objController" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-sensor_{{$index}}" for="list-checkbox-sensor_{{$index}}">
