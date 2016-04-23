@@ -29,8 +29,6 @@ var cache = {
 			}
 			return i;
 		}
-        if(type === "Tag")
-            console.log("Could not find tag with key: " + key);
 		return -1;
 	},
 
@@ -40,8 +38,6 @@ var cache = {
 		if(index === -1) {
 			// If the object is not in the cache.
 			object = getFilledObject(type, data);
-            if(type === "Tag") 
-                console.log("Pushing tag into cache: " + key);
 			cache[type].push({key: key, object: object});
 		}
 		else {
