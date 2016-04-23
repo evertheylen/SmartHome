@@ -24,7 +24,7 @@ var cache = {
 			if (!array[i].key || !key || array[i].key.length != key.length)
 				continue;
 			for (var j = 0; j < array[i].key.length; j++) {    
-				if (this[j] != array[i].key[j])
+				if (key[j] != array[i].key[j])
 			    		continue   
 			}
             if(type === "Tag") 
