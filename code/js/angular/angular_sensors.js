@@ -301,11 +301,11 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 				$scope.$apply();
 			});
 	}
-	/* JEROEN FIXEN DIE SHIT :D
+
 	ws.request({type: "get_all", what: "Tag", "for": {"what": "Sensor", "SID": $scope.SID}}, function(response) {
 		$scope.tags = response.objects;
 		$scope.$apply();
-	});*/
+	});
 	
 	get_loc();
 });
