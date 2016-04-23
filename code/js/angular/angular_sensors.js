@@ -178,7 +178,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		if (value) {
 			if (delete_from == $scope.sensors) {
                 var delete_sensor_SID = $scope.sensors[delete_id].SID; 
-				ws.request({type: "delete", what: "Tag", data: {"sensor_SID": delete_sensor_SID}}, function(success) {
+				ws.request({type: "delete", what: "Tag", for: {"SID": delete_sensor_SID}}, function(success) {
 					$scope.$apply();
 				});
                 for(var i = 0; i < $scope.tags.length; i++) {
