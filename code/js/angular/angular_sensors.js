@@ -225,7 +225,7 @@ return deferred.promise;
 								emit = false;
 						} else {
 								element = document.getElementById("dlgSensor");
-								dlgSensor_setup.setSensor($scope.sensor));
+								dlgSensor_setup.setSensor($scope.sensor);
 						}
         } else {
 						element = document.getElementById("dlgLocation");
