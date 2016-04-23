@@ -390,16 +390,14 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     if(cache.searchKey("Tag", [$scope.sen_SID, $scope.sen_tags[i].text]) !== -1)
                         continue;
                     var new_tag = new Tag($scope.sen_tags[i].text, $scope.sen_SID);
-			        ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: $scope.sen_SID}}, function(response) {
-				        response.object._scopes.push($scope);
-                        for(j = 0; j < $scope.tags.length; j++) {
-                            if(response.object.text === $scope.tags[j])
-                                return;
-                        }
-                        $scope.tags.push(response.object);
- 	                });                
-					    updateFilteredSensors();
-						$scope.$apply();
+										ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: $scope.sen_SID}}, function(response) {
+											response.object._scopes.push($scope);
+															for(j = 0; j < $scope.tags.length; j++) {
+																	if(response.object.text === $scope.tags[j])
+																			return;
+															}
+															$scope.tags.push(response.object);
+												});                
                 }
 
                 // TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
