@@ -136,7 +136,7 @@
 									<input type="file" name="file" accept="*">
 								</form>
 								<div>
-								<a href="/getconfig" ng-bind="i18n('down_config')">
+								<a href="/getconfig" ng-bind="i18n('down_config')" ng-click="$route.reload()">
 								</a>
 								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
 															style="width: 45%; display: inline;" ng-click="send_data()" ng-bind="i18n('send')">
