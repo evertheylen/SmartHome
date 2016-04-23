@@ -360,12 +360,7 @@ class Controller(metaclass=MetaController):
                 tags = await Tag.get(Tag.sensor == s.key).all(self.db)
                 await req.answer([t.json_repr() for t in tags])
             else:
-                print(await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.text IN (SELECT MIN(table_Tag.text) FROM table_tag GROUP BY table_Tag.text)").count(self.db))
                 tags = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.text IN (SELECT MIN(table_Tag.text) FROM table_tag GROUP BY table_Tag.text)").all(self.db)
-                # print(tags)
-                # unique_tags = []
-                # for i in tags:
-                #     if i.text not in unique_tags: unique_tags.append(i.text)
                 await req.answer([t.json_repr() for t in tags])
 
         @case("Status")
@@ -436,4 +431,3 @@ class Controller(metaclass=MetaController):
                 # await t.check_auth(req, self.db)
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
-
