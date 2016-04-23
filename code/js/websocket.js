@@ -27,6 +27,8 @@ var cache = {
 				if (this[j] != array[i].key[j])
 			    		continue   
 			}
+            if(type === "Tag") 
+                console.log("Found Tag with key: " + key + " at i: " + i);
 			return i;
 		}
 		return -1;
