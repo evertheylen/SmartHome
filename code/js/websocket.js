@@ -30,11 +30,8 @@ var cache = {
                         break;                
                 }
    			}
-            if (found) {
-                if(type === "Tag") 
-                    console.log("Found Tag with key: " + key + " at i: " + i);
+            if (found)
 			    return i;
-            }
 		}
 		return -1;
 	},
