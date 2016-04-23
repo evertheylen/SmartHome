@@ -307,7 +307,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 			});
 	}
 	
-	$scope.$on("tag_update", function() {
+	$rootScope.$on("tag_update", function() {
 		console.log("tag_update");
 		$scope.get_tags();
 	})
@@ -411,7 +411,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					for (var i = 0; i < $scope.sensors.length; i++) {
 							if ($scope.sensors[i].SID === response.SID) {
 									$scope.sensors[i] = response;
-									$scope.$broadcast('tag_update');
+									$rootScope.$broadcast('tag_update');
 									updateFilteredSensors();
 									$scope.$apply();
                             }
