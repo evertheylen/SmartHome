@@ -227,7 +227,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 });
 
 angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
-	$urlRouterProvider.otherwise("/");
+	//$urlRouterProvider.otherwise("/");
 	
 	$stateProvider
 		.state('state_index', {
