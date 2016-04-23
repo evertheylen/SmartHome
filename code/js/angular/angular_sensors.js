@@ -372,6 +372,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
     
 	$scope.save_sen = function save_sen() {
 		if ($scope.sensor_form.$valid) {
+            console.log("Tags before edit: " + $scope.tags);
 			if (edit) {
 				// Edit Sensor 
                 // Add New Tags
@@ -431,7 +432,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 			        $scope.$apply();
 				});     
 			}
-            console.log("Tags: " + $scope.tags);
+            console.log("Tags after edit: " + $scope.tags);
             for(var i = 0; i < $scope.tags.length; i++) {
                 if($scope.tags[i].sensor_SID == $scope.sen_SID)
                     console.log("Tag found in $scope.tags: " + $scope.tags[i].text);
