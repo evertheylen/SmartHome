@@ -199,10 +199,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 			if (delete_from == $scope.sensors) {
                 var delete_sensor_SID = $scope.sensors[delete_id].SID; 
 				ws.request({type: "delete", what: "Tag", for: {what: "Sensor", SID: delete_sensor_SID}}, function(success) {
-                    for(var i = 0; i < $scope.tags.length; i++) {
-                        if($scope.tags[i].sensor_SID == delete_sensor_SID) 
-       				        cache.removeObject("Tag", [$scope.tags[i].text, delete_sensor_SID]);
-                    }
+                    for(var i = 0; i < $scope.tags.length; i++) 
+			            cache.removeObject("Tag", [$scope.tags[i].text, delete_sensor_SID]);
+
+                    $scope.tags = $scope.tags.filter(function (el) {return el.SID !== delete_sensor_SID;}
+
 				    ws.request({type: "delete", what: "Sensor", data: {SID: delete_sensor_SID}}, function(success) {
             			updateFilteredSensors();
 					    $scope.$apply();
@@ -416,14 +417,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				ws.request({type: "add", what: "Sensor", data: sensorObject}, function(response) {
 					response.object._scopes.push($scope);
 					new_sensor = response.object;
-                    // TODO @Stijn, waarom die get location hier?
-                    /*
-					ws.request({type: "get", what: "Location", data: {LID: response.object.location_LID}}, function(response) {
-	        			$scope.sensors.push(new_sensor);
-				        updateFilteredSensors();
-				        $scope.$apply();
-	                }); 
-                    */
                     // Add Tags
                     for(var i = 0; i < $scope.sen_tags.length; i++) {
                         var new_tag = new Tag($scope.sen_tags[i].text, new_sensor.SID);
