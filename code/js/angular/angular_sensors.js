@@ -311,6 +311,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
     $rootScope.$on("dlgSensor_open", function() {
 	    var sen = dlgSensor_setup.getSensor();
 	    if (sen != null) {
+            console.log("In sensor_dialogController edit right now");
 	        edit = true;
 		    $scope.sen_name = sen.title;
 		    $scope.sen_type = sen.type;
@@ -338,6 +339,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		    }        
 		    $scope.edit_sen = $scope.i18n("edit_sensor");
 	    } else {
+            console.log("In sensor_dialogController NOT edit right now");
 	        edit = false;
     		$scope.sen_SID = null;
 		    $scope.sen_name = null;
