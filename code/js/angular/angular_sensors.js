@@ -308,6 +308,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 
 	ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.sensor.SID}}, function(response) {
 		$scope.tags = response.objects;
+		console.log("Tags for sensor " + $scope.sensor.title + ": " + $scope.tags);
 		$scope.$apply();
 	});
 	
