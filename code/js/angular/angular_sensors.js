@@ -268,7 +268,6 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
     return {
         setSensor : function(sensor) {
             sen = sensor;
-						scope = _scope;
         },
         
         getSensor : function() {
