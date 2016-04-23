@@ -4,6 +4,7 @@ import tornado
 def create_UploadHandler(controller):
     class UploadHandler(tornado.web.RequestHandler):            
         def post(self, *args):
+            print(self.request.files)
             fileinfo = self.request.files['file'][0]
             filename = fileinfo['filename']
             fbody = fileinfo['body']

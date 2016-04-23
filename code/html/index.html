@@ -130,7 +130,16 @@
             <h4 class="mdl-dialog__title" ng-bind="i18n('data_title')"></h4>
             <div class="mdl-dialog__content">
                 <p ng-bind="i18n('data_text')">
-                <div>
+                
+                <form enctype="multipart/form-data" action="/upload" method="post" id="uploadData">
+					<input type="checkbox" name="live" value="true" checked> Contains future data
+					<input type="file" name="file" accept="*">
+				</form>
+				<div>
+					<!-- Stijn kijk hier :) -->
+					<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                        style="width: 45%; display: inline;" ng-click="send_data()">Send
+                    </button>
                     <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                         style="width: 45%; display: inline;" ng-click="close_dialog()" ng-bind="i18n('cancel')">
                     </button>
@@ -192,7 +201,7 @@
     <script src="/js/angular/angular_statistics.js"></script>
 		<script src="/js/angular/angular_social.js"></script>
 		<script src="/js/angular/angular_admin.js"></script>
-		<script id="template/pagination/pagination.html" type="text/ng-template">
+		<script id="template/pagination/pagination.html" type="text/ng-template"></script>
 			<ul class="pagination">
 				<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
 				<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
