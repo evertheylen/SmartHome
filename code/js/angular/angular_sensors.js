@@ -265,14 +265,20 @@ angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
 
 angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
     var sen;
+		var scope;
     return {
-        setSensor : function(sensor) {
+        setSensor : function(sensor, _scope) {
             sen = sensor;
+						scope = _scope;
         },
         
         getSensor : function() {
             return sen;
-        }
+        },
+				
+				getScope : function() {
+						return scope;
+				}
     }
 });
 
@@ -283,7 +289,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 						element = document.getElementById("dlgNoLocation");
         } else {
 						element = document.getElementById("dlgSensor");
-						dlgSensor_setup.setSensor($scope.sensor);
+						dlgSensor_setup.setSensor($scope.sensor, $scope);
 				}
         element.showModal();
 				if ($scope.houses.length > 0) {
@@ -327,6 +333,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		    $scope.sen_tags = sen.tags;
 		    $scope.sen_house = sen.location_LID;
 		    $scope.sen_SID = sen.SID;
+				$scope.sen_scope = dlgSensor_setup.getScope();
 		    $scope.sen_unit_price = sen.EUR_per_unit;
 		    $scope.dropDownClick(sen.type, 'select_type', 'dropDownType', 'type');
 		    $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
@@ -409,7 +416,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					for (var i = 0; i < $scope.sensors.length; i++) {
 							if ($scope.sensors[i].SID === response.SID) {
 									$scope.sensors[i] = response;
-									$rootScope.$broadcast('tag_update');
+									//$rootScope.$broadcast('tag_update');
+									$scope.sen_scope.get_tags();
 									updateFilteredSensors();
 									$scope.$apply();
                             }
