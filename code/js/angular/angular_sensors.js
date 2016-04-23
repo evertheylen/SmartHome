@@ -41,9 +41,22 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.tags = [];
 
 	ws.request({type: "get_all", what: "Tag", for: {what: "User", UID: $rootScope.auth_user.UID}}, function(response) {
+		var temp_tags = [];
 		for (var i = 0; i < response.objects.length; i++)
 			response.objects[i]._scopes.push($scope);
-		$scope.tags = response.objects;
+		temp_tags = response.objects;
+		for (i=0; i<temp_tags.length; i++) {
+			add = true;
+			for (j=0; i<$scope.tags.length; j++) {
+        if ($scope.tags[j].text === temp_tags[i].text) {
+						add= false;
+						break;
+        }
+      }
+			if (add) {
+        $scope.tags.push(temp_tags[i]);
+      }
+    }
 		updateFilteredSensors();
 		$scope.$apply();
 	});
