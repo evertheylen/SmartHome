@@ -29,7 +29,7 @@ async def create_elecsim_config(loc: Location, db, lights_sensor_ID=-1):
         "lights_house": 1,  # ?
         "lights_irradiance": random.randint(10,80),
         "lights_id": lights_sensor_ID,
-        "no_residents": random.randint(2,8)
+        "no_residents": random.randint(1,5)
     }
     
     return config
