@@ -33,3 +33,7 @@
 #suggestedGr > p{
 	font-size: xx-large;
 }
+
+.iconOnCard{
+	margin-top: -4px;
+}
