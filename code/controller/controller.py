@@ -412,8 +412,6 @@ class Controller(metaclass=MetaController):
 
         @case("Tag")
         async def tag(self, req):
-            if(req.metadata["for"] == null)
-                await req.answer({"req.metadata["for"] is null"})
             t = await Tag.find_by_key((req.data["sensor_SID"], req.data["description"]), self.db)
             await t.check_auth(req)
             await t.delete(self.db)
