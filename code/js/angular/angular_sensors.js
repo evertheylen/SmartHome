@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup, dlgSensor_setup) {
+angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup, dlgSensor_setup, $q) {
 		
 	$rootScope.tab = "sensorslink";
 	$rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
