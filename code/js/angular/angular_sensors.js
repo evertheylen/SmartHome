@@ -184,7 +184,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 
                 for(var i = 0; i < $scope.tags.length; i++) {
                     if($scope.tags[i].sensor_SID == delete_sensor_SID) 
-   				        cache.removeObject("Tag", [$scope.tags[i].description, delete_sensor_SID]);
+   				        cache.removeObject("Tag", [$scope.tags[i].text, delete_sensor_SID]);
                 }
 				ws.request({type: "delete", what: "Sensor", data: {SID: delete_sensor_SID}}, function(success) {
         			updateFilteredSensors();
