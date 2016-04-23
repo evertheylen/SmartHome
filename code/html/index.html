@@ -132,17 +132,18 @@
                 <p ng-bind="i18n('data_text')">
                 
                 <form enctype="multipart/form-data" action="/upload" method="post" id="uploadData">
-					<input type="checkbox" name="live" value="true" checked> Contains future data
-					<input type="file" name="file" accept="*">
-				</form>
-				<div>
-					<!-- Stijn kijk hier :) -->
-					<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="width: 45%; display: inline;" ng-click="send_data()" ng-bind="i18n('send')">
-                    </button>
-                    <button id="btnDataCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="width: 45%; display: inline;" ng-click="close_dialog()" ng-bind="i18n('cancel')">
-                    </button>
+									<input type="checkbox" name="live" value="true" checked> Contains future data
+									<input type="file" name="file" accept="*">
+								</form>
+								<div>
+								<!-- Stijn kijk hier :) -->
+								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+															style="width: 45%; display: inline;" ng-click="send_data()" ng-bind="i18n('send')">
+								</button>
+								<button id="btnDataCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+										style="width: 45%; display: inline;" ng-click="close_dialog()" ng-bind="i18n('cancel')">
+								</button>
+								<span style="color: red" ng-bind="i18n('send_error')" ng-show="error_sending"></span>
                 </div>
             </div>
         </dialog>

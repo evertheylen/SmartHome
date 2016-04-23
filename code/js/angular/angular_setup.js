@@ -158,7 +158,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	}
 	
 	// Stijn kijk hier
+	$scope.error_sending = false;
 	$scope.send_data = function () {
+		$scope.error_sending = false;
 		var form = document.getElementById("uploadData");
 		var formData = new FormData(form);
 		$http({
@@ -169,8 +171,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		})
 		.success(function(data, status, headers, config) {
 			console.log("Success");
+			document.getElementById("dlgData").close();
 		}).error(function(data, status, headers, config) {
+			$scope.error_sending = true;
 			console.log("Failure");
+			
 		});
 	}
 	
