@@ -101,4 +101,5 @@ var html_strings = {
                    "Genereer een nieuwe data file met ons elecsim script en upload deze file met onderstaande knop."],
     "send" : ["Send", "Versturen"],
     "send_error" : ["Something went wrong while uploading your file, please try again", "Er ging iets mis bij het sturen van uw file, probeer aub opnieuw"],
+    "down_config" : ["Download configuration file", "Download configuratie file"],
 };
