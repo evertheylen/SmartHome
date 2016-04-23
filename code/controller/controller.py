@@ -353,8 +353,15 @@ class Controller(metaclass=MetaController):
 
         @case("Tag")
         async def tag(self, req):
-            tags = await Tag.get().all(self.db)
-            await req.answer([t.json_repr() for t in tags])
+            if 'for' in req.metadata:
+                check_for_type(req, "Sensor")
+                s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
+                await s.check_auth(req)
+                tags = await Tag.get(Tag.sensor == s.key).all(self.db)
+                await req.answer([t.json_repr() for t in tags])
+            else:
+                tags = await Tag.get().all(self.db)
+                await req.answer([t.json_repr() for t in tags])
 
         @case("Status")
         async def status(self, req):
