@@ -44,10 +44,21 @@ return deferred.promise;
 	
 	$scope.tags = [];
     
-	ws.request({type: "get_all", what: "Tag",}, function(response) {
+	ws.request({type: "get_all", what: "Tag"}, function(response) {
 		for (var i = 0; i < response.objects.length; i++)
 			response.objects[i]._scopes.push($scope);
-        addTags(response.objects);
+        var temp_tags = response.objects;
+        for (var i = 0; i < temp_tags.length; i++) {
+            var exists = false;
+            for(j = 0; j < $scope.tags.length; j++) {
+                if(temp_tags[i].text == $scope.tags[j].text) {
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists)
+                $scope.tags.push(temp_tags[i]);
+        }
 		updateFilteredSensors();
 		$scope.$apply();        
     });
@@ -197,7 +208,6 @@ return deferred.promise;
 					$scope.$apply();
 				});
 			} else {
-				console.log("Delete_id: " + delete_id);
 				ws.request({type: "delete", what: "Location", data: {LID: $scope.houses[delete_id].LID}}, function(success) {
 					$scope.$apply();
 				});
@@ -374,7 +384,11 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     var new_tag = new Tag($scope.sen_tags[i].text, $scope.sen_SID);
 			        ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: $scope.sen_SID}}, function(response) {
 				        response.object._scopes.push($scope);
-                        addTag([response.object]);
+                        for(j = 0; j < $scope.tags.length; j++) {
+                            if(response.object.text === $scope.tags[j])
+                                return;
+                        }
+                        $scope.tags.push(response.object);
  	                });                
                 }
 
@@ -406,7 +420,11 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                         var new_tag = new Tag($scope.sen_tags[i].text, new_sensor.SID);
 				        ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: new_sensor.SID}}, function(response) {
 					        response.object._scopes.push($scope);
-                            addTag([response.object]);
+                            for(j = 0; j < $scope.tags.length; j++) {
+                                if(response.object.text === $scope.tags[j])
+                                    return;
+                            }
+                            $scope.tags.push(response.object);
      	                });                
                     }
         			$scope.sensors.push(new_sensor);
@@ -582,18 +600,3 @@ angular.module("overwatch").controller("location_dialogController", function($sc
 	    }
 	} 
 });
-
-function addTags(objects) {
-    var temp_tags = objects;
-    for (var i = 0; i < temp_tags.length; i++) {
-        var exists = false;
-        for(j = 0; j < $scope.tags.length; j++) {
-            if(temp_tags[i].text == $scope.tags[j].text) {
-                exists = true;
-                break;
-            }
-        }
-        if(!exists)
-            $scope.tags.push(temp_tags[i]);
-    }
-}
