@@ -397,10 +397,9 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                                 return;
                         }
                         $scope.tags.push(response.object);
-												$scope.$broadcast('tag_update');
+ 	                });                
 					    updateFilteredSensors();
 						$scope.$apply();
- 	                });                
                 }
 
                 // TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
@@ -412,6 +411,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					for (var i = 0; i < $scope.sensors.length; i++) {
 							if ($scope.sensors[i].SID === response.SID) {
 									$scope.sensors[i] = response;
+									$scope.$broadcast('tag_update');
 									updateFilteredSensors();
 									$scope.$apply();
                             }
