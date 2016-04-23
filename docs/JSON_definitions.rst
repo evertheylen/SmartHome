@@ -76,7 +76,7 @@ Definition for object type ``Tag``
 ::
 
     {
-        "description": "<class 'str'>",
+        "text": "<class 'str'>",
         "sensor_SID": "<class 'int'>"
     }
 
