@@ -36,9 +36,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 		$scope.sensors = response.objects;
 
         // Get the tags from every Sensor.
-        console.log("Length: " + $scope.sensors.length); 
         for(var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
-            console.log("Index: " + sensorIndex);
 	        ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: ($scope.sensors[sensorIndex]).SID}}, function(response) {
 		        for (var i = 0; i < response.objects.length; i++)
 			        response.objects[i]._scopes.push($scope);
@@ -307,9 +305,6 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 				$scope.$apply();
 			});
 	}
-
-    console.log("At sensor_objController printing SID:");
-    console.log("SID: " + $scope.SID);
 
     /*
 	ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.SID}}, function(response) {
