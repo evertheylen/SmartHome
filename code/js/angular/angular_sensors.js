@@ -331,7 +331,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 		    $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
 
 		    addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
-		    //addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+		    addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
 		    addClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
 		    if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid")) {
 		        removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid");
@@ -363,9 +363,9 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
             if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty")) {
                 removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
             }		    
-		    //if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
-		    //  removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
-		    //}
+		    if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
+				  removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+		    }
 		    if (!hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
 			    addClass(document.getElementById("txtfield_SensorName"), "is-invalid");
 		    }
