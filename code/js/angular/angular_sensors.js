@@ -306,12 +306,10 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 			});
 	}
 
-    /*
-	ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.SID}}, function(response) {
+	ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.sensor.SID}}, function(response) {
 		$scope.tags = response.objects;
 		$scope.$apply();
 	});
-    */
 	
 	get_loc();
 });
