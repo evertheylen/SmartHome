@@ -307,6 +307,11 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 			});
 	}
 	
+	$scope.$on("tag_update", function() {
+		console.log("tag_update");
+		$scope.get_tags();
+	})
+	
 	$scope.get_loc();
 	$scope.get_tags();
 });
@@ -392,7 +397,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                                 return;
                         }
                         $scope.tags.push(response.object);
-												$scope.get_tags();
+												$scope.$emit('tag_update');
 					    updateFilteredSensors();
 						$scope.$apply();
  	                });                
