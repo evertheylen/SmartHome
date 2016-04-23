@@ -128,7 +128,7 @@
                 <div ng-messages="sensor_form.sensorName.$error">
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
-                <tags-input ng-model="sen_tags" on-tag-added="add_autocomplete($tag)">
+                <tags-input ng-model="sen_tags">
 	                <auto-complete min-length="1" source="check_autocomplete($query)" highlight-matched-text="false"></auto-complete>
                 </tags-input>
                 
