@@ -23,13 +23,18 @@ var cache = {
 		for (var i=0; i < array.length; i++) {
 			if (!array[i].key || !key || array[i].key.length != key.length)
 				continue;
+            var found = true;
 			for (var j = 0; j < array[i].key.length; j++) {    
-				if (key[j] != array[i].key[j])
-			    		continue   
-			}
-            if(type === "Tag") 
-                console.log("Found Tag with key: " + key + " at i: " + i);
-			return i;
+				if (key[j] != array[i].key[j]) {
+			    		found = false;   
+                        break;                
+                }
+   			}
+            if (found) {
+                if(type === "Tag") 
+                    console.log("Found Tag with key: " + key + " at i: " + i);
+			    return i;
+            }
 		}
 		return -1;
 	},
