@@ -397,7 +397,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                                 return;
                         }
                         $scope.tags.push(response.object);
-												$scope.$emit('tag_update');
+												$scope.$broadcast('tag_update');
 					    updateFilteredSensors();
 						$scope.$apply();
  	                });                
