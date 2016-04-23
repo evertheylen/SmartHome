@@ -213,7 +213,7 @@ class Controller(metaclass=MetaController):
         @case("Tag")
         async def tag(self, req):
             check_for_type(req, "Sensor")
-            t = Tag(sensor=req.metadata["for"]["SID"], description=req.data["description"])
+            t = Tag(sensor=req.metadata["for"]["SID"], text=req.data["text"])
             # TODO fix error check_auth
             # await t.check_auth(req, db=self.db)
             await t.insert(self.db)
@@ -412,15 +412,23 @@ class Controller(metaclass=MetaController):
 
         @case("Tag")
         async def tag(self, req):
-            t = await Tag.find_by_key((req.data["sensor_SID"], req.data["description"]), self.db)
-            await t.check_auth(req)
-            await t.delete(self.db)
-            await req.answer({"status": "succes"})
+            if 'for' in req.metadata:
+                check_for_type(req, "Sensor")
+                s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
+                await s.check_auth(req)
+                tags = await Tag.get(Tag.sensor == s.key).all(self.db)
+                for t in tags: await t.delete(self.db)
+                await req.answer({"status": "succes"})
+            else:
+                t = await Tag.find_by_key((req.data["sensor_SID"], req.data["text"]), self.db)
+                # await t.check_auth(req, self.db)
+                await t.delete(self.db)
+                await req.answer({"status": "succes"})
 
-            
+
     # Special types
     # -------------
-    
+
     @handle_ws_type("get_config")
     @require_user_level(1)
     async def get_config(self, req):
@@ -429,4 +437,3 @@ class Controller(metaclass=MetaController):
         for l in locations:
             config.append(await sim.create_elecsim_config(l, self.db))
         await req.answer({"config": json.dumps(config, indent=4)})
-

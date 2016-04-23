@@ -4,9 +4,9 @@ from sparrow import *
 from .sensor import Sensor
 
 class Tag(OwEntity):
-    description = Property(str)
+    text = Property(str)
     sensor = Reference(Sensor)
-    key = Key(sensor,description)
+    key = Key(sensor,text)
 
     async def is_authorized(self, type, usr, db, **kwargs):
         s = await Sensor.find_by_key(self.sensor).single(db)
