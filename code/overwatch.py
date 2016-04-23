@@ -144,6 +144,7 @@ class OverWatch:
                 (r'/static/(.*)', NoCacheStaticFileHandler, {'path': localdir("static")}),
                 (r"/ws", handlers.create_WsHandler(self.controller, config["debug"])),
                 (r"/debug", handlers.create_DebugHandler(self.controller)),
+                (r"/upload", handlers.create_UploadHandler(self.controller)),
                 (r"/(.*)", handlers.create_MainHandler(self.controller)),
             ],
             **tornado_app_settings

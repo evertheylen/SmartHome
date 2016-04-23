@@ -147,6 +147,21 @@ def make_config_file(no_house_holds, outputfile):
     json_file.close()
     print("saved config file: " + outputfile)
 
+# Edits by Evert
+class Sensor:
+    def __init__(self, name):
+        self.ID = int(name[name.find("[")+1:name.find("]")])
+        name = name[:name.find("[")] + name[name.find("]")+1:]
+        self.appname = name.strip()
+    
+    @property
+    def full_name(self):
+        return "{s.appname} [{s.ID}]".format(s=self)
+
+class LightSensor(Sensor):
+    def __init__(self, ID):
+        self.ID = ID
+        self.appname = "Lights"
 
 def generate_sensor_data(config_file: str, household: int, from_date: datetime, to_date: datetime, outputfile: str):
     print("generate_sensor_date(config_file=%s, household=%d, from=%s, to=%s, output=%s" % (
@@ -163,16 +178,30 @@ def generate_sensor_data(config_file: str, household: int, from_date: datetime, 
     if not config:
         raise ValueError("Household not found")
     appliance_status = []
-    for row in appliance.appliances:
-        status = "NO"
-        if row[0] in config["appliances"]:
-            status = "YES"
-        appliance_status.append(status)
+    
+    # Edits by Evert
+    print("Loading household {}".format(household))
+    sensors = []
+    for name in config["appliances"]:
+        sensor = Sensor(name)
+        sensors.append(sensor)
+        print("  - loaded sensor with ID {s.ID} with appliance name `{s.appname}`".format(s=sensor))
+    
+    lightSensor = LightSensor(config["lights_id"])
+    
+    #for row in appliance.appliances:
+        #status = "NO"
+        #name = row[0]
+        #if name in sensors:
+            #status = "YES"
+        #appliance_status.append(status)
+    
     data = generate_data.generate_data_range(
-        iResidents=dict["no_residents"],
-        Dwell=appliance_status,
-        iIrradianceThreshold=dict["lights_irradiance"],
-        iRandomHouse=dict["lights_house"],
+        iResidents=config["no_residents"],
+        Sensors=sensors,
+        lightSensor=lightSensor,
+        iIrradianceThreshold=config["lights_irradiance"],
+        iRandomHouse=config["lights_house"],
         from_date=from_date,
         to_date=to_date)
     save_file = open(outputfile, 'w')

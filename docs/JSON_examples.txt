@@ -73,3 +73,5 @@ status_get_all_for_wall1
 delete_sensor1
 {"ID":"9", "type": "delete", "what": "Sensor", "data": {"SID": 1}}
 
+get_config_loc1
+{"ID": 546, "type": "get_config", "data": {"LID": 1}}

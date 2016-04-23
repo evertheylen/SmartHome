@@ -8,11 +8,13 @@ from functools import wraps
 import types
 from concurrent.futures import ThreadPoolExecutor
 import passlib.hash  # For passwords
+import json
 
 from sparrow import *
 
 from model import *
 from util import *
+from util import sim
 
 
 # Helper stuff (decorators, metaclasses)
@@ -404,6 +406,18 @@ class Controller(metaclass=MetaController):
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)
-            s.check_auth(req)
+            await s.check_auth(req)
             await s.delete(self.db)
             await req.answer({"status": "success"})
+            
+    # Special types
+    # -------------
+    
+    @handle_ws_type("get_config")
+    @require_user_level(1)
+    async def get_config(self, req):
+        l = await Location.find_by_key(req.data["LID"], self.db)
+        await l.check_auth(req)
+        config = await sim.create_elecsim_config(l, self.db)
+        await req.answer({"config": json.dumps(config, indent=4)})
+

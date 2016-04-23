@@ -14,9 +14,9 @@ import activitydat
 import appsimfun
 import bulbdat
 
-from typing import List, Union
+from typing import List, Union, Dict
 
-def generate_data_range(iResidents: int, Dwell: List[str], iIrradianceThreshold: int, iRandomHouse: int, from_date: datetime.datetime, to_date: datetime.datetime) -> List[List[Union[str, float]]]:
+def generate_data_range(iResidents: int, Sensors: List, lightSensor, iIrradianceThreshold: int, iRandomHouse: int, from_date: datetime.datetime, to_date: datetime.datetime) -> List[List[Union[str, float]]]:
     if to_date < from_date:
         raise ValueError("from_date > to_date!")
     days = []
@@ -26,6 +26,15 @@ def generate_data_range(iResidents: int, Dwell: List[str], iIrradianceThreshold:
         start_date = start_date + timedelta(days=1)
     first = True
     data = []
+    
+    # Recreate some kind of Dwell (Edits by Evert)
+    Dwell = {}
+    for i, row in enumerate(appliance.appliances):
+        for s in Sensors:
+            if s.appname == row[0]:
+                Dwell[i] = s
+                break
+    
     for day in days:
         addHeader = False
         if first:
@@ -36,7 +45,7 @@ def generate_data_range(iResidents: int, Dwell: List[str], iIrradianceThreshold:
         ResultofOccupancySim = occsimread.OccupanceSim(iResidents, bWeekend)
         iMonth = day.month
         day_data = generate_date_single_day(
-            Dwell, ResultofOccupancySim, bWeekend, iMonth, iIrradianceThreshold, iRandomHouse, addHeader)
+            Dwell, ResultofOccupancySim, bWeekend, iMonth, iIrradianceThreshold, iRandomHouse, lightSensor, addHeader)
         datetime = day
         datetime.replace(hour=0, minute=0, second=0)
         # copy day_data, but add timestamp
@@ -54,7 +63,7 @@ def generate_data_range(iResidents: int, Dwell: List[str], iIrradianceThreshold:
     return data
 
 
-def generate_date_single_day(Dwell: List[str], ResultofOccupancySim: int, bWeekend: bool, iMonth: int, iIrradianceThreshold: int, iRandomHouse: int, addHeader: bool) -> List[List[Union[str, float]]]:
+def generate_date_single_day(Dwell: Dict, ResultofOccupancySim: int, bWeekend: bool, iMonth: int, iIrradianceThreshold: int, iRandomHouse: int, lightSensor, addHeader: bool) -> List[List[Union[str, float]]]:
     #print("generate_date_single_day(%s,%s,%s,%s,%s,%s,%s" % (Dwell, ResultofOccupancySim, bWeekend, iMonth, iIrradianceThreshold, iRandomHouse, addHeader))
 
     oMonthlyRelativeTemperatureModifier = [
@@ -81,10 +90,10 @@ def generate_date_single_day(Dwell: List[str], ResultofOccupancySim: int, bWeeke
         iTargetAveragekWhYear = appliance.appliances[iAppliance][23]
         sUseProfile = appliance.appliances[iAppliance][18]
         iRestartDelay = appliance.appliances[iAppliance][8]
-        if Dwell[iAppliance] == 'NO':
-            bHasAppliance = False
-        else:
-            bHasAppliance = True
+        
+        # Edits by Evert
+        bHasAppliance = iAppliance in Dwell
+        
         # bHasAppliance = IIf(Range("'appliances'!D" + CStr(iAppliance + iApplianceSourceCellOffsetY)).Value = "YES", True, False)
         # if iAppliance==testapp: print "Appliance", sApplianceType, "Mean
         # Cycle", iMeanCycleLength, "Cycles/Year ", iCyclesPerYear, "Stand By",
@@ -464,11 +473,11 @@ def generate_date_single_day(Dwell: List[str], ResultofOccupancySim: int, bWeeke
     # make output
     # array for each minute of day starting from 00.00 until 23.59 (24 * 60 = 1440)
     # for each device that is active in household + for total lights
-    header = ["Total", "Lights"]
+    header = [lightSensor.full_name]
     active_devices = []
     for j in range(0, 33):
-        if Dwell[j] == "YES":
-            header.append(appliance.appliances[j][0])
+        if j in Dwell:
+            header.append(Dwell[j].full_name)
             active_devices.append(j)
     start = 0
     end = 1440
