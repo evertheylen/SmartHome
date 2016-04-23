@@ -424,7 +424,12 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 				        ws.request({type: "add", what: "Tag", data: new_tag, for: {what: "Sensor", SID: new_sensor.SID}}, function(response) {
 					        response.object._scopes.push($scope);
 					        new_tag = response.object;
-                            $scope.tags.push(new_tag);
+												for (i=0;i<$scope.tags.length; i++) {
+													if ($scope.tags[i].text === new_tag.text) {
+                            return;
+                          }
+												}
+                        $scope.tags.push(new_tag);
      	                });                
                     }
         			$scope.sensors.push(new_sensor);
