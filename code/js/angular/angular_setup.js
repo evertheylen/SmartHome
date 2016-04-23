@@ -148,6 +148,14 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    $scope.$broadcast("confirmation", value);
 	    $rootScope.confirm_dialog.close();
 	}
+  
+  $scope.open_dialog = function () {
+      document.getElementById("dlgData").showModal();
+  }
+  
+  $scope.close_dialog = function () {
+      document.getElementById("dlgData").close();
+  }
 	
 	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
 	    console.log("Changing Location: " + $location.path());

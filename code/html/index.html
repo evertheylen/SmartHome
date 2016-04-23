@@ -104,7 +104,7 @@
 			<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ng-show="auth_user.admin"
 				ui-sref="state_admin"><i class="material-icons drawerIcon">supervisor_account</i><span ng-bind="i18n('adminlink')"></span>
 			</a>
-			<button class="header_a mdl-navigation__link" ng-click="hideDrawer(); dlgData.showModal();" ng-bind="i18n('datalink')">
+			<button class="header_a mdl-navigation__link" ng-click="hideDrawer(); open_dialog();" ng-bind="i18n('datalink')">
 			</button>
 				</nav>
       </div>
@@ -132,7 +132,7 @@
                 <p ng-bind="i18n('data_text')">
                 <div>
                     <button id="btnConfirmCancel" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                        style="width: 45%; display: inline;" ng-click="document.getElementById('dlgData').close()" ng-bind="i18n('cancel')">
+                        style="width: 45%; display: inline;" ng-click="close_dialog()" ng-bind="i18n('cancel')">
                     </button>
                 </div>
             </div>
