@@ -129,7 +129,7 @@
                     <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
                 <tags-input ng-model="sen_tags">
-	                <auto-complete min-length="1" source="check_autocomplete($query)" highlight-matched-text="false"></auto-complete>
+	                <auto-complete min-length="1" source="check_autocomplete($query)" loadOnFocus="true" highlight-matched-text="true"></auto-complete>
                 </tags-input>
                 
 				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
