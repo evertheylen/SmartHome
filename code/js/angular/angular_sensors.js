@@ -161,7 +161,7 @@ return deferred.promise;
 	}
     
 	$scope.reset_sen = function reset_sen() {
-        dlgSensor_setup.setSensor(null);               
+        dlgSensor_setup.setSensor(null, null);               
 	}
     
 	$scope.reset_sen();
@@ -225,7 +225,7 @@ return deferred.promise;
 								emit = false;
 						} else {
 								element = document.getElementById("dlgSensor");
-								dlgSensor_setup.setSensor($scope.sensor);
+								dlgSensor_setup.setSensor($scope.sensor, $scope);
 						}
         } else {
 						element = document.getElementById("dlgLocation");
@@ -416,7 +416,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 					for (var i = 0; i < $scope.sensors.length; i++) {
 							if ($scope.sensors[i].SID === response.SID) {
 									$scope.sensors[i] = response;
-									//$rootScope.$broadcast('tag_update');
 									$scope.sen_scope.get_tags();
 									updateFilteredSensors();
 									$scope.$apply();
