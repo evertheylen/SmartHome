@@ -199,7 +199,7 @@
 					            </td>
 					            <td ng-bind="sensor.location_LID"></td>
 					            <td ng-bind="sensor.type"></td>
-					            <td ng-bind="sensor.tags"></td>
+					            <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 					        </tr>
 					    </tbody>
 					</table>
