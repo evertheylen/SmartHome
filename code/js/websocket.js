@@ -29,8 +29,6 @@ var cache = {
 			}
 			return i;
 		}
-        if(type === "Tag")
-            console.log("Could not find tag with key: " + key);
 		return -1;
 	},
 
