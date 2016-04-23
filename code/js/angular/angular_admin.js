@@ -5,7 +5,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
   	componentHandler.upgradeDom();
     
     $scope.enter_command = function() {
-      
+      console.log("entered");
       document.getElementById('output').innerHTML += document.getElementById("terminal_input").innerHTML;
       document.getElementById("terminal_input").innerHTML = "";
     }
