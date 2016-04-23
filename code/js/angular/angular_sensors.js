@@ -323,12 +323,6 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
-		$scope.edit_reset = function() {
-			if (edit) {
-        $scope.sen_scope.get_tags();
-      }
-		}
-		
     $rootScope.$on("dlgSensor_open", function() {
 	    var sen = dlgSensor_setup.getSensor();
 	    if (sen != null) {
