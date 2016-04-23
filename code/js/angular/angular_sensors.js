@@ -41,7 +41,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 	$scope.tags = [];
 
     for(var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
-	    ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: $scope.sensors[sensorIndex].SID}}, function(response) {
+        console.log("SID: " + ($scope.sensors[sensorIndex]).SID);
+	    ws.request({type: "get_all", what: "Tag", for: {what: "Sensor", SID: ($scope.sensors[sensorIndex]).SID}}, function(response) {
 		    for (var i = 0; i < response.objects.length; i++)
 			    response.objects[i]._scopes.push($scope);
             // Add if the tag does not already exist.
