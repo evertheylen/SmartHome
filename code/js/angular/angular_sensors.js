@@ -431,6 +431,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 			        $scope.$apply();
 				});     
 			}
+            console.log("Tags: " + $scope.tags);
             for(var i = 0; i < $scope.tags.length; i++) {
                 if($scope.tags[i].sensor_SID == $scope.sen_SID)
                     console.log("Tag found in $scope.tags: " + $scope.tags[i].text);
