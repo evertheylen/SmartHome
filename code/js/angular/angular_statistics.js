@@ -373,9 +373,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                           console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
                             for (k = 0; k < $scope.sensors[i].tags.length; k++){
                                 if ($scope.sensors[i].tags[k].text == $scope.tags[index].text) {
-                                  console.log("Tag checked positive: " + $scope.tags[index].text);
-                                    $scope.filtered_sensors.push($scope.sensors[i]);
-                                    break;
+                                    console.log("Tag checked positive: " + $scope.tags[index].text);
+                                    if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
+                                        $scope.filtered_sensors.push($scope.sensors[i]);
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -387,9 +389,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                           console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
                             for (k = 0; k < $scope.sensors[i].tags.length; k++){
                                 if (select_tags.indexOf($scope.sensors[i].tags[k].text) != -1) {
-                                  console.log("Tag checked positive: " + $scope.tags[index].text);
-                                    $scope.filtered_sensors.push($scope.sensors[i]);
-                                    break;
+                                    console.log("Tag checked positive: " + $scope.tags[index].text);
+                                    if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
+                                        $scope.filtered_sensors.push($scope.sensors[i]);
+                                        break;
+                                    }
                                 }
                             }
                         }
