@@ -64,6 +64,10 @@ def check_for_type(req: "Request", typ: str):
     if not req.metadata["for"]["what"] == typ:
         raise Error("wrong_object_type", "Wrong object type in for.what")
 
+# Dictionary which contains frequently used operation codes
+# ---------------------------------------------------------
+op_codes = {'gt': '>', 'lt': '<', 'eq': '=','le': '<=', 'ge': '>='};
+
 
 # The Controller
 # ==============
@@ -206,7 +210,8 @@ class Controller(metaclass=MetaController):
         async def value(self, req):
             check_for_type(req, "Sensor")
             v = Value(sensor=req.metadata["for"]["SID"], time=req.data[0], value=req.data[1])
-            await v.check_auth(req, db=self.db)
+            # await v.check_auth(req, db=self.db)
+            # TODO fix check_auth and error occurs when values with same sid,time keys are in the database
             await v.insert(self.db)
             await req.answer(v.json_repr())
 
@@ -252,7 +257,7 @@ class Controller(metaclass=MetaController):
             if req.data["user1_UID"] > req.data["user2_UID"]:
                 req.data["user1_UID"], req.data["user2_UID"] = req.data["user2_UID"], req.data["user1_UID"]
             if await Friendship.contains(req.data["user1_UID"],req.data["user2_UID"],self.db):
-                raise Error("failure", "Friendship already exists.")
+                await req.answer({"status":"failure", "reason":"Friendship already exists."})
             else:
                 f = Friendship(json_dict=req.data)
                 await f.check_auth(req, db=self.db)
@@ -318,8 +323,16 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Sensor")
             s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
-            values = await Value.get(Value.sensor == s.key).all(self.db)
-            await req.answer([v.json_repr() for v in values])
+            if "where" in req.metadata:
+                print("where clause")
+                print(op_codes[req.metadata["where"]["op"]])
+                # req.metadata["where"]["field"]
+                condition = Where(req.metadata["where"]["field"],op_codes[req.metadata["where"]["op"]],req.metadata["where"]["value"])
+                values = await Value.get(condition,Value.sensor == s.key).all(self.db)
+                await req.answer([v.json_repr() for v in values])
+            else:
+                values = await Value.get(Value.sensor == s.key).all(self.db)
+                await req.answer([v.json_repr() for v in values])
 
         @case("User")
         async def user(self, req):
@@ -348,12 +361,12 @@ class Controller(metaclass=MetaController):
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
             friendships = await Friendship.get(Friendship.user1 == u.key or Friendship.user2 == u.key).all(self.db)
-            users = await User.get(User.key in [Friendship.key for Friendship in friendships] and User.key != u.key).all(self.db)
+            users = await User.get(User.key in [Friendship.key for Friendship in friendships],User.key != u.key).all(self.db)
             await req.answer([u.json_repr() for u in users])
 
         @case("Tag")
         async def tag(self, req):
-            if 'for' in req.metadata:
+            if "for" in req.metadata:
                 check_for_type(req, "Sensor")
                 s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
                 await s.check_auth(req)
