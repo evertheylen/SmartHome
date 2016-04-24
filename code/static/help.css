@@ -66,3 +66,9 @@
 	text-decoration: none;
 	color: #2EBCD4;
 }
+
+.helpImage{
+	width: 640px;
+	height: 400px;
+	display: block;
+}
