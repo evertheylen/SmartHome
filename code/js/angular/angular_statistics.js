@@ -59,7 +59,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     for (var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
         ws.request({
             type: "get_all",
-            what: "Tag"
+            what: "Tag",
             for: {
                 what: "Sensor",
                 SID: $scope.sensors[sensorIndex].SID
