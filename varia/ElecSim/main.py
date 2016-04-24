@@ -34,10 +34,10 @@ main --mode=configure --no_house_holds=10 --output=MY_CONFIGURE.json
     -> Generates 10 households configure in output file
        For each house we 'randomly' assign a number of residents (between 1-5)
        For each of possible 32 aplliances we globally enable/disable them
-main --mode=generate --config_file=MY_CONFIGURE.json --household=1 --from=yyyy-MM-ddTHH:mm --to=yyyy-MM-ddTHH:mm --output=MY_FILE.csv
-    -> Generates data, e.g. for each device, every 5 minute the power usage, for every timestamp within from/to range in household X
+main --mode=generate --config_file=MY_CONFIGURE.json --from=yyyy-MM-ddTHH:mm --to=yyyy-MM-ddTHH:mm
+    -> Generates data, e.g. for each device, every 5 minute the power usage, for every timestamp within from/to range 
     -> If from/to is empty, assuming today, e.g. -from 2016-02-04T00:00 -to 2016-02-04T23:59
-    -> Input can be generated using mode=configure, Household is integer between 1 and 10 (depending on no_house_holds)
+    -> Input can be generated using mode=configure
 """
     dateformat = '%Y-%m-%dT%H:%M'
     mode = ''
@@ -52,7 +52,7 @@ main --mode=generate --config_file=MY_CONFIGURE.json --household=1 --from=yyyy-M
     try:
         opts, args = getopt.getopt(argv, "m:o:n:c:f:t:h", ["mode=", "output=",  # for both modes
                                                            "no_house_holds=",  # for mode=configure
-                                                           "config_file=", "from=", "to=", "household="])  # for mode=generate
+                                                           "config_file=", "from=", "to="])  # for mode=generate
     except getopt.GetoptError as e:
         print(e)
         print(usage)
@@ -101,20 +101,16 @@ main --mode=generate --config_file=MY_CONFIGURE.json --household=1 --from=yyyy-M
         if config_file == '':
             raise ValueError(
                 "configfile is empty, try --mode=configure to generate")
-        if household_no == '':
-            raise ValueError("household_no is empty")
-        if outputfile == '':
-            raise ValueError("outputfile is empty")
     if mode == "configure":
         make_config_file(no_house_holds, outputfile)
     elif mode == "generate":
-        generate_sensor_data(config_file, household_no,
-                             from_date, to_date, outputfile)
+        generate_sensor_data(config_file, from_date, to_date)
     else:
         raise ValueError("mode neither configure nor generate")
 
 
 def make_config_file(no_house_holds, outputfile):
+    print("Please don't use this")
     print("make_config_file(no_house_holds=%d, config_file_output=%s" %
           (no_house_holds, outputfile))
     random.seed(datetime.now())  # different result each time
@@ -163,55 +159,51 @@ class LightSensor(Sensor):
         self.ID = ID
         self.appname = "Lights"
 
-def generate_sensor_data(config_file: str, household: int, from_date: datetime, to_date: datetime, outputfile: str):
-    print("generate_sensor_date(config_file=%s, household=%d, from=%s, to=%s, output=%s" % (
-        config_file, household, from_date, to_date, outputfile))
+def generate_sensor_data(config_file: str, from_date: datetime, to_date: datetime):
+    print("generate_sensor_date(config_file=%s, from=%s, to=%s" % (
+        config_file, from_date, to_date))
     random.seed(datetime.now())  # different result each time
     json_file = open(config_file, "r")
     config_data = json.load(json_file)
     json_file.close()
     config = None
-    for dict in config_data:
-        if dict["id_household"] == household:
-            config = dict
-            break
-    if not config:
-        raise ValueError("Household not found")
-    appliance_status = []
-    
-    # Edits by Evert
-    print("Loading household {}".format(household))
-    sensors = []
-    for name in config["appliances"]:
-        sensor = Sensor(name)
-        sensors.append(sensor)
-        print("  - loaded sensor with ID {s.ID} with appliance name `{s.appname}`".format(s=sensor))
-    
-    lightSensor = LightSensor(config["lights_id"])
-    
-    #for row in appliance.appliances:
-        #status = "NO"
-        #name = row[0]
-        #if name in sensors:
-            #status = "YES"
-        #appliance_status.append(status)
-    
-    data = generate_data.generate_data_range(
-        iResidents=config["no_residents"],
-        Sensors=sensors,
-        lightSensor=lightSensor,
-        iIrradianceThreshold=config["lights_irradiance"],
-        iRandomHouse=config["lights_house"],
-        from_date=from_date,
-        to_date=to_date)
-    save_file = open(outputfile, 'w')
-    for row in data:
-        for col in row:
-            save_file.write(str(col))
-            save_file.write(";")
-        save_file.write("\n")
-    save_file.close()
-    print("saved %s" % outputfile)
+    for config in config_data:
+        appliance_status = []
+        
+        # Edits by Evert
+        print("Loading household {}".format(config["id_household"]))
+        sensors = []
+        for name in config["appliances"]:
+            sensor = Sensor(name)
+            sensors.append(sensor)
+            print("  - loaded sensor with ID {s.ID} with appliance name `{s.appname}`".format(s=sensor))
+        
+        lightSensor = LightSensor(config["lights_id"])
+        
+        #for row in appliance.appliances:
+            #status = "NO"
+            #name = row[0]
+            #if name in sensors:
+                #status = "YES"
+            #appliance_status.append(status)
+        
+        data = generate_data.generate_data_range(
+            iResidents=config["no_residents"],
+            Sensors=sensors,
+            lightSensor=lightSensor,
+            iIrradianceThreshold=config["lights_irradiance"],
+            iRandomHouse=config["lights_house"],
+            from_date=from_date,
+            to_date=to_date)
+        outputfile = "data_house_{}.csv".format(config["id_household"])
+        save_file = open(outputfile, 'w')
+        for row in data:
+            for col in row:
+                save_file.write(str(col))
+                save_file.write(";")
+            save_file.write("\n")
+        save_file.close()
+        print("saved %s" % outputfile)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
