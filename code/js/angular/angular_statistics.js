@@ -82,6 +82,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         $scope.$apply();
     });
 
+    // Fill the aggregate $scope arrays.
     $scope.aggregate_by = [false, false, false];
     $scope.select_locs = [];
     $scope.select_types = [];
@@ -347,17 +348,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
  	date.setDate(date.getDate()-$scope.total_days);
 
         for (i = 0; i < final_sensors.length; i++) {
-		var sensor_SID = final_sensors[i].SID;
-            	var sensor_data = [];
-              for (j=0; j < $scope.total_days; j++) {
-                 sensor_data.push(Math.random() * (400 - 20) + 20);
-              }
-	/*	ws.request({type: "get_all", what: "Value", for: {what: "Sensor", SID: sensor_SID}, where: {field: "Value.time", op: "gt", value: date.getTime()}}, function(response) {
-			for(i = 0; i < response.objects.length; i++) 
-				sensor_data.push(response.objects[i][1]);
-			$scope.$apply();
-		});*/ // TODO
-            	graph.data.push(sensor_data);
+		    var sensor_SID = final_sensors[i].SID;
+            var sensor_data = [];
+        	ws.request({type: "get_all", what: "Value", for: {what: "Sensor", SID: sensor_SID}, where: {field: "Value.time", op: "gt", value: date.getTime()}}, function(response) {
+		        for(i = 0; i < response.objects.length; i++) 
+			        sensor_data.push(response.objects[i][1]);
+		        $scope.$apply();
+	        });
+        	graph.data.push(sensor_data);
 	}
         $scope.graphs.push(graph);
         if (!hasClass(document.getElementById("box4"), "open")) {
