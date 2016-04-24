@@ -367,12 +367,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         if ($scope.select_tags[j]) {
                             select_tags.push($scope.tags[j].text);
                         }
-                        
                     }                    
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
                             for (k = 0; k < $scope.sensors[i].tags.length; k++){
-                                if (select_tags.indexOf($scope.sensors[i].tags[k].text) != -1) {
+                                if ($scope.sensors[i].tags[k].text == $scope.tags[index].text) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
                                     break;
                                 }
