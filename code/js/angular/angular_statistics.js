@@ -65,7 +65,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 for (var i = 0; i < response.objects.length; i++)
                     response.objects[i]._scopes.push($scope);
                 var temp_tags = response.objects;
-                $scope.sensors[sensorIndex].tags = temp_tags;
+                for (var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
+                  if ($scope.sensors[sensorIndex].SID === response.for.SID) {
+                      $scope.sensors[sensorIndex].tags = temp_tags;
+                  }
+                }
                 for (var i = 0; i < temp_tags.length; i++) {
                     var exists = false;
                     for (j = 0; j < $scope.tags.length; j++) {
