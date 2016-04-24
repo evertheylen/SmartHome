@@ -127,13 +127,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                     } else {
                         /*var copy = [];
-                        removeClass(document.getElementById("label-location_" + i), "is-checked");
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
                             if ($scope.filtered_sensors[j].location_LID != $scope.houses[i].LID) {
                                 $scope.filtered_sensors.splice(j, 1);
                                 copy.push($scope.filtered_sensors[i]);
                             }
                         }*/
+                        removeClass(document.getElementById("label-location_" + i), "is-checked");
                         $scope.filtered_sensors = [];
                     }
                 };
@@ -162,12 +162,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                     } else {
                         /*var copy = [];
-                        removeClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
                             if ($scope.filtered_sensors[j].type != $scope.types[i]) {
                                 copy.push($scope.filtered_sensors[i]);
                             }
                         }*/
+                        removeClass(document.getElementById("label-type_" + i), "is-checked");
                         $scope.filtered_sensors = [];
                     }
                 };
@@ -202,12 +202,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }                        
                     } else {
                         /*var copy = [];
-                        removeClass(document.getElementById("label-tag_" + i), "is-checked");
                         for (j = 0; j < $scope.filtered_sensors.length; j++) {
                             if ($scope.filtered_sensors[j].tags != $scope.types[i]) {
                                 copy.push($scope.filtered_sensors[i]);
                             }
                         }*/
+                        removeClass(document.getElementById("label-tag_" + i), "is-checked");
                         $scope.filtered_sensors = [];
                     }
                 };
