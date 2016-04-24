@@ -115,7 +115,7 @@ function connect_to_websocket() {
 		}
 		catch(err) {
     		console.log('%c Websocket Error occured: ' + err.message, 'color: #ff0000');       
-            if (err["name"] {
+            if (err["name"]) {
                 var error = errors.filter(function findError(el) {return el.name == err["name"];})
                 if (error.length == 1)
                     error[0].func();
