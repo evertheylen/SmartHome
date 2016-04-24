@@ -381,7 +381,19 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                     }
                 } else {
-                    var copy = [];
+                    for (i = 0; i < $scope.sensors.length; i++) {
+                        if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
+                          console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
+                            for (k = 0; k < $scope.sensors[i].tags.length; k++){
+                                if (select_tags.indexOf($scope.sensors[i].tags[k].text) != -1) {
+                                  console.log("Tag checked positive: " + $scope.tags[index].text);
+                                    $scope.filtered_sensors.push($scope.sensors[i]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    /*var copy = [];
                     for (i = 0; i < $scope.filtered_sensors.length; i++) {
                       add = true;
                       for (k = 0; k < $scope.filtered_sensors[i].tags.length; k++){
@@ -394,7 +406,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                           copy.push($scope.filtered_sensors[i]);
                       }
                     }
-                    $scope.filtered_sensors = copy;
+                    $scope.filtered_sensors = copy;*/
                     console.log("Fixed filtered_sensors after deleting a tag");
                 }
                 break;
