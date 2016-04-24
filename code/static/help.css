@@ -1,0 +1,74 @@
+.quest-answer_separator{
+	height: 10%;
+}
+
+#helpTitle{
+	text-transform: uppercase;
+	padding-left: 1%;
+}
+
+.faqCategoryTitle, .faqCategoryText{
+	text-decoration: none;
+	color: #2EBCD4;
+}
+
+#faqContainer{
+	margin-left: 2%;
+	margin-bottom: 5%;
+}
+
+.faqCategory{
+	display: block;
+	margin-top: 30px;
+}
+
+.faqCategoryTextContainer{
+	border-left: 2px solid #C0EBF1;
+	margin-left: 1%;
+}
+
+.faqCategoryTitle, .faqCategoryText{
+	display: block;
+}
+
+.faqCategoryText{
+	margin-left: 2%;
+}
+
+.actualAnswer{
+	margin-left: 4%;
+	margin-bottom: 20px;
+}
+
+.answer{
+	color: black;
+	text-decoration: none;
+}
+
+.faqCategoryAnswerContainer{
+	margin-bottom: 40px;
+	height: auto;
+	width: auto;
+}
+
+.faqCategoryTitle.answer{
+	font-size: 160%;
+	margin-bottom: 1%;
+}
+
+.faqCategoryText.answer{
+	font-size: 130%;
+}
+
+
+/*TODO this thing*/
+.backToTop{
+	text-decoration: none;
+	color: #2EBCD4;
+}
+
+.helpImage{
+	width: 640px;
+	height: 400px;
+	display: block;
+}

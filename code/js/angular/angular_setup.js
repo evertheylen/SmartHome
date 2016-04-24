@@ -116,7 +116,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$rootScope.logged_in = Auth.isLoggedIn();
 	//$rootScope.auth_user = Auth.getUser();
 	$scope.logout = function() {
-		console.log("logging Out");
+		console.log("Logging Out");
 		setCookie("session", "", 1);
 		$rootScope.logged_in = Auth.isLoggedIn();
 		$location.path("/");
@@ -223,7 +223,15 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$rootScope.update_me = function(scope) {
 		scope.$apply();
 	};
-	
+
+    
+
+    // Error handling functions
+    var not_logged_in = function not_logged_in_error() {
+        $scope.logout();
+    }
+
+    errors.push({name: "not_logged_in", func: not_logged_in});
 });
 
 angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -270,6 +278,10 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 		.state('state_admin', {
 			url : "/admin",
 			templateUrl: "/html/partials/admin_tmp.html"
+		})
+		.state('state_help', {
+			url : "/help",
+			templateUrl: "/html/partials/help_tmp.html"
 		});
 		
 	$locationProvider.html5Mode(true);
