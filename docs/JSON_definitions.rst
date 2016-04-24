@@ -118,6 +118,7 @@ Definition for object type ``Status``
 
     {
         "SID": "<class 'int'>",
+        "text": "<class 'str'>",
         "date": "<class 'int'>",
         "date_edited": "<class 'int'>",
         "author_UID": "<class 'int'>",

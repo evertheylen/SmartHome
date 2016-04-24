@@ -319,7 +319,7 @@ class Controller(metaclass=MetaController):
             s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
             values = await Value.get(Value.sensor == s.key).all(self.db)
-            await req.answer([s.json_repr() for v in values])
+            await req.answer([v.json_repr() for v in values])
 
         @case("User")
         async def user(self, req):
