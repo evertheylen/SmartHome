@@ -243,7 +243,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if ($scope.sensors[i].location_LID === $scope.houses[index].LID && select_types.indexOf($scope.sensors[i].type) != -1) {
                             for (k = 0; k < $scope.sensors[j].tags.length; k++){
-                                if $scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                if ($scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
                                     break;
                                 }
