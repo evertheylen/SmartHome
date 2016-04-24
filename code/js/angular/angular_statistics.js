@@ -381,6 +381,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                     }
                 } else {
+                    $scope.filtered_sensors = [];
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
                           console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
