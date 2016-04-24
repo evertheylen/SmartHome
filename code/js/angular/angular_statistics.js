@@ -322,15 +322,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         }
                     }
                     var select_types = [];
-                    for (j = 0; j < $scope.types.length; j++) {
-                        if ($scope.select_types[j]) {
-                            select_types.push($scope.types[j]);
+                    for (i = 0; i < $scope.types.length; i++) {
+                        if ($scope.select_types[i]) {
+                            select_types.push($scope.types[i]);
                         }
                     }
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
-                            for (k = 0; k < $scope.sensors[j].tags.length; k++){
-                                if ($scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                            for (k = 0; k < $scope.sensors[i].tags.length; k++){
+                                if ($scope.select_tags.indexOf($scope.sensors[i].tags[k]) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
                                     break;
                                 }
