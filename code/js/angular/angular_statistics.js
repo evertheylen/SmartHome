@@ -349,25 +349,25 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 } else {
                     removeClass(document.getElementById("label-all_tags"), "is-checked");
                 };
+                var select_houses = [];
+                for (i = 0; i < $scope.houses.length; i++) {
+                    if ($scope.select_locs[i]) {
+                        select_houses.push($scope.houses[i].LID);
+                    }
+                }
+                var select_types = [];
+                for (i = 0; i < $scope.types.length; i++) {
+                    if ($scope.select_types[i]) {
+                        select_types.push($scope.types[i]);
+                    }
+                }
+                var select_tags = [];
+                for (j=0; j< $scope.tags.length; j++) {
+                    if ($scope.select_tags[j]) {
+                        select_tags.push($scope.tags[j].text);
+                    }
+                }                    
                 if (checked) {
-                    var select_houses = [];
-                    for (i = 0; i < $scope.houses.length; i++) {
-                        if ($scope.select_locs[i]) {
-                            select_houses.push($scope.houses[i].LID);
-                        }
-                    }
-                    var select_types = [];
-                    for (i = 0; i < $scope.types.length; i++) {
-                        if ($scope.select_types[i]) {
-                            select_types.push($scope.types[i]);
-                        }
-                    }
-                    var select_tags = [];
-                    for (j=0; j< $scope.tags.length; j++) {
-                        if ($scope.select_tags[j]) {
-                            select_tags.push($scope.tags[j].text);
-                        }
-                    }                    
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
                           console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
