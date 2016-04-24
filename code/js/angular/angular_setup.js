@@ -121,6 +121,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		$rootScope.logged_in = Auth.isLoggedIn();
 		$location.path("/");
 		setCookie("user", "", 365);
+		$route.reload();
 	}
 	
 	$scope.get_hash = function () {
