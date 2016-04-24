@@ -358,9 +358,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         	graph.data.push(sensor_data);
 	}
         $scope.graphs.push(graph);
-        if (!hasClass(document.getElementById("box4"), "open")) {
+        if (!hasClass(document.getElementById("box4"), "open"))
             $scope.open_box(4);
-        }
         componentHandler.upgradeDom();
     }
 
