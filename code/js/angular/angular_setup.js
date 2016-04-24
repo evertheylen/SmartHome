@@ -116,7 +116,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$rootScope.logged_in = Auth.isLoggedIn();
 	//$rootScope.auth_user = Auth.getUser();
 	$scope.logout = function() {
-		console.log("logging Out");
+		console.log("Logging Out");
 		setCookie("session", "", 1);
 		$rootScope.logged_in = Auth.isLoggedIn();
 		$location.path("/");
@@ -228,7 +228,6 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 
     // Error handling functions
     var not_logged_in = function not_logged_in_error() {
-        console.log("logging out");
         $scope.logout();
     }
 
