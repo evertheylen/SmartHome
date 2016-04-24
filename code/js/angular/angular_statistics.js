@@ -22,7 +22,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     // Default opening
     $scope.open_box(1);
     $scope.open_box(3);
-    
+
+
+    // Fill all the $scope arrays using the database.    
     $scope.houses = [];
     ws.request({
         type: "get_all",

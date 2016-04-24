@@ -13,7 +13,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             return deferred.promise;
         }
 
-    // Fill all the $scope arrays.
+    // Fill all the $scope arrays using the database.
     $scope.houses = [];
 
     ws.request({
