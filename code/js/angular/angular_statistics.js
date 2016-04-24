@@ -118,7 +118,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         for (j = 0; j < $scope.sensors.length; j++) {
                             if ($scope.sensors[j].location_LID === $scope.houses[i].LID && select_types.indexOf($scope.sensors[j].type) != -1) {
                                 for (k = 0; k < $scope.sensors[j].tags.length; k++){
-                                  if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                  if ($scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[j]);
                                     break;
                                   }
@@ -153,7 +153,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         for (j = 0; j < $scope.sensors.length; j++) {
                             if ($scope.sensors[j].type === $scope.types[i] && select_houses.indexOf($scope.sensors[j].location_LID) != -1) {
                                 for (k = 0; k < $scope.sensors[j].tags.length; k++){
-                                  if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                  if ($scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[j]);
                                     break;
                                   }
@@ -181,6 +181,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         for (j = 0; j < $scope.houses.length; j++) {
                             if ($scope.select_locs[j]) {
                                 select_houses.push($scope.houses[j].LID);
+                            }
+                        }
+                        var select_types = [];
+                        for (j = 0; j < $scope.types.length; j++) {
+                            if ($scope.select_types[j]) {
+                                select_types.push($scope.types[j]);
                             }
                         }
                         addClass(document.getElementById("label-tag_" + i), "is-checked");
@@ -237,7 +243,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if ($scope.sensors[i].location_LID === $scope.houses[index].LID && select_types.indexOf($scope.sensors[i].type) != -1) {
                             for (k = 0; k < $scope.sensors[j].tags.length; k++){
-                                if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                if $scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
                                     break;
                                 }
@@ -278,7 +284,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if ($scope.sensors[i].type === $scope.types[index] && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
                             for (k = 0; k < $scope.sensors[j].tags.length; k++){
-                                if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                if ($scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
                                     break;
                                 }
@@ -315,10 +321,16 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             select_houses.push($scope.houses[i].LID);
                         }
                     }
+                    var select_types = [];
+                    for (j = 0; j < $scope.types.length; j++) {
+                        if ($scope.select_types[j]) {
+                            select_types.push($scope.types[j]);
+                        }
+                    }
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
                             for (k = 0; k < $scope.sensors[j].tags.length; k++){
-                                if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                if ($scope.select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
                                     break;
                                 }
