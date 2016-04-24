@@ -41,6 +41,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     });
 
     $scope.sensors = [];
+	$scope.tags = [];
     ws.request({
         type: "get_all",
         what: "Sensor",
@@ -52,36 +53,34 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 		for (var i = 0; i < response.objects.length; i++)
 			response.objects[i]._scopes.push($scope);
         $scope.sensors = response.objects;
+        for (var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
+            ws.request({
+                type: "get_all",
+                what: "Tag",
+                for: {
+                    what: "Sensor",
+                    SID: $scope.sensors[sensorIndex].SID
+                }
+            }, function(response) {
+                for (var i = 0; i < response.objects.length; i++)
+                    response.objects[i]._scopes.push($scope);
+                var temp_tags = response.objects;
+                for (var i = 0; i < temp_tags.length; i++) {
+                    var exists = false;
+                    for (j = 0; j < $scope.tags.length; j++) {
+                        if (temp_tags[i].text == $scope.tags[j].text) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists)
+                        $scope.tags.push(temp_tags[i]);
+                }
+                $scope.$apply();
+            });
+        }
         $scope.$apply();
     });
-
-	$scope.tags = [];
-    for (var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
-        ws.request({
-            type: "get_all",
-            what: "Tag",
-            for: {
-                what: "Sensor",
-                SID: $scope.sensors[sensorIndex].SID
-            }
-        }, function(response) {
-            for (var i = 0; i < response.objects.length; i++)
-                response.objects[i]._scopes.push($scope);
-            var temp_tags = response.objects;
-            for (var i = 0; i < temp_tags.length; i++) {
-                var exists = false;
-                for (j = 0; j < $scope.tags.length; j++) {
-                    if (temp_tags[i].text == $scope.tags[j].text) {
-                        exists = true;
-                        break;
-                    }
-                }
-                if (!exists)
-                    $scope.tags.push(temp_tags[i]);
-            }
-            $scope.$apply();
-        });
-    }
 
     $scope.aggregate_by = [false, false, false];
     $scope.select_locs = [];
