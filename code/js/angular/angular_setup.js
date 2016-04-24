@@ -224,13 +224,15 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		scope.$apply();
 	};
 
+    
+
     // Error handling functions
     var not_logged_in = function not_logged_in_error() {
         console.log("logging out");
         $scope.logout();
     }
 
-    errors.push(name: "not_logged_in", func: not_logged_in);
+    errors.push({name: "not_logged_in", func: not_logged_in});
 });
 
 angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
