@@ -112,7 +112,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         addClass(document.getElementById("label-location_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
                             if ($scope.sensors[j].location_LID === $scope.houses[i].LID && select_types.indexOf($scope.sensors[j].type) != -1) {
-                                $scope.filtered_sensors.push($scope.sensors[j]);
+                                for (k = 0; k < $scope.sensors[j].tags.length; k++){
+                                  if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                    $scope.filtered_sensors.push($scope.sensors[j]);
+                                    break;
+                                  }
+                                }
                             }
                         }
                     } else {
@@ -142,7 +147,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         addClass(document.getElementById("label-type_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
                             if ($scope.sensors[j].type === $scope.types[i] && select_houses.indexOf($scope.sensors[j].location_LID) != -1) {
-                                $scope.filtered_sensors.push($scope.sensors[j]);
+                                for (k = 0; k < $scope.sensors[j].tags.length; k++){
+                                  if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                    $scope.filtered_sensors.push($scope.sensors[j]);
+                                    break;
+                                  }
+                                }
                             }
                         }
                     } else {
@@ -162,7 +172,23 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 for (i = 0; i < $scope.tags.length; i++) {
                     $scope.select_tags[i] = $scope.all_tags;
                     if ($scope.all_tags) {
+                        var select_houses = [];
+                        for (j = 0; j < $scope.houses.length; j++) {
+                            if ($scope.select_locs[j]) {
+                                select_houses.push($scope.houses[j].LID);
+                            }
+                        }
                         addClass(document.getElementById("label-tag_" + i), "is-checked");
+                        for (j = 0; j < $scope.sensors.length; j++) {
+                            for (k=0;k < $scope.sensors[j].tags.length; k++) {
+                                if ($scope.sensors[j].tags[k] === $scope.tags[i] && select_houses.indexOf($scope.sensors[j].location_LID) != -1 && select_types.indexOf($scope.sensors[j].type) != -1) {
+                                    if ($scope.filtered_sensors.indexOf($scope.sensors[j]) === -1) {
+                                        $scope.filtered_sensors.push($scope.sensors[j]);
+                                    }
+                                    break;
+                                }
+                            }
+                        }                        
                     } else {
                         removeClass(document.getElementById("label-tag_" + i), "is-checked");
                     }
@@ -205,7 +231,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     }
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if ($scope.sensors[i].location_LID === $scope.houses[index].LID && select_types.indexOf($scope.sensors[i].type) != -1) {
-                            $scope.filtered_sensors.push($scope.sensors[i]);
+                            for (k = 0; k < $scope.sensors[j].tags.length; k++){
+                                if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                    $scope.filtered_sensors.push($scope.sensors[i]);
+                                    break;
+                                }
+                            }
                         }
                     }
                 } else {
@@ -241,7 +272,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     }
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if ($scope.sensors[i].type === $scope.types[index] && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
-                            $scope.filtered_sensors.push($scope.sensors[i]);
+                            for (k = 0; k < $scope.sensors[j].tags.length; k++){
+                                if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                    $scope.filtered_sensors.push($scope.sensors[i]);
+                                    break;
+                                }
+                            }
                         }
                     }
                 } else {
@@ -256,7 +292,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 break;
 
             case "tag":
-                for (i = 0; i < $scope.tags.length; i++) { // TODO Do filtering with tags (Check in db for tags and sensors)
+                for (i = 0; i < $scope.tags.length; i++) {
                     if ($scope.select_tags[i]) {
                         checkCount++;
                     }
@@ -267,6 +303,32 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 } else {
                     removeClass(document.getElementById("label-all_tags"), "is-checked");
                 };
+                if (checked) {
+                    var select_houses = [];
+                    for (i = 0; i < $scope.houses.length; i++) {
+                        if ($scope.select_locs[i]) {
+                            select_houses.push($scope.houses[i].LID);
+                        }
+                    }
+                    for (i = 0; i < $scope.sensors.length; i++) {
+                        if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
+                            for (k = 0; k < $scope.sensors[j].tags.length; k++){
+                                if (select_tags.indexOf($scope.sensors[j].tags[k]) != -1) {
+                                    $scope.filtered_sensors.push($scope.sensors[i]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    var copy = [];
+                    for (i = 0; i < $scope.filtered_sensors.length; i++) {
+                        if ($scope.filtered_sensors[i].type != $scope.types[index]) {
+                            copy.push($scope.filtered_sensors[i]);
+                        }
+                    }
+                    $scope.filtered_sensors = copy;
+                }
                 break;
             case "sensor":
                 for (i = 0; i < $scope.filtered_sensors.length; i++) {
