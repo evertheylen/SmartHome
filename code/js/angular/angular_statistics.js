@@ -384,17 +384,18 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     var copy = [];
                     for (i = 0; i < $scope.filtered_sensors.length; i++) {
                       add = true;
-                       for (k = 0; k < $scope.filtered_sensors[i].tags.length; k++){
-                        if ($scope.filtered_sensors[i].tags[k].text === $scope.tags[index].text) {
-                          add = false;
-                          break;
-                        }
-                        if (add) {
-                            copy.push($scope.filtered_sensors[i]);
-                        }
+                      for (k = 0; k < $scope.filtered_sensors[i].tags.length; k++){
+                       if ($scope.filtered_sensors[i].tags[k].text === $scope.tags[index].text) {
+                         add = false;
+                         break;
                        }
+                      }
+                      if (add) {
+                          copy.push($scope.filtered_sensors[i]);
+                      }
                     }
                     $scope.filtered_sensors = copy;
+                    console.log("Fixed filtered_sensors after deleting a tag");
                 }
                 break;
             case "sensor":
