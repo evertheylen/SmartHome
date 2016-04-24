@@ -5,6 +5,7 @@ var requests = new Queue();  // Queue for requests that are waiting to be sent t
 var reconnectLimit = 10; // The maximum amount of times a websocket is allowed to reconnect.
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
 var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Group];
+var errors = [];
 
 // Used to avoid duplicates of the same object. 
 var cache = {
@@ -113,7 +114,12 @@ function connect_to_websocket() {
 			} 
 		}
 		catch(err) {
-    		console.log('%c Websocket Error occured: ' + err.message, 'color: #ff0000');
+    		console.log('%c Websocket Error occured: ' + err.message, 'color: #ff0000');       
+            if (err["name"] {
+                var error = errors.filter(function findError(el) {return el.name == err["name"];})
+                if (error.length == 1)
+                    error[0].func();
+            }
 			return;
 		}
 		if (receivedObject.hasOwnProperty("type")) 
@@ -148,7 +154,7 @@ function login_response(response) {
 function error_response(response) {
 	var error_type = response["data"]["short"];
 	var error_description = response["data"]["long"];
-	throw new Error(error_type + ": " + error_description);
+    throw {name : error_type, message : error_description}; 
 }
 
 function add_response(response) {
@@ -231,6 +237,10 @@ function live_edit_response(response) {
 	*/
 }
 
+function not_logged_in_error() {
+    setCookie("session", data["session"], 1);
+}
+
 function getFilledObject(what, objectData) {
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == what) {
@@ -239,7 +249,7 @@ function getFilledObject(what, objectData) {
             return object;    
         }
     }
-    throw new Error("'What' in websocket request is of unknown type.");
+    throw {name : "typeError", message : "'What' in websocket request is of unknown type."}; 
 }
 
 function getKey(type, data) {
@@ -252,5 +262,5 @@ function getKey(type, data) {
             return tmp;
         }
     }
-	throw new Error("'What' in websocket request is of unknown type.");   
+    throw {name : "typeError", message : "'What' in websocket request is of unknown type."}; 
 }
