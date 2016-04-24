@@ -270,6 +270,10 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 		.state('state_admin', {
 			url : "/admin",
 			templateUrl: "/html/partials/admin_tmp.html"
+		})
+		.state('state_help', {
+			url : "/help",
+			templateUrl: "/html/partials/help_tmp.html"
 		});
 		
 	$locationProvider.html5Mode(true);
