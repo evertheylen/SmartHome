@@ -391,6 +391,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         if (add) {
                             copy.push($scope.filtered_sensors[i]);
                         }
+                       }
                     }
                     $scope.filtered_sensors = copy;
                 }
