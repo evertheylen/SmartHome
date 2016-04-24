@@ -1,4 +1,4 @@
-artho
+
 from .owentity import *
 from .user import User
 from .wall import Wall
