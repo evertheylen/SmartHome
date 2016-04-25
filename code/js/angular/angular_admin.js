@@ -160,15 +160,14 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         if (!hasClass(document.getElementById("box4"), "open"))
             $scope.open_box(4);
         componentHandler.upgradeDom();
-    }
 */
+    }
     //Aggregation:
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
     */
 
     // Graphs
-    /*
     $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
     if (hasClass(layout, "mdl-layout--no-drawer-button")) {
@@ -199,7 +198,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             [28, 48, 40, 19, 86, 27, 90, 40, 78, 45, 01, 45]
         ];
         //$scope.graphs.push(graph);  
-    }*/
+    }
 
     componentHandler.upgradeDom();
 });	
