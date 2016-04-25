@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout, $state) {
+angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout, $state, $filter) {
     $rootScope.$state = $state;
     $rootScope.simple_css = false;  
     $rootScope.auth_user = Auth.getUser();
