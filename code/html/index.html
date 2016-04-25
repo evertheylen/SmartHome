@@ -58,8 +58,8 @@
     <script>
       document.write('<base href="' + document.location.origin + '/" />');
     </script>
-    <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header id="mainHeader" class="mdl-layout__header">
+    <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header" ng->
+      <header id="mainHeader" class="mdl-layout__header" ng-hide="simple_css">
         <div class="mdl-layout__header-row">
           <!-- Logo -->
           <img src="../static/logo_white_small.png" alt="Smiley face" height="70%" style="margin-right: 10px;">
@@ -81,7 +81,7 @@
           </nav>
         </div>
       </header>
-      <div id="main_drawer" class="mdl-layout__drawer">
+      <div id="main_drawer" class="mdl-layout__drawer" ng-hide="simple_css">
         <span class="mdl-layout-title mainColor">
 					<p class="mdl-layout-title" style="color: white; margin-top: 10px;">OverWatch</p>
 			<!-- TODO make this img and email/name dynamic -->
@@ -180,7 +180,7 @@
             </div>
         </dialog>  
       </main>
-	    <footer class="mdl-mini-footer">
+	    <footer class="mdl-mini-footer" ng-hide="simple_css">
 		    <div class="mdl-mini-footer__left-section">
 			    <div class="mdl-logo">OverWatch</div>
 			    <ul class="mdl-mini-footer__link-list">

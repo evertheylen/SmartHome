@@ -232,6 +232,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     }
 
     errors.push({name: "not_logged_in", func: not_logged_in});
+		
+		$rootScope.simple_css = false;
 });
 
 angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$locationProvider", function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -282,6 +284,10 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 		.state('state_help', {
 			url : "/help",
 			templateUrl: "/html/partials/help_tmp.html"
+		})
+		.state('state_report', {
+			url : "/report",
+			templateUrl: "/html/partials/report_tmp.html"
 		});
 		
 	$locationProvider.html5Mode(true);

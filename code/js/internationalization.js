@@ -9,6 +9,7 @@ var html_strings = {
     "sensorslink" : ["Sensors", "Sensoren"],
     "sociallink" : ["Social", "Sociaal"],
     "adminlink" : ["Admin", "Beheerder"],
+    "reportlink" : ["Report", "Rapport"],
     "datalink" : ["Upload data", "Upload data"],
     "contact": ["Contact ", "Contacteer "],
     "about": ["About ", "Over "],
