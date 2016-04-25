@@ -288,6 +288,13 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             await req.answer(s.json_repr())
 
+        @case("User")
+        async def user(self, req):
+            u = await User.find_by_key(req.data["UID"], self.db)
+            # Just a superficial get so no need to check for authorisation
+            # await u.check_auth(req)
+            await req.answer(u.json_repr())
+
 
     # TODO currently permissions are a bit weird: handle_get will trust the Sensor/Value's is_authorized,
     # but handle_get_all will trust the User's is_authorized...
@@ -319,7 +326,7 @@ class Controller(metaclass=MetaController):
                 await l.check_auth(req)
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
-        
+
         @case("Value")
         async def value(self, req):
             check_for_type(req, "Sensor")
