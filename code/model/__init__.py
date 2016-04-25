@@ -1,10 +1,10 @@
 
 from .sensor import Sensor
 from .user import User
-from .value import Value
+from .value import Value, HourValue, DayValue, MonthValue, YearValue
 from .location import Location
 from .tag import Tag
-base = [User, Location, Sensor, Value, Tag]
+base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag]
 
 from .status import Status
 from .like import Like
