@@ -41,7 +41,7 @@
 		display: none;
 	}
 
-	body::-webkit-scrollbar, body::-webkit-scrollbar-track, body::-webkit-scrollbar-thumb{
+	::-webkit-scrollbar, ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb{
 		display: none;
 	}
 }
