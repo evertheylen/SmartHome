@@ -59,6 +59,7 @@ var html_strings = {
     "aggregate_loc" : ["Aggregate by location", "Groepeer per locatie"],
     "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
     "aggregate_tag" : ["Aggregate by tag", "Groepeer per tag"],
+    "aggregate_user" : ["Aggregate by user", "Groepeer per user"],
     "open" : ["Open", "Openen"],
     "close" : ["Close", "Sluiten"],
     "delete_comment" : ["Delete comment", "Comment verwijderen"],
@@ -78,6 +79,7 @@ var html_strings = {
     "ok" : ["Okay", "OK"],
     "add_friend" : ["Add friend", "Vriend toevoegen"],
     "box1_title" : ["Select sensors by locations, types or tags", "Selecteer sensors op basis van locaties, types or tags"],
+    "box1_title_admin" : ["Select sensors by users", "Selecteer sensors op basis van users"],
     "box2_title" : ["Refine your selection by selecting sensors individually", "Verfijn uw zoekopdracht door sensors individueel te selecteren"],
     "box3_title" : ["Choose the timespan", "Kies de tijdspanne"],
     "box4_title" : ["Resulting graphs", "Resulterende grafieken"],
@@ -103,4 +105,5 @@ var html_strings = {
     "send" : ["Send", "Versturen"],
     "send_error" : ["Something went wrong while uploading your file, please try again", "Er ging iets mis bij het sturen van uw file, probeer aub opnieuw"],
     "down_config" : ["Download configuration file", "Download configuratie file"],
+    "users" : ["Users", "Gebruikers"],
 };
