@@ -2,51 +2,36 @@
 	background-color: #8E031C;
 }
 
-#terminal{
-	background-color: black;
-	height: auto;
-	max-height: 500px;
+#instruction{
+	display: inline-block;
+	margin-top: 2%;
+	margin-left: 2%;
+	font-size: 24px;
+	margin-bottom: 6px;
+	font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 
-#input{
-	background-color: transparent;
-	height: 30px;
-	display: flex;
+#iconHelp{
+	margin: 2%;
+	margin-bottom: 0%;
+	font-size: 36px;
+	float: right;
 }
 
-#output{
-	color: green;
-	font-weight: bold;
-	font-size: 20px;
-	background-color: transparent;
-	border: none;
-	height: auto;
+#iconHelp:hover{
+	cursor: pointer;
 }
 
-.terminalInput{
-	color: green;
-	font-weight: bold;
-	font-size: 20px;
-	background-color: transparent;
-	border: none;
-	height: 100%;
-	display: inline;
-	flex-grow: 1;
-	padding: 0px;
+#btnGenerateReport{
+	margin-top: 2%;
+	margin-left: 2%;
 }
 
-.terminalInput:focus{
-	outline: none;
-}
-
-.terminalHead{
-	color: green;
-	font-weight: bold;
-	font-size: 20px;
-	background-color: transparent;
-	border: none;
-	height: 100%;
-	display: inline;
-	margin-right: 4px;
-	padding-top: 5px;
+#adminReportField{
+	width: 96%;
+	margin-top: 2%;
+	margin-left: 2%;
+	font-size: 14px;
+	border-radius: 7px;
+	resize: auto;
 }

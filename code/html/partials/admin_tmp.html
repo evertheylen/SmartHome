@@ -1,19 +1,12 @@
-<div ng-controller="adminController">
+<div style="height: 100%;" ng-controller="adminController">
 
-	<div id="terminal">
-		<div id="output">
-			output (command followed by the result of the command)<br>
-			maybe postgres like (start the command by typing "begin",<br> press enter,
-			<br>break command is as many lines as you like
-			<br>and end the command by typing "end" and hit enter)<br>
-		</div>
-		<div id="input">
-			<div class="terminalHead">&gt;</div><input id="terminal_input" class="terminalInput" ng-model="prompt" my-enter="enter_command()"/>
-		</div>
-	</div>
+	<p id="instruction">You need to write sparrow code here</p>
+	<!-- TODO open a popup to the sparrow documentation when this icon is clicked -->
+	<i id="iconHelp" class="material-icons">help</i>
+	<textarea id="adminReportField"></textarea>
 
-	<button id="btnGenerateReport" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+	<button id="btnGenerateReport" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ui-sref="state_report">
 		Generate Report
 	</button>
 
-</body>
+</div>

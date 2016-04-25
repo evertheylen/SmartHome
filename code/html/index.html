@@ -58,8 +58,8 @@
     <script>
       document.write('<base href="' + document.location.origin + '/" />');
     </script>
-    <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header id="mainHeader" class="mdl-layout__header">
+    <div id="mainLayout" class="demo-layout-transparent mdl-layout mdl-js-layout mdl-layout--fixed-header" ng->
+      <header id="mainHeader" class="mdl-layout__header" ng-hide="$state.includes('state_report')">
         <div class="mdl-layout__header-row">
           <!-- Logo -->
           <img src="../static/logo_white_small.png" alt="Smiley face" height="70%" style="margin-right: 10px;">
@@ -81,7 +81,7 @@
           </nav>
         </div>
       </header>
-      <div id="main_drawer" class="mdl-layout__drawer">
+      <div id="main_drawer" class="mdl-layout__drawer" ng-hide="simple_css">
         <span class="mdl-layout-title mainColor">
 					<p class="mdl-layout-title" style="color: white; margin-top: 10px;">OverWatch</p>
 			<!-- TODO make this img and email/name dynamic -->
@@ -180,7 +180,7 @@
             </div>
         </dialog>  
       </main>
-	    <footer class="mdl-mini-footer">
+	    <footer class="mdl-mini-footer" ng-hide="simple_css">
 		    <div class="mdl-mini-footer__left-section">
 			    <div class="mdl-logo">OverWatch</div>
 			    <ul class="mdl-mini-footer__link-list">
@@ -204,6 +204,7 @@
     <script src="/js/angular/angular_statistics.js"></script>
 		<script src="/js/angular/angular_social.js"></script>
 		<script src="/js/angular/angular_admin.js"></script>
+		<script src="/js/angular/angular_report.js"></script>
 		<script id="template/pagination/pagination.html" type="text/ng-template">
 			<ul class="pagination">
 				<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>

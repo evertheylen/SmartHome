@@ -1,4 +1,6 @@
-angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth) {
+angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state) {
+    $rootScope.$state = $state;
+    $rootScope.simple_css = false;
     $rootScope.auth_user = Auth.getUser();
     $rootScope.tab = "sociallink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
@@ -66,7 +68,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
             }
             $scope.friends.push(friendships[i].user1_UID);
         }
-        $scope.friends = response.objects;
+        //$scope.friends = response.objects;
         console.log($scope.friends);
         $scope.$apply();
     });
