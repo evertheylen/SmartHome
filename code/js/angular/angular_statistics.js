@@ -419,23 +419,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     };
 
-    $scope.$watch("number_of_time_back + type_of_time", function() {
-        if (!($scope.number_of_time_back > 0)) {
-            $scope.total_days = 0;
-            return;
-        }
-        switch ($scope.type_of_time) {
-            case "days":
-                $scope.total_days = $scope.number_of_time_back;
-                break;
-            case "months":
-                $scope.total_days = 30 * $scope.number_of_time_back;
-                break;
-            case "years":
-                $scope.total_days = 365 * $scope.number_of_time_back;
-                break;
-        }
-    });
     $scope.total_days = 0;
     $scope.type_of_time = "days";
 
@@ -461,26 +444,25 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         for (i = 0; i < final_sensors.length; i++) {
             graph.series.push(final_sensors[i].title);
         }
+
+        var valueType = "Value";
         switch ($scope.type_of_time) {
             case 'days':
-                for (i = 0; i < $scope.total_days; i++) {
+                for (i = 0; i < $scope.total_days; i++)
                     graph.labels.push("day " + i);
-                };
                 break;
             case 'months':
-                for (i = 0; i < $scope.total_days; i += 30) {
+                for (i = 0; i < $scope.total_days; i += 30)
                     graph.labels.push("month " + i / 30);
-                };
                 break;
             case 'years':
-                for (i = 0; i < $scope.total_days; i += 365) {
+                for (i = 0; i < $scope.total_days; i += 365) 
                     graph.labels.push("year " + i / 365);
-                }
         }
         graph.data = [];
 
-	var date = new Date();
- 	date.setDate(date.getDate()-$scope.total_days);
+	    var date = new Date();
+     	date.setDate(date.getDate()-$scope.total_days);
 
         for (i = 0; i < final_sensors.length; i++) {
 		    var sensor_SID = final_sensors[i].SID;
@@ -491,8 +473,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 		        $scope.$apply();
 	        });
         	graph.data.push(sensor_data);
-	}
+	    }
         $scope.graphs.push(graph);
+
+
         if (!hasClass(document.getElementById("box4"), "open"))
             $scope.open_box(4);
         componentHandler.upgradeDom();
