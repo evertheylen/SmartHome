@@ -71,6 +71,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                     }
                 }, function(response) {
                   $scope.friends.push(response.object);
+                  $scope.$apply();
                 });
                 //$scope.friends.push(friendships[i].user2_UID);
                 continue;
@@ -83,16 +84,16 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                 }
             }, function(response) {
               $scope.friends.push(response.object);
+              $scope.$apply();
             });
            // $scope.friends.push(friendships[i].user1_UID);
-        }
-        //$scope.friends = response.objects;
-        for (i=0; i< $scope.friends.length; i++) {
-            console.log($scope.friends[i].UID);
         }
         $scope.$apply();
     });
 
+    $scope.delete_friend = function(friend_UID) {
+      
+    }
 });
 
 angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope) {
@@ -108,6 +109,33 @@ angular.module("overwatch").controller("find_friendsController", function($scope
         $scope.users = response.objects;
         for (i = 0; i < $scope.users.length; i++) {
             $scope.users[i].full_name = $scope.users[i].first_name + " " + $scope.users[i].last_name;
+        }
+        $scope.$apply();
+    });
+    ws.request({
+        type: "get_all",
+        what: "Friendship",
+        for: {
+          what: "User",
+          UID: $rootScope.auth_user.UID
+        }
+    }, function(response) {
+        var friendships = response.objects;
+        for(var i = 0; i < friendships.length; i++) {
+            if(friendships[i].user1_UID == $rootScope.auth_user.UID) {
+                for (j=0;j < $scope.users.length; j++) {
+                  if ($scope.users[j].UID === friendships[i].user2_UID) {
+                      $scope.users.splice(j,1);
+                  }
+                }
+                //$scope.friends.push(friendships[i].user2_UID);
+                continue;
+            }
+            for (j=0;j < $scope.users.length; j++) {
+              if ($scope.users[j].UID === friendships[i].user1_UID) {
+                  $scope.users.splice(j,1);
+              }
+            }
         }
         $scope.$apply();
     });

@@ -2,7 +2,6 @@
 	<div style="margin: 20px;"></div>
 	<div ng-repeat="friendObj in friends track by friendObj.UID" on-finish-render="ngRepeatFinished" class="friend">
 		<div class="profileInfo">
-			<div class="profileSubject">Profile Pic:</div>
 			<img src="http://www.gravatar.com/avatar/{{get_hash(friendObj.email)}}?d=identicon" />
 		</div>
 		<div class="name">
@@ -15,8 +14,7 @@
 			<div class="friendsAction">
 				view profile
 			</div>-->
-			<div class="friendsAction">
-				delete friend
+			<div class="friendsAction" ng-click="delete_friend(friendObj.UID)" ng-bind="i18n('delete_friend')">
 			</div>
 		</div>
 	</div>
