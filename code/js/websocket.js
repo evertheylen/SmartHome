@@ -237,10 +237,6 @@ function live_edit_response(response) {
 	*/
 }
 
-function not_logged_in_error() {
-    setCookie("session", data["session"], 1);
-}
-
 function getFilledObject(what, objectData) {
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == what) {
