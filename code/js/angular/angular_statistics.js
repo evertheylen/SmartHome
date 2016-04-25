@@ -419,8 +419,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     };
     var today = new Date();
-    $scope.start_date = new Date(today.getYear(), today.getMonth(), today.getDay(), 0, 0, 0, 0);
-    $scope.end_date = new Date(today.getYear(), today.getMonth(), today.getDay(), 0, 0, 0, 0);
+    console.log(today);
+    $scope.start_date = new Date(today.getFullYear(), today.getMonth(), today.getDay(), 0, 0, 0, 0);
+    $scope.end_date = new Date(today.getFullYear(), today.getMonth(), today.getDay(), 0, 0, 0, 0);
     $scope.start_date_time = {
        value: new Date(1970, 0, 1, 0, 0, 0)
      };
