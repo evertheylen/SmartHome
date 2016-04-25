@@ -1,4 +1,5 @@
 angular.module("overwatch").controller("indexController", function($scope, $rootScope, $location, Auth) {
+	$rootScope.simple_css = false;
 	$rootScope.auth_user = Auth.getUser();
 	$rootScope.tab = "";
     $rootScope.page_title = "OverWatch";

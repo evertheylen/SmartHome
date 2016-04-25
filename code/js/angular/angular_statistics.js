@@ -1,4 +1,5 @@
 angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout) {
+    $rootScope.simple_css = false;  
     $rootScope.auth_user = Auth.getUser();
     $rootScope.tab = "statisticslink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
