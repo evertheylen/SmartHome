@@ -71,6 +71,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                     }
                 }, function(response) {
                   $scope.friends.push(response.object);
+                  $scope.$apply();
                 });
                 //$scope.friends.push(friendships[i].user2_UID);
                 continue;
@@ -83,6 +84,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                 }
             }, function(response) {
               $scope.friends.push(response.object);
+              $scope.$apply();
             });
            // $scope.friends.push(friendships[i].user1_UID);
         }
