@@ -107,7 +107,22 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                 user2_UID: _user2_UID
             }
         }, function(response) {
-            $scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID);})
+            if (_user1_UID === $rootScope.auth_user.UID) {
+              for (i=0; i < $scope.friends.length; i++ ) {
+                if ($scope.friends[i].UID === _user2_UID) {
+                  $scope.friends.splice(i, 1);
+                  break;
+                }
+              }
+            } else {
+              for (i=0; i < $scope.friends.length; i++ ) {
+                if ($scope.friends[i].UID === _user1_UID) {
+                  $scope.friends.splice(i, 1);
+                  break;
+                }
+              }
+            }
+            //$scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID);})
             cache.removeObject("Friendship", [_user1_UID, _user2_UID]);
             $scope.$apply();
         });
