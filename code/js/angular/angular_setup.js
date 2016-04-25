@@ -106,7 +106,8 @@ angular.module("overwatch").factory('Auth', function($rootScope, cssInjector) {
 	}
 });
 
-angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http) {
+angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http, $state) {
+	$rootScope.$state = $state;
 	$scope.i18n = function(input) {
 		return html_strings[input][$scope.language];
 	};

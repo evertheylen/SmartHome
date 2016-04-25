@@ -1,4 +1,5 @@
-angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth) {
+angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state) {
+    $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.auth_user = Auth.getUser();
     $rootScope.tab = "sociallink";
