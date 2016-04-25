@@ -35,3 +35,9 @@
 .finalReportComment{
 	margin-top: 10%;
 }
+
+@media print{
+	.btnPrepareToPrint, btnSubmit, .editComment[contentEditable=true]:empty:after{
+		display: none;
+	}
+}
