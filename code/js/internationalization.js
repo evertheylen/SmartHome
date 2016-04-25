@@ -91,6 +91,7 @@ var html_strings = {
     "start_date" : ["Start date", "Start datum"],
     "end_date" : ["End date", "Eind datum"],
     "pick_time_unit" : ["Pick a time unit", "Kies een tijdseenheid"],
+    "raw" : ["Raw", "Ruw"],
     "hours" : ["Hours", "Uren"],
     "days" : ["Days", "Dagen"],
     "months" : ["Months", "Maanden"],
