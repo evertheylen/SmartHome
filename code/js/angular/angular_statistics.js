@@ -427,17 +427,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var today = new Date();
         var start_date = new Date($scope.start_date);
         var end_date = new Date($scope.end_date);
-        console.log("testing raw");
-        console.log("start date year: " + start_date.getYear());
-        console.log("start date month: " + start_date.getMonth());
-        console.log("start date day: " + start_date.getDay());
-        console.log("end date year: " + end_date.getYear());
-        console.log("end date month: " + end_date.getMonth());
-        console.log("end date day: " + end_date.getDay());
-        console.log("today year: " + today.getYear());
-        console.log("today month: " + today.getMonth());
-        console.log("today day: " + today.getDay());
-        
+        $scope.total_days = (end_date - start_date) / (1000*60*60*24);
         if (start_date.getYear() == today.getYear() && 
             start_date.getMonth() == today.getMonth() &&
             start_date.getDay() == today.getDay() ) {
@@ -445,12 +435,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 end_date.getMonth() == today.getMonth() &&
                 end_date.getDay() == today.getDay() ) {
                 $scope.show_raw = true;
-                console.log("show_raw is true");
+                return;
             }
         }
-            
-        
-        $scope.days = ($scope.end_date - $scope.start_date) / (1000*60*60*24);  
+        $scope.show_raw = false;
     });
 
     // GRAPH MAKING
@@ -478,15 +466,23 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
         var valueType = "Value";
         switch ($scope.type_of_time) {
+            case 'raw':
+                break;
+            case 'hours':
+                valueType = "hourValue";
+                break;
             case 'days':
+                valueType = "dayValue";
                 for (i = 0; i < $scope.total_days; i++)
                     graph.labels.push("day " + i);
                 break;
             case 'months':
+                valueType = "monthValue";
                 for (i = 0; i < $scope.total_days; i += 30)
                     graph.labels.push("month " + i / 30);
                 break;
             case 'years':
+                valueType = "yearValue";
                 for (i = 0; i < $scope.total_days; i += 365) 
                     graph.labels.push("year " + i / 365);
         }
