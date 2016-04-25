@@ -240,7 +240,7 @@
 					    <input class="mdl-textfield__input" type="date" id="endDate" ng-model="end_date" required/>
 					</form>
 				</div>
-				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-show="days>1">
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-show="days=0">
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-0">
 						<input type="radio" id="option-0" class="mdl-radio__button" name="options" value="hours" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('hours')"></span>
