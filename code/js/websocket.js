@@ -182,7 +182,7 @@ function get_all_response(response) {
 	var objects = [];
 	var type = response["what"];
 	var data = response["data"];
-	if(type == "value")
+    if(type.indexOf("Value") > -1)
 		return {for: response["for"], objects: data};
 	for(var i = 0; i < data.length; i++)
 		objects.push(cache.getObject(type, getKey(type, data[i]), data[i]));
