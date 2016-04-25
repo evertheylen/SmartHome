@@ -421,10 +421,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.start_date = new Date();
     $scope.end_date = new Date();
     $scope.start_date_time = {
-       value: "00:00:00"
+       value: new Date(1970, 0, 1, 14, 57, 0)
      };
     $scope.end_date_time = {
-       value: "23:59:59"
+       value: new Date(1970, 0, 1, 14, 57, 0)
      };
 
     $scope.total_days = 0;
