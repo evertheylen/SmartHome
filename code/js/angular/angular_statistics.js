@@ -472,7 +472,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         // Make a request to the database based on the user input.
         var full_start_date = new Date($scope.start_date + $scope.start_date_time);
         var full_end_date = new Date($scope.end_date + $scope.end_date_time);
-        var total_days = (end_date - start_date) / (1000*60*60*24);
+        var total_days = ($scope.end_date - $scope.start_date) / (1000*60*60*24);
 
         var valueType = "Value";
         switch ($scope.type_of_time) {
@@ -480,7 +480,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 break;
             case 'hours':
                 valueType = "hourValue";
-                var total_hours = (end_date - start_date) / (1000*60*60);
+                var total_hours = (full_end_date - full_start_date) / (1000*60*60);
+                console.log("Total hours: " + total_hours);
                 for (var i = 0; i < total_hours; i++) 
                     graph.labels.push("hours " + i);
                 break;
