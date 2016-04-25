@@ -67,7 +67,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                     type: "get",
                     what: "User",
                     data: {
-                      ID: friendships[i].user2_UID
+                      UID: friendships[i].user2_UID
                     }
                 }, function(response) {
                   $scope.friends.push(response.object);
