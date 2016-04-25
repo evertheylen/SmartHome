@@ -103,4 +103,5 @@ var html_strings = {
     "send" : ["Send", "Versturen"],
     "send_error" : ["Something went wrong while uploading your file, please try again", "Er ging iets mis bij het sturen van uw file, probeer aub opnieuw"],
     "down_config" : ["Download configuration file", "Download configuratie file"],
+    "users" : ["Users", "Gebruikers"],
 };
