@@ -419,8 +419,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     };
 
-    $scope.start_date = $filter("date")(Date.now(), 'yyyy-MM-dd');
-    $scope.end_date = $filter("date")(Date.now(), 'yyyy-MM-dd');
+    //$scope.start_date = $filter("date")(Date.now(), 'yyyy-MM-dd');
+    //$scope.end_date = $filter("date")(Date.now(), 'yyyy-MM-dd');
 
     $scope.total_days = 0;
     $scope.type_of_time = "days";
