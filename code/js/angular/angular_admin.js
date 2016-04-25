@@ -115,9 +115,9 @@ angular.module("overwatch").controller("adminController", function($scope, $root
           }
         }
         console.log("Asking graph for " + final_users);
-        if (final_sensors.length === 0 || $scope.total_days === 0) {
+        /*if (final_sensors.length === 0 || $scope.total_days === 0) {
             return;
-        }/*
+        }
         var graph = {};
         graph.type = "Line";
         graph.labels = [];
