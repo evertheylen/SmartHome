@@ -10,7 +10,7 @@ var html_strings = {
     "sociallink" : ["Social", "Sociaal"],
     "adminlink" : ["Admin", "Beheerder"],
     "reportlink" : ["Report", "Rapport"],
-    "datalink" : ["Upload data", "Upload data"],
+    "datalink" : ["Upload data", "Upload data"],f
     "contact": ["Contact ", "Contacteer "],
     "about": ["About ", "Over "],
     "language": ["Language", "Taal"],
@@ -85,6 +85,9 @@ var html_strings = {
     "box4_title" : ["Resulting graphs", "Resulterende grafieken"],
     "show_data" : ["Show data", "Toon data"],
     "merge_checkbox" : ["Merge if possible", "Samenvoegen indien mogelijk"],
+    "show_data_from" : ["Show data from ", "Toon data van "],
+    "amount" : ["number", "aantal"],
+    "amount_help" : ["Amount of days/months/years you want to look back in time", "Aantal dagen/maanden/jaren terug, waarvan u de data wilt bekijken"],
     "start_date" : ["Start date", "Start datum"],
     "end_date" : ["End date", "Eind datum"],
     "pick_time_unit" : ["Pick a time unit", "Kies een tijdseenheid"],
