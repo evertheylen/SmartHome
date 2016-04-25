@@ -425,8 +425,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     $scope.$watch('start_date + end_date', function() {
         var today = new Date();
-        var start_date = new Date(start_date);
-        var end_date = new Date(end_date);
+        var start_date = new Date($scope.start_date);
+        var end_date = new Date($scope.end_date);
         console.log("testing raw");
         console.log("start date year: " + start_date.getYear());
         console.log("start date month: " + start_date.getMonth());
