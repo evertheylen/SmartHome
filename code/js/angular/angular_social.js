@@ -63,12 +63,30 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
         var friendships = response.objects;
         for(var i = 0; i < friendships.length; i++) {
             if(friendships[i].user1_UID == $rootScope.auth_user.UID) {
-                $scope.friends.push(friendships[i].user2_UID);
+                ws.request({
+                    type: "get",
+                    what: "User",
+                    data: {
+                      ID: friendships[i].user2_UID
+                    }
+                }, function(response) {
+                  $scope.friends.push(response.object);
+                });
+                //$scope.friends.push(friendships[i].user2_UID);
                 continue;
             }
-            $scope.friends.push(friendships[i].user1_UID);
+            ws.request({
+                type: "get",
+                what: "User",
+                data: {
+                  ID: friendships[i].user1_UID
+                }
+            }, function(response) {
+              $scope.friends.push(response.object);
+            });
+           // $scope.friends.push(friendships[i].user1_UID);
         }
-        $scope.friends = response.objects;
+        //$scope.friends = response.objects;
         for (i=0; i< $scope.friends.length; i++) {
             console.log($scope.friends[i]);
         }
