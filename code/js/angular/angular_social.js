@@ -93,7 +93,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
 
     $scope.delete_friend = function(friend_UID) {    
         var user1_UID = $rootScope.auth_user_UID;
-        var user2_UID = friend.UID;
+        var user2_UID = friend_UID;
         if (friend_UID < $rootScope.auth_user.UID) {
             user1_UID = friend_UID;
             user2_UID = $rootScope.auth_user.UID;
