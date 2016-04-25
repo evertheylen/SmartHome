@@ -424,6 +424,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.days = 0;
     $scope.$watch('start_date + end_date', function() {
         $scope.days = $scope.end_date - $scope.start_date;  
+        console.log($scope.days);
     });
     // GRAPH MAKING
     $scope.make_graph = function() {
