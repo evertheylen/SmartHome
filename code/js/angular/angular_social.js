@@ -91,8 +91,19 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
         $scope.$apply();
     });
 
-    $scope.delete_friend = function(friend_UID) {
-      
+    $scope.delete_friend = function(friend_UID) {    
+        ws.request({
+            type: "delete",
+            what: "Friendship",
+            data: {
+                user_UID1: friend_UID,
+                user_UID2: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID;})
+            $scope.$apply();
+        });
+    
     }
 });
 
