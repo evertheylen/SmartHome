@@ -134,6 +134,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
               }
             }
         }
+    });
 
     $scope.add_friend = function(index) {
         ws.request({
