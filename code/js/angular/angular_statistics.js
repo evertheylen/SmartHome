@@ -428,6 +428,16 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var start_date = new Date(start_date);
         var end_date = new Date(end_date);
         console.log("testing raw");
+        console.log("start date year: " + start_date.getYear());
+        console.log("start date month: " + start_date.getMonth());
+        console.log("start date day: " + start_date.getDay());
+        console.log("end date year: " + end_date.getYear());
+        console.log("end date month: " + end_date.getMonth());
+        console.log("end date day: " + end_date.getDay());
+        console.log("today year: " + today.getYear());
+        console.log("today month: " + today.getMonth());
+        console.log("today day: " + today.getDay());
+        
         if (start_date.getYear() == today.getYear() && 
             start_date.getMonth() == today.getMonth() &&
             start_date.getDay() == today.getDay() ) {
