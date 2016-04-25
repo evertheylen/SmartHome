@@ -19,7 +19,13 @@ class Value(OwEntity):
     
 
 class HourValue(Value):
-    pass
+    @classmethod
+    async def aggregate(time, sensor):
+        # TODO aggregate :)
+        # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 1 hour
+        # Step 2: determine average
+        # Step 3: Put those as HourValue, (always use starting point as 'time' attribute)
+        pass
 
 class DayValue(Value):
     pass
