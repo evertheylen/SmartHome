@@ -29,7 +29,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
 
 
     // Fill all the $scope arrays using the database.    
-    
+    $scope.aggregate_by_user = true;
     $scope.users = [];
     ws.request({
       type: "get_all",

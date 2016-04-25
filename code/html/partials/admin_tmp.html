@@ -16,12 +16,20 @@
 			<div id="for_box1">
 				<i ng-click="open_box(1)" class="material-icons boxStatus">play_arrow</i>
 			</div>
-			<div class="headerText" ng-bind="i18n('box1_title')"></div>
+			<div class="headerText" ng-bind="i18n('box1_title_admin')"></div>
 		</div>
 	</div>
 	<div class="hiddenBox">
 		<div class="boxContent">
 			<div class="mdl-grid">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
+					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+					        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by_user"/>
+					    </label>
+					</span>
+					<span style="display: inline-block;" ng-bind="i18n('aggregate_user')"></span>
+				</div>
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
