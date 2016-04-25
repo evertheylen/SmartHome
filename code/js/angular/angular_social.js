@@ -96,11 +96,12 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
             type: "delete",
             what: "Friendship",
             data: {
-                user_UID1: friend_UID,
-                user_UID2: $rootScope.auth_user.UID
+                user1_UID: friend_UID,
+                user2_UID: $rootScope.auth_user.UID
             }
         }, function(response) {
-            $scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID;})
+            $scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID);})
+            //cache.removeObject("Friendship", [);
             $scope.$apply();
         });
     
