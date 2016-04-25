@@ -91,6 +91,9 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
         $scope.$apply();
     });
 
+    $scope.delete_friend = function(friend_UID) {
+      
+    }
 });
 
 angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope) {
