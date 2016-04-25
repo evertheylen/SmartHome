@@ -420,7 +420,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
     var today = new Date();
     $scope.start_date = new Date(today.getYear(), today.getMonth(), today.getDay(), 0, 0, 0, 0);
-    $scope.end_date = start_date;
+    $scope.end_date = $scope.start_date;
     $scope.start_date_time = {
        value: new Date(1970, 0, 1, 0, 0, 0)
      };
