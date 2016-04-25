@@ -38,7 +38,7 @@
 
 .page {
 	width: 210mm;
-	min-height: 297mm;
+	height: 297mm;
 	padding: 20mm;
 	margin: 10mm auto;
 	border: 1px #D3D3D3 solid;
@@ -54,12 +54,11 @@
 	::-webkit-scrollbar, ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb{
 		display: none;
 	}
+
 	.page {
 		margin: 0;
 		border: initial;
 		border-radius: initial;
-		width: initial;
-		min-height: initial;
 		box-shadow: initial;
 		background: initial;
 		page-break-after: always;
