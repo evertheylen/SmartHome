@@ -29,9 +29,17 @@
 
 #adminReportField{
 	width: 96%;
-	margin-top: 2%;
 	margin-left: 2%;
+	margin-top: 2%;
 	font-size: 14px;
 	border-radius: 7px;
-	resize: auto;
+	display:inline-block;
+	height: auto;
+	min-height: 180px;
+    font-family: monospace;
+    border-color: rgb(169, 169, 169);
+    background-color: white;
+    white-space: pre-wrap;
+    border: 1px solid;
+    padding: 2px;
 }

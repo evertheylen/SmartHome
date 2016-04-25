@@ -181,7 +181,7 @@
 					                     Sensors
 					                </span>
 					            </th>
-					            <th>House</th>
+					            <th ng-bind="i18n('location')"></th>
 					            <th>Type</th>
 					            <th>Tag</th>
 					        </tr>
@@ -248,24 +248,24 @@
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
 						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="days" ng-model="type_of_time" checked/>
-						<span class="mdl-radio__label">Days</span>
+						<span class="mdl-radio__label" ng-bind="i18n('days')"></span>
 					</label>
 					<div id="spacer1" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
 						<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="months" ng-model="type_of_time"/>
-						<span class="mdl-radio__label">Months</span>
+						<span class="mdl-radio__label" ng-bind="i18n('months')"></span>
 					</label>
 					<div id="spacer2" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
 						<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="years" ng-model="type_of_time"/>
-						<span class="mdl-radio__label">Years</span>
+						<span class="mdl-radio__label" ng-bind="i18n('years')"></span>
 					</label>
 				</div>
 				<div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-phone">
 					<span style="float: right;">
 						<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
 						    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
-						    <span class="mdl-checkbox__label">Merge if possible</span>
+						    <span class="mdl-checkbox__label" ng-bind="i18n('merge_checkbox')"></span>
 						</label>
 					</span>
 				</div>
