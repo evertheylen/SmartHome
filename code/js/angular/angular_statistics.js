@@ -421,7 +421,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
     $scope.total_days = 0;
     $scope.type_of_time = "days";
-    $scope.show_type_of_time = false;
+    $scope.show_most_precise = false;
     
     $scope.$watch('start_date + end_date', function() {
         var today = new Date();
@@ -433,7 +433,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             if (end_date.getYear() == today.getYear() && 
                 end_date.getMonth() == today.getMonth() &&
                 end_date.getDay() == today.getDay() )
-                $scope.show_type_of_time = true;
+                $scope.show_most_precise = true;
         }
             
         
