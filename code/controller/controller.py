@@ -436,6 +436,13 @@ class Controller(metaclass=MetaController):
             await s.delete(self.db)
             await req.answer({"status": "success"})
 
+        @case("Friendship")
+        async def friendship(self, req):
+            f = await Friendship.find_by_key((req.data["user_UID1"],req.data["user_UID2"]), self.db)
+            await f.check_auth(req)
+            await f.delete(self.db)
+            await req.answer({"status": "success"})
+
         @case("Tag")
         async def tag(self, req):
             if 'for' in req.metadata:

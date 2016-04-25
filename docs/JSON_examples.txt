@@ -91,3 +91,5 @@ delete_tag1_for_sensor1
 delete_tag1
 {"type":"delete","what":"Tag","data": {"sensor_SID": 1, "text": "Keuken"},"ID":10}
 
+delete_friend_for user_1
+{"type": "delete", "what": "Friendship", "data": { "user_UID1": 1,"user_UID2": 2},"ID":1}
