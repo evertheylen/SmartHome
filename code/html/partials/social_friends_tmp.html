@@ -1,16 +1,19 @@
 <div ng-controller="friendsController">
 	<div style="margin: 20px;"></div>
 	<div ng-repeat="friendObj in friends track by friendObj.UID" on-finish-render="ngRepeatFinished" class="friend">
+		<div class="profileInfo">
+			<img src="http://www.gravatar.com/avatar/{{get_hash(friendObj.email)}}?d=identicon" />
+		</div>
 		<div class="name">
 			{{friendObj.first_name + " " + friendObj.last_name}}
 		</div>
 		<div class="actionList">
-			<div class="friendsAction">
+			<!--<div class="friendsAction">
 				post on friends wall
 			</div>
 			<div class="friendsAction">
 				view profile
-			</div>
+			</div>-->
 			<div class="friendsAction">
 				delete friend
 			</div>
