@@ -110,4 +110,5 @@ var html_strings = {
     "down_config" : ["Download configuration file", "Download configuratie file"],
     "users" : ["Users", "Gebruikers"],
     "delete_friend" : ["Delete friend", "Vriend verwijderen"],
+    "until" : ["until", "tot"],
 };

@@ -83,11 +83,18 @@
 					<form action="#">
 						<span style="font-size: x-large;" ng-bind="i18n('show_data_from')"></span>
 						<span id="sinceInput" class="mdl-textfield mdl-js-textfield">
-						    <input class="mdl-textfield__input" type="number" id="inputNumber" ng-model="number_of_time_back" required/>
+						    <input class="mdl-textfield__input" type="date" id="inputNumber" ng-model="number_of_time_back_from" required/>
 						    <label class="mdl-textfield__label" for="inputNumber" ng-bind="i18n('amount')"></label>
+						</span>
+						<span style="font-size: x-large;" ng-bind="i18n('until')"></span>
+						<span id="untilInput" class="mdl-textfield mdl-js-textfield">
+						    <input class="mdl-textfield__input" type="date" id="inputNumber2" ng-model="number_of_time_back_until" required/>
+						    <label class="mdl-textfield__label" for="inputNumber2" ng-bind="i18n('amount')"></label>
 						</span>
 						<span style="font-size: x-large;" ng-bind="i18n('back')"></span>
 						<div class="mdl-tooltip" for="sinceInput" ng-bind="i18n('amount_help')">
+							<span style="font-size: x-large;" ng-bind="i18n('back')"></span>
+						<div class="mdl-tooltip" for="untilInput" ng-bind="i18n('amount_help')">
 						    
 						</div>
 					</form>
