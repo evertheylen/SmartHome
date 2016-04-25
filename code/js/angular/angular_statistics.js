@@ -421,7 +421,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
     $scope.start_date = new Date();
     $scope.end_date = new Date();
-    $scope.apply();
+    $scope.$apply();
 
     $scope.total_days = 0;
     $scope.type_of_time = "days";
