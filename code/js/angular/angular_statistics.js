@@ -449,6 +449,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
     // GRAPH MAKING
     $scope.make_graph = function() {
+        console.log("Making graph");
 
         // Push all the sensors we will display into the graph.
         var final_sensors = [];
