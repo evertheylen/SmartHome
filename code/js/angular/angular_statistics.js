@@ -421,19 +421,22 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
     $scope.total_days = 0;
     $scope.type_of_time = "days";
-    $scope.show_most_precise = false;
+    $scope.show_raw = false;
     
     $scope.$watch('start_date + end_date', function() {
         var today = new Date();
         var start_date = new Date(start_date);
         var end_date = new Date(end_date);
+        console.log("testing raw");
         if (start_date.getYear() == today.getYear() && 
             start_date.getMonth() == today.getMonth() &&
             start_date.getDay() == today.getDay() ) {
             if (end_date.getYear() == today.getYear() && 
                 end_date.getMonth() == today.getMonth() &&
-                end_date.getDay() == today.getDay() )
-                $scope.show_most_precise = true;
+                end_date.getDay() == today.getDay() ) {
+                $scope.show_raw = true;
+                console.log("show_raw is true");
+            }
         }
             
         
