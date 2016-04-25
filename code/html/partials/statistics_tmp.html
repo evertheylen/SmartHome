@@ -236,10 +236,10 @@
 					<form action="#">
 						<span style="font-size: x-large;" ng-bind="i18n('start_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="startDate" ng-model="start_date" required/>
-                        <input class="mdl-textfield__input" type="time" value="00:00:00" id="startDateTime" ng-model="start_date_time" required/>
+                        <input type="time" value="00:00:00" id="startDateTime" ng-model="start_date_time" required/>
 						<span style="font-size: x-large;" ng-bind="i18n('end_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="endDate" ng-model="end_date" required/>
-                        <input class="mdl-textfield__input" type="time" value="23:59:59" id="endDateTime" ng-model="end_date_time" required/>
+                        <input type="time" value="23:59:59" id="endDateTime" ng-model="end_date_time" required/>
 					</form>
 				</div>
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
