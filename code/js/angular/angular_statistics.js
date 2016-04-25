@@ -471,8 +471,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             graph.series.push(final_sensors[i].title);
 
         // Make a request to the database based on the user input.
-        var full_start_date = new Date($scope.start_date + $scope.start_date_time);
-        var full_end_date = new Date($scope.end_date + $scope.end_date_time);
+        var full_start_date = $scope.start_date + $scope.start_date_time;
+        var full_end_date = $scope.end_date + $scope.end_date_time;
         var total_days = ($scope.end_date - $scope.start_date) / (1000*60*60*24);
 
         var valueType = "Value";
@@ -502,9 +502,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     graph.labels.push("year " + i / 365);
         }
         graph.data = [];
-
-	    var date = new Date();
-     	date.setDate(date.getDate()-$scope.total_days);
 
         for (i = 0; i < final_sensors.length; i++) {
 		    var sensor_SID = final_sensors[i].SID;
