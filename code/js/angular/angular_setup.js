@@ -124,9 +124,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		setCookie("user", "", 365);
 	}
 	
-	$scope.get_hash = function () {
+	$scope.get_hash = function (email) {
 	if ($location.path() != "/") {
-		return calcMD5($rootScope.auth_user.email.trim().toLowerCase());
+		return calcMD5(email.trim().toLowerCase());
 	}
 	}
 	
