@@ -4,6 +4,7 @@ import csv
 from datetime import datetime
 
 import tornado
+from sparrow.sql import RawSql
 
 from model import *
 
@@ -42,16 +43,23 @@ def create_UploadHandler(controller):
             sensors = []
             for i, name in enumerate(data[0][2:-1]):
                 csv_sensor = CsvSensor(name)
-                sensor = await Sensor.find_by_key(csv_sensor.ID, controller.db)
+                try:
+                    sensor = await Sensor.find_by_key(csv_sensor.ID, controller.db)
+                    # TODO check_auth
+                except:
+                    controller.logger.info("Something went wrong while searching for sensor with ID {}".format(csv_sensor.ID))
+                    continue
                 sensors.append((i, CsvSensor(name), sensor))
                 
-            
+            values = []
             for (i, csv_sensor, sensor) in sensors:
                 for row in data[1:]:
                     value = row[i+2]
                     time = datetime.strptime(row[0], csv_date_format).timestamp()
-                    v = Value(value=value, time=time, sensor=sensor.key)
-                    await v.insert(controller.db)
+                    # TODO MAJOR SQL LEAK
+                    values.append((value, time, sensor.SID))
+                c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v) for v in values]))
+                await c.exec(controller.db)
             
                     
             

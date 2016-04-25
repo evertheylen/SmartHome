@@ -17,3 +17,16 @@ class Value(OwEntity):
         s = await Sensor.find_by_key(self.sensor).single(db)
         return s.user == usr.key
     
+
+class HourValue(Value):
+    pass
+
+class DayValue(Value):
+    pass
+
+class MonthValue(Value):
+    pass
+
+class YearValue(Value):
+    pass
+
