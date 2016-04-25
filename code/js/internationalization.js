@@ -85,6 +85,9 @@ var html_strings = {
     "box4_title" : ["Resulting graphs", "Resulterende grafieken"],
     "show_data" : ["Show data", "Toon data"],
     "merge_checkbox" : ["Merge if possible", "Samenvoegen indien mogelijk"],
+    "show_data_from" : ["Show data from ", "Toon data van "],
+    "amount" : ["number", "aantal"],
+    "amount_help" : ["Amount of days/months/years you want to look back in time", "Aantal dagen/maanden/jaren terug, waarvan u de data wilt bekijken"],
     "start_date" : ["Start date", "Start datum"],
     "end_date" : ["End date", "Eind datum"],
     "pick_time_unit" : ["Pick a time unit", "Kies een tijdseenheid"],
@@ -107,4 +110,5 @@ var html_strings = {
     "down_config" : ["Download configuration file", "Download configuratie file"],
     "users" : ["Users", "Gebruikers"],
     "delete_friend" : ["Delete friend", "Vriend verwijderen"],
+    "until" : ["until", "tot"],
 };
