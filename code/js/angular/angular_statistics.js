@@ -472,10 +472,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
         // Make a request to the database based on the user input.
         console.log("start time: " + $scope.start_date_time.value.getTime());
+        console.log("end time: " + $scope.end_date_time.value.getTime());
         console.log("start date: " + $scope.start_date.getTime());
+        console.log("end date: " + $scope.end_date.getTime());
         var full_start_date = $scope.start_date.getTime() + $scope.start_date_time.value.getTime();
         var full_end_date = $scope.end_date.getTime() + $scope.end_date_time.value.getTime();
         var total_days = ($scope.end_date.getTime() - $scope.start_date.getTime()) / (1000*60*60*24);
+        console.log("full start time: " + full_start_date);
+        console.log("full end time: " + full_end_date);
+        console.log("Total days: " + total_days);
 
         var valueType = "Value";
         switch ($scope.type_of_time) {
