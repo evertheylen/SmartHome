@@ -422,7 +422,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.total_days = 0;
     $scope.type_of_time = "days";
     $scope.days = 0;
-    $watch('start_date + end_date', function() {
+    $scope.$watch('start_date + end_date', function() {
         $scope.days = $scope.start_date - $scope.end_date;  
     });
     // GRAPH MAKING
