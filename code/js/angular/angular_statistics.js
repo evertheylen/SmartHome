@@ -420,7 +420,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
     $scope.start_date = new Date();
     $scope.end_date = new Date();
-
     $scope.start_date_time = {
        value: new Date(0, 0, 0, 0, 0, 0)
      };
@@ -428,7 +427,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
        value: new Date(0, 0, 0, 23, 59, 0)
      };
 
-    $scope.total_days = 0;
     $scope.type_of_time = "days";
     $scope.show_raw = false;
     
@@ -436,7 +434,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var today = new Date();
         var start_date = new Date($scope.start_date);
         var end_date = new Date($scope.end_date);
-        $scope.total_days = (end_date - start_date) / (1000*60*60*24);
         if (start_date.getYear() == today.getYear() && 
             start_date.getMonth() == today.getMonth() &&
             start_date.getDay() == today.getDay() ) {
@@ -452,26 +449,30 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
     // GRAPH MAKING
     $scope.make_graph = function() {
+
+        // Push all the sensors we will display into the graph.
         var final_sensors = [];
         for (i = 0; i < $scope.filtered_sensors.length; i++) {
             if (!is_box2_opened) {
                 final_sensors = $scope.filtered_sensors;
                 break;
             }
-            if ($scope.select_sensors[i]) {
+            if ($scope.select_sensors[i]) 
                 final_sensors.push($scope.filtered_sensors[i]);
-            }
         }
-        if (final_sensors.length === 0 || $scope.total_days === 0) {
+        if (final_sensors.length === 0 || $scope.total_days === 0) 
             return;
-        }
         var graph = {};
         graph.type = "Line";
         graph.labels = [];
         graph.series = [];
-        for (i = 0; i < final_sensors.length; i++) {
+        for (i = 0; i < final_sensors.length; i++) 
             graph.series.push(final_sensors[i].title);
-        }
+
+        // Make a request to the database based on the user input.
+        var full_start_date = new Date($scope.start_date + $scope.start_date_time);
+        var full_end_date = new Date($scope.end_date + $scope.end_date_time);
+        var total_days = (end_date - start_date) / (1000*60*60*24);
 
         var valueType = "Value";
         switch ($scope.type_of_time) {
@@ -479,20 +480,23 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 break;
             case 'hours':
                 valueType = "hourValue";
+                var total_hours = (end_date - start_date) / (1000*60*60);
+                for (var i = 0; i < total_hours; i++) 
+                    graph.labels.push("hours " + i);
                 break;
             case 'days':
                 valueType = "dayValue";
-                for (i = 0; i < $scope.total_days; i++)
+                for (var i = 0; i < total_days; i++)
                     graph.labels.push("day " + i);
                 break;
             case 'months':
                 valueType = "monthValue";
-                for (i = 0; i < $scope.total_days; i += 30)
+                for (var i = 0; i < total_days; i += 30)
                     graph.labels.push("month " + i / 30);
                 break;
             case 'years':
                 valueType = "yearValue";
-                for (i = 0; i < $scope.total_days; i += 365) 
+                for (var i = 0; i < total_days; i += 365) 
                     graph.labels.push("year " + i / 365);
         }
         graph.data = [];
@@ -503,7 +507,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         for (i = 0; i < final_sensors.length; i++) {
 		    var sensor_SID = final_sensors[i].SID;
             var sensor_data = [];
-        	ws.request({type: "get_all", what: "Value", for: {what: "Sensor", SID: sensor_SID}, where: {field: "time", op: "gt", value: date.getTime()}}, function(response) {
+        	ws.request({type: "get_all", what: valueType, for: {what: "Sensor", SID: sensor_SID}, 
+                        where: [{field: "time", op: "gt", value: full_start_date}, {field: "time", op: "lt", value: full_end_date}]}, function(response) {
 		        for(i = 0; i < response.objects.length; i++) 
 			        sensor_data.push(response.objects[i][1]);
 		        $scope.$apply();
