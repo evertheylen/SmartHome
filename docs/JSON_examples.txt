@@ -62,7 +62,7 @@ sensor_getall_for_user1
 {"type": "get_all", "ID": 600, "what": "Sensor", "for": {"what": "User", "UID": 1}}
 
 values_getall_for_sensor1_with_where_clause
-{"type":"get_all","what":"Value","for":{"what":"Sensor","SID":1},"where":{"field":"time","op":"gt","value":0},"ID":6}
+{"type":"get_all","what":"Value","for":{"what":"Sensor","SID":1},"where":[{"field":"time","op":"gt","value":0}, {"field":"time","op":"lt","value":1561594635}],"ID":6}
 
 user_get_all_for_user1
 {"type":"get_all","what":"User","for":{"what":"User","UID":1},"ID":2}
@@ -91,5 +91,3 @@ delete_tag1_for_sensor1
 delete_tag1
 {"type":"delete","what":"Tag","data": {"sensor_SID": 1, "text": "Keuken"},"ID":10}
 
-get_config_loc1
-{"ID": 546, "type": "get_config", "data": {"LID": 1}}

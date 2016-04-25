@@ -1,4 +1,5 @@
-angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout) {
+angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout, $state) {
+    $rootScope.$state = $state;
     $rootScope.simple_css = false;  
     $rootScope.auth_user = Auth.getUser();
     $rootScope.tab = "statisticslink";
