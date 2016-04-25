@@ -16,7 +16,7 @@
 	font-style: italic;
 }
 
-.section{
+.reportSection{
 	margin-left: 15%;
 	margin-right: 15%;
 	width: 70%;
@@ -24,14 +24,14 @@
 	margin-bottom: 5%;
 }
 
-.graph{
+.reportGraph{
 	width: 100%;
 	height: auto;
 }
 
-.comment{
+.reportComment{
 }
 
-.finalComment{
+.finalReportComment{
 	margin-top: 10%;
 }
