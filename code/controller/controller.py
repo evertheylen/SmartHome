@@ -9,6 +9,7 @@ import types
 from concurrent.futures import ThreadPoolExecutor
 import passlib.hash  # For passwords
 import json
+from itertools import chain
 
 from sparrow import *
 
@@ -57,17 +58,18 @@ class MetaController(type):
         return type.__new__(self, name, bases, dct)
 
 
-# Actual little helper functions
-# ------------------------------
+# Actual little helper functions and constants
+# --------------------------------------------
 
 def check_for_type(req: "Request", typ: str):
     if not req.metadata["for"]["what"] == typ:
         raise Error("wrong_object_type", "Wrong object type in for.what")
 
 # Dictionary which contains frequently used operation codes
-# ---------------------------------------------------------
-op_codes = {'gt': '>', 'lt': '<', 'eq': '=','le': '<=', 'ge': '>='};
+op_codes = {'gt': '>', 'lt': '<', 'eq': '=','le': '<=', 'ge': '>='}
 
+# Dictionary to limit possible fields on which to filter in 'where' clause
+value_props = {p.name: p for p in Value._props if p.json }
 
 # The Controller
 # ==============
@@ -317,22 +319,20 @@ class Controller(metaclass=MetaController):
                 await l.check_auth(req)
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
-
+        
         @case("Value")
         async def value(self, req):
             check_for_type(req, "Sensor")
             s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
             if "where" in req.metadata:
-                print("where clause")
-                print(op_codes[req.metadata["where"]["op"]])
-                # req.metadata["where"]["field"]
-                condition = Where(req.metadata["where"]["field"],op_codes[req.metadata["where"]["op"]],req.metadata["where"]["value"])
-                values = await Value.get(condition,Value.sensor == s.key).all(self.db)
-                await req.answer([v.json_repr() for v in values])
+                clauses = []
+                for c in req.metadata["where"]:
+                    clauses.append(Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
+                values = await Value.get(*clauses, Value.sensor == s.key).all(self.db)
             else:
                 values = await Value.get(Value.sensor == s.key).all(self.db)
-                await req.answer([v.json_repr() for v in values])
+            await req.answer([v.json_repr() for v in values])
 
         @case("User")
         async def user(self, req):
