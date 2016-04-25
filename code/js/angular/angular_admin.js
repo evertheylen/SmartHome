@@ -59,7 +59,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                     if ($scope.all_users) {
                         addClass(document.getElementById("label-user_" + i), "is-checked");
                     } else {
-                        removeClass(document.getElementById("label-location_" + i), "is-checked");
+                        removeClass(document.getElementById("label-user_" + i), "is-checked");
                     }
                 };
                 break;
