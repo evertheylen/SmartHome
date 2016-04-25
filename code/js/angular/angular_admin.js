@@ -49,6 +49,22 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         $scope.houses = response.objects;
         $scope.$apply();
     });
+    
+    $scope.users = [];
+    ws.request({
+      type: "get_all",
+      what: "User",
+      for: {
+          what: "User",
+          UID: $rootScope.auth_user.UID
+      }
+    }, function(response) {
+        for (var i= 0; i < response.objects.length; i++) {
+            response.objects[i]._scopes.push($scope);
+            $scope.users = response.objects;
+            $scope.$apply();
+        }
+    });
 
     $scope.sensors = [];
 	$scope.tags = [];
