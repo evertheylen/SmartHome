@@ -52,16 +52,27 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
         $scope.$apply();
     });
 
+/*    {
+        "SID": "<class 'int'>",
+        "date": "<class 'int'>",
+        "date_edited": "<class 'int'>",
+        "text": "<class 'str'>",
+        "author_UID": "<class 'int'>",
+        "wall_WID": "<class 'int'>"
+    }*/
+
     $scope.post_status = function () {
         if ($scope.status_text != "") {
+            var _date = Date.now();
             ws.request({
                 type: "add",
                 what: "Status",
                 data: {
                     author_UID: Auth.getUser().UID,
-                    date: getCurrentDate(),
-                    date_edited: getCurrentDate(),
-                    wall_WID: Auth.getUser().WID
+                    date: _date,
+                    date_edited: _date,
+                    wall_WID: Auth.getUser().wall_WID,
+                    text: $scope.status_text
                 }
             }, function (response) {
                 statuses.push_back(response.object);
