@@ -78,6 +78,7 @@ function connect_to_websocket() {
 		else {
 			// Add the request to the waiting list.
 			requests.enqueue(stringToSend);
+            console.log("Queued message: " + stringToSend);
 			console.log("Websocket request has been queued until connection has been established.");
 		}
 	}
