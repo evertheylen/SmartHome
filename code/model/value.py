@@ -34,10 +34,37 @@ class HourValue(Value):
         
 
 class DayValue(Value):
-    pass
+    @classmethod
+    async def aggregate(time, sensor, db):
+        # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 1 day
+        result = await Value.get(Value.sensor == sensor, Value.time >= time, Value.time < time + 86400).exec(db)
+        values = result.all()
+        # Step 2: determine average
+        count = result.count()
+        total = sum([v.value for v in values])
+        average = total/count
+        # Step 3: Put those as DayValue, (always use starting point as 'time' attribute)
 
 class MonthValue(Value):
-    pass
+    @classmethod
+    async def aggregate(time, sensor, db):
+        # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 31 days
+        result = await Value.get(Value.sensor == sensor, Value.time >= time, Value.time < time + 2678400).exec(db)
+        values = result.all()
+        # Step 2: determine average
+        count = result.count()
+        total = sum([v.value for v in values])
+        average = total/count
+        # Step 3: Put those as MonthValue, (always use starting point as 'time' attribute)
 
 class YearValue(Value):
-    pass
+    @classmethod
+    async def aggregate(time, sensor, db):
+        # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 365 days
+        result = await Value.get(Value.sensor == sensor, Value.time >= time, Value.time < time + 977616000).exec(db)
+        values = result.all()
+        # Step 2: determine average
+        count = result.count()
+        total = sum([v.value for v in values])
+        average = total/count
+        # Step 3: Put those as YearValue, (always use starting point as 'time' attribute)
