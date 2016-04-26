@@ -35,13 +35,13 @@ angular.module("overwatch").factory('transferGroup', function($rootScope) {
     // TODO fix cookie zodat zelfde blijft na refresh
 	return {
 		setGroup : function(_group) {
-		    console.log("Setting group to: " + JSON.stringify(_group.toJSON());
-		    setCookie("group", _group, 365);
+		    console.log("Setting group to: " + JSON.stringify(_group.toJSON()));
+		    setCookie("group",  JSON.stringify(_group.toJSON()), 365);
 		},
 		
 		getGroup : function() {
 		    console.log("Getting group: " + JSON.parse(getCookie('group')));
-			return jSON.parse(getCookie('group'));            
+			return JSON.parse(getCookie('group'));            
 		}
 	}
 });
