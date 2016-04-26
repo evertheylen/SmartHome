@@ -120,6 +120,19 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
         $scope.user = response.object;
         $scope.$apply();
     });
+    
+    $scope.$on('profile changed', function() {
+        ws.request({
+            type: "get",
+            what: "User",
+            data: {
+                UID: transferProfile.getProfile()
+            }
+        }, function (response) {
+            $scope.user = response.object;
+            $scope.$apply();
+        });
+    });
 });
 
 angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth, transferProfile) {
