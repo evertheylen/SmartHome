@@ -61,8 +61,12 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
         }
     }, function(response) {
         var friendships = response.objects;
+        console.log(response.objects);
         for(var i = 0; i < friendships.length; i++) {
-            if(friendships[i].user1_UID == $rootScope.auth_user.UID) {
+	        console.log("user1UID: " + friendships[i].user1_UID);
+	        console.log("user2UID: " + friendships[i].user2_UID);
+            console.log("i: " + i);
+            if(friendships[i].user1_UID === $rootScope.auth_user.UID) {
                 ws.request({
                     type: "get",
                     what: "User",
@@ -73,7 +77,6 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                   $scope.friends.push(response.object);
                   $scope.$apply();
                 });
-                //$scope.friends.push(friendships[i].user2_UID);
                 continue;
             }
             ws.request({
@@ -107,7 +110,22 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                 user2_UID: _user2_UID
             }
         }, function(response) {
-            $scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID);})
+            if (_user1_UID === $rootScope.auth_user.UID) {
+              for (i=0; i < $scope.friends.length; i++ ) {
+                if ($scope.friends[i].UID === _user2_UID) {
+                  $scope.friends.splice(i, 1);
+                  break;
+                }
+              }
+            } else {
+              for (i=0; i < $scope.friends.length; i++ ) {
+                if ($scope.friends[i].UID === _user1_UID) {
+                  $scope.friends.splice(i, 1);
+                  break;
+                }
+              }
+            }
+            //$scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID);})
             cache.removeObject("Friendship", [_user1_UID, _user2_UID]);
             $scope.$apply();
         });

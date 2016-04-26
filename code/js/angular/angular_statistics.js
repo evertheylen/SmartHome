@@ -418,81 +418,192 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 break;
         }
     };
+    var today = new Date();
+    console.log(today);
+    $scope.start_date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+    $scope.end_date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+    $scope.start_date_time = {
+       value: new Date(1970, 0, 1, 0, 0, 0)
+     };
+    $scope.end_date_time = {
+       value: new Date(1970, 0, 1, 23, 59, 0)
+     };
 
-    $scope.$watch("number_of_time_back + type_of_time", function() {
-        if (!($scope.number_of_time_back > 0)) {
-            $scope.total_days = 0;
-            return;
-        }
-        switch ($scope.type_of_time) {
-            case "days":
-                $scope.total_days = $scope.number_of_time_back;
-                break;
-            case "months":
-                $scope.total_days = 30 * $scope.number_of_time_back;
-                break;
-            case "years":
-                $scope.total_days = 365 * $scope.number_of_time_back;
-                break;
-        }
-    });
-    $scope.total_days = 0;
+    console.log("Time zone offset: " + $scope.start_date_time.value.getTimezoneOffset());
+
     $scope.type_of_time = "days";
+    $scope.show_raw = false;
+    
+    $scope.$watch('start_date + end_date', function() {
+        today = new Date();
+        var start_date = new Date($scope.start_date);
+        var end_date = new Date($scope.end_date);
+        if (start_date.getYear() == today.getYear() && 
+            start_date.getMonth() == today.getMonth() &&
+            start_date.getDay() == today.getDay() ) {
+            if (end_date.getYear() == today.getYear() && 
+                end_date.getMonth() == today.getMonth() &&
+                end_date.getDay() == today.getDay() ) {
+                $scope.show_raw = true;
+                return;
+            }
+        }
+        $scope.show_raw = false;
+    });
 
     // GRAPH MAKING
     $scope.make_graph = function() {
+        console.log("Making graph");
+
+        // Push all the sensors we will display into the graph.
         var final_sensors = [];
+
+    //Aggregation:
+    /*
+    [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
+    */
         for (i = 0; i < $scope.filtered_sensors.length; i++) {
             if (!is_box2_opened) {
                 final_sensors = $scope.filtered_sensors;
                 break;
             }
-            if ($scope.select_sensors[i]) {
+            if ($scope.select_sensors[i]) 
                 final_sensors.push($scope.filtered_sensors[i]);
-            }
         }
-        if (final_sensors.length === 0 || $scope.total_days === 0) {
+        if (final_sensors.length === 0 || $scope.total_days === 0) 
             return;
-        }
         var graph = {};
         graph.type = "Line";
         graph.labels = [];
         graph.series = [];
-        for (i = 0; i < final_sensors.length; i++) {
-            graph.series.push(final_sensors[i].title);
+        if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false) {
+            console.log("making series for sensors");
+            for (i = 0; i < final_sensors.length; i++) 
+                graph.series.push(final_sensors[i].title);
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false) {
+            console.log("making series for locations");
+            for (i=0; i < $scope.houses.length; i++) {
+                if ($scope.select_locs[i]) {
+                    graph.series.push($scope.houses[i].description);
+                }
+            }
+        } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false) {
+            console.log("making series for types");
+            for (i=0; i < $scope.types.length; i++) {
+                if ($scope.select_types[i]) {
+                    graph.series.push($scope.i18n($scope.types[i]));
+                }
+            }
+        } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true) {
+            console.log("making series for tags");
+            var select_tags = [];
+            for (j=0; j< $scope.tags.length; j++) {
+                if ($scope.select_tags[j]) {
+                    select_tags.push($scope.tags[j].text);
+                }
+            }
+            graph.series=select_tags;
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false) {
+            console.log("making series for locations & types");
+            for (i=0; i < $scope.houses.length; i++) {
+                if ($scope.select_locs[i]) {
+                    for (j=0; j < $scope.types.length; j++) {
+                        if ($scope.select_types[i]) {
+                            graph.series.push($scope.houses[i].description + ", " + $scope.i18n($scope.types[j]));
+                        }
+                    }
+                }
+            }        
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true) {
+            console.log("making series for locations & tags");
+            var select_tags = [];
+            for (i=0; i < $scope.houses.length; i++) {
+                if ($scope.select_locs[i]) {
+                    for (j=0; j< $scope.tags.length; j++) {
+                        if ($scope.select_tags[j]) {
+                            graph.series.push($scope.houses[i].description + ", " + $scope.tags[j].text);
+                        }
+                    }
+                }
+            }        
+        } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true) {
+            console.log("making series for tags & types");
+            var select_tags = [];
+            for (i=0; i < $scope.types.length; i++) {
+                if ($scope.select_types[i]) {
+                    for (j=0; j< $scope.tags.length; j++) {
+                        if ($scope.select_tags[j]) {
+                            graph.series.push($scope.i18n($scope.types[i]) + ", " + $scope.tags[j].text);
+                        }
+                    }
+                }
+            }        
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true) {
+            console.log("making series for tags & types & locations");
+            var select_tags = [];
+            for (k=0; k < $scope.houses.length; k++) {
+                if ($scope.select_locs[k]) {
+                    for (i=0; i < $scope.types.length; i++) {
+                        if ($scope.select_types[i]) {
+                            for (j=0; j< $scope.tags.length; j++) {
+                                if ($scope.select_tags[j]) {
+                                    graph.series.push($scope.houses[k].description + ", " + $scope.i18n($scope.types[i]) + ", " + $scope.tags[j].text);
+                                }
+                            }
+                        }
+                    }      
+                }
+            }  
         }
+        
+        console.log("Series: " + graph.series);
+        // Make a request to the database based on the user input.
+        var timezone_offset = (1000*60*60);
+        var full_start_date = $scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset;
+        var full_end_date = $scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset;
+        var total_days = ($scope.end_date.getTime() - $scope.start_date.getTime()) / (1000*60*60*24);
+
+        var valueType = "Value";
         switch ($scope.type_of_time) {
+            case 'raw':
+                break;
+            case 'hours':
+                valueType = "hourValue";
+                var total_hours = (full_end_date - full_start_date) / (1000*60*60);
+                for (var i = 0; i < total_hours; i++) 
+                    graph.labels.push("hours " + i);
+                break;
             case 'days':
-                for (i = 0; i < $scope.total_days; i++) {
+                valueType = "dayValue";
+                for (var i = 0; i < total_days; i++)
                     graph.labels.push("day " + i);
-                };
                 break;
             case 'months':
-                for (i = 0; i < $scope.total_days; i += 30) {
+                valueType = "monthValue";
+                for (var i = 0; i < total_days; i += 30)
                     graph.labels.push("month " + i / 30);
-                };
                 break;
             case 'years':
-                for (i = 0; i < $scope.total_days; i += 365) {
+                valueType = "yearValue";
+                for (var i = 0; i < total_days; i += 365) 
                     graph.labels.push("year " + i / 365);
-                }
         }
         graph.data = [];
-
-	var date = new Date();
- 	date.setDate(date.getDate()-$scope.total_days);
 
         for (i = 0; i < final_sensors.length; i++) {
 		    var sensor_SID = final_sensors[i].SID;
             var sensor_data = [];
-        	ws.request({type: "get_all", what: "Value", for: {what: "Sensor", SID: sensor_SID}, where: {field: "time", op: "gt", value: date.getTime()}}, function(response) {
+        	ws.request({type: "get_all", what: valueType, for: {what: "Sensor", SID: sensor_SID}, 
+                        where: [{field: "time", op: "gt", value: full_start_date}, {field: "time", op: "lt", value: full_end_date}]}, function(response) {
 		        for(i = 0; i < response.objects.length; i++) 
 			        sensor_data.push(response.objects[i][1]);
 		        $scope.$apply();
 	        });
         	graph.data.push(sensor_data);
-	}
+	    }
         $scope.graphs.push(graph);
+
+
         if (!hasClass(document.getElementById("box4"), "open"))
             $scope.open_box(4);
         componentHandler.upgradeDom();

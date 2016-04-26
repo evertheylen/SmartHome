@@ -86,20 +86,20 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         }
     };
 
-    $scope.$watch("number_of_time_back + type_of_time", function() {
-        if (!($scope.number_of_time_back > 0)) {
+    $scope.$watch("number_of_time_back_from + number_of_time_back_until + type_of_time", function() {
+        if (!($scope.number_of_time_back_from - $scope.numer_of_time_back_until > 0)) {
             $scope.total_days = 0;
             return;
         }
         switch ($scope.type_of_time) {
             case "days":
-                $scope.total_days = $scope.number_of_time_back;
+                $scope.total_days = $scope.number_of_time_back_from - $scope.numer_of_time_back_until;
                 break;
             case "months":
-                $scope.total_days = 30 * $scope.number_of_time_back;
+                $scope.total_days = 30 * $scope.number_of_time_back_from - $scope.numer_of_time_back_until;
                 break;
             case "years":
-                $scope.total_days = 365 * $scope.number_of_time_back;
+                $scope.total_days = 365 * $scope.number_of_time_back_from - $scope.numer_of_time_back_until;
                 break;
         }
     });
