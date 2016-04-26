@@ -521,7 +521,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         for (j=0; j < $scope.tags.length; j++) {
             if ($scope.select_tags[i]) 
-                tag_IDs.push($scope.tags[i].text);
+                tag_IDs.push($scope.tags[i].);
         }    
 
         // Send a request dependant on the aggregation type.
@@ -531,7 +531,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 type: "get_values",
                 group_by: [],
                 where: [{
-                    field: "sensor_SID",
+                    field: "SID",
                     op: "in",
                     value: sensor_SIDs
                 }],
@@ -559,7 +559,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             IDs: location_LIDs
                         }],
                         where: [{
-                            field: "sensor_SID",
+                            field: "SID",
                             op: "in",
                             value: sensor_SIDs
                         }],
@@ -587,7 +587,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             IDs: type_IDs
                         }],
                         where: [{
-                            field: "sensor_SID",
+                            field: "SID",
                             op: "in",
                             value: sensor_SIDs
                         }],
@@ -615,7 +615,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             IDs: tag_IDs
                         }],
                         where: [{
-                            field: "sensor_SID",
+                            field: "SID",
                             op: "in",
                             value: sensor_SIDs
                         }],
@@ -646,7 +646,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     IDs: type_IDs
                 }],
                 where: [{
-                    field: "sensor_SID",
+                    field: "SID",
                     op: "in",
                     value: sensor_SIDs
                 }],
@@ -679,7 +679,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     IDs: tag_IDs
                 }],
                 where: [{
-                    field: "sensor_SID",
+                    field: "SID",
                     op: "in",
                     value: sensor_SIDs
                 }],
@@ -712,7 +712,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     IDs: tag_IDs
                 }],
                 where: [{
-                    field: "sensor_SID",
+                    field: "SID",
                     op: "in",
                     value: sensor_SIDs
                 }],
@@ -748,7 +748,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     IDs: tag_IDs
                 }],
                 where: [{
-                    field: "sensor_SID",
+                    field: "SID",
                     op: "in",
                     value: sensor_SIDs,
                 }],
