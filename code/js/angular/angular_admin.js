@@ -217,7 +217,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                     IDs: user_UIDs
                 }],
                 where: [{
-                    field: "sensor_SID",
+                    field: "SID",
                     op: "in",
                     value: sensor_SIDs
                 }],
@@ -241,7 +241,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                 type: "get_values",
                 group_by: [],
                 where: [{
-                    field: "sensor_SID",
+                    field: "SID",
                     op: "in",
                     value: sensor_SIDs
                 }],
