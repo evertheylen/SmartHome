@@ -537,7 +537,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     field: "sensor_SID",
                     op: "in",
                     value: sensor_SIDs
-                }]
+                }],
                 timespan: {
                     valueType: valueType,
                     start: full_start_date,
@@ -565,7 +565,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             field: "sensor_SID",
                             op: "in",
                             value: sensor_SIDs
-                        }]
+                        }],
                         timespan: {
                             valueType: valueType,
                             start: full_start_date,
@@ -593,7 +593,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             field: "sensor_SID",
                             op: "in",
                             value: sensor_SIDs
-                        }]
+                        }],
                         timespan: {
                             valueType: valueType,
                             start: full_start_date,
@@ -621,7 +621,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             field: "sensor_SID",
                             op: "in",
                             value: sensor_SIDs
-                        }]
+                        }],
                         timespan: {
                             valueType: valueType,
                             start: full_start_date,
@@ -652,7 +652,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     field: "sensor_SID",
                     op: "in",
                     value: sensor_SIDs
-                }]
+                }],
                 timespan: {
                     valueType: valueType,
                     start: full_start_date,
@@ -685,7 +685,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     field: "sensor_SID",
                     op: "in",
                     value: sensor_SIDs
-                }]
+                }],
                 timespan: {
                     valueType: valueType,
                     start: full_start_date,
@@ -718,7 +718,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     field: "sensor_SID",
                     op: "in",
                     value: sensor_SIDs
-                }]
+                }],
                 timespan: {
                     valueType: valueType,
                     start: full_start_date,
@@ -754,7 +754,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     field: "sensor_SID",
                     op: "in",
                     value: sensor_SIDs,
-                }]
+                }],
                 timespan: {
                     valueType: valueType,
                     start: full_start_date,
