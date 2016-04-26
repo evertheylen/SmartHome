@@ -476,25 +476,25 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         graph.type = "Line";
         graph.labels = [];
         graph.series = [];
-        if ($scope.aggregate_by === [false,false,false]) {
+        if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false) {
             console.log("making series for sensors");
             for (i = 0; i < final_sensors.length; i++) 
                 graph.series.push(final_sensors[i].title);
-        } else if ($scope.aggregate_by === [true, false, false]) {
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false) {
             console.log("making series for locations");
             for (i=0; i < $scope.houses.length; i++) {
                 if ($scope.select_locs[i]) {
                     graph.series.push($scope.houses[i].description);
                 }
             }
-        } else if ($scope.aggregate_by === [false, true, false]) {
+        } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false) {
             console.log("making series for types");
             for (i=0; i < $scope.types.length; i++) {
                 if ($scope.select_types[i]) {
                     graph.series.push($scope.i18n($scope.types[i]));
                 }
             }
-        } else if ($scope.aggregate_by === [false, false, true]) {
+        } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true) {
             console.log("making series for tags");
             var select_tags = [];
             for (j=0; j< $scope.tags.length; j++) {
