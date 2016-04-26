@@ -349,7 +349,7 @@ class Controller(metaclass=MetaController):
             if "where" in req.metadata:
                 clauses = []
                 for c in req.metadata["where"]:
-                    clauses.append(Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
+                    clauses.append(Where(hourvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
                 hourvalues = await HourValue.get(*clauses, HourValue.sensor == s.key).all(self.db)
             else:
                 hourvalues = await HourValue.get(HourValue.sensor == s.key).all(self.db)
@@ -363,7 +363,7 @@ class Controller(metaclass=MetaController):
             if "where" in req.metadata:
                 clauses = []
                 for c in req.metadata["where"]:
-                    clauses.append(Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
+                    clauses.append(Where(dayvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
                 dayvalues = await DayValue.get(*clauses, DayValue.sensor == s.key).all(self.db)
             else:
                 dayvalues = await DayValue.get(DayValue.sensor == s.key).all(self.db)
@@ -377,7 +377,7 @@ class Controller(metaclass=MetaController):
             if "where" in req.metadata:
                 clauses = []
                 for c in req.metadata["where"]:
-                    clauses.append(Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
+                    clauses.append(Where(monthvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
                 monthvalues = await MonthValue.get(*clauses, MonthValue.sensor == s.key).all(self.db)
             else:
                 monthvalues = await MonthValue.get(MonthValue.sensor == s.key).all(self.db)
@@ -391,7 +391,7 @@ class Controller(metaclass=MetaController):
             if "where" in req.metadata:
                 clauses = []
                 for c in req.metadata["where"]:
-                    clauses.append(Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
+                    clauses.append(Where(yearvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
                 yearvalues = await YearValue.get(*clauses, YearValue.sensor == s.key).all(self.db)
             else:
                 yearvalues = await YearValue.get(YearValue.sensor == s.key).all(self.db)
