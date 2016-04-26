@@ -316,7 +316,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                     toChange.innerHTML = $scope.i18n("pick_group");
                     break;
                 } else {
-                    toChange.innerHTML = value;
+                    toChange.innerHTML = value.title;
                 }
                 $scope.join_group = value;
                 break;
