@@ -503,6 +503,17 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 }
             }
             graph.series=select_tags;
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false) {
+            console.log("making series for locations & types");
+            for (i=0; i < $scope.houses.length; i++) {
+                if ($scope.select_locs[i]) {
+                    for (j=0; j < $scope.types.length; j++) {
+                        if ($scope.select_types[i]) {
+                            graph.series.push($scope.houses[i].description + ", " + $scope.i18n($scope.types[i]));
+                        }
+                    }
+                }
+            }        
         }
         console.log("Series: " + graph.series);
         // Make a request to the database based on the user input.
