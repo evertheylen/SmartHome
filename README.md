@@ -4,7 +4,7 @@ Ons project voor Project Databases.
 
 ## Installeren
 
-De basisvereisten zijn enkel `virtualenv`, `python3` en `postgresql`.
+De basisvereisten zijn enkel `virtualenv`, `python3.5` en `postgresql`.
 
 Er moet natuurlijk ook een gebruiker zijn met voldoende rechten om databases aan te maken in postgres.
 
