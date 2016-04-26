@@ -339,17 +339,14 @@ class Controller(metaclass=MetaController):
 
         @case("Sensor")
         class sensor(switch):
-            # if "for" not in req:
-            #     async def for_admin(self ,req):
+            # async def default(self ,req):
             #         u = await User.find_by_key(req.conn.user.UID, self.db)
             #         if u.admin:
             #             sensors = await Sensor.get().all(self.db)
             #             await req.answer([s.json_repr() for s in sensors])
             #         else:
             #             await req.answer({"status":"failure", "reason":"You are not an admin."})
-            # else:
             select = lambda self, req: req.metadata["for"]["what"]
-
             @case("User")
             async def for_user(self, req):
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
@@ -363,15 +360,6 @@ class Controller(metaclass=MetaController):
                 await l.check_auth(req)
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
-
-            @case("")
-            async def for_admin(self ,req):
-                    u = await User.find_by_key(req.conn.user.UID, self.db)
-                    if u.admin:
-                        sensors = await Sensor.get().all(self.db)
-                        await req.answer([s.json_repr() for s in sensors])
-                    else:
-                        await req.answer({"status":"failure", "reason":"You are not an admin."})
 
         @case("Value", "HourValue", "DayValue", "MonthValue", "YearValue")
         async def value(self, req):
@@ -466,6 +454,14 @@ class Controller(metaclass=MetaController):
             s.edit_from_json(req.data)
             await s.update(self.db)
             await req.answer(s.json_repr())
+
+        @case("Like")
+        async def like(self, req):
+             = await Like.find_by_key(req.data["LID"], self.db)
+            await l.check_auth(req)
+            l.edit_from_json(req.data)
+            await l.update(self.db)
+            await req.answer(l.json_repr())
 
     # TODO handle FOREIGN KEY constraints (CASCADE?)
     @handle_ws_type("delete")
