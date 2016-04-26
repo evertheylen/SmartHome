@@ -15,11 +15,7 @@ Nadat u de basisvereisten hebt geïnstalleerd, kan u het `./setup.sh` scriptje u
 
 Het project gaat er van uit dat postgres aanwezig is en bereikbaar op `localhost:5432`
 
-Allereerst moet u de `virtualenv` binnengaan met het volgend commando: `source ./bin/activate`.
-
-Daarna kan u het project starten met `code/overwatch.py`.
-
-Om te stoppen, gebruik CTRL+C. Om de `virtualenv` uit te gaan is het commando `deactivate` voldoende.
+Dan kan u het script `run.sh` gebruiken.
 
 
 ## Groepsleden
