@@ -442,12 +442,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             if (end_date.getYear() == today.getYear() && 
                 end_date.getMonth() == today.getMonth() &&
                 end_date.getDay() == today.getDay() ) {
-                console.log("Show raw is true");
                 $scope.show_raw = true;
                 return;
             }
         }
-        console.log("Show raw is false");
         $scope.show_raw = false;
     });
 
@@ -519,7 +517,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 location_LIDs.push($scope.houses[i].LID);
         }
         for (i=0; i < $scope.types.length; i++) {
-            if ($scope.select_type[i])
+            if ($scope.select_types[i])
                 type_IDs.push($scope.types[i]);
         }
         for (j=0; j < $scope.tags.length; j++) {
