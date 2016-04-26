@@ -529,11 +529,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             console.log("making series for sensors");
             ws.request({
                 type: "get_values",
-                group_by: [],
-                where: [{
-                    field: "SID",
-                    op: "in",
-                    value: sensor_SIDs
+                group_by: [{
+                  	"what": "Sensor",
+                  	"IDs": sensor_SIDs
                 }],
                 timespan: {
                     valueType: valueType,
@@ -543,8 +541,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }, function(response) {
                 for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
+                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) {
+                        graph.labels.push("");
                         sensor_data.push(response[groupIndex].values[valueIndex][1]);
+                    }
                     graph.series.push(final_sensors[sensor_SIDs.indexOf(response[groupIndex].sensors[0])].title);
                     graph.data.push(sensor_data);
                 }
@@ -571,9 +571,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }, function(response) {
                 for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
+                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
                         sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    graph.series.push(cache.getObject("Location", response[groupIndex].group_by[0].LID, {}).description);                    
+                    graph.series.push(cache.getObject("Location", response[groupIndex].group_by[0].LID, {}).description);
+                                  
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
