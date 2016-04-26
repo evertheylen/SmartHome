@@ -46,6 +46,7 @@ angular.module("overwatch").factory('transferGroup', function($rootScope) {
 });
 
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
         $scope.statuses = response.objects;  
@@ -97,10 +98,12 @@ angular.module("overwatch").directive('myEnter', function() {
     };
 });
 
-angular.module("overwatch").controller("profileController", function($scope, $rootScope) {
+angular.module("overwatch").controller("profileController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
 });
 
-angular.module("overwatch").controller("friendsController", function($scope, $rootScope) {
+angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.friends = [];
     ws.request({
         type: "get_all",
@@ -182,7 +185,8 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
     }
 });
 
-angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope) {
+angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.users = [];
     ws.request({
         type: "get_all",
@@ -242,6 +246,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
 });
 
 angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
     ws.request({
@@ -290,6 +295,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 });
 
 angular.module("overwatch").controller("join_groupController", function($scope, $rootScope, $timeout, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
     $scope.join_group = null;
     
@@ -349,7 +355,8 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     }
 });
 
-angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
+angular.module("overwatch").controller("create_groupController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.group_public = true;
     $scope.create_group = function() {
         if ($scope.group_form.$valid) {
@@ -385,6 +392,7 @@ angular.module("overwatch").controller("create_groupController", function($scope
 });
 
 angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.group = transferGroup.getGroup();
     
     $scope.$on('GROUP CHANGED', function () {
@@ -393,6 +401,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
+    $rootScope.auth_user = Auth.getUser();
     $scope.comments = [];
 
     $scope.delete = function(index) {
