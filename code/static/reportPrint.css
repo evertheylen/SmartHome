@@ -1,0 +1,45 @@
+body, html{
+	width: 210mm;
+}
+
+#reportContent{
+	width: 210mm;
+}
+
+#reportTitle{
+	text-align: center;
+	text-transform: uppercase;
+	display: block;
+	font-size: 32pt;
+	font-weight: bold;
+	margin-bottom: 32pt;
+	line-height: 40pt;
+}
+
+
+.editComment[contentEditable=true]:empty:after{
+    content: attr(placeholder);
+	font-style: italic;
+}
+
+.reportSection{
+	margin-left: 15%;
+	margin-right: 15%;
+	width: 70%;
+	height: auto;
+	margin-bottom: 20pt;
+}
+
+.reportGraph{
+	width: 100%;
+	height: auto;
+}
+
+.reportComment{
+	font-size: 14pt;
+}
+
+.finalReportComment{
+	margin-top: 32pt;
+}
+
