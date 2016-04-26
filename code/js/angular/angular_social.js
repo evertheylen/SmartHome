@@ -63,13 +63,14 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
 
     $scope.post_status = function () {
         if ($scope.status_text != "") {
+            var _date = new Date();
             ws.request({
                 type: "add",
                 what: "Status",
                 data: {
                     author_UID: Auth.getUser().UID,
-                    date: getCurrentDate(),
-                    date_edited: getCurrentDate(),
+                    date: _date,
+                    date_edited: _date,
                     wall_WID: Auth.getUser().WID,
                     text: $scope.status_text
                 }

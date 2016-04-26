@@ -49,6 +49,22 @@ function getCurrentDate() {
     var today = dd+'/'+mm+'/'+yyyy;
     return today;
 }
+
+function date_format(date) {
+    var today = date;
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+    var today = dd+'/'+mm+'/'+yyyy;
+    return today;
+}
     
 function getIndexOfObjWithAttribute(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
