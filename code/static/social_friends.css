@@ -27,3 +27,25 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+
+
+/*updated*/
+.pictureWithInfo--container{
+	height: auto;
+	width: auto;
+	
+}
+
+.pictureWithInfo{
+	float: left;
+}
+
+.profilePictureInfo{
+	display: inline;
+	height: auto;
+	width: auto;
+}
+
+
+
