@@ -63,7 +63,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
 
     $scope.post_status = function () {
         if ($scope.status_text != "") {
-            var _date = new Date();
+            var _date = Date.now();
             ws.request({
                 type: "add",
                 what: "Status",
