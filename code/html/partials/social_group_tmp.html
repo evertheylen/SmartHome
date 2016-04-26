@@ -1,4 +1,48 @@
 <!-- Group field -->
 <div ng-controller="groupController">
 	<span>Welcome in group: {{group.title}}</span>
+    <div id="txtfield_StatusGroup" class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" ng-model="status_text" type="text" id="input_StatusTextGroup" name="statusText">
+        <label class="mdl-textfield__label" for="input_StatusTextGroup" ng-bind="i18n('input_status_group')"></label>
+    </div>
+    <button id="btnStatusPostGroup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-click="post_status()" ng-bind="i18n('post_group')">
+    </button>
+<div ng-repeat="status in statuses | reverse track by status.SID" on-finish-render="ngRepeatFinished" ng-controller="statusController" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
+		<div class="mdl-card__title">
+			<h2 class="mdl-card__title-text" >{{auth_user.UID === status.author_UID ? i18n('own_status') : i18n('friend_status') + author.first_name + " " + author.last_name}}</h2>
+			<button id="share_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+				<i class="material-icons">share</i>
+			</button>
+			<button id="important_btn-{{$index + graphs.length}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index + graphs.length)">
+			    <i id="important_icon-{{$index + graphs.length}}" class="material-icons white">grade</i>
+		    </button>
+		</div>
+		<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+		<div class="mdl-card__supporting-text" ng-bind="status.text">
+		</div>
+		<div class="mdl-card__actions mdl-card--border">
+			<a id="likes_click" class="notClicked" ng-click="add('likes');"><i class="material-icons md-15 clickable">thumb_up</i> {{likes}}</a>
+			<a id="dislikes_click" class="notClicked" ng-click="add('dislikes');"><i class="material-icons md-15 clickable">thumb_down</i> {{dislikes}}</a>
+			<a class="spacer"></a>
+			<!-- TODO change this to hide comments when show comments is pressed -->
+			<a id="btnShowComments" ng-click="comments_active = !comments_active;" ng-bind="i18n('show_comments')"></a>
+		</div>
+		<div class="commentSection {{comments_active ? 'activated' : ''}}" id="comment_section">
+			<div ng-repeat="comment in comments | index track by $index" on-finish-render-comments="ngRepeatFinishedComments" class="comment">
+				<div class="name" ng-bind="comment.name"></div>
+				<div class="text" ng-bind="comment.text"></div>
+				<div class="commentFooter">
+					<div class="date" ng-bind="comment.date"></div>
+					<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.index)"></div>
+				</div>
+			</div>
+		</div>
+		<form action="#">
+			<div class="mdl-textfield mdl-js-textfield" id="comment_parent">
+				<input class="mdl-textfield__input" type="text" id="comment" style="margin: 15px;" ng-model="new_comment" my-enter="push_comment();"></input>
+				<label class="mdl-textfield__label" for="comment" style="margin: 15px;" ng-bind="i18n('comment_status')"></label>
+			</div>
+		</form>
+	</div>
 </div>

@@ -8,6 +8,7 @@
     </div>
     <!-- TODO Change this to track by user.UID when backend fixes its misery-->
     <div ng-repeat="user in users | filter:search_friend track by user.UID" on-finish-render="ngRepeatFinished">
+      <img src="http://www.gravatar.com/avatar/{{get_hash(user.email)}}?d=identicon&s=50" />
       <div>{{user.first_name}} {{user.last_name}}</div>
       <div>{{user.email}}</div>
       <button id="btnAddFriend" ng-click="add_friend($index);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-bind="i18n('add_friend')">

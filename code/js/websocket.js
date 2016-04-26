@@ -189,6 +189,10 @@ function get_all_response(response) {
 	return {for: response["for"], objects: objects};
 }
 
+function get_values(response) {
+    return response["data"];
+}
+
 function edit_response(response) {
 	var type = response["what"];
 	var data = response["data"];

@@ -34,6 +34,12 @@ angular.module("overwatch").filter('index', function () {
     };
 });
 
+angular.module("overwatch").filter('reverse', function() {
+  return function(items) {
+    return items.slice().reverse();
+  };
+});
+
 function getCurrentDate() {
     var today = new Date();
     var dd = today.getDate();

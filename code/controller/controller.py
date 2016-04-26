@@ -313,8 +313,26 @@ class Controller(metaclass=MetaController):
             locations = await Location.get(Location.user == u.key).all(self.db)
             await req.answer([l.json_repr() for l in locations])
 
+        # TODO
+        @case("Like")
+        async def like(self, req):
+            check_for_type(req, "Status")
+            s = await Status.find_by_key(req.metadata["for"]["SID"], self.db)
+            await s.check_auth(req)
+            likes = await Like.get(Like.status == s.key).all(self.db)
+            await req.answer([l.json_repr() for l in likes])
+
         @case("Sensor")
         class sensor(switch):
+            # if "for" not in req:
+            #     async def for_admin(self ,req):
+            #         u = await User.find_by_key(req.conn.user.UID, self.db)
+            #         if u.admin:
+            #             sensors = await Sensor.get().all(self.db)
+            #             await req.answer([s.json_repr() for s in sensors])
+            #         else:
+            #             await req.answer({"status":"failure", "reason":"You are not an admin."})
+            # else:
             select = lambda self, req: req.metadata["for"]["what"]
 
             @case("User")
@@ -330,6 +348,15 @@ class Controller(metaclass=MetaController):
                 await l.check_auth(req)
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
+
+            @case("")
+            async def for_admin(self ,req):
+                    u = await User.find_by_key(req.conn.user.UID, self.db)
+                    if u.admin:
+                        sensors = await Sensor.get().all(self.db)
+                        await req.answer([s.json_repr() for s in sensors])
+                    else:
+                        await req.answer({"status":"failure", "reason":"You are not an admin."})
 
         @case("Value", "HourValue", "DayValue", "MonthValue", "YearValue")
         async def value(self, req):

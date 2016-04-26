@@ -4,7 +4,7 @@
 		<div class="profileInfo">
 			<img src="http://www.gravatar.com/avatar/{{get_hash(friendObj.email)}}?d=identicon" />
 		</div>
-		<div class="name">
+		<div class="name" ng-click="setProfile(friendObj.UID)" ui-sref="social.profile">
 			{{friendObj.first_name + " " + friendObj.last_name}}
 		</div>
 		<div class="actionList">
