@@ -31,7 +31,7 @@ def create_UploadHandler(controller):
     class UploadHandler(tornado.web.RequestHandler):            
         async def post(self, *args):
             # TODO security
-            controller.info("Uploading...")
+            controller.logger.info("Uploading...")
             fileinfo = self.request.files['file'][0]
             filename = fileinfo['filename']
             fbody = fileinfo['body']
@@ -60,7 +60,7 @@ def create_UploadHandler(controller):
                     # TODO MAJOR SQL LEAK
                     values.append((value, time, sensor.SID))
                 
-                controller.info("Inserting for sensor {}".format(sensor.SID))
+                controller.logger.info("Inserting for sensor {}".format(sensor.SID))
                 c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v) for v in values]))
                 try:
                     await c.exec(controller.db)
