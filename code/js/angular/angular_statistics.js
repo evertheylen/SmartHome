@@ -129,7 +129,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                 for (k = 0; k < $scope.sensors[j].tags.length; k++){
                                   if (select_tags.indexOf($scope.sensors[j].tags[k].text) != -1) {
                                     $scope.filtered_sensors.push($scope.sensors[j]);
-                                    break;
+                                    break;
                                   }
                                 }
                             }
@@ -313,7 +313,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     }
                     var select_tags = [];
                     for (j=0; j< $scope.tags.length; j++) {
-                        if ($scope.select_tags[j]) {
+                        if ($scope.select_tags[j]) {
                             select_tags.push($scope.tags[j].text);
                         }
                         
@@ -428,6 +428,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.end_date_time = {
        value: new Date(1970, 0, 1, 23, 59, 0)
      };
+
+    console.log("Time zone offset: " + $scope.start_date_time.value.getTimezoneOffset());
 
     $scope.type_of_time = "days";
     $scope.show_raw = false;
