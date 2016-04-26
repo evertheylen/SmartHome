@@ -18,8 +18,7 @@ body, html{
 
 
 .editComment[contentEditable=true]:empty:after{
-    content: attr(placeholder);
-	font-style: italic;
+	display: none;
 }
 
 .reportSection{
