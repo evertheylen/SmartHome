@@ -22,10 +22,9 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         $rootScope.$emit(element_id + "_open");
         componentHandler.upgradeDom();
     }
-    $scope.selected_group = null;
-    $scope.$watch('selected_group', function(){
-        transferGroup.setGroup($scope.selected_group);
-    });
+    $scope.setGroup = function(group){
+        transferGroup.setGroup(group);
+    };
 });
 
 angular.module("overwatch").factory('transferGroup', function($rootScope) {
