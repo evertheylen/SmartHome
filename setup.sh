@@ -22,7 +22,7 @@ echo ">>> Entering 'code'"
 cd code
 
 echo ">>> Creating 'config.py'"
-text = "config = {
+text="config = {
     'port': 8888,
     'debug': True,
     'database': {
