@@ -48,7 +48,7 @@ angular.module("overwatch").factory('transferGroup', function($rootScope) {
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
-        statuses = response.object;  
+        $scope.statuses = response.object;  
         $scope.$apply();
     });
 
@@ -404,7 +404,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     var user_like = null;
     
     $scope.user_like = null;
-    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.SID}}, function(response) {
+   /* ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.SID}}, function(response) {
         for(i = 0; i < response.objects.length; i++) {
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
@@ -425,7 +425,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.dislikes++;
         }
         $scope.$apply();
-    });
+    });*/ // TODO UNCOMMENT!!
 
     $scope.add = function(what) {
         switch (what) {
