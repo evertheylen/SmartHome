@@ -207,7 +207,7 @@ So far there is no way to get a single Value, and therefore no `"get"` message w
 
 #### Getting multiple objects
 
-The `"where"` part is optional.
+The `"where"` and `"aggregate_by"` part is optional.
 
 Message:
 
