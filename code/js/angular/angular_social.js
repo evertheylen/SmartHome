@@ -62,7 +62,10 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
     }, function(response) {
         var friendships = response.objects;
         for(var i = 0; i < friendships.length; i++) {
-            if(friendships[i].user1_UID == $rootScope.auth_user.UID) {
+	        console.log("user1UID: " + user1_UID);
+	        console.log("user2UID: " + user2_UID);
+            console.log("i: " + i);
+            if(friendships[i].user1_UID === $rootScope.auth_user.UID) {
                 ws.request({
                     type: "get",
                     what: "User",
@@ -73,7 +76,6 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
                   $scope.friends.push(response.object);
                   $scope.$apply();
                 });
-                //$scope.friends.push(friendships[i].user2_UID);
                 continue;
             }
             ws.request({
