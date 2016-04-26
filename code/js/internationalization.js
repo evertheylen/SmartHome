@@ -112,4 +112,6 @@ var html_strings = {
     "users" : ["Users", "Gebruikers"],
     "delete_friend" : ["Delete friend", "Vriend verwijderen"],
     "until" : ["until", "tot"],
+    "input_status" : ["How are you feeling today?", "Wat ben je aan het doen?"],
+    "post" : ["Post", "Plaats"],
 };
