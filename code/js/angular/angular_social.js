@@ -403,6 +403,19 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
     $rootScope.auth_user = Auth.getUser();
     $scope.comments = [];
+    $scope.author = null;
+    if ($rootScope.auth_user != $scope.status.author_UID) {
+        ws.request({
+            type: "get",
+            what: "User",
+            data: {
+                UID = $scope.status.author_UID
+            }
+        }, function(response) {
+            $scope.author = response;
+            $scope.$apply();
+        });
+    }
 
     $scope.delete = function(index) {
         $scope.comments.splice(index, 1);
