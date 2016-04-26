@@ -109,7 +109,17 @@ angular.module("overwatch").directive('myEnter', function() {
 
 angular.module("overwatch").controller("profileController", function($scope, $rootScope, Auth, transferProfile) {
     $rootScope.auth_user = Auth.getUser();
-    $scope.user = transferProfile.getProfile();
+    $scope.user = null;
+    ws.request({
+        type: "get",
+        what: "User",
+        data: {
+            UID: transferProfile.getProfile()
+        }
+    }, function (response) {
+        $scope.user = response.object;
+        $scope.$apply();
+    });
 });
 
 angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth) {
