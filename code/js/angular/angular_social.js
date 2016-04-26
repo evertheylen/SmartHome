@@ -24,9 +24,8 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     }
     $scope.setGroup = function(group){
         transferGroup.setGroup(group);
+        $rootScope.$broadcast('GROUP CHANGED');
     };
-    
-    // TODO Broadcast change zodat group kan updaten
 });
 
 angular.module("overwatch").factory('transferGroup', function($rootScope) {
@@ -298,6 +297,10 @@ angular.module("overwatch").controller("create_groupController", function($scope
 
 angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup) {
     $scope.group = transferGroup.getGroup();
+    
+    $scope.$on('GROUP CHANGED', function () {
+        $scope.group = transferGroup.getGroup();
+    });
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
