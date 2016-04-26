@@ -8,7 +8,6 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
 
     $scope.groups = []
 
-    console.log("Doing group request in socialController of angular_social");
     ws.request({
         type: "get_all",
         what: "Group",
@@ -347,7 +346,6 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     $scope.groups = []
     $scope.join_group = null;
     
-    console.log("Doing group request in join_groupController of angular_social");
     ws.request({
         type: "get_all",
         what: "Group",
