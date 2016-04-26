@@ -8,7 +8,6 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
 
     $scope.groups = []
 
-    console.log("Doing group request in socialController of angular_social");
     ws.request({
         type: "get_all",
         what: "Group",
@@ -296,6 +295,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
+    console.log("Doing group request in shareController of angular_social");
     ws.request({
         type: "get_all",
         what: "Group",
