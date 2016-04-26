@@ -442,7 +442,7 @@ class Controller(metaclass=MetaController):
 
         @case("Like")
         async def like(self, req):
-             = await Like.find_by_key(req.data["LID"], self.db)
+            l = await Like.find_by_key(req.data["LID"], self.db)
             await l.check_auth(req)
             l.edit_from_json(req.data)
             await l.update(self.db)
