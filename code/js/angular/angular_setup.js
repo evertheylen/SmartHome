@@ -115,7 +115,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	
 	$scope.setProfile = function(who) {
 	    if (who=="self"){
-	        transferProfile.setProfile(auth_user.UID);
+	        transferProfile.setProfile($rootScope.auth_user.UID);
 	    }
 	}
 	
