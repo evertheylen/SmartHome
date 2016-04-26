@@ -1,5 +1,5 @@
 
-if [ ! -f bin/activate.sh ]; then
+if [ ! -f bin/activate ]; then
 	echo "Please run 'setup.sh' first."
 	exit 1
 fi
