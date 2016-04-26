@@ -237,27 +237,30 @@
 						<span style="font-size: x-large;" ng-bind="i18n('start_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="startDate" ng-model="start_date" required/>
                         <input class="mdl-textfield__input" type="time" value="00:00:00" id="startDateTime" ng-model="start_date_time.value" required/>
+					</form>
+				</div>
+				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
+					<form action="#">
 						<span style="font-size: x-large;" ng-bind="i18n('end_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="endDate" ng-model="end_date" required/>
                         <input class="mdl-textfield__input" type="time" value="23:59:59" id="endDateTime" ng-model="end_date_time.value" required/>
 					</form>
 				</div>
+				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-0" ng-show="show_raw==true">
 						<input type="radio" id="option-0" class="mdl-radio__button" name="options" value="raw" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('raw')"></span>
 					</label>
-					<div id="spacer1" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
 						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="hours" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('hours')"></span>
 					</label>
-					<div id="spacer2" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
 						<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="days" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('days')"></span>
 					</label>
-					<div id="spacer3" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
 						<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="months" ng-model="type_of_time"/>
 						<span class="mdl-radio__label" ng-bind="i18n('months')"></span>
@@ -277,8 +280,10 @@
 						</label>
 					</span>
 				</div>-->
-				<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-cell--1-col-desktop mdl-cell--1-col-phone" ng-bind="i18n('show_data')" ng-click="make_graph();">
-				</button>
+				<div class="mdl-cell--1-col-desktop mdl-cell--1-col-phone">
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" ng-bind="i18n('show_data')" ng-click="make_graph();">
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
