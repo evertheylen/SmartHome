@@ -258,7 +258,10 @@ function getKey(type, data) {
             var tmp = [];
             for (m = 0; m < key.length; m++) 
                 tmp.push(data[key[m]]);
-            console.log("GetKey: " + tmp);
+            if(type == "Friendship") {
+                console.log("GetKey: " + tmp[0] + ", " + tmp[1]);
+
+            }
             return tmp;
         }
     }
