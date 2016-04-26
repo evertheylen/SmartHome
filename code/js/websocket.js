@@ -41,9 +41,6 @@ var cache = {
 		var index = cache.searchKey(type, key);
 		var object = null;
 		if(index === -1) {
-            console.log("Filling object with type: " + type);
-            console.log("Key: " + key);
-            console.log("data: " + data);
 			// If the object is not in the cache.
 			object = getFilledObject(type, data);
 			cache[type].push({key: key, object: object});
@@ -258,10 +255,6 @@ function getKey(type, data) {
             var tmp = [];
             for (m = 0; m < key.length; m++) 
                 tmp.push(data[key[m]]);
-            if(type == "Friendship") {
-                console.log("GetKey: " + tmp[0] + ", " + tmp[1]);
-
-            }
             return tmp;
         }
     }
