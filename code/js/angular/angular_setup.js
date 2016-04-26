@@ -289,7 +289,11 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 		.state('state_report', {
 			url : "/report",
 			templateUrl: "/html/partials/report_tmp.html"
-		});
+		})
+		.state('state_group', {
+		    url : "/group",
+		    templateUrl: "/html/partials/group_tmp.html"
+		};
 		
 	$locationProvider.html5Mode(true);
 }]);
