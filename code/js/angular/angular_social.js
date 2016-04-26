@@ -327,19 +327,14 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     
     $scope.joinGroup = function() {
         if ($scope.join_group != null) {
-                {
-        "status": "Enum('ADMIN', 'MEMBER', 'PENDING', 'BANNED')",
-        "last_change": "<class 'int'>",
-        "user_UID": "<class 'int'>",
-        "group_GID": "<class 'int'>"
-    }
-
             ws.request({
-                status: 'MEMBER',
-                last_change: Date.now() / 1000,
-                user_UID : Auth.getUser().UID,
-                group_GID : $scope.join_group.GID            
-            
+                what : "Membership",
+                data : {
+                    status: 'MEMBER',
+                    last_change: Date.now() / 1000,
+                    user_UID : Auth.getUser().UID,
+                    group_GID : $scope.join_group.GID            
+                }
             }, function (response){
                 $scope.$apply();
             })
