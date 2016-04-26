@@ -511,8 +511,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var type_IDs = [];
         var tag_IDs = [];
 
-        for (i = 0; i < $scope.final_sensors.length; i++)
-            sensor_SIDs.push($scope.final_sensors[i].SID);
+        for (i = 0; i < final_sensors.length; i++)
+            sensor_SIDs.push(final_sensors[i].SID);
         
         for (i=0; i < $scope.houses.length; i++) {
             if ($scope.select_locs[i]) 
