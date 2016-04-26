@@ -565,7 +565,7 @@ class Graph:
         self.values = []
 
     async def fill(self, db):
-        req = RawSql("SELECT time, avg(value) AS value FROM {s.cls._table_name} WHERE sensor_SID IN {s.sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self), {
+        req = RawSql("SELECT time, avg(value) AS value FROM {s.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(self.sensors)), {
             "start": self.timespan["start"],
             "end": self.timespan["end"],
         })
