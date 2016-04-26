@@ -59,17 +59,38 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
         $scope.statuses = response.objects;  
+        ws.request({
+            type: "get_all",
+            what: "Friendship",
+            for: {
+              what: "User",
+              UID: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            var friendships = response.objects;
+            console.log(response.objects);
+            for(var i = 0; i < friendships.length; i++) {
+                var friend_UID = -1;
+                friend_UID = friendships[i].user1_UID;
+                if(friendships[i].user1_UID === $rootScope.auth_user.UID)
+                    friend_UID = friendships[i].user2_UID;
+                ws.request({
+                    type: "get_all",
+                    what: "Status",
+                    for: {
+                      what: "User",
+                      UID: friend_UID
+                    }
+                }, function(response) {
+                    for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
+                        $scope.statuses.push(response.object[statusIndex]);
+                    $scope.$apply();
+                });
+            }
+            $scope.$apply();
+        });
         $scope.$apply();
     });
-
-/*    {
-        "SID": "<class 'int'>",
-        "date": "<class 'int'>",
-        "date_edited": "<class 'int'>",
-        "text": "<class 'str'>",
-        "author_UID": "<class 'int'>",
-        "wall_WID": "<class 'int'>"
-    }*/
 
     $scope.post_status = function () {
         if ($scope.status_text != "") {
@@ -153,33 +174,20 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
         var friendships = response.objects;
         console.log(response.objects);
         for(var i = 0; i < friendships.length; i++) {
-	        console.log("user1UID: " + friendships[i].user1_UID);
-	        console.log("user2UID: " + friendships[i].user2_UID);
-            console.log("i: " + i);
-            if(friendships[i].user1_UID === $rootScope.auth_user.UID) {
-                ws.request({
-                    type: "get",
-                    what: "User",
-                    data: {
-                      UID: friendships[i].user2_UID
-                    }
-                }, function(response) {
-                  $scope.friends.push(response.object);
-                  $scope.$apply();
-                });
-                continue;
-            }
+            var friend_UID = -1;
+            friend_UID = friendships[i].user1_UID;
+            if(friendships[i].user1_UID === $rootScope.auth_user.UID)
+                friend_UID = friendships[i].user2_UID;
             ws.request({
                 type: "get",
                 what: "User",
                 data: {
-                  UID: friendships[i].user1_UID
+                  UID: friendship_UID
                 }
             }, function(response) {
               $scope.friends.push(response.object);
               $scope.$apply();
             });
-           // $scope.friends.push(friendships[i].user1_UID);
         }
         $scope.$apply();
     });
