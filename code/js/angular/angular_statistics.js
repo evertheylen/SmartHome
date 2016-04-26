@@ -477,21 +477,25 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         graph.labels = [];
         graph.series = [];
         if ($scope.aggregate_by === [false,false,false]) {
+            console.log("making series for sensors");
             for (i = 0; i < final_sensors.length; i++) 
                 graph.series.push(final_sensors[i].title);
         } else if ($scope.aggregate_by === [true, false, false]) {
+            console.log("making series for locations");
             for (i=0; i < $scope.houses.length; i++) {
                 if ($scope.select_locs[i]) {
                     graph.series.push($scope.houses[i].description);
                 }
             }
         } else if ($scope.aggregate_by === [false, true, false]) {
+            console.log("making series for types");
             for (i=0; i < $scope.types.length; i++) {
                 if ($scope.select_types[i]) {
                     graph.series.push($scope.i18n($scope.types[i]));
                 }
             }
         } else if ($scope.aggregate_by === [false, false, true]) {
+            console.log("making series for tags");
             var select_tags = [];
             for (j=0; j< $scope.tags.length; j++) {
                 if ($scope.select_tags[j]) {
