@@ -122,7 +122,11 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
     });
 });
 
-angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth) {
+angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth, transferProfile) {
+    $scope.setProfile = function (id) {
+        transferProfile.setProfile(id);
+    } 
+    
     $rootScope.auth_user = Auth.getUser();
     $scope.friends = [];
     ws.request({
