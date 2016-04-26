@@ -52,6 +52,15 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
         $scope.$apply();
     });
 
+/*    {
+        "SID": "<class 'int'>",
+        "date": "<class 'int'>",
+        "date_edited": "<class 'int'>",
+        "text": "<class 'str'>",
+        "author_UID": "<class 'int'>",
+        "wall_WID": "<class 'int'>"
+    }*/
+
     $scope.post_status = function () {
         if ($scope.status_text != "") {
             ws.request({
@@ -61,7 +70,8 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                     author_UID: Auth.getUser().UID,
                     date: getCurrentDate(),
                     date_edited: getCurrentDate(),
-                    wall_WID: Auth.getUser().WID
+                    wall_WID: Auth.getUser().WID,
+                    text: $scope.status_text
                 }
             }, function (response) {
                 statuses.push_back(response.object);
