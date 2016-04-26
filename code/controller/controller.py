@@ -49,11 +49,11 @@ class Graph:
         self.grouped_by = grouped_by
         self.wheres = wheres
         self.values = values
-    
+
     async def do(db):
         pass
-        
-    
+
+
     def json_repr(self):
         return {"grouped_by": self.grouped_by,
                 "sensors": self.sensors,
@@ -357,7 +357,8 @@ class Controller(metaclass=MetaController):
                 clauses = []
                 for c in req.metadata["where"]:
                     clauses.append(Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
-                values = await value_cls.get(*clauses, value_cls.sensor == s.key).all(self.db)
+                clauses.append(Where(value_props["sensor_SID"].name, "=", s.key))
+                values = await value_cls.get(*clauses).all(self.db)
             else:
                 values = await value_cls.get(value_cls.sensor == s.key).all(self.db)
             await req.answer([v.json_repr() for v in values])
@@ -478,7 +479,7 @@ class Controller(metaclass=MetaController):
                 # await t.check_auth(req, self.db)
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
-    
+
     @handle_ws_type("get_values")
     @require_user_level(1)
     async def handle_get_values(self, req):
@@ -487,24 +488,19 @@ class Controller(metaclass=MetaController):
         group_by = req.metadata.get("group_by", [])
         if valueType == "Value" and len(group_by) != 0:
             raise Error("no_group_by_permitted", "Grouping is not permitted when searching for raw values")
-            
+
         value_cls, value_props = value_props_per_type[valueType]
-        
+
         for c in req.metadata.get("where", []):
             w = Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"]))
             wheres.append(w)
-        
+
         wheres.append(Where(value_props["time"].name, ">=", Unsafe(req.metadata["timespan"]["start"])))
         wheres.append(Where(value_props["time"].name, "<", Unsafe(req.metadata["timespan"]["end"])))
-        
+
         graphs = []
         if len(group_by) == 0:
             graphs.append(Graph([]))
-            
+
             # Example query:
-            # SELECT time, value FROM table_DayValue WHERE time >= ... and time < ... and 
-        
-
-
-
-
+            # SELECT time, value FROM table_DayValue WHERE time >= ... and time < ... and
