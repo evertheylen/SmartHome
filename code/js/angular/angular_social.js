@@ -76,10 +76,9 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                     friend_UID = friendships[i].user2_UID;
                 ws.request({
                     type: "get",
-                    what: "Wall",
-                    for: {
-                      what: "User",
-                      UID: friend_UID
+                    what: "User",
+                    data: {
+                        UID: friend_UID
                     }
                 }, function(response) {
                     ws.request({
@@ -87,7 +86,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                         what: "Status",
                         for: {
                           what: "Wall",
-                          WID: response.object.WID
+                          WID: response.object.wall_WID
                         }
                     }, function(response) {
                         for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
