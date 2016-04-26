@@ -119,4 +119,5 @@ var html_strings = {
     "pick_group" : ["Pick group", "Kies een groep"],
     "input_status_group": ["What do you want to share with the group?", "Wat ben je aan het doen?"],
     "post_group": ["Post in group", "Gooi het in de groep"],
+    "own_status" : ["Own status", "Eigen status"],
 };
