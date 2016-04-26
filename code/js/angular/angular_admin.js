@@ -232,11 +232,9 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         } else {
             ws.request({
                 type: "get_values",
-                group_by: [],
-                where: [{
-                    field: "SID",
-                    op: "in",
-                    value: sensor_SIDs
+                group_by: [{
+                  	"what": "Sensor",
+                  	"IDs": sensor_SIDs
                 }],
                 timespan: {
                     valueType: valueType,
