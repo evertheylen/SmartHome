@@ -331,6 +331,10 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                 
         }
     }
+    
+    $scope.back = function () {
+        document.getElementById("dlgJoinGroup").close();
+    }
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
