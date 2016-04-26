@@ -509,6 +509,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         $scope.comments.splice(index, 1);
     }
 
+    $scope.SID = -1;
     $scope.likes = 0;
     $scope.dislikes = 0;
     var user_like = null;
