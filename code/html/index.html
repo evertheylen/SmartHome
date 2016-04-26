@@ -87,8 +87,8 @@
         <span class="mdl-layout-title mainColor">
 					<p class="mdl-layout-title" style="color: white; margin-top: 10px;">OverWatch</p>
 			<!-- TODO make this img and email/name dynamic -->
-					<a ui-sref="social.profile" ng-click="hideDrawer()"><img class="profileImage" style="display: block;" src="http://www.gravatar.com/avatar/{{get_hash(auth_user.email)}}?s=50&d=identicon" /></a>
-					<a ui-sref="social.profile" ng-click="hideDrawer()" style="font-size: 12px; color: white; text-decoration: none">{{auth_user.email}}</a>
+					<a ui-sref="social.profile" ng-click="hideDrawer(); setProfile('self');"><img class="profileImage" style="display: block;" src="http://www.gravatar.com/avatar/{{get_hash(auth_user.email)}}?s=50&d=identicon" /></a>
+					<a ui-sref="social.profile" ng-click="hideDrawer(); setProfile('self');" style="font-size: 12px; color: white; text-decoration: none">{{auth_user.email}}</a>
 				</span>
         <nav class="mdl-navigation">
 			<a class="header_a mdl-navigation__link" ui-sref="state_home" ng-click="hideDrawer()"><i class="material-icons drawerIcon">home</i><span ng-bind="i18n('homelink')"></span></a>
