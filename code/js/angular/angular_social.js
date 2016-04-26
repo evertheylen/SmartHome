@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state) {
+angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state, transferGroup) {
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.auth_user = Auth.getUser();
@@ -23,6 +23,22 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         componentHandler.upgradeDom();
     }
     $scope.selected_group = null;
+    $scope.$watch('selected_group', function(){
+        transferGroup.setGroup($scope.selected_group);
+    });
+});
+
+angular.module("overwatch").factory('transferGroup', function($rootScope) {
+    var group;
+	return {
+		setGroup : function(_group) {
+            group = _group;
+		},
+		
+		getGroup : function() {
+			return group;            
+		}
+	}
 });
 
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope) {
@@ -275,8 +291,8 @@ angular.module("overwatch").controller("create_groupController", function($scope
     }
 });
 
-angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth) {
-
+angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup) {
+    $scope.group = transferGroup.getGroup();
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
