@@ -75,7 +75,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                     text: $scope.status_text
                 }
             }, function (response) {
-                statuses.push(response.object);
+                $scope.statuses.push(response.object);
                 $scope.$apply();   
             });
         }
