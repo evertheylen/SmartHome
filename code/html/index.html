@@ -151,7 +151,7 @@
                 </div>
             </div>
         </dialog>
-				<dialog id="dlgShare" class="mdl-dialog" ng-controller="shareController">
+				<dialog id="dlgShare" class="mdl-dialog" ng-controller="shareController" ng-hide="$state.includes('state_index')">
             <h4 class="mdl-dialog__title" ng-bind="i18n('share_title')"></h4>
             <div class="mdl-dialog__content">
                 <p ng-bind="i18n('share_text')">
