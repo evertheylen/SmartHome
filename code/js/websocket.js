@@ -27,6 +27,10 @@ var cache = {
             var found = true;
 			for (var j = 0; j < array[i].key.length; j++) {    
 				if (key[j] != array[i].key[j]) {
+                        if(type == "Friendship") {
+                            console.log("Friendship is in cache with key: " + key);
+                            console.log("key[j]: " + key[j]);                
+                        }
 			    		found = false;   
                         break;                
                 }
