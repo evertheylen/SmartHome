@@ -43,22 +43,6 @@ def handle_ws_type(typ):
         return method
     return decorator
 
-# Some day, this will be in Model
-class Graph:
-    def __init__(self, grouped_by, wheres, values):
-        self.grouped_by = grouped_by
-        self.wheres = wheres
-        self.values = values
-
-    async def do(db):
-        pass
-
-
-    def json_repr(self):
-        return {"grouped_by": self.grouped_by,
-                "sensors": self.sensors,
-                "values": self.values}
-
 
 # Metaclasses
 # -----------
@@ -89,6 +73,7 @@ for cls in Value, HourValue, DayValue, MonthValue, YearValue:
     value_props = {p.name: p for p in cls._props if p.json}
     value_props_per_type[cls.__name__] = (cls, value_props)
 
+sensor_props = {p.name: p for p in Sensor._props if p.json}
 
 # The Controller
 # ==============
@@ -328,8 +313,26 @@ class Controller(metaclass=MetaController):
             locations = await Location.get(Location.user == u.key).all(self.db)
             await req.answer([l.json_repr() for l in locations])
 
+        # TODO
+        @case("Like")
+        async def like(self, req):
+            check_for_type(req, "Status")
+            s = await Status.find_by_key(req.metadata["for"]["SID"], self.db)
+            await s.check_auth(req)
+            likes = await Like.get(Like.status == s.key).all(self.db)
+            await req.answer([l.json_repr() for l in likes])
+
         @case("Sensor")
         class sensor(switch):
+            # if "for" not in req:
+            #     async def for_admin(self ,req):
+            #         u = await User.find_by_key(req.conn.user.UID, self.db)
+            #         if u.admin:
+            #             sensors = await Sensor.get().all(self.db)
+            #             await req.answer([s.json_repr() for s in sensors])
+            #         else:
+            #             await req.answer({"status":"failure", "reason":"You are not an admin."})
+            # else:
             select = lambda self, req: req.metadata["for"]["what"]
 
             @case("User")
@@ -345,6 +348,15 @@ class Controller(metaclass=MetaController):
                 await l.check_auth(req)
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
+
+            @case("")
+            async def for_admin(self ,req):
+                    u = await User.find_by_key(req.conn.user.UID, self.db)
+                    if u.admin:
+                        sensors = await Sensor.get().all(self.db)
+                        await req.answer([s.json_repr() for s in sensors])
+                    else:
+                        await req.answer({"status":"failure", "reason":"You are not an admin."})
 
         @case("Value", "HourValue", "DayValue", "MonthValue", "YearValue")
         async def value(self, req):
@@ -480,10 +492,11 @@ class Controller(metaclass=MetaController):
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
 
+
     @handle_ws_type("get_values")
     @require_user_level(1)
     async def handle_get_values(self, req):
-        wheres = []
+        base_wheres = []
         valueType = req.metadata["timespan"]["valueType"]
         group_by = req.metadata.get("group_by", [])
         if valueType == "Value" and len(group_by) != 0:
@@ -492,15 +505,51 @@ class Controller(metaclass=MetaController):
         value_cls, value_props = value_props_per_type[valueType]
 
         for c in req.metadata.get("where", []):
-            w = Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"]))
-            wheres.append(w)
+            val = c["value"] if not isinstance(c["value"], list) else tuple(c["value"])
+            w = Where(sensor_props[c["field"]].name, op_codes[c["op"]], Unsafe(val))
+            base_wheres.append(w)
 
-        wheres.append(Where(value_props["time"].name, ">=", Unsafe(req.metadata["timespan"]["start"])))
-        wheres.append(Where(value_props["time"].name, "<", Unsafe(req.metadata["timespan"]["end"])))
-
+        if not req.conn.user.admin:
+            base_wheres.append(Sensor.user == req.conn.user.key)
+        
+        # Tactic: divide all graphs further and further
+        # Each list is a limitation aka Where object that filters sensors
+        wheres_list = [base_wheres]  # To start, one graph with the basic wheres
+        for g in group_by:
+           pass  # TODO lol
+        
         graphs = []
-        if len(group_by) == 0:
-            graphs.append(Graph([]))
+        for wheres in wheres_list:
+            print("wheres = ", ", ".join([str(w) for w in wheres]))
+            sensors = await Sensor.get(*wheres).all(self.db)
+            IDs = [s.SID for s in sensors]
+            # TODO give more metadata to Graph
+            graph = Graph([], IDs, req.metadata["timespan"], value_cls)
+            await graph.fill(self.db)
+            graphs.append(graph)
+        
+        await req.answer([g.json_repr() for g in graphs])
+        
 
-            # Example query:
-            # SELECT time, value FROM table_DayValue WHERE time >= ... and time < ... and
+# Some day, this will be in Model
+class Graph:
+    def __init__(self, grouped_by, sensors, timespan, cls):
+        self.grouped_by = grouped_by
+        # TODO wtf @grouped_by
+        self.sensors = tuple(sensors)
+        self.timespan = timespan
+        self.cls = cls
+        self.values = []
+
+    async def fill(self, db):
+        req = RawSql("SELECT time, avg(value) AS value FROM {s.cls._table_name} WHERE sensor_SID IN {s.sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self), {
+            "start": self.timespan["start"], 
+            "end": self.timespan["end"],
+        })
+        result = await req.exec(db)
+        self.values = result.raw_all()
+
+    def json_repr(self):
+        return {"grouped_by": self.grouped_by,
+                "sensors": self.sensors,
+                "values": [list(v) for v in self.values]}

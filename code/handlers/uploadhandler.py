@@ -4,7 +4,7 @@ import csv
 from datetime import datetime
 
 import tornado
-from sparrow.sql import RawSql
+from sparrow.sql import RawSql, SqlError
 
 from model import *
 
@@ -51,15 +51,21 @@ def create_UploadHandler(controller):
                     continue
                 sensors.append((i, CsvSensor(name), sensor))
                 
-            values = []
             for (i, csv_sensor, sensor) in sensors:
+                values = []
                 for row in data[1:]:
                     value = row[i+2]
                     time = datetime.strptime(row[0], csv_date_format).timestamp()
                     # TODO MAJOR SQL LEAK
                     values.append((value, time, sensor.SID))
+                
+                print("Inserting for sensor {}".format(sensor.SID))
                 c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v) for v in values]))
-                await c.exec(controller.db)
+                try:
+                    await c.exec(controller.db)
+                except SqlError as e:
+                    controller.logger.error("Error in database: {}".format(e))
+                    controller.logger.error("Moving on...")
             
                     
             
