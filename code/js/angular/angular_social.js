@@ -63,7 +63,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
 
     $scope.post_status = function () {
         if ($scope.status_text != "") {
-            var _date = Date.now();
+            var _date = Date.now() / 1000;
             ws.request({
                 type: "add",
                 what: "Status",
@@ -287,6 +287,48 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     }
     
     $scope.dropDownClick(null, 'select_share', 'dropDownShare','share');
+});
+
+angular.module("overwatch").controller("join_groupController", function($scope, $rootScope) {
+    $scope.groups = []
+
+    ws.request({
+        type: "get_all",
+        what: "Group",
+    }, function(response) {
+        $scope.groups = response.objects;
+        $scope.$apply();
+    });
+    if (hasClass(document.getElementById("select_group"), "mdl-js-menu")) {
+        removeClass(document.getElementById("select_group"), "mdl-js-menu");
+    }
+    addClass(document.getElementById("select_group"), "mdl-js-menu");
+    componentHandler.upgradeDom();
+    
+    $scope.dropDownClick = function(value, menu, button, ng_model) {
+        var toChange = document.getElementById(button);
+        toChange.innerHTML = value;
+        switch (ng_model) {
+            case 'group':
+                if (value === null) {
+                    toChange.innerHTML = $scope.i18n("pick_group");
+                    break;
+                } else {
+                    toChange.innerHTML = value;
+                }
+                $scope.join_group = value;
+                break;
+        }
+        removeClass(document.getElementById(menu).parentNode, "is-visible");
+    }
+    
+    $scope.join_group = function() {
+        if (group_form.$valid) {
+            //TODO Ws request for group join
+            console.log("Joining group " + $scope.join_group.title);
+                
+        }
+    }
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
