@@ -32,10 +32,12 @@ angular.module("overwatch").factory('transferGroup', function($rootScope) {
     var group;
 	return {
 		setGroup : function(_group) {
+		    console.log("Setting group to: " + group);
             group = _group;
 		},
 		
 		getGroup : function() {
+		    console.log("Getting group: " + group);
 			return group;            
 		}
 	}
