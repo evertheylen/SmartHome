@@ -498,8 +498,8 @@ class Controller(metaclass=MetaController):
         base_wheres = []
         valueType = req.metadata["timespan"]["valueType"]
         group_by = req.metadata.get("group_by", [])
-        if valueType == "Value" and len(group_by) != 0:
-            raise Error("no_group_by_permitted", "Grouping is not permitted when searching for raw values")
+        #if valueType == "Value" and len(group_by) != 0:
+        #    raise Error("no_group_by_permitted", "Grouping is not permitted when searching for raw values")
 
         value_cls, value_props = value_props_per_type[valueType]
 
@@ -528,6 +528,9 @@ class Controller(metaclass=MetaController):
             elif g["what"] == "Location":
                 for LID in g["IDs"]:
                     extra_wheres.append(Sensor.location == LID)
+            elif g["what"] == "Sensor":
+                for SID in g["IDs"]:
+                    extra_wheres.append(Sensor.SID == SID)
             else:
                 raise Error("no_such_group_by", "There is no such group_by 'what' attribute")
             

@@ -12,10 +12,10 @@ def create_GetConfigHandler(controller):
     class GetConfigHandler(tornado.web.RequestHandler):
         async def get(self, *args):
             user = await controller.get_user(self.get_cookie("session"))
-            controller.logger.info("Creating config for user", user.UID)
             if user is None:
                 self.write("Please log in")
                 return
+            controller.logger.info("Creating config for user", user.UID)
             config = []
             locations = await Location.get(Location.user == user.key).all(controller.db)
             for l in locations:
