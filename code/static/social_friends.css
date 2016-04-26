@@ -33,7 +33,7 @@
 /*updated*/
 .pictureWithInfo--container{
 	height: 40px;
-	width: 40px;
+	width: auto;
 	
 }
 
@@ -46,8 +46,12 @@
 .profilePictureInfo{
 	display: inline;
 	height: 40px;
-	width: 40px;
+	width: auto
 	overflow: hidden;
+}
+
+.profilePictureInfo > .name{
+	margin-left: 10%;
 }
 
 
