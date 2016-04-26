@@ -1,19 +1,19 @@
 <div ng-controller="profileController">
 	<!-- NOTE: this structure can be used to show someone else's profile, it doesn't have to be "MY profile" -->
-    <div class="profileHeader">{{auth_user.first_name}}'s profile:</div>
+    <div class="profileHeader">{{user.first_name}}'s profile:</div>
 	<div class="profileCategory">
-		<div class="profileTitle">Fun facts about {{auth_user.first_name}}</div>
+		<div class="profileTitle">Fun facts about {{user.first_name}}</div>
 		<div class="profileInfo">
 			<div class="profileSubject">Full name:</div>
-			<div class="profileResult">{{auth_user.first_name}} {{auth_user.last_name}}</div>
+			<div class="profileResult">{{user.first_name}} {{user.last_name}}</div>
 		</div>
 		<div class="profileInfo">
 			<div class="profileSubject">Email:</div>
-			<div class="profileResult">{{auth_user.email}}</div>
+			<div class="profileResult">{{user.email}}</div>
 		</div>
 		<div class="profileInfo">
 			<div class="profileSubject">Profile Pic:</div>
-			<img src="http://www.gravatar.com/avatar/{{get_hash(auth_user.email)}}?d=identicon" />
+			<img src="http://www.gravatar.com/avatar/{{get_hash(user.email)}}?d=identicon" />
 			<div class="profileResult">Changeable on www.gravatar.com</div>
 		</div>
 		<!--<div class="profileInfo">
