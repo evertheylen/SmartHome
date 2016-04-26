@@ -313,7 +313,6 @@ class Controller(metaclass=MetaController):
             locations = await Location.get(Location.user == u.key).all(self.db)
             await req.answer([l.json_repr() for l in locations])
 
-        # TODO
         @case("Like")
         async def like(self, req):
             check_for_type(req, "Status")
@@ -324,6 +323,7 @@ class Controller(metaclass=MetaController):
 
         @case("Sensor")
         class sensor(switch):
+            # def select()
             # async def default(self ,req):
             #         u = await User.find_by_key(req.conn.user.UID, self.db)
             #         if u.admin:
@@ -442,7 +442,7 @@ class Controller(metaclass=MetaController):
 
         @case("Like")
         async def like(self, req):
-             = await Like.find_by_key(req.data["LID"], self.db)
+            l = await Like.find_by_key(req.data["LID"], self.db)
             await l.check_auth(req)
             l.edit_from_json(req.data)
             await l.update(self.db)
@@ -507,13 +507,13 @@ class Controller(metaclass=MetaController):
 
         if not req.conn.user.admin:
             base_wheres.append(Sensor.user == req.conn.user.key)
-        
+
         # Tactic: divide all graphs further and further
         # Each list is a limitation aka Where object that filters sensors
         wheres_list = [base_wheres]  # To start, one graph with the basic wheres
         for g in group_by:
            pass  # TODO lol
-        
+
         graphs = []
         for wheres in wheres_list:
             print("wheres = ", ", ".join([str(w) for w in wheres]))
@@ -523,9 +523,9 @@ class Controller(metaclass=MetaController):
             graph = Graph([], IDs, req.metadata["timespan"], value_cls)
             await graph.fill(self.db)
             graphs.append(graph)
-        
+
         await req.answer([g.json_repr() for g in graphs])
-        
+
 
 # Some day, this will be in Model
 class Graph:
@@ -539,7 +539,7 @@ class Graph:
 
     async def fill(self, db):
         req = RawSql("SELECT time, avg(value) AS value FROM {s.cls._table_name} WHERE sensor_SID IN {s.sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self), {
-            "start": self.timespan["start"], 
+            "start": self.timespan["start"],
             "end": self.timespan["end"],
         })
         result = await req.exec(db)
