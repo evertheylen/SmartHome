@@ -262,7 +262,8 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             });    
         }
 
-        //$scope.graphs.push(graph);
+        $scope.graphs = [];
+        $scope.graphs.push(graph);
 
         // Graphs
         $scope.importants = [false, false, false, false, false, false];
