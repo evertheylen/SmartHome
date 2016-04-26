@@ -90,3 +90,31 @@
 	width: 100%;
 	padding: 0px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Updated css for updated layout*/
+
+#txtfield_Status{
+	width: 100%;
+}
+
+#txtfield_Status > .mdl-textfield__input{
+	width: 100%;
+}
+
+.mdl-cell--centeredContent{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
