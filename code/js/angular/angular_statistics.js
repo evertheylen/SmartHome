@@ -533,7 +533,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 if ($scope.select_types[i]) {
                     for (j=0; j< $scope.tags.length; j++) {
                         if ($scope.select_tags[j]) {
-                            graph.series.push($scope.i18n($scope.types[i] + ", " + $scope.tags[j].text);
+                            graph.series.push($scope.i18n($scope.types[i]) + ", " + $scope.tags[j].text);
                         }
                     }
                 }
@@ -547,7 +547,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         if ($scope.select_types[i]) {
                             for (j=0; j< $scope.tags.length; j++) {
                                 if ($scope.select_tags[j]) {
-                                    graph.series.push($scope.houses[k].description + ", " + $scope.i18n($scope.types[i] + ", " + $scope.tags[j].text);
+                                    graph.series.push($scope.houses[k].description + ", " + $scope.i18n($scope.types[i]) + ", " + $scope.tags[j].text);
                                 }
                             }
                         }
