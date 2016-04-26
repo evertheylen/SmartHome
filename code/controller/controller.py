@@ -323,21 +323,7 @@ class Controller(metaclass=MetaController):
 
         @case("Sensor")
         class sensor(switch):
-            def select(self, req):
-                if "for" in req.data:
-                    return req.metadata["for"]["what"]
-                else:
-                    return "Admin"
-
-            @case("Admin")
-            async def for_admin(self ,req):
-                # Verify if the connection is a real admin for security reasonsx
-                u = await User.find_by_key(req.conn.user.UID, self.db)
-                if u.admin:
-                    sensors = await Sensor.get().all(self.db)
-                    await req.answer([s.json_repr() for s in sensors])
-                else:
-                    await req.answer({"status":"failure", "reason":"You are not an admin."})
+            select = lambda self, req: req.metadata["for"]["what"] if "for" in req.metadata else "Admin"
 
             @case("User")
             async def for_user(self, req):
@@ -352,6 +338,16 @@ class Controller(metaclass=MetaController):
                 await l.check_auth(req)
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
+
+            @case("Admin")
+            async def for_admin(self ,req):
+                # Verify if the connection is a real admin for security reasonsx
+                u = await User.find_by_key(req.conn.user.UID, self.db)
+                if u.admin:
+                    sensors = await Sensor.get().all(self.db)
+                    await req.answer([s.json_repr() for s in sensors])
+                else:
+                    await req.answer({"status":"failure", "reason":"You are not an admin."})
 
         @case("Value", "HourValue", "DayValue", "MonthValue", "YearValue")
         async def value(self, req):
