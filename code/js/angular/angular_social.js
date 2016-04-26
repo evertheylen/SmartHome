@@ -436,6 +436,33 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     $scope.$on('GROUP CHANGED', function () {
         $scope.group = transferGroup.getGroup();
     });
+    $scope.statuses = [];
+    
+    ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.group.wall_WID}}, function(response) {
+        $scope.statuses = response.objects;  
+        $scope.$apply();
+    });
+
+    
+    $scope.post_status = function () {
+        if ($scope.status_text != "") {
+            var _date = Date.now() / 1000;
+            ws.request({
+                type: "add",
+                what: "Status",
+                data: {
+                    author_UID: Auth.getUser().UID,
+                    date: _date,
+                    date_edited: _date,
+                    wall_WID: $scope.group.wall_WID,
+                    text: $scope.status_text
+                }
+            }, function (response) {
+                $scope.statuses.push(response.object);
+                $scope.$apply();   
+            });
+        }
+    };
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
