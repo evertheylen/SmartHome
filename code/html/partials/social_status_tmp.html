@@ -7,9 +7,6 @@
     <button id="btnStatusPost" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
                     style="width: 45%; display: inline; margin-left: 5%;" ng-click="post_status()" ng-bind="i18n('post')">
     </button>
-    <div ng-repeat="status in own_statuses" on-finish-render="ngRepeatFinished" ng-controller="statusController" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
-    
-    </div>
 	<div ng-repeat="status in statuses | reverse track by status.SID" on-finish-render="ngRepeatFinished" ng-controller="statusController" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
 		<div class="mdl-card__title">
 			<h2 class="mdl-card__title-text" >{{auth_user.UID === status.author_UID ? i18n('own_status') : i18n('friend_status') + author.first_name + " " + author.last_name}}</h2>
