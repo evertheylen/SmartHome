@@ -27,10 +27,6 @@ var cache = {
             var found = true;
 			for (var j = 0; j < array[i].key.length; j++) {    
 				if (key[j] != array[i].key[j]) {
-                        if(type == "Friendship") {
-                            console.log("Friendship is in cache with key: " + key);
-                            console.log("key[j]: " + key[j]);                
-                        }
 			    		found = false;   
                         break;                
                 }
@@ -45,6 +41,9 @@ var cache = {
 		var index = cache.searchKey(type, key);
 		var object = null;
 		if(index === -1) {
+            console.log("Filling object with type: " + type);
+            console.log("Key: " + key);
+            console.log("data: " + data);
 			// If the object is not in the cache.
 			object = getFilledObject(type, data);
 			cache[type].push({key: key, object: object});
@@ -259,6 +258,7 @@ function getKey(type, data) {
             var tmp = [];
             for (m = 0; m < key.length; m++) 
                 tmp.push(data[key[m]]);
+            console.log("GetKey: " + tmp);
             return tmp;
         }
     }
