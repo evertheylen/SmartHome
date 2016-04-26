@@ -542,6 +542,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 }
             }, function(response) {
                 for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                    console.log("GroupIndex: " + groupIndex);
                     var sensor_data = [];
                     for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) {
                         graph.labels.push("");
