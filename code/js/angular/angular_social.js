@@ -25,19 +25,23 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     $scope.setGroup = function(group){
         transferGroup.setGroup(group);
     };
+    
+    // TODO Broadcast change zodat group kan updaten
 });
 
 angular.module("overwatch").factory('transferGroup', function($rootScope) {
     var group;
+    
+    // TODO fix cookie zodat zelfde blijft na refresh
 	return {
 		setGroup : function(_group) {
-		    console.log("Setting group to: " + group);
-            group = _group;
+		    console.log("Setting group to: " + _group);
+		    setCookie("group", _group, 365);
 		},
 		
 		getGroup : function() {
-		    console.log("Getting group: " + group);
-			return group;            
+		    console.log("Getting group: " + getCookie('group'));
+			return getCookie('group');            
 		}
 	}
 });
