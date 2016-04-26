@@ -435,6 +435,12 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     
     $scope.$on('GROUP CHANGED', function () {
         $scope.group = transferGroup.getGroup();
+        $scope.statuses = [];
+        ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.group.wall_WID}}, function(response) {
+        $scope.statuses = response.objects;  
+        $scope.$apply();
+    });
+
     });
     $scope.statuses = [];
     
