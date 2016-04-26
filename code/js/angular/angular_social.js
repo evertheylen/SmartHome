@@ -289,9 +289,10 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     $scope.dropDownClick(null, 'select_share', 'dropDownShare','share');
 });
 
-angular.module("overwatch").controller("join_groupController", function($scope, $rootScope, $timeout) {
+angular.module("overwatch").controller("join_groupController", function($scope, $rootScope, $timeout, Auth) {
     $scope.groups = []
-
+    $scope.join_group = null;
+    
     ws.request({
         type: "get_all",
         what: "Group",
@@ -325,8 +326,23 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     }
     
     $scope.joinGroup = function() {
-        if (group_form.$valid) {
-            //TODO Ws request for group join
+        if ($scope.join_group != null) {
+                {
+        "status": "Enum('ADMIN', 'MEMBER', 'PENDING', 'BANNED')",
+        "last_change": "<class 'int'>",
+        "user_UID": "<class 'int'>",
+        "group_GID": "<class 'int'>"
+    }
+
+            ws.request({
+                status: 'MEMBER',
+                last_change: Date.now() / 1000,
+                user_UID : Auth.getUser().UID,
+                group_GID : $scope.join_group.GID            
+            
+            }, function (response){
+                $scope.$apply();
+            })
             console.log("Joining group " + $scope.join_group.title);
                 
         }
