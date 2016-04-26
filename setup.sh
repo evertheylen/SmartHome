@@ -5,20 +5,20 @@ virtualenv --system-site-packages -p python3 .
 echo ">>> Activating the virtualenv..."
 source ./bin/activate
 
-echo ">>> Installing dependencies..."
+echo "\n>>> Installing dependencies..."
 pip install -r requirements.txt
 
-echo ">>> Please make sure postgres is running on port 5432."
+echo "\n>>> Please make sure postgres is running on port 5432."
 echo "Username for postgres?"
 read username
 echo "Password for $username?"
 read password
 
-echo ">>> Creating two databases: overwatchdb for the project itself, and testdb for running tests."
+echo "\n>>> Creating two databases: overwatchdb for the project itself, and testdb for running tests."
 PGPASSWORD=$password psql -U $username -h localhost -w -c "CREATE DATABASE overwatchdb"
 PGPASSWORD=$password psql -U $username -h localhost -w -c "CREATE DATABASE testdb"                                                                                                                                         
 
-echo ">>> Entering 'code'"
+echo "\n>>> Entering 'code'"
 cd code
 
 echo ">>> Creating 'config.py'"
@@ -37,7 +37,7 @@ text="config = {
 
 echo $text > config.py
 
-echo ">>> Installing the project"
+echo "\n>>> Installing the project"
 python3 ./overwatch.py install
 
 echo ">>> Done!"
