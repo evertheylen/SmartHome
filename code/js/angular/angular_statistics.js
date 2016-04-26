@@ -486,7 +486,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 valueType = "HourValue";
                 var total_hours = (full_end_date - full_start_date) / (1000*60*60);
                 for (var i = 0; i < total_hours; i++) 
-                    graph.labels.push("hours " + i);
+                    graph.labels.push("hour " + i);
                 break;
             case 'days':
                 valueType = "DayValue";
