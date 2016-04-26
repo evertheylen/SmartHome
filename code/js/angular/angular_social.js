@@ -61,6 +61,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
         }
     }, function(response) {
         var friendships = response.objects;
+        console.log(response.objects);
         for(var i = 0; i < friendships.length; i++) {
 	        console.log("user1UID: " + friendships[i].user1_UID);
 	        console.log("user2UID: " + friendships[i].user2_UID);
