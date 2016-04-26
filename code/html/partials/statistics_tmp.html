@@ -249,7 +249,7 @@
 				</div>
 				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
-					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-0" ng-show="show_raw==true">
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-0" ng-show="aggregate_by[0] === false && aggregate_by[1] === false && aggregate_by[2] === false && show_raw == true"">
 						<input type="radio" id="option-0" class="mdl-radio__button" name="options" value="raw" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('raw')"></span>
 					</label>

@@ -442,12 +442,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             if (end_date.getYear() == today.getYear() && 
                 end_date.getMonth() == today.getMonth() &&
                 end_date.getDay() == today.getDay() ) {
-                console.log("Show raw is true");
                 $scope.show_raw = true;
                 return;
             }
         }
-        console.log("Show raw is false");
         $scope.show_raw = false;
     });
 
