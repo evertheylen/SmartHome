@@ -7,7 +7,7 @@ from .owentity import *
 from sparrow import *
 from .sensor import Sensor
 
-def create_aggregate(_cls_big, _gap_seconds):
+def create_aggregate(_cls_big):
     @classmethod
     async def aggregate(cls_small, time, sensor, db, *, recurse=False, cls_big=_cls_big):
         # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 1 hour
@@ -28,13 +28,13 @@ def create_aggregate(_cls_big, _gap_seconds):
     
     return aggregate
 
+
 class Value(OwEntity):
     value = Property(float)
     time = Property(int)
     sensor = Reference(Sensor)
     key = Key(sensor, time)
     
-    aggregate = create_aggregate(HourValue)
     
     def json_repr(self):
         """format is ``[time, value]`` (to save space)"""
@@ -44,31 +44,6 @@ class Value(OwEntity):
         s = await Sensor.find_by_key(self.sensor).single(db)
         return s.user == usr.key
 
-
-
-
-class HourValue(Value):
-    aggregate = create_aggregate(DayValue)
-    gap = staticmethod(lambda t: 60*60)
-
-
-class DayValue(Value):
-    aggregate = create_aggregate(MonthValue)
-    gap = staticmethod(lambda t: 60*60*24)
-
-
-class MonthValue(Value):
-    aggregate = create_aggregate(YearValue)
-    
-    # sigh
-    @staticmethod
-    def gap(timestamp):
-        date = datetime.datetime.fromtimestamp(timestamp)
-        assert date.day == date.hour == date.minute == date.second == 0
-        next_month = date + relativedelta(months=1)
-        delta = next_month - date
-        return delta.total_seconds()
-        
 
 class YearValue(Value):
     @staticmethod
@@ -86,3 +61,28 @@ class YearValue(Value):
         delta = next_year - date
         return delta.total_seconds()
 
+class MonthValue(Value):
+    aggregate = create_aggregate(YearValue)
+    
+    # sigh
+    @staticmethod
+    def gap(timestamp):
+        date = datetime.datetime.fromtimestamp(timestamp)
+        assert date.day == date.hour == date.minute == date.second == 0
+        next_month = date + relativedelta(months=1)
+        delta = next_month - date
+        return delta.total_seconds()
+        
+
+
+class DayValue(Value):
+    aggregate = create_aggregate(MonthValue)
+    gap = staticmethod(lambda t: 60*60*24)
+
+
+class HourValue(Value):
+    aggregate = create_aggregate(DayValue)
+    gap = staticmethod(lambda t: 60*60)
+
+
+Value.aggregate = create_aggregate(HourValue)

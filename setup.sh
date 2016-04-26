@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ">>> Setting up virtualenv..."
-virtualenv -p python3 .
+virtualenv --system-site-packages -p python3 .
 echo ">>> Activating the virtualenv..."
 source ./bin/activate
 
