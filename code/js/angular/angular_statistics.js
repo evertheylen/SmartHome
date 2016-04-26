@@ -313,7 +313,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     }
                     var select_tags = [];
                     for (j=0; j< $scope.tags.length; j++) {
-                        if ($scope.select_tags[j]) {
+                        if ($scope.select_tags[j]) {
                             select_tags.push($scope.tags[j].text);
                         }
                         
