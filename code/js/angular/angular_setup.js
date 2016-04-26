@@ -278,6 +278,10 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 			url : "/social/find_friends",
 			templateUrl: "/html/partials/social_find_friends_tmp.html"
 		})
+		.state('social.state_group', {
+		    url : "/social/group",
+		    templateUrl: "/html/partials/social_group_tmp.html"
+		})
 		.state('state_admin', {
 			url : "/admin",
 			templateUrl: "/html/partials/admin_tmp.html"
@@ -289,10 +293,6 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 		.state('state_report', {
 			url : "/report",
 			templateUrl: "/html/partials/report_tmp.html"
-		})
-		.state('state_group', {
-		    url : "/group",
-		    templateUrl: "/html/partials/group_tmp.html"
 		});
 		
 	$locationProvider.html5Mode(true);
