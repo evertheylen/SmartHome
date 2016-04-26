@@ -442,10 +442,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             if (end_date.getYear() == today.getYear() && 
                 end_date.getMonth() == today.getMonth() &&
                 end_date.getDay() == today.getDay() ) {
+                console.log("Show raw is true");
                 $scope.show_raw = true;
                 return;
             }
         }
+        console.log("Show raw is false");
         $scope.show_raw = false;
     });
 
@@ -466,6 +468,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         if (final_sensors.length === 0) 
             return;
+
+        var graph = {};
+        graph.type = "Line";
+        graph.labels = [];
+        graph.series = [];
+        graph.data = [];
 
         var timezone_offset = (1000*60*60);
         var full_start_date = ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000;
@@ -499,15 +507,27 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
 
         var sensor_SIDs = [];
-        for (i = 0; i < $scope.sensors.length; i++)
-            sensor_SIDs.push($scope.sensors[i].SID);
+        var location_LIDs = [];
+        var type_IDs = [];
+        var tag_IDs = [];
 
-        var graph = {};
-        graph.type = "Line";
-        graph.labels = [];
-        graph.series = [];
-        graph.data = [];
+        for (i = 0; i < $scope.final_sensors.length; i++)
+            sensor_SIDs.push($scope.final_sensors[i].SID);
+        
+        for (i=0; i < $scope.houses.length; i++) {
+            if ($scope.select_locs[i]) 
+                location_LIDs.push($scope.houses[i].LID);
+        }
+        for (i=0; i < $scope.type.length; i++) {
+            if ($scope.select_type[i])
+                type_IDs.push($scope.tags[i]);
+        }
+        for (j=0; j < $scope.tags.length; j++) {
+            if ($scope.select_tags[i]) 
+                tag_IDs.push($scope.tags[i].text);
+        }    
 
+        // Send a request dependant on the aggregation type.
         if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false) {
             console.log("making series for sensors");
             ws.request({
@@ -515,8 +535,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 group_by: [],
                 where: [{
                     field: "sensor_SID",
-                    op: "in"
-                    value: sensor_SIDs,
+                    op: "in",
+                    value: sensor_SIDs
                 }]
                 timespan: {
                     valueType: valueType,
@@ -524,33 +544,27 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var i = 0; i < response.length; i++) {
+                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var j = 0; j < response[i].values.length; j++)  {
-                        sensor_data.push(response[i].values[j][1]);
-                    graph.series.push(final_sensors[sensor_SIDs.indexOf(response[i].sensors[0])].title);
+                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
+                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
+                    graph.series.push(final_sensors[sensor_SIDs.indexOf(response[groupIndex].sensors[0])].title);
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
             });
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false) {
             console.log("making series for locations");
-            var location_LIDs = [];
-            for (i=0; i < $scope.houses.length; i++) {
-                if ($scope.select_locs[i]) {
-                    location_LIDs.push($scope.houses[i].LID);
-                }
-            }
             ws.request({
                         type: "get_values",
                         group_by: [{
-                            what: "Location"
+                            what: "Location",
                             IDs: location_LIDs
                         }],
                         where: [{
                             field: "sensor_SID",
-                            op: "in"
-                            value: sensor_SIDs,
+                            op: "in",
+                            value: sensor_SIDs
                         }]
                         timespan: {
                             valueType: valueType,
@@ -569,22 +583,16 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             });
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false) {
             console.log("making series for types");
-            var type_IDs = [];
-            for (i=0; i < $scope.types.length; i++) {
-                if ($scope.select_types[i]) {
-                    type_IDs.push($scope.types[i]);                    
-                }
-            }
             ws.request({
                         type: "get_values",
                         group_by: [{
-                            what: "Type"
+                            what: "Type",
                             IDs: type_IDs
                         }],
                         where: [{
                             field: "sensor_SID",
-                            op: "in"
-                            value: sensor_SIDs,
+                            op: "in",
+                            value: sensor_SIDs
                         }]
                         timespan: {
                             valueType: valueType,
@@ -603,23 +611,16 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             });
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true) {
             console.log("making series for tags");
-            var tag_IDs = [];
-            for (j=0; j< $select_tags.length; j++) {
-                if ($scope.select_tags[j]) {
-                    tag_IDs.push($scope.select_tags[j]);
-                    //graph.series.push($scope.tags[j].text);
-                }
-            }
             ws.request({
                         type: "get_values",
                         group_by: [{
-                            what: "Tag"
+                            what: "Tag",
                             IDs: tag_IDs
                         }],
                         where: [{
                             field: "sensor_SID",
-                            op: "in"
-                            value: sensor_SIDs,
+                            op: "in",
+                            value: sensor_SIDs
                         }]
                         timespan: {
                             valueType: valueType,
@@ -637,89 +638,141 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 $scope.$apply();
             });
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false) {
-            console.log("making series for locations & types");
-            var location_LIDs = [];
-            var type_IDs = [];
-
-            for (i=0; i < $scope.houses.length; i++) {
-                if ($scope.select_locs[i]) {
-                    location_LIDs.push($scope.houses[i].LID);
-                }
-            }
-
-            for (j=0; j < $scope.types.length; j++) {
-                if ($scope.select_types[i]) {
-                    type_IDs.push($scope.types[i]);
-                    //graph.series.push($scope.houses[i].description + ", " + $scope.i18n($scope.types[j]));
-                }
-            }     
+            console.log("making series for locations & types");   
             ws.request({
-                        type: "get_values",
-                        group_by: [{
-                            what: "Location"
-                            IDs: tag_IDs
-                        }],
-                        where: [{
-                            field: "sensor_SID",
-                            op: "in"
-                            value: sensor_SIDs,
-                        }]
-                        timespan: {
-                            valueType: valueType,
-                            start: full_start_date,
-                            end: full_end_date
-                        }
+                type: "get_values",
+                group_by: [{
+                    what: "Location",
+                    IDs: location_LIDS
+                }, {
+                    what: "Type",
+                    IDs: type_IDs
+                }],
+                where: [{
+                    field: "sensor_SID",
+                    op: "in",
+                    value: sensor_SIDs
+                }]
+                timespan: {
+                    valueType: valueType,
+                    start: full_start_date,
+                    end: full_end_date
+                }
             }, function(response) {
                 for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
+                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
                         sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var label
-                    graph.series.push(response[groupIndex].group_by[0].ID);                    
+                    var loc_series = cache.getObject("Location", response[groupIndex].group_by[0].LID, {}).description;
+                    var type_series = $scope.i18n(response[groupIndex].group_by[1].ID);
+                    graph.series.push(loc_series + ", " + type_series);
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
-            }); 
+            });
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true) {
             console.log("making series for locations & tags");
-            var select_tags = [];
-            for (i=0; i < $scope.houses.length; i++) {
-                if ($scope.select_locs[i]) {
-                    for (j=0; j< $scope.tags.length; j++) {
-                        if ($scope.select_tags[j]) {
-                            graph.series.push($scope.houses[i].description + ", " + $scope.tags[j].text);
-                        }
-                    }
+            ws.request({
+                type: "get_values",
+                group_by: [{
+                    what: "Location",
+                    IDs: location_LIDS
+                }, {
+                    what: "Tag",
+                    IDs: tag_IDs
+                }],
+                where: [{
+                    field: "sensor_SID",
+                    op: "in",
+                    value: sensor_SIDs
+                }]
+                timespan: {
+                    valueType: valueType,
+                    start: full_start_date,
+                    end: full_end_date
                 }
-            }        
+            }, function(response) {
+                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                    var sensor_data = [];
+                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", response[groupIndex].group_by[0].LID, {}).description;
+                    var tag_series = response[groupIndex].group_by[1].ID;
+                    graph.series.push(loc_series + ", " + tag_series);
+                    graph.data.push(sensor_data);
+                }
+                $scope.$apply();
+            });     
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true) {
-            console.log("making series for tags & types");
-            var select_tags = [];
-            for (i=0; i < $scope.types.length; i++) {
-                if ($scope.select_types[i]) {
-                    for (j=0; j< $scope.tags.length; j++) {
-                        if ($scope.select_tags[j]) {
-                            graph.series.push($scope.i18n($scope.types[i]) + ", " + $scope.tags[j].text);
-                        }
-                    }
+            console.log("making series for types & tags");   
+            ws.request({
+                type: "get_values",
+                group_by: [{
+                    what: "Type",
+                    IDs: type_IDs
+                }, {
+                    what: "Tag",
+                    IDs: tag_IDs
+                }],
+                where: [{
+                    field: "sensor_SID",
+                    op: "in",
+                    value: sensor_SIDs
+                }]
+                timespan: {
+                    valueType: valueType,
+                    start: full_start_date,
+                    end: full_end_date
                 }
-            }        
+            }, function(response) {
+                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                    var sensor_data = [];
+                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
+                    var type_series = $scope.i18n(response[groupIndex].group_by[0].ID);
+                    var tag_series = response[groupIndex].group_by[1].ID;
+                    graph.series.push(type_series + ", " + tag_series);
+                    graph.data.push(sensor_data);
+                }
+                $scope.$apply();
+            });       
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true) {
             console.log("making series for tags & types & locations");
-            var select_tags = [];
-            for (k=0; k < $scope.houses.length; k++) {
-                if ($scope.select_locs[k]) {
-                    for (i=0; i < $scope.types.length; i++) {
-                        if ($scope.select_types[i]) {
-                            for (j=0; j< $scope.tags.length; j++) {
-                                if ($scope.select_tags[j]) {
-                                    graph.series.push($scope.houses[k].description + ", " + $scope.i18n($scope.types[i]) + ", " + $scope.tags[j].text);
-                                }
-                            }
-                        }
-                    }      
+            ws.request({
+                type: "get_values",
+                group_by: [{
+                    what: "Location",
+                    IDs: location_LIDs
+                }, {
+                    what: "Type",
+                    IDs: type_IDs
+                }, {
+                    what: "Tag",
+                    IDs: tag_IDs
+                }],
+                where: [{
+                    field: "sensor_SID",
+                    op: "in",
+                    value: sensor_SIDs,
+                }]
+                timespan: {
+                    valueType: valueType,
+                    start: full_start_date,
+                    end: full_end_date
                 }
-            }  
+            }, function(response) {
+                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                    var sensor_data = [];
+                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", response[groupIndex].group_by[0].LID, {}).description;
+                    var type_series = $scope.i18n(response[groupIndex].group_by[1].ID);
+                    var tag_series = response[groupIndex].group_by[2].ID;
+                    graph.series.push(location_series + ", " + type_series + ", " + tag_series);
+                    graph.data.push(sensor_data);
+                }
+                $scope.$apply();
+            });     
         }
         console.log("Series: " + graph.series);
 
