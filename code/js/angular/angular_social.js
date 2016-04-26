@@ -324,7 +324,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
         removeClass(document.getElementById(menu).parentNode, "is-visible");
     }
     
-    $scope.join_group = function() {
+    $scope.joinGroup = function() {
         if (group_form.$valid) {
             //TODO Ws request for group join
             console.log("Joining group " + $scope.join_group.title);
