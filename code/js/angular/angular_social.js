@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state) {
+angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state, transferGroup) {
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.auth_user = Auth.getUser();
@@ -22,14 +22,65 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         $rootScope.$emit(element_id + "_open");
         componentHandler.upgradeDom();
     }
+    $scope.setGroup = function(group){
+        transferGroup.setGroup(group);
+        $rootScope.$broadcast('GROUP CHANGED');
+    };
 });
 
-angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope) {
+angular.module("overwatch").factory('transferGroup', function($rootScope) {
+    var group;
+    
+    // TODO fix cookie zodat zelfde blijft na refresh
+	return {
+		setGroup : function(_group) {
+		    console.log("Setting group to: " + JSON.stringify(_group.toJSON()));
+		    setCookie("group",  JSON.stringify(_group.toJSON()), 365);
+		},
+		
+		getGroup : function() {
+		    console.log("Getting group: " + JSON.parse(getCookie('group')));
+			return JSON.parse(getCookie('group'));            
+		}
+	}
+});
+
+angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
-        statuses = response.object;  
+        $scope.statuses = response.objects;  
         $scope.$apply();
     });
+
+/*    {
+        "SID": "<class 'int'>",
+        "date": "<class 'int'>",
+        "date_edited": "<class 'int'>",
+        "text": "<class 'str'>",
+        "author_UID": "<class 'int'>",
+        "wall_WID": "<class 'int'>"
+    }*/
+
+    $scope.post_status = function () {
+        if ($scope.status_text != "") {
+            var _date = Date.now() / 1000;
+            ws.request({
+                type: "add",
+                what: "Status",
+                data: {
+                    author_UID: Auth.getUser().UID,
+                    date: _date,
+                    date_edited: _date,
+                    wall_WID: Auth.getUser().wall_WID,
+                    text: $scope.status_text
+                }
+            }, function (response) {
+                $scope.statuses.push(response.object);
+                $scope.$apply();   
+            });
+        }
+    };
 
 });
 
@@ -47,10 +98,12 @@ angular.module("overwatch").directive('myEnter', function() {
     };
 });
 
-angular.module("overwatch").controller("profileController", function($scope, $rootScope) {
+angular.module("overwatch").controller("profileController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
 });
 
-angular.module("overwatch").controller("friendsController", function($scope, $rootScope) {
+angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.friends = [];
     ws.request({
         type: "get_all",
@@ -132,7 +185,8 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
     }
 });
 
-angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope) {
+angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.users = [];
     ws.request({
         type: "get_all",
@@ -192,6 +246,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
 });
 
 angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
     ws.request({
@@ -239,7 +294,69 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     $scope.dropDownClick(null, 'select_share', 'dropDownShare','share');
 });
 
-angular.module("overwatch").controller("create_groupController", function($scope, $rootScope) {
+angular.module("overwatch").controller("join_groupController", function($scope, $rootScope, $timeout, Auth) {
+    $rootScope.auth_user = Auth.getUser();
+    $scope.groups = []
+    $scope.join_group = null;
+    
+    ws.request({
+        type: "get_all",
+        what: "Group",
+    }, function(response) {
+        $scope.groups = response.objects;
+        $scope.$apply();
+    });
+    
+    $timeout(function() {
+	    if (hasClass(document.getElementById("select_group"), "mdl-js-menu")) {
+			removeClass(document.getElementById("select_group"), "mdl-js-menu");
+	    }
+	    addClass(document.getElementById("select_group"), "mdl-js-menu");
+	}, 0);
+	
+    $scope.dropDownClick = function(value, menu, button, ng_model) {
+        var toChange = document.getElementById(button);
+        toChange.innerHTML = value;
+        switch (ng_model) {
+            case 'group':
+                if (value === null) {
+                    toChange.innerHTML = $scope.i18n("pick_group");
+                    break;
+                } else {
+                    toChange.innerHTML = value.title;
+                }
+                $scope.join_group = value;
+                break;
+        }
+        removeClass(document.getElementById(menu).parentNode, "is-visible");
+    }
+    
+    $scope.joinGroup = function() {
+        if ($scope.join_group != null) {
+            ws.request({
+                type: "add",
+                what : "Membership",
+                data : {
+                    status: 'MEMBER',
+                    last_change: Date.now() / 1000,
+                    user_UID : Auth.getUser().UID,
+                    group_GID : $scope.join_group.GID            
+                }
+            }, function (response){
+                $scope.$apply();
+            })
+            console.log("Joining group " + $scope.join_group.title);
+                
+        }
+    }
+    
+    $scope.back = function () {
+        document.getElementById("dlgJoinGroup").close();
+    }
+});
+
+angular.module("overwatch").controller("create_groupController", function($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
     $scope.group_public = true;
     $scope.create_group = function() {
         if ($scope.group_form.$valid) {
@@ -274,7 +391,17 @@ angular.module("overwatch").controller("create_groupController", function($scope
     }
 });
 
+angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup) {
+    $rootScope.auth_user = Auth.getUser();
+    $scope.group = transferGroup.getGroup();
+    
+    $scope.$on('GROUP CHANGED', function () {
+        $scope.group = transferGroup.getGroup();
+    });
+});
+
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
+    $rootScope.auth_user = Auth.getUser();
     $scope.comments = [];
 
     $scope.delete = function(index) {
@@ -286,7 +413,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     var user_like = null;
     
     $scope.user_like = null;
-    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.SID}}, function(response) {
+   /* ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.SID}}, function(response) {
         for(i = 0; i < response.objects.length; i++) {
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
@@ -307,7 +434,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.dislikes++;
         }
         $scope.$apply();
-    });
+    });*/ // TODO UNCOMMENT!!
 
     $scope.add = function(what) {
         switch (what) {
@@ -375,64 +502,4 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
         }
     }
-
-    var comment = {};
-    comment.name = 'Adolf Hitler';
-    comment.text = 'Gutentag Poland, wir kommen für ihren arschen.';
-    comment.date = '01/09/1939';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Maciej Rataj';
-    comment.text = 'Kurwa, Briton and Croissant, you come for help so Poland can into space right?';
-    comment.date = '01/09/1939';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Winston Churchill';
-    comment.text = "We sure as hell aren't going to surrender to those jerry wankers.";
-    comment.date = '01/09/1939';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Charles De Gaulle';
-    comment.text = "JE SURRENDER!";
-    comment.date = '01/09/1939';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Maciej Rataj';
-    comment.text = 'Kurwa, bratwurst and vodka are stronk. Quick question, trains can into space right?';
-    comment.date = '08/10/1939';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Joseph Stalin';
-    comment.text = 'Comrade Hitler, is you attacking me?';
-    comment.date = '22/06/1941';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Adolf Hitler';
-    comment.text = 'Nein nein, ich schwer es!';
-    comment.date = '22/06/1941';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Theodore Roosevelt jr.';
-    comment.text = "Looks like y'all need some democracy!";
-    comment.date = '06/06/1944';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Adolf Hitler';
-    comment.text = 'HACKERS!!! I FUCKING REPORT U!!! MY DAD WORKS FOR MICROSOFT HAHAHAHA!!!';
-    comment.date = '30/04/1945';
-    $scope.comments.push(comment);
-
-    var comment = {};
-    comment.name = 'Adolf Hitler';
-    comment.text = '<disconnected from your channel>';
-    comment.date = '30/04/1945';
-    $scope.comments.push(comment);
 });

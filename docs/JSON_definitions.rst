@@ -10,8 +10,7 @@ Definition for object type ``Wall``
 ::
 
     {
-        "WID": "<class 'int'>",
-        "is_user":"<class 'bool'>"
+        "WID": "<class 'int'>"
     }
 
 Key properties are (might not be in definition): ``WID``
@@ -27,13 +26,12 @@ Definition for object type ``User``
         "first_name": "<class 'str'>",
         "last_name": "<class 'str'>",
         "email": "<class 'str'>",
+        "admin": "<class 'bool'>",
         "wall_WID": "<class 'int'>"
-        "admin":"<class 'bool'>",
     }
 
-The ``admin`` property isn't required, it will be ``False`` by default.
-
 Key properties are (might not be in definition): ``UID``
+
 
 Definition for object type ``Location``
 ---------------------------------------
@@ -70,26 +68,6 @@ Definition for object type ``Sensor``
 
 Key properties are (might not be in definition): ``SID``
 
-Definition for object type ``Tag``
--------------------------------------
-
-::
-
-    {
-        "text": "<class 'str'>",
-        "sensor_SID": "<class 'int'>"
-    }
-
-Key properties are (might not be in definition): ``sensor_SID``, ``text``
-
-There might be a "for" attribute needed when getting:
-
-::
-
-    "for": {
-        "what": "Sensor",
-        "SID": "<class 'int'>"
-    }
 
 Definition for object type ``Value``
 ------------------------------------
@@ -111,6 +89,99 @@ There might be a "for" attribute needed when getting:
     }
 
 
+Definition for object type ``HourValue``
+----------------------------------------
+
+Definition is custom!
+The documentation says:
+
+    format is ``[time, value]`` (to save space)
+
+Key properties are (might not be in definition): ``sensor_SID``, ``time``
+
+There might be a "for" attribute needed when getting:
+
+::
+
+    "for": {
+        "what": "Sensor",
+        "SID": "<class 'int'>"
+    }
+
+
+Definition for object type ``DayValue``
+---------------------------------------
+
+Definition is custom!
+The documentation says:
+
+    format is ``[time, value]`` (to save space)
+
+Key properties are (might not be in definition): ``sensor_SID``, ``time``
+
+There might be a "for" attribute needed when getting:
+
+::
+
+    "for": {
+        "what": "Sensor",
+        "SID": "<class 'int'>"
+    }
+
+
+Definition for object type ``MonthValue``
+-----------------------------------------
+
+Definition is custom!
+The documentation says:
+
+    format is ``[time, value]`` (to save space)
+
+Key properties are (might not be in definition): ``sensor_SID``, ``time``
+
+There might be a "for" attribute needed when getting:
+
+::
+
+    "for": {
+        "what": "Sensor",
+        "SID": "<class 'int'>"
+    }
+
+
+Definition for object type ``YearValue``
+----------------------------------------
+
+Definition is custom!
+The documentation says:
+
+    format is ``[time, value]`` (to save space)
+
+Key properties are (might not be in definition): ``sensor_SID``, ``time``
+
+There might be a "for" attribute needed when getting:
+
+::
+
+    "for": {
+        "what": "Sensor",
+        "SID": "<class 'int'>"
+    }
+
+
+Definition for object type ``Tag``
+----------------------------------
+
+::
+
+    {
+        "text": "<class 'str'>",
+        "sensor_SID": "<class 'int'>"
+    }
+
+Key properties are (might not be in definition): ``sensor_SID``, ``text``
+
+
 Definition for object type ``Status``
 -------------------------------------
 
@@ -118,9 +189,9 @@ Definition for object type ``Status``
 
     {
         "SID": "<class 'int'>",
-        "text": "<class 'str'>",
         "date": "<class 'int'>",
         "date_edited": "<class 'int'>",
+        "text": "<class 'str'>",
         "author_UID": "<class 'int'>",
         "wall_WID": "<class 'int'>"
     }

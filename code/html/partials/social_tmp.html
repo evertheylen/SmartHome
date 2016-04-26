@@ -7,7 +7,7 @@
 		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" style="background-color: #E8E8E8;">
 			<div id="socialLeftMenu">
 				<div class="menuGroup">Groups:</div>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.title">
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.title" ng-click="setGroup(group)" ui-sref="social.state_group">
 				</button>
 			</div>
 		</div>
@@ -20,6 +20,8 @@
 				<a ui-sref="social.find_friends" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-bind="i18n('find_friends')">
 				</a>
 				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-click="open_dialog('dlgGroup');" ng-bind="i18n('create_group')">
+				</button>
+				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-click="open_dialog('dlgJoinGroup');" ng-bind="i18n('join_group')">
 				</button>
 			</div>
 		</div>
@@ -55,6 +57,33 @@
                     style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('create')" ng-click="create_group();">
                 </button>
                 <button id="btnGroupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    style="width: 45%; display: inline;" ng-bind="i18n('back')" ng-click="back();">
+                </button>
+            </div>
+        </div>
+    </dialog>
+    <dialog ng-controller="join_groupController" id="dlgJoinGroup" class="mdl-dialog">
+        <h4 class="mdl-dialog__title" ng-bind="i18n('join_group')"></h4>
+        <div class="mdl-dialog__content">
+            <form name="group_form" ng-model="group_form">
+				<div id="txtfield_GroupJoin" class="mdl-selectfield">
+				    <label ng-bind="i18n('group')"></label>
+				    <button id="dropDownGroup" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_group').parentNode, 'is-visible');" ng-bind="i18n('pick_group')">
+				    </button>
+				    <input type="hidden" ng-model="join_group" name="joinGroup" required></input>
+				    <ul id="select_group" class="mdl-menu mdl-menu--bottom-left" for="dropDownGroup" style="overflow-y: scroll; max-height: 140px;">
+				        <li>
+				            <li ng-repeat="group in groups track by group.GID" id="btnSelect-Group-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(group, 'select_group', 'dropDownGroup', 'group')" tabindex="-1" ng-bind="group.title">
+				            </li>
+				        </li>
+				    </ul>
+				</div>	
+            </form>
+            <div style="margin-top: 5px;">
+                <button id="btnGroupJoin" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('join_group')" ng-click="joinGroup();">
+                </button>
+                <button id="btnGroupBack2" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                     style="width: 45%; display: inline;" ng-bind="i18n('back')" ng-click="back();">
                 </button>
             </div>
