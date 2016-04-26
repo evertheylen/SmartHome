@@ -48,7 +48,7 @@ angular.module("overwatch").factory('transferGroup', function($rootScope) {
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
-        $scope.statuses = response.object;  
+        $scope.statuses = response.objects;  
         $scope.$apply();
     });
 
