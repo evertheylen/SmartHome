@@ -32,6 +32,16 @@ angular.module("overwatch").controller("adminController", function($scope, $root
     $scope.aggregate_by_user = true;
 
     $scope.sensors = [];
+    ws.request({
+      type: "get_all",
+      what: "Sensor",
+    }, function(response) {
+        for (var i= 0; i < response.objects.length; i++)
+            response.objects[i]._scopes.push($scope);
+        $scope.sensors = response.objects;
+        $scope.$apply();
+    });    
+
     $scope.users = [];
     ws.request({
       type: "get_all",
@@ -44,23 +54,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         for (var i= 0; i < response.objects.length; i++)
             response.objects[i]._scopes.push($scope);
         $scope.users = response.objects;
-            
-        for (var userIndex = 0; userIndex < $scope.users.length; userIndex++) {
-            ws.request({
-              type: "get_all",
-              what: "Sensor",
-              for: {
-                  what: "User",
-                  UID: $scope.users[userIndex].UID
-              }
-            }, function(response) {
-                for (var i= 0; i < response.objects.length; i++) {
-                    response.objects[i]._scopes.push($scope);
-                    $scope.sensors.push(response.objects[i]);
-                }
-                $scope.$apply();
-            });
-        }
         $scope.$apply();
     });
     $scope.select_users = [];
