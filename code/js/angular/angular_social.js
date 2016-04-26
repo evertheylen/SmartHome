@@ -71,7 +71,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                     author_UID: Auth.getUser().UID,
                     date: _date,
                     date_edited: _date,
-                    wall_WID: Auth.getUser().WID,
+                    wall_WID: Auth.getUser().wall_WID,
                     text: $scope.status_text
                 }
             }, function (response) {
