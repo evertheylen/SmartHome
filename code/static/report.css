@@ -1,87 +1,18 @@
-#reportTitle{
-	text-align: center;
-	text-transform: uppercase;
-	display: block;
-	font-size: 2em;
-	-webkit-margin-before: 0.67em;
-	-webkit-margin-after: 0.67em;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
-	font-weight: bold;
-	margin-bottom: 10%;
-}
-
-.editComment[contentEditable=true]:empty:after{
-    content: attr(placeholder);
-	font-style: italic;
-}
-
-.reportSection{
-	margin-left: 15%;
-	margin-right: 15%;
-	width: 70%;
-	height: auto;
-	margin-bottom: 5%;
-}
-
-.reportGraph{
-	width: 100%;
-	height: auto;
-}
-
-.reportComment{
-}
-
-.finalReportComment{
-	margin-top: 10%;
-}
-
-.page {
+#reportContent{
 	width: 210mm;
-	height: 297mm;
-	padding: 20mm;
-	margin: 10mm auto;
-	border: 1px #D3D3D3 solid;
-	border-radius: 5px;
-	background: white;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	text-align: center;
 }
-@media print{
-	.btnPrepareToPrint, btnSubmit, .editComment[contentEditable=true]:empty:after{
-		display: none;
-	}
 
-	::-webkit-scrollbar, ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb{
-		display: none;
-	}
-
-	
-
-	div { float: none !important; position: static !important; display: inline; 
-          box-sizing: content-box !important;
-    }
-.page {
-		margin: 5%;
-		height: 90%;
-		width: 90%;
-		border: initial;
-		border-radius: initial;
-		box-shadow: initial;
-		background: initial;
-		page-break-after: always;
-	}
 #reportTitle{
 	text-align: center;
 	text-transform: uppercase;
 	display: block;
-	font-size: 2em;
-	-webkit-margin-before: 0.67em;
-	-webkit-margin-after: 0.67em;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
+	font-size: 32pt;
 	font-weight: bold;
-	margin-bottom: 10%;
+	margin-bottom: 32pt;
+	line-height: 40pt;
 }
+
 
 .editComment[contentEditable=true]:empty:after{
     content: attr(placeholder);
@@ -93,7 +24,7 @@
 	margin-right: 15%;
 	width: 70%;
 	height: auto;
-	margin-bottom: 5%;
+	margin-bottom: 20pt;
 }
 
 .reportGraph{
@@ -102,12 +33,10 @@
 }
 
 .reportComment{
+	font-size: 14pt;
 }
 
 .finalReportComment{
-	margin-top: 10%;
+	margin-top: 32pt;
 }
-}
-	
-
 

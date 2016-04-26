@@ -24,30 +24,51 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     }
     $scope.setGroup = function(group){
         transferGroup.setGroup(group);
+        $rootScope.$broadcast('GROUP CHANGED');
     };
 });
 
 angular.module("overwatch").factory('transferGroup', function($rootScope) {
     var group;
+    
+    // TODO fix cookie zodat zelfde blijft na refresh
 	return {
 		setGroup : function(_group) {
-		    console.log("Setting group to: " + group);
-            group = _group;
+		    console.log("Setting group to: " + JSON.stringify(_group.toJSON()));
+		    setCookie("group",  JSON.stringify(_group.toJSON()), 365);
 		},
 		
 		getGroup : function() {
-		    console.log("Getting group: " + group);
-			return group;            
+		    console.log("Getting group: " + JSON.parse(getCookie('group')));
+			return JSON.parse(getCookie('group'));            
 		}
 	}
 });
 
-angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope) {
+angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
         statuses = response.object;  
         $scope.$apply();
     });
+
+    $scope.post_status = function () {
+        if ($scope.status_text != "") {
+            ws.request({
+                type: "add",
+                what: "Status",
+                data: {
+                    author_UID: Auth.getUser().UID,
+                    date: getCurrentDate(),
+                    date_edited: getCurrentDate(),
+                    wall_WID: Auth.getUser().WID
+                }
+            }, function (response) {
+                statuses.push_back(response.object);
+                $scope.$apply();   
+            });
+        }
+    };
 
 });
 
@@ -294,6 +315,10 @@ angular.module("overwatch").controller("create_groupController", function($scope
 
 angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup) {
     $scope.group = transferGroup.getGroup();
+    
+    $scope.$on('GROUP CHANGED', function () {
+        $scope.group = transferGroup.getGroup();
+    });
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
