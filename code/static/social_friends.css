@@ -32,19 +32,22 @@
 
 /*updated*/
 .pictureWithInfo--container{
-	height: auto;
-	width: auto;
+	height: 40px;
+	width: 40px;
 	
 }
 
 .pictureWithInfo{
 	float: left;
+	height: 40px;
+	width: auto;
 }
 
 .profilePictureInfo{
 	display: inline;
-	height: auto;
-	width: auto;
+	height: 40px;
+	width: 40px;
+	overflow: hidden;
 }
 
 
