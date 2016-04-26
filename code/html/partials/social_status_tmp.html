@@ -21,8 +21,7 @@
 		    </button>
 		</div>
 		<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
-		<div class="mdl-card__supporting-text">
-			dis be my status niggas, i haz authority to write whatever i wantz
+		<div class="mdl-card__supporting-text" ng-bind="status.text">
 		</div>
 		<div class="mdl-card__actions mdl-card--border">
 			<a id="likes_click" class="notClicked" ng-click="add('likes');"><i class="material-icons md-15 clickable">thumb_up</i> {{likes}}</a>

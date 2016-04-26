@@ -75,7 +75,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                     text: $scope.status_text
                 }
             }, function (response) {
-                statuses.push_back(response.object);
+                statuses.push(response.object);
                 $scope.$apply();   
             });
         }
@@ -328,6 +328,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     $scope.joinGroup = function() {
         if ($scope.join_group != null) {
             ws.request({
+                type: "add",
                 what : "Membership",
                 data : {
                     status: 'MEMBER',
