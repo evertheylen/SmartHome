@@ -75,15 +75,24 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                 if(friendships[i].user1_UID === $rootScope.auth_user.UID)
                     friend_UID = friendships[i].user2_UID;
                 ws.request({
-                    type: "get_all",
-                    what: "Status",
+                    type: "get",
+                    what: "Wall",
                     for: {
                       what: "User",
                       UID: friend_UID
                     }
                 }, function(response) {
-                    for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
-                        $scope.statuses.push(response.object[statusIndex]);
+                    ws.request({
+                        type: "get_all",
+                        what: "Status",
+                        for: {
+                          what: "Wall",
+                          WID: response.object.WID
+                        }
+                    }, function(response) {
+                        for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
+                            $scope.statuses.push(response.object[statusIndex]);
+                    });
                     $scope.$apply();
                 });
             }
