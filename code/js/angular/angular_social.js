@@ -93,7 +93,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                             console.log("PUSHING STATUS");
                             $scope.statuses.push(response.objects[statusIndex]);
                         }
-                        for (int k = 0; k < $scope.statuses.length; k++)
+                        for (var k = 0; k < $scope.statuses.length; k++)
                             console.log("DONE" + k + ": " + $scope.statuses[k].text);
                     });
                     $scope.$apply();
