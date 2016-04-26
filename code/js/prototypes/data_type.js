@@ -17,7 +17,7 @@ function DataType() {
 	// Caution: Can throw syntax error if key not in ObjectData.
 	this.fill = function(objectData) {
 		for(var key in this) {
-			if(typeof this[key] !== 'function' && key[0] != "_") {
+			if(typeof this[key] !== 'function' && key[0] != "_" && objectData[key]) {
 				this[key] = objectData[key];
 			}
 	    }
