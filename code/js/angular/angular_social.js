@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state, transferGroup) {
+angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state, transferGroup, transferProfile) {
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.auth_user = Auth.getUser();
@@ -29,9 +29,6 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
 });
 
 angular.module("overwatch").factory('transferGroup', function($rootScope) {
-    var group;
-    
-    // TODO fix cookie zodat zelfde blijft na refresh
 	return {
 		setGroup : function(_group) {
 		    console.log("Setting group to: " + JSON.stringify(_group.toJSON()));
@@ -43,6 +40,18 @@ angular.module("overwatch").factory('transferGroup', function($rootScope) {
 			return JSON.parse(getCookie('group'));            
 		}
 	}
+});
+
+angular.module("overwatch").factory('transferProfile', function($rootScope) {
+    return {
+        setProfile : function (profile) {
+            console.log("Setting profile to: " + profile);
+            setCookie("profile", profile, 365);
+        },
+        getProfile: function() {
+            return getCookie('profile');
+        }
+    }
 });
 
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
@@ -98,8 +107,9 @@ angular.module("overwatch").directive('myEnter', function() {
     };
 });
 
-angular.module("overwatch").controller("profileController", function($scope, $rootScope, Auth) {
+angular.module("overwatch").controller("profileController", function($scope, $rootScope, Auth, transferProfile) {
     $rootScope.auth_user = Auth.getUser();
+    $scope.user = transferProfile.getProfile();
 });
 
 angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth) {

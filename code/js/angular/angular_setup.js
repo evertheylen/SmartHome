@@ -106,16 +106,22 @@ angular.module("overwatch").factory('Auth', function($rootScope, cssInjector) {
 	}
 });
 
-angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http, $state) {
+angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http, $state, transferProfile) {
 	$rootScope.$state = $state;
 	$scope.i18n = function(input) {
 		return html_strings[input][$scope.language];
 	};
 	$rootScope.tab = "";
 	
+	$scope.setProfile = function(who) {
+	    if (who=="self"){
+	        transferProfile.setProfile(auth_user.UID);
+	    }
+	}
+	
 	$rootScope.page_title = "OverWatch"
 	$rootScope.logged_in = Auth.isLoggedIn();
-	//$rootScope.auth_user = Auth.getUser();
+    $rootScope.auth_user = Auth.getUser();
 	$scope.logout = function() {
 		console.log("Logging Out");
 		setCookie("session", "", 1);
