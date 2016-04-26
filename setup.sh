@@ -11,7 +11,8 @@ pip install -r requirements.txt
 echo ">>> Please make sure postgres is running on port 5432."
 echo "Username for postgres?"
 read username
-echo "We assume postgres is configured to allow all local connections without password."
+echo "Password for $username?"
+read password
 
 echo ">>> Creating two databases: overwatchdb for the project itself, and testdb for running tests."
 psql -U $username -w -c "CREATE DATABASE overwatchdb"                                                                                                                                                                                                      
@@ -27,7 +28,7 @@ text = "config = {
     'database': {
         'dbname': 'overwatchdb',
         'user': '$username',
-        'password': '',
+        'password': '$password',
         'host': 'localhost',
         'port': 5432,
     },
