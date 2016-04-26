@@ -296,6 +296,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
+    console.log("Doing group request in shareController of angular_social");
     ws.request({
         type: "get_all",
         what: "Group",
@@ -346,6 +347,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     $scope.groups = []
     $scope.join_group = null;
     
+    console.log("Doing group request in join_groupController of angular_social");
     ws.request({
         type: "get_all",
         what: "Group",
