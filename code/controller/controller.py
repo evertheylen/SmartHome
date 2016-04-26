@@ -512,7 +512,27 @@ class Controller(metaclass=MetaController):
         # Each list is a limitation aka Where object that filters sensors
         wheres_list = [base_wheres]  # To start, one graph with the basic wheres
         for g in group_by:
-           pass  # TODO lol
+            extra_wheres = []
+            if g["what"] == "Type":
+               for t in g["IDs"]:
+                   if t not in Sensor.type_type.options:
+                       raise Error("unknown_type", "Unknown type")
+                   extra_wheres.append(Sensor.type == t)
+            elif g["what"] == "Tag":
+                for t in g["IDs"]:
+                    # Not really a where but anyway
+                    extra_wheres.append(RawSql("SELECT * FROM table_sensor WHERE table_sensor.SID IN (SELECT table_tag.sensor_SID FROM table_Tag WHERE text = %(tagtext)s)", {"tagtext": t}))
+            elif g["what"] == "Location":
+                for LID in g["IDs"]:
+                    extra_wheres.append(Sensor.location == LID)
+            else:
+                raise Error("no_such_group_by", "There is no such group_by 'what' attribute")
+            
+            new_where_list = []
+            for wheres in wheres_list:
+                for w in extra_wheres:
+                    new_where_list.append(w+wheres)
+            wheres_list = new_where_list
         
         graphs = []
         for wheres in wheres_list:
