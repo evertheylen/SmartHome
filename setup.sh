@@ -15,8 +15,8 @@ echo "Password for $username?"
 read password
 
 echo ">>> Creating two databases: overwatchdb for the project itself, and testdb for running tests."
-psql -U $username -w -c "CREATE DATABASE overwatchdb"                                                                                                                                                                                                      
-psql -U $username -w -c "CREATE DATABASE testdb"                                                                                                                                                                                                      
+PGPASSWORD=$password psql -U $username -w -c "CREATE DATABASE overwatchdb"                                                                                                                                                                                                      
+PGPASSWORD=$password psql -U $username -w -c "CREATE DATABASE testdb"                                                                                                                                                                                                      
 
 echo ">>> Entering 'code'"
 cd code
