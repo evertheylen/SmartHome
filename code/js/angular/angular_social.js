@@ -289,7 +289,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     $scope.dropDownClick(null, 'select_share', 'dropDownShare','share');
 });
 
-angular.module("overwatch").controller("join_groupController", function($scope, $rootScope) {
+angular.module("overwatch").controller("join_groupController", function($scope, $rootScope, $timeout) {
     $scope.groups = []
 
     ws.request({
