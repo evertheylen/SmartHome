@@ -89,8 +89,11 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                           WID: response.object.wall_WID
                         }
                     }, function(response) {
-                        for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
+                        for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++) {
+                            console.log("PUSHING STATUS");
                             $scope.statuses.push(response.objects[statusIndex]);
+                        }
+                        console.log("DONE: " + $scope.statuses);
                     });
                     $scope.$apply();
                 });
