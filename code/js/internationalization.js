@@ -67,7 +67,7 @@ var html_strings = {
     "comment_status" : ["Comment on this status...", "Comment op deze status..."],
     "find_friends" : ["Find friends", "Vrienden zoeken"],
     "create_group" : ["Create group", "Groep maken"],
-    "join_group" : ["Join group", "Lid worden van een group"],
+    "join_group" : ["Join group", "Lid worden van een groep"],
     "group_name" : ["Group name", "Groepsnaam"],
     "group_public" : ["Public group", "Publieke groep"],
     "group_secret" : ["Secret group", "Geheime groep"],
@@ -117,4 +117,6 @@ var html_strings = {
     "post" : ["Post", "Plaats"],
     "group" : ["Group", "Groep"],
     "pick_group" : ["Pick group", "Kies een groep"],
+    "input_status_group": ["What do you want to share with the group?", "Wat ben je aan het doen?"],
+    "post_group": ["Post in group", "Gooi het in de groep"],
 };
