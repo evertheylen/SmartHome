@@ -307,7 +307,7 @@ angular.module("overwatch").config(["$stateProvider", "$urlRouterProvider", "$lo
 
 angular.module("overwatch").config(["ChartJsProvider", function(ChartJsProvider) {
 	ChartJsProvider.setOptions({
-        scaleShowLabels: false
+        scaleShowLabels: false,
 		colours: ['#FF5252', "#FF8A80"],
 		responsive: true
 	});
