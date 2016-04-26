@@ -519,7 +519,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 location_LIDs.push($scope.houses[i].LID);
         }
         for (i=0; i < $scope.types.length; i++) {
-            if ($scope.select_type[i])
+            if ($scope.select_types[i])
                 type_IDs.push($scope.types[i]);
         }
         for (j=0; j < $scope.tags.length; j++) {
