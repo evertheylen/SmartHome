@@ -390,7 +390,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
                           console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
                             for (k = 0; k < $scope.sensors[i].tags.length; k++){
-                                if (select_tags.indexOf($scope.sensors[i].tags[k].text) != -1) {
+                                if (select_tags.indexOf($scope.sensors[i].tags[k].text) != -1) {
                                     console.log("Tag checked positive: " + $scope.tags[index].text);
                                     if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
                                         $scope.filtered_sensors.push($scope.sensors[i]);
