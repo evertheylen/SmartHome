@@ -193,7 +193,7 @@ function get_all_response(response) {
 	return {for: response["for"], objects: objects};
 }
 
-function get_values(response) {
+function get_values_response(response) {
     return response["data"];
 }
 
