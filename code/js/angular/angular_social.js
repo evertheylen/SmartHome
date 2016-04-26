@@ -45,12 +45,30 @@ angular.module("overwatch").factory('transferGroup', function($rootScope) {
 	}
 });
 
-angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope) {
+angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
         statuses = response.object;  
         $scope.$apply();
     });
+
+    $scope.post_status = function () {
+        if ($scope.status_text != "") {
+            ws.request({
+                type: "add",
+                what: "Status",
+                data: {
+                    author_UID: Auth.getUser().UID,
+                    date: getCurrentDate(),
+                    date_edited: getCurrentDate(),
+                    wall_WID: Auth.getUser().WID
+                }
+            }, function (response) {
+                statuses.push_back(response.object);
+                $scope.$apply();   
+            });
+        }
+    };
 
 });
 
