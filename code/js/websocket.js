@@ -78,8 +78,8 @@ function connect_to_websocket() {
 		else {
 			// Add the request to the waiting list.
 			requests.enqueue(stringToSend);
-            console.log("Queued message: " + stringToSend);
 			console.log("Websocket request has been queued until connection has been established.");
+            console.log("Queued message: " + stringToSend);
 		}
 	}
 
@@ -88,8 +88,11 @@ function connect_to_websocket() {
 		// Reset the reconnect counter.
 		reconnects = 0;
 		// Handle all the requests that have been waiting.
-		while (!requests.isEmpty())
+		while (!requests.isEmpty()) {
+			console.log("Sent queued data to the server:");
+			console.log(stringToSend);
 			websocket.send(requests.dequeue());
+        }
 	};
 
 	websocket.onclose = function() {
