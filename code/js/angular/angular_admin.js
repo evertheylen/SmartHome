@@ -180,21 +180,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                     graph.labels.push("year " + i / 365);
         }
 
-        ws.request({
-          type: "get_all",
-          what: "Sensor",
-          for: {
-              what: "User",
-              UID: $rootScope.auth_user.UID
-          }
-        }, function(response) {
-            for (var i= 0; i < response.objects.length; i++) {
-                response.objects[i]._scopes.push($scope);
-                $scope.users = response.objects;
-                $scope.$apply();
-            }
-        });
-
         var sensor_SIDs = [];
         var user_UIDs = [];
         for (i = 0; i < final_sensors.length; i++)
