@@ -43,6 +43,21 @@ def handle_ws_type(typ):
         return method
     return decorator
 
+# Some day, this will be in Model
+class Graph:
+    def __init__(self, grouped_by, wheres, values):
+        self.grouped_by = grouped_by
+        self.wheres = wheres
+        self.values = values
+    
+    async def do(db):
+        pass
+        
+    
+    def json_repr(self):
+        return {"grouped_by": self.grouped_by,
+                "sensors": self.sensors,
+                "values": self.values}
 
 
 # Metaclasses
@@ -66,10 +81,14 @@ def check_for_type(req: "Request", typ: str):
         raise Error("wrong_object_type", "Wrong object type in for.what")
 
 # Dictionary which contains frequently used operation codes
-op_codes = {'gt': '>', 'lt': '<', 'eq': '=','le': '<=', 'ge': '>='}
+op_codes = {'gt': '>', 'lt': '<', 'eq': '=','le': '<=', 'ge': '>=', 'in': 'IN'}
 
 # Dictionary to limit possible fields on which to filter in 'where' clause
-value_props = {p.name: p for p in Value._props if p.json }
+value_props_per_type = {}
+for cls in Value, HourValue, DayValue, MonthValue, YearValue:
+    value_props = {p.name: p for p in cls._props if p.json}
+    value_props_per_type[cls.__name__] = (cls, value_props)
+
 
 # The Controller
 # ==============
@@ -327,8 +346,10 @@ class Controller(metaclass=MetaController):
                 sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
 
-        @case("Value")
+        @case("Value", "HourValue", "DayValue", "MonthValue", "YearValue")
         async def value(self, req):
+            what_type = req.metadata["what"]
+            value_cls, value_props = value_props_per_type[what_type]
             check_for_type(req, "Sensor")
             s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
@@ -336,66 +357,10 @@ class Controller(metaclass=MetaController):
                 clauses = []
                 for c in req.metadata["where"]:
                     clauses.append(Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
-                values = await Value.get(*clauses, Value.sensor == s.key).all(self.db)
+                values = await value_cls.get(*clauses, value_cls.sensor == s.key).all(self.db)
             else:
-                values = await Value.get(Value.sensor == s.key).all(self.db)
+                values = await value_cls.get(value_cls.sensor == s.key).all(self.db)
             await req.answer([v.json_repr() for v in values])
-
-        @case("HourValue")
-        async def hourvalue(self, req):
-            check_for_type(req, "Sensor")
-            s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
-            await s.check_auth(req)
-            if "where" in req.metadata:
-                clauses = []
-                for c in req.metadata["where"]:
-                    clauses.append(Where(hourvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
-                hourvalues = await HourValue.get(*clauses, HourValue.sensor == s.key).all(self.db)
-            else:
-                hourvalues = await HourValue.get(HourValue.sensor == s.key).all(self.db)
-            await req.answer([v.json_repr() for v in hourvalues])
-
-        @case("DayValue")
-        async def dayvalue(self, req):
-            check_for_type(req, "Sensor")
-            s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
-            await s.check_auth(req)
-            if "where" in req.metadata:
-                clauses = []
-                for c in req.metadata["where"]:
-                    clauses.append(Where(dayvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
-                dayvalues = await DayValue.get(*clauses, DayValue.sensor == s.key).all(self.db)
-            else:
-                dayvalues = await DayValue.get(DayValue.sensor == s.key).all(self.db)
-            await req.answer([v.json_repr() for v in dayvalues])
-
-        @case("MonthValue")
-        async def monthvalue(self, req):
-            check_for_type(req, "Sensor")
-            s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
-            await s.check_auth(req)
-            if "where" in req.metadata:
-                clauses = []
-                for c in req.metadata["where"]:
-                    clauses.append(Where(monthvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
-                monthvalues = await MonthValue.get(*clauses, MonthValue.sensor == s.key).all(self.db)
-            else:
-                monthvalues = await MonthValue.get(MonthValue.sensor == s.key).all(self.db)
-            await req.answer([v.json_repr() for v in monthvalues])
-
-        @case("YearValue")
-        async def yearvalue(self, req):
-            check_for_type(req, "Sensor")
-            s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
-            await s.check_auth(req)
-            if "where" in req.metadata:
-                clauses = []
-                for c in req.metadata["where"]:
-                    clauses.append(Where(yearvalue_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"])))
-                yearvalues = await YearValue.get(*clauses, YearValue.sensor == s.key).all(self.db)
-            else:
-                yearvalues = await YearValue.get(YearValue.sensor == s.key).all(self.db)
-            await req.answer([v.json_repr() for v in yearvalues])
 
         @case("User")
         async def user(self, req):
@@ -513,3 +478,33 @@ class Controller(metaclass=MetaController):
                 # await t.check_auth(req, self.db)
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
+    
+    @handle_ws_type("get_values")
+    @require_user_level(1)
+    async def handle_get_values(self, req):
+        wheres = []
+        valueType = req.metadata["timespan"]["valueType"]
+        group_by = req.metadata.get("group_by", [])
+        if valueType == "Value" and len(group_by) != 0:
+            raise Error("no_group_by_permitted", "Grouping is not permitted when searching for raw values")
+            
+        value_cls, value_props = value_props_per_type[valueType]
+        
+        for c in req.metadata.get("where", []):
+            w = Where(value_props[c["field"]].name, op_codes[c["op"]], Unsafe(c["value"]))
+            wheres.append(w)
+        
+        wheres.append(Where(value_props["time"].name, ">=", Unsafe(req.metadata["timespan"]["start"])))
+        wheres.append(Where(value_props["time"].name, "<", Unsafe(req.metadata["timespan"]["end"])))
+        
+        graphs = []
+        if len(group_by) == 0:
+            graphs.append(Graph([]))
+            
+            # Example query:
+            # SELECT time, value FROM table_DayValue WHERE time >= ... and time < ... and 
+        
+
+
+
+
