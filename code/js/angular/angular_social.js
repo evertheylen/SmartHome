@@ -240,6 +240,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
             }
         }, function(response) {
             // TODO
+            $scope.users.splice(index, 1);
             $scope.$apply();
         });
     }
