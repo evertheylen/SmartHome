@@ -299,12 +299,14 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
         $scope.groups = response.objects;
         $scope.$apply();
     });
-    if (hasClass(document.getElementById("select_group"), "mdl-js-menu")) {
-        removeClass(document.getElementById("select_group"), "mdl-js-menu");
-    }
-    addClass(document.getElementById("select_group"), "mdl-js-menu");
-    componentHandler.upgradeDom();
     
+    $timeout(function() {
+	    if (hasClass(document.getElementById("select_group"), "mdl-js-menu")) {
+			removeClass(document.getElementById("select_group"), "mdl-js-menu");
+	    }
+	    addClass(document.getElementById("select_group"), "mdl-js-menu");
+	}, 0);
+	
     $scope.dropDownClick = function(value, menu, button, ng_model) {
         var toChange = document.getElementById(button);
         toChange.innerHTML = value;
