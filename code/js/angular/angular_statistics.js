@@ -475,13 +475,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             graph.series.push(final_sensors[i].title);
 
         // Make a request to the database based on the user input.
-        console.log("start time: " + $scope.start_date_time.value.getTime());
-        console.log("end time: " + $scope.end_date_time.value.getTime());
-        console.log("start date: " + $scope.start_date.getTime());
-        console.log("end date: " + $scope.end_date.getTime());
-        var timezone_offset = (1000*60*60) * 2;
-        var full_start_date = $scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 2*timezone_offset;
-        var full_end_date = $scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 2*timezone_offset;
+        var timezone_offset = (1000*60*60);
+        var full_start_date = $scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset;
+        var full_end_date = $scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset;
         var total_days = ($scope.end_date.getTime() - $scope.start_date.getTime()) / (1000*60*60*24);
         console.log("full start time: " + full_start_date);
         console.log("full end time: " + full_end_date);
