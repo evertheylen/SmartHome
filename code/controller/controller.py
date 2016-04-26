@@ -516,7 +516,10 @@ class Controller(metaclass=MetaController):
         wheres_list = [base_wheres]  # To start, one graph with the basic wheres
         for g in group_by:
             extra_wheres = []
-            if g["what"] == "Type":
+            if g["what"] == "Sensor":
+                for SID in g["IDs"]:
+                    extra_wheres.append(Sensor.SID == SID)
+            elif g["what"] == "Type":
                for t in g["IDs"]:
                    if t not in Sensor.type_type.options:
                        raise Error("unknown_type", "Unknown type")
@@ -528,16 +531,13 @@ class Controller(metaclass=MetaController):
             elif g["what"] == "Location":
                 for LID in g["IDs"]:
                     extra_wheres.append(Sensor.location == LID)
-            elif g["what"] == "Sensor":
-                for SID in g["IDs"]:
-                    extra_wheres.append(Sensor.SID == SID)
             else:
                 raise Error("no_such_group_by", "There is no such group_by 'what' attribute")
             
             new_where_list = []
             for wheres in wheres_list:
                 for w in extra_wheres:
-                    new_where_list.append(w+wheres)
+                    new_where_list.append([w]+wheres)
             wheres_list = new_where_list
 
         graphs = []
