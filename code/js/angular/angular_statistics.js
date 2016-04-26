@@ -500,6 +500,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }
             graph.series=select_tags;
         }
+        console.log("Series: " + graph.series);
         // Make a request to the database based on the user input.
         var timezone_offset = (1000*60*60);
         var full_start_date = $scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset;
