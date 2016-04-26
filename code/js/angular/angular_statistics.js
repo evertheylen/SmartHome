@@ -509,12 +509,53 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 if ($scope.select_locs[i]) {
                     for (j=0; j < $scope.types.length; j++) {
                         if ($scope.select_types[i]) {
-                            graph.series.push($scope.houses[i].description + ", " + $scope.i18n($scope.types[i]));
+                            graph.series.push($scope.houses[i].description + ", " + $scope.i18n($scope.types[j]));
                         }
                     }
                 }
             }        
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true) {
+            console.log("making series for locations & tags");
+            var select_tags = [];
+            for (i=0; i < $scope.houses.length; i++) {
+                if ($scope.select_locs[i]) {
+                    for (j=0; j< $scope.tags.length; j++) {
+                        if ($scope.select_tags[j]) {
+                            graph.series.push($scope.houses[i].description + ", " + $scope.tags[j].text);
+                        }
+                    }
+                }
+            }        
+        } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true) {
+            console.log("making series for tags & types");
+            var select_tags = [];
+            for (i=0; i < $scope.types.length; i++) {
+                if ($scope.select_types[i]) {
+                    for (j=0; j< $scope.tags.length; j++) {
+                        if ($scope.select_tags[j]) {
+                            graph.series.push($scope.i18n($scope.types[i] + ", " + $scope.tags[j].text);
+                        }
+                    }
+                }
+            }        
+        } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true) {
+            console.log("making series for tags & types & locations");
+            var select_tags = [];
+            for (k=0; k < $scope.houses.length; k++) {
+                if ($scope.select_locs[k]) {
+                    for (i=0; i < $scope.types.length; i++) {
+                        if ($scope.select_types[i]) {
+                            for (j=0; j< $scope.tags.length; j++) {
+                                if ($scope.select_tags[j]) {
+                                    graph.series.push($scope.houses[k].description + ", " + $scope.i18n($scope.types[i] + ", " + $scope.tags[j].text);
+                                }
+                            }
+                        }
+                    }      
+                }
+            }  
         }
+        
         console.log("Series: " + graph.series);
         // Make a request to the database based on the user input.
         var timezone_offset = (1000*60*60);
