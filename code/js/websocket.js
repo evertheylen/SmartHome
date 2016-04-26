@@ -90,7 +90,7 @@ function connect_to_websocket() {
 		// Handle all the requests that have been waiting.
 		while (!requests.isEmpty()) {
 			console.log("Sent queued data to the server:");
-			console.log(stringToSend);
+			console.log(requests.peek());
 			websocket.send(requests.dequeue());
         }
 	};
