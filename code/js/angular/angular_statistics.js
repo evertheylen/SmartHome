@@ -457,6 +457,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
         // Push all the sensors we will display into the graph.
         var final_sensors = [];
+
+    //Aggregation:
+    /*
+    [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor]
+    */
         for (i = 0; i < $scope.filtered_sensors.length; i++) {
             if (!is_box2_opened) {
                 final_sensors = $scope.filtered_sensors;
@@ -471,17 +476,35 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         graph.type = "Line";
         graph.labels = [];
         graph.series = [];
-        for (i = 0; i < final_sensors.length; i++) 
-            graph.series.push(final_sensors[i].title);
-
+        if ($scope.aggregate_by === [false,false,false]) {
+            for (i = 0; i < final_sensors.length; i++) 
+                graph.series.push(final_sensors[i].title);
+        } else if ($scope.aggregate_by === [true, false, false]) {
+            for (i=0; i < $scope.houses.length; i++) {
+                if ($scope.select_locs[i]) {
+                    graph.series.push($scope.houses[i].description);
+                }
+            }
+        } else if ($scope.aggregate_by === [false, true, false]) {
+            for (i=0; i < $scope.types.length; i++) {
+                if ($scope.select_types[i]) {
+                    graph.series.push($scope.i18n($scope.types[i]));
+                }
+            }
+        } else if ($scope.aggregate_by === [false, false, true]) {
+            var select_tags = [];
+            for (j=0; j< $scope.tags.length; j++) {
+                if ($scope.select_tags[j]) {
+                    select_tags.push($scope.tags[j].text);
+                }
+            }
+            graph.series=select_tags;
+        }
         // Make a request to the database based on the user input.
         var timezone_offset = (1000*60*60);
         var full_start_date = $scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset;
         var full_end_date = $scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset;
         var total_days = ($scope.end_date.getTime() - $scope.start_date.getTime()) / (1000*60*60*24);
-        console.log("full start time: " + full_start_date);
-        console.log("full end time: " + full_end_date);
-        console.log("Total days: " + total_days);
 
         var valueType = "Value";
         switch ($scope.type_of_time) {
@@ -490,7 +513,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             case 'hours':
                 valueType = "hourValue";
                 var total_hours = (full_end_date - full_start_date) / (1000*60*60);
-                console.log("Total hours: " + total_hours);
                 for (var i = 0; i < total_hours; i++) 
                     graph.labels.push("hours " + i);
                 break;
