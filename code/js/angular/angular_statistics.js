@@ -521,7 +521,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         for (j=0; j < $scope.tags.length; j++) {
             if ($scope.select_tags[i]) 
-                tag_IDs.push($scope.tags[i].);
+                tag_IDs.push($scope.tags[i].text);
         }    
 
         // Send a request dependant on the aggregation type.

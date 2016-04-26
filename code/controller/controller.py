@@ -313,7 +313,6 @@ class Controller(metaclass=MetaController):
             locations = await Location.get(Location.user == u.key).all(self.db)
             await req.answer([l.json_repr() for l in locations])
 
-        # TODO
         @case("Like")
         async def like(self, req):
             check_for_type(req, "Status")
@@ -324,14 +323,22 @@ class Controller(metaclass=MetaController):
 
         @case("Sensor")
         class sensor(switch):
-            # async def default(self ,req):
-            #         u = await User.find_by_key(req.conn.user.UID, self.db)
-            #         if u.admin:
-            #             sensors = await Sensor.get().all(self.db)
-            #             await req.answer([s.json_repr() for s in sensors])
-            #         else:
-            #             await req.answer({"status":"failure", "reason":"You are not an admin."})
-            select = lambda self, req: req.metadata["for"]["what"]
+            def select(self, req):
+                if "for" in req.data:
+                    return req.metadata["for"]["what"]
+                else:
+                    return "Admin"
+
+            @case("Admin")
+            async def for_admin(self ,req):
+                # Verify if the connection is a real admin for security reasonsx
+                u = await User.find_by_key(req.conn.user.UID, self.db)
+                if u.admin:
+                    sensors = await Sensor.get().all(self.db)
+                    await req.answer([s.json_repr() for s in sensors])
+                else:
+                    await req.answer({"status":"failure", "reason":"You are not an admin."})
+
             @case("User")
             async def for_user(self, req):
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
@@ -507,7 +514,7 @@ class Controller(metaclass=MetaController):
 
         if not req.conn.user.admin:
             base_wheres.append(Sensor.user == req.conn.user.key)
-        
+
         # Tactic: divide all graphs further and further
         # Each list is a limitation aka Where object that filters sensors
         wheres_list = [base_wheres]  # To start, one graph with the basic wheres
@@ -533,7 +540,7 @@ class Controller(metaclass=MetaController):
                 for w in extra_wheres:
                     new_where_list.append(w+wheres)
             wheres_list = new_where_list
-        
+
         graphs = []
         for wheres in wheres_list:
             print("wheres = ", ", ".join([str(w) for w in wheres]))
@@ -543,9 +550,9 @@ class Controller(metaclass=MetaController):
             graph = Graph([], IDs, req.metadata["timespan"], value_cls)
             await graph.fill(self.db)
             graphs.append(graph)
-        
+
         await req.answer([g.json_repr() for g in graphs])
-        
+
 
 # Some day, this will be in Model
 class Graph:
@@ -559,7 +566,7 @@ class Graph:
 
     async def fill(self, db):
         req = RawSql("SELECT time, avg(value) AS value FROM {s.cls._table_name} WHERE sensor_SID IN {s.sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self), {
-            "start": self.timespan["start"], 
+            "start": self.timespan["start"],
             "end": self.timespan["end"],
         })
         result = await req.exec(db)
