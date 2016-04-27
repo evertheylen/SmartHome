@@ -717,9 +717,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             SID: $scope.status.SID
         }
     }, function(response) {
-        $scope.comments = response.objects;
-        for (var i = 0; i < $scope.comments.length; i++) {
-            var comment = $scope.comments[i];
+//        $scope.comments = response.objects;
+        for (var i = 0; i < response.objects.length; i++) {
+            var comment = response.objects[i];
             console.log("getting author for comment: " + comment);
             ws.request({
                 type: "get",
@@ -729,7 +729,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 }
             }, function (response) {
                 comment.author = response.object;
-                $scope.comments[i].author = response.object;
+                $scope.comments.push(comment)
+//                $scope.comments[i].author = response.object;
                 $scope.$apply();
             });
         }
