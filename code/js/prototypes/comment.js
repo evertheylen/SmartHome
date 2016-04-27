@@ -1,8 +1,8 @@
 Comment.prototype = new DataType();
 Comment.prototype.constructor = Comment;
-Comment.prototype._key = ["CID", "status_SID"];
+Comment.prototype._key = ["CID"];
 
-function Status(CID, date, date_edited, author_UID, status_SID, text) {
+function Comment(CID, date, date_edited, author_UID, status_SID, text) {
 	this.CID = CID;
 	this.date = date;
 	this.date_edited = date_edited;
