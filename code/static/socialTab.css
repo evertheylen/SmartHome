@@ -124,7 +124,7 @@
 }
 
 .postStatus{
-	height: 40px;
+	height: auto;
 	width: 90%;
 	margin-left: 5%;
 	margin-right: 5%;
@@ -135,11 +135,11 @@
 	flex-direction: column;
 	justify-content: center;
 	display: inline;
-	width: auto;
+	width: 90%;
 }
 
 .postStatus_picture{
 	float: left;
-	height: 40px;
-	width: 40px;
+	height: 10%;
+	width: 10%;
 }
