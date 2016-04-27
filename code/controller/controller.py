@@ -399,8 +399,8 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Group")
             g = await Group.find_by_key(req.metadata["for"]["GID"], self.db)
             await g.check_auth(req)
-            users = await User.raw("SELECT * FROM table_User WHERE table_User.uid in (SELECT table_Membership.user_uid FROM table_Membership WHERE table_Membership.group_gid = {0})".format(req.metadata["for"]["GID"])).all(self.db)
-            await req.answer([u.json_repr() for u in users])
+            memberships = await Membership.get(Membership.group == g.key).all(self.db)
+            await req.answer([m.json_repr() for m in memberships])
 
         @case("Tag")
         async def tag(self, req):

@@ -135,10 +135,6 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
             });
         }
     };
-
-    $scope.fancy_date = function (date) {
-        return date_format(date);
-    };
 });
 
 angular.module("overwatch").directive('myEnter', function() {
@@ -316,7 +312,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
     }
 });
 
-angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout) {
+angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout, graphShare) {
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
@@ -370,6 +366,30 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
     $scope.join_group = null;
+    
+    $scope.$on("joined group", function() {
+      ws.request({
+            type: "get_all",
+            what: "Group",
+        }, function(response) {
+            $scope.groups = response.objects;
+            ws.request({
+                type: "get_all",
+                what: "Group",
+                for: {
+                    what: "User",
+                    UID: $scope.auth_user.UID
+                }
+            }, function(response) {
+                for (i = 0; i< response.objects.length; i++) {
+                    $scope.groups.splice($scope.groups.indexOf(response.objects[i]), 1);
+                };
+                $scope.$apply();
+            });
+            dropDownClick(null, 'select_group', 'dropDownGroup', 'group');
+            $scope.$apply();
+        });
+    });
     
     ws.request({
         type: "get_all",
@@ -478,21 +498,44 @@ angular.module("overwatch").controller("create_groupController", function($scope
     }
 });
 
-angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup) {
+angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup, $location) {
     $rootScope.auth_user = Auth.getUser();
     $scope.group = transferGroup.getGroup();
     
+    $scope.leave = function() {
+        ws.request({
+            "type": "delete",
+            "what":"Membership",
+            "data":{"user_UID": $rootScope.auth_user.UID,
+            "group_GID": $scope.group.GID
+            }
+        }, function (response) {
+            $rootScope.$broadcast("joined group");
+            $location.path('/social/index');
+        });
+    };
     $scope.members = [];
     
     ws.request({
         type: "get_all",
-        what: "User",
+        what: "Membership",
         for: {
             what: "Group",
             GID: $scope.group.GID
         }
     }, function (response) {
-        $scope.members = response.objects;
+        for (var i = 0; i < response.objects.length; i++) {
+            ws.request({
+                type: "get",
+                what: "User",
+                data: {
+                    UID: response.objects[i].user_UID
+                }            
+            }, function (response) {
+                $scope.members.push(response.object);
+                $scope.$apply();
+            });
+        }
         $scope.$apply();
     });
     
@@ -500,9 +543,9 @@ angular.module("overwatch").controller("groupController", function($scope, $root
         $scope.group = transferGroup.getGroup();
         $scope.statuses = [];
         ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.group.wall_WID}}, function(response) {
-        $scope.statuses = response.objects;  
-        $scope.$apply();
-    });
+            $scope.statuses = response.objects;  
+            $scope.$apply();
+        });
 
     });
     $scope.statuses = [];
@@ -661,4 +704,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
         }
     }
+    
+    $scope.fancy_date = function (date) {
+        return date_format(date);
+    };
 });

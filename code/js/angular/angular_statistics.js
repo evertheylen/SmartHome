@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout, $state) {
+angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout, $state, graphShare) {
     $rootScope.$state = $state;
     $rootScope.simple_css = false;  
     $rootScope.auth_user = Auth.getUser();
@@ -1172,6 +1172,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     */
 
     // Graphs
+    $scope.share = function (index) {
+        graphShare.setGraph($scope.graphs[index]);
+    }
+    
     $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
     if (hasClass(layout, "mdl-layout--no-drawer-button")) {
