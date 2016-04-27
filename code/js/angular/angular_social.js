@@ -515,7 +515,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
                 $scope.user_like = like; 
-                if(user_like.positive) {
+                if($scope.user_like.positive) {
                     removeClass(document.getElementById('likes_click'), 'notClicked');
                     addClass(document.getElementById('likes_click'), 'clicked');      
                 }
