@@ -93,12 +93,9 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                             $scope.statuses.push(response.objects[statusIndex]);
                         $scope.$apply();
                     });
-                    $scope.$apply();
                 });
             }
-            $scope.$apply();
         });
-        $scope.$apply();
     });
 
     $scope.post_status = function () {
@@ -509,13 +506,12 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         $scope.comments.splice(index, 1);
     }
 
-    $scope.SID = -1;
     $scope.likes = 0;
     $scope.dislikes = 0;
     var user_like = null;
     
     $scope.user_like = null;
-    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.SID}}, function(response) {
+    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.status.SID}}, function(response) {
         for(i = 0; i < response.objects.length; i++) {
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
