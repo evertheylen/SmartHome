@@ -363,6 +363,17 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 		    }
 		    addClass(document.getElementById("select_share"), "mdl-js-menu");
 		}, 0);
+		
+	$scope.click_select = function() {
+    	removeClass(document.getElementById('select_share').parentNode, 'is-visible');
+	    $timeout(function() {
+		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
+			removeClass(document.getElementById("select_share"), "mdl-js-menu");
+		    }
+		    addClass(document.getElementById("select_share"), "mdl-js-menu");
+		}, 0);
+	}
+		
   	$scope.dropDownClick = function (value, menu, button, ng_model) {
   	        ws.request({
             type: "get_all",
