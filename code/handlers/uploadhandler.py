@@ -54,14 +54,13 @@ def create_UploadHandler(controller):
             
             times = []
             for row in data[1:]:
-                times
+                times.append(int(datetime.strptime(row[0], csv_date_format).timestamp()))
             
             for (i, csv_sensor, sensor) in sensors:
                 values = []
                 for row in data[1:]:
                     value = float(row[i+2])
-                    time = int(datetime.strptime(row[0], csv_date_format).timestamp())
-                    values.append((value, time))
+                    values.append((value, times[i]))
                 
                 controller.logger.info("Inserting for sensor {}".format(sensor.SID))
                 try:
