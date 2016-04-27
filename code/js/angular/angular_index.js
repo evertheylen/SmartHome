@@ -71,7 +71,6 @@ angular.module("overwatch").controller("signupController", function($scope, $roo
 	    			ws.request({type: "login", data: {email: $scope.email, password: $scope.password}}, function(response) {
 				        if (response.success) {	
 					        $rootScope.logged_in = true;
-					        document.getElementById("dlgLogin").close();
 					        $rootScope.auth_user = response.user;
 					        Auth.setUser(response.user);
 					        console.log(response.UID);
