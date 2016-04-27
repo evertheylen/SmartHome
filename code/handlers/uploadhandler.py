@@ -42,7 +42,7 @@ def create_UploadHandler(controller):
             data = list(reader)
             
             sensors = []
-            for i, name in enumerate(data[0][2:-1]):
+            for i, name in enumerate(data[0][2:]):
                 csv_sensor = CsvSensor(name)
                 try:
                     sensor = await Sensor.find_by_key(csv_sensor.ID, controller.db)
@@ -51,19 +51,21 @@ def create_UploadHandler(controller):
                     controller.logger.info("Something went wrong while searching for sensor with ID {}".format(csv_sensor.ID))
                     continue
                 sensors.append((i, CsvSensor(name), sensor))
-                
+            
+            times = []
+            for row in data[1:]:
+                times
+            
             for (i, csv_sensor, sensor) in sensors:
                 values = []
                 for row in data[1:]:
-                    value = row[i+2]
-                    time = datetime.strptime(row[0], csv_date_format).timestamp()
-                    # TODO MAJOR SQL LEAK
-                    values.append((value, time, sensor.SID))
+                    value = float(row[i+2])
+                    time = int(datetime.strptime(row[0], csv_date_format).timestamp())
+                    values.append((value, time))
                 
                 controller.logger.info("Inserting for sensor {}".format(sensor.SID))
-                c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v) for v in values]))
                 try:
-                    await c.exec(controller.db)
+                    await sensor.insert_values(values, controller.db)
                 except SqlError as e:
                     controller.logger.error("Error in database: {}".format(e))
                     controller.logger.error("Moving on...")
