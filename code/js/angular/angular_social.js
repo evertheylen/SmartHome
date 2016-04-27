@@ -398,15 +398,17 @@ angular.module("overwatch").controller("shareController", function($scope, $root
             document.getElementById("dlgShare").close();
         }
 
+        console.log("Checking getGraph");
         // If you are sharing a graph.
-        if(graphShare.getGraph() > -1) {
-             ws.request({
+        if(graphShare.getGraph() != null) {
+            console.log("getGraph is not null");
+            ws.request({
                 type: "add",
                 what: "Graph",
                 data: {
                     GID: graphShare.getGraph()
                 }
-            }, function(response) {
+                }, function(response) {
                 var _date = Date.now() / 1000;
                 var status = new Status(-1, _date, _date, $rootScope.auth_user.UID, $scope.share_type.wall_WID, "Look at my Graph!", response.GID);
                 delete status.SID;
