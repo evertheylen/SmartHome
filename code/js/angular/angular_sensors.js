@@ -479,7 +479,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     }, function(response) {
                         response.object._scopes.push($scope);
                         for (j = 0; j < $scope.tags.length; j++) {
-                            if (response.object.text === $scope.tags[j])
+                            if (response.object.text === $scope.tags[j].text)
                                 return;
                         }
                         $scope.tags.push(response.object);
@@ -535,7 +535,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                             }, function(response) {
                                 response.object._scopes.push($scope);
                                 for (j = 0; j < $scope.tags.length; j++) {
-                                    if (response.object.text === $scope.tags[j])
+                                    if (response.object.text === $scope.tags[j].text)
                                         return;
                                 }
                                 $scope.tags.push(response.object);
