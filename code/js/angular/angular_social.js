@@ -478,9 +478,21 @@ angular.module("overwatch").controller("create_groupController", function($scope
     }
 });
 
-angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup) {
+angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup, $location) {
     $rootScope.auth_user = Auth.getUser();
     $scope.group = transferGroup.getGroup();
+    
+    $scope.leave = function() {
+    ws.request({
+        "type": "delete",
+        "what":"Membership",
+        "data":{"user_UID": $rootScope.auth_user.UID,
+        "group_GID": $scope.group.GID
+        }
+    }, function (response) {
+        $rootScope.$broadcast("joined group");
+        $location.path('/social/index');
+    }
     
     $scope.members = [];
     
@@ -500,9 +512,9 @@ angular.module("overwatch").controller("groupController", function($scope, $root
         $scope.group = transferGroup.getGroup();
         $scope.statuses = [];
         ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.group.wall_WID}}, function(response) {
-        $scope.statuses = response.objects;  
-        $scope.$apply();
-    });
+            $scope.statuses = response.objects;  
+            $scope.$apply();
+        });
 
     });
     $scope.statuses = [];
