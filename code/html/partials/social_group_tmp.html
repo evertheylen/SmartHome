@@ -43,7 +43,7 @@
 		</div>
 		<div class="commentSection {{comments_active ? 'activated' : ''}}" id="comment_section">
 			<div ng-repeat="comment in comments | index track by comment.CID" on-finish-render-comments="ngRepeatFinishedComments" class="comment">
-				<div class="name" ng-bind="comment.name"></div>
+				<div class="name">{{comment.author.first_name + " " + comment.author.last_name}}</div>
 				<div class="text" ng-bind="comment.text"></div>
 				<div class="commentFooter">
 					<div class="date" ng-bind="fancy_date(comment.date)"></div>

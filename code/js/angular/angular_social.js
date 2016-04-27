@@ -887,10 +887,10 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.push_comment = function() {
         if ($scope.new_comment != "") {
-            var comment = {};
-            comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
-            comment.text = $scope.new_comment;
-            comment.date = getCurrentDate();
+            //var comment = {};
+            //comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
+            //comment.text = $scope.new_comment;
+            //comment.date = getCurrentDate();
             var _date = Date.now() / 1000;
             ws.request({
                 type: "add",
@@ -903,12 +903,22 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     text: comment.text                
                 }
             }, function (response) {
-                $scope.comments.push(response.object);
-                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
-                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
-                $scope.new_comment = "";
-                componentHandler.upgradeDom();
-                $scope.$apply();
+                var comment = response.object;
+                ws.request({
+                    type: "get",
+                    what: "User",
+                    data: {
+                        UID: response.object.author_UID
+                    }
+                }, function (response) {
+                    comment.author = response.object            
+                    $scope.comments.push(comment);
+                    removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
+                    removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
+                    $scope.new_comment = "";
+                    componentHandler.upgradeDom();
+                    $scope.$apply();
+                })
             });
         }
     }
