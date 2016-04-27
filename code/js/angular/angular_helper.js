@@ -69,6 +69,7 @@ function date_format(date) {
         mm='0'+mm
     } 
     var today = dd+'/'+mm+'/'+yyyy;*/
+    console.log('Formatting ms: ' + date + ' to: ' + date.toString());
     return date.toString();
 }
     
