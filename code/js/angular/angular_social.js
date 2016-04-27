@@ -390,6 +390,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                 };
                 $scope.$apply();
             });
+            dropDownClick(null, 'select_group', 'dropDownGroup', 'group');
             $scope.$apply();
         });
     });
