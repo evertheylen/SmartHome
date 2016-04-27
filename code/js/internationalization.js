@@ -122,4 +122,5 @@ var html_strings = {
     "post_group": ["Post in group", "Gooi het in de groep"],
     "own_status" : ["Own status", "Eigen status"],
     "friend_status" : ["Status from ", "Status van "],
+    "posted_on" : ["Posted on: ", "Geplaatst op: "],
 };
