@@ -218,7 +218,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		removeClass(document.getElementsByClassName('mdl-layout__obfuscator')[0], 'is-visible');
 	}
 	
-	if (Auth.getLanguage() === "") {
+	if (Auth.getLanguage() != 0 || Auth.getLanguage() != 1) {
 		Auth.setLanguage(0);
 	}
 	
