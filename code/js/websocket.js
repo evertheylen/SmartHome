@@ -166,6 +166,8 @@ function error_response(response) {
 function add_response(response) {
 	var type = response["what"];
 	var data = response["data"];
+    if (type == "Graph") 
+        return data;
 	var object = getFilledObject(type, data);
 	cache[type].push({key: getKey(type, data), object: object});
 	return {success: true, for: response["for"], object: object};
