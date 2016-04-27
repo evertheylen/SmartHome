@@ -508,7 +508,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.likes = 0;
     $scope.dislikes = 0;
-    $scope.user_like;
+    $scope.user_like = new Like("neutral", $scope.status.SID, $rootScope.auth_user.UID);
 
     ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.status.SID}}, function(response) {
         for(i = 0; i < response.objects.length; i++) {
