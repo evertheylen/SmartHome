@@ -326,6 +326,10 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     ws.request({
         type: "get_all",
         what: "Group",
+        for: {
+            what: "User",
+            UID: $scope.auth_user.UID
+        }
     }, function(response) {
         $scope.groups = response.objects;
         $scope.$apply();
@@ -348,10 +352,18 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 					    toChange.innerHTML = $scope.i18n("pick_share");
 					    break;
 			    	} else {
-			    	    toChange.innerHTML = value;
+			    	    toChange.innerHTML = value.title;
 			    	}
 				    $scope.share_type = value;
 				    break;
+		    case 'wall':
+		            if(value === null){
+		                toChange.innerHTML = $scope.i18n("pick_share");
+		                break;
+		            } else {
+		                toChange.innerHTML = value;
+		            }
+		            $scope.share_type = $rootScope.auth_user;
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
