@@ -27,4 +27,7 @@ class Line:
 
 class Graph(Line):
     def json_repr(self):
-        return {}
+        return {"grouped_by": self.grouped_by,
+                "sensors": self.sensors,
+                "values": [list(v) for v in self.values],
+                "timespan": self.timespan}
