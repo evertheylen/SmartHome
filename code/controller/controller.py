@@ -476,6 +476,13 @@ class Controller(metaclass=MetaController):
             await s.delete(self.db)
             await req.answer({"status": "success"})
 
+        @case("Membership")
+        async def membership(self, req):
+            m = await Membership.find_by_key((req.data["user_UID"],req.data["group_GID"]), self.db)
+            await m.check_auth(req)
+            await m.delete(self.db)
+            await req.answer({"status": "success"})
+
         @case("Sensor")
         async def sensor(self, req):
             s = await Sensor.find_by_key(req.data["SID"], self.db)
