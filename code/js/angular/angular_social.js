@@ -379,7 +379,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                  ws.request({
                     type: "add",
                     what: "Status",
-                    data: status.toJSON();
+                    data: status.toJSON()
                 }, function(response) {
                     $scope.$apply();
                 });                 
