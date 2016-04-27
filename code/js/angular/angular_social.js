@@ -11,20 +11,12 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     ws.request({
         type: "get_all",
         what: "Group",
+        for: {
+            what: "User",
+            UID: $scope.auth_user.UID
+        }
     }, function(response) {
         $scope.groups = response.objects;
-        for (var i= 0; i< $scope.groups.length; i++) {
-/*            ws.request({
-                type: "get",
-                what: "Membership",
-                data: {
-                    user_UID: $rootScope.auth_user.UID,
-                    group_GID: $scope.groups[i].GID
-                }
-            }, function(response) {
-                if (
-            });*/
-        }
         $scope.$apply();
     });
     
@@ -370,6 +362,19 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
         what: "Group",
     }, function(response) {
         $scope.groups = response.objects;
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            for (i = 0; i< response.objects.length; i++) {
+                $scope.groups.splice($scope.groups.indexOf(response.objects[i]), 1);
+            };
+            $scope.$apply();
+        });
         $scope.$apply();
     });
     
