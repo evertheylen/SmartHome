@@ -483,17 +483,17 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     $scope.group = transferGroup.getGroup();
     
     $scope.leave = function() {
-    ws.request({
-        "type": "delete",
-        "what":"Membership",
-        "data":{"user_UID": $rootScope.auth_user.UID,
-        "group_GID": $scope.group.GID
-        }
-    }, function (response) {
-        $rootScope.$broadcast("joined group");
-        $location.path('/social/index');
-    });
-    
+        ws.request({
+            "type": "delete",
+            "what":"Membership",
+            "data":{"user_UID": $rootScope.auth_user.UID,
+            "group_GID": $scope.group.GID
+            }
+        }, function (response) {
+            $rootScope.$broadcast("joined group");
+            $location.path('/social/index');
+        });
+    };
     $scope.members = [];
     
     ws.request({
