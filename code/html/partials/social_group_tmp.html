@@ -23,6 +23,7 @@
 			<button id="important_btn-{{status.SID}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important(status.SID)">
 			    <i id="important_icon-{{status.SID}}" class="material-icons white">grade</i>
 		    </button>
+		    <h2 class="mdl-card__title-text" style="font-size: 12px">{{i18n('posted_on')}} {{fancy_date(status.date_edited*1000)}} </h2>
 		</div>
 		<canvas id="line-{{status.SID}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
 		<div class="mdl-card__supporting-text" ng-bind="status.text">
@@ -32,7 +33,8 @@
 			<a id="dislikes_click-{{status.SID}}" class="notClicked" ng-click="add('dislikes');"><i class="material-icons md-15 clickable">thumb_down</i> {{dislikes}}</a>
 			<a class="spacer"></a>
 			<!-- TODO change this to hide comments when show comments is pressed -->
-			<a id="btnShowComments-{{status.SID}}" ng-click="comments_active = !comments_active;" ng-bind="i18n('show_comments')"></a>
+			<button id="btnShowComments-{{status.SID}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="comments_active = !comments_active;" ng-bind="i18n('show_comments')"></button>
+			<button id="btnDeleteStatus-{{status.SID}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="delete_status();" ng-bind="i18n('delete_status')" ng-show="auth_user.UID === status.author_UID"></button>
 		</div>
 		<div class="commentSection {{comments_active ? 'activated' : ''}}" id="comment_section">
 			<div ng-repeat="comment in comments | index track by $index" on-finish-render-comments="ngRepeatFinishedComments" class="comment">
