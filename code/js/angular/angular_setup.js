@@ -106,6 +106,18 @@ angular.module("overwatch").factory('Auth', function($rootScope, cssInjector) {
 	}
 });
 
+angular.module("overwatch").factory('GraphShare', function($rootScope) {
+	return {
+		setGraph : function(graph) {
+			setCookie("graph", graph, 365);
+		},
+		
+		getGraph : function() {
+            return getCookie("graph");
+		}
+	}
+});
+
 angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http, $state, transferProfile) {
 	$rootScope.$state = $state;
 	$scope.i18n = function(input) {

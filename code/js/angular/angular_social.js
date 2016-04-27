@@ -312,7 +312,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
     }
 });
 
-angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout) {
+angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout, graphShare) {
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
