@@ -133,20 +133,6 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
     $scope.fancy_date = function (date) {
         return date_format(date);
     };
-    
-    $scope.delete_status = function () {
-        ws.request({
-            type: "delete",
-            what: "Status",
-            data: {
-                SID: $scope.status.SID
-            }
-        }, function (response) {
-            $scope.statuses.splice($scope.statuses.indexOf($scope.status), 1);
-            $scope.$apply();
-        });
-    }
-
 });
 
 angular.module("overwatch").directive('myEnter', function() {
@@ -526,6 +512,19 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
         }, function(response) {
             $scope.author = response.object;
+            $scope.$apply();
+        });
+    }
+    
+    $scope.delete_status = function () {
+        ws.request({
+            type: "delete",
+            what: "Status",
+            data: {
+                SID: $scope.status.SID
+            }
+        }, function (response) {
+            $scope.statuses.splice($scope.statuses.indexOf($scope.status), 1);
             $scope.$apply();
         });
     }
