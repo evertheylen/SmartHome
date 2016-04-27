@@ -10,16 +10,16 @@
     <div ng-repeat="user in users | filter:search_friend track by user.UID" on-finish-render="ngRepeatFinished">
 		<div class="pictureWithInfo--container">
 			<img class="pictureWithInfo" src="http://www.gravatar.com/avatar/{{get_hash(user.email)}}?d=identicon&s=50" />
-		</div>
-		<div class="actionList">
-			<!--<div class="friendsAction">
-				post on friends wall
+			<div class="actionList">
+				<!--<div class="friendsAction">
+					post on friends wall
+				</div>
+				<div class="friendsAction">
+					view profile
+				</div>-->
+				<div>{{user.first_name}} {{user.last_name}}</div>
+		  		<div>{{user.email}}</div>
 			</div>
-			<div class="friendsAction">
-				view profile
-			</div>-->
-			<div>{{user.first_name}} {{user.last_name}}</div>
-      		<div>{{user.email}}</div>
 		</div>
 		<button id="btnAddFriend" ng-click="add_friend($index);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style="margin-top: 5px; margin-bottom: 20px;" ng-bind="i18n('add_friend')">
 		</button>
