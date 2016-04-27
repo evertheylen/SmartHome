@@ -345,6 +345,12 @@ angular.module("overwatch").controller("shareController", function($scope, $root
             }
         }, function(response) {
             $scope.groups = response.objects;
+                $timeout(function() {
+		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
+			removeClass(document.getElementById("select_share"), "mdl-js-menu");
+		    }
+		    addClass(document.getElementById("select_share"), "mdl-js-menu");
+		}, 0);
             $scope.$apply();
         });   
     });
