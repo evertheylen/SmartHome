@@ -482,6 +482,20 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     $rootScope.auth_user = Auth.getUser();
     $scope.group = transferGroup.getGroup();
     
+    $scope.members = [];
+    
+    ws.request({
+        type: "get_all",
+        what: "User",
+        for: {
+            what: "Group",
+            GID: $scope.group.GID
+        }
+    }, function (response) {
+        $scope.members = response.objects;
+        $scope.$apply();
+    });
+    
     $scope.$on('GROUP CHANGED', function () {
         $scope.group = transferGroup.getGroup();
         $scope.statuses = [];
