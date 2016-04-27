@@ -118,3 +118,35 @@
 	flex-direction: column;
 	justify-content: center;
 }
+
+.groupTitle{
+	text-align: center;
+}
+
+.postStatus{
+	height: auto;
+	width: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+	display: flex;
+}
+
+.txtfield_StatusGroup{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	display: inline;
+	width: 90%;
+	flex-grow: 100;
+}
+
+.postStatus_picture{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	float: left;
+	height: 50px;
+	width: 50px;
+	margin-top: auto;
+	margin-bottom: auto;
+}

@@ -27,13 +27,13 @@ tag_add
 {"type": "add", "ID": 1, "what": "Tag", "for": {"what": "Sensor", "SID": "1"}, "data": {"text":"Keuken"}}
 
 group_add
-{"type":"add","what":"Group","data":{"title":"Secret group","description":"No one here","wall_WID":1},"ID":3}
+{"type":"add","what":"Group","data":{"public":"True","title":"Secret group","description":"No one here","wall_WID":1},"ID":3}
 
 wall_add
 {"type":"add","what":"Wall","data":{"is_user":"True"},"ID":3}
 
 status_add
-{"type":"add","what":"Status","data":{"SID":1,"date":12,"date_edited":12,"author_UID":1,"wall_WID":2},"ID":4}
+{"type":"add","what":"Status","data":{"text":"Mooi, de wereld is mooi, zo bie ba boe ba beestig mooi!","date":12,"date_edited":12,"author_UID":1,"wall_WID":2},"ID":4}
 
 like_add
 {"type":"add","what":"Like","data":{"positive": "False","status_SID":1,"user_UID":1},"ID":3}

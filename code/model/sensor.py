@@ -36,7 +36,7 @@ class Sensor(RTOwEntity):
                 interesting_values.append(value)
                 self.last_value = value
             elif value[1] != self.last_value[0]:
-                self.last_value[1] = value[1]
+                self.last_value = (self.last_value[0], value[1])
             
         c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v+(self.SID,)) for v in interesting_values]))
         await c.exec(db)
