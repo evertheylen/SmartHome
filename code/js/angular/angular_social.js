@@ -706,6 +706,11 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
         $scope.$apply();
     });
     
+    $scope.fancy_date = function () {   
+        console.log("formatting " + $scope.comment.date_edited);
+        return date_format($scope.comment.date_edited);
+    };
+    
     componentHandler.upgradeDom();
 });
 

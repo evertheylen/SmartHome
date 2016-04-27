@@ -46,7 +46,7 @@
 				<div class="name">{{comment.author.first_name + " " + comment.author.last_name}}</div>
 				<div class="text" ng-bind="comment.text"></div>
 				<div class="commentFooter">
-					<div class="date" ng-bind="fancy_date(comment.date)"></div>
+					<div class="date" ng-bind="fancy_date()"></div>
 					<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.CID)"></div>
 				</div>
 			</div>
