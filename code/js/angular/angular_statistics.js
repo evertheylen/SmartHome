@@ -1204,7 +1204,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor, bool: aggregate_eur_per_unit]
     */
-    $scope.share = function () {
+    $scope.share = function (index) {
 	    graphShare.setGraph($scope.graphs[index].GID);
 	    document.getElementById("dlgShare").showModal();    
 	}
