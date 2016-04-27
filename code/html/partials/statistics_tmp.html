@@ -130,6 +130,16 @@
 					        </tr>
 					    </thead>
 					    <tbody>
+					        <tr>
+					            <td class="mdl-data-table__cell--non-numeric">
+					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-no_tags" for="list-checkbox-no_tags">
+					                        <input type="checkbox" id="list-checkbox-no_tags" class="mdl-checkbox__input" ng-model="select_no_tags" ng-change="checkStatus('notag', -1, select_no_tags)"/>
+					                    </label>
+					                </span>
+					                <span style="display: inline-block;" ng-bind="i18n('no_tag')"></span>
+					            </td>
+					        </tr>
 					        <tr ng-repeat="tag in tags" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
