@@ -27,17 +27,18 @@ class Sensor(RTOwEntity):
     
         # 'compress' the values
         interesting_values = []
+
         if self.last_value is None:
             self.last_value = values[0]
-        
-        for value in values:
-            if value[0] != self.last_value[0]:
-                interesting_values.append(self.last_value)
-                interesting_values.append(value)
-                self.last_value = value
-            elif value[1] != self.last_value[0]:
-                self.last_value = (self.last_value[0], value[1])
+            interesting_values.append(self.last_value)
             
+        for value in values:
+            # no more "connecting" dots, each dot is kind of a line
+            # also easier to integrate
+            if value[0] != self.last_value[0]:
+                self.last_value = value
+                interesting_values.append(self.last_value)
+        
         c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v+(self.SID,)) for v in interesting_values]))
         await c.exec(db)
         
