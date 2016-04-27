@@ -1,6 +1,6 @@
 <!-- Group field -->
 <div ng-controller="groupController">
-	<span>Welcome in group: {{group.title}}</span>
+	<span>{{i18n('welcome_group')}}{{group.title}}</span>
     <div id="txtfield_StatusGroup" class="mdl-textfield mdl-js-textfield">
         <input class="mdl-textfield__input" ng-model="status_text" type="text" id="input_StatusTextGroup" name="statusText">
         <label class="mdl-textfield__label" for="input_StatusTextGroup" ng-bind="i18n('input_status_group')"></label>
@@ -8,6 +8,8 @@
     <button id="btnStatusPostGroup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
                     style="width: 45%; display: inline; margin-left: 5%;" ng-click="post_status()" ng-bind="i18n('post_group')">
     </button>
+    
+    <span ng-bind="i18n('members')"></span>
 <div ng-repeat="status in statuses | reverse track by status.SID" on-finish-render="ngRepeatFinished" ng-controller="statusController" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
 		<div class="mdl-card__title">
 			<h2 class="mdl-card__title-text" >{{auth_user.UID === status.author_UID ? i18n('own_status') : i18n('friend_status') + author.first_name + " " + author.last_name}}</h2>
