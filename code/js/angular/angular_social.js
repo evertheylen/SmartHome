@@ -331,8 +331,6 @@ angular.module("overwatch").controller("shareController", function($scope, $root
         $scope.$apply();
     });
     
-    $scope.share_type = null;
-    
     $timeout(function() {
 		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
 			removeClass(document.getElementById("select_share"), "mdl-js-menu");
@@ -348,19 +346,10 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 					    toChange.innerHTML = $scope.i18n("pick_share");
 					    break;
 			    	} else {
-			    	    toChange.innerHTML = value.title;
+			    	    toChange.innerHTML = value;
 			    	}
 				    $scope.share_type = value;
 				    break;
-		    case 'wall':
-		            if (value === null) {
-		                toChange.innerHTML = $scope.i18n('pick_share');
-		                break;
-		            } else {
-		                toChange.innerHTML = value;
-		            }
-		            $scope.share_type = $rootScope.auth_user;
-		            break;
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
@@ -373,6 +362,29 @@ angular.module("overwatch").controller("shareController", function($scope, $root
         // TODO!!
         if ($scope.shareForm.$valid) {
             document.getElementById("dlgShare").close();
+        }
+
+        // If you are sharing a graph.
+        if(graphShare.getGraph() > -1) {
+             ws.request({
+                type: "add",
+                what: "Graph",
+                data: {
+                    GID: graphShare.getGraph()
+                }
+            }, function(response) {
+                var _date = Date.now() / 1000;
+                var status = new Status(-1, _date, _date, $rootScope.auth_user.UID, $scope.share_type.wall_WID, "Look at my Graph!", response.GID);
+                delete status.SID;
+                 ws.request({
+                    type: "add",
+                    what: "Status",
+                    data: status.toJSON();
+                }, function(response) {
+                    $scope.$apply();
+                });                 
+                $scope.$apply();
+            });                       
         }
     }
     
