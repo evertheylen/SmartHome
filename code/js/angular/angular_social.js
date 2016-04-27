@@ -718,7 +718,18 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         }
     }, function(response) {
         $scope.comments = response.objects;
-        $scope.$apply();
+        for (i = 0; i < $scope.comments.length; i++) {
+            ws.request({
+                type: "get",
+                what: "User",
+                data: {
+                    UID: response.object.author_UID
+                }
+            }, function (response) {
+                $scope.comments[i].author = response.object;
+                $scope.$apply();
+            };
+        }
     });
 
     if ($scope.status.graph_GID != null) {
