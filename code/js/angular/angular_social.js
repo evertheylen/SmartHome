@@ -44,6 +44,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         transferGroup.setGroup(group);
         $rootScope.$broadcast('GROUP CHANGED');
     };
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").factory('transferGroup', function($rootScope) {
@@ -135,6 +136,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
             });
         }
     };
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").directive('myEnter', function() {
@@ -177,6 +179,7 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
             $scope.$apply();
         });
     });
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth, transferProfile) {
@@ -250,6 +253,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
             $scope.$apply();
         });
     }
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope, Auth) {
@@ -310,6 +314,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
             $scope.$apply();
         });
     }
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout, graphShare) {
@@ -360,6 +365,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     }
     
     $scope.dropDownClick(null, 'select_share', 'dropDownShare','share');
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("join_groupController", function($scope, $rootScope, $timeout, Auth) {
@@ -460,6 +466,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     $scope.back = function () {
         document.getElementById("dlgJoinGroup").close();
     }
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope, Auth) {
@@ -496,6 +503,7 @@ angular.module("overwatch").controller("create_groupController", function($scope
     $scope.back = function() {
         document.getElementById('dlgGroup').close();
     }
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup, $location) {
@@ -575,6 +583,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
             });
         }
     };
+    componentHandler.upgradeDom();
 });
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
@@ -708,4 +717,5 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.fancy_date = function (date) {
         return date_format(date);
     };
+    componentHandler.upgradeDom();
 });
