@@ -106,7 +106,7 @@ angular.module("overwatch").factory('Auth', function($rootScope, cssInjector) {
 	}
 });
 
-angular.module("overwatch").factory('GraphShare', function($rootScope) {
+angular.module("overwatch").factory('graphShare', function($rootScope) {
 	return {
 		setGraph : function(graph) {
 			setCookie("graph", graph, 365);
