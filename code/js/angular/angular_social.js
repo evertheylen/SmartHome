@@ -912,7 +912,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             //comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
             //comment.text = $scope.new_comment;
             //comment.date = getCurrentDate();
-            var _date = Math.round(Date.now() / 1000);
+            var _date = Date.now();
             ws.request({
                 type: "add",
                 what: "Comment",
