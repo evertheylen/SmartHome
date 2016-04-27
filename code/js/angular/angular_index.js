@@ -60,7 +60,7 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 	componentHandler.upgradeDom();
 });
 
-angular.module("overwatch").controller("signupController", function($scope) {
+angular.module("overwatch").controller("signupController", function($scope, $rootScope, $location, Auth) {
 	$scope.auth_user = null;
 	$scope.wrong_signup = false;
 	$scope.signup = function() {
