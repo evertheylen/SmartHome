@@ -829,9 +829,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor, bool: aggregate_eur_per_unit]
     */
     $scope.share = function (index) {
+        console.log("Setting cookie to: " + $scope.graphs[index].GID);
 	    graphShare.setGraph($scope.graphs[index].GID);
 	    document.getElementById("dlgShare").showModal();    
 	}
+
     $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
     if (hasClass(layout, "mdl-layout--no-drawer-button")) {

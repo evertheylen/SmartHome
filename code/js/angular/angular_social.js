@@ -400,7 +400,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 
         console.log("Checking getGraph");
         // If you are sharing a graph.
-        if(graphShare.getGraph() != null) {
+        if(graphShare.getGraph() > -1) {
             console.log("getGraph is not null");
             ws.request({
                 type: "add",
