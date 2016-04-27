@@ -534,6 +534,10 @@ class Controller(metaclass=MetaController):
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
 
+    @handle_ws_type("create_graph")
+    @require_user_level(1)
+    async def handle_create_graph(self, req):
+        pass
 
     @handle_ws_type("get_values")
     @require_user_level(1)
@@ -594,27 +598,3 @@ class Controller(metaclass=MetaController):
             graphs.append(graph)
 
         await req.answer([g.json_repr() for g in graphs])
-
-
-# Some day, this will be in Model
-class Graph:
-    def __init__(self, grouped_by, sensors, timespan, cls):
-        self.grouped_by = grouped_by
-        # TODO wtf @grouped_by
-        self.sensors = tuple(sensors)
-        self.timespan = timespan
-        self.cls = cls
-        self.values = []
-
-    async def fill(self, db):
-        req = RawSql("SELECT time, avg(value) AS value FROM {s.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(self.sensors)), {
-            "start": self.timespan["start"],
-            "end": self.timespan["end"],
-        })
-        result = await req.exec(db)
-        self.values = result.raw_all()
-
-    def json_repr(self):
-        return {"grouped_by": self.grouped_by,
-                "sensors": self.sensors,
-                "values": [list(v) for v in self.values]}
