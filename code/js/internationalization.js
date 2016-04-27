@@ -116,6 +116,7 @@ var html_strings = {
     "until" : ["until", "tot"],
     "input_status" : ["How are you feeling today?", "Wat ben je aan het doen?"],
     "post" : ["Post", "Plaats"],
+    "delete_status" : ["Delete status", "Status verwijderen"],
     "group" : ["Group", "Groep"],
     "pick_group" : ["Pick group", "Kies een groep"],
     "input_status_group": ["What do you want to share with the group?", "Wat ben je aan het doen?"],
