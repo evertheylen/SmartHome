@@ -135,10 +135,6 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
             });
         }
     };
-
-    $scope.fancy_date = function (date) {
-        return date_format(date);
-    };
 });
 
 angular.module("overwatch").directive('myEnter', function() {
@@ -708,4 +704,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
         }
     }
+    
+    $scope.fancy_date = function (date) {
+        return date_format(date);
+    };
 });
