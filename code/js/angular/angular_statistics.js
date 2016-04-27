@@ -628,8 +628,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         for (j=0; j < $scope.tags.length; j++) {
             if ($scope.select_tags[i]) 
                 tag_IDs.push($scope.tags[i].text);
-        }    
-        if(tag_IDs.length === 0) 
+        }   
+        if($scope.select_no_tags) 
             tag_IDs.push("$NOTAGS$");
 
         // Send a request dependant on the aggregation type.
