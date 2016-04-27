@@ -4,7 +4,7 @@ var currentId = 0; // Current request ID.
 var requests = new Queue();  // Queue for requests that are waiting to be sent to the server.
 var reconnectLimit = 10; // The maximum amount of times a websocket is allowed to reconnect.
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
-var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Group, Membership];
+var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Group, Membership, Graph];
 var errors = [];
 
 // Used to avoid duplicates of the same object. 
@@ -19,6 +19,7 @@ var cache = {
     Friendship: [],
 	Group: [],
     Membership: [],
+    Graph: [],
 
 	searchKey: function(type, key) {
 		var array = cache[type];
@@ -195,7 +196,10 @@ function get_all_response(response) {
 }
 
 function get_values_response(response) {
-    return response["data"];
+	var type = response["what"];
+	var data = response["data"];
+	var key = getKey(type, data);  
+	return getFilledObject("Graph", data);
 }
 
 function edit_response(response) {
