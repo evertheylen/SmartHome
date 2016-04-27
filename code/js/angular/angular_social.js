@@ -608,8 +608,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     ws.request({
         type: "get_all",
         what: "Comment",
-        data: {
-            SID: $scope.status.SID
+        for: {
+            what: "Status",
+            status_SID: $scope.status.SID
         }
     }, function(response) {
         $scope.comments = response.objects;
@@ -634,7 +635,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             type: "delete",
             what: "Comment",
             data: {
-                SID: $scope.status.SID
+                status_SID: $scope.status.SID
             }
         }, function (response) {
             $scope.comments.splice(index, 1);
@@ -733,7 +734,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     author_UID: Auth.getUser().UID,
                     date: Math.round(Date.now() / 1000),
                     date_edited: Math.round(Date.now() / 1000),
-                    SID: $scope.status.SID,
+                    status_SID: $scope.status.SID,
                     text: comment.text                
                 }
             }, function (response) {
