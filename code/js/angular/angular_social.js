@@ -610,7 +610,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         what: "Comment",
         for: {
             what: "Status",
-            status_SID: $scope.status.SID
+            SID: $scope.status.SID
         }
     }, function(response) {
         $scope.comments = response.objects;

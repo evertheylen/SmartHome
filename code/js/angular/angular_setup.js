@@ -160,6 +160,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	});
 	
 	$rootScope.share = function() {
+	graphShare.setGraph($scope.graphs[index].GID);
 	document.getElementById("dlgShare").showModal();
 	}
 	
