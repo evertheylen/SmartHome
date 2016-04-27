@@ -64,8 +64,9 @@ def create_UploadHandler(controller):
             for (i, csv_sensor, sensor) in sensors:
                 values = []
                 for j, row in enumerate(data[1:]):
-                    value = float(row[i+2])
-                    values.append((value, times[j]))
+                    value = (float(row[i+2]), times[j])
+                    print(value)
+                    values.append(value)
                 
                 controller.logger.info("Inserting for sensor {}".format(sensor.SID))
                 try:
