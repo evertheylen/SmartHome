@@ -718,7 +718,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         }
     }, function(response) {
         $scope.comments = response.objects;
-        for (i = 0; i < $scope.comments.length; i++) {
+        for (var i = 0; i < $scope.comments.length; i++) {
             ws.request({
                 type: "get",
                 what: "User",
