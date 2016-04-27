@@ -57,7 +57,7 @@ function getCurrentDate() {
 }
 
 function date_format(date) {
-    /*var today = date;
+    today = new Date(date);
     var dd = today.getDate();
     var mm = today.getMonth()+1;
 
@@ -68,11 +68,9 @@ function date_format(date) {
     if(mm<10){
         mm='0'+mm
     } 
-    var today = dd+'/'+mm+'/'+yyyy;*/
-    new_date = new Date(date);
-    str_date = new_date.toString("dd/MMM/yyyy");
-    console.log('Formatting ms: ' + date + ' to: ' + str_date);
-    return str_date;
+    var today = dd+'/'+mm+'/'+yyyy;
+    console.log(today);
+    return today;
 }
     
 function getIndexOfObjWithAttribute(array, attr, value) {
