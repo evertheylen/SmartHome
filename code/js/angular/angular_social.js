@@ -692,6 +692,23 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     componentHandler.upgradeDom();
 });
 
+angular.module("overwatch").controller("commentController", function ($scope, $rootScope, Auth) {
+    $rootScope.auth_user = Auth.getUser();
+    $scope.author = null;
+    ws.request({
+        type: "get",
+        what: "User",
+        data: {
+            UID: $scope.comment.author_UID
+        }
+    }, function(response) {
+        $scope.comment.author = response.object;
+        $scope.$apply();
+    });
+    
+    componentHandler.upgradeDom();
+}
+
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
     $rootScope.auth_user = Auth.getUser();
     $scope.comments = [];
@@ -717,23 +734,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             SID: $scope.status.SID
         }
     }, function(response) {
-//        $scope.comments = response.objects;
-        for (var i = 0; i < response.objects.length; i++) {
-            var comment = response.objects[i];
-            console.log("getting author for comment: " + comment);
-            ws.request({
-                type: "get",
-                what: "User",
-                data: {
-                    UID: comment.author_UID
-                }
-            }, function (response) {
-                comment.author = response.object;
-                $scope.comments.push(comment)
-//                $scope.comments[i].author = response.object;
-                $scope.$apply();
-            });
-        }
+        $scope.comments = response.objects;
     });
 
     if ($scope.status.graph_GID != null) {
@@ -919,21 +920,12 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 }
             }, function (response) {
                 var comment = response.object;
-                ws.request({
-                    type: "get",
-                    what: "User",
-                    data: {
-                        UID: response.object.author_UID
-                    }
-                }, function (response) {
-                    comment.author = response.object            
-                    $scope.comments.push(comment);
-                    removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
-                    removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
-                    $scope.new_comment = "";
-                    componentHandler.upgradeDom();
-                    $scope.$apply();
-                })
+                $scope.comments.push(comment);
+                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
+                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
+                $scope.new_comment = "";
+                componentHandler.upgradeDom();
+                $scope.$apply();
             });
         }
     }
