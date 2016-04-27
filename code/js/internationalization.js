@@ -65,6 +65,7 @@ var html_strings = {
     "close" : ["Close", "Sluiten"],
     "delete_comment" : ["Delete comment", "Comment verwijderen"],
     "show_comments" : ["Show comments", "Comments tonen"],
+    "hide_comments" : ["Hide comments", "Comments verbergen"],
     "comment_status" : ["Comment on this status...", "Comment op deze status..."],
     "find_friends" : ["Find friends", "Vrienden zoeken"],
     "create_group" : ["Create group", "Groep maken"],

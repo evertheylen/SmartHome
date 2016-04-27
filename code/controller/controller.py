@@ -450,6 +450,7 @@ class Controller(metaclass=MetaController):
             await s.update(self.db)
             await req.answer(s.json_repr())
 
+        # TODO doesnt work properly
         @case("Like")
         async def like(self, req):
             l = await Like.find_by_key((req.data["status_SID"], req.data["user_UID"]), self.db)
