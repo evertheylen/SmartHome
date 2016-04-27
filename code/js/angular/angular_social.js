@@ -492,7 +492,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     }, function (response) {
         $rootScope.$broadcast("joined group");
         $location.path('/social/index');
-    }
+    });
     
     $scope.members = [];
     
