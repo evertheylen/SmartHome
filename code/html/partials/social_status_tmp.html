@@ -32,7 +32,7 @@
 			<a id="dislikes_click-{{status.SID}}" class="notClicked" ng-click="add('dislikes');"><i class="material-icons md-15 clickable">thumb_down</i> {{dislikes}}</a>
 			<a class="spacer"></a>
 			<!-- TODO change this to hide comments when show comments is pressed -->
-			<button id="btnShowComments-{{status.SID}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="comments_active = !comments_active;">{{comments_active ? i18n('show_comments') : i18n('hide_comments')}}</button>
+			<button id="btnShowComments-{{status.SID}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="comments_active = !comments_active;">{{comments_active ? i18n('hide_comments') : i18n('show_comments')}}</button>
 			<button id="btnDeleteStatus-{{status.SID}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="delete_status();" ng-bind="i18n('delete_status')" ng-show="auth_user.UID === status.author_UID"></button>
 		</div>
 		<div class="commentSection {{comments_active ? 'activated' : ''}}" id="comment_section">
