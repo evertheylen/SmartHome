@@ -32,6 +32,16 @@ angular.module("overwatch").controller("adminController", function($scope, $root
     $scope.aggregate_by_user = true;
 
     $scope.sensors = [];
+    ws.request({
+      type: "get_all",
+      what: "Sensor",
+    }, function(response) {
+        for (var i= 0; i < response.objects.length; i++)
+            response.objects[i]._scopes.push($scope);
+        $scope.sensors = response.objects;
+        $scope.$apply();
+    });    
+
     $scope.users = [];
     ws.request({
       type: "get_all",
@@ -44,23 +54,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         for (var i= 0; i < response.objects.length; i++)
             response.objects[i]._scopes.push($scope);
         $scope.users = response.objects;
-            
-        for (var userIndex = 0; userIndex < $scope.users.length; userIndex++) {
-            ws.request({
-              type: "get_all",
-              what: "Sensor",
-              for: {
-                  what: "User",
-                  UID: $scope.users[userIndex].UID
-              }
-            }, function(response) {
-                for (var i= 0; i < response.objects.length; i++) {
-                    response.objects[i]._scopes.push($scope);
-                    $scope.sensors.push(response.objects[i]);
-                }
-                $scope.$apply();
-            });
-        }
         $scope.$apply();
     });
     $scope.select_users = [];
@@ -187,21 +180,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                     graph.labels.push("year " + i / 365);
         }
 
-        ws.request({
-          type: "get_all",
-          what: "Sensor",
-          for: {
-              what: "User",
-              UID: $rootScope.auth_user.UID
-          }
-        }, function(response) {
-            for (var i= 0; i < response.objects.length; i++) {
-                response.objects[i]._scopes.push($scope);
-                $scope.users = response.objects;
-                $scope.$apply();
-            }
-        });
-
         var sensor_SIDs = [];
         var user_UIDs = [];
         for (i = 0; i < final_sensors.length; i++)
@@ -239,11 +217,9 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         } else {
             ws.request({
                 type: "get_values",
-                group_by: [],
-                where: [{
-                    field: "SID",
-                    op: "in",
-                    value: sensor_SIDs
+                group_by: [{
+                  	"what": "Sensor",
+                  	"IDs": sensor_SIDs
                 }],
                 timespan: {
                     valueType: valueType,
@@ -262,6 +238,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             });    
         }
 
+        $scope.graphs = [];
         $scope.graphs.push(graph);
 
         // Graphs

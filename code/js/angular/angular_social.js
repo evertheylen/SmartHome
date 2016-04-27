@@ -75,21 +75,27 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                 if(friendships[i].user1_UID === $rootScope.auth_user.UID)
                     friend_UID = friendships[i].user2_UID;
                 ws.request({
-                    type: "get_all",
-                    what: "Status",
-                    for: {
-                      what: "User",
-                      UID: friend_UID
+                    type: "get",
+                    what: "User",
+                    data: {
+                        UID: friend_UID
                     }
                 }, function(response) {
-                    for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
-                        $scope.statuses.push(response.object[statusIndex]);
-                    $scope.$apply();
+                    ws.request({
+                        type: "get_all",
+                        what: "Status",
+                        for: {
+                          what: "Wall",
+                          WID: response.object.wall_WID
+                        }
+                    }, function(response) {
+                        for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
+                            $scope.statuses.push(response.objects[statusIndex]);
+                        $scope.$apply();
+                    });
                 });
             }
-            $scope.$apply();
         });
-        $scope.$apply();
     });
 
     $scope.post_status = function () {
@@ -262,7 +268,6 @@ angular.module("overwatch").controller("find_friendsController", function($scope
                       $scope.users.splice(j,1);
                   }
                 }
-                //$scope.friends.push(friendships[i].user2_UID);
                 continue;
             }
             for (j=0;j < $scope.users.length; j++) {
@@ -384,7 +389,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                 what : "Membership",
                 data : {
                     status: 'MEMBER',
-                    last_change: Date.now() / 1000,
+                    last_change: Math.round(Date.now() / 1000),
                     user_UID : Auth.getUser().UID,
                     group_GID : $scope.join_group.GID            
                 }
@@ -481,7 +486,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
     $rootScope.auth_user = Auth.getUser();
-    $scope.comments = [];
+    $scope.comments = []; // Not implemented yet in back end.
     $scope.author = null;
     if ($rootScope.auth_user != $scope.status.author_UID) {
         ws.request({
@@ -491,7 +496,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 UID: $scope.status.author_UID
             }
         }, function(response) {
-            $scope.author = response;
+            $scope.author = response.object;
             $scope.$apply();
         });
     }
@@ -502,15 +507,14 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.likes = 0;
     $scope.dislikes = 0;
-    var user_like = null;
-    
     $scope.user_like = null;
-    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.SID}}, function(response) {
+
+    ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.status.SID}}, function(response) {
         for(i = 0; i < response.objects.length; i++) {
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
-                user_like = like; 
-                if(user_like.positive) {
+                $scope.user_like = like; 
+                if($scope.user_like.positive) {
                     removeClass(document.getElementById('likes_click'), 'notClicked');
                     addClass(document.getElementById('likes_click'), 'clicked');      
                 }
@@ -532,9 +536,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         switch (what) {
             case 'likes':
                 if (hasClass(document.getElementById('likes_click'), 'notClicked')) {
-                    user_like.positive = true;
                     $scope.likes++;  
                     if (hasClass(document.getElementById('dislikes_click'), 'clicked')) {
+                        $scope.user_like.positive = true;
                         $scope.dislikes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
@@ -544,7 +548,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         addClass(document.getElementById('dislikes_click'), 'notClicked');
                     }
                     else {
-                        user_like = new Like(true, $scope.SID, $rootScope.auth_user.UID);
+                        $scope.user_like = new Like(true, $scope.status.SID, $rootScope.auth_user.UID);
                     	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
                         });
@@ -555,9 +559,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 break;
             case 'dislikes':
                 if (hasClass(document.getElementById('dislikes_click'), 'notClicked')) {
-                    user_like.positive = false;
                     $scope.dislikes++;
                     if (hasClass(document.getElementById('likes_click'), 'clicked')) {
+                        $scope.user_like.positive = false;
                         $scope.likes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
@@ -566,7 +570,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         addClass(document.getElementById('likes_click'), 'notClicked');
                     }
                     else {
-                        user_like = new Like(false, $scope.SID, $rootScope.auth_user.UID);
+                        $scope.user_like = new Like(false, $scope.status.SID, $rootScope.auth_user.UID);
                     	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
                         });

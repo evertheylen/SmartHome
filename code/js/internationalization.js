@@ -59,6 +59,7 @@ var html_strings = {
     "aggregate_loc" : ["Aggregate by location", "Groepeer per locatie"],
     "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
     "aggregate_tag" : ["Aggregate by tag", "Groepeer per tag"],
+    "aggregate_eur_per_unit" : ["Aggregate by Euro per Unit", "Groepeer per euro per unit"],
     "aggregate_user" : ["Aggregate by user", "Groepeer per user"],
     "open" : ["Open", "Openen"],
     "close" : ["Close", "Sluiten"],
