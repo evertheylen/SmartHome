@@ -18,12 +18,14 @@ angular.module("overwatch").controller("reportController", function($scope, $roo
     $scope.graph0 = graph;  
     
     $timeout(function () {
-        for(i=0; i < 2; i++) {
-            $scope.graphs[i].data = [
+            $scope.graph1.data = [
                 [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12],
                 [65, 59, 80, 81, 56, 55, 40, 50,78,45,01,45]
             ];
-        }        
+            $scope.graph0.data = [
+                [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12],
+                [65, 59, 80, 81, 56, 55, 40, 50,78,45,01,45]
+            ];
         
     }, 5000);
     
