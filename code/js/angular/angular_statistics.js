@@ -831,6 +831,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.share = function (index) {
 	    graphShare.setGraph($scope.graphs[index].temp_GID);
 	    document.getElementById("dlgShare").showModal();    
+	    $rootScope.$broadcast("dialog share");
 	}
 
     $scope.importants = [false, false, false, false, false, false];

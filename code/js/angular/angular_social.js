@@ -322,8 +322,23 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
-    console.log("Doing group request in shareController of angular_social");
-    ws.request({
+    $scope.$on("dialog share", function () {
+        console.log("Doing group request in shareController of angular_social");
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.groups = response.objects;
+            $scope.$apply();
+        });
+    });
+
+//    console.log("Doing group request in shareController of angular_social");
+  /*  ws.request({
         type: "get_all",
         what: "Group",
         for: {
@@ -353,7 +368,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 		}, 0);
             $scope.$apply();
         });   
-    });
+    });*/
     
     $scope.share_type = null;
     
@@ -375,7 +390,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 	}
 		
   	$scope.dropDownClick = function (value, menu, button, ng_model) {
-  	        ws.request({
+  	        /*ws.request({
             type: "get_all",
             what: "Group",
             for: {
@@ -391,7 +406,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 		    addClass(document.getElementById("select_share"), "mdl-js-menu");
 		}, 0);
             $scope.$apply();
-        });  
+        });  */
 		var toChange = document.getElementById(button);
 		toChange.innerHTML = value;
 		switch (ng_model) {
