@@ -131,22 +131,32 @@
 	display: flex;
 }
 
-.txtfield_StatusGroup{
+#txtfield_StatusGroup{
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	display: inline;
-	width: 90%;
 	flex-grow: 100;
 }
 
 .postStatus_picture{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	float: left;
 	height: 50px;
 	width: 50px;
 	margin-top: auto;
 	margin-bottom: auto;
+}
+
+.groupMembers{
+	display: block;
+	margin-top: 10%;
+	margin-left: 5%;
+}
+
+.groupMemberImages{
+	margin-left: 5%;
+}
+
+.mdl-card--date{
+	float: right;
+	font-size: 12px;
 }

@@ -12,6 +12,7 @@ def create_GetConfigHandler(controller):
     class GetConfigHandler(tornado.web.RequestHandler):
         async def get(self, *args):
             user = await controller.get_user(self.get_cookie("session"))
+            controller.logger.info("Session is " + str(self.get_cookie("session")))
             if user is None:
                 self.write("Please log in")
                 return
