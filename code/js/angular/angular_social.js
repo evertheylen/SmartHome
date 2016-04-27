@@ -635,7 +635,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             type: "delete",
             what: "Comment",
             data: {
-                SID: $scope.status.SID
+                SID: $scope.status.SID,
+                CID: index
             }
         }, function (response) {
             $scope.comments.splice(index, 1);
