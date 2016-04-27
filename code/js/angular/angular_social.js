@@ -508,7 +508,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.likes = 0;
     $scope.dislikes = 0;
-    $scope.user_like = new Like("neutral", $scope.status.SID, $rootScope.auth_user.UID);
+    $scope.user_like = null;
 
     ws.request({type: "get_all", what: "Like", for: {what: "Status", SID: $scope.status.SID}}, function(response) {
         for(i = 0; i < response.objects.length; i++) {
@@ -537,9 +537,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         switch (what) {
             case 'likes':
                 if (hasClass(document.getElementById('likes_click'), 'notClicked')) {
-                    $scope.user_like.positive = true;
                     $scope.likes++;  
                     if (hasClass(document.getElementById('dislikes_click'), 'clicked')) {
+                        $scope.user_like.positive = true;
                         $scope.dislikes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
@@ -560,9 +560,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 break;
             case 'dislikes':
                 if (hasClass(document.getElementById('dislikes_click'), 'notClicked')) {
-                    $scope.user_like.positive = false;
                     $scope.dislikes++;
                     if (hasClass(document.getElementById('likes_click'), 'clicked')) {
+                        $scope.user_like.positive = false;
                         $scope.likes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
