@@ -540,8 +540,10 @@ angular.module("overwatch").controller("groupController", function($scope, $root
                     UID: response.objects[i].user_UID
                 }            
             }, function (response) {
-                $scope.members.push(response.object);
-                $scope.$apply();
+                if (response.object.UID != $rootScope.auth_user.UID) {
+                    $scope.members.push(response.object);
+                    $scope.$apply();
+                }
             });
         }
         $scope.$apply();
