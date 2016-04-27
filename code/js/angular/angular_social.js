@@ -590,7 +590,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
     $rootScope.auth_user = Auth.getUser();
-    $scope.comments = []; // Not implemented yet in back end.
+    $scope.comments = [];
     $scope.author = null;
     if ($rootScope.auth_user != $scope.status.author_UID) {
         ws.request({
@@ -604,6 +604,17 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.$apply();
         });
     }
+    
+    ws.request({
+        type: "get_all",
+        what: "Comment",
+        data: {
+            SID: $scope.status.SID
+        }
+    }, function(response) {
+        $scope.comments = response.objects;
+        $scope.$apply();
+    });
     
     $scope.delete_status = function () {
         ws.request({
@@ -619,7 +630,16 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     }
 
     $scope.delete = function(index) {
-        $scope.comments.splice(index, 1);
+        ws.request({
+            type: "delete"
+            what: "Comment",
+            data: {
+                SID: $scope.status.SID
+            }
+        }, function (response) {
+            $scope.comments.splice(index, 1);
+            $scope.$apply();
+        });
     }
 
     $scope.likes = 0;
@@ -705,14 +725,25 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
             comment.text = $scope.new_comment;
             comment.date = getCurrentDate();
-            $scope.comments.push(comment);
-            removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
-            removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
-            console.log("new comment :D");
-            console.log(comment);
-            $scope.new_comment = "";
-            componentHandler.upgradeDom();
-
+            
+            ws.request({
+                type: "add",
+                what: "Comment",
+                data: {
+                    author_UID: Auth.getUser().UID,
+                    date: Math.round(Date.now() / 1000),
+                    date_edited: Math.round(Date.now() / 1000),
+                    SID: $scope.status.SID,
+                    text: comment.text                
+                }
+            }, function (response) {
+                $scope.comments.push(response.object);
+                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
+                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
+                $scope.new_comment = "";
+                componentHandler.upgradeDom();
+                $scope.$apply();
+            });
         }
     }
     
