@@ -20,6 +20,7 @@ var cache = {
 	Group: [],
     Membership: [],
     Graph: [],
+    Comment: [],
 
 	searchKey: function(type, key) {
 		var array = cache[type];
