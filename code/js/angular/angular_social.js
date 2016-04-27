@@ -335,6 +335,20 @@ angular.module("overwatch").controller("shareController", function($scope, $root
         $scope.$apply();
     });
     
+    $scope.$on('joined group', function() {
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.groups = response.objects;
+            $scope.$apply();
+        });   
+    });
+    
     $scope.share_type = null;
     
     $timeout(function() {
@@ -671,7 +685,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.graph.data = [];
 
             var db_graph = response.object;
-
+￼
             // Convert db_graph to a normal graph.
             var valueType = db_graph.timespan.valueType;
             var start_date = new Date(db_graph.timespan.start);
