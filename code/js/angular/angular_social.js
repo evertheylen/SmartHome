@@ -924,6 +924,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     }
     
     $scope.fancy_date = function (date) {
+        console.log("formatting " + date);
         return date_format(date);
     };
     componentHandler.upgradeDom();
