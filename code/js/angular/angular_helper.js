@@ -57,9 +57,9 @@ function getCurrentDate() {
 }
 
 function date_format(date) {
-    var today = date;
+    /*var today = date;
     var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
+    var mm = today.getMonth()+1;
 
     var yyyy = today.getFullYear();
     if(dd<10){
@@ -68,8 +68,8 @@ function date_format(date) {
     if(mm<10){
         mm='0'+mm
     } 
-    var today = dd+'/'+mm+'/'+yyyy;
-    return today;
+    var today = dd+'/'+mm+'/'+yyyy;*/
+    return date.toString();
 }
     
 function getIndexOfObjWithAttribute(array, attr, value) {
