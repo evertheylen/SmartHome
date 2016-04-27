@@ -380,8 +380,7 @@ class Controller(metaclass=MetaController):
                 check_for_type(req, "User")
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
                 await u.check_auth(req)
-                memberships = await Membership.get(Membership.user == u.key).all(self.db)
-                groups = await Group.get(Group.key in [Membership.group for Membership in memberships]).all(self.db)
+                groups = await Group.raw("SELECT * FROM table_Group WHERE table_Group.gid IN (SELECT table_Membership.group_gid FROM table_Membership WHERE table_Membership.user_uid = {0})".format(req.metadata["for"]["UID"])).all(self.db)
                 await req.answer([g.json_repr() for g in groups])
             else:
                 groups = await Group.get(Group.public == True).all(self.db)
@@ -395,14 +394,13 @@ class Controller(metaclass=MetaController):
             friendships = await Friendship.get(Or(Friendship.user1 == u.key, Friendship.user2 == u.key)).all(self.db)
             await req.answer([f.json_repr() for f in friendships])
 
-        # TODO
         @case("Membership")
         async def membership(self, req):
-            check_for_type(req, "User")
-            u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
-            await u.check_auth(req)
-            memberships = await Member.get(Membership.user1 == u.key or Membership.user2 == u.key).all(self.db)
-            await req.answer([m.json_repr() for m in memberships])
+            check_for_type(req, "Group")
+            g = await Group.find_by_key(req.metadata["for"]["GID"], self.db)
+            await g.check_auth(req)
+            users = await User.raw("SELECT * FROM table_User WHERE table_User.uid in (SELECT table_Membership.user_uid FROM table_Membership WHERE table_Membership.group_gid = {0})".format(req.metadata["for"]["GID"])).all(self.db)
+            await req.answer([u.json_repr() for u in users])
 
         @case("Tag")
         async def tag(self, req):
@@ -469,6 +467,13 @@ class Controller(metaclass=MetaController):
             l = await Location.find_by_key(req.data["LID"], self.db)
             await l.check_auth(req)
             await l.delete(self.db)
+            await req.answer({"status": "success"})
+
+        @case("Status")
+        async def status(self, req):
+            s = await Status.find_by_key(req.data["SID"], self.db)
+            await s.check_auth(req)
+            await s.delete(self.db)
             await req.answer({"status": "success"})
 
         @case("Sensor")

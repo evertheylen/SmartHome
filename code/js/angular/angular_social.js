@@ -11,26 +11,12 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     ws.request({
         type: "get_all",
         what: "Group",
+        for: {
+            what: "User",
+            UID: $scope.auth_user.UID
+        }
     }, function(response) {
         $scope.groups = response.objects;
-        for (var i= 0; i< $scope.groups.length; i++) {
-            {
-        "status": "Enum('ADMIN', 'MEMBER', 'PENDING', 'BANNED')",
-        "last_change": "<class 'int'>",
-        "user_UID": "<class 'int'>",
-        "group_GID": "<class 'int'>"
-    }
-            ws.request({
-                type: "get",
-                what: "Membership",
-                data: {
-                    user_UID: $rootScope.auth_user.UID,
-                    group_GID: $scope.groups[i].GID
-                }
-            }, function(response) {
-                if (
-            });
-        }
         $scope.$apply();
     });
     
@@ -136,6 +122,9 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
         }
     };
 
+    $scope.fancy_date = function (date) {
+        return date_format(date);
+    };
 });
 
 angular.module("overwatch").directive('myEnter', function() {
@@ -373,6 +362,19 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
         what: "Group",
     }, function(response) {
         $scope.groups = response.objects;
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            for (i = 0; i< response.objects.length; i++) {
+                $scope.groups.splice($scope.groups.indexOf(response.objects[i]), 1);
+            };
+            $scope.$apply();
+        });
         $scope.$apply();
     });
     
@@ -518,6 +520,19 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.$apply();
         });
     }
+    
+    $scope.delete_status = function () {
+        ws.request({
+            type: "delete",
+            what: "Status",
+            data: {
+                SID: $scope.status.SID
+            }
+        }, function (response) {
+            $scope.statuses.splice($scope.statuses.indexOf($scope.status), 1);
+            $scope.$apply();
+        });
+    }
 
     $scope.delete = function(index) {
         $scope.comments.splice(index, 1);
@@ -533,12 +548,12 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             if(like.user_UID == $rootScope.auth_user.UID) {
                 $scope.user_like = like; 
                 if($scope.user_like.positive) {
-                    removeClass(document.getElementById('likes_click'), 'notClicked');
-                    addClass(document.getElementById('likes_click'), 'clicked');      
+                    removeClass(document.getElementById('likes_click-'+$scope.status.SID), 'notClicked');
+                    addClass(document.getElementById('likes_click-'+$scope.status.SID), 'clicked');      
                 }
                 else {
-                    removeClass(document.getElementById('dislikes_click'), 'notClicked');
-                    addClass(document.getElementById('dislikes_click'), 'clicked');
+                    removeClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'notClicked');
+                    addClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'clicked');
                 }
             }
             if (like.positive) {
@@ -553,17 +568,17 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     $scope.add = function(what) {
         switch (what) {
             case 'likes':
-                if (hasClass(document.getElementById('likes_click'), 'notClicked')) {
+                if (hasClass(document.getElementById('likes_click-'+$scope.status.SID), 'notClicked')) {
                     $scope.likes++;  
-                    if (hasClass(document.getElementById('dislikes_click'), 'clicked')) {
+                    if (hasClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'clicked')) {
                         $scope.user_like.positive = true;
                         $scope.dislikes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
                         });
 
-                        removeClass(document.getElementById('dislikes_click'), 'clicked');
-                        addClass(document.getElementById('dislikes_click'), 'notClicked');
+                        removeClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'clicked');
+                        addClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'notClicked');
                     }
                     else {
                         $scope.user_like = new Like(true, $scope.status.SID, $rootScope.auth_user.UID);
@@ -571,21 +586,21 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 		                    $scope.$apply();
                         });
                     }              
-                    removeClass(document.getElementById('likes_click'), 'notClicked');
-                    addClass(document.getElementById('likes_click'), 'clicked');
+                    removeClass(document.getElementById('likes_click-'+$scope.status.SID), 'notClicked');
+                    addClass(document.getElementById('likes_click-'+$scope.status.SID), 'clicked');
                 }
                 break;
             case 'dislikes':
-                if (hasClass(document.getElementById('dislikes_click'), 'notClicked')) {
+                if (hasClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'notClicked')) {
                     $scope.dislikes++;
-                    if (hasClass(document.getElementById('likes_click'), 'clicked')) {
+                    if (hasClass(document.getElementById('likes_click-'+$scope.status.SID), 'clicked')) {
                         $scope.user_like.positive = false;
                         $scope.likes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
                         });                 
-                        removeClass(document.getElementById('likes_click'), 'clicked');
-                        addClass(document.getElementById('likes_click'), 'notClicked');
+                        removeClass(document.getElementById('likes_click-'+$scope.status.SID), 'clicked');
+                        addClass(document.getElementById('likes_click-'+$scope.status.SID), 'notClicked');
                     }
                     else {
                         $scope.user_like = new Like(false, $scope.status.SID, $rootScope.auth_user.UID);
@@ -593,8 +608,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 		                    $scope.$apply();
                         });
                     }
-                    removeClass(document.getElementById('dislikes_click'), 'notClicked');
-                    addClass(document.getElementById('dislikes_click'), 'clicked');
+                    removeClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'notClicked');
+                    addClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'clicked');
                 }
                 break;
         }
