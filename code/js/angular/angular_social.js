@@ -371,7 +371,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     $scope.groups = []
     $scope.join_group = null;
     
-    $scope.$on("joined group"), function() {
+    $scope.$on("joined group", function() {
       ws.request({
             type: "get_all",
             what: "Group",
