@@ -522,13 +522,24 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     
     ws.request({
         type: "get_all",
-        what: "User",
+        what: "Membership",
         for: {
             what: "Group",
             GID: $scope.group.GID
         }
     }, function (response) {
-        $scope.members = response.objects;
+        for (var i = 0; i < response.objects.length; i++) {
+            ws.request({
+                type: "get",
+                what: "User",
+                data: {
+                    UID: response.objects[i].user_UID
+                }            
+            }, function (response) {
+                $scope.members.push(response.object);
+                $scope.$apply();
+            });
+        }
         $scope.$apply();
     });
     
