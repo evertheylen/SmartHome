@@ -900,7 +900,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     date: _date,
                     date_edited: _date,
                     status_SID: $scope.status.SID,
-                    text: comment.text                
+                    text: $scope.new_comment                
                 }
             }, function (response) {
                 $scope.comment = response.object;
