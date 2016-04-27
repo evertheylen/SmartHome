@@ -340,7 +340,7 @@ class Controller(metaclass=MetaController):
                 await req.answer([s.json_repr() for s in sensors])
 
             @case("Admin")
-            async def for_admin(self ,req):
+            async def for_admin(self, req):
                 # Verify if the connection is a real admin for security reasonsx
                 u = await User.find_by_key(req.conn.user.UID, self.db)
                 if u.admin:
@@ -392,8 +392,17 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
-            friendships = await Friendship.get(Friendship.user1 == u.key or Friendship.user2 == u.key).all(self.db)
+            friendships = await Friendship.get(Or(Friendship.user1 == u.key, Friendship.user2 == u.key)).all(self.db)
             await req.answer([f.json_repr() for f in friendships])
+
+        # TODO
+        @case("Membership")
+        async def membership(self, req):
+            check_for_type(req, "User")
+            u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
+            await u.check_auth(req)
+            memberships = await Member.get(Membership.user1 == u.key or Membership.user2 == u.key).all(self.db)
+            await req.answer([m.json_repr() for m in memberships])
 
         @case("Tag")
         async def tag(self, req):
@@ -533,7 +542,7 @@ class Controller(metaclass=MetaController):
                     extra_wheres.append(Sensor.location == LID)
             else:
                 raise Error("no_such_group_by", "There is no such group_by 'what' attribute")
-            
+
             new_where_list = []
             for wheres in wheres_list:
                 for w in extra_wheres:
