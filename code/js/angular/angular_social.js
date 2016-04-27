@@ -887,33 +887,44 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.push_comment = function() {
         if ($scope.new_comment != "") {
-            var comment = {};
-            comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
-            comment.text = $scope.new_comment;
-            comment.date = getCurrentDate();
-            
+            //var comment = {};
+            //comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
+            //comment.text = $scope.new_comment;
+            //comment.date = getCurrentDate();
+            var _date = Math.round(Date.now() / 1000);
             ws.request({
                 type: "add",
                 what: "Comment",
                 data: {
                     author_UID: Auth.getUser().UID,
-                    date: Math.round(Date.now() / 1000),
-                    date_edited: Math.round(Date.now() / 1000),
+                    date: _date,
+                    date_edited: _date,
                     status_SID: $scope.status.SID,
-                    text: comment.text                
+                    text: $scope.new_comment                
                 }
             }, function (response) {
-                $scope.comments.push(response.object);
-                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
-                removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
-                $scope.new_comment = "";
-                componentHandler.upgradeDom();
-                $scope.$apply();
+                $scope.comment = response.object;
+                ws.request({
+                    type: "get",
+                    what: "User",
+                    data: {
+                        UID: response.object.author_UID
+                    }
+                }, function (response) {
+                    $scope.comment.author = response.object            
+                    $scope.comments.push($scope.comment);
+                    removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
+                    removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
+                    $scope.new_comment = "";
+                    componentHandler.upgradeDom();
+                    $scope.$apply();
+                })
             });
         }
     }
     
     $scope.fancy_date = function (date) {
+        console.log("formatting " + date);
         return date_format(date);
     };
     componentHandler.upgradeDom();

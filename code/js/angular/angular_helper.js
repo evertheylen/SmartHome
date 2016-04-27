@@ -69,7 +69,7 @@ function date_format(date) {
         mm='0'+mm
     } 
     var today = dd+'/'+mm+'/'+yyyy;
-    console.log(today);
+    console.log("Returning formatted: " + today);
     return today;
 }
     
