@@ -733,7 +733,12 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 CID: index
             }
         }, function (response) {
-            $scope.comments.splice(index, 1);
+            for (i = 0; i < $scope.comments.length; i++) {
+                if ($scope.comments[i].CID === index) {
+                    $scope.comments.splice(i, 1);
+                    break;
+                }
+            }
             $scope.$apply();
         });
     }
