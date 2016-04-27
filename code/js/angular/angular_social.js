@@ -487,7 +487,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
     $rootScope.auth_user = Auth.getUser();
-    $scope.comments = [];
+    $scope.comments = []; // Not implemented yet in back end.
     $scope.author = null;
     if ($rootScope.auth_user != $scope.status.author_UID) {
         ws.request({
@@ -497,7 +497,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 UID: $scope.status.author_UID
             }
         }, function(response) {
-            $scope.author = response;
+            $scope.author = response.first_name + " " + response.last_name;
             $scope.$apply();
         });
     }
@@ -514,9 +514,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         for(i = 0; i < response.objects.length; i++) {
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
-                console.log("reached this");
                 $scope.user_like = like; 
-                console.log("reached this2");
                 if($scope.user_like.positive) {
                     removeClass(document.getElementById('likes_click'), 'notClicked');
                     addClass(document.getElementById('likes_click'), 'clicked');      
@@ -532,7 +530,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
             $scope.dislikes++;
         }
-        console.log("reached this3");
         $scope.$apply();
     });
 
