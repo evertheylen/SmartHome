@@ -330,6 +330,8 @@ angular.module("overwatch").controller("shareController", function($scope, $root
         $scope.$apply();
     });
     
+    $scope.share_type = null;
+    
     $timeout(function() {
 		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
 			removeClass(document.getElementById("select_share"), "mdl-js-menu");
@@ -345,10 +347,19 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 					    toChange.innerHTML = $scope.i18n("pick_share");
 					    break;
 			    	} else {
-			    	    toChange.innerHTML = value;
+			    	    toChange.innerHTML = value.title;
 			    	}
 				    $scope.share_type = value;
 				    break;
+		    case 'wall':
+		            if (value === null) {
+		                toChange.innerHTML = $scope.i18n('pick_share');
+		                break;
+		            } else {
+		                toChange.innerHTML = value;
+		            }
+		            $scope.share_type = $rootScope.auth_user;
+		            break;
 		}
 		removeClass(document.getElementById(menu).parentNode, "is-visible");
 	}
