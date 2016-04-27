@@ -151,3 +151,12 @@
 	margin-top: 10%;
 	margin-left: 5%;
 }
+
+.groupMemberImages{
+	margin-left: 5%;
+}
+
+.mdl-card--date{
+	float: right;
+	font-size: 12px;
+}
