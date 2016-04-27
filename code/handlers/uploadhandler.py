@@ -54,7 +54,9 @@ def create_UploadHandler(controller):
             
             times = []
             for row in data[1:]:
-                times.append(int(datetime.strptime(row[0], csv_date_format).timestamp()))
+                time = int(datetime.strptime(row[0], csv_date_format).timestamp())
+                print(row[0], "\t", time)
+                times.append(time)
             
             if len(sensors) == 0:
                 controller.logger.info("No sensors???")
