@@ -634,7 +634,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         if($scope.select_no_tags) 
             tag_IDs.push("$NOTAGS$");
 
-        var aggregate_IDs = {Sensor: sensor_SIDs, Location: location_LIDS, Type: type_IDs, Tag: tag_IDs, Eur_per_Unit: eur_per_unit_IDs};    
+        var aggregate_IDs = {Sensor: sensor_SIDs, Location: location_LIDs, Type: type_IDs, Tag: tag_IDs, Eur_per_Unit: eur_per_unit_IDs};    
         var group_by_types = [];
         var find_series;
 
