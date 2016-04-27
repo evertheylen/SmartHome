@@ -707,8 +707,8 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
     });
     
     $scope.fancy_date = function () {   
-        console.log("formatting " + $scope.comment.date_edited);
-        return date_format($scope.comment.date_edited);
+        console.log("formatting " + $scope.comment.date_edited*1000);
+        return date_format($scope.comment.date_edited*1000);
     };
     
     componentHandler.upgradeDom();
@@ -912,7 +912,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             //comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
             //comment.text = $scope.new_comment;
             //comment.date = getCurrentDate();
-            var _date = Date.now();
+            var _date = Date.now()/1000;
             ws.request({
                 type: "add",
                 what: "Comment",
