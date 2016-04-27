@@ -497,7 +497,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 UID: $scope.status.author_UID
             }
         }, function(response) {
-            $scope.author = response.object.first_name + " " + response.object.last_name;
+            $scope.author = response.object;
             $scope.$apply();
         });
     }
