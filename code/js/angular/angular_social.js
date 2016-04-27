@@ -371,6 +371,29 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
     $scope.groups = []
     $scope.join_group = null;
     
+    $scope.$on("joined group"), function() {
+      ws.request({
+            type: "get_all",
+            what: "Group",
+        }, function(response) {
+            $scope.groups = response.objects;
+            ws.request({
+                type: "get_all",
+                what: "Group",
+                for: {
+                    what: "User",
+                    UID: $scope.auth_user.UID
+                }
+            }, function(response) {
+                for (i = 0; i< response.objects.length; i++) {
+                    $scope.groups.splice($scope.groups.indexOf(response.objects[i]), 1);
+                };
+                $scope.$apply();
+            });
+            $scope.$apply();
+        });
+    });
+    
     ws.request({
         type: "get_all",
         what: "Group",
