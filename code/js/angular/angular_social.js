@@ -723,7 +723,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 type: "get",
                 what: "User",
                 data: {
-                    UID: response.objects[i].author_UID
+                    UID: $scope.comments[i].author_UID
                 }
             }, function (response) {
                 $scope.comments[i].author = response.object;
