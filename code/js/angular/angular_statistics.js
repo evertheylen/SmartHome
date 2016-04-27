@@ -95,6 +95,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_types = [];
     $scope.select_tags = [];
     $scope.select_sensors = [];
+    $scope.select_no_tags = false;
     $scope.filtered_sensors = [];
 
     for (i = 0; i < $scope.houses.length; i++)
@@ -192,6 +193,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             case "tag":
                 for (i = 0; i < $scope.tags.length; i++) {
                     $scope.select_tags[i] = $scope.all_tags;
+                    $scope.select_no_tags = $scope.all_tags;
                     if ($scope.all_tags) {
                         var select_houses = [];
                         for (j = 0; j < $scope.houses.length; j++) {
@@ -206,14 +208,24 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             }
                         }
                         addClass(document.getElementById("label-tag_" + i), "is-checked");
+                        addClass(document.getElementById('label-no_tags'), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
-                            for (k=0;k < $scope.sensors[j].tags.length; k++) {
-                                if ($scope.sensors[j].tags[k].text === $scope.tags[i].text && select_houses.indexOf($scope.sensors[j].location_LID) != -1 && select_types.indexOf($scope.sensors[j].type) != -1) {
-                                    if ($scope.filtered_sensors.indexOf($scope.sensors[j]) === -1) {
-                                        $scope.filtered_sensors.push($scope.sensors[j]);
+                            if ($scope.sensors[j].tags.length > 0) {
+                                for (k=0;k < $scope.sensors[j].tags.length; k++) {
+                                    if ($scope.sensors[j].tags[k].text === $scope.tags[i].text && select_houses.indexOf($scope.sensors[j].location_LID) != -1 && select_types.indexOf($scope.sensors[j].type) != -1) {
+                                        if ($scope.filtered_sensors.indexOf($scope.sensors[j]) === -1) {
+                                            $scope.filtered_sensors.push($scope.sensors[j]);
+                                        }
+                                        break;
                                     }
-                                    break;
                                 }
+                            } else {
+                                    if ($scope.select_no_tags && select_houses.indexOf($scope.sensors[j].location_LID) != -1 && select_types.indexOf($scope.sensors[j].type) != -1) {
+                                        if ($scope.filtered_sensors.indexOf($scope.sensors[j]) === -1) {
+                                            $scope.filtered_sensors.push($scope.sensors[j]);
+                                        }
+                                        break;
+                                    }
                             }
                         }                        
                     } else {
@@ -224,6 +236,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             }
                         }*/
                         removeClass(document.getElementById("label-tag_" + i), "is-checked");
+                        removeClass(document.getElementById('label-no_tags'), "is-checked");
                         $scope.filtered_sensors = [];
                     }
                 };
@@ -345,7 +358,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         checkCount++;
                     }
                 }
-                $scope.all_tags = (checkCount === $scope.tags.length);
+                if ($scope.select_no_tags) {
+                    checkCount++;
+                }
+                $scope.all_tags = (checkCount === $scope.tags.length+1);
                 if ($scope.all_tags) {
                     addClass(document.getElementById("label-all_tags"), "is-checked");
                 } else {
@@ -403,6 +419,67 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     console.log("Fixed filtered_sensors after deleting a tag");
                 }
                 break;
+            
+            case "no-tag":
+                for (i = 0; i < $scope.tags.length; i++) {
+                    if ($scope.select_tags[i]) {
+                        checkCount++;
+                    }
+                }
+                if ($scope.select_no_tags) {
+                    checkCount++;
+                }                
+                $scope.all_tags = (checkCount === $scope.tags.length+1);
+                if ($scope.all_tags) {
+                    addClass(document.getElementById("label-all_tags"), "is-checked");
+                } else {
+                    removeClass(document.getElementById("label-all_tags"), "is-checked");
+                };
+                var select_houses = [];
+                for (i = 0; i < $scope.houses.length; i++) {
+                    if ($scope.select_locs[i]) {
+                        select_houses.push($scope.houses[i].LID);
+                    }
+                }
+                var select_types = [];
+                for (i = 0; i < $scope.types.length; i++) {
+                    if ($scope.select_types[i]) {
+                        select_types.push($scope.types[i]);
+                    }
+                }
+                var select_tags = [];
+                for (j=0; j< $scope.tags.length; j++) {
+                    if ($scope.select_tags[j]) {
+                        select_tags.push($scope.tags[j].text);
+                    }
+                }                    
+                if (checked) {
+                    for (i = 0; i < $scope.sensors.length; i++) {
+                        if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
+                            console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
+                            if ($scope.sensors[i].tags.length === 0) {
+                                if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
+                                    $scope.filtered_sensors.push($scope.sensors[i]);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    $scope.filtered_sensors = [];
+                    for (i = 0; i < $scope.sensors.length; i++) {
+                        if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
+                            console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
+                            if ($scope.sensors[i].tags.length === 0) {
+                                $scope.filtered_sensors.splice($scope.filtered_sensors.indexOf($scope.sensors[i]), 1);
+                            }
+                        }
+                    }
+                    console.log("Fixed filtered_sensors after deleting a tag");
+                }
+                break;            
+                
+            
             case "sensor":
                 for (i = 0; i < $scope.filtered_sensors.length; i++) {
                     if ($scope.select_sensors[i]) {

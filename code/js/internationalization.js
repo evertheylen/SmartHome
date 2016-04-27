@@ -123,4 +123,5 @@ var html_strings = {
     "own_status" : ["Own status", "Eigen status"],
     "friend_status" : ["Status from ", "Status van "],
     "posted_on" : ["Posted on: ", "Geplaatst op: "],
+    "no_tag" : ["No tags", "Geen tags"],
 };
