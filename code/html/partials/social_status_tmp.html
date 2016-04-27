@@ -41,7 +41,7 @@
 				<div class="text" ng-bind="comment.text"></div>
 				<div class="commentFooter">
 					<div class="date" ng-bind="comment.date"></div>
-					<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.index)"></div>
+					<div class="option" ng-bind="{{comments_active ? i18n('show_comments') : i18n('hide_comments')}}" ng-click="delete(comment.index)"></div>
 				</div>
 			</div>
 		</div>
