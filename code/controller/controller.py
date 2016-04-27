@@ -251,6 +251,13 @@ class Controller(metaclass=MetaController):
             await s.insert(self.db)
             await req.answer(s.json_repr())
 
+        @case("Comment")
+        async def comment(self, req):
+            c = Comment(json_dict=req.data)
+            await c.check_auth(req, db=self.db)
+            await c.insert(self.db)
+            await req.answer(c.json_repr())
+
         @case("Like")
         async def like(self, req):
             l = Like(json_dict=req.data)
@@ -419,8 +426,16 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Wall")
             w = await Wall.find_by_key(req.metadata["for"]["WID"], self.db)
             await w.check_auth(req)
-            status = await Status.get(Status.wall == req.metadata["for"]["WID"]).all(self.db)
+            status = await Status.get(Status.wall == w.key).all(self.db)
             await req.answer([s.json_repr() for s in status])
+
+        @case("Comment")
+        async def comment(self, req):
+            check_for_type(req, "Status")
+            s = await Status.find_by_key(req.metadata["for"]["SID"], self.db)
+            await s.check_auth(req)
+            comments = await Comment.get(Comment.status == s.key).all(self.db)
+            await req.answer([c.json_repr() for c in comments])
 
 
     @handle_ws_type("edit")
@@ -450,7 +465,6 @@ class Controller(metaclass=MetaController):
             await s.update(self.db)
             await req.answer(s.json_repr())
 
-        # TODO doesnt work properly
         @case("Like")
         async def like(self, req):
             l = await Like.find_by_key((req.data["status_SID"], req.data["user_UID"]), self.db)
@@ -475,6 +489,13 @@ class Controller(metaclass=MetaController):
             s = await Status.find_by_key(req.data["SID"], self.db)
             await s.check_auth(req)
             await s.delete(self.db)
+            await req.answer({"status": "success"})
+
+        @case("Comment")
+        async def comment(self, req):
+            c = await Comment.find_by_key((req.data["CID"],req.data["SID"]), self.db)
+            await c.check_auth(req)
+            await c.delete(self.db)
             await req.answer({"status": "success"})
 
         @case("Membership")
