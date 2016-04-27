@@ -69,8 +69,10 @@ function date_format(date) {
         mm='0'+mm
     } 
     var today = dd+'/'+mm+'/'+yyyy;*/
-    console.log('Formatting ms: ' + date + ' to: ' + new Date(date).toString("dd MMM yyyy"));
-    return new Date(date).toString("dd/MMM/yyyy");
+    new_date = new Date(date);
+    str_date = new_date.toString("dd/MMM/yyyy");
+    console.log('Formatting ms: ' + date + ' to: ' + str_date);
+    return str_date;
 }
     
 function getIndexOfObjWithAttribute(array, attr, value) {
