@@ -707,7 +707,7 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
     });
     
     componentHandler.upgradeDom();
-}
+});
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
     $rootScope.auth_user = Auth.getUser();
