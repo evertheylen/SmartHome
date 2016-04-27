@@ -409,7 +409,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     }
                                 }
                             }
-                            if ($scope.select_no_tags && $scope.sensors[i].tags.length == 0) {
+                            if ($scope.select_no_tags && $scope.sensors[i].tags.length == 0 && $scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
                                 $scope.filtered_sensors.push($scope.sensors[i]);
                             }                            
                         }
@@ -428,7 +428,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     }
                                 }
                             }
-                            if ($scope.select_no_tags && $scope.sensors[i].tags.length == 0) {
+                            if ($scope.select_no_tags && $scope.sensors[i].tags.length == 0 && $scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
                                 $scope.filtered_sensors.push($scope.sensors[i]);
                             }                            
                         }
