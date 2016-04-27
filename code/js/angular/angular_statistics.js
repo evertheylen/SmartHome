@@ -133,6 +133,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     break;
                                   }
                                 }
+                                if ($scope.select_no_tags && $scope.sensors[j].tags.length) {
+                                    $scope.filtered_sensors.push($scope.sensors[j]);
+                                }
                             }
                         }
                     } else {
@@ -174,6 +177,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     $scope.filtered_sensors.push($scope.sensors[j]);
                                     break;
                                   }
+                                }
+                                if ($scope.select_no_tags && $scope.sensors[j].tags.length) {
+                                    $scope.filtered_sensors.push($scope.sensors[j]);
                                 }
                             }
                         }
@@ -224,7 +230,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                         if ($scope.filtered_sensors.indexOf($scope.sensors[j]) === -1) {
                                             $scope.filtered_sensors.push($scope.sensors[j]);
                                         }
-                                        break;
                                     }
                             }
                         }                        
@@ -291,6 +296,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     break;
                                 }
                             }
+                            if ($scope.select_no_tags && $scope.sensors[j].tags.length) {
+                                $scope.filtered_sensors.push($scope.sensors[j]);
+                            }
                         }
                     }
                 } else {
@@ -339,6 +347,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     break;
                                 }
                             }
+                            if ($scope.select_no_tags && $scope.sensors[j].tags.length) {
+                                $scope.filtered_sensors.push($scope.sensors[j]);
+                            }                            
                         }
                     }
                 } else {
@@ -398,6 +409,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     }
                                 }
                             }
+                            if ($scope.select_no_tags && $scope.sensors[j].tags.length) {
+                                $scope.filtered_sensors.push($scope.sensors[j]);
+                            }                            
                         }
                     }
                 } else {
@@ -414,6 +428,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     }
                                 }
                             }
+                            if ($scope.select_no_tags && $scope.sensors[j].tags.length) {
+                                $scope.filtered_sensors.push($scope.sensors[j]);
+                            }                            
                         }
                     }
                     console.log("Fixed filtered_sensors after deleting a tag");
@@ -460,7 +477,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             if ($scope.sensors[i].tags.length === 0) {
                                 if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
-                                    break;
                                 }
                             }
                         }
