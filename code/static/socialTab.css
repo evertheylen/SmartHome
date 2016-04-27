@@ -155,3 +155,8 @@
 .groupMemberImages{
 	margin-left: 5%;
 }
+
+.mdl-card--date{
+	float: right;
+	font-size: 12px;
+}
