@@ -719,6 +719,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     }, function(response) {
         $scope.comments = response.objects;
         for (var i = 0; i < $scope.comments.length; i++) {
+            console.log("getting author for comment: " + $scope.comments[i]);
             ws.request({
                 type: "get",
                 what: "User",
