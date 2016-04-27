@@ -268,7 +268,6 @@ angular.module("overwatch").controller("find_friendsController", function($scope
                       $scope.users.splice(j,1);
                   }
                 }
-                //$scope.friends.push(friendships[i].user2_UID);
                 continue;
             }
             for (j=0;j < $scope.users.length; j++) {
@@ -390,7 +389,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                 what : "Membership",
                 data : {
                     status: 'MEMBER',
-                    last_change: Date.now() / 1000,
+                    last_change: Math.round(Date.now() / 1000),
                     user_UID : Auth.getUser().UID,
                     group_GID : $scope.join_group.GID            
                 }
