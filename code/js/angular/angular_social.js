@@ -11,21 +11,27 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     ws.request({
         type: "get_all",
         what: "Group",
+        for: {
+            what: "User",
+            UID: $scope.auth_user.UID
+        }
     }, function(response) {
         $scope.groups = response.objects;
-        for (var i= 0; i< $scope.groups.length; i++) {
-/*            ws.request({
-                type: "get",
-                what: "Membership",
-                data: {
-                    user_UID: $rootScope.auth_user.UID,
-                    group_GID: $scope.groups[i].GID
-                }
-            }, function(response) {
-                if (
-            });*/
-        }
         $scope.$apply();
+    });
+    
+    $scope.$on("joined group", function (){
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.groups = response.objects;
+            $scope.$apply();
+        });   
     });
     
     $scope.open_dialog = function(element_id) {
@@ -133,11 +139,6 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
     $scope.fancy_date = function (date) {
         return date_format(date);
     };
-    
-    $scope.delete_status = function () {
-        // TODO Websocket delete
-    }
-
 });
 
 angular.module("overwatch").directive('myEnter', function() {
@@ -375,6 +376,19 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
         what: "Group",
     }, function(response) {
         $scope.groups = response.objects;
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            for (i = 0; i< response.objects.length; i++) {
+                $scope.groups.splice($scope.groups.indexOf(response.objects[i]), 1);
+            };
+            $scope.$apply();
+        });
         $scope.$apply();
     });
     
@@ -414,6 +428,8 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                     group_GID : $scope.join_group.GID            
                 }
             }, function (response){
+                document.getElementById('dlgJoinGroup').close();
+                $rootScope.$broadcast("joined group");
                 $scope.$apply();
             })
             console.log("Joining group " + $scope.join_group.title);
@@ -466,6 +482,20 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     $rootScope.auth_user = Auth.getUser();
     $scope.group = transferGroup.getGroup();
     
+    $scope.members = [];
+    
+    ws.request({
+        type: "get_all",
+        what: "User",
+        for: {
+            what: "Group",
+            GID: $scope.group.GID
+        }
+    }, function (response) {
+        $scope.members = response.objects;
+        $scope.$apply();
+    });
+    
     $scope.$on('GROUP CHANGED', function () {
         $scope.group = transferGroup.getGroup();
         $scope.statuses = [];
@@ -517,6 +547,19 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
         }, function(response) {
             $scope.author = response.object;
+            $scope.$apply();
+        });
+    }
+    
+    $scope.delete_status = function () {
+        ws.request({
+            type: "delete",
+            what: "Status",
+            data: {
+                SID: $scope.status.SID
+            }
+        }, function (response) {
+            $scope.statuses.splice($scope.statuses.indexOf($scope.status), 1);
             $scope.$apply();
         });
     }

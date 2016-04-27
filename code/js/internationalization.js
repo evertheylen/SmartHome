@@ -125,4 +125,6 @@ var html_strings = {
     "friend_status" : ["Status from ", "Status van "],
     "posted_on" : ["Posted on: ", "Geplaatst op: "],
     "no_tag" : ["No tags", "Geen tags"],
+    "welcome_group" : ["Welcome in group: ", "Welkom in de groep: "],
+    "members" : ["Members: ", "Leden: "],
 };

@@ -14,6 +14,30 @@ class Sensor(RTOwEntity):
     user = Reference(User)
     location = Reference(Location)
     EUR_per_unit = Property(float)
-
+    
+    # The last value this sensor had
+    last_value = None
+    
     async def is_authorized(self, type: str, usr: User, **kwargs):
         return self.user == usr.key
+    
+    async def insert_values(self, values, db):
+        # values is a list of tuples (value, time)
+        if len(values) == 0: return
+    
+        # 'compress' the values
+        interesting_values = []
+        if self.last_value is None:
+            self.last_value = values[0]
+        
+        for value in values:
+            if value[0] != self.last_value[0]:
+                interesting_values.append(self.last_value)
+                interesting_values.append(value)
+                self.last_value = value
+            elif value[1] != self.last_value[0]:
+                self.last_value[1] = value[1]
+            
+        c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v+(self.SID,)) for v in interesting_values]))
+        await c.exec(db)
+        
