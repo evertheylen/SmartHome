@@ -322,8 +322,23 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
-    console.log("Doing group request in shareController of angular_social");
-    ws.request({
+    $scope.$on("dialog share", function () {
+        console.log("Doing group request in shareController of angular_social");
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.groups = response.objects;
+            $scope.$apply();
+        });
+    });
+
+//    console.log("Doing group request in shareController of angular_social");
+  /*  ws.request({
         type: "get_all",
         what: "Group",
         for: {
@@ -353,7 +368,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 		}, 0);
             $scope.$apply();
         });   
-    });
+    });*/
     
     $scope.share_type = null;
     
@@ -363,7 +378,35 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 		    }
 		    addClass(document.getElementById("select_share"), "mdl-js-menu");
 		}, 0);
+		
+	$scope.click_select = function() {
+    	removeClass(document.getElementById('select_share').parentNode, 'is-visible');
+	    $timeout(function() {
+		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
+			removeClass(document.getElementById("select_share"), "mdl-js-menu");
+		    }
+		    addClass(document.getElementById("select_share"), "mdl-js-menu");
+		}, 0);
+	}
+		
   	$scope.dropDownClick = function (value, menu, button, ng_model) {
+  	        /*ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.groups = response.objects;
+                $timeout(function() {
+		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
+			removeClass(document.getElementById("select_share"), "mdl-js-menu");
+		    }
+		    addClass(document.getElementById("select_share"), "mdl-js-menu");
+		}, 0);
+            $scope.$apply();
+        });  */
 		var toChange = document.getElementById(button);
 		toChange.innerHTML = value;
 		switch (ng_model) {
@@ -398,10 +441,8 @@ angular.module("overwatch").controller("shareController", function($scope, $root
             document.getElementById("dlgShare").close();
         }
 
-        console.log("Checking getGraph");
         // If you are sharing a graph.
-        if(graphShare.getGraph() != null) {
-            console.log("getGraph is not null");
+        if(graphShare.getGraph() > -1) {
             ws.request({
                 type: "add",
                 what: "Graph",
@@ -420,7 +461,9 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                     $scope.$apply();
                 });                 
                 $scope.$apply();
-            });                       
+            });                   
+            // Reset the graph cookie.    
+	        graphShare.setGraph(-1);
         }
     }
     

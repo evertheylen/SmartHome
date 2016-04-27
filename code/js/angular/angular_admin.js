@@ -187,56 +187,48 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         for (i = 0; i < final_users.length; i++)
             user_UIDs.push(final_users[i].UID);
 
+        var group_by_types = [];
+        var aggregate_IDs = {Sensor: sensor_SIDs, User: user_UIDs};    
+
         if ($scope.aggregate_by_user) {
-            ws.request({
-                type: "get_values",
-                group_by: [{
-                    what: "User",
-                    IDs: user_UIDs
-                }],
-                where: [{
-                    field: "SID",
-                    op: "in",
-                    value: sensor_SIDs
-                }],
-                timespan: {
-                    valueType: valueType,
-                    start: full_start_date,
-                    end: full_end_date
-                }
-            }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
-                    var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    graph.series.push(final_sensors[sensor_SIDs.indexOf(response[groupIndex].sensors[0])].title);
-                    graph.data.push(sensor_data);
-                }
-                $scope.$apply();
-            });            
+            group_by_types = ["User"];       
         } else {
-            ws.request({
-                type: "get_values",
-                group_by: [{
-                  	"what": "Sensor",
-                  	"IDs": sensor_SIDs
-                }],
-                timespan: {
-                    valueType: valueType,
-                    start: full_start_date,
-                    end: full_end_date
-                }
-            }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
-                    var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    graph.series.push(final_sensors[sensor_SIDs.indexOf(response[groupIndex].sensors[0])].title);
-                    graph.data.push(sensor_data);
-                }
-                $scope.$apply();
-            });    
+            group_by_types = ["Sensor"];
         }
+
+        var group_by_objects = [];
+        for (var i = 0; i < group_by_types.length; i++) {
+            var type = group_by_types[i]
+            group_by_objects.push({
+                what: type,
+                IDs: aggregate_IDs[type]
+            });
+        }      
+
+        ws.request({
+            type: "create_graph",
+            group_by: group_by_objects,
+            where: [{
+                field: "SID",
+                op: "in",
+                value: sensor_SIDs
+            }],
+            timespan: {
+                valueType: valueType,
+                start: full_start_date,
+                end: full_end_date
+            }
+        }, function(response) {
+            var lines = response.lines;
+            for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
+                var sensor_data = [];
+                for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
+                    sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                graph.series.push(final_sensors[sensor_SIDs.indexOf(lines[groupIndex].sensors[0])].title);
+                graph.data.push(sensor_data);
+            }
+            $scope.$apply();
+        }); 
 
         $scope.graphs = [];
         $scope.graphs.push(graph);
