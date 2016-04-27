@@ -426,10 +426,8 @@ angular.module("overwatch").controller("shareController", function($scope, $root
             document.getElementById("dlgShare").close();
         }
 
-        console.log("Checking getGraph");
         // If you are sharing a graph.
         if(graphShare.getGraph() > -1) {
-            console.log("getGraph is not null");
             ws.request({
                 type: "add",
                 what: "Graph",
@@ -448,7 +446,9 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                     $scope.$apply();
                 });                 
                 $scope.$apply();
-            });                       
+            });                   
+            // Reset the graph cookie.    
+	        graphShare.setGraph(-1);
         }
     }
     
