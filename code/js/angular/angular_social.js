@@ -631,7 +631,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.delete = function(index) {
         ws.request({
-            type: "delete"
+            type: "delete",
             what: "Comment",
             data: {
                 SID: $scope.status.SID
