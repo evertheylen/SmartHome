@@ -9,13 +9,13 @@
 		</div>
 	</div>
     <button id="btnStatusPostGroup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; margin-left: 5%;" ng-click="post_status()" ng-bind="i18n('post_group')">
+                    style="width: 45%; margin-left: 5%; margin-bottom: 5%; float: right;" ng-click="post_status()" ng-bind="i18n('post_group')">
     </button>
     <button id="btnLeaveGroup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; margin-left: 5%;" ng-click="leave()" ng-bind="i18n('leave_group')">
+                    style="width: 45%; margin-left: 5%; float: right;" ng-click="leave()" ng-bind="i18n('leave_group')">
     </button>
     
-    <span ng-bind="i18n('members')"></span>
+    <span class="groupMembers" ng-bind="i18n('members')"></span>
     <img ng-repeat="member in members" on-finish-render="ngRepeatFinished" title="{{member.first_name + ' ' + member.last_name}}" src="http://www.gravatar.com/avatar/{{get_hash(member.email)}}?d=identicon&s=50"/>
 <div ng-repeat="status in statuses | reverse track by status.SID" on-finish-render="ngRepeatFinished" ng-controller="statusController" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
 		<div class="mdl-card__title">
