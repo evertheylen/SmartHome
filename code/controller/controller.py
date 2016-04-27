@@ -432,7 +432,7 @@ class Controller(metaclass=MetaController):
         @case("Comment")
         async def comment(self, req):
             check_for_type(req, "Status")
-            s = await Comment.find_by_key(req.metadata["for"]["SID"], self.db)
+            s = await Status.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
             comments = await Comment.get(Comment.status == s.key).all(self.db)
             await req.answer([c.json_repr() for c in comments])
