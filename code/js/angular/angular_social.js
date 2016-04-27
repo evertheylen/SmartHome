@@ -728,7 +728,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }, function (response) {
                 $scope.comments[i].author = response.object;
                 $scope.$apply();
-            };
+            });
         }
     });
 
