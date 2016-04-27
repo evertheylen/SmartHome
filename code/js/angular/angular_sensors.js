@@ -68,6 +68,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             if (!exists)
                 $scope.tags.push(temp_tags[i]);
         }
+        console.log(" ============= TAGS ================== " + $scope.tags);
         updateFilteredSensors();
         $scope.$apply();
     });
@@ -478,7 +479,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     }, function(response) {
                         response.object._scopes.push($scope);
                         for (j = 0; j < $scope.tags.length; j++) {
-                            if (response.object.text === $scope.tags[j])
+                            if (response.object.text === $scope.tags[j].text)
                                 return;
                         }
                         $scope.tags.push(response.object);
@@ -534,7 +535,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                             }, function(response) {
                                 response.object._scopes.push($scope);
                                 for (j = 0; j < $scope.tags.length; j++) {
-                                    if (response.object.text === $scope.tags[j])
+                                    if (response.object.text === $scope.tags[j].text)
                                         return;
                                 }
                                 $scope.tags.push(response.object);
