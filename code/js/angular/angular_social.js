@@ -131,7 +131,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
     };
 
     $scope.fancy_date = function (date) {
-        date_format(date);
+        return date_format(date);
     };
     
     $scope.delete_status = function () {
