@@ -129,6 +129,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                     date_edited: _date,
                     wall_WID: Auth.getUser().wall_WID,
                     text: $scope.status_text
+                    graph_GID: null
                 }
             }, function (response) {
                 $scope.statuses.push(response.object);
@@ -589,6 +590,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
                     date_edited: _date,
                     wall_WID: $scope.group.wall_WID,
                     text: $scope.status_text
+                    graph_GID: null
                 }
             }, function (response) {
                 $scope.statuses.push(response.object);
@@ -646,7 +648,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             type: "delete",
             what: "Comment",
             data: {
-                SID: $scope.status.SID,
                 CID: index
             }
         }, function (response) {
