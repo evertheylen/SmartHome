@@ -549,7 +549,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         addClass(document.getElementById('dislikes_click'), 'notClicked');
                     }
                     else {
-                        user_like = new Like(true, $scope.SID, $rootScope.auth_user.UID);
+                        $scope.user_like = new Like(true, $scope.SID, $rootScope.auth_user.UID);
                     	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
                         });
@@ -571,7 +571,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         addClass(document.getElementById('likes_click'), 'notClicked');
                     }
                     else {
-                        user_like = new Like(false, $scope.SID, $rootScope.auth_user.UID);
+                        $scope.user_like = new Like(false, $scope.SID, $rootScope.auth_user.UID);
                     	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
                         });
