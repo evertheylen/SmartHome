@@ -362,7 +362,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
     
     $scope.continue = function () {
         // TODO!!
-        if ($scope.shareForm.$valid) {
+        if ($scope.share_type != null) {
             document.getElementById("dlgShare").close();
         }
 
