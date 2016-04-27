@@ -533,7 +533,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         for(i = 0; i < response.objects.length; i++) {
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
-                for (
                 $scope.user_like = like; 
                 if($scope.user_like.positive) {
                     removeClass(document.getElementById('likes_click'+$scope.status.SID), 'notClicked');
