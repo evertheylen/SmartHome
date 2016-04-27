@@ -128,7 +128,8 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                     date: _date,
                     date_edited: _date,
                     wall_WID: Auth.getUser().wall_WID,
-                    text: $scope.status_text
+                    text: $scope.status_text,
+                    graph_GID: null
                 }
             }, function (response) {
                 $scope.statuses.push(response.object);
@@ -362,6 +363,29 @@ angular.module("overwatch").controller("shareController", function($scope, $root
         if ($scope.shareForm.$valid) {
             document.getElementById("dlgShare").close();
         }
+
+        // If you are sharing a graph.
+        if(graphShare.getGraph() > -1) {
+             ws.request({
+                type: "add",
+                what: "Graph",
+                data: {
+                    GID: graphShare.getGraph()
+                }
+            }, function(response) {
+                var _date = Date.now() / 1000;
+                var status = new Status(-1, _date, _date, $rootScope.auth_user.UID, $scope.share_type.wall_WID, "Look at my Graph!", response.GID);
+                delete status.SID;
+                 ws.request({
+                    type: "add",
+                    what: "Status",
+                    data: status.toJSON()
+                }, function(response) {
+                    $scope.$apply();
+                });                 
+                $scope.$apply();
+            });                       
+        }
     }
     
     $scope.dropDownClick(null, 'select_share', 'dropDownShare','share');
@@ -577,7 +601,8 @@ angular.module("overwatch").controller("groupController", function($scope, $root
                     date: _date,
                     date_edited: _date,
                     wall_WID: $scope.group.wall_WID,
-                    text: $scope.status_text
+                    text: $scope.status_text,
+                    graph_GID: null
                 }
             }, function (response) {
                 $scope.statuses.push(response.object);
@@ -608,7 +633,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     ws.request({
         type: "get_all",
         what: "Comment",
-        data: {
+        for: {
+            what: "Status",
             SID: $scope.status.SID
         }
     }, function(response) {
@@ -634,7 +660,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             type: "delete",
             what: "Comment",
             data: {
-                SID: $scope.status.SID
+                CID: index
             }
         }, function (response) {
             $scope.comments.splice(index, 1);
@@ -733,7 +759,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     author_UID: Auth.getUser().UID,
                     date: Math.round(Date.now() / 1000),
                     date_edited: Math.round(Date.now() / 1000),
-                    SID: $scope.status.SID,
+                    status_SID: $scope.status.SID,
                     text: comment.text                
                 }
             }, function (response) {

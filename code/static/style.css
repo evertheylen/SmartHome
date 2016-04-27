@@ -21,3 +21,7 @@ body{
 .drawerIcon{
 	margin-right: 10%;
 }
+
+.mdl-button--accent.mdl-button--accent{
+	height: auto;
+}

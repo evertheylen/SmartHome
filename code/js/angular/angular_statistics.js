@@ -4,6 +4,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.auth_user = Auth.getUser();
     $rootScope.tab = "statisticslink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
+    $scope.graphs = [];
 
     // Sample data
     var is_box2_opened = false;
@@ -573,6 +574,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         graph.labels = [];
         graph.series = [];
         graph.data = [];
+        graph.temp_GID = -1;
 
         var timezone_offset = (1000*60*60);
         var full_start_date = ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000;
@@ -636,7 +638,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
             console.log("making series for sensors");
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                   	"what": "Sensor",
                   	"IDs": sensor_SIDs
@@ -647,13 +649,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) {
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) {
                         graph.labels.push("");
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
                     }
-                    graph.series.push(final_sensors[sensor_SIDs.indexOf(response[groupIndex].sensors[0])].title);
+                    graph.series.push(final_sensors[sensor_SIDs.indexOf(lines[groupIndex].sensors[0])].title);
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
@@ -661,7 +665,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
             console.log("making series for locations");
             ws.request({
-                        type: "get_values",
+                        type: "create_graph",
                         group_by: [{
                             what: "Location",
                             IDs: location_LIDs
@@ -677,11 +681,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             end: full_end_date
                         }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    graph.series.push(cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description);
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    graph.series.push(cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description);
                                   
                     graph.data.push(sensor_data);
                 }
@@ -690,7 +696,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
             console.log("making series for types");
             ws.request({
-                        type: "get_values",
+                        type: "create_graph",
                         group_by: [{
                             what: "Type",
                             IDs: type_IDs
@@ -706,11 +712,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             end: full_end_date
                         }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    graph.series.push($scope.i18n(response[groupIndex].grouped_by[0].ID));                    
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    graph.series.push($scope.i18n(lines[groupIndex].grouped_by[0].ID));                    
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
@@ -718,7 +726,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for tags");
             ws.request({
-                        type: "get_values",
+                        type: "create_graph",
                         group_by: [{
                             what: "Tag",
                             IDs: tag_IDs
@@ -734,11 +742,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             end: full_end_date
                         }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    graph.series.push(response[groupIndex].grouped_by[0].ID);                    
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    graph.series.push(lines[groupIndex].grouped_by[0].ID);                    
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
@@ -746,7 +756,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
             console.log("making series for locations & types");   
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Location",
                     IDs: location_LIDS
@@ -765,12 +775,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(response[groupIndex].grouped_by[1].ID);
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
                     graph.series.push(loc_series + ", " + type_series);
                     graph.data.push(sensor_data);
                 }
@@ -779,7 +791,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for locations & tags");
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Location",
                     IDs: location_LIDS
@@ -798,12 +810,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
-                    var tag_series = response[groupIndex].grouped_by[1].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    var tag_series = lines[groupIndex].grouped_by[1].ID;
                     graph.series.push(loc_series + ", " + tag_series);
                     graph.data.push(sensor_data);
                 }
@@ -812,7 +826,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for types & tags");   
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Type",
                     IDs: type_IDs
@@ -831,12 +845,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var type_series = $scope.i18n(response[groupIndex].grouped_by[0].ID);
-                    var tag_series = response[groupIndex].grouped_by[1].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
+                    var tag_series = lines[groupIndex].grouped_by[1].ID;
                     graph.series.push(type_series + ", " + tag_series);
                     graph.data.push(sensor_data);
                 }
@@ -845,7 +861,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for tags & types & locations");
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Location",
                     IDs: location_LIDs
@@ -867,13 +883,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(response[groupIndex].grouped_by[1].ID);
-                    var tag_series = response[groupIndex].grouped_by[2].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
+                    var tag_series = lines[groupIndex].grouped_by[2].ID;
                     graph.series.push(location_series + ", " + type_series + ", " + tag_series);
                     graph.data.push(sensor_data);
                 }
@@ -883,7 +901,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for eur_per_units");
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                   	what: "Eur_per_Unit",
                   	IDs: eur_per_unit_IDs
@@ -894,13 +912,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) {
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) {
                         graph.labels.push("");
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
                     }
-                    graph.series.push(response[groupIndex].grouped_by[0].ID);
+                    graph.series.push(lines[groupIndex].grouped_by[0].ID);
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
@@ -908,7 +928,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for locations and eur_per_units");
             ws.request({
-                        type: "get_values",
+                        type: "create_graph",
                         group_by: [{
                             what: "Location",
                             IDs: location_LIDs
@@ -927,12 +947,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             end: full_end_date
                         }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
-                    var eur_per_unit_series = response[groupIndex].grouped_by[1].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
                     graph.series.push(loc_series + ", " + eur_per_unit_series);
                     graph.data.push(sensor_data);
                 }
@@ -941,7 +963,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for types and eur_per_units");
             ws.request({
-                        type: "get_values",
+                        type: "create_graph",
                         group_by: [{
                             what: "Type",
                             IDs: type_IDs
@@ -960,12 +982,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             end: full_end_date
                         }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var type_series = $scope.i18n(response[groupIndex].grouped_by[0].ID);
-                    var eur_per_unit_series = response[groupIndex].grouped_by[1].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
+                    var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
                     graph.series.push(type_series + ", " + eur_per_unit_series);                    
                     graph.data.push(sensor_data);
                 }
@@ -974,7 +998,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for tags and eur_per_units");
             ws.request({
-                        type: "get_values",
+                        type: "create_graph",
                         group_by: [{
                             what: "Tag",
                             IDs: tag_IDs
@@ -993,12 +1017,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             end: full_end_date
                         }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++) 
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var tag_series = response[groupIndex].grouped_by[0].ID;
-                    var eur_per_unit_series = response[groupIndex].grouped_by[1].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var tag_series = lines[groupIndex].grouped_by[0].ID;
+                    var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
                     graph.series.push(tag_series + ", " + eur_per_unit_series);                    
                     graph.data.push(sensor_data);
                 }
@@ -1007,7 +1033,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for locations & types & eur_per_units");   
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Location",
                     IDs: location_LIDS
@@ -1029,13 +1055,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(response[groupIndex].grouped_by[1].ID);
-                    var eur_per_unit_series = response[groupIndex].grouped_by[2].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
+                    var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
                     graph.series.push(loc_series + ", " + type_series + ", " + eur_per_unit_series);
                     graph.data.push(sensor_data);
                 }
@@ -1044,7 +1072,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for locations & tags & eur_per_units");
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Location",
                     IDs: location_LIDS
@@ -1066,13 +1094,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
-                    var tag_series = response[groupIndex].grouped_by[1].ID;
-                    var eur_per_unit_series = response[groupIndex].grouped_by[2].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    var tag_series = lines[groupIndex].grouped_by[1].ID;
+                    var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
                     graph.series.push(loc_series + ", " + tag_series + ", " + eur_per_unit_series);
                     graph.data.push(sensor_data);
                 }
@@ -1081,7 +1111,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for types & tags & eur_per_units");   
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Type",
                     IDs: type_IDs
@@ -1103,13 +1133,15 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var type_series = $scope.i18n(response[groupIndex].grouped_by[0].ID);
-                    var tag_series = response[groupIndex].grouped_by[1].ID;
-                    var eur_per_unit_series = response[groupIndex].grouped_by[2].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
+                    var tag_series = lines[groupIndex].grouped_by[1].ID;
+                    var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
                     graph.series.push(type_series + ", " + tag_series + ", " + eur_per_unit_series);
                     graph.data.push(sensor_data);
                 }
@@ -1118,7 +1150,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for tags & types & locations & eur_per_units");
             ws.request({
-                type: "get_values",
+                type: "create_graph",
                 group_by: [{
                     what: "Location",
                     IDs: location_LIDs
@@ -1143,14 +1175,16 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     end: full_end_date
                 }
             }, function(response) {
-                for (var groupIndex = 0; groupIndex < response.length; groupIndex++) {
+                var lines = response.lines;
+                graph.temp_GID = response.GID;
+                for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                     var sensor_data = [];
-                    for (var valueIndex = 0; valueIndex < response[groupIndex].values.length; valueIndex++)
-                        sensor_data.push(response[groupIndex].values[valueIndex][1]);
-                    var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(response[groupIndex].grouped_by[1].ID);
-                    var tag_series = response[groupIndex].grouped_by[2].ID;
-                    var eur_per_unit_series = response[groupIndex].grouped_by[3].ID;
+                    for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                        sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
+                    var tag_series = lines[groupIndex].grouped_by[2].ID;
+                    var eur_per_unit_series = lines[groupIndex].grouped_by[3].ID;
                     graph.series.push(location_series + ", " + type_series + ", " + tag_series + ", " + eur_per_unit_series);
                     graph.data.push(sensor_data);
                 }
@@ -1170,12 +1204,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     /*
     [bool : aggregate_location, bool: aggregate_type, bool: aggregate_sensor, bool: aggregate_eur_per_unit]
     */
-
-    // Graphs
-    $scope.share = function (index) {
-        graphShare.setGraph($scope.graphs[index]);
-    }
-    
+    $scope.share = function () {
+	    graphShare.setGraph($scope.graphs[index].GID);
+	    document.getElementById("dlgShare").showModal();    
+	}
     $scope.importants = [false, false, false, false, false, false];
     var layout = document.getElementById("mainLayout");
     if (hasClass(layout, "mdl-layout--no-drawer-button")) {
@@ -1193,20 +1225,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         $scope.importants[element_id] = !$scope.importants[element_id];
     };
-
-    $scope.graphs = [];
-    var graph_types = ["Line", "Bar", "Radar"];
-    for (i = 0; i < 3; i++) {
-        graph = {};
-        graph.type = graph_types[i];
-        graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        graph.series = ['Series A', 'Series B'];
-        graph.data = [
-            [65, 59, 80, 81, 56, 55, 40, 59, 54, 53, 30, 12],
-            [28, 48, 40, 19, 86, 27, 90, 40, 78, 45, 01, 45]
-        ];
-        //$scope.graphs.push(graph);  
-    }
 
     componentHandler.upgradeDom();
 });

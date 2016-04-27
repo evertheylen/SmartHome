@@ -148,5 +148,15 @@
 
 .groupMembers{
 	display: block;
-	margin-top: 5%;
+	margin-top: 10%;
+	margin-left: 5%;
+}
+
+.groupMemberImages{
+	margin-left: 5%;
+}
+
+.mdl-card--date{
+	margin-left: auto;
+	font-size: 12px;
 }
