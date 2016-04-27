@@ -20,6 +20,20 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         $scope.$apply();
     });
     
+    $scope.$on("joined group", function (){
+        ws.request({
+            type: "get_all",
+            what: "Group",
+            for: {
+                what: "User",
+                UID: $scope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.groups = response.objects;
+            $scope.$apply();
+        });   
+    });
+    
     $scope.open_dialog = function(element_id) {
         var element = document.getElementById(element_id);
         element.showModal();
@@ -414,6 +428,8 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                     group_GID : $scope.join_group.GID            
                 }
             }, function (response){
+                document.getElementById('dlgJoinGroup').close();
+                $rootScope.$broadcast("joined group");
                 $scope.$apply();
             })
             console.log("Joining group " + $scope.join_group.title);
