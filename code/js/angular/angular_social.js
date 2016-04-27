@@ -135,7 +135,16 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
     };
     
     $scope.delete_status = function () {
-        // TODO Websocket delete
+        ws.request({
+            type: "delete",
+            what: "Status",
+            data: {
+                SID: $scope.status.SID
+            }
+        }, function (response) {
+            $scope.statuses.splice($scope.statuses.indexOf($scope.status), 1);
+            $scope.$apply();
+        });
     }
 
 });
