@@ -127,4 +127,5 @@ var html_strings = {
     "no_tag" : ["No tags", "Geen tags"],
     "welcome_group" : ["Welcome in group: ", "Welkom in de groep: "],
     "members" : ["Members: ", "Leden: "],
+    "leave_group" : ["Leave group", "Groep verlaten"],
 };
