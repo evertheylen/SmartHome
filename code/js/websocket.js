@@ -18,6 +18,7 @@ var cache = {
     Like: [],
     Friendship: [],
 	Group: [],
+    Membership: [],
 
 	searchKey: function(type, key) {
 		var array = cache[type];
