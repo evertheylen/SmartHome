@@ -829,7 +829,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         sensor_data.push(response[groupIndex].values[valueIndex][1]);
                     var loc_series = cache.getObject("Location", response[groupIndex].grouped_by[0].LID, {}).description;
                     var eur_per_unit_series = response[groupIndex].grouped_by[1].ID;
-                    graph.series.push(cache.getObject(loc_series + ", " + eur_per_unit_series);
+                    graph.series.push(loc_series + ", " + eur_per_unit_series);
                     graph.data.push(sensor_data);
                 }
                 $scope.$apply();
