@@ -147,4 +147,6 @@
 	float: left;
 	height: 50px;
 	width: 50px;
+	margin-top: auto;
+	margin-bottom: auto;
 }

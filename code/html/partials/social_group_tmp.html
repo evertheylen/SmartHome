@@ -2,7 +2,7 @@
 <div ng-controller="groupController">
 	<h4 class="groupTitle">{{i18n('welcome_group')}}{{group.title}}</h4>
 	<div class="postStatus">
-		<img src="http://www.gravatar.com/avatar/{{get_hash(user.email)}}?d=identicon" class="postStatus_picture" />
+		<img src="http://www.gravatar.com/avatar/{{get_hash(auth_user.email)}}?d=identicon" class="postStatus_picture" />
 		<div id="txtfield_StatusGroup" class="mdl-textfield mdl-js-textfield">
 		    <input class="mdl-textfield__input" ng-model="status_text" type="text" id="input_StatusTextGroup" name="statusText">
 		    <label class="mdl-textfield__label" for="input_StatusTextGroup" ng-bind="i18n('input_status_group')"></label>
