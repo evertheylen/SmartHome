@@ -16,7 +16,9 @@
     </button>
     
     <span class="groupMembers" ng-bind="i18n('members')"></span>
-    <img ng-repeat="member in members" on-finish-render="ngRepeatFinished" title="{{member.first_name + ' ' + member.last_name}}" src="http://www.gravatar.com/avatar/{{get_hash(member.email)}}?d=identicon&s=50"/>
+    <div class="groupMemberImages">
+		<img ng-repeat="member in members" on-finish-render="ngRepeatFinished" title="{{member.first_name + ' ' + member.last_name}}" src="http://www.gravatar.com/avatar/{{get_hash(member.email)}}?d=identicon&s=50"/>
+	</div>
 <div ng-repeat="status in statuses | reverse track by status.SID" on-finish-render="ngRepeatFinished" ng-controller="statusController" class="demo-card-wide mdl-card mdl-shadow--2dp" style="width: 94%;">
 		<div class="mdl-card__title">
 			<h2 class="mdl-card__title-text" >{{auth_user.UID === status.author_UID ? i18n('own_status') : i18n('friend_status') + author.first_name + " " + author.last_name}}</h2>
