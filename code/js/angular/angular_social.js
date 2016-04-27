@@ -514,7 +514,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         for(i = 0; i < response.objects.length; i++) {
             var like = response.objects[i];
             if(like.user_UID == $rootScope.auth_user.UID) {
+                console.log("reached this");
                 $scope.user_like = like; 
+                console.log("reached this2");
                 if($scope.user_like.positive) {
                     removeClass(document.getElementById('likes_click'), 'notClicked');
                     addClass(document.getElementById('likes_click'), 'clicked');      
@@ -530,6 +532,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
             $scope.dislikes++;
         }
+        console.log("reached this3");
         $scope.$apply();
     });
 
