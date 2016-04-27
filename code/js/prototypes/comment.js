@@ -1,6 +1,6 @@
 Comment.prototype = new DataType();
 Comment.prototype.constructor = Comment;
-Comment.prototype._key = ["CID", "SID"];
+Comment.prototype._key = ["CID", "status_SID"];
 
 function Comment(CID, date, date_edited, author_UID, status_SID, text) {
 	this.CID = CID;
