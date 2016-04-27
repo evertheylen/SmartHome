@@ -691,7 +691,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.graph.data = [];
 
             var db_graph = response.object;
-￼
+
             // Convert db_graph to a normal graph.
             var valueType = db_graph.timespan.valueType;
             var start_date = new Date(db_graph.timespan.start);
