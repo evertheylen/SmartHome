@@ -420,7 +420,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 }
                 break;
             
-            case "no-tag":
+            case "notag":
                 for (i = 0; i < $scope.tags.length; i++) {
                     if ($scope.select_tags[i]) {
                         checkCount++;
