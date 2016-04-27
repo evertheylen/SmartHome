@@ -719,14 +719,16 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     }, function(response) {
         $scope.comments = response.objects;
         for (var i = 0; i < $scope.comments.length; i++) {
-            console.log("getting author for comment: " + $scope.comments[i]);
+            var comment = $scope.comments[i];
+            console.log("getting author for comment: " + comment);
             ws.request({
                 type: "get",
                 what: "User",
                 data: {
-                    UID: $scope.comments[i].author_UID
+                    UID: comment.author_UID
                 }
             }, function (response) {
+                comment.author = response.object;
                 $scope.comments[i].author = response.object;
                 $scope.$apply();
             });
