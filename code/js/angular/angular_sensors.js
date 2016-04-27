@@ -68,6 +68,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             if (!exists)
                 $scope.tags.push(temp_tags[i]);
         }
+        console.log(" ============= TAGS ================== " + $scope.tags);
         updateFilteredSensors();
         $scope.$apply();
     });
