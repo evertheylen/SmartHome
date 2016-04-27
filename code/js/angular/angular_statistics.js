@@ -426,7 +426,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         checkCount++;
                     }
                 }
-                if ($scope.select_no_tags) {
+                if (checked) {
                     checkCount++;
                 }                
                 $scope.all_tags = (checkCount === $scope.tags.length+1);
