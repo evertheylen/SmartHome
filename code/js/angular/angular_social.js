@@ -14,13 +14,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     }, function(response) {
         $scope.groups = response.objects;
         for (var i= 0; i< $scope.groups.length; i++) {
-            {
-        "status": "Enum('ADMIN', 'MEMBER', 'PENDING', 'BANNED')",
-        "last_change": "<class 'int'>",
-        "user_UID": "<class 'int'>",
-        "group_GID": "<class 'int'>"
-    }
-            ws.request({
+/*            ws.request({
                 type: "get",
                 what: "Membership",
                 data: {
@@ -29,7 +23,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
                 }
             }, function(response) {
                 if (
-            });
+            });*/
         }
         $scope.$apply();
     });
