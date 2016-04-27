@@ -914,7 +914,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     text: $scope.new_comment                
                 }
             }, function (response) {
-                $scope.comment = response.object;
+                var comment = response.object;
                 ws.request({
                     type: "get",
                     what: "User",
@@ -922,8 +922,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         UID: response.object.author_UID
                     }
                 }, function (response) {
-                    $scope.comment.author = response.object            
-                    $scope.comments.push($scope.comment);
+                    comment.author = response.object            
+                    $scope.comments.push(comment);
                     removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-focused');
                     removeClass(document.getElementById('comment_parent-'+$scope.status.SID), 'is-dirty');
                     $scope.new_comment = "";
