@@ -126,15 +126,15 @@ class Value(OwEntity):
             
             hourvalue_to_day_times = set()
             for t in hourvalue_times: 
-                hourvalue_to_day_times.insert(HourValue.new_date(t))
+                hourvalue_to_day_times.add(HourValue.new_date(t))
                 
             dayvalue_to_month_times = set()
             for t in hourvalue_to_day_times: 
-                dayvalue_to_month_times.insert(DayValue.new_date(t))
+                dayvalue_to_month_times.add(DayValue.new_date(t))
                 
             monthvalue_to_year_times = set()
             for t in dayvalue_to_month_times: 
-                monthvalue_to_year_times.insert(MonthValue.new_date(t))
+                monthvalue_to_year_times.add(MonthValue.new_date(t))
             
             await HourValue.aggregate(sorted(hourvalue_to_day_times), sensor, db)
             await DayValue.aggregate(sorted(dayvalue_to_month_times), sensor, db)
