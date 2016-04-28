@@ -12,5 +12,5 @@ class Status(RTOwEntity):
     date = Property(int)
     date_edited = Property(int)  # If they are the same, no edits
     text = Property(str)
-    graph = Reference(Graph)
+    graph = Property(int, required=False)  # This is secretly a reference to Graph
     
