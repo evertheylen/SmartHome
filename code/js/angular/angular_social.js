@@ -742,12 +742,12 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         $scope.comments = response.objects;
     });
 
-    if ($scope.status.graph_GID != null) {
+    if ($scope.status.GID != null) {
         ws.request({
             type: "get",
             what: "Graph",
             data: {
-                GID: $scope.status.graph_GID
+                GID: $scope.status.GID
             }
         }, function(response) {
             $scope.graph = {};
