@@ -742,8 +742,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         $scope.comments = response.objects;
     });
 
-    console.log("Status GID: ");
-    console.log("sGID2: " + $scope.status.graph);
     if ($scope.status.graph != null) {
         ws.request({
             type: "get",
@@ -790,7 +788,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                 var sensor_data = [];
                 for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
-                    sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    sensor_data.push(lines[groupIndex].values[valueIndex][0]);
                 // Series will be a ton of work.
                 $scope.graph.series.push("");
                 $scope.graph.data.push(sensor_data);
