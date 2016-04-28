@@ -125,6 +125,7 @@ def create_WsHandler(controller, debug=True):
             self.session = self.get_cookie("session")
             self.user = None
             self.listenees = set()
+            self.graph_cache = {}
             tornado.ioloop.IOLoop.current().spawn_callback(self.open_async)
         
         

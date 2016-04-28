@@ -305,6 +305,12 @@ class Controller(metaclass=MetaController):
             # Just a superficial get so no need to check for authorisation
             # await u.check_auth(req)
             await req.answer(u.json_repr())
+        
+        @case("Graph")
+        async def graph(self, req):
+            g = await Graph.find_by_key(req.data["GID"], self.db)
+            await g.fill(self.db)
+            await req.answer(g.json_repr())
 
 
     # TODO currently permissions are a bit weird: handle_get will trust the Sensor/Value's is_authorized,
@@ -436,6 +442,13 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             comments = await Comment.get(Comment.status == s.key).all(self.db)
             await req.answer([c.json_repr() for c in comments])
+        
+        @case("Graph")
+        async def graph(self, req):
+            graph = req.conn.graph_cache[req.data["GID"]]
+            await graph.save(self.db)
+            del req.conn.graph_cache[req.data["GID"]]
+            await req.answer(g.json_repr())
 
 
     @handle_ws_type("edit")
@@ -472,6 +485,13 @@ class Controller(metaclass=MetaController):
             l.edit_from_json(req.data)
             await l.update(self.db)
             await req.answer(l.json_repr())
+        
+        @case("Graph")
+        async def graph(self, req):
+            g = await Graph.find_by_key(req.data["GID"], self.db)
+            g.edit_from_json(req.data)
+            await g.update(self.db)
+            await req.answer(g.json_repr())
 
     # TODO handle FOREIGN KEY constraints (CASCADE?)
     @handle_ws_type("delete")
@@ -533,6 +553,13 @@ class Controller(metaclass=MetaController):
                 # await t.check_auth(req, self.db)
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
+        
+        @case("Graph")
+        async def graph(self, req):
+            g = await Graph.find_by_key(req.data["GID"], self.db)
+            await g.delete(self.db)
+            await req.answer({"status": "success"})
+
 
     @handle_ws_type("create_graph")
     @require_user_level(1)
@@ -553,43 +580,9 @@ class Controller(metaclass=MetaController):
         if not req.conn.user.admin:
             base_wheres.append(Sensor.user == req.conn.user.key)
 
-        # Tactic: divide all graphs further and further
-        # Each list is a limitation aka Where object that filters sensors
-        wheres_list = [base_wheres]  # To start, one graph with the basic wheres
-        for g in group_by:
-            extra_wheres = []
-            if g["what"] == "Sensor":
-                for SID in g["IDs"]:
-                    extra_wheres.append(Sensor.SID == SID)
-            elif g["what"] == "Type":
-               for t in g["IDs"]:
-                   if t not in Sensor.type_type.options:
-                       raise Error("unknown_type", "Unknown type")
-                   extra_wheres.append(Sensor.type == t)
-            elif g["what"] == "Tag":
-                for t in g["IDs"]:
-                    # Not really a where but anyway
-                    extra_wheres.append(RawSql("SELECT * FROM table_sensor WHERE table_sensor.SID IN (SELECT table_tag.sensor_SID FROM table_Tag WHERE text = %(tagtext)s)", {"tagtext": t}))
-            elif g["what"] == "Location":
-                for LID in g["IDs"]:
-                    extra_wheres.append(Sensor.location == LID)
-            else:
-                raise Error("no_such_group_by", "There is no such group_by 'what' attribute")
+        ts = req.metadata["timespan"]
+        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_type = ts["valueType"], title = "untitled")
+        
+        await g.build(base_wheres, group_by, self.db)
 
-            new_where_list = []
-            for wheres in wheres_list:
-                for w in extra_wheres:
-                    new_where_list.append([w]+wheres)
-            wheres_list = new_where_list
-
-        graphs = []
-        for wheres in wheres_list:
-            print("wheres = ", ", ".join([str(w) for w in wheres]))
-            sensors = await Sensor.get(*wheres).all(self.db)
-            IDs = [s.SID for s in sensors]
-            # TODO give more metadata to Graph
-            graph = Graph([], IDs, req.metadata["timespan"], value_cls)
-            await graph.fill(self.db)
-            graphs.append(graph)
-
-        await req.answer([g.json_repr() for g in graphs])
+        await req.answer(g.json_repr())

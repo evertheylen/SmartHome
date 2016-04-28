@@ -119,7 +119,7 @@ class Value(OwEntity):
                 print("hour_sum is now", hour_sum)
             
             # Step 2c: Insert the HourValue!
-            hv = HourValue(value=hour_sum/60, time=hour_start, sensor=sensor.key)
+            hv = HourValue(value=hour_sum/3600, time=hour_start, sensor=sensor.key)
             await hv.insert(db)  # TODO performance?
             print("Adding hour with value", hour_sum/3600)
         

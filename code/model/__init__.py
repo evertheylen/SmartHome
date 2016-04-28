@@ -4,7 +4,9 @@ from .user import User
 from .value import Value, HourValue, DayValue, MonthValue, YearValue
 from .location import Location
 from .tag import Tag
-base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag]
+from .graph import Graph, Line, DataInLine, SensorsInLine
+base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag,
+        Graph, Line, DataInLine, SensorsInLine]
 
 from .status import Status
 from .like import Like
