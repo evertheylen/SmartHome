@@ -365,7 +365,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 break;
 
             case "tag":
-                for (i = 0; i < $scope.tags.length; i++) {
+                for (i = 0; i < $scs'ope.tags.length; i++) {
                     if ($scope.select_tags[i]) {
                         checkCount++;
                     }
@@ -410,7 +410,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                     }
                                 }
                             }
-                            if ($scope.select_no_tags && $scope.sensors[i].tags.length == 0 && $scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
+                            if ($scope.select_no_tags && $scope.sensors[i].tags.length == 0 && $scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {s'
                                 $scope.filtered_sensors.push($scope.sensors[i]);
                             }                            
                         }
@@ -830,8 +830,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             console.log("Lines length: " + lines.length);
             for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                 var sensor_data = [];
-                for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
+                for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) {
                     sensor_data.push(lines[groupIndex].values[valueIndex][0]);
+			        if (valueType == "Value")
+                        graph.labels.push("");
+		        }
                 graph.data.push(sensor_data);
                 find_series(lines, groupIndex);
             }
