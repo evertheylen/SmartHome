@@ -43,6 +43,8 @@ def create_UploadHandler(controller):
             
             sensors = []
             for i, name in enumerate(data[0][2:]):
+                if name == "":
+                    continue
                 try:
                     csv_sensor = CsvSensor(name)
                     sensor = await Sensor.find_by_key(csv_sensor.ID, controller.db)
