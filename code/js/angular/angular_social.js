@@ -762,7 +762,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             var valueType = db_graph.timespan.valueType;
             var start_date = db_graph.timespan.start;
             var end_date = db_graph.timespan.end;
-            var total_days = Math.ceil(end_date - start_date) / (60*60*24));
+            var total_days = Math.ceil((end_date - start_date) / (60*60*24));
 
             switch (valueType) {
                 case 'HourValue':
