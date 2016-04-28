@@ -34,6 +34,10 @@ import controller
 import handlers
 import model
 
+import time
+os.environ['TZ'] = 'Europe/London'
+time.tzset()
+
 
 # Parse config
 # ============
