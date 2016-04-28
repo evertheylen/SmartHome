@@ -450,7 +450,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                     GID: graphShare.getGraph()
                 }
                 }, function(response) {
-                var _date = Date.now() / 1000;
+                var _date = Math.ceil(Date.now() / 1000);
                 var status = new Status(-1, _date, _date, $rootScope.auth_user.UID, $scope.share_type.wall_WID, "Look at my Graph!", response.GID);
                 delete status.SID;
                  ws.request({
