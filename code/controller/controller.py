@@ -284,6 +284,15 @@ class Controller(metaclass=MetaController):
             await m.check_auth(req, db=self.db)
             await m.insert(self.db)
             await req.answer(m.json_repr())
+        
+        @case("Graph")
+        async def graph(self, req):
+            g = req.conn.graph_cache[req.data["GID"]]
+            await g.save(self.db)
+            #await g.fill(self.db)
+            await req.answer(g.json_repr())
+            del req.conn.graph_cache[req.data["GID"]]
+        
 
     @handle_ws_type("get")
     @require_user_level(1)
@@ -443,13 +452,6 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             comments = await Comment.get(Comment.status == s.key).all(self.db)
             await req.answer([c.json_repr() for c in comments])
-        
-        @case("Graph")
-        async def graph(self, req):
-            graph = req.conn.graph_cache[req.data["GID"]]
-            await graph.save(self.db)
-            del req.conn.graph_cache[req.data["GID"]]
-            await req.answer(g.json_repr())
 
 
     @handle_ws_type("edit")
