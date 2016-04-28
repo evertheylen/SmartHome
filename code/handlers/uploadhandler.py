@@ -43,14 +43,14 @@ def create_UploadHandler(controller):
             
             sensors = []
             for i, name in enumerate(data[0][2:]):
-                csv_sensor = CsvSensor(name)
                 try:
+                    csv_sensor = CsvSensor(name)
                     sensor = await Sensor.find_by_key(csv_sensor.ID, controller.db)
                     # TODO check_auth
                 except:
                     controller.logger.info("Something went wrong while searching for sensor with ID {}".format(csv_sensor.ID))
                     continue
-                sensors.append((i, CsvSensor(name), sensor))
+                sensors.append((i, csv_sensor, sensor))
             
             times = []
             for row in data[1:]:
