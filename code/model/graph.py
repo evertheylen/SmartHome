@@ -55,6 +55,8 @@ class Graph(OwEntity):
                        raise Error("unknown_type", "Unknown type")
                    extra_wheres.append(Sensor.type == "'%s'"%t)
             elif g["what"] == "Tag":
+                # TODO does not work when subquery has more than one row
+                # TODO support for the magic value "$NOTAGS$"
                 for t in g["IDs"]:
                     # Not really a where but anyway
                     extra_wheres.append(RawSql("SELECT * FROM table_sensor WHERE table_sensor.SID IN (SELECT table_tag.sensor_SID FROM table_Tag WHERE text = %(tagtext)s)", {"tagtext": t}))
