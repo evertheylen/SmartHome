@@ -808,6 +808,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }, function(response) {
             var lines = response.lines;
             graph.temp_GID = response.GID;
+            console.log("Lines length: " + lines.length);
             for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                 var sensor_data = [];
                 for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
