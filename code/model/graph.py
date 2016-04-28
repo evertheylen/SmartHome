@@ -53,7 +53,7 @@ class Graph(OwEntity):
                for t in g["IDs"]:
                    if t not in Sensor.type_type.options:
                        raise Error("unknown_type", "Unknown type")
-                   extra_wheres.append(Sensor.type == t)
+                   extra_wheres.append(Sensor.type == "'%s'"%t)
             elif g["what"] == "Tag":
                 for t in g["IDs"]:
                     # Not really a where but anyway
@@ -143,7 +143,7 @@ class Line(OwEntity):
     async def save(self, db):
         await self.insert(db)
         for v in self.values:
-            await DataInLine(line=self.key, time=v[0], value=v[1]).insert(db)
+            await DataInLine(line=self.key, time=v[1], value=v[0]).insert(db)
         for s in self.sensors:
             await SensorsInLine(line=self.key, sensor=s).insert(db)
     
