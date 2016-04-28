@@ -365,7 +365,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 break;
 
             case "tag":
-                for (i = 0; i < $scs'ope.tags.length; i++) {
+                for (i = 0; i < $scope.tags.length; i++) {
                     if ($scope.select_tags[i]) {
                         checkCount++;
                     }
