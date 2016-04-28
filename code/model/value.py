@@ -81,7 +81,7 @@ class Value(OwEntity):
         if end_date.minute == end_date.second == 0:
             end_date = end_date + relativedelta(hours=1)
         else:
-            end_date = datetime(start_date.year, start_date.month, start_date.day, start_date.hour) + relativedelta(hours=1)
+            end_date = datetime(end_date.year, end_date.month, end_date.day, end_date.hour) + relativedelta(hours=1)
         end = int(end_date.timestamp())
         print("End", end_date, end)
         
