@@ -129,12 +129,15 @@ class Line(OwEntity):
     
     async def build(self, sensors, graph, db):
         self.sensors = sensors
-        req = RawSql("SELECT time, avg(value) AS value FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, g=graph, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {
-            "start": graph.timespan_start,
-            "end": graph.timespan_end,
-        })
-        result = await req.exec(db)
-        self.values = result.raw_all()
+        if len(self.sensors) == 0:
+            self.results = []
+        else:
+            req = RawSql("SELECT time, avg(value) AS value FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, g=graph, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {
+                "start": graph.timespan_start,
+                "end": graph.timespan_end,
+            })
+            result = await req.exec(db)
+            self.values = result.raw_all()
         self.filled = True
     
     async def save(self, db):
