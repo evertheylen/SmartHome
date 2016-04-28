@@ -760,9 +760,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
             // Convert db_graph to a normal graph.
             var valueType = db_graph.timespan.valueType;
-            var start_date = new Date(db_graph.timespan.start * 1000);
-            var end_date = new Date(db_graph.timespan.end * 1000);
-            var total_days = Math.ceil((end_date.getTime() - start_date.getTime()) / (1000*60*60*24));
+            var start_date = db_graph.timespan.start;
+            var end_date = db_graph.timespan.end;
+            var total_days = Math.ceil(end_date - start_date) / (60*60*24));
 
             switch (valueType) {
                 case 'HourValue':
