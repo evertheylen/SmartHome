@@ -537,11 +537,6 @@ class Controller(metaclass=MetaController):
     @handle_ws_type("create_graph")
     @require_user_level(1)
     async def handle_create_graph(self, req):
-        pass
-
-    @handle_ws_type("get_values")
-    @require_user_level(1)
-    async def handle_get_values(self, req):
         base_wheres = []
         valueType = req.metadata["timespan"]["valueType"]
         group_by = req.metadata.get("group_by", [])

@@ -27,6 +27,7 @@ import tornado.ioloop
 import tornado.web
 from tornado.options import parse_command_line
 
+import schedule
 
 # Own code
 import controller
@@ -154,7 +155,12 @@ class OverWatch:
     # Actions
     # -------
     
+    def cleanup(self):
+        self.logger.info("Cleanup!")
+        ioloop.spawn_callback(model.Value.clean, self.model.db)
+    
     def run(self):
+        schedule.every().day.at("23:55").do(self.cleanup)
         self.logger.info("Starting OverWatch on: http://localhost:%d/"%self.config["port"])
         self.app.listen(self.config["port"])
         self.ioloop.start()
