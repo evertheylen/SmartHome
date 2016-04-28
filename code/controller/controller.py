@@ -287,7 +287,10 @@ class Controller(metaclass=MetaController):
         
         @case("Graph")
         async def graph(self, req):
-            g = req.conn.graph_cache[req.data["GID"]]
+            try:
+                g = req.conn.graph_cache[req.data["GID"]]
+            except KeyError:
+                raise Error("graph_already_saved", "You already saved that graph")
             await g.save(self.db)
             #await g.fill(self.db)
             await req.answer(g.json_repr())
