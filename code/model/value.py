@@ -113,7 +113,11 @@ class Value(OwEntity):
             hour_sum = 0
             for i, value in enumerate(hour_values[:-1]):
                 width = hour_values[i+1][1] - value[1]
-                hour_sum += width * value[0]
+                try:
+                    hour_sum += width * value[0]
+                except:
+                    import pdb
+                    pdb.set_trace()
                 print("hour_sum is now", hour_sum)
             
             # Step 2c: Insert the HourValue!
