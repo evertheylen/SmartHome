@@ -768,7 +768,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
             switch (valueType) {
                 case 'HourValue':
-                    var total_hours = (end_date - start_date) / (1000*60*60);
+                    var total_hours = (end_date - start_date) / (60*60);
                     for (var i = 0; i < total_hours; i++) 
                         $scope.graph.labels.push("hour " + i);
                     break;
