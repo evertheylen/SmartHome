@@ -632,7 +632,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         for (j=0; j < $scope.tags.length; j++) {
             if ($scope.select_tags[i]) {
-                console.log("Pushing tag: " + text);
+                console.log("Pushing tag: " + $scope.tags[i].text);
                 tag_IDs.push($scope.tags[i].text);
             }
         }   
