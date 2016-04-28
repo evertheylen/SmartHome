@@ -651,7 +651,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
             console.log("making series for locations");
             group_by_types.push("Location");
-            find_series = function (lines) {
+            find_series = function (lines, groupIndex) {
                     graph.series.push(cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description);
             }
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
