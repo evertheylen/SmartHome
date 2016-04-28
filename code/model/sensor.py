@@ -22,6 +22,7 @@ class Sensor(RTOwEntity):
         return self.user == usr.key
     
     async def insert_values(self, values, db):
+        from .value import Value
         # values is a list of tuples (value, time)
         if len(values) == 0: return
     
