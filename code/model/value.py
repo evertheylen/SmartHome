@@ -12,25 +12,23 @@ from datetime import datetime
 
 def create_aggregate(_cls_big):
     @classmethod
-    async def aggregate(cls_small, time, sensor, db, *, recurse=False, cls_big=_cls_big):
-        # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 1 hour
-        gap = cls_big.gap(time)
-        print("class is ",repr(cls_small))
-        result = await cls_small.get(cls_small.sensor == sensor, cls_small.time >= time, cls_small.time < time + gap).exec(db)
-        values = result.all()
-        
-        # Step 2: determine average
-        #count = result.count()  # nu-uh
-        count = gap // cls_small.gap(time)
-        total = sum([v.value for v in values])
-        average = total/count if count != 0 else 0
-        
-        # Step 3: Put those as HourValue, (always use starting point as 'time' attribute)
-        v = cls_big(value=average, sensor=sensor.key, time=time)
-        await v.insert(db)
-        
-        if recurse:
-            await cls_big.aggregate(cls_big.new_time(time), sensor, db, recurse=True)
+    async def aggregate(cls_small, times, sensor, db, *, cls_big=_cls_big):
+        for time in times:
+            # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 1 hour
+            gap = cls_big.gap(time)
+            print("class is ",repr(cls_small))
+            result = await cls_small.get(cls_small.sensor == sensor, cls_small.time >= time, cls_small.time < time + gap).exec(db)
+            values = result.all()
+            
+            # Step 2: determine average
+            #count = result.count()  # nu-uh
+            count = gap // cls_small.gap(time)
+            total = sum([v.value for v in values])
+            average = total/count if count != 0 else 0
+            
+            # Step 3: Put those as HourValue, (always use starting point as 'time' attribute)
+            v = cls_big(value=average, sensor=sensor.key, time=time)
+            await v.insert(db)
     
     return aggregate
 
@@ -124,7 +122,23 @@ class Value(OwEntity):
             print("Adding hour with value", hour_sum/3600)
         
         if recurse:
-            await HourValue.aggregate(HourValue.new_time(start), sensor, db, recurse=True)
+            hourvalue_times = set(range(start,end,3600))
+            
+            hourvalue_to_day_times = set()
+            for t in hourvalue_times: 
+                hourvalue_to_day_times.insert(HourValue.new_date(t))
+                
+            dayvalue_to_month_times = set()
+            for t in hourvalue_to_day_times: 
+                dayvalue_to_month_times.insert(DayValue.new_date(t))
+                
+            monthvalue_to_year_times = set()
+            for t in dayvalue_to_month_times: 
+                monthvalue_to_year_times.insert(MonthValue.new_date(t))
+            
+            await HourValue.aggregate(sorted(hourvalue_to_day_times), sensor, db)
+            await DayValue.aggregate(sorted(dayvalue_to_month_times), sensor, db)
+            await MonthValue.aggregate(sorted(monthvalue_to_year_times), sensor, db)
 
 
 class YearValue(Value):
@@ -147,24 +161,25 @@ class YearValue(Value):
 
 class MonthValue(Value):
     @classmethod
-    async def aggregate(cls_small, time, sensor, db, *, recurse=False):
-        # Do it differently        
-        gap = YearValue.gap(time)
-        date = datetime.fromtimestamp(time)
-        current = date
-        weights = []
-        for i in range(12):
-            result = await cls_small.get(cls_small.sensor == sensor, cls_small.time == current.timestamp()).exec(db)
-            if result.count() == 1:
-                mv = result.single()
-                weights.append(mv.value * (cls_small.gap(current.timestamp()) / 86400))
-            else:
-                weights.append(0)
-            current += relativedelta(months=1)
-        average = sum(weights) / (gap / 86400)
-        
-        v = YearValue(value=average, sensor=sensor.key, time=time)
-        await v.insert(db)
+    async def aggregate(cls_small, times, sensor, db):
+        for time in times:
+            # Do it differently        
+            gap = YearValue.gap(time)
+            date = datetime.fromtimestamp(time)
+            current = date
+            weights = []
+            for i in range(12):
+                result = await cls_small.get(cls_small.sensor == sensor, cls_small.time == current.timestamp()).exec(db)
+                if result.count() == 1:
+                    mv = result.single()
+                    weights.append(mv.value * (cls_small.gap(current.timestamp()) / 86400))
+                else:
+                    weights.append(0)
+                current += relativedelta(months=1)
+            average = sum(weights) / (gap / 86400)
+            
+            v = YearValue(value=average, sensor=sensor.key, time=time)
+            await v.insert(db)
         
         # no recurse
     
