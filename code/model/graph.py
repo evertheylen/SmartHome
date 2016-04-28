@@ -98,6 +98,7 @@ class Graph(OwEntity):
     def json_repr(self):
         assert self.filled, "Fill first"
         return {
+            "GID": self.GID,
             "group_by": [],
             "where": [],
             "title": self.title,
