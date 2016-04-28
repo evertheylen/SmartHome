@@ -101,7 +101,7 @@ class Graph(OwEntity):
             "group_by": [],
             "where": [],
             "title": self.title,
-            "lines": self.lines,
+            "lines": [l.json_repr() for l in self.lines],
             "timespan": {
                 "start": self.timespan_start,
                 "end": self.timespan_end,
