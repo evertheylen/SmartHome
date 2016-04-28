@@ -48,7 +48,7 @@ def create_UploadHandler(controller):
                     sensor = await Sensor.find_by_key(csv_sensor.ID, controller.db)
                     # TODO check_auth
                 except Exception as e:
-                    controller.logger.info("Something went wrong while searching for sensor with ID {}: {}".format(csv_sensor.ID, e))
+                    controller.logger.info("Something went wrong while searching for sensor with name {}: {}".format(name, e))
                     continue
                 sensors.append((i, csv_sensor, sensor))
             
