@@ -67,7 +67,7 @@ class Graph(OwEntity):
                     new_where_list.append([w]+wheres)
             wheres_list = new_where_list
 
-        lines = []
+        self.lines = []
         for wheres in wheres_list:
             print("wheres = ", ", ".join([str(w) for w in wheres]))
             sensors = await Sensor.get(*wheres).all(db)
