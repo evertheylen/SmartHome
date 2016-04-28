@@ -743,13 +743,13 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     });
 
     console.log("Status GID: ");
-    console.log("sGID2: " + $scope.status.GID);
-    if ($scope.status.GID != null) {
+    console.log("sGID2: " + $scope.status.graph);
+    if ($scope.status.graph != null) {
         ws.request({
             type: "get",
             what: "Graph",
             data: {
-                GID: $scope.status.GID
+                GID: $scope.status.graph
             }
         }, function(response) {
             $scope.graph = {};
