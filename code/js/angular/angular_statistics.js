@@ -812,7 +812,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                 var sensor_data = [];
                 for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++)
-                    sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    sensor_data.push(lines[groupIndex].values[valueIndex][0]);
                 graph.data.push(sensor_data);
                 find_series(lines, groupIndex);
             }
