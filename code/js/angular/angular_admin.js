@@ -223,7 +223,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                 var sensor_data = [];
                 for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
-                    sensor_data.push(lines[groupIndex].values[valueIndex][1]);
+                    sensor_data.push(lines[groupIndex].values[valueIndex][0]);
                 graph.series.push(final_sensors[sensor_SIDs.indexOf(lines[groupIndex].sensors[0])].title);
                 graph.data.push(sensor_data);
             }
