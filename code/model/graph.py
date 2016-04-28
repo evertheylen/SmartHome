@@ -149,7 +149,7 @@ class Line(OwEntity):
             data = await DataInLine.get(DataInLine.line == self.key).all(db)
             self.values = [(d.value, d.time) for d in data]
             sil = await SensorsInLine.get(SensorsInLine.line == self.key).all(db)
-            self.sensors = [s.SID for s in sil]
+            self.sensors = [s.sensor_SID for s in sil]
             self.filled = True
     
     def json_repr(self):
