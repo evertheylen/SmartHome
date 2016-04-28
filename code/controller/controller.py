@@ -586,7 +586,7 @@ class Controller(metaclass=MetaController):
         
         await g.build(base_wheres, group_by, self.db)
 
-        GID = "temp" + random.randint(1,999999)
+        GID = "temp" + str(random.randint(1,999999))
         g.GID = GID
         req.conn.graph_cache[GID] = g
 
