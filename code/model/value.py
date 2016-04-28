@@ -121,7 +121,7 @@ class Value(OwEntity):
             # Step 2c: Insert the HourValue!
             hv = HourValue(value=hour_sum/60, time=hour_start, sensor=sensor.key)
             await hv.insert(db)  # TODO performance?
-            print("Adding hour with value", hour_sum/60)
+            print("Adding hour with value", hour_sum/3600)
         
         if recurse:
             await HourValue.aggregate(HourValue.new_time(start), sensor, db, recurse=True)
