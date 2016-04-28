@@ -4,8 +4,7 @@ from .user import User
 from .value import Value, HourValue, DayValue, MonthValue, YearValue
 from .location import Location
 from .tag import Tag
-from .line import Line
-base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag, Line]
+base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag]
 
 from .status import Status
 from .like import Like
