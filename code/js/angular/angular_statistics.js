@@ -631,10 +631,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 type_IDs.push($scope.types[i]);
         }
         for (j=0; j < $scope.tags.length; j++) {
-            if ($scope.select_tags[i]) {
-                console.log("Pushing tag: " + $scope.tags[i].text);
-                tag_IDs.push($scope.tags[i].text);
-            }
+            if ($scope.select_tags[i])
+                tag_IDs.push($scope.tags[j].text);
         }   
         if($scope.select_no_tags) 
             tag_IDs.push("$NOTAGS$");
