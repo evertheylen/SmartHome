@@ -119,7 +119,7 @@ class Line(OwEntity):
     graph = Reference(Graph)
     
     # TO BE FILLED
-    values = []  # tuples (value, time)
+    values = []  # tuples (time, value)
     sensors = [] # simple ID's
     
     filled = False
@@ -137,7 +137,7 @@ class Line(OwEntity):
     async def save(self, db):
         await self.insert(db)
         for v in self.values:
-            await DataInLine(line=self.key, time=v[1], value=v[0]).insert(db)
+            await DataInLine(line=self.key, time=v[0], value=v[1]).insert(db)
         for s in self.sensors:
             await SensorsInLine(line=self.key, sensor=s).insert(db)
     
