@@ -631,8 +631,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 type_IDs.push($scope.types[i]);
         }
         for (j=0; j < $scope.tags.length; j++) {
-            if ($scope.select_tags[i]) 
+            if ($scope.select_tags[i]) {
+                console.log("Pushing tag: " + text);
                 tag_IDs.push($scope.tags[i].text);
+            }
         }   
         if($scope.select_no_tags) 
             tag_IDs.push("$NOTAGS$");
@@ -803,6 +805,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var group_by_objects = [];
         for (var i = 0; i < group_by_types.length; i++) {
             var type = group_by_types[i]
+            console.log("Agg IDs");
+            console.log("Aggregate IDs: " + aggregate_IDs[type]);
             group_by_objects.push({
                 what: type,
                 IDs: aggregate_IDs[type]
