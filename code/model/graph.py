@@ -5,6 +5,7 @@ from .owentity import *
 
 from .sensor import Sensor
 from .value import *
+from .user import User
 
 # Dictionary to limit possible fields on which to filter in 'where' clause
 value_props_per_type = {}
@@ -47,7 +48,7 @@ class Graph(OwEntity):
                 for SID in g["IDs"]:
                     extra_wheres.append(Sensor.SID == SID)
             elif g["what"] == "User":
-                for UID in g["UIDs"]:
+                for UID in g["IDs"]:
                     extra_wheres.append(User.UID == UID)
             elif g["what"] == "Type":
                for t in g["IDs"]:

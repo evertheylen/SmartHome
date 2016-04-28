@@ -2,10 +2,13 @@
 <div ng-controller="statusIndexController">
 	<div class="mdl-grid">
 		<div class="mdl-cell mdl-cell--10-col">
-			<div id="txtfield_Status" class="mdl-textfield mdl-js-textfield">
-				<input class="mdl-textfield__input" ng-model="status_text" type="text" id="input_StatusText" name="statusText">
-				<label class="mdl-textfield__label" for="input_StatusText" ng-bind="i18n('input_status')"></label>
-			</div>
+	<div class="postStatus">
+		<img src="http://www.gravatar.com/avatar/{{get_hash(auth_user.email)}}?d=identicon" class="postStatus_picture" />
+		<div id="txtfield_StatusGroup" class="mdl-textfield mdl-js-textfield">
+		    <input class="mdl-textfield__input" ng-model="status_text" type="text" id="input_StatusTextGroup" name="statusText">
+		    <label class="mdl-textfield__label" for="input_StatusTextGroup" ng-bind="i18n('input_status_group')"></label>
+		</div>
+	</div>
 		</div>
 			<div class="mdl-cell mdl-cell--2-col mdl-cell--centeredContent">
 			<button id="btnStatusPost" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
