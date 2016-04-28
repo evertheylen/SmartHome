@@ -652,46 +652,52 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             console.log("making series for locations");
             group_by_types.push("Location");
             find_series = function (lines, groupIndex) {
-                    graph.series.push(cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description);
+                    //graph.series.push(cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description);
+                    graph.series.push("");
             }
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
             console.log("making series for types");
             group_by_types.push("Type");
             find_series = function (lines, groupIndex) {
-                    graph.series.push($scope.i18n(lines[groupIndex].grouped_by[0].ID));                    
+                    //graph.series.push($scope.i18n(lines[groupIndex].grouped_by[0].ID));     
+                    graph.series.push("");               
             }
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for tags");
             group_by_types.push("Tag");
             find_series = function (lines, groupIndex) {
-                    graph.series.push(lines[groupIndex].grouped_by[0].ID);                    
+                    //graph.series.push(lines[groupIndex].grouped_by[0].ID);
+                    graph.series.push("");                    
             }
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === false) {
             console.log("making series for locations & types");   
             group_by_types.push("Location");
             group_by_types.push("Type");
             find_series = function (lines, groupIndex) {
-                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
-                    graph.series.push(loc_series + ", " + type_series);                   
+                    //var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    //var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
+                    //graph.series.push(loc_series + ", " + type_series);   
+                    graph.series.push("");                
             }
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for locations & tags");
             group_by_types.push("Location");
             group_by_types.push("Tag");
             find_series = function (lines, groupIndex) {
-                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
-                    var tag_series = lines[groupIndex].grouped_by[1].ID;
-                    graph.series.push(loc_series + ", " + tag_series);                  
+                    //var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    //var tag_series = lines[groupIndex].grouped_by[1].ID;
+                    //graph.series.push(loc_series + ", " + tag_series);            
+                    graph.series.push("");      
             }    
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for types & tags");   
             group_by_types.push("Type");
             group_by_types.push("Tag");
             find_series = function (lines, groupIndex) {
-                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
-                    var tag_series = lines[groupIndex].grouped_by[1].ID;
-                    graph.series.push(type_series + ", " + tag_series);                 
+                    //var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
+                    //var tag_series = lines[groupIndex].grouped_by[1].ID;
+                    //graph.series.push(type_series + ", " + tag_series);
+                    graph.series.push("");                 
             }    
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === false) {
             console.log("making series for tags & types & locations");
@@ -699,44 +705,49 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_types.push("Type");
             group_by_types.push("Tag");
             find_series = function (lines, groupIndex) {
-                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
-                    var tag_series = lines[groupIndex].grouped_by[2].ID;
-                    graph.series.push(location_series + ", " + type_series + ", " + tag_series);                
+                    //var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    //var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
+                    //var tag_series = lines[groupIndex].grouped_by[2].ID;
+                    //graph.series.push(location_series + ", " + type_series + ", " + tag_series);  
+                    graph.series.push("");              
             }      
         }
         if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for eur_per_units");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    graph.series.push(lines[groupIndex].grouped_by[0].ID);            
+                    //graph.series.push(lines[groupIndex].grouped_by[0].ID);    
+                    graph.series.push("");        
             } 
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for locations and eur_per_units");
             group_by_types.push("Location");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
-                    var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
-                    graph.series.push(loc_series + ", " + eur_per_unit_series);
+                    //var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    //var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
+                    //graph.series.push(loc_series + ", " + eur_per_unit_series);
+                    graph.series.push("");
             } 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for types and eur_per_units");
             group_by_types.push("Type");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
-                    var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
-                    graph.series.push(type_series + ", " + eur_per_unit_series); 
+                    //var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
+                    //var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
+                    //graph.series.push(type_series + ", " + eur_per_unit_series); 
+                    graph.series.push("");
             } 
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for tags and eur_per_units");
             group_by_types.push("Tag");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    var tag_series = lines[groupIndex].grouped_by[0].ID;
-                    var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
-                    graph.series.push(tag_series + ", " + eur_per_unit_series);   
+                    //var tag_series = lines[groupIndex].grouped_by[0].ID;
+                    //var eur_per_unit_series = lines[groupIndex].grouped_by[1].ID;
+                    //graph.series.push(tag_series + ", " + eur_per_unit_series); 
+                    graph.series.push("");  
             }
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === false && $scope.aggregate_by[3] === true) {
             console.log("making series for locations & types & eur_per_units");   
@@ -744,10 +755,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_types.push("Type");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
-                    var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
-                    graph.series.push(loc_series + ", " + type_series + ", " + eur_per_unit_series);
+                    //var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    //var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
+                    //var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
+                    //graph.series.push(loc_series + ", " + type_series + ", " + eur_per_unit_series);
+                    graph.series.push("");
             }
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === false && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for locations & tags & eur_per_units");
@@ -755,10 +767,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_types.push("Tag");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
-                    var tag_series = lines[groupIndex].grouped_by[1].ID;
-                    var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
-                    graph.series.push(loc_series + ", " + tag_series + ", " + eur_per_unit_series);
+                    //var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    //var tag_series = lines[groupIndex].grouped_by[1].ID;
+                    //var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
+                    //graph.series.push(loc_series + ", " + tag_series + ", " + eur_per_unit_series);
+                    graph.series.push("");
             }
         } else if ($scope.aggregate_by[0] === false && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for types & tags & eur_per_units");   
@@ -766,10 +779,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_types.push("Tag");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
-                    var tag_series = lines[groupIndex].grouped_by[1].ID;
-                    var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
-                    graph.series.push(type_series + ", " + tag_series + ", " + eur_per_unit_series);
+                    //var type_series = $scope.i18n(lines[groupIndex].grouped_by[0].ID);
+                    //var tag_series = lines[groupIndex].grouped_by[1].ID;
+                    //var eur_per_unit_series = lines[groupIndex].grouped_by[2].ID;
+                    //graph.series.push(type_series + ", " + tag_series + ", " + eur_per_unit_series);
+                    graph.series.push("");
             }
         } else if ($scope.aggregate_by[0] === true && $scope.aggregate_by[1] === true && $scope.aggregate_by[2] === true && $scope.aggregate_by[3] === true) {
             console.log("making series for tags & types & locations & eur_per_units");
@@ -778,11 +792,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_types.push("Tag");
             group_by_types.push("Eur_per_Unit");
             find_series = function (lines, groupIndex) {
-                    var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
-                    var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
-                    var tag_series = lines[groupIndex].grouped_by[2].ID;
-                    var eur_per_unit_series = lines[groupIndex].grouped_by[3].ID;
-                    graph.series.push(location_series + ", " + type_series + ", " + tag_series + ", " + eur_per_unit_series);
+                    //var loc_series = cache.getObject("Location", lines[groupIndex].grouped_by[0].LID, {}).description;
+                    //var type_series = $scope.i18n(lines[groupIndex].grouped_by[1].ID);
+                    //var tag_series = lines[groupIndex].grouped_by[2].ID;
+                    //var eur_per_unit_series = lines[groupIndex].grouped_by[3].ID;
+                    //graph.series.push(location_series + ", " + type_series + ", " + tag_series + ", " + eur_per_unit_series);
+                    graph.series.push("");
             }   
         }
         var group_by_objects = [];
