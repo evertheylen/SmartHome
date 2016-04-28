@@ -97,11 +97,17 @@ class Graph(OwEntity):
     
     def json_repr(self):
         assert self.filled, "Fill first"
-        return {"grouped_by": self.grouped_by,
-                "sensors": self.sensors,
-                "values": [list(v) for v in self.values],
-                "timespan": self.timespan
-                }
+        return {
+            "group_by": [],
+            "where": [],
+            "title": self.title,
+            "lines": self.lines,
+            "timespan": {
+                "start": self.timespan_start,
+                "end": self.timespan_end,
+                "valueType": self.timespan_valuetype
+            }
+        }
 
     
     
