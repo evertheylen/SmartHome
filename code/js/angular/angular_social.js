@@ -442,10 +442,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
         }
 
         // If you are sharing a graph.
-        console.log("Checking getGraph()");
-        if(graphShare.getGraph() > -1) {
-            console.log("Greater than -1");
-            console.log("Greater than -1: " + graphShare.getGraph());
+        if(graphShare.getGraph() !== "") {
             ws.request({
                 type: "add",
                 what: "Graph",
@@ -466,7 +463,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                 $scope.$apply();
             });                   
             // Reset the graph cookie.    
-	        graphShare.setGraph(-1);
+	        graphShare.setGraph("");
         }
     }
     
