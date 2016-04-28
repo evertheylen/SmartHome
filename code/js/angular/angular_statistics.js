@@ -579,7 +579,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var timezone_offset = (1000*60*60);
         var full_start_date = ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000;
         var full_end_date = ($scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset) / 1000;
-        var total_days = (full_start_date - full_end_date) / (60*60*24);
+        var total_days = (full_end_date - full_start_date) / (60*60*24);
         
         console.log("Total days: " + total_days);
 
