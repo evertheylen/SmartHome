@@ -74,7 +74,7 @@ class Graph(OwEntity):
             IDs = [s.SID for s in sensors]
             # TODO give more metadata
             line = Line(graph=self.key)
-            await line.build(db, IDs, self, db)
+            await line.build(IDs, self, db)
             self.lines.append(line)
         
         self.filled = True
@@ -97,11 +97,17 @@ class Graph(OwEntity):
     
     def json_repr(self):
         assert self.filled, "Fill first"
-        return {"grouped_by": self.grouped_by,
-                "sensors": self.sensors,
-                "values": [list(v) for v in self.values],
-                "timespan": self.timespan
-                }
+        return {
+            "group_by": [],
+            "where": [],
+            "title": self.title,
+            "lines": [l.json_repr() for l in self.lines],
+            "timespan": {
+                "start": self.timespan_start,
+                "end": self.timespan_end,
+                "valueType": self.timespan_valuetype
+            }
+        }
 
     
     
@@ -119,9 +125,9 @@ class Line(OwEntity):
     
     async def build(self, sensors, graph, db):
         self.sensors = sensors
-        req = RawSql("SELECT time, avg(value) AS value FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(self.sensors)), {
-            "start": self.timespan["start"],
-            "end": self.timespan["end"],
+        req = RawSql("SELECT time, avg(value) AS value FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, g=graph, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(self.sensors)), {
+            "start": graph.timespan_start,
+            "end": graph.timespan_end,
         })
         result = await req.exec(db)
         self.values = result.raw_all()

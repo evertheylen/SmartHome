@@ -10,6 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 import passlib.hash  # For passwords
 import json
 from itertools import chain
+import random
 
 from sparrow import *
 
@@ -581,8 +582,13 @@ class Controller(metaclass=MetaController):
             base_wheres.append(Sensor.user == req.conn.user.key)
 
         ts = req.metadata["timespan"]
-        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_type = ts["valueType"], title = "untitled")
+        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = "untitled")
         
         await g.build(base_wheres, group_by, self.db)
 
+        GID = "temp" + str(random.randint(1,999999))
+        g.GID = GID
+        req.conn.graph_cache[GID] = g
+
         await req.answer(g.json_repr())
+
