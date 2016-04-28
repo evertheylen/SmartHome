@@ -74,7 +74,7 @@ class Graph(OwEntity):
             IDs = [s.SID for s in sensors]
             # TODO give more metadata
             line = Line(graph=self.key)
-            await line.build(db, IDs, self, db)
+            await line.build(IDs, self, db)
             self.lines.append(line)
         
         self.filled = True
