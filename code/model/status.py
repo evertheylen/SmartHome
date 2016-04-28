@@ -2,6 +2,7 @@
 from .owentity import *
 from .user import User
 from .wall import Wall
+from .graph import Graph
 from sparrow import *
 
 class Status(RTOwEntity):
@@ -11,3 +12,5 @@ class Status(RTOwEntity):
     date = Property(int)
     date_edited = Property(int)  # If they are the same, no edits
     text = Property(str)
+    graph = Reference(Graph, required=False)
+    
