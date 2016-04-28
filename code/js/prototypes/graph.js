@@ -4,7 +4,7 @@ Graph.prototype._key = ["GID"];
 
 function Graph(GID, timespan, group_by, where, lines, title) {
 	this.GID = GID;
-	this.timespan = timespawn;
+	this.timespan = timespan;
 	this.group_by = group_by; // [{"grouped_by": [..], "sensors": [..], "values": []}, ... ] 
 	this.where = where;
 	this.lines = lines;
