@@ -199,9 +199,8 @@ function get_all_response(response) {
 }
 
 function create_graph_response(response) {
-	var type = response["what"];
 	var data = response["data"];
-	var key = getKey(type, data);  
+	var key = getKey("Graph", data);  
 	return getFilledObject("Graph", data);
 }
 

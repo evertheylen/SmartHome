@@ -1,6 +1,6 @@
 Graph.prototype = new DataType();
 Graph.prototype.constructor = Graph;
-Graph.prototype._key = ["UID"];
+Graph.prototype._key = ["GID"];
 
 function Graph(GID, timespan, group_by, where, lines, title) {
 	this.GID = GID;
