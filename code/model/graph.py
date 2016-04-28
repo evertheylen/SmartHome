@@ -122,7 +122,7 @@ class Line(OwEntity):
     graph = Reference(Graph)
     
     # TO BE FILLED
-    values = []  # tuples (time, value)
+    values = []  # tuples (value, time)
     sensors = [] # simple ID's
     
     filled = False
@@ -132,7 +132,7 @@ class Line(OwEntity):
         if len(self.sensors) == 0:
             self.values = []
         else:
-            req = RawSql("SELECT time, avg(value) AS value FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, g=graph, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {
+            req = RawSql("SELECT avg(value), time AS value FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, g=graph, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {
                 "start": graph.timespan_start,
                 "end": graph.timespan_end,
             })
