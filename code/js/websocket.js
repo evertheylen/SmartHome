@@ -198,10 +198,9 @@ function get_all_response(response) {
 	return {for: response["for"], objects: objects};
 }
 
-function get_values_response(response) {
-	var type = response["what"];
+function create_graph_response(response) {
 	var data = response["data"];
-	var key = getKey(type, data);  
+	var key = getKey("Graph", data);  
 	return getFilledObject("Graph", data);
 }
 
