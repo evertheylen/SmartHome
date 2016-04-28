@@ -787,8 +787,11 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
             for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
                 var sensor_data = [];
-                for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
+                for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) {
                     sensor_data.push(lines[groupIndex].values[valueIndex][0]);
+                    if (valueType == "Value") 
+                        $scope.graph.labels.push("");
+                }
                 // Series will be a ton of work.
                 $scope.graph.series.push("");
                 $scope.graph.data.push(sensor_data);
