@@ -17,7 +17,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     */
     this.get_visual = function (in_cache, only_values) {
         var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: this.GID};
-        var elapsed_time = this.timespan.start - this.timespan.end;
+        var elapsed_time = this.timespan.end - this.timespan.start;
         var total_days = Math.ceil((elapsed_time) / (60*60*24));
 
         var lines = this.lines;
