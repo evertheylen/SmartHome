@@ -119,6 +119,8 @@ function VisualGraph(type, labelType, labels, series, data, temp_GID, title) {
     this.full_labels = labels.length; 
 
     this.valueMode = function (isOn) {
+        if (this.labels.length > this.full_labels)
+            this.full_labels = labels.length;
         this.labels = [];
         var valueLength = this.full_labels;
         if (isOn)  
