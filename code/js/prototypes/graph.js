@@ -22,15 +22,10 @@ function Graph(GID, timespan, group_by, where, lines, title) {
 
         var lines = this.lines;
         var label = "";
-        console.log("Only values: " + only_values);
-        console.log("valueType: " + this.timespan.valueType);
         switch (this.timespan.valueType) {
             case 'HourValue':
-                console.log("In hour Value");
                 if (!only_values) { 
                     var total_hours = (elapsed_time) / (60*60);
-                    console.log("In !only values for hours");
-                    console.log("total hours: " + total_hours);
                     for (var i = 0; i < total_hours; i++) 
                         graph.labels.push("hour " + i);
                     break;
@@ -77,7 +72,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             var sensor_data = [];
             for (var valueIndex = 0; valueIndex < lines[lineIndex].values.length; valueIndex++) {
                 sensor_data.push(lines[lineIndex].values[valueIndex][0]);
-                if (!only_values && this.timespan.value_type === "Value") 
+                if (!only_values && this.timespan.valueType === "Value") 
                     graph.labels.push("");
             }
             // TODO
