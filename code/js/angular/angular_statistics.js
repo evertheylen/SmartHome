@@ -555,44 +555,23 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.make_graph = function() {
         console.log("Making graph");
 
-        var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: -1};
-
         // Handle timespan for the graph.
         var timezone_offset = (1000*60*60);
         var full_start_date = ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000;
         var full_end_date = ($scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset) / 1000;
-        var total_days = Math.ceil((full_end_date - full_start_date) / (60*60*24));
         var valueType = "Value";
         switch ($scope.type_of_time) {
             case 'hours':
                 valueType = "HourValue";
-                var total_hours = (full_end_date - full_start_date) / (60*60);
-                console.log("Hours: " + total_hours);
-                /*
-                for (var i = 0; i < total_hours; i++) 
-                    graph.labels.push("hour " + i);
-                */
                 break;
             case 'days':
                 valueType = "DayValue";
-                /*
-                for (var i = 0; i < total_days; i++)
-                    graph.labels.push("day " + i);
-                */
                 break;
             case 'months':
                 valueType = "MonthValue";
-                /*
-                for (var i = 0; i < total_days; i += 30)
-                    graph.labels.push("month " + i / 30);
-                */
                 break;
             case 'years':
                 valueType = "YearValue";
-                /*
-                for (var i = 0; i < total_days; i += 365) 
-                    graph.labels.push("year " + i / 365);
-                */
         }
 
         // Handle aggregation for the graph.
@@ -607,71 +586,29 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         if (final_sensors.length === 0) 
             return;
-
         var sensor_SIDs = final_sensors.map(function(sensor) {return sensor.SID;});
+
         var group_by_objects = [];
-        var find_series = function () {};
-
-        function inject(before, new_func) {
-            return function(){
-                before.apply(this, arguments);
-                new_func.apply (this, arguments);
-            }
-        }
-
         if($scope.aggregate_by.filter(function checkTrue(el) { return el === true;}).length === 0) {
-            var IDs = sensor_SIDs;
-            group_by_objects.push({what: "Sensor", IDs: IDs});
-            find_series = inject(find_series, function (grouped_by) {
-                    var object = grouped_by.filter(function (el) {return el.what === "Sensor";})[0];
-                    graph.series.push(cache.getObject("Sensor", object.SID, {}).title);
-            });     
+            group_by_objects.push({what: "Sensor", IDs: sensor_SIDs}); 
         }
         if($scope.aggregate_by[0] === true) {
             var IDs = $scope.houses.map(function (loc, pos) {if ($scope.select_locs[pos]) return loc.LID;});
             group_by_objects.push({what: "Location", IDs: IDs});
-            find_series = inject(find_series, function (grouped_by) {
-                    /*
-                    var object = grouped_by.filter(function (el) {return el.what === "Location";})[0];
-                    graph.series.push(cache.getObject("Location", lineObject.grouped_by[0].LID, {}).description);
-                    */
-                    graph.series.push("");
-            });     
         }
         if($scope.aggregate_by[1] === true) {
             var IDs = $scope.types.map(function (type, pos) {if ($scope.select_types[pos]) return type;});
             group_by_objects.push({what: "Type", IDs: IDs});
-            find_series = inject(find_series, function (grouped_by) {
-                    /*
-                    var object = grouped_by.filter(function (el) {return el.what === "Type";})[0];
-                    graph.series.push($scope.i18n(object.ID));
-                    */
-                    graph.series.push("");
-            });     
         }
         if($scope.aggregate_by[2] === true) {
             var IDs = $scope.tags.map(function (tag, pos) {if ($scope.select_tags[pos]) return tag;});
             if ($scope.select_no_tags) IDs.push("$NOTAGS$");
             group_by_objects.push({what: "Tag", IDs: IDs});
-            find_series = inject(find_series, function (grouped_by) {
-                    /*
-                    var object = grouped_by.filter(function (el) {return el.what === "Tag";})[0];
-                    graph.series.push(object.ID);
-                    */
-                    graph.series.push("");
-            });     
         }
         if($scope.aggregate_by[3] === true) {
             var IDs = final_sensors.map(function(sensor) {return sensor.Eur_per_unit;});
             IDs.filter(function(item, pos) {return eur_per_unit_IDs.indexOf(item) == pos;}); // Make unique.
             group_by_objects.push({what: "Eur_per_Unit", IDs: IDs});
-            find_series = inject(find_series, function (grouped_by) {
-                    /*
-                    var object = grouped_by.filter(function (el) {return el.what === "Eur_per_unit";})[0];
-                    graph.series.push(object.ID);
-                    */
-                    graph.series.push("");
-            });     
         }   
 
         ws.request({

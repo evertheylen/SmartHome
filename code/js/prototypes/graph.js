@@ -13,11 +13,8 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     this.title = title;
     
 
-    /* Returns a VisualGraph object that can be used to display a graph.
-     * in_cache: Set true if all aggregation objects are already stored in the cache (Performance).
-     * only_values: Set true if the graph's timeline should stop if there is no more data.
-    */
-    this.get_visual = function (in_cache) {
+    // Returns a VisualGraph object that can be used to display a graph.
+    this.get_visual = function () {
         var graph = new VisualGraph("Line", "", [], [], [], this.GID, this.title);
         var elapsed_time = this.timespan.end - this.timespan.start;
         var total_days = Math.ceil((elapsed_time) / (60*60*24));
@@ -79,8 +76,31 @@ function Graph(GID, timespan, group_by, where, lines, title) {
                 if (this.timespan.valueType === "Value") 
                     graph.labels.push("");
             }
-            // TODO
             graph.series.push("");
+            /*
+            var grouped_by = lines[lineIndex].grouped_by;
+            for (var i = 0; i < grouped_by.length; i++) {
+                switch (grouped_by[i].what) {
+                    case 'Sensor':
+                        graph.series.push(cache.getObject("Sensor", grouped_by[i].SID, {}).title);
+                        break;
+                    case 'Location':
+                        graph.series.push(cache.getObject("Location", grouped_by[i].LID, {}).description);
+                        break;
+                    case 'Type':
+                        graph.series.push($scope.i18n(grouped_by[i].ID));
+                        break;
+                    case 'Tag':
+                        graph.series.push(grouped_by[i].ID);
+                        break;
+                    case 'Eur_per_Unit':
+                        graph.series.push(grouped_by[i].ID);
+                        break;
+                    case 'User':
+                        graph.series.push(cache.getObject("User", grouped_by[i].UID, {}).title);
+                }
+            }
+            */
             graph.data.push(sensor_data);
         }
         return graph;
