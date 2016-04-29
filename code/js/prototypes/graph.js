@@ -11,7 +11,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     this.title = title;
     
     this.get_visual = function (in_cache) {
-        var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: -1};
+        var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: this.GID};
         var lines = this.lines;
         var label = "";
         switch (this.timespan.value_type) {
