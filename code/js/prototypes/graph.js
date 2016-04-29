@@ -25,6 +25,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
         console.log("Only values: " + only_values);
         switch (this.timespan.value_type) {
             case 'HourValue':
+                console.log("In hour Value");
                 if (!only_values) { 
                     var total_hours = (elapsed_time) / (60*60);
                     console.log("In !only values for hours");
