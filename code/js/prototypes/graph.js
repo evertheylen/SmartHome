@@ -13,7 +13,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     this.title = title;
     
 
-    /* Returns an object that can be used to display a graph.
+    /* Returns a VisualGraph object that can be used to display a graph.
      * in_cache: Set true if all aggregation objects are already stored in the cache (Performance).
      * only_values: Set true if the graph's timeline should stop if there is no more data.
     */
