@@ -40,8 +40,10 @@ function Graph(GID, timespan, group_by, where, lines, title) {
 
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             var sensor_data = [];
-            for (var valueIndex = 0; valueIndex < lines[lineIndex].values.length; valueIndex++)
+            for (var valueIndex = 0; valueIndex < lines[lineIndex].values.length; valueIndex++) {
                 sensor_data.push(lines[lineIndex].values[valueIndex][0]);
+                console.log("Generating data");
+            }
             // TODO
             graph.series.push("");
             graph.data.push(sensor_data);
