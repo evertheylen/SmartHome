@@ -30,10 +30,10 @@ function Graph(GID, timespan, group_by, where, lines, title) {
         var show_labels = lines[0].values.length <= 50;
         for (var labelIndex = 0; labelIndex < lines[0].values.length; labelIndex++) {
             if (show_labels) {
-                graph.label.push(label + labelIndex);
+                graph.labels.push(label + labelIndex);
                 continue;
             }
-            graph.label.push(label);
+            graph.labels.push(label);
         }
 
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
