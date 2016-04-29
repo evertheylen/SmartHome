@@ -621,7 +621,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         if($scope.aggregate_by[1] === true) {
             var IDs = $scope.houses.map(function (loc, pos) {if ($scope.select_locs[pos]) return loc.LID;});
-            group_by_objects.push({what: "Location", IDs: IDs);
+            group_by_objects.push({what: "Location", IDs: IDs});
             find_series = inject(find_series, function (grouped_by) {
                     /*
                     var object = grouped_by.filter(function (el) {return el.what === "Location";})[0];
@@ -632,7 +632,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         if($scope.aggregate_by[2] === true) {
             var IDs = $scope.types.map(function (type, pos) {if ($scope.select_types[pos]) return type;});
-            group_by_objects.push({what: "Type", IDs: IDs);
+            group_by_objects.push({what: "Type", IDs: IDs});
             find_series = inject(find_series, function (grouped_by) {
                     /*
                     var object = grouped_by.filter(function (el) {return el.what === "Type";})[0];
@@ -644,7 +644,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         if($scope.aggregate_by[3] === true) {
             var IDs = $scope.tags.map(function (tag, pos) {if ($scope.select_tags[pos]) return tag;});
             if ($scope.select_no_tags) IDs.push("$NOTAGS$");
-            group_by_objects.push({what: "Tag", IDs: IDs);
+            group_by_objects.push({what: "Tag", IDs: IDs});
             find_series = inject(find_series, function (grouped_by) {
                     /*
                     var object = grouped_by.filter(function (el) {return el.what === "Tag";})[0];
@@ -656,7 +656,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         if($scope.aggregate_by[4] === true) {
             var IDs = final_sensors.map(function(sensor) {return sensor.Eur_per_unit;});
             IDs.filter(function(item, pos) {return eur_per_unit_IDs.indexOf(item) == pos;}); // Make unique.
-            group_by_objects.push({what: "Eur_per_Unit", IDs: IDs);
+            group_by_objects.push({what: "Eur_per_Unit", IDs: IDs});
             find_series = inject(find_series, function (grouped_by) {
                     /*
                     var object = grouped_by.filter(function (el) {return el.what === "Eur_per_unit";})[0];
