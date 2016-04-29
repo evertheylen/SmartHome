@@ -555,26 +555,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.make_graph = function() {
         console.log("Making graph");
 
-        // Handle timespan for the graph.
-        var timezone_offset = (1000*60*60);
-        var full_start_date = ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000;
-        var full_end_date = ($scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset) / 1000;
-        var valueType = "Value";
-        switch ($scope.type_of_time) {
-            case 'hours':
-                valueType = "HourValue";
-                break;
-            case 'days':
-                valueType = "DayValue";
-                break;
-            case 'months':
-                valueType = "MonthValue";
-                break;
-            case 'years':
-                valueType = "YearValue";
-        }
-
-        // Handle aggregation for the graph.
         var final_sensors = [];
         if (!is_box2_opened) {
             final_sensors = $scope.filtered_sensors;
@@ -586,8 +566,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         if (final_sensors.length === 0) 
             return;
-        var sensor_SIDs = final_sensors.map(function(sensor) {return sensor.SID;});
 
+        // Group_by.
         var group_by_objects = [];
         if($scope.aggregate_by.filter(function checkTrue(el) { return el === true;}).length === 0) {
             group_by_objects.push({what: "Sensor", IDs: sensor_SIDs}); 
@@ -611,19 +591,40 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_objects.push({what: "Eur_per_Unit", IDs: IDs});
         }   
 
+        // Where.
+        var where = [{
+            field: "SID",
+            op: "in",
+            value: final_sensors.map(function(sensor) {return sensor.SID;})
+        }]
+
+        // Timespan.
+        var timezone_offset = (1000*60*60);
+        var valueType = "Value";
+        switch ($scope.type_of_time) {
+            case 'hours':
+                valueType = "HourValue";
+                break;
+            case 'days':
+                valueType = "DayValue";
+                break;
+            case 'months':
+                valueType = "MonthValue";
+                break;
+            case 'years':
+                valueType = "YearValue";
+        }
+        var timespan = {
+            valueType: valueType
+            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000,
+            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset) / 1000
+        }
+
         ws.request({
             type: "create_graph",
             group_by: group_by_objects,
-            where: [{
-                field: "SID",
-                op: "in",
-                value: sensor_SIDs
-            }],
-            timespan: {
-                valueType: valueType,
-                start: full_start_date,
-                end: full_end_date
-            }
+            where: where,
+            timespan: timespan
         }, function(response) {
             graph = response.get_visual(true);
             $scope.graphs.push(graph);
@@ -632,7 +633,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             componentHandler.upgradeDom();
             $scope.$apply();
         });
-
     }
 
     $scope.share = function (index) {
