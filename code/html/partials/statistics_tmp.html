@@ -356,6 +356,9 @@
 							<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
 								<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
 							</button>
+							<button id="mode_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="set_graph_mode($index)">
+								<i id="mode_icon-{{$index}}" class="material-icons white">mode</i>
+							</button>
 						</div>
 						<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
 					</div>
