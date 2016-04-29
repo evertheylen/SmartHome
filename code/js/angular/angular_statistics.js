@@ -680,7 +680,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 end: full_end_date
             }
         }, function(response) {
-            graph = response.get_visual();
+            graph = response.get_visual(true);
             $scope.$apply();
         });
 

@@ -10,11 +10,11 @@ function Graph(GID, timespan, group_by, where, lines, title) {
 	this.lines = lines;
     this.title = title;
     
-    this.get_visual = function (db_graph, in_cache) {
+    this.get_visual = function (in_cache) {
         var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: -1};
-        var lines = db_graph.lines;
+        var lines = this.lines;
         var label = "";
-        switch (db_graph.timespan.value_type) {
+        switch (this.timespan.value_type) {
             case 'HourValue':
                 label = "hour ";
                 break;
