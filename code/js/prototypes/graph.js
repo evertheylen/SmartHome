@@ -14,7 +14,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
         var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: -1};
         var lines = db_graph.lines;
         var label = "";
-        switch (db_graph.timespan.value_type;) {
+        switch (db_graph.timespan.value_type) {
             case 'HourValue':
                 label = "hour ";
                 break;
