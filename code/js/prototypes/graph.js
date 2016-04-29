@@ -17,6 +17,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     */
     this.get_visual = function (in_cache, only_values) {
         var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: this.GID};
+        var max_label_amount = 50;
         var elapsed_time = this.timespan.end - this.timespan.start;
         var total_days = Math.ceil((elapsed_time) / (60*60*24));
 
@@ -26,45 +27,69 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             case 'HourValue':
                 if (!only_values) { 
                     var total_hours = (elapsed_time) / (60*60);
-                    for (var i = 0; i < total_hours; i++) 
-                        graph.labels.push("hour " + i);
+                    var show_labels = (total_hours < max_label_amount);
+                    for (var i = 0; i < total_hours; i++) {
+                        if (show_labels) { 
+                            graph.labels.push("hour " + i);
+                            continue;
+                        }
+                        graph.labels.push("");                    
+                    }
                     break;
                 }
                 label = "hour ";
                 break;
             case 'DayValue':
                 if (!only_values) { 
-                    for (var i = 0; i < total_days; i++)
-                        graph.labels.push("day " + i);
+                    var show_labels = (total_days < max_label_amount);
+                    for (var i = 0; i < total_days; i++) {
+                        if (show_labels) {
+                            graph.labels.push("day " + i);
+                            continue;
+                        }
+                        graph.labels.push("");
+                    }
                     break;
                 }
                 label = "day ";
                 break;
             case 'MonthValue':
                 if (!only_values) { 
-                    for (var i = 0; i < total_days; i += 30)
-                        graph.labels.push("month " + i / 30);
+                    var show_labels = (total_days / 30 < max_label_amount);
+                    for (var i = 0; i < total_days; i += 30) {
+                        if (show_labels) {                      
+                            graph.labels.push("month " + i / 30);
+                            continue;
+                        }
+                        graph.labels.push("");
+                    }
                     break;
                 }
                 label = "month ";
                 break;
             case 'YearValue':
                 if (!only_values) { 
-                    for (var i = 0; i < total_days; i += 365) 
-                        graph.labels.push("year " + i / 365);
+                    for (var i = 0; i < total_days; i += 365) {
+                        var show_labels = (total_days / 365 < max_label_amount);                    
+                        if (show_labels) {                     
+                           graph.labels.push("year " + i / 365);
+                           continue;
+                        }
+                        graph.labels.push("");
+                    }
                     break;
                 }
                 label = "year ";
         }
 
         if (only_values) {
-            var show_labels = lines[0].values.length <= 50;
+            var show_labels = lines[0].values.length <= max_label_amount;
             for (var labelIndex = 0; labelIndex < lines[0].values.length; labelIndex++) {
                 if (show_labels) {
                     graph.labels.push(label + labelIndex);
                     continue;
                 }
-            graph.labels.push(label);
+                graph.labels.push(label);
             }
         }
 
@@ -72,7 +97,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             var sensor_data = [];
             for (var valueIndex = 0; valueIndex < lines[lineIndex].values.length; valueIndex++) {
                 sensor_data.push(lines[lineIndex].values[valueIndex][0]);
-                if (!only_values && this.timespan.valueType === "Value") 
+                if (!only_values && this.timespan.valueType === "Value" && show_labels) 
                     graph.labels.push("");
             }
             // TODO
