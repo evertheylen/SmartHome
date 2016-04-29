@@ -49,6 +49,8 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             graph.data.push(sensor_data);
             console.log("Pushing data");
         }
+        console.log("graph.labels: " + graph.labels.length);
+        console.log("graph.series: " + graph.series.length);
 
         return graph;
     }
