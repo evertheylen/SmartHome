@@ -616,7 +616,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 valueType = "YearValue";
         }
         var timespan = {
-            valueType: valueType
+            valueType: valueType,
             start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000,
             end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset) / 1000
         }
