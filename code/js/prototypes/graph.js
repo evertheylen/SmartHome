@@ -23,8 +23,8 @@ function Graph(GID, timespan, group_by, where, lines, title) {
         var lines = this.lines;
         var label = "";
         console.log("Only values: " + only_values);
-        console.log("valueType: " + this.timespan.value_type);
-        switch (this.timespan.value_type) {
+        console.log("valueType: " + this.timespan.valueType);
+        switch (this.timespan.valueType) {
             case 'HourValue':
                 console.log("In hour Value");
                 if (!only_values) { 
