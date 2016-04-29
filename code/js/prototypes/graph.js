@@ -17,15 +17,16 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     */
     this.get_visual = function (in_cache, only_values) {
         var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: this.GID};
-        var start_date = this.timespan.start;
-        var end_date = this.timespan.end;
-        var total_days = Math.ceil((end_date - start_date) / (60*60*24));
+        var elapsed_time = this.timespan.start - this.timespan.end;
+        var total_days = Math.ceil((elapsed_time) / (60*60*24));
+
         var lines = this.lines;
         var label = "";
         switch (this.timespan.value_type) {
             case 'HourValue':
                 if (!only_values) { 
-                    var total_hours = (end_date - start_date) / (60*60);
+                    var total_hours = (elapsed_time) / (60*60);
+                    console.log("total hours: " + total_hours);
                     for (var i = 0; i < total_hours; i++) 
                         graph.labels.push("hour " + i);
                     break;
