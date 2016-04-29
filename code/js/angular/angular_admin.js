@@ -188,7 +188,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             timespan: timespan
         }, function(response) {
             $scope.graphs = [];
-            $scope.graphs.push(response.get_visual(););
+            $scope.graphs.push(response.get_visual());
             $scope.$apply();
         }); 
 
