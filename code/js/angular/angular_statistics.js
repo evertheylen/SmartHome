@@ -688,15 +688,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 end: full_end_date
             }
         }, function(response) {
-            graph = response.get_visual(true);
-            $scope.graphs.push(graph);
-            if (!hasClass(document.getElementById("box4"), "open"))
-                $scope.open_box(4);
-            componentHandler.upgradeDom();
-            console.log("graph.labels: " + graph.labels.length);
-            console.log("graph.series: " + graph.series.length);
+            graph = response.get_visual(true, false);
             $scope.$apply();
         });
+
+        $scope.graphs.push(graph);
+        if (!hasClass(document.getElementById("box4"), "open"))
+            $scope.open_box(4);
+        componentHandler.upgradeDom();
 
     }
 
