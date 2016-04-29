@@ -22,10 +22,12 @@ function Graph(GID, timespan, group_by, where, lines, title) {
 
         var lines = this.lines;
         var label = "";
+        console.log("Only values: " + only_values);
         switch (this.timespan.value_type) {
             case 'HourValue':
                 if (!only_values) { 
                     var total_hours = (elapsed_time) / (60*60);
+                    console.log("In !only values for hours");
                     console.log("total hours: " + total_hours);
                     for (var i = 0; i < total_hours; i++) 
                         graph.labels.push("hour " + i);
