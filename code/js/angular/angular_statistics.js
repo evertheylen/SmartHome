@@ -659,5 +659,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         $scope.importants[element_id] = !$scope.importants[element_id];
     };
 
+    $scope.set_graph_mode = function set_graph_mode(element_id) {
+        $scope.graphs[index].valueMode(true);
+    };
+
     componentHandler.upgradeDom();
 });
