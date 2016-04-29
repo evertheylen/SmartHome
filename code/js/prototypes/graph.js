@@ -120,7 +120,7 @@ function VisualGraph(type, labelType, labels, series, data, temp_GID, title) {
 
     this.valueMode = function (isOn) {
         this.labels = [];
-        var valueLength = full_labels;
+        var valueLength = this.full_labels;
         if (isOn)  
             valueLength = this.data[0].length;
         var show_labels = (valueLength < 50);
