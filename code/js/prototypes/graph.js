@@ -13,6 +13,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     this.get_visual = function (in_cache) {
         var graph = {type: "Line", labels: [], series: [], data: [], temp_GID: this.GID};
         var lines = this.lines;
+        console.log("Lines length: " + lines.length);
         var label = "";
         switch (this.timespan.value_type) {
             case 'HourValue':
@@ -28,6 +29,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
                 label = "year ";
         }
         var show_labels = lines[0].values.length <= 50;
+        console.log("values length: " + lines[0].values.length);
         for (var labelIndex = 0; labelIndex < lines[0].values.length; labelIndex++) {
             if (show_labels) {
                 graph.labels.push(label + labelIndex);
@@ -43,6 +45,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             // TODO
             graph.series.push("");
             graph.data.push(sensor_data);
+            console.log("Pushing data");
         }
 
         return graph;
