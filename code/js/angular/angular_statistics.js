@@ -568,23 +568,31 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 valueType = "HourValue";
                 var total_hours = (full_end_date - full_start_date) / (60*60);
                 console.log("Hours: " + total_hours);
+                /*
                 for (var i = 0; i < total_hours; i++) 
-                    //graph.labels.push("hour " + i);
+                    graph.labels.push("hour " + i);
+                */
                 break;
             case 'days':
                 valueType = "DayValue";
+                /*
                 for (var i = 0; i < total_days; i++)
-                    //graph.labels.push("day " + i);
+                    graph.labels.push("day " + i);
+                */
                 break;
             case 'months':
                 valueType = "MonthValue";
+                /*
                 for (var i = 0; i < total_days; i += 30)
-                    //graph.labels.push("month " + i / 30);
+                    graph.labels.push("month " + i / 30);
+                */
                 break;
             case 'years':
                 valueType = "YearValue";
+                /*
                 for (var i = 0; i < total_days; i += 365) 
-                    //graph.labels.push("year " + i / 365);
+                    graph.labels.push("year " + i / 365);
+                */
         }
 
         // Handle aggregation for the graph.
@@ -681,6 +689,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }
         }, function(response) {
             graph = response.get_visual(true);
+            console.log("graph.labels: " + graph.labels.length);
+            console.log("graph.series: " + graph.series.length);
             $scope.$apply();
         });
 
