@@ -154,7 +154,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         var where = [{
             field: "SID",
             op: "in",
-            value: sensor_SIDs)
+            value: sensor_SIDs
         }]
         
         // Timespan.
