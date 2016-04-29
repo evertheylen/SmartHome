@@ -566,6 +566,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         if (final_sensors.length === 0) 
             return;
+        var sensor_SIDs = final_sensors.map(function(sensor) {return sensor.SID;});
 
         // Group_by.
         var group_by_objects = [];
@@ -595,7 +596,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var where = [{
             field: "SID",
             op: "in",
-            value: final_sensors.map(function(sensor) {return sensor.SID;})
+            value: sensor_SIDs
         }]
 
         // Timespan.
@@ -626,8 +627,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             where: where,
             timespan: timespan
         }, function(response) {
-            graph = response.get_visual(true);
-            $scope.graphs.push(graph);
+            $scope.graphs.push(response.get_visual());
             if (!hasClass(document.getElementById("box4"), "open"))
                 $scope.open_box(4);
             componentHandler.upgradeDom();
