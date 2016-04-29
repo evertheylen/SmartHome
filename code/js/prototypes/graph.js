@@ -107,3 +107,15 @@ function Graph(GID, timespan, group_by, where, lines, title) {
         return graph;
     }
 }
+
+
+/*
+function VisualGraph(type, labels, series, data, temp_GID, title) {
+	this.type = type;
+	this.labels = labels;
+	this.series = series;
+	this.data = data;
+	this.temp_GID = temp_GID;
+    this.title = title;
+}
+*/
