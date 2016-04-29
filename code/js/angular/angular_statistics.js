@@ -613,7 +613,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
         if($scope.aggregate_by[0] === true) {
             var IDs = sensor_SIDs;
-            group_by_objects.push({what: "Sensor", IDs: IDs);
+            group_by_objects.push({what: "Sensor", IDs: IDs});
             find_series = inject(find_series, function (grouped_by) {
                     var object = grouped_by.filter(function (el) {return el.what === "Sensor";})[0];
                     graph.series.push(cache.getObject("Sensor", object.SID, {}).title);
