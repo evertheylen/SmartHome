@@ -125,6 +125,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             }
         }
         $scope.show_raw = false;
+        $scope.type_of_time = days;
     });
 
     // GRAPH MAKING
