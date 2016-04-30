@@ -673,5 +673,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
     };
 
+    $scope.exit = function (index) {
+        $scope.graphs.splice(index, 1);
+        componentHandler.upgradeDom();
+	}
+
+
     componentHandler.upgradeDom();
 });

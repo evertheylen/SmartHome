@@ -359,6 +359,9 @@
 							<button id="mode_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="set_graph_mode($index)">
 								<i id="mode_icon-{{$index}}" class="material-icons white">history</i>
 							</button>
+							<button id="exit_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="exit($index)">
+								<i id="exit_icon-{{$index}}" class="material-icons white">power_settings_new</i>
+							</button>
 						</div>
 						<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
 					</div>
