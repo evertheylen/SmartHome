@@ -39,6 +39,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         for (var i= 0; i < response.objects.length; i++)
             response.objects[i]._scopes.push($scope);
         $scope.sensors = response.objects;
+        console.log("length sensors: " + $scope.sensors.length);
         $scope.$apply();
     });    
 
@@ -131,15 +132,22 @@ angular.module("overwatch").controller("adminController", function($scope, $root
     $scope.make_graph = function() {
         var final_users = [];
         var final_sensors = [];
-        for (i = 0; i < $scope.users.length; i++) {
+        
+        console.log("length: " + $scope.users.length); 
+        console.log("length: " + $scope.select_users.length);
+        for (var i = 0; i < $scope.users.length; i++) {
             if ($scope.select_users[i]) {
+                console.log("reached " + i);
                 final_users.push($scope.users[i])
                 for (var sensorIndex = 0; sensorIndex < $scope.sensors.length; sensorIndex++) {
+                    console.log($scope.sensors[sensorIndex].user_UID + " " + $scope.users[i].UID);
                     if ($scope.sensors[sensorIndex].user_UID == $scope.users[i].UID) 
                         final_sensors.push($scope.sensors[sensorIndex]);
                 }
             }
         }
+        
+        console.log("final sensors length: " + final_sensors.length); 
 
         console.log("Asking graph for " + final_users);
 

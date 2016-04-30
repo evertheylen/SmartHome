@@ -49,7 +49,7 @@ class Graph(OwEntity):
                     extra_wheres.append(Sensor.SID == SID)
             elif g["what"] == "User":
                 for UID in g["IDs"]:
-                    extra_wheres.append(User.UID == UID)
+                    extra_wheres.append(Sensor.user == UID)
             elif g["what"] == "Type":
                for t in g["IDs"]:
                    if t not in Sensor.type_type.options:
