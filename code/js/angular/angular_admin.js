@@ -117,15 +117,16 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         var end_date = new Date($scope.end_date);
         if (start_date.getYear() == today.getYear() && 
             start_date.getMonth() == today.getMonth() &&
-            start_date.getDay() == today.getDay() ) {
+            start_date.getDate() == today.getDate() ) {
             if (end_date.getYear() == today.getYear() && 
                 end_date.getMonth() == today.getMonth() &&
-                end_date.getDay() == today.getDay() ) {
+                end_date.getDate() == today.getDate() ) {
                 $scope.show_raw = true;
                 return;
             }
         }
         $scope.show_raw = false;
+        $scope.type_of_time = "days";
     });
 
     // GRAPH MAKING
@@ -146,7 +147,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                 }
             }
         }
-        
         console.log("final sensors length: " + final_sensors.length); 
 
         console.log("Asking graph for " + final_users);
@@ -157,89 +157,57 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         graph.series = [];
         graph.data = [];
 
-        var timezone_offset = (1000*60*60);
-        var full_start_date = ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000;
-        var full_end_date = ($scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset) / 1000;
-        var total_days = Math.ceil((full_end_date - full_start_date) / (60*60*24));
+        if (final_sensors.length === 0)
+            return;
+        var user_UIDs = final_users.map(function (user) {return user.UID;});
+        var sensor_SIDs = final_sensors.map(function(sensor) {return sensor.SID;});
 
+        // Group by.
+        var group_by_objects = [{what: "Sensor", IDs: sensor_SIDs}];
+        if ($scope.aggregate_by_user) 
+            group_by_objects = [{what: "User", IDs: user_UIDs}];       
+
+        // Where.
+        var where = [{
+            field: "SID",
+            op: "in",
+            value: sensor_SIDs
+        }]
+        
+        // Timespan.
+        var timezone_offset = (1000*60*60);
         var valueType = "Value";
         switch ($scope.type_of_time) {
             case 'raw':
                 break;
             case 'hours':
                 valueType = "HourValue";
-                var total_hours = (full_end_date - full_start_date) / (1000*60*60);
-                for (var i = 0; i < total_hours; i++) 
-                    graph.labels.push("hour " + i);
                 break;
             case 'days':
                 valueType = "DayValue";
-                for (var i = 0; i < total_days; i++)
-                    graph.labels.push("day " + i);
                 break;
             case 'months':
                 valueType = "MonthValue";
-                for (var i = 0; i < total_days; i += 30)
-                    graph.labels.push("month " + i / 30);
                 break;
             case 'years':
                 valueType = "YearValue";
-                for (var i = 0; i < total_days; i += 365) 
-                    graph.labels.push("year " + i / 365);
         }
-
-        var sensor_SIDs = [];
-        var user_UIDs = [];
-        for (i = 0; i < final_sensors.length; i++)
-            sensor_SIDs.push(final_sensors[i].SID);
-        for (i = 0; i < final_users.length; i++)
-            user_UIDs.push(final_users[i].UID);
-
-        var group_by_types = [];
-        var aggregate_IDs = {Sensor: sensor_SIDs, User: user_UIDs};    
-
-        if ($scope.aggregate_by_user) {
-            group_by_types = ["User"];       
-        } else {
-            group_by_types = ["Sensor"];
-        }
-
-        var group_by_objects = [];
-        for (var i = 0; i < group_by_types.length; i++) {
-            var type = group_by_types[i]
-            group_by_objects.push({
-                what: type,
-                IDs: aggregate_IDs[type]
-            });
-        }      
+        var timespan = {
+            valueType: valueType,
+            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + 3*timezone_offset) / 1000,
+            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime() + 3*timezone_offset) / 1000
+        };
 
         ws.request({
             type: "create_graph",
             group_by: group_by_objects,
-            where: [{
-                field: "SID",
-                op: "in",
-                value: sensor_SIDs
-            }],
-            timespan: {
-                valueType: valueType,
-                start: full_start_date,
-                end: full_end_date
-            }
+            where: where,
+            timespan: timespan
         }, function(response) {
-            var lines = response.lines;
-            for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
-                var sensor_data = [];
-                for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) 
-                    sensor_data.push(lines[groupIndex].values[valueIndex][0]);
-                graph.series.push(final_sensors[sensor_SIDs.indexOf(lines[groupIndex].sensors[0])].title);
-                graph.data.push(sensor_data);
-            }
+            $scope.graphs = [];
+            $scope.graphs.push(response.get_visual());
             $scope.$apply();
         }); 
-
-        $scope.graphs = [];
-        $scope.graphs.push(graph);
 
         // Graphs
         $scope.importants = [false, false, false, false, false, false];
