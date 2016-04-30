@@ -683,3 +683,4 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
     componentHandler.upgradeDom();
 });
+

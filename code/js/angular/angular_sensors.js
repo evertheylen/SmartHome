@@ -729,3 +729,4 @@ angular.module("overwatch").controller("location_dialogController", function($sc
         }
     }
 });
+

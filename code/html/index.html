@@ -201,22 +201,26 @@
 	
 		<!--<script src="/js/pagination.js"></script>-->
     <script src="/js/angular/angular_setup.js"></script>
-    <script src="/js/angular/angular_helper.js"></script>
+    <script src="/js/angular/helper_functions.js"></script>
     <script src="/js/angular/angular_index.js"></script>
     <script src="/js/angular/angular_home.js"></script>
     <script src="/js/angular/angular_sensors.js"></script>
     <script src="/js/angular/angular_statistics.js"></script>
-		<script src="/js/angular/angular_social.js"></script>
-		<script src="/js/angular/angular_admin.js"></script>
-		<script src="/js/angular/angular_report.js"></script>
-		<script id="template/pagination/pagination.html" type="text/ng-template">
-			<ul class="pagination">
-				<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
-				<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
-				<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
-				<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
-				<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
-			</ul>
-		</script>
+	<script src="/js/angular/angular_social.js"></script>
+	<script src="/js/angular/angular_admin.js"></script>
+	<script src="/js/angular/angular_report.js"></script>
+	<script src="/js/angular/angular_factories.js"></script>
+	<script src="/js/angular/angular_directives.js"></script>
+	<script src="/js/angular/angular_filters.js"></script>
+	<script src="/js/angular/angular_main.js"></script>
+	<script id="template/pagination/pagination.html" type="text/ng-template">
+		<ul class="pagination">
+			<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
+			<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
+			<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
+			<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
+			<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
+		</ul>
+	</script>
 </body>
 </html>

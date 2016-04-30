@@ -231,3 +231,4 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         componentHandler.upgradeDom();
     }	
 });
+

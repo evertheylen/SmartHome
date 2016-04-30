@@ -47,32 +47,6 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     componentHandler.upgradeDom();
 });
 
-angular.module("overwatch").factory('transferGroup', function($rootScope) {
-	return {
-		setGroup : function(_group) {
-		    console.log("Setting group to: " + JSON.stringify(_group.toJSON()));
-		    setCookie("group",  JSON.stringify(_group.toJSON()), 365);
-		},
-		
-		getGroup : function() {
-		    console.log("Getting group: " + JSON.parse(getCookie('group')));
-			return JSON.parse(getCookie('group'));            
-		}
-	}
-});
-
-angular.module("overwatch").factory('transferProfile', function($rootScope) {
-    return {
-        setProfile : function (profile) {
-            console.log("Setting profile to: " + profile);
-            setCookie("profile", profile, 365);
-        },
-        getProfile: function() {
-            return getCookie('profile');
-        }
-    }
-});
-
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
     $rootScope.auth_user = Auth.getUser();
     $scope.statuses = [];
@@ -138,20 +112,6 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
         }
     };
     componentHandler.upgradeDom();
-});
-
-angular.module("overwatch").directive('myEnter', function() {
-    return function(scope, element, attrs) {
-        element.bind("keydown keypress", function(event) {
-            if (event.which === 13) {
-                scope.$apply(function() {
-                    scope.$eval(attrs.myEnter);
-                });
-
-                event.preventDefault();
-            }
-        });
-    };
 });
 
 angular.module("overwatch").controller("profileController", function($scope, $rootScope, Auth, transferProfile) {
@@ -336,39 +296,6 @@ angular.module("overwatch").controller("shareController", function($scope, $root
             $scope.$apply();
         });
     });
-
-//    console.log("Doing group request in shareController of angular_social");
-  /*  ws.request({
-        type: "get_all",
-        what: "Group",
-        for: {
-            what: "User",
-            UID: $scope.auth_user.UID
-        }
-    }, function(response) {
-        $scope.groups = response.objects;
-        $scope.$apply();
-    });
-    
-    $scope.$on('joined group', function() {
-        ws.request({
-            type: "get_all",
-            what: "Group",
-            for: {
-                what: "User",
-                UID: $scope.auth_user.UID
-            }
-        }, function(response) {
-            $scope.groups = response.objects;
-                $timeout(function() {
-		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
-			removeClass(document.getElementById("select_share"), "mdl-js-menu");
-		    }
-		    addClass(document.getElementById("select_share"), "mdl-js-menu");
-		}, 0);
-            $scope.$apply();
-        });   
-    });*/
     
     $scope.share_type = null;
     
@@ -390,23 +317,6 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 	}
 		
   	$scope.dropDownClick = function (value, menu, button, ng_model) {
-  	        /*ws.request({
-            type: "get_all",
-            what: "Group",
-            for: {
-                what: "User",
-                UID: $scope.auth_user.UID
-            }
-        }, function(response) {
-            $scope.groups = response.objects;
-                $timeout(function() {
-		    if (hasClass(document.getElementById("select_share"), "mdl-js-menu")) {
-			removeClass(document.getElementById("select_share"), "mdl-js-menu");
-		    }
-		    addClass(document.getElementById("select_share"), "mdl-js-menu");
-		}, 0);
-            $scope.$apply();
-        });  */
 		var toChange = document.getElementById(button);
 		toChange.innerHTML = value;
 		switch (ng_model) {
@@ -911,10 +821,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.push_comment = function() {
         if ($scope.new_comment != "") {
-            //var comment = {};
-            //comment.name = Auth.getUser().first_name + " " + Auth.getUser().last_name;
-            //comment.text = $scope.new_comment;
-            //comment.date = getCurrentDate();
             var _date = Date.now()/1000;
             ws.request({
                 type: "add",
@@ -944,3 +850,4 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     };
     componentHandler.upgradeDom();
 });
+

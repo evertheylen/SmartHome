@@ -35,8 +35,6 @@ angular.module("overwatch").controller("indexController", function($scope, $root
 	componentHandler.upgradeDom();
 });
 
-
-
 angular.module("overwatch").controller("loginController", function($scope, $rootScope, $location, Auth) {
 	$scope.wrong_login = false;
 	$scope.login = function() {
@@ -90,3 +88,4 @@ angular.module("overwatch").controller("signupController", function($scope, $roo
 	};
 	componentHandler.upgradeDom();
 });
+

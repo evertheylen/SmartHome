@@ -59,4 +59,5 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
     }, 5000); 
 
 	componentHandler.upgradeDom();
-});	
+});
+

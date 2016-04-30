@@ -24,4 +24,5 @@ angular.module("overwatch").controller("reportController", function($scope, $roo
     ];
     $scope.graph1 = graph1;  
   	componentHandler.upgradeDom();
-});	
+});
+
