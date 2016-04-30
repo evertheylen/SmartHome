@@ -116,10 +116,10 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         var end_date = new Date($scope.end_date);
         if (start_date.getYear() == today.getYear() && 
             start_date.getMonth() == today.getMonth() &&
-            start_date.getDay() == today.getDay() ) {
+            start_date.getDate() == today.getDate() ) {
             if (end_date.getYear() == today.getYear() && 
                 end_date.getMonth() == today.getMonth() &&
-                end_date.getDay() == today.getDay() ) {
+                end_date.getDate() == today.getDate() ) {
                 $scope.show_raw = true;
                 return;
             }
