@@ -525,10 +525,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.start_date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
     $scope.end_date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
     $scope.start_date_time = {
-       value: new Date(0)
+       value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0)
      };
     $scope.end_date_time = {
-       value: new Date(((23 * 60) + 59) * 60 * 1000) 
+       value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 0, 0) 
      };
 
     console.log("Date(0): " + $scope.start_date_time.value);
@@ -545,15 +545,20 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         console.log("End date: " + $scope.end_date);
         console.log("End date in ms: " + $scope.end_date.getTime());
         console.log("End date timezone offset: " + $scope.end_date.getTimezoneOffset());
+        $scope.start_date_time.value = new Date($scope.start_date.getFullYear(), $scope.start_date.getMonth(), $scope.start_date.getDate(), 0, 0, 0, 0);
+        $scope.end_date_time.value = new Date($scope.end_date.getFullYear(), $scope.end_date.getMonth(), $scope.end_date.getDate(), 0, 0, 0, 0);
+
+        console.log("start_date_time: " + $scope.start_date_time.value);
+        console.log("start_date_time in ms: " + $scope.start_date_time.value.getTime());
+        console.log("start_date_time timezone offset: " + $scope.start_date_time.value.getTimezoneOffset());
+
         today = new Date();
-        var start_date = new Date($scope.start_date);
-        var end_date = new Date($scope.end_date);
-        if (start_date.getYear() == today.getYear() && 
-            start_date.getMonth() == today.getMonth() &&
-            start_date.getDate() == today.getDate() ) {
-            if (end_date.getYear() == today.getYear() && 
-                end_date.getMonth() == today.getMonth() &&
-                end_date.getDate() == today.getDate() ) {
+        if ($scope.start_date.getYear() == today.getYear() && 
+            $scope.start_date.getMonth() == today.getMonth() &&
+            $scope.start_date.getDate() == today.getDate() ) {
+            if ($scope.end_date.getYear() == today.getYear() && 
+                $scope.end_date.getMonth() == today.getMonth() &&
+                $scope.end_date.getDate() == today.getDate() ) {
                 $scope.show_raw = true;
                 return;
             }
