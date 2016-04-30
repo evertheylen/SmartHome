@@ -235,7 +235,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             }
         };
 
-
         $scope.exit = function exit(element_id) {
             $scope.graphs.splice(element_id, 1);
             componentHandler.upgradeDom();
