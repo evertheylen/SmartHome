@@ -257,6 +257,7 @@
 						<span style="font-size: x-large;" ng-bind="i18n('start_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="startDate" ng-model="start_date" required/>
                         <input class="mdl-textfield__input" type="time" value="00:00:00" id="startDateTime" ng-model="start_date_time.value" required/>
+                        <i id="like" ng-class="{'icon ion-ios7-heart': liked, 'icon ion-ios7-heart-outline': !liked}" ng-click="liked=!liked">zoom_in</i>
 					</form>
 				</div>
 				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
