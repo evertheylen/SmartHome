@@ -257,7 +257,6 @@
 						<span style="font-size: x-large;" ng-bind="i18n('start_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="startDate" ng-model="start_date" required/>
                         <input class="mdl-textfield__input" type="time" value="00:00:00" id="startDateTime" ng-model="start_date_time.value" required/>
-                        <i id="like" ng-class="{'icon ion-ios7-heart': liked, 'icon ion-ios7-heart-outline': !liked}" ng-click="liked=!liked">zoom_in</i>
 					</form>
 				</div>
 				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
@@ -358,7 +357,7 @@
 								<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
 							</button>
 							<button id="like_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="set_graph_mode($index); liked=!liked">
-								<i id="like_icon-{{$index}}" ng-class="{'icon ion-ios7-heart': liked, 'icon ion-ios7-heart-outline': !liked}"></i>
+								<i id="like_icon-{{$index}}" ng-class="{'icon ion-ios7-heart': liked, 'icon ion-ios7-heart-outline': !liked}">zoom_in</i>
 							</button>
 							<button id="mode_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="set_graph_mode($index)">
 								<i id="mode_icon-{{$index}}" class="material-icons white">zoom_in</i>
