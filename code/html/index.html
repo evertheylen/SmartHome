@@ -109,8 +109,8 @@
 			<a class="header_a mdl-navigation__link" ng-click="hideDrawer()" ui-sref="social.friends">
 				<p class="mdl-navigation__link--subcategory"><i class="material-icons drawerIcon">people</i><span ng-bind="i18n('my_friends')"></span></p>
 			</a>
-			<a class="header_a mdl-navigation__link" ng-click="hideDrawer(); open_dialog();" ng-bind="i18n('datalink')">
-			</a>
+            <a class="header_a mdl-navigation__link" ui-sref="state_upload" ng-click="hideDrawer(); open_dialog();"><i class="material-icons drawerIcon">file_upload</i><span ng-bind="i18n('datalink')"></span>
+            </a>
 				</nav>
       </div>
       <main class="mdl-layout__content">
