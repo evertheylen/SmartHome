@@ -207,6 +207,9 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         }, function(response) {
             $scope.graphs = [];
             $scope.graphs.push(response.get_visual());
+            if (!hasClass(document.getElementById("box4"), "open"))
+                $scope.open_box(4);
+            componentHandler.upgradeDom();
             $scope.$apply();
         }); 
 
