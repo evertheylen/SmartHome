@@ -550,6 +550,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         $scope.show_raw = false;
         $scope.type_of_time = "days";
+        removeClass(document.getElementById("option-0"), "is-checked");
+        addClass(document.getElementById('option-2'), "is-checked");
     });
 
     // GRAPH MAKING
