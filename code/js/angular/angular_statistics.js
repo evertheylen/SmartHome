@@ -549,6 +549,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             }
         }
         $scope.show_raw = false;
+        $scope.type_of_time = hours;
     });
 
     // GRAPH MAKING
