@@ -356,7 +356,9 @@
 							<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
 								<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
 							</button>
-                            <i id="like" ng-class="{'material-icons zoom_in': liked, 'material-icons zoom_out': !liked}" ng-click="liked=!liked"></i>
+							<button id="like_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="set_graph_mode($index); liked=!liked">
+                                <i id="like_icon-{{$index}}" ng-class="{'material-icons zoom_in': liked, 'material-icons zoom_out': !liked}"></i>
+							</button>
 							<button id="mode_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="set_graph_mode($index)">
 								<i id="mode_icon-{{$index}}" class="material-icons white">zoom_in</i>
 							</button>
