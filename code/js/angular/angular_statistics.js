@@ -674,7 +674,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
 
     $scope.exit = function (index) {
-        console.log("Removing graph");
         $scope.graphs.splice(index, 1);
         componentHandler.upgradeDom();
 	}
