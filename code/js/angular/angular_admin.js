@@ -4,6 +4,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
     $rootScope.tab = "adminlink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $rootScope.auth_user = Auth.getUser();
+    $scope.graphs = [];
   	componentHandler.upgradeDom();
     
     $scope.enter_command = function() {
@@ -148,16 +149,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                 }
             }
         }
-        console.log("final sensors length: " + final_sensors.length); 
-
-        console.log("Asking graph for " + final_users);
-
-        var graph = {};
-        graph.type = "Line";
-        graph.labels = [];
-        graph.series = [];
-        graph.data = [];
-
         if (final_sensors.length === 0)
             return;
         var user_UIDs = final_users.map(function (user) {return user.UID;});
@@ -205,7 +196,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             where: where,
             timespan: timespan
         }, function(response) {
-            $scope.graphs = [];
             $scope.graphs.push(response.get_visual());
             if (!hasClass(document.getElementById("box4"), "open"))
                 $scope.open_box(4);
