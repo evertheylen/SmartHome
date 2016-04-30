@@ -148,7 +148,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         // Group by.
         var group_by_objects = [{what: "Sensor", IDs: sensor_SIDs}];
         if ($scope.aggregate_by_user) 
-            group_by_objects = [{what: "User", IDs: user_SIDs}];       
+            group_by_objects = [{what: "User", IDs: user_UIDs}];       
 
         // Where.
         var where = [{
