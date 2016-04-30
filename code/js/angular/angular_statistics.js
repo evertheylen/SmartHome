@@ -539,12 +539,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.show_raw = false;
     
     $scope.$watch('start_date + end_date', function() {
-        console.log("Start date: " + start_date);
-        console.log("Start date in ms: " + start_date.getTime());
-        console.log("Start date timezone offset: " + start_date.getTimezoneOffset());
-        console.log("End date: " + end_date);
-        console.log("End date in ms: " + end_date.getTime());
-        console.log("End date timezone offset: " + end_date.getTimezoneOffset());
+        console.log("Start date: " + $scope.start_date);
+        console.log("Start date in ms: " + $scope.start_date.getTime());
+        console.log("Start date timezone offset: " + $scope.start_date.getTimezoneOffset());
+        console.log("End date: " + $scope.end_date);
+        console.log("End date in ms: " + $scope.end_date.getTime());
+        console.log("End date timezone offset: " + $scope.end_date.getTimezoneOffset());
         today = new Date();
         var start_date = new Date($scope.start_date);
         var end_date = new Date($scope.end_date);
