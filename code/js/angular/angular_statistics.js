@@ -531,6 +531,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
        value: new Date(((23 * 60) + 59) * 60 * 1000) 
      };
 
+    console.log("Date(0): " + $scope.start_date_time.value);
+
     $scope.type_of_time = "days";
     $scope.show_raw = false;
     
