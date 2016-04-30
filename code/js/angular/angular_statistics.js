@@ -618,8 +618,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         var timespan = {
             valueType: valueType,
-            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000,
-            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()  + (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000
+            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() - (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000,
+            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()  - (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000
         }
 
         ws.request({
