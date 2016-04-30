@@ -525,40 +525,23 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.start_date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
     $scope.end_date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
     $scope.start_date_time = {
-       value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0)
+       value: new Date(1970, 0, 1)
      };
     $scope.end_date_time = {
-       value: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 0, 0) 
+       value: new Date(1970, 0, 1, 23, 59) 
      };
-
-    console.log("Date(0): " + $scope.start_date_time.value);
-    console.log("Date(0) in ms: " + $scope.start_date_time.value.getTime());
-    console.log("Date(0) timezone offset: " + $scope.start_date_time.value.getTimezoneOffset());
 
     $scope.type_of_time = "days";
     $scope.show_raw = false;
     
     $scope.$watch('start_date + end_date', function() {
-        console.log("Start date: " + $scope.start_date);
-        console.log("Start date in ms: " + $scope.start_date.getTime());
-        console.log("Start date timezone offset: " + $scope.start_date.getTimezoneOffset());
-        console.log("End date: " + $scope.end_date);
-        console.log("End date in ms: " + $scope.end_date.getTime());
-        console.log("End date timezone offset: " + $scope.end_date.getTimezoneOffset());
-        $scope.start_date_time.value = new Date($scope.start_date.getFullYear(), $scope.start_date.getMonth(), $scope.start_date.getDate(), 0, 0, 0, 0);
-        $scope.end_date_time.value = new Date($scope.end_date.getFullYear(), $scope.end_date.getMonth(), $scope.end_date.getDate(), 0, 0, 0, 0);
-
-        console.log("start_date_time: " + $scope.start_date_time.value);
-        console.log("start_date_time in ms: " + $scope.start_date_time.value.getTime());
-        console.log("start_date_time timezone offset: " + $scope.start_date_time.value.getTimezoneOffset());
-
         today = new Date();
         if ($scope.start_date.getYear() == today.getYear() && 
             $scope.start_date.getMonth() == today.getMonth() &&
             $scope.start_date.getDate() == today.getDate() ) {
             if ($scope.end_date.getYear() == today.getYear() && 
                 $scope.end_date.getMonth() == today.getMonth() &&
-                $scope.end_date.getDate() == today.getDate() ) {
+                $scope.send_date.getDate() == today.getDate() ) {
                 $scope.show_raw = true;
                 return;
             }
@@ -635,8 +618,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
         var timespan = {
             valueType: valueType,
-            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime()) / 1000,
-            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()) / 1000
+            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() + (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000,
+            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()  + (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000
         }
 
         ws.request({
