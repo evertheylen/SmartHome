@@ -4,8 +4,9 @@ from .user import User
 from .value import Value, HourValue, DayValue, MonthValue, YearValue
 from .location import Location
 from .tag import Tag
+from .tagged import Tagged
 from .graph import Graph, Line, DataInLine, SensorsInLine
-base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag,
+base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag, Tagged,
         Graph, Line, DataInLine, SensorsInLine]
 
 from .status import Status

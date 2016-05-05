@@ -24,7 +24,7 @@ sensor2_add
 {"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1}}
 
 tag_add 
-{"type": "add", "ID": 1, "what": "Tag", "for": {"what": "Sensor", "SID": "1"}, "data": {"text":"Keuken"}}
+{"type": "add", "ID": 1, "what": "Tag", "for": {"what": "Sensor", "SID": "1"}, "data": {"description":"Keuken"}}
 
 group_add
 {"type":"add","what":"Group","data":{"public":"True","title":"Secret group","description":"No one here","wall_WID":1},"ID":3}
@@ -33,7 +33,7 @@ wall_add
 {"type":"add","what":"Wall","data":{"is_user":"True"},"ID":3}
 
 status_add
-{"type":"add","what":"Status","data":{"text":"Mooi, de wereld is mooi, zo bie ba boe ba beestig mooi!","date":12,"date_edited":12,"author_UID":1,"wall_WID":2},"ID":4}
+{"type":"add","what":"Status","data":{"description":"Mooi, de wereld is mooi, zo bie ba boe ba beestig mooi!","date":12,"date_edited":12,"author_UID":1,"wall_WID":2},"ID":4}
 
 like_add
 {"type":"add","what":"Like","data":{"positive": "False","status_SID":1,"user_UID":1},"ID":3}
@@ -89,7 +89,7 @@ delete_tag1_for_sensor1
 {"type":"delete","what":"Tag","for":{"what":"Sensor","SID":1},"ID":10}
 
 delete_tag1
-{"type":"delete","what":"Tag","data": {"sensor_SID": 1, "text": "Keuken"},"ID":10}
+{"type":"delete","what":"Tag","data": {"sensor_SID": 1, "description": "Keuken"},"ID":10}
 
 delete_friend_for user_1
 {"type": "delete", "what": "Friendship", "data": { "user_UID1": 1,"user_UID2": 2},"ID":1}

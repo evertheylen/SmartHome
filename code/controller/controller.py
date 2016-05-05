@@ -218,18 +218,25 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Sensor")
             v = Value(sensor=req.metadata["for"]["SID"], time=req.data[0], value=req.data[1])
             # await v.check_auth(req, db=self.db)
-            # TODO fix check_auth and error occurs when values with same sid,time keys are in the database
             await v.insert(self.db)
             await req.answer(v.json_repr())
 
         @case("Tag")
         async def tag(self, req):
             check_for_type(req, "Sensor")
-            t = Tag(sensor=req.metadata["for"]["SID"], text=req.data["text"])
-            # TODO fix error check_auth
-            # await t.check_auth(req, db=self.db)
-            await t.insert(self.db)
-            await req.answer(t.json_repr())
+            count = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["description"])).count(self.db)
+            # Check if tag with that description attribute is already present in the database
+            if count == 0:
+                new_tag = Tag(description=req.data["description"])
+                await new_tag.insert(self.db)
+                tagged = Tagged(sensor=req.metadata["for"]["SID"],tag=new_tag.TID)
+                await tagged.insert(self.db)
+                await req.answer(new_tag.json_repr())
+            else:
+                t = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["description"])).single(self.db)
+                tagged = Tagged(sensor=req.metadata["for"]["SID"],tag=t.TID)
+                await tagged.insert(self.db)
+                await req.answer(t.json_repr())
 
         @case("Group")
         async def group(self, req):
@@ -284,7 +291,7 @@ class Controller(metaclass=MetaController):
             await m.check_auth(req, db=self.db)
             await m.insert(self.db)
             await req.answer(m.json_repr())
-        
+
         @case("Graph")
         async def graph(self, req):
             try:
@@ -295,7 +302,7 @@ class Controller(metaclass=MetaController):
             #await g.fill(self.db)
             await req.answer(g.json_repr())
             del req.conn.graph_cache[req.data["GID"]]
-        
+
 
     @handle_ws_type("get")
     @require_user_level(1)
@@ -318,7 +325,7 @@ class Controller(metaclass=MetaController):
             # Just a superficial get so no need to check for authorisation
             # await u.check_auth(req)
             await req.answer(u.json_repr())
-        
+
         @case("Graph")
         async def graph(self, req):
             g = await Graph.find_by_key(req.data["GID"], self.db)
@@ -434,10 +441,10 @@ class Controller(metaclass=MetaController):
                 check_for_type(req, "Sensor")
                 s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
                 await s.check_auth(req)
-                tags = await Tag.get(Tag.sensor == s.key).all(self.db)
+                tags = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.tid IN (SELECT table_Tagged.tag_tid FROM table_Tagged WHERE table_Tagged.sensor_sid = {0})".format(req.metadata["for"]["SID"])).all(self.db)
                 await req.answer([t.json_repr() for t in tags])
             else:
-                tags = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.text IN (SELECT MIN(table_Tag.text) FROM table_tag GROUP BY table_Tag.text)").all(self.db)
+                tags = await Tag.raw("SELECT * FROM table_Tag").all(self.db)
                 await req.answer([t.json_repr() for t in tags])
 
         @case("Status")
@@ -491,7 +498,7 @@ class Controller(metaclass=MetaController):
             l.edit_from_json(req.data)
             await l.update(self.db)
             await req.answer(l.json_repr())
-        
+
         @case("Graph")
         async def graph(self, req):
             g = await Graph.find_by_key(req.data["GID"], self.db)
@@ -555,11 +562,11 @@ class Controller(metaclass=MetaController):
                 for t in tags: await t.delete(self.db)
                 await req.answer({"status": "succes"})
             else:
-                t = await Tag.find_by_key((req.data["sensor_SID"], req.data["text"]), self.db)
+                t = await Tag.find_by_key((req.data["sensor_SID"], req.data["description"]), self.db)
                 # await t.check_auth(req, self.db)
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})
-        
+
         @case("Graph")
         async def graph(self, req):
             g = await Graph.find_by_key(req.data["GID"], self.db)
@@ -588,7 +595,7 @@ class Controller(metaclass=MetaController):
 
         ts = req.metadata["timespan"]
         g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = "untitled")
-        
+
         await g.build(base_wheres, group_by, self.db)
 
         GID = "temp" + str(random.randint(1,999999))
@@ -596,4 +603,3 @@ class Controller(metaclass=MetaController):
         req.conn.graph_cache[GID] = g
 
         await req.answer(g.json_repr())
-
