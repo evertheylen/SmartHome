@@ -74,6 +74,22 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			
 		});
 	}
+	$scope.show = function() {
+			console.log("Showing snackbar");
+	    var notification = document.getElementById("testsnackbar");
+			var data = {
+				message: 'Message Sent',
+				actionHandler: function(event) {},
+				actionText: 'Undo',
+				timeout: 10000
+			};
+			removeClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
+			componentHandler.upgradeDom();
+			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
+			componentHandler.upgradeDom();
+			notification.MaterialSnackbar.showSnackbar(data);
+			$scope.$apply();
+	}
 	
 	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
 		console.log("Changing Location: " + $location.path());

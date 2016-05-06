@@ -1,6 +1,10 @@
   <!-- The welcome message-->
 <div id="template_index" ng-controller="indexController">
-    <div class="centeredContainer">
+  <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar" id="testsnackbar">
+  		<div class="mdl-snackbar__text"></div>
+			<button type="button" class="mdl-snackbar__action"></button>
+	</div>	
+  <div class="centeredContainer">
         <p class="welcomeMessage">{{i18n('homepage_welcome')}} OverWatch!</p>
         <button id="btnSignup" type="button" ng-bind="i18n('register')"class="hugeButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
         </button>

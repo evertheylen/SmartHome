@@ -45,19 +45,6 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         $rootScope.$broadcast('GROUP CHANGED');
     };
     
-    var notification = document.getElementById("testsnackbar");
-    var data = {
-      message: 'Message Sent',
-      actionHandler: function(event) {},
-      actionText: 'Undo',
-      timeout: 10000
-    };
-    removeClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
-    componentHandler.upgradeDom();
-    addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
-    componentHandler.upgradeDom();
-    notification.MaterialSnackbar.showSnackbar(data);
-    
     componentHandler.upgradeDom();
 });
 
