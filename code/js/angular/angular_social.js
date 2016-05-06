@@ -792,6 +792,16 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     }              
                     removeClass(document.getElementById('likes_click-'+$scope.status.SID), 'notClicked');
                     addClass(document.getElementById('likes_click-'+$scope.status.SID), 'clicked');
+                } else {
+                  $scope.likes--;
+                  removeClass(document.getElementById("likes_click-"+$scope.status.SID), "clicked");
+                  addClass(document.getElementById("likes_click-"+$scope.status.SID), "notClicked");
+                  ws.request({type: "delete",
+                             what: "Like",
+                             data: $scope.user_like.toJSON()
+                  }, function(response){
+                      $scope.$apply();  
+                  });
                 }
                 break;
             case 'dislikes':
@@ -814,6 +824,16 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                     }
                     removeClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'notClicked');
                     addClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'clicked');
+                } else {
+                  $scope.dislikes--;
+                  removeClass(document.getElementById("dislikes_click-"+$scope.status.SID), "clicked");
+                  addClass(document.getElementById("dislikes_click-"+$scope.status.SID), "notClicked");
+                  ws.request({type: "delete",
+                             what: "Like",
+                             data: $scope.user_like.toJSON()
+                  }, function(response){
+                      $scope.$apply();  
+                  });
                 }
                 break;
         }
