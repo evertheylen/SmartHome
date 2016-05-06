@@ -531,6 +531,13 @@ class Controller(metaclass=MetaController):
             await c.delete(self.db)
             await req.answer({"status": "success"})
 
+        @case("Like")
+        async def like(self, req):
+            l = await Like.find_by_key(req.data["LID"], self.db)
+            await l.check_auth(req)
+            await l.delete(self.db)
+            await req.answer({"status": "success"})
+
         @case("Membership")
         async def membership(self, req):
             m = await Membership.find_by_key((req.data["user_UID"],req.data["group_GID"]), self.db)
