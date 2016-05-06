@@ -533,7 +533,7 @@ class Controller(metaclass=MetaController):
 
         @case("Like")
         async def like(self, req):
-            l = await Like.find_by_key(req.data["LID"], self.db)
+            l = await Like.find_by_key((req.data["status_SID"],req.data["user_UID"]), self.db)
             await l.check_auth(req)
             await l.delete(self.db)
             await req.answer({"status": "success"})
