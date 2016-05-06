@@ -88,7 +88,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			notification.MaterialSnackbar.showSnackbar(data);
-			$scope.$apply();
+			componentHandler.upgradeDom();
 	}
 	
 	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
