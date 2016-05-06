@@ -184,7 +184,19 @@
             </div>
         </dialog>  
       </main>
-    
+	    <footer class="mdl-mini-footer" ng-hide="simple_css">
+		    <div class="mdl-mini-footer__left-section">
+			    <div class="mdl-logo">OverWatch</div>
+			    <ul class="mdl-mini-footer__link-list">
+				    <li><a ui-sref="state_help">Help</a></li>
+				    <li><a href="#" ng-bind="i18n('privacy')"></a></li>
+			    </ul>
+		    </div>
+		    <div class="mdl-mini-footer__right-section">
+		        <button id="btn_english" ng-click="changeLang(0);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" >En</button>
+		        <button id="btn_dutch" ng-click="changeLang(1);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" >Nl</button>
+		    </div>
+	    </footer>      
     </div>
 	
 		<!--<script src="/js/pagination.js"></script>-->
