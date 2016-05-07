@@ -79,7 +79,6 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			console.log("Showing snackbar");
 			$scope.shown=true;
 			componentHandler.upgradeDom();
-			$scope.$apply();
 	    var notification = document.getElementById("testsnackbar");
 			var data = {
 				message: 'Message Sent',
