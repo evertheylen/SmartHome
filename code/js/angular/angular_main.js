@@ -86,15 +86,18 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 								console.log("Removing class");
 								removeClass(document.getElementById('testsnackbar'), "snackbarpos");
 								componentHandler.upgradeDom();
-            }
+            } else {
+								console.log("class added");
+								addClass(document.getElementById('testsnackbar'), 'snackbarpos');
+						}
         }
 		})
 	var first_call = false;
 	$scope.show_snack = function() {
 			first_call = true;
-			console.log("adding class");
+			//console.log("adding class");
 			//$scope.shown=true;
-			addClass(document.getElementById("testsnackbar"), "snackbarpos");
+			//addClass(document.getElementById("testsnackbar"), "snackbarpos");
 			componentHandler.upgradeDom();
 	    var notification = document.getElementById("testsnackbar");
 			var data = {
