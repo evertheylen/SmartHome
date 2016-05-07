@@ -107,6 +107,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			notification.MaterialSnackbar.showSnackbar(data);
 			componentHandler.upgradeDom();
 	}
+	$scope.show_snack();
 	
 	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
 		console.log("Changing Location: " + $location.path());
