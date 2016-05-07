@@ -96,7 +96,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	    var notification = document.getElementById("testsnackbar");
 			var data = {
 				message: string,
-				actionHandler: function(event) {$location.path(link)},
+				actionHandler: function(event) {$location.path(link); $scope.$apply();},
 				actionText: 'Go To',
 				timeout: 3500
 			};
