@@ -78,6 +78,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	$scope.show_snack = function() {
 			console.log("Showing snackbar");
 			$scope.shown=true;
+			componentHandler.upgradeDom();
+			$scope.$apply();
 	    var notification = document.getElementById("testsnackbar");
 			var data = {
 				message: 'Message Sent',
@@ -90,7 +92,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			notification.MaterialSnackbar.showSnackbar(data);
-			$timeout(function(){$scope.shown = false;}, 5100);
+			$timeout(function(){$scope.shown = false;}, 5400);
 			componentHandler.upgradeDom();
 	}
 	
