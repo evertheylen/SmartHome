@@ -76,7 +76,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	}
 	//$scope.shown = false;
 	$scope.$watch(function() {
-			return hasClass(document.getElementById('testsnackbar'),'mdl-snackbar--active');
+			if (first_call) {
+				return hasClass(document.getElementById('testsnackbar'),'mdl-snackbar--active');
+      }
 		}, function(newValue, oldValue){
 				if (newValue != oldValue) {
 						if (hasClass(document.getElementById("testsnackbar"), "snackbarpos")) {
@@ -85,8 +87,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
             }
         }
 		})
-	
+	var first_call = false;
 	$scope.show_snack = function() {
+			first_call = true;
 			console.log("Showing snackbar");
 			//$scope.shown=true;
 			addClass(document.getElementById("testsnackbar"), "snackbarpos");
@@ -105,7 +108,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			notification.MaterialSnackbar.showSnackbar(data);
 			componentHandler.upgradeDom();
 	}
-	$timeout(function(){$scope.show_snack();$scope.show_snack();}, 0);
+	//$timeout(function(){$scope.show_snack();$scope.show_snack();}, 0);
 	
 	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
 		console.log("Changing Location: " + $location.path());
