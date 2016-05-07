@@ -75,7 +75,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		});
 	}
 	//$scope.shown = false;
-	$scope.$watch(function() {return hasClass(document.getElementById('testsnackbar'),"mdl-snackbar--active"); }, function(newValue, oldValue){
+	$scope.$watch(function() {
+			if (document.getElementById('testsnackbar') != null) {
+					return hasClass(document.getElementById('testsnackbar'),"mdl-snackbar--active");
+      }
+		}, function(newValue, oldValue){
 				if (newValue != oldValue) {
 						removeClass(document.getElementById('testsnackbar'), "snackbarpos");
         }
