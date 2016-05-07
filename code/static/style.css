@@ -25,3 +25,7 @@ body{
 .mdl-button--accent.mdl-button--accent{
 	height: auto;
 }
+
+.snackbarpos {
+	margin-bottom: 150px;	
+}
