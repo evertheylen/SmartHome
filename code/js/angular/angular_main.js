@@ -88,7 +88,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			componentHandler.upgradeDom();
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
-			shown=true;
+			$scope.shown=true;
 			notification.MaterialSnackbar.showSnackbar(data);
 			componentHandler.upgradeDom();
 	}
