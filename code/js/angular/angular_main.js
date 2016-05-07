@@ -75,9 +75,13 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		});
 	}
 	//$scope.shown = false;
-	var clicked = 0;
+	scope.$watch(function() {return hasClass(document.getElementById('testsnackbar'),"mdl-snackbar--active"); }, function(newValue, oldValue){
+				if (newValue != oldValue) {
+						removeClass(document.getElementById('testsnackbar'), "snackbarpos");
+        }
+		})
+	
 	$scope.show_snack = function() {
-			clicked += 1;
 			console.log("Showing snackbar");
 			//$scope.shown=true;
 			addClass(document.getElementById("testsnackbar"), "snackbarpos");
@@ -94,7 +98,6 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			notification.MaterialSnackbar.showSnackbar(data);
-			$timeout(function(){removeClass(document.getElementById("testsnackbar"), "snackbarpos"); clicked=0;}, 5250*clicked);
 			componentHandler.upgradeDom();
 	}
 	
