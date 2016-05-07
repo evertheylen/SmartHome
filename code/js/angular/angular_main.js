@@ -80,8 +80,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 				return hasClass(document.getElementById('testsnackbar'),'mdl-snackbar--active');
       }
 		}, function(newValue, oldValue){
+				console.log("watch activated");
 				if (newValue != oldValue) {
 						if (hasClass(document.getElementById("testsnackbar"), "snackbarpos")) {
+								console.log("Removing class");
 								removeClass(document.getElementById('testsnackbar'), "snackbarpos");
 								componentHandler.upgradeDom();
             }
@@ -90,7 +92,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	var first_call = false;
 	$scope.show_snack = function() {
 			first_call = true;
-			console.log("Showing snackbar");
+			console.log("adding class");
 			//$scope.shown=true;
 			addClass(document.getElementById("testsnackbar"), "snackbarpos");
 			componentHandler.upgradeDom();
@@ -105,7 +107,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			componentHandler.upgradeDom();
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
+			console.log("showing snackbar");
 			notification.MaterialSnackbar.showSnackbar(data);
+			console.log("done");
 			componentHandler.upgradeDom();
 	}
 	//$timeout(function(){$scope.show_snack();$scope.show_snack();}, 0);
