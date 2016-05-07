@@ -44,7 +44,7 @@
 				<div class="text" ng-bind="comment.text"></div>
 				<div class="commentFooter">
 					<div class="date" ng-bind="fancy_date()"></div>
-					<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.CID)"></div>
+					<div class="option" ng-bind="i18n('delete_comment')" ng-show="auth_user.SID === status.author_UID"  ng-click="delete(comment.CID)"></div>
 				</div>
 			</div>
 		</div>
