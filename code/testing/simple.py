@@ -4,6 +4,9 @@ from tornado.httpclient import *
 
 import util
 
+from testing.base import *
+
+
 class SimpleTests(AsyncTestCase):
     # async example
     @gen_test
