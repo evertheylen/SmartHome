@@ -91,7 +91,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			notification.MaterialSnackbar.showSnackbar(data);
-			$timeout(function(){$scope.shown = false;}, 5400);
+			$timeout(function(){$scope.shown = false;}, 5250);
 			componentHandler.upgradeDom();
 	}
 	
