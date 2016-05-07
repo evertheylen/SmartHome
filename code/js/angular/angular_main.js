@@ -89,6 +89,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
             } else {
 								console.log("class added");
 								addClass(document.getElementById('testsnackbar'), 'snackbarpos');
+								componentHandler.upgradeDom();
 						}
         }
 		})
