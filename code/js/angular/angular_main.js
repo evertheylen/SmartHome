@@ -74,49 +74,39 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			
 		});
 	}
-	//$scope.shown = false;
 	$scope.$watch(function() {
 			if (first_call) {
 				return hasClass(document.getElementById('testsnackbar'),'mdl-snackbar--active');
       }
 		}, function(newValue, oldValue){
-				console.log("watch activated");
 				if (newValue != oldValue) {
 						if (hasClass(document.getElementById("testsnackbar"), "snackbarpos")) {
-								console.log("Removing class");
 								removeClass(document.getElementById('testsnackbar'), "snackbarpos");
 								componentHandler.upgradeDom();
             } else {
-								console.log("class added");
 								addClass(document.getElementById('testsnackbar'), 'snackbarpos');
 								componentHandler.upgradeDom();
 						}
         }
 		})
 	var first_call = false;
-	$scope.show_snack = function() {
+	$scope.show_snack = function(string, link) {
 			first_call = true;
-			//console.log("adding class");
-			//$scope.shown=true;
-			//addClass(document.getElementById("testsnackbar"), "snackbarpos");
 			componentHandler.upgradeDom();
 	    var notification = document.getElementById("testsnackbar");
 			var data = {
-				message: 'Message Sent',
-				actionHandler: function(event) {},
-				actionText: 'Undo',
-				timeout: 5000
+				message: string,
+				actionHandler: function(event) {$location.path(link)},
+				actionText: 'Go To',
+				timeout: 3500
 			};
 			removeClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
-			console.log("showing snackbar");
 			notification.MaterialSnackbar.showSnackbar(data);
-			console.log("done");
 			componentHandler.upgradeDom();
 	}
-	//$timeout(function(){$scope.show_snack();$scope.show_snack();}, 0);
 	
 	$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
 		console.log("Changing Location: " + $location.path());
