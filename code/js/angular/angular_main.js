@@ -82,7 +82,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 				message: 'Message Sent',
 				actionHandler: function(event) {},
 				actionText: 'Undo',
-				timeout: 10000
+				timeout: 5000
 			};
 			removeClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
