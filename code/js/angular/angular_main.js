@@ -1,4 +1,4 @@
-angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http, $state, transferProfile) {
+angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http, $state, transferProfile, $timeout) {
 	$rootScope.$state = $state;
 	$scope.i18n = function(input) {
 		return html_strings[input][$scope.language];
