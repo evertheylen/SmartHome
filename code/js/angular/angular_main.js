@@ -81,7 +81,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
       }
 		}, function(newValue, oldValue){
 				if (newValue != oldValue) {
-						removeClass(document.getElementById('testsnackbar'), "snackbarpos");
+						if (hasClass(document.getElementById("testsnackbar"), "snackbarpos")) {
+								removeClass(document.getElementById('testsnackbar'), "snackbarpos");
+								componentHandler.upgradeDom();
+            }
         }
 		})
 	
