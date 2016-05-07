@@ -90,6 +90,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			componentHandler.upgradeDom();
 			$scope.shown=true;
 			notification.MaterialSnackbar.showSnackbar(data);
+			$timeout(function(){$scope.shown = false;}, 5000);
 			componentHandler.upgradeDom();
 	}
 	
