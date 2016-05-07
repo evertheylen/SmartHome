@@ -76,9 +76,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	}
 	//$scope.shown = false;
 	$scope.$watch(function() {
-			if (document.getElementById('testsnackbar') != null) {
-					return hasClass(document.getElementById('testsnackbar'),"mdl-snackbar--active");
-      }
+			return document.getElementById('testsnackbar').attr('mdl-snackbar--active');
 		}, function(newValue, oldValue){
 				if (newValue != oldValue) {
 						if (hasClass(document.getElementById("testsnackbar"), "snackbarpos")) {
