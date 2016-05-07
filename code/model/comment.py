@@ -12,3 +12,7 @@ class Comment(RTOwEntity):
     date = Property(int)
     date_edited = Property(int)  # If they are the same, no edits
     text = Property(str)
+
+    async def can_delete(self, usr_uid, db):
+        u = await User.find_by_key(self.author, db)
+        return u.key == usr_uid

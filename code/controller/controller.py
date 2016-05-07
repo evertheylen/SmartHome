@@ -527,9 +527,11 @@ class Controller(metaclass=MetaController):
         @case("Comment")
         async def comment(self, req):
             c = await Comment.find_by_key(req.data["CID"], self.db)
-            await c.check_auth(req)
-            await c.delete(self.db)
-            await req.answer({"status": "success"})
+            if await c.can_delete(req.conn.user.UID, self.db):
+                await c.delete(self.db)
+                await req.answer({"status": "success"})
+            else:
+                await req.answer({"status":"failure", "reason":"You are not authorised to delete this comment."})
 
         @case("Like")
         async def like(self, req):
