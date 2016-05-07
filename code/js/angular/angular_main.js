@@ -75,7 +75,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		});
 	}
 	//$scope.shown = false;
+	var clicked = 0;
 	$scope.show_snack = function() {
+			clicked += 1;
 			console.log("Showing snackbar");
 			//$scope.shown=true;
 			addClass(document.getElementById("testsnackbar"), "snackbarpos");
@@ -92,7 +94,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			notification.MaterialSnackbar.showSnackbar(data);
-			$timeout(function(){removeClass(document.getElementById("testsnackbar"), "snackbarpos");}, 5250);
+			$timeout(function(){removeClass(document.getElementById("testsnackbar"), "snackbarpos"); clicked=0;}, 5250*clicked);
 			componentHandler.upgradeDom();
 	}
 	
