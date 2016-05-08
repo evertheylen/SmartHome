@@ -1,5 +1,6 @@
 
 import random
+import csv
 
 from model import Location, Sensor
 
@@ -35,3 +36,21 @@ async def create_elecsim_config(loc: Location, db, lights_sensor_ID=-1):
     return config
 
 
+# Copy pasted from ElecSim
+# Because I don't want a single import of that horrendous code in this
+# project, here I prefer copy-pasting.
+
+class CsvSensor:
+    def __init__(self, name):
+        self.ID = int(name[name.find("[")+1:name.find("]")])
+        name = name[:name.find("[")] + name[name.find("]")+1:]
+        self.appname = name.strip()
+    
+    @property
+    def full_name(self):
+        return "{s.appname} [{s.ID}]".format(s=self)
+
+csv_date_format = "%Y-%m-%d %H:%M:%S"
+
+elecsim_dialect = csv.excel
+elecsim_dialect.delimiter = ";"
