@@ -27,7 +27,10 @@ body{
 }
 
 .snackbarpos {
-	margin-bottom: 100px;	
+	margin-bottom: 75px;
+	left: calc(50% - 144px);
+	max-width: 289px;
+	min-width: 288px;
 }
 
 .fullscreen{
@@ -38,12 +41,12 @@ body{
 }
 
 footer{
-	height: 7%;
+	height: 70px;
 	color: rgb(158, 158, 158);
 	background-color: rgb(66, 66, 66);
 	width: 100%;
 	position: absolute;
-	top: 93%;
+	top: calc(100% - 70px);
 	display: flex;
 	align-items: center;
 }
@@ -84,7 +87,7 @@ ul.footer__link-list > li > a{
 }
 
 .mdl-layout__container{
-	height: 93%;
+	height: calc(100% - 70px);
 }
 
 body{
