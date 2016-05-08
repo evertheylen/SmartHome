@@ -36,3 +36,57 @@ body{
 	height: 96%;
 	width: 96%;
 }
+
+footer{
+	height: 7%;
+	color: rgb(158, 158, 158);
+	background-color: rgb(66, 66, 66);
+	width: 100%;
+	position: absolute;
+	top: 93%;
+	display: flex;
+	align-items: center;
+}
+
+.footer__left-section{
+	max-width: 47%;
+	margin-left: 3%;
+}
+
+.footer__left-section__title{
+	font-family: "Helvetica","Arial",sans-serif;
+	font-size: 14px;
+	font-weight: 200;
+	color: white;
+	display: inline;
+}
+
+ul.footer__link-list{	
+	display: inline;
+	padding-left: 0px;
+}
+
+ul.footer__link-list > li{
+	display: inline;
+	padding-left: 16px;
+}
+
+ul.footer__link-list > li > a{
+	color: inherit;
+	display: inline;
+}
+
+.footer__right-section{
+	max-width: 47%;
+	margin-right: 3%;
+	float: right;
+	margin-left: auto;
+}
+
+.mdl-layout__container{
+	height: 93%;
+}
+
+body{
+	height: 100%;
+}
