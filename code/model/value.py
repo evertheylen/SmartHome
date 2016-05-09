@@ -16,7 +16,6 @@ def create_aggregate(_cls_big):
         for time in times:
             # Step 1: get all values with Value.sensor == sensor and Value.time >= time and Value.time < time + 1 hour
             gap = cls_big.gap(time)
-            print("class is ",repr(cls_small))
             result = await cls_small.get(cls_small.sensor == sensor, cls_small.time >= time, cls_small.time < time + gap).exec(db)
             values = result.all()
             
@@ -72,7 +71,7 @@ class Value(OwEntity):
         start_date = datetime.fromtimestamp(actual_start)
         start_date = datetime(start_date.year, start_date.month, start_date.day, start_date.hour)
         start = int(start_date.timestamp())
-        print("Start", start_date, start)
+        #print("Start", start_date, start)
         
         actual_end = values[-1][1]
         end_date = datetime.fromtimestamp(actual_end)
@@ -81,14 +80,14 @@ class Value(OwEntity):
         else:
             end_date = datetime(end_date.year, end_date.month, end_date.day, end_date.hour) + relativedelta(hours=1)
         end = int(end_date.timestamp())
-        print("End", end_date, end)
+        #print("End", end_date, end)
         
         current_index = 0
         for current in range(start, end, 3600):
-            # Step 2: Calculate area under curve, determine average
+            # Step 2: Calculate area under (blocky) curve, determine average
             hour_start = current
             hour_end = current + 3600
-            print("\nAggregating hour from {} to {}".format(hour_start, hour_end))
+            #print("\nAggregating hour from {} to {}".format(hour_start, hour_end))
             
             # Step 2a: Get all values that are of importance
             # First determine the first value
@@ -107,23 +106,19 @@ class Value(OwEntity):
             
             # Add an extra value for handiness
             hour_values.append((999999, hour_end))
-            print("Hour values:",hour_values)
+            #print("Hour values:",hour_values)
             
             # Step 2b: determine area's
             hour_sum = 0
             for i, value in enumerate(hour_values[:-1]):
                 width = hour_values[i+1][1] - value[1]
-                try:
-                    hour_sum += width * value[0]
-                except:
-                    import pdb
-                    pdb.set_trace()
-                print("hour_sum is now", hour_sum)
+                hour_sum += width * value[0]
+                #print("hour_sum is now", hour_sum)
             
             # Step 2c: Insert the HourValue!
             hv = HourValue(value=hour_sum/3600, time=hour_start, sensor=sensor.key)
             await hv.insert(db)  # TODO performance?
-            print("Adding hour with value", hour_sum/3600)
+            #print("Adding hour with value", hour_sum/3600)
         
         if recurse:
             hourvalue_times = set(range(start,end,3600))

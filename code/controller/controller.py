@@ -11,12 +11,17 @@ import passlib.hash  # For passwords
 import json
 from itertools import chain
 import random
+import csv
+import io
 
 from sparrow import *
 
 from model import *
 from util import *
 from util import sim
+
+# ?
+from datetime import datetime
 
 
 # Helper stuff (decorators, metaclasses)
@@ -108,7 +113,50 @@ class Controller(metaclass=MetaController):
 
     async def conn_close(self, conn):
         pass  # TODO?
-
+    
+    async def insert_csv_file(self, body: bytes, insert_live: bool):
+        """Insert the data in the body (expects bytes as csv)"""
+        f = io.StringIO(body.decode("utf-8"))
+        reader = csv.reader(f, dialect=sim.elecsim_dialect)
+        data = list(reader)
+        
+        sensors = []
+        for i, name in enumerate(data[0][2:]):
+            if name == "":
+                continue
+            try:
+                csv_sensor = sim.CsvSensor(name)
+                sensor = await Sensor.find_by_key(csv_sensor.ID, self.db)
+                # TODO check_auth
+            except Exception as e:
+                self.logger.info("Something went wrong while searching for sensor with name {}: {}".format(name, e))
+                continue
+            sensors.append((i, csv_sensor, sensor))
+        
+        times = []
+        for row in data[1:]:
+            time = int(datetime.strptime(row[0], sim.csv_date_format).timestamp())
+            #print(row[0], "\t", time)
+            times.append(time)
+        
+        if len(sensors) == 0:
+            self.logger.info("No sensors???")
+        
+        for (i, csv_sensor, sensor) in sensors:
+            values = []
+            for j, row in enumerate(data[1:]):
+                value = (float(row[i+2]), times[j])
+                #print(value)
+                values.append(value)
+            
+            self.logger.info("Inserting for sensor {}".format(sensor.SID))
+            try:
+                await sensor.insert_values(values, self.db)
+            except SqlError as e:
+                self.logger.error("Error in database: {}".format(e))
+                self.logger.error("Moving on...")
+        
+    
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
     class switch_what(switch):

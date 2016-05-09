@@ -185,6 +185,60 @@ class OverWatch:
         await self.model.uninstall()
         await self.model.install()
     
+    @simple_async_catch
+    async def fill_example(self):
+        l = [
+            # Wall: without a wall a user cant be initialized
+            model.Wall(is_user=True),
+            model.Wall(is_user=True),
+            model.Wall(is_user=True),
+            model.Wall(is_user=True),
+            model.Wall(is_user=True),
+            model.Wall(is_user=True),
+            model.Wall(is_user=True),
+            model.Wall(is_user=True),
+            # Users
+            model.User(first_name="Test", last_name="De Tester", email="test@test",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=1, admin=True),
+            model.User(first_name="Evert", last_name="Heylen", email="evertheylen@gmail.com",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=2, admin=True),
+            model.User(first_name="Stijn", last_name="Janssens", email="janssens.stijn@hotmail.com",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=3, admin=True),
+            model.User(first_name="Anthony", last_name="Hermans", email="hermans.anthony@hotmail.com",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=4, admin=True),
+            model.User(first_name="Sam", last_name="Mylle", email="sammylle@lol.com",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=5, admin=True),
+            model.User(first_name="Jeroen", last_name="Verstraelen", email="jeroenverstraelen@gmail.com",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=6, admin=True),
+            model.User(first_name="User", last_name="One", email="user1@users",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=7, admin=False),
+            model.User(first_name="User", last_name="Two", email="user2@users",
+                       password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                       wall=8, admin=False),
+            # Locations
+            model.Location(description="Middelheim", number=100, street="some street", city="Berchem",
+                           postalcode=2050, country="Belgium", user=1),
+            model.Location(description="Stadscampus", number=100, street="some street", city="Antwerpen",
+                           postalcode=2000, country="Belgium", user=1),
+            # Sensors
+            model.Sensor(type="electricity", title="Elec 1", user=1, location=1, EUR_per_unit=12.5),
+            model.Sensor(type="water", title="Water 1", user=1, location=1, EUR_per_unit=120.5),
+            model.Sensor(type="gas", title="Gas 1", user=1, location=1, EUR_per_unit=1200.5),
+            model.Sensor(type="electricity", title="Elec 2", user=1, location=2, EUR_per_unit=12.5),
+            model.Sensor(type="water", title="Water 2", user=1, location=2, EUR_per_unit=1.25),
+            model.Sensor(type="gas", title="Gas 2", user=1, location=2, EUR_per_unit=0.125),
+        ]
+        
+        for e in l:
+            await e.insert(self.model.db)
+        
     def sql_info(self):
         self.model.sql_info()
     
