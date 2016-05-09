@@ -27,7 +27,9 @@
 		    </button>
 		    <h2 class="mdl-card__title-text mdl-card--date">{{i18n('posted_on')}} {{fancy_date(status.date_edited*1000)}} </h2>
 		</div>
-		<canvas id="line-{{status.SID}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click="fullscreen(graph)"></canvas>
+		<div ng-click="fullscreen(graph)">
+			<canvas id="line-{{status.SID}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+		</div>
 		<div class="mdl-card__supporting-text" ng-bind="status.text">
 		</div>
 		<div class="mdl-card__actions mdl-card--border">
