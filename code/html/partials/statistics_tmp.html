@@ -345,7 +345,7 @@
 		<div class="boxContent">
 			<div class="mdl-grid">
 				<!--cards-->
-				<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone" ng-click="fullscreen($index)">
+				<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone" ng-click="fullscreen(graph)">
 					<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
 							<h2 class="mdl-card__title-text">{{i18n('graph') + " " + $index}}</h2>
@@ -372,15 +372,4 @@
 			</div>
 		</div>
 	</div>
-
-
-	<dialog id="fullScreenDialog" class="mdl-dialog fullscreen" ng-click="close_fullscreen();">
-		<h4 class="mdl-dialog__title">{{i18n('graph')}}</h4>
-		<div class="mdl-dialog__content">
-			<!-- TODO graph here -->
-			<!-- i'm not able to adjust the graph size yet because i don't see them and, knowing css, all my hard work would be useless -->
-			<canvas id="line-fullscreen" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
-		</div>
-	</dialog>
-
 </div>

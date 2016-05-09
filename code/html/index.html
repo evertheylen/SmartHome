@@ -153,6 +153,16 @@
                 </div>
             </div>
         </dialog>
+				
+				<dialog id="fullScreenDialog" class="mdl-dialog fullscreen" ng-click="close_fullscreen();">
+					<h4 class="mdl-dialog__title">{{i18n('graph')}}</h4>
+					<div class="mdl-dialog__content">
+						<!-- TODO graph here -->
+						<!-- i'm not able to adjust the graph size yet because i don't see them and, knowing css, all my hard work would be useless -->
+						<canvas id="line-fullscreen" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+					</div>
+				</dialog>
+							
 				<dialog id="dlgShare" class="mdl-dialog" ng-controller="shareController" ng-hide="$state.includes('state_index')">
             <h4 class="mdl-dialog__title" ng-bind="i18n('share_title')"></h4>
             <div class="mdl-dialog__content">
