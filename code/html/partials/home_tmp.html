@@ -14,7 +14,7 @@
 			            <i id="important_icon-{{$index}}" class="material-icons iconOnCard white">grade</i>
 		            </button>
 				</div>
-				<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+				<canvas ng-click="fullscreen(graph)" id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
             </div>
             <div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
             </div>
@@ -32,7 +32,7 @@
 			            <i id="important_icon-{{$index + graphs.length}}" class="material-icons iconOnCard white">grade</i>
 		            </button>
 				</div>
-				<canvas id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+				<canvas ng-click="fullscreen(graph)" id="line-{{$index + graphs.length}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
             </div>
             <div ng-repeat="i in graphs_single" class="mdl-tooltip" for="important_btn-{{$index + graphs.length}}" ng-bind="importants[$index + graphs.length] ? i18n('mark_unimportant') : i18n('mark_important')">
             </div>
