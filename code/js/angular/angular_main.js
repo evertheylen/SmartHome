@@ -161,5 +161,14 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     errors.push({name: "not_logged_in", func: not_logged_in});
 		
 		$rootScope.simple_css = false;
+		
+		$rootScope.fullscreen = function(graph) {
+      document.getElementById("fullScreenDialog").showModal();
+      $scope.graph = graph;
+    }
+    
+    $rootScope.close_fullscreen = function() {
+      document.getElementById('fullScreenDialog').close();
+    }
 });
 

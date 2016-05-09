@@ -1,6 +1,4 @@
 function DataType() {
-	// Used to track in which scopes the object is being used
-	this._scopes = [];
 
 	this.toJSON = function() {
 		var tmp = {};

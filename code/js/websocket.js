@@ -63,6 +63,12 @@ var cache = {
 	}
 }; 
 
+// Used for live updates.
+var scope_cache = {
+    
+}; 
+
+
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 

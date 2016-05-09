@@ -132,4 +132,5 @@ var html_strings = {
     "report_title" : ["Title (click and type to make a title)", "Titel (klik en typ om een titel te maken)"],
     "report_comment" : ["comment (click and type to make a comment)", "comment (klik en typ om een comment te maken)"],
     "report_final_comment" : ["comment (click and type to make a final comment)", "comment (klik en typ om een finale comment te maken)"],
+    "graph" : ["Graph", "Grafiek"],
 };
