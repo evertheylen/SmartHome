@@ -237,7 +237,7 @@ class OverWatch:
         ]
         
         for e in l:
-            l.insert(self.model.db)
+            await e.insert(self.model.db)
         
     def sql_info(self):
         self.model.sql_info()
