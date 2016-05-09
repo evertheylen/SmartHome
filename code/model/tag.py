@@ -15,5 +15,4 @@ class Tag(RTOwEntity):
         return_value = {}
         return_value["TID"] = self.TID
         return_value["text"] = self.description
-        # self.__dict__[p.dataname]
         return return_value
