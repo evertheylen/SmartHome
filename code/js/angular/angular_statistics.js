@@ -533,6 +533,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
       $scope.graph = $scope.graphs[index];
     }
     
+    $scope.close_fullscreen = function() {
+      document.getElementById('fullScreenDialog').close();
+    }
+    
     $scope.$watch('start_date + end_date', function() {
         today = new Date();
         if ($scope.start_date.getYear() == today.getYear() && 
