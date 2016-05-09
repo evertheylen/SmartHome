@@ -37,8 +37,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
       type: "get_all",
       what: "Sensor",
     }, function(response) {
-        for (var i= 0; i < response.objects.length; i++)
-            response.objects[i]._scopes.push($scope);
         $scope.sensors = response.objects;
         console.log("length sensors: " + $scope.sensors.length);
         $scope.$apply();
@@ -53,8 +51,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
           UID: $rootScope.auth_user.UID
       }
     }, function(response) {
-        for (var i= 0; i < response.objects.length; i++)
-            response.objects[i]._scopes.push($scope);
         $scope.users = response.objects;
         $scope.$apply();
     });
