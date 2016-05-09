@@ -25,8 +25,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             UID: $rootScope.auth_user.UID
         }
     }, function(response) {
-        for (var i = 0; i < response.objects.length; i++)
-            response.objects[i]._scopes.push($scope);
         $scope.houses = response.objects;
         $scope.$apply();
     });
@@ -41,8 +39,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             UID: $rootScope.auth_user.UID
         }
     }, function(response) {
-        for (var i = 0; i < response.objects.length; i++)
-            response.objects[i]._scopes.push($scope);
         $scope.sensors = response.objects;
         updateFilteredSensors();
         $scope.$apply();
@@ -54,8 +50,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         type: "get_all",
         what: "Tag"
     }, function(response) {
-        for (var i = 0; i < response.objects.length; i++)
-            response.objects[i]._scopes.push($scope);
         var temp_tags = response.objects;
         for (var i = 0; i < temp_tags.length; i++) {
             var exists = false;
@@ -338,7 +332,6 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
                 LID: $scope.sensor.location_LID
             }
         }, function(response) {
-            response.object._scopes.push($scope);
             $scope.location_name = response.object.description;
             $scope.$apply();
         });
@@ -477,7 +470,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                             SID: $scope.sen_SID
                         }
                     }, function(response) {
-                        response.object._scopes.push($scope);
                         for (j = 0; j < $scope.tags.length; j++) {
                             if (response.object.text === $scope.tags[j].text)
                                 return;
@@ -518,7 +510,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     what: "Sensor",
                     data: sensorObject
                 }, function(response) {
-                    response.object._scopes.push($scope);
                     new_sensor = response.object;
                     // Add Tags
                     if ($scope.sen_tags.length > 0) {
@@ -533,7 +524,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                                     SID: new_sensor.SID
                                 }
                             }, function(response) {
-                                response.object._scopes.push($scope);
                                 for (j = 0; j < $scope.tags.length; j++) {
                                     if (response.object.text === $scope.tags[j].text)
                                         return;
@@ -576,7 +566,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                         LID: value
                     }
                 }, function(response) {
-                    response.object._scopes.push($scope);
                     toChange.innerHTML = response.object.description;
                     $scope.sen_house = value;
                     $scope.$apply();
@@ -715,7 +704,6 @@ angular.module("overwatch").controller("location_dialogController", function($sc
                     what: "Location",
                     data: houseObject
                 }, function(response) {
-                    response.object._scopes.push($scope);
                     new_house = response.object;
                     console.log("Pre house added");
                     $scope.houses.push(new_house);

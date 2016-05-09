@@ -272,16 +272,16 @@ class Controller(metaclass=MetaController):
         @case("Tag")
         async def tag(self, req):
             check_for_type(req, "Sensor")
-            count = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["description"])).count(self.db)
+            count = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["text"])).count(self.db)
             # Check if tag with that description attribute is already present in the database
             if count == 0:
-                new_tag = Tag(description=req.data["description"])
+                new_tag = Tag(description=req.data["text"])
                 await new_tag.insert(self.db)
                 tagged = Tagged(sensor=req.metadata["for"]["SID"],tag=new_tag.TID)
                 await tagged.insert(self.db)
                 await req.answer(new_tag.json_repr())
             else:
-                t = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["description"])).single(self.db)
+                t = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["text"])).single(self.db)
                 tagged = Tagged(sensor=req.metadata["for"]["SID"],tag=t.TID)
                 await tagged.insert(self.db)
                 await req.answer(t.json_repr())
@@ -609,6 +609,7 @@ class Controller(metaclass=MetaController):
             await f.delete(self.db)
             await req.answer({"status": "success"})
 
+        # TODO fix delete tag
         @case("Tag")
         async def tag(self, req):
             if 'for' in req.metadata:
@@ -619,7 +620,7 @@ class Controller(metaclass=MetaController):
                 for t in tags: await t.delete(self.db)
                 await req.answer({"status": "succes"})
             else:
-                t = await Tag.find_by_key((req.data["sensor_SID"], req.data["description"]), self.db)
+                t = await Tag.find_by_key((req.data["sensor_SID"], req.data["text"]), self.db)
                 # await t.check_auth(req, self.db)
                 await t.delete(self.db)
                 await req.answer({"status": "succes"})

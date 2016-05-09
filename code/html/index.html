@@ -153,6 +153,16 @@
                 </div>
             </div>
         </dialog>
+				
+				<dialog id="fullScreenDialog" class="mdl-dialog fullscreen" ng-click="close_fullscreen();">
+					<h4 class="mdl-dialog__title">{{i18n('graph')}}</h4>
+					<div class="mdl-dialog__content">
+						<!-- TODO graph here -->
+						<!-- i'm not able to adjust the graph size yet because i don't see them and, knowing css, all my hard work would be useless -->
+						<canvas id="line-fullscreen" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+					</div>
+				</dialog>
+							
 				<dialog id="dlgShare" class="mdl-dialog" ng-controller="shareController" ng-hide="$state.includes('state_index')">
             <h4 class="mdl-dialog__title" ng-bind="i18n('share_title')"></h4>
             <div class="mdl-dialog__content">
@@ -184,20 +194,21 @@
             </div>
         </dialog>  
       </main>
-	    <footer class="mdl-mini-footer" ng-hide="simple_css">
-		    <div class="mdl-mini-footer__left-section">
-			    <div class="mdl-logo">OverWatch</div>
-			    <ul class="mdl-mini-footer__link-list">
+    </div>
+	
+	    <footer ng-hide="simple_css">
+		    <div class="footer__left-section">
+			    <div class="footer__left-section__title">OverWatch</div>
+			    <ul class="footer__link-list">
 				    <li><a ui-sref="state_help">Help</a></li>
 				    <li><a href="#" ng-bind="i18n('privacy')"></a></li>
 			    </ul>
 		    </div>
-		    <div class="mdl-mini-footer__right-section">
+		    <div class="footer__right-section">
 		        <button id="btn_english" ng-click="changeLang(0);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" >En</button>
 		        <button id="btn_dutch" ng-click="changeLang(1);" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" >Nl</button>
 		    </div>
-	    </footer>      
-    </div>
+	    </footer>
 	
 		<!--<script src="/js/pagination.js"></script>-->
     <script src="/js/angular/angular_setup.js"></script>

@@ -4,14 +4,18 @@
 				placeholder="{{i18n('report_title')}}"></div>
 		<div class="reportSection">
 			<div class="reportGraph">
-				<canvas id="line-0" class="chart chart-base" chart-type="graph0.type" chart-data="graph0.data" chart-labels="graph0.labels" chart-legend="true" chart-series="graph0.series" chart-click=""></canvas>
+				<div ng-click="fullscreen(graph0)">
+				<can	vas id="line-0" class="chart chart-base" chart-type="graph0.type" chart-data="graph0.data" chart-labels="graph0.labels" chart-legend="true" chart-series="graph0.series" chart-click=""></canvas>
+				</div>
 			</div>
 			<div class="reportComment editComment" contentEditable="true"
 					placeholder="{{i18n('report_comment')}}"></div>
 		</div>
 		<div class="reportSection">
 			<div class="reportGraph">
-				<canvas id="line-1" class="chart chart-base" chart-type="graph1.type" chart-data="graph1.data" chart-labels="graph1.labels" chart-legend="true" chart-series="graph1.series" chart-click=""></canvas>
+				<div ng-click="fullscreen(graph1)">
+					<canvas id="line-1" class="chart chart-base" chart-type="graph1.type" chart-data="graph1.data" chart-labels="graph1.labels" chart-legend="true" chart-series="graph1.series" chart-click=""></canvas>
+				</div>
 			</div>
 			<div class="reportComment editComment" contentEditable="true"
 					placeholder="{{i18n('report_comment')}}"></div>
