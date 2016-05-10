@@ -33,6 +33,7 @@ class OverWatchTest(AsyncHTTPTestCase, LogTrapTestCase):
     async def prepare(self):
         pass
 
+
 def ow_test(method):
     @gen_test
     @wraps(method)
