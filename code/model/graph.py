@@ -18,7 +18,6 @@ for cls in Value, HourValue, DayValue, MonthValue, YearValue:
 sensor_props = {p.name: p for p in Sensor._props if p.json}
 
 
-<<<<<<< HEAD
 # How to implement convert_to_EUR?
 # ================================
 
@@ -65,9 +64,6 @@ sensor_props = {p.name: p for p in Sensor._props if p.json}
 
 
 class Graph(OwEntity):  
-=======
-class Graph(OwEntity):
->>>>>>> 1d1ca45af59ab964605ef1483737f8c15c7c1199
     timespan_valuetype_type = Enum("Value", "HourValue", "DayValue", "MonthValue", "YearValue")
 
     key = GID = KeyProperty()
@@ -77,20 +73,12 @@ class Graph(OwEntity):
     timespan_valuetype = Property(timespan_valuetype_type)
 
     title = Property(str)
-<<<<<<< HEAD
     
     # Let's just save those as text and be done with it
     where_text = Property(str)
     
     #convert_to_EUR = Property(bool)
     
-=======
-
-    #group_by = TODO
-
-    #where = TODO
-
->>>>>>> 1d1ca45af59ab964605ef1483737f8c15c7c1199
     # TO BE FILLED:
     lines = []
     cls = None
@@ -189,12 +177,8 @@ class Line(OwEntity):
     # TO BE FILLED
     values = []  # tuples (value, time)
     sensors = [] # simple ID's
-<<<<<<< HEAD
     grouped_by = []
     
-=======
-
->>>>>>> 1d1ca45af59ab964605ef1483737f8c15c7c1199
     filled = False
 
     async def build(self, sensors, graph, db):
@@ -216,14 +200,10 @@ class Line(OwEntity):
             await DataInLine(line=self.key, time=v[1], value=v[0]).insert(db)
         for s in self.sensors:
             await SensorsInLine(line=self.key, sensor=s).insert(db)
-<<<<<<< HEAD
         for gb in self.grouped_by:
             gb.line = self.key
             await gb.insert(db)
     
-=======
-
->>>>>>> 1d1ca45af59ab964605ef1483737f8c15c7c1199
     async def fill(self, db):
         if not self.filled:
             data = await DataInLine.get(DataInLine.line == self.key).all(db)
@@ -241,7 +221,6 @@ class Line(OwEntity):
             "values": [list(v) for v in self.values]
         }
 
-<<<<<<< HEAD
     
 from util.switch import switch, case
 
@@ -272,8 +251,6 @@ def new_GroupedByInLine(line, what, ref_ID, actual_where):
     gb = GroupedByInLine(line=line, what=what, ref_ID=ref_ID)
     gb.actual_where = actual_where
     return gb
-=======
->>>>>>> 1d1ca45af59ab964605ef1483737f8c15c7c1199
 
 class SensorsInLine(OwEntity):
     sensor = Reference(Sensor)
