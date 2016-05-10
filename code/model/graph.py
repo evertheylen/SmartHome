@@ -16,27 +16,27 @@ for cls in Value, HourValue, DayValue, MonthValue, YearValue:
 sensor_props = {p.name: p for p in Sensor._props if p.json}
 
 
-class Graph(OwEntity):  
+class Graph(OwEntity):
     timespan_valuetype_type = Enum("Value", "HourValue", "DayValue", "MonthValue", "YearValue")
-    
+
     key = GID = KeyProperty()
-    
+
     timespan_start = Property(int)
     timespan_end = Property(int)
     timespan_valuetype = Property(timespan_valuetype_type)
-    
+
     title = Property(str)
-    
+
     #group_by = TODO
-    
+
     #where = TODO
-    
+
     # TO BE FILLED:
     lines = []
     cls = None
-    
+
     filled = False
-    
+
     async def build(self, base_wheres, group_by, db):
         # Tactic: divide all graphs further and further
         # Each list is a limitation aka Where object that filters sensors
@@ -60,7 +60,7 @@ class Graph(OwEntity):
                 # TODO support for the magic value "$NOTAGS$"
                 for t in g["IDs"]:
                     # Not really a where but anyway
-                    extra_wheres.append(RawSql("SELECT * FROM table_sensor WHERE table_sensor.SID IN (SELECT table_tag.sensor_SID FROM table_Tag WHERE text = %(tagtext)s)", {"tagtext": t}))
+                    extra_wheres.append(RawSql("SELECT * FROM table_Sensor WHERE table_Sensor.SID IN (SELECT table_Tagged.sensor_sid FROM table_Tagged WHERE table_Tagged.tag_tid IN (SELECT table_Tag.tid FROM table_Tag WHERE table_Tag.description = %(tagtext)s))", {"tagtext": t}))
             elif g["what"] == "Location":
                 for LID in g["IDs"]:
                     extra_wheres.append(Sensor.location == LID)
@@ -82,17 +82,17 @@ class Graph(OwEntity):
             line = Line(graph=self.key)
             await line.build(IDs, self, db)
             self.lines.append(line)
-        
+
         self.filled = True
-    
-    
+
+
     async def save(self, db):
         await self.insert(db)
         for l in self.lines:
             l.graph = self.key
             await l.save(db)
-        
-    
+
+
     async def fill(self, db):
         if not self.filled:
             self.cls, _ = value_props_per_type[self.timespan_valuetype]
@@ -100,7 +100,7 @@ class Graph(OwEntity):
             for l in self.lines:
                 await l.fill(db)
             self.filled = True
-    
+
     def json_repr(self):
         assert self.filled, "Fill first"
         return {
@@ -116,20 +116,20 @@ class Graph(OwEntity):
             }
         }
 
-    
-    
-            
+
+
+
 class Line(OwEntity):
     # grouped_by = TODO
     key = LID = KeyProperty()
     graph = Reference(Graph)
-    
+
     # TO BE FILLED
     values = []  # tuples (value, time)
     sensors = [] # simple ID's
-    
+
     filled = False
-    
+
     async def build(self, sensors, graph, db):
         self.sensors = sensors
         if len(self.sensors) == 0:
@@ -142,14 +142,14 @@ class Line(OwEntity):
             result = await req.exec(db)
             self.values = result.raw_all()
         self.filled = True
-    
+
     async def save(self, db):
         await self.insert(db)
         for v in self.values:
             await DataInLine(line=self.key, time=v[1], value=v[0]).insert(db)
         for s in self.sensors:
             await SensorsInLine(line=self.key, sensor=s).insert(db)
-    
+
     async def fill(self, db):
         if not self.filled:
             data = await DataInLine.get(DataInLine.line == self.key).all(db)
@@ -157,7 +157,7 @@ class Line(OwEntity):
             sil = await SensorsInLine.get(SensorsInLine.line == self.key).all(db)
             self.sensors = [s.sensor_SID for s in sil]
             self.filled = True
-    
+
     def json_repr(self):
         assert self.filled, "Not filled"
         return {
@@ -165,8 +165,8 @@ class Line(OwEntity):
             "sensors": self.sensors,
             "values": [list(v) for v in self.values]
         }
-    
-    
+
+
 class SensorsInLine(OwEntity):
     sensor = Reference(Sensor)
     line = Reference(Line)
@@ -189,7 +189,7 @@ class DataInLine(OwEntity):
     "timespan": ...
     "group_by": ...
     "where": ...
-    
+
     # Each object here represents one line in the graph
     "lines": [
         {
@@ -243,9 +243,8 @@ Request
 	"timespan": {
         "valueType": "DayValue",
     	"start": 15555555,
-    	"end": 155566666 
+    	"end": 155566666
   	}
 }
 
 """
-
