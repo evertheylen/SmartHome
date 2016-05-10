@@ -113,13 +113,13 @@ class Controller(metaclass=MetaController):
 
     async def conn_close(self, conn):
         pass  # TODO?
-    
+
     async def insert_csv_file(self, body: bytes, insert_live: bool):
         """Insert the data in the body (expects bytes as csv)"""
         f = io.StringIO(body.decode("utf-8"))
         reader = csv.reader(f, dialect=sim.elecsim_dialect)
         data = list(reader)
-        
+
         sensors = []
         for i, name in enumerate(data[0][2:]):
             if name == "":
@@ -132,31 +132,31 @@ class Controller(metaclass=MetaController):
                 self.logger.info("Something went wrong while searching for sensor with name {}: {}".format(name, e))
                 continue
             sensors.append((i, csv_sensor, sensor))
-        
+
         times = []
         for row in data[1:]:
             time = int(datetime.strptime(row[0], sim.csv_date_format).timestamp())
             #print(row[0], "\t", time)
             times.append(time)
-        
+
         if len(sensors) == 0:
             self.logger.info("No sensors???")
-        
+
         for (i, csv_sensor, sensor) in sensors:
             values = []
             for j, row in enumerate(data[1:]):
                 value = (float(row[i+2]), times[j])
                 #print(value)
                 values.append(value)
-            
+
             self.logger.info("Inserting for sensor {}".format(sensor.SID))
             try:
                 await sensor.insert_values(values, self.db)
             except SqlError as e:
                 self.logger.error("Error in database: {}".format(e))
                 self.logger.error("Moving on...")
-        
-    
+
+
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
     class switch_what(switch):
@@ -609,20 +609,29 @@ class Controller(metaclass=MetaController):
             await f.delete(self.db)
             await req.answer({"status": "success"})
 
-        # TODO fix delete tag
         @case("Tag")
         async def tag(self, req):
             if 'for' in req.metadata:
                 check_for_type(req, "Sensor")
                 s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
                 await s.check_auth(req)
-                tags = await Tag.get(Tag.sensor == s.key).all(self.db)
+                tags = await Tag.raw("SELECT * from table_Tag WHERE table_Tag.tid IN (SELECT table_Tagged.tag_tid FROM table_Tagged WHERE table_Tagged.sensor_sid = {0})".format(req.metadata["for"]["SID"])).all(self.db)
                 for t in tags: await t.delete(self.db)
                 await req.answer({"status": "succes"})
             else:
-                t = await Tag.find_by_key((req.data["sensor_SID"], req.data["text"]), self.db)
+                # Get the sensor and the tag
+                s = await Sensor.find_by_key(req.data["sensor_SID"], self.db)
+                await s.check_auth(req)
+                t = await Tag.raw("SELECT * FROM table_Tag WHERE (table_Tag.description = '{0}')".format(req.data["text"])).single(self.db)
                 # await t.check_auth(req, self.db)
-                await t.delete(self.db)
+                # Get the relationship Tagged and delete it
+                condition1 = Where(Tagged.sensor,"=",s.key)
+                condition2 = Where(Tagged.tag,"=",t.key)
+                tagged = await Tagged.get(And(condition1,condition2)).single(self.db)
+                await tagged.delete(self.db)
+                # If the tag isn't needed elsewhere => delete it
+                count = await Tagged.get(condition2).count(self.db)
+                if count == 0: await t.delete(self.db)
                 await req.answer({"status": "succes"})
 
         @case("Graph")
