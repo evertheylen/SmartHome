@@ -42,7 +42,7 @@ class Value(OwEntity):
     def json_repr(self):
         """format is ``[value, time]`` (to save space)"""
         return [self.value, self.time]
-
+    
     async def is_authorized(self, type, usr, db, **kwargs):
         s = await Sensor.find_by_key(self.sensor).single(db)
         return s.user == usr.key

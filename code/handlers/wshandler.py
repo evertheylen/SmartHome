@@ -126,7 +126,7 @@ def create_WsHandler(controller, debug=True):
             self.user = None
             self.listenees = set()
             self.graph_cache = {}
-            tornado.ioloop.IOLoop.current().spawn_callback(self.open_async)
+            controller.ow.ioloop.spawn_callback(self.open_async)
         
         
         # Websocket methods
@@ -144,7 +144,7 @@ def create_WsHandler(controller, debug=True):
                 # Because this function is synchronous, we must use the IOLoop to get the async loop 'back'
                 r = Request(self, dct["ID"], dct)
                 
-                tornado.ioloop.IOLoop.current().spawn_callback(wrap_errors, controller, r)
+                controller.ow.ioloop.spawn_callback(wrap_errors, controller, r)
             except json.JSONDecodeError as e:
                 controller.logger.warning("Server could not decode as JSON. Error: {}".format(message, e))
 
@@ -156,7 +156,7 @@ def create_WsHandler(controller, debug=True):
         def on_close(self):
             if self in clients:
                 clients.remove(self)
-            tornado.ioloop.IOLoop.current().spawn_callback(controller.conn_close, self)
+            controller.ow.ioloop.spawn_callback(controller.conn_close, self)
 
         
         # Listener methods

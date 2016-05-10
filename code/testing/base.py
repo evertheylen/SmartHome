@@ -6,6 +6,8 @@ from tornado.testing import *
 
 from overwatch import *
 from util.mock import Mock
+from handlers import wshandler
+from model import *
 
 config = default_config
 config["tornado_app_settings"]["autoreload"] = False
@@ -27,7 +29,9 @@ class OverWatchTest(AsyncHTTPTestCase, LogTrapTestCase):
     def to_insert(self):
         # function, so the references go away and the cache is empty
         return []
-
+    
+    async def prepare(self):
+        pass
 
 def ow_test(method):
     @gen_test
@@ -36,6 +40,7 @@ def ow_test(method):
         await self.ow.reinstall()
         for ent in self.to_insert():
             await ent.insert(self.ow.model.db)
+        await self.prepare()
         for cls in self.ow.model.classes:
             cls.cache = weakref.WeakValueDictionary()  # replace the old cache entirely
         await method(self)
@@ -48,3 +53,31 @@ def ow_test(method):
 # StijnHeeftGeenSmaak   --> $2a$13$H7MXr3dt/dST.fsb5e2vRO.kGq7YB2uTGk3Cpzn8sdflOavvWEuaG
 
 # Use these in the users password field instead of just "testtest"
+
+
+# Also useful
+class MockConn(Mock):
+    def __init__(self, user):
+        self.session = "bla"
+        self.user = user
+        self.listenees = set()
+        self.graph_cache = {}
+        self.received_messages = []
+    
+    async def send(self, whatever):
+        self.received_messages.append(whatever)
+
+def basic_insert():
+    return [
+            # Wall: without a wall a user cant be initialized
+            Wall(is_user=True),
+            # Users
+            User(first_name="Evert", last_name="Heylen", email="e@e",
+                 password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
+                 wall=1, admin=True),
+            # Locations
+            Location(description="Home", number=100, street="some street", city="Some city",
+                           postalcode=1000, country="Belgium", user=1),
+            # Sensors
+            Sensor(type="electricity", title="Test", user=1, location=1, EUR_per_unit=10)
+        ]

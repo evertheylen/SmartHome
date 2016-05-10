@@ -1,7 +1,7 @@
 
-from testing.base import *
 import tornado.gen
 
+from testing.base import *
 from model import *
 
 def almost_equal(a, b, rel_error=0.05):
@@ -9,21 +9,10 @@ def almost_equal(a, b, rel_error=0.05):
     diff = abs(a-b)
     return diff <= rel_error*maximum
 
+
 class Aggregate(OverWatchTest):
     def to_insert(self):
-        return [
-            # Wall: without a wall a user cant be initialized
-            Wall(is_user=True),
-            # Users
-            User(first_name="Evert", last_name="Heylen", email="e@e",
-                 password="$2a$13$2yGuYSME6BTKp.uhuXjT1.1WgLWDBYnWpwiStaroy0Km6vXweNkvu",
-                 wall=1, admin=True),
-            # Locations
-            Location(description="Home", number=100, street="some street", city="Some city",
-                           postalcode=1000, country="Belgium", user=1),
-            # Sensors
-            Sensor(type="electricity", title="Test", user=1, location=1, EUR_per_unit=12.5)
-        ]
+        return basic_insert()
 
     @ow_test
     async def test_count(self):
@@ -64,4 +53,7 @@ class Aggregate(OverWatchTest):
             self.assertTrue(almost_equal(month_average, 5*(9/30)))  # Only 9 days filled (see above)
             year_average = sum([v.value for v in yearvals]) / len(yearvals)
             self.assertTrue(almost_equal(year_average, (5*(9/30))/12))  # Only 1 month filled
+
+
+
 

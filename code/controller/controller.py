@@ -90,10 +90,10 @@ class Controller(metaclass=MetaController):
     # General methods
     # ---------------
 
-    def __init__(self, logger, model):
+    def __init__(self, logger, model, ow):
         self.logger = logger
         self.model = model
-
+        self.ow = ow
         self.sessions = {}
         # Session --> User.key
 
@@ -554,7 +554,6 @@ class Controller(metaclass=MetaController):
             await g.update(self.db)
             await req.answer(g.json_repr())
 
-    # TODO handle FOREIGN KEY constraints (CASCADE?)
     @handle_ws_type("delete")
     @require_user_level(1)
     class handle_delete(switch_what):
@@ -652,11 +651,11 @@ class Controller(metaclass=MetaController):
             base_wheres.append(Sensor.user == req.conn.user.key)
 
         ts = req.metadata["timespan"]
-        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = "untitled")
-
+        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"), where_text=json.dumps(req.metadata["where"]))
+        
         await g.build(base_wheres, group_by, self.db)
-
-        GID = "temp" + str(random.randint(1,999999))
+        
+        GID = "temp" + str(random.randint(1,9999999))
         g.GID = GID
         req.conn.graph_cache[GID] = g
 

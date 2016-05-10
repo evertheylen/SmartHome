@@ -114,7 +114,7 @@ class OverWatch:
 
         # The view/presentation layer are the Handlers, so it's kinda the 'app' provided by Tornado.
         # Every handler will get a reference to the controller
-        self.controller = controller.Controller(self.logger, None)
+        self.controller = controller.Controller(self.logger, None, self)
 
         # The model is pretty self-explanatory
         # The database is not managed by the model, but it's not a big deal really.
