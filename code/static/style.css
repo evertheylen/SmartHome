@@ -45,6 +45,13 @@ body{
 	overflow: auto;
 }
 
+.fullscreenCanvas{
+	width: 90%;
+	height: 90%;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
 footer{
 	height: 70px;
 	color: rgb(158, 158, 158);
