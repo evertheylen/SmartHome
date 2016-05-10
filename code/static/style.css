@@ -34,10 +34,15 @@ body{
 }
 
 .fullscreen{
-	margin-left: 2%:
-	margin-top: 2%:
-	height: 96%;
-	width: 96%;
+	max-width: 90%;
+	width: auto;
+	margin: 0px;
+	position: fixed;
+	top: 5%;
+	left: 5%;
+	height: 90%;
+	padding: 0px;
+	overflow: auto;
 }
 
 footer{
