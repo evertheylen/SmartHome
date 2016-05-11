@@ -674,9 +674,8 @@ class Controller(metaclass=MetaController):
     @handle_ws_type("register", "unregister")
     @require_user_level(1)
     async def handle_registers(self, req):
-        cls = self.model.classdict[req.data["what"]]
-        key_names = [k.name for k in cls.key.referencing_props]
-        key = [req.data[k.name] for k in key_names]
+        cls = self.model.classdict[req.metadata["what"]]
+        key = [req.data[k.name] for k in cls.key.referencing_props()]
         key = key[0] if len(key) == 1 else tuple(key)
         obj = await cls.find_by_key(key, self.db)
         await obj.check_auth(req, db=self.db)
@@ -684,7 +683,9 @@ class Controller(metaclass=MetaController):
             obj.add_listener(req.conn)
         else:
             obj.remove_listener(req.conn)
+        await req.answer({"status": "success"})
     
     @handle_ws_type("unregister_all")
     async def handle_unregister_all(self, req):
         req.conn.remove_all_listenees()
+        await req.answer({"status": "success"})

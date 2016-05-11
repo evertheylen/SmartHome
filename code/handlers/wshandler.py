@@ -176,41 +176,41 @@ def create_WsHandler(controller, debug=True):
         
         def update(self, obj):
             """Handle updates to the object."""
-            controller.ow.ioloop.spawn_callback(self.send({
+            controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_edit",
                 "what": type(obj).__name__,
                 "data": obj.json_repr()
-                }))
+                })
         
         def delete(self, obj):
             """Handle deletions of the object."""
-            controller.ow.ioloop.spawn_callback(self.send({
+            controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_delete",
                 "what": type(obj).__name__,
                 "data": obj.json_repr()
-                }))
+                })
         
         def new_reference(self, obj, ref_obj):
             """Handle a new reference from `ref_obj` to `obj`. `ref_obj` does not have to be a
             `RTEntity`.
             """
-            controller.ow.ioloop.spawn_callback(self.send({
+            controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_add",
-                "for": ref_obj.json_key(),
-                "what": type(obj).__name__,
-                "data": obj.json_repr(),
-                }))
+                "for": obj.json_key(),
+                "what": type(ref_obj).__name__,
+                "data": ref_obj.json_repr(),
+                })
             
         def remove_reference(self, obj, ref_obj):
             """Handle the removal of a reference from `ref_obj` to `obj`. `ref_obj` does not 
             have to be a `RTEntity`.
             """
             controller.logger.info("I sent an experimental message for which is there is no format yet, I doubt Jeroen can handle it ;)")
-            controller.ow.ioloop.spawn_callback(self.send({
+            controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_delete_ref",
-                "for": ref_obj.json_key(),
-                "data": obj.json_key(),
-                }))
+                "for": obj.json_key(),
+                "data": ref_obj.json_key(),
+                })
         
 
     return WsHandler

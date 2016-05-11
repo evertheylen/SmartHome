@@ -20,7 +20,7 @@ class OwEntity(sparrow.Entity):
     
     def json_key(self):
         base = {"what": type(self).__name__}
-        for k in cls.key.referencing_props():
+        for k in type(self).key.referencing_props():
             base[k.name] = self.__dict__[k.dataname]
         return base
             
