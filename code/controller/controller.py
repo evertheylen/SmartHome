@@ -43,9 +43,9 @@ def require_user_level(level):
     return handler_decorator
 
 
-def handle_ws_type(typ):
+def handle_ws_type(*types):
     def decorator(method):
-        method.__handle_type__ = typ
+        method.__handle_types__ = types
         return method
     return decorator
 
@@ -58,8 +58,9 @@ class MetaController(type):
         dct["wshandlers"] = {}
         # Detects functions marked with handle_ws_type
         for (n,f) in dct.items():
-            if hasattr(f, "__handle_type__"):
-                dct["wshandlers"][f.__handle_type__] = f
+            if hasattr(f, "__handle_types__"):
+                for handle_type in f.__handle_types__:
+                    dct["wshandlers"][handle_type] = f
         return type.__new__(self, name, bases, dct)
 
 
@@ -669,3 +670,21 @@ class Controller(metaclass=MetaController):
         req.conn.graph_cache[GID] = g
 
         await req.answer(g.json_repr())
+    
+    @handle_ws_type("register", "unregister")
+    @require_user_level(1)
+    async def handle_registers(self, req):
+        cls = self.model.classdict[req.data["what"]]
+        key_names = [k.name for k in cls.key.referencing_props]
+        key = [req.data[k.name] for k in key_names]
+        key = key[0] if len(key) == 1 else tuple(key)
+        obj = await cls.find_by_key(key, self.db)
+        await obj.check_auth(req, db=self.db)
+        if req.metadata["type"] == "register":
+            obj.add_listener(req.conn)
+        else:
+            obj.remove_listener(req.conn)
+    
+    @handle_ws_type("unregister_all")
+    async def handle_unregister_all(self, req):
+        req.conn.remove_all_listenees()

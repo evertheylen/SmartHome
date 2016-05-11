@@ -121,7 +121,9 @@ class OverWatch:
         # It could be managed by the model, but I prefer to keep the model clean of that.
         self.model = sparrow.SparrowModel(ioloop, db_args=config["database"], debug=config["debug"],
             classes=model.social_pre + model.base + model.social)
-
+        # Monkey patching ftw
+        self.model.classdict = {cls.__name__: cls for cls in self.model.classes}
+        
         # Now of course, set the controllers references too.
         self.controller.model = self.model
         # The controller does not initially have any references to the "view" minions (ie. handlers),
