@@ -363,6 +363,27 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
+    $scope.sen_added_tags = [];
+    $scope.sen_deleted_tags = [];
+    $scope.sen_original_tags = [];
+    $scope.add_tag = function(tag) {
+       if (edit) {
+          if ($scope.sen_original_tags.indexOf(tag) === -1) {
+              $scope.sen_added_tags.push(tag);
+              console.log("added tag:" + tag);
+          }
+       }
+    }
+    
+    $scope.delete_tag = function(tag) {
+        if (edit) {
+            if ($scope.sen_deleted_tags.indexOf(tag) === -1) {
+                $scope.sen_deleted_tags.push(tag);
+                console.log("deleted tag:" + tag);
+            }
+        }
+    }
+  
     $rootScope.$on("dlgSensor_open", function() {
         var sen = dlgSensor_setup.getSensor();
         if (sen != null) {
@@ -371,8 +392,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
             $scope.sen_name = sen.title;
             $scope.sen_type = sen.type;
             $scope.sen_tags = sen.tags;
-            $scope.sen_added_tags = [];
-            $scope.sen_deleted_tags = [];
+            $scope.sen_original_tags = sen.tags;
             $scope.sen_house = sen.location_LID;
             $scope.sen_SID = sen.SID;
             $scope.sen_scope = dlgSensor_setup.getScope();
