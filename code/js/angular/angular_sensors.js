@@ -50,6 +50,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         type: "get_all",
         what: "Tag"
     }, function(response) {
+        $scope.tags = response.objects;
+        /*
         var temp_tags = response.objects;
         for (var i = 0; i < temp_tags.length; i++) {
             var exists = false;
@@ -62,7 +64,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             if (!exists)
                 $scope.tags.push(temp_tags[i]);
         }
-        console.log(" ============= TAGS ================== " + $scope.tags);
+        */
         updateFilteredSensors();
         $scope.$apply();
     });
@@ -338,7 +340,6 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
     }
 
     $scope.get_tags = function() {
-        console.log("Setting tags for sensor " + $scope.sensor.SID);
         ws.request({
             type: "get_all",
             what: "Tag",
@@ -370,6 +371,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
             $scope.sen_name = sen.title;
             $scope.sen_type = sen.type;
             $scope.sen_tags = sen.tags;
+            $scope.sen_added_tags = [];
+            $scope.sen_deleted_tags = [];
             $scope.sen_house = sen.location_LID;
             $scope.sen_SID = sen.SID;
             $scope.sen_scope = dlgSensor_setup.getScope();
@@ -431,41 +434,25 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
         if ($scope.sensor_form.$valid) {
             if (edit) {
                 // Delete removed Tags.
-                for (var tagIndex = 0; tagIndex < $scope.tags.length; tagIndex++) {
-                    var tag = $scope.tags[tagIndex];
-                    if (tag.sensor_SID === $scope.sen_SID) { 
-                        var removed = true;                       
-                        for (var senTagIndex = 0; senTagIndex < $scope.sen_tags.length; senTagIndex++) {
-                            if ($scope.sen_tags[senTagIndex] == tag) {
-                                removed = false;
-                                break;
-                            }
+                for (var tagIndex = 0; tagIndex < $scope.sen_deleted_tags.length; tagIndex++) {
+                    ws.request({
+                        type: "delete",
+                        what: "Tag",
+                        data: { 
+                            sensor_SID: $scope.sen_SID,
+                            text: $scope.sen_deleted_tags[tagIndex].text
                         }
-                        if (removed) {
-                            ws.request({
-                                type: "delete",
-                                what: "Tag",
-                                data: { 
-                                    sensor_SID: tag.sensor_SID,
-                                    text: tag.text
-                                }
-                            }, function(success) {
-                                $scope.$apply();
-                            });
-                        }
-                    }
+                    }, function(success) {
+                        $scope.$apply();
+                    });
                 }
 
                 // Add new Tags.
-                for (var i = 0; i < $scope.sen_tags.length; i++) {
-                    if (cache.searchKey("Tag", [$scope.sen_SID, $scope.sen_tags[i].text]) !== -1)
-                        continue;
-                    console.log(i + " of " + $scope.sen_tags.length + " passed.");
-                    var new_tag = new Tag($scope.sen_tags[i].text, $scope.sen_SID);
+                for (var tagIndex = 0; tagIndex < $scope.sen_added_tags.length; tagIndex++) {
                     ws.request({
                         type: "add",
                         what: "Tag",
-                        data: new_tag,
+                        data: {sensor_SID: $scope.sen_SID, text: $scope.sen_added_tags[tagIndex].text},
                         for: {
                             what: "Sensor",
                             SID: $scope.sen_SID
@@ -513,25 +500,22 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                 }, function(response) {
                     new_sensor = response.object;
                     // Add Tags
-                    if ($scope.sen_tags.length > 0) {
-                        for (var i = 0; i < $scope.sen_tags.length; i++) {
-                            var new_tag = new Tag($scope.sen_tags[i].text, new_sensor.SID);
-                            ws.request({
-                                type: "add",
-                                what: "Tag",
-                                data: new_tag,
-                                for: {
-                                    what: "Sensor",
-                                    SID: new_sensor.SID
-                                }
-                            }, function(response) {
-                                for (j = 0; j < $scope.tags.length; j++) {
-                                    if (response.object.text === $scope.tags[j].text)
-                                        return;
-                                }
-                                $scope.tags.push(response.object);
-                            });
-                        }
+                    for (var i = 0; i < $scope.sen_tags.length; i++) {
+                        ws.request({
+                            type: "add",
+                            what: "Tag",
+                            data: {sensor_SID: new_sensor.SID, text: $scope.sen_tags[i].text},
+                            for: {
+                                what: "Sensor",
+                                SID: new_sensor.SID
+                            }
+                        }, function(response) {
+                            for (j = 0; j < $scope.tags.length; j++) {
+                                if (response.object.text === $scope.tags[j].text)
+                                    return;
+                            }
+                            $scope.tags.push(response.object);
+                        });
                     }
                     $scope.sensors.push(new_sensor);
                     updateFilteredSensors();
