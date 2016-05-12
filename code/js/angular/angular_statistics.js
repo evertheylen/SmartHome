@@ -569,7 +569,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_objects.push({what: "Type", IDs: IDs});
         }
         if($scope.aggregate_by[2] === true) {
-            var IDs = $scope.tags.map(function (tag, pos) {if ($scope.select_tags[pos]) return tag;});
+            var IDs = $scope.tags.map(function (tag, pos) {if ($scope.select_tags[pos]) return tag.TID;});
             if ($scope.select_no_tags) IDs.push("$NOTAGS$");
             group_by_objects.push({what: "Tag", IDs: IDs});
         }
