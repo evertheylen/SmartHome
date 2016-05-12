@@ -164,6 +164,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 		
 		$rootScope.fullscreen = function(graph) {
 			addClass(document.getElementById("line-fullscreen"), "fullscreenCanvas");
+			document.getElementById('line-fullscreen').removeAttribute('style');
       document.getElementById("fullScreenDialog").showModal();
       $scope.graph = graph;
     }
