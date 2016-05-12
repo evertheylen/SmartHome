@@ -320,17 +320,18 @@ A value is uniquely identified by the sensor and it's timestamp.
 
 ## Live updates
 
+Frontend -> Backend
+
 	{
 		"ID": 123,
 		"type": "register" / "unregister",
 		"what": "<class>",
 		"data": {
-			"QID" / "SID": 123
+			"UID" / "SID": 123
 		}
 	}
 
-Server responses can be of type: `add`, `delete`, `edit`.
-
+Server responses can be of type: `live_add_ref`, `live_remove_ref`, `live_edit`, `live_delete`.
 
 For now, registering on a user will also send updates on which sensors the user owns.
 
@@ -342,9 +343,6 @@ Apart from that you can also unregister from all objects:
 		"ID": 123,
 		"type": "unregister_all",
 		"what": "<class>",
-		"data": {
-			"QID" / "SID": 123
-		}
 	}
 
 
@@ -356,52 +354,70 @@ Todo:
 
 Edit in sensoren van location_LID, als _location != null moet je er de juiste locatie insteken.
 
-### Add
+### Add reference
+
+Object A has a new reference to object B. (Usually this means that object A itself is new).
 
 	{
-		"ID": 123,
-		"type": "live_add",
-		"for": {
+		"type": "live_add_ref",
+		"from": {
+			"what": "<class name>",
+			<Key of object A>: 
+		}
+		"to": {
 			"what": <class of Object B>, // update all html references of this object
 			<Key of object B>: 123,
 		},
-		"what": "<class name>",
 		"data": <entire definition with ID of object A> // Add this object to the cache
 	}
 
 Example:
+
 	{
-		"ID": 123,
-		"type": "live_add",
+		"type": "live_add_ref",
 		"for": {
 			"what": User,
 			"UID": 1,
 		},
 		"what": "Location",
-		"data": {"LID": 4, ...} 
+		"data": {"LID": 4, "user_UID": 1, ...}
 	}
-		
 
-### Delete
+In the example, there is a new location added to the database, but the reason you are notified of this, is because the new location refers to the user in some attribute (in this case, the "user_UID" attribute).
 
-	Optional in delete:
-	"for": {
-		"what": <class of Object B>,
-		<Key of object B>: 123,
-	},
+You will only receive such updates on objects you registered on (in this case, the user).
+
+
+### Remove reference
 
 	{
-		"ID": 123,
-		"type": "live_delete",
-		"what": "<class name>",
-		"data": <entire definition with ID of object A>
+		"type": "live_remove_ref",
+		"from": {
+			"what": "<class name>",
+			<Key of object A>: 
+		},
+		"to": {
+			"what": <class of Object B>, // update all html references of this object
+			<Key of object B>: 123,
+		}
 	}
+
+This means that object A no longer refers to object B.
 
 ### Edit
 
-{
-	"ID": 123,
-	"type": "live_edit",
-	"what": "<class name>",
-	"data": <entire definition with ID of object>
-}
+	{
+		"type": "live_edit",
+		"what": "<class name>",
+		"data": <entire definition with ID of object>
+	}
+
+### Delete
+
+	{
+		"type": "live_delete",
+		"what": "<class name>",
+		"data": {
+			"SID"/"UID"/... : ...,
+		}
+	}

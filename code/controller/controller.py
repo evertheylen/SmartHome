@@ -689,3 +689,4 @@ class Controller(metaclass=MetaController):
     async def handle_unregister_all(self, req):
         req.conn.remove_all_listenees()
         await req.answer({"status": "success"})
+    

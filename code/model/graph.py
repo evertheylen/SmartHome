@@ -128,7 +128,7 @@ class Graph(OwEntity):
             IDs = [s.SID for s in sensors]
             # TODO give more metadata
             line = Line(graph=self.key)
-            line.grouped_by = wheres
+            line.grouped_by = [w for w in wheres if isinstance(w, GroupedByInLine)]
             await line.build(IDs, self, db)
             self.lines.append(line)
 
