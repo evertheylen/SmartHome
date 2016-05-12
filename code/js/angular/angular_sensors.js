@@ -365,15 +365,15 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
     $scope.sen_added_tags = [];
     $scope.sen_deleted_tags = [];
-    $scope.sen_original_tags = [];
+    var sen_original_tags = [];
     $scope.add_tag = function(tag) {
        if (edit) {
           console.log("checking for adding: " + tag.text);
-          console.log("Originals: " + $scope.sen_original_tags);
-          add = true;
-          for (i = 0; i < $scope.sen_original_tags.length; i++) {
-              console.log("Original: " + $scope.sen_original_tags[i].text);
-              if ($scope.sen_original_tags[i].text === tag.text) {
+          console.log("Originals: " + sen_original_tags);
+          var add = true;
+          for (i = 0; i < sen_original_tags.length; i++) {
+              console.log("Original: " + sen_original_tags[i].text);
+              if (sen_original_tags[i].text === tag.text) {
                 add = false;
                 console.log("match");
                 break;
@@ -403,7 +403,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
             $scope.sen_name = sen.title;
             $scope.sen_type = sen.type;
             $scope.sen_tags = sen.tags;
-            $scope.sen_original_tags = sen.tags;
+            sen_original_tags = sen.tags;
             $scope.sen_house = sen.location_LID;
             $scope.sen_SID = sen.SID;
             $scope.sen_scope = dlgSensor_setup.getScope();
