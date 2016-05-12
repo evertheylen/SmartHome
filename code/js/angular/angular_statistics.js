@@ -394,10 +394,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 if (checked) {
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
-                          console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
                             for (k = 0; k < $scope.sensors[i].tags.length; k++){
                                 if ($scope.sensors[i].tags[k].text == $scope.tags[index].text) {
-                                    console.log("Tag checked positive: " + $scope.tags[index].text);
                                     if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
                                         $scope.filtered_sensors.push($scope.sensors[i]);
                                         break;
@@ -413,10 +411,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     $scope.filtered_sensors = [];
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
-                          console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
                             for (k = 0; k < $scope.sensors[i].tags.length; k++){
                                 if (select_tags.indexOf($scope.sensors[i].tags[k].text) != -1) {
-                                    console.log("Tag checked positive: " + $scope.tags[index].text);
                                     if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
                                         $scope.filtered_sensors.push($scope.sensors[i]);
                                         break;
@@ -428,7 +424,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             }                            
                         }
                     }
-                    console.log("Fixed filtered_sensors after deleting a tag");
                 }
                 break;
             
@@ -468,7 +463,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 if (checked) {
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
-                            console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
                             if ($scope.sensors[i].tags.length === 0) {
                                 if ($scope.filtered_sensors.indexOf($scope.sensors[i]) === -1) {
                                     $scope.filtered_sensors.push($scope.sensors[i]);
@@ -480,7 +474,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     $scope.filtered_sensors = [];
                     for (i = 0; i < $scope.sensors.length; i++) {
                         if (select_types.indexOf($scope.sensors[i].type) != -1 && select_houses.indexOf($scope.sensors[i].location_LID) != -1) {
-                          console.log("Checking valid sensor: " + $scope.sensors[i] + " Tags: " + $scope.sensors[i].tags);
                             for (k = 0; k < $scope.sensors[i].tags.length; k++){
                                 if (select_tags.indexOf($scope.sensors[i].tags[k].text) != -1) {
                                     //console.log("Tag checked positive: " + $scope.tags[index].text);
@@ -495,7 +488,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             }                            
                         }
                     }
-                    console.log("Fixed filtered_sensors after deleting a tag");
                 }
                 break;            
                 
@@ -577,7 +569,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             group_by_objects.push({what: "Type", IDs: IDs});
         }
         if($scope.aggregate_by[2] === true) {
-            var IDs = $scope.tags.map(function (tag, pos) {if ($scope.select_tags[pos]) return tag;});
+            var IDs = $scope.tags.map(function (tag, pos) {if ($scope.select_tags[pos]) return tag.TID;});
             if ($scope.select_no_tags) IDs.push("$NOTAGS$");
             group_by_objects.push({what: "Tag", IDs: IDs});
         }
@@ -595,7 +587,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }]
 
         // Timespan.
-        var timezone_offset = (1000*60*60);
         var valueType = "Value";
         switch ($scope.type_of_time) {
             case 'hours':
