@@ -535,7 +535,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             $scope.start_date.getDate() == today.getDate() ) {
             if ($scope.end_date.getYear() == today.getYear() && 
                 $scope.end_date.getMonth() == today.getMonth() &&
-                $scope.send_date.getDate() == today.getDate() ) {
+                $scope.end_date.getDate() == today.getDate() ) {
                 $scope.show_raw = true;
                 return;
             }
