@@ -403,7 +403,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                 $scope.sen_name = sen.title;
                 $scope.sen_type = sen.type;
                 $scope.sen_tags = sen.tags;
-                for (i = 0; i < $scope.sen_tags; i++) {
+                for (i = 0; i < $scope.sen_tags.length; i++) {
                     sen_original_tags.push($scope.sen_tags[i].text);
                     console.log("added to sen_originals");
                 }
