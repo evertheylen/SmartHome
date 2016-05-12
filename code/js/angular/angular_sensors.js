@@ -368,6 +368,8 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
     $scope.sen_original_tags = [];
     $scope.add_tag = function(tag) {
        if (edit) {
+          console.log("checking for adding: " + tag.text);
+          console.log("Originals: " + $scope.sen_original_tags);
           if ($scope.sen_original_tags.indexOf(tag) === -1) {
               $scope.sen_added_tags.push(tag);
               console.log("added tag:" + tag);
