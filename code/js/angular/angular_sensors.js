@@ -366,6 +366,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
     $scope.sen_added_tags = [];
     $scope.sen_deleted_tags = [];
     var sen_original_tags = [];
+    var first_time = true;
     $scope.add_tag = function(tag) {
        if (edit) {
           console.log("checking for adding: " + tag.text);
@@ -397,66 +398,71 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
   
     $rootScope.$on("dlgSensor_open", function() {
         var sen = dlgSensor_setup.getSensor();
-        if (sen != null) {
-            console.log("In sensor_dialogController edit right now");
-            edit = true;
-            $scope.sen_name = sen.title;
-            $scope.sen_type = sen.type;
-            $scope.sen_tags = sen.tags;
-            sen_original_tags = sen.tags;
-            $scope.sen_house = sen.location_LID;
-            $scope.sen_SID = sen.SID;
-            $scope.sen_scope = dlgSensor_setup.getScope();
-            $scope.sen_unit_price = sen.EUR_per_unit;
-            $scope.dropDownClick(sen.type, 'select_type', 'dropDownType', 'type');
-            $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
-
-            addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
-            // addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
-            addClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
-            if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid")) {
-                removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid");
+        if (first_time) {
+            first_time = false;
+            if (sen != null) {
+                console.log("In sensor_dialogController edit right now");
+                edit = true;
+                $scope.sen_name = sen.title;
+                $scope.sen_type = sen.type;
+                $scope.sen_tags = sen.tags;
+                sen_original_tags = sen.tags;
+                $scope.sen_house = sen.location_LID;
+                $scope.sen_SID = sen.SID;
+                $scope.sen_scope = dlgSensor_setup.getScope();
+                $scope.sen_unit_price = sen.EUR_per_unit;
+                $scope.dropDownClick(sen.type, 'select_type', 'dropDownType', 'type');
+                $scope.dropDownClick(sen.location_LID, 'select_house', 'dropDownLocation', 'house');
+    
+                addClass(document.getElementById("txtfield_SensorName"), "is-dirty");
+                // addClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+                addClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
+                if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid")) {
+                    removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-invalid");
+                }
+                if (hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
+                    removeClass(document.getElementById("txtfield_SensorName"), "is-invalid");
+                }
+                if (hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
+                    removeClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
+                }
+                if (hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
+                    removeClass(document.getElementById("txtfield_SensorType"), "is-invalid");
+                }
+                $scope.edit_sen = $scope.i18n("edit_sensor");
+            } else {
+                console.log("In sensor_dialogController NOT edit right now");
+                edit = false;
+                $scope.sen_SID = null;
+                $scope.sen_name = null;
+                $scope.sen_house = null;
+                $scope.sen_type = null;
+                $scope.sen_tags = [];
+                $scope.sen_unit_price = null;
+                $scope.dropDownClick(null, 'select_house', 'dropDownLocation', 'house');
+                $scope.dropDownClick(null, 'select_type', 'dropDownType', 'type');
+                $scope.edit_sen = $scope.i18n("add_sensor");
+                if (hasClass(document.getElementById("txtfield_SensorName"), "is-dirty")) {
+                    removeClass(document.getElementById("txtfield_SensorName"), "is-dirty");
+                }
+                if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty")) {
+                    removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
+                }
+                // if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
+                // removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
+                //}
+                if (!hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
+                    addClass(document.getElementById("txtfield_SensorName"), "is-invalid");
+                }
+                if (!hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
+                    addClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
+                }
+                if (!hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
+                    addClass(document.getElementById("txtfield_SensorType"), "is-invalid");
+                }
             }
-            if (hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
-                removeClass(document.getElementById("txtfield_SensorName"), "is-invalid");
-            }
-            if (hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
-                removeClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
-            }
-            if (hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
-                removeClass(document.getElementById("txtfield_SensorType"), "is-invalid");
-            }
-            $scope.edit_sen = $scope.i18n("edit_sensor");
         } else {
-            console.log("In sensor_dialogController NOT edit right now");
-            edit = false;
-            $scope.sen_SID = null;
-            $scope.sen_name = null;
-            $scope.sen_house = null;
-            $scope.sen_type = null;
-            $scope.sen_tags = [];
-            $scope.sen_unit_price = null;
-            $scope.dropDownClick(null, 'select_house', 'dropDownLocation', 'house');
-            $scope.dropDownClick(null, 'select_type', 'dropDownType', 'type');
-            $scope.edit_sen = $scope.i18n("add_sensor");
-            if (hasClass(document.getElementById("txtfield_SensorName"), "is-dirty")) {
-                removeClass(document.getElementById("txtfield_SensorName"), "is-dirty");
-            }
-            if (hasClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty")) {
-                removeClass(document.getElementById("txtfield_SensorUnitPrice"), "is-dirty");
-            }
-            // if (hasClass(document.getElementById("txtfield_SensorTags"), "is-dirty")) {
-            // removeClass(document.getElementById("txtfield_SensorTags"), "is-dirty");
-            //}
-            if (!hasClass(document.getElementById("txtfield_SensorName"), "is-invalid")) {
-                addClass(document.getElementById("txtfield_SensorName"), "is-invalid");
-            }
-            if (!hasClass(document.getElementById("txtfield_SensorLocation"), "is-invalid")) {
-                addClass(document.getElementById("txtfield_SensorLocation"), "is-invalid");
-            }
-            if (!hasClass(document.getElementById("txtfield_SensorType"), "is-invalid")) {
-                addClass(document.getElementById("txtfield_SensorType"), "is-invalid");
-            }
+          console.log("Opened too much !!");
         }
         componentHandler.upgradeDom();
     });
