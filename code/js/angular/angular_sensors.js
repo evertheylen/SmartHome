@@ -390,10 +390,10 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
         if (edit) {
             if ($scope.sen_deleted_tags.indexOf(tag) === -1 && sen_original_tags.indexOf(tag.text) != -1) {
                 $scope.sen_deleted_tags.push(tag);
-                if ($scope.sen_added_tags.indexOf(tag) != -1) {
-                    $scope.sen_added_tags.splice($scope.sen_added_tags.indexOf(tag), 1);
-                }
                 console.log("deleted tag:" + tag);
+            }
+            if ($scope.sen_added_tags.indexOf(tag) != -1) {
+                $scope.sen_added_tags.splice($scope.sen_added_tags.indexOf(tag), 1);
             }
         }
     }
