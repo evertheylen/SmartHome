@@ -388,7 +388,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
     
     $scope.delete_tag = function(tag) {
         if (edit) {
-            if ($scope.sen_deleted_tags.indexOf(tag) === -1) {
+            if ($scope.sen_deleted_tags.indexOf(tag) === -1 && sen_original_tags.indexOf(tag.text) != -1) {
                 $scope.sen_deleted_tags.push(tag);
                 console.log("deleted tag:" + tag);
             }
