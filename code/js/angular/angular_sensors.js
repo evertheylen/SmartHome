@@ -460,6 +460,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                 for (var i = 0; i < $scope.sen_tags.length; i++) {
                     if (cache.searchKey("Tag", [$scope.sen_SID, $scope.sen_tags[i].text]) !== -1)
                         continue;
+                    console.log(i + " of " + $scope.sen_tags.length + " passed.");
                     var new_tag = new Tag($scope.sen_tags[i].text, $scope.sen_SID);
                     ws.request({
                         type: "add",

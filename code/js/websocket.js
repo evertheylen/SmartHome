@@ -63,12 +63,6 @@ var cache = {
 	}
 }; 
 
-// Used for live updates.
-var scope_cache = {
-    
-}; 
-
-
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 
@@ -176,6 +170,10 @@ function add_response(response) {
     if (type == "Graph") 
         return data;
 	var object = getFilledObject(type, data);
+    if (type == "Tag") {
+        console.log("Pushing tag into cache");
+        console.log("key: " + getKey(type, data) + ", object " + object);
+    }
 	cache[type].push({key: getKey(type, data), object: object});
 	return {success: true, for: response["for"], object: object};
 }
