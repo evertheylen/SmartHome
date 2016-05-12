@@ -366,15 +366,14 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
     $scope.sen_added_tags = [];
     $scope.sen_deleted_tags = [];
     var sen_original_tags = [];
-    var first_time = true;
     $scope.add_tag = function(tag) {
        if (edit) {
           console.log("checking for adding: " + tag.text);
           console.log("Originals: " + sen_original_tags);
           var add = true;
           for (i = 0; i < sen_original_tags.length; i++) {
-              console.log("Original: " + sen_original_tags[i].text);
-              if (sen_original_tags[i].text === tag.text) {
+              console.log("Original: " + sen_original_tags[i]);
+              if (sen_original_tags[i] === tag.text) {
                 add = false;
                 console.log("match");
                 break;
@@ -398,15 +397,17 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
   
     $rootScope.$on("dlgSensor_open", function() {
         var sen = dlgSensor_setup.getSensor();
-        if (first_time) {
-            first_time = false;
             if (sen != null) {
                 console.log("In sensor_dialogController edit right now");
                 edit = true;
                 $scope.sen_name = sen.title;
                 $scope.sen_type = sen.type;
                 $scope.sen_tags = sen.tags;
-                sen_original_tags = sen.tags;
+                for (i = 0; i < $scope.sen_tags; i++) {
+                    sen_original_tags.push($scope.sen_tags[i].text);
+                    console.log("added to sen_originals");
+                }
+                //sen_original_tags = sen.tags;
                 $scope.sen_house = sen.location_LID;
                 $scope.sen_SID = sen.SID;
                 $scope.sen_scope = dlgSensor_setup.getScope();
@@ -461,9 +462,6 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     addClass(document.getElementById("txtfield_SensorType"), "is-invalid");
                 }
             }
-        } else {
-          console.log("Opened too much !!");
-        }
         componentHandler.upgradeDom();
     });
 
