@@ -63,6 +63,7 @@ var cache = {
                     if (object._scopes.size === 0) {
                         var type = object.getName();
                         var key = getKey(type, object);
+                             removeObject(type, key)
                         this.removeObject(type, key);
                     }                
                 }            
@@ -219,6 +220,10 @@ function edit_response(response, scope) {
 	var key = getKey(type, data);  
 	return cache.getObject(type, key, data, scope);
 }
+
+function register_response(response) {}
+
+function unregister_response(response) {}
 
 function live_add_ref_response(response) {
     var to = response["to"];
