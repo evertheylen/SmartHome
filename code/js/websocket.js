@@ -128,6 +128,7 @@ function connect_to_websocket() {
             if (receivedObject["ID"])
                 answer = answers[receivedObject.ID];
 			polishedObject = window[receivedObject["type"] + "_response"](receivedObject, answer.scope);
+            console.log("Calling answer function");
 			answer.func(polishedObject);
 		}
 		catch(err) {
