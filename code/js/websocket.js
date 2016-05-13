@@ -43,6 +43,7 @@ var cache = {
         if (this[scope])
             this[scope].forEach(function f(object) { 
                 if (object) { 
+                    object.removeLiveScope(scope);
                     object._scopes.delete(scope);
                     if (object._scopes.size === 0) {
                         var type = object.prototype.getName();
