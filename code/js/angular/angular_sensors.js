@@ -122,7 +122,7 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
     // TODO Register User, dit geeft een reference naar locations.
-    
+    $rootScope.auth_user.addLiveScope($scope);
     ws.request({ "type": "register",
         "what": "User",
         "data": {
@@ -130,7 +130,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
           }
         }, function() {
         $scope.$apply();
-    }, $scope);
+    }, $scope, true);
     
     $scope.$on("$destroy", function() {
         cache.removeScope($scope);
