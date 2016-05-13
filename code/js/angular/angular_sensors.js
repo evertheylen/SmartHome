@@ -391,7 +391,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
     $scope.get_tags();
 });
 
-angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
+angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup, $timeout) {
     $scope.$watch('houses', function() {
         $timeout(function() {
             if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
