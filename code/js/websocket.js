@@ -62,7 +62,7 @@ function connect_to_websocket() {
 	websocket.request = function (requestObject, f, scope, register) {
 		// Data can be any object literal or prototype with the toJSON method.
         if (!register) {
-		    answers[currentId] = {func: f, scope: s};
+		    answers[currentId] = {func: f, scope: scope};
 		    requestObject.ID = currentId;
 		    currentId++;
         }
