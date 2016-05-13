@@ -53,16 +53,31 @@ angular.module("overwatch").controller("location_objController", function($scope
     // Todo register Location, dit zorgt voor edit updates.
     // user.addLiveScope(scope, "Location"); reference location
     // user.addLiveScope(scope, "none"); no reference -> all scope.
-    // Add scopes gebeurt telkens voor de register.
+    // Add live scopes gebeurt telkens voor de register.
     
     // Elke scope heeft een attribuut  : scope.update = function () {nodige get_alls};
     
     // Elke keer ik uit een scope ga: cache.removeScope(scope) via $destroy();
-    // Cache.addScope moet in de answer functie van een websocket request.
-    // Scopes moeten ook worden toegevoegd aan de objecten waar ze toe behoren, een verzameling van scopes. Locatietabel scope moet bijvoorbeeld worden toegevoegd aan user.
     $scope.$on("$destroy", function() {
         cache.removeScope($scope);
     });
+    
+    // Update:
+    $scope.update = function() {
+        $scope.$apply();
+    }
+    
+    // Registering and adding scopes. TODO : Check if this is correct?
+    
+    $rootScope.auth_user.addLiveScope($scope, "Location");
+    ws.request({ "type": "register",
+        "what": "User",
+        "data": {
+          "LID": $scope.house.LID
+          }
+        }, function() {
+        $scope.$apply();
+    }, $scope);
     
     $scope.open_dialog = function() {
         var element = document.getElementById("dlgLocation");
@@ -107,9 +122,35 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
     // TODO Register User, dit geeft een reference naar locations.
+    
+    ws.request({ "type": "register",
+        "what": "User",
+        "data": {
+          "UID": $rootScope.auth_user.UID
+          }
+        }, function() {
+        $scope.$apply();
+    }, $scope);
+    
     $scope.$on("$destroy", function() {
         cache.removeScope($scope);
     });
+    
+    // Update:
+    $scope.update = function() {
+        ws.request({
+            type: "get_all",
+            what: "Location",
+            for: {
+                what: "User",
+                UID: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.houses = response.objects;
+            $scope.$apply();
+        }, $scope);
+        $scope.$apply();
+    }
     
     $scope.houses = [];
 
