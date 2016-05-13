@@ -102,6 +102,16 @@ angular.module("overwatch").controller("location_controller", function($scope, $
         $scope.houses = response.objects;
         $scope.$apply();
     });
+    var delete_id = null;
+    var delete_from = null;
+    $scope.delete = function(id, from) {
+        $rootScope.confirm_dialog.showModal();
+        componentHandler.upgradeDom();
+        //console.log($scope.sensors + " ID: " + id + " from " + from);
+        delete_id = id;
+        delete_from = from;
+    };
+    
     $scope.$on("confirmation", function(event, value) {
         if (value) {
             if (delete_from == $scope.houses) {
@@ -146,6 +156,15 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 })
 
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup) {
+    var delete_id = null;
+    var delete_from = null;
+    $scope.delete = function(id, from) {
+        $rootScope.confirm_dialog.showModal();
+        componentHandler.upgradeDom();
+        //console.log($scope.sensors + " ID: " + id + " from " + from);
+        delete_id = id;
+        delete_from = from;
+    };  
     $scope.houses = [];
 
     ws.request({
