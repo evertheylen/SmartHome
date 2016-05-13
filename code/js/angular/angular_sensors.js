@@ -1,4 +1,7 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup, dlgSensor_setup, $q, $state) {
+    $scope.$on("$destroy", function() {
+    		cache.removeScope($scope);
+    });
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "sensorslink";
@@ -57,7 +60,10 @@ angular.module("overwatch").controller("location_objController", function($scope
     // Elke keer ik uit een scope ga: cache.removeScope(scope) via $destroy();
     // Cache.addScope moet in de answer functie van een websocket request.
     // Scopes moeten ook worden toegevoegd aan de objecten waar ze toe behoren, een verzameling van scopes. Locatietabel scope moet bijvoorbeeld worden toegevoegd aan user.
-  
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
+    
     $scope.open_dialog = function() {
         var element = document.getElementById("dlgLocation");
         dlgLocation_setup.setLocation($scope.house);
@@ -101,8 +107,10 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
     // TODO Register User, dit geeft een reference naar locations.
-  
-  
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
+    
     $scope.houses = [];
 
     ws.request({
@@ -170,6 +178,9 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 })
 
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
+    $scope.$on("$destroy", function() {
+    		cache.removeScope($scope);
+    });   
     var delete_id = null;
     var delete_from = null;
     $scope.delete_sen = function(id, from) {
@@ -392,6 +403,9 @@ $scope.add_autocomplete = function(tag) {};
 });
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
+    $scope.$on("$destroy", function() {
+    		cache.removeScope($scope);
+    });
     $scope.open_dialog = function() {
         var element;
         if ($scope.houses.length === 0) {
@@ -444,6 +458,9 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup, $timeout) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $scope.sen_added_tags = [];
     $scope.sen_deleted_tags = [];
     var sen_original_tags = [];
@@ -699,6 +716,9 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
 });
 
 angular.module("overwatch").controller("location_dialogController", function($scope, $rootScope, dlgLocation_setup) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.$on("dlgLocation_open", function() {
         var loc = dlgLocation_setup.getLocation();
         if (loc != null) {

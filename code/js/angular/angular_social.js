@@ -1,4 +1,7 @@
 angular.module("overwatch").controller("socialController", function($scope, $rootScope, Auth, $state, transferGroup, transferProfile) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.auth_user = Auth.getUser();
@@ -49,6 +52,9 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
 });
 
 angular.module("overwatch").controller("statusIndexController", function ($scope, $rootScope, Auth) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.statuses = [];
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
@@ -116,6 +122,9 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
 });
 
 angular.module("overwatch").controller("profileController", function($scope, $rootScope, Auth, transferProfile) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.user = null;
     ws.request({
@@ -145,6 +154,9 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
 });
 
 angular.module("overwatch").controller("friendsController", function($scope, $rootScope, Auth, transferProfile) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $scope.setProfile = function (id) {
         transferProfile.setProfile(id);
     } 
@@ -219,6 +231,9 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
 });
 
 angular.module("overwatch").controller("find_friendsController", function($scope, $rootScope, Auth) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.users = [];
     ws.request({
@@ -280,6 +295,9 @@ angular.module("overwatch").controller("find_friendsController", function($scope
 });
 
 angular.module("overwatch").controller("shareController", function($scope, $rootScope, Auth, $timeout, graphShare) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
 
@@ -383,6 +401,9 @@ angular.module("overwatch").controller("shareController", function($scope, $root
 });
 
 angular.module("overwatch").controller("join_groupController", function($scope, $rootScope, $timeout, Auth) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.groups = []
     $scope.join_group = null;
@@ -484,6 +505,9 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
 });
 
 angular.module("overwatch").controller("create_groupController", function($scope, $rootScope, Auth) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.group_public = true;
     $scope.create_group = function() {
@@ -521,6 +545,9 @@ angular.module("overwatch").controller("create_groupController", function($scope
 });
 
 angular.module("overwatch").controller("groupController", function($scope, $rootScope, Auth, transferGroup, $location) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.group = transferGroup.getGroup();
     
@@ -604,6 +631,9 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 });
 
 angular.module("overwatch").controller("commentController", function ($scope, $rootScope, Auth) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.author = null;
     ws.request({
@@ -625,7 +655,10 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
     componentHandler.upgradeDom();
 });
 
-angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {   
+angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.auth_user = Auth.getUser();
     $scope.comments = [];
     $scope.author = null;

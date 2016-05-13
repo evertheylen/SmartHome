@@ -1,4 +1,7 @@
 angular.module("overwatch").controller("mainController", function($scope, $rootScope, $location, Auth, $http, $state, transferProfile, $timeout) {
+	$scope.$on("$destroy", function() {
+			cache.removeScope($scope);
+	});
 	$rootScope.$state = $state;
 	$scope.i18n = function(input) {
 		return html_strings[input][$scope.language];

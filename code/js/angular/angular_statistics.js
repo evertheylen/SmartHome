@@ -1,4 +1,7 @@
 angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout, $state, graphShare) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.$state = $state;
     $rootScope.simple_css = false;  
     $rootScope.auth_user = Auth.getUser();

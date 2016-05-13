@@ -1,4 +1,7 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout, $state) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "homelink";

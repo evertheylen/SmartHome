@@ -1,4 +1,7 @@
 angular.module("overwatch").controller("indexController", function($scope, $rootScope, $location, Auth, $state) {
+	$scope.$on("$destroy", function() {
+			cache.removeScope($scope);
+	});
 	$rootScope.$state = $state;
 	$rootScope.simple_css = false;
 	$rootScope.auth_user = Auth.getUser();
@@ -36,6 +39,9 @@ angular.module("overwatch").controller("indexController", function($scope, $root
 });
 
 angular.module("overwatch").controller("loginController", function($scope, $rootScope, $location, Auth) {
+	$scope.$on("$destroy", function() {
+			cache.removeScope($scope);
+	});
 	$scope.wrong_login = false;
 	$scope.login = function() {
 		if ($scope.login_form.$valid) {
@@ -59,6 +65,9 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 });
 
 angular.module("overwatch").controller("signupController", function($scope, $rootScope, $location, Auth) {
+	$scope.$on("$destroy", function() {
+			cache.removeScope($scope);
+	});
 	$scope.auth_user = null;
 	$scope.wrong_signup = false;
 	$scope.signup = function() {

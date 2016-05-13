@@ -1,4 +1,7 @@
 angular.module("overwatch").controller("reportController", function($scope, $rootScope, Auth, $timeout, $state) {
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
     $rootScope.$state = $state;
     $rootScope.tab = "reportlink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
