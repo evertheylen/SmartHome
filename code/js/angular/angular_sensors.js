@@ -329,10 +329,10 @@ $scope.add_autocomplete = function(tag) {};
                     $scope.$apply();
                 });
             }
-            if (delete_from.length === 1) {
+            /*if ($scope.sensors.length === 1) {
                 delete_from.length = 0;
                 return;
-            }
+            }*/
             delete_from.splice(delete_id, 1);
         }
     });
