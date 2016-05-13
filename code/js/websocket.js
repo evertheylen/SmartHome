@@ -22,19 +22,16 @@ var cache = {
     Comment: {},
 
 	getObject: function(type, key, data, scope) {
-        console.log("Reached2");
         if (!this[type][key]) {
-            console.log("Reached3");
             var object = getFilledObject(type, data);
-            addObjectScope(object, scope);
+            this.addObjectScope(object, scope);
             this[type][key] = object;
         }
         else {
             this[type][key].fill(data);
             if (scope) 
-                addObjectScope(this[type][key], scope);
+                this.addObjectScope(this[type][key], scope);
         }
-        console.log("Reached4");
         return this[type][key];
 	},
 
@@ -166,7 +163,6 @@ function login_response(response, scope) {
 		setCookie("session", data["session"], 1);
         var userData = data["user"];
         var key = getKey("User", userData);
-        console.log("Reached1");
 		return {success: true, user: cache.getObject("User", key, userData, scope)};
 	}
 	return {success: false, reason: data["reason"]};
