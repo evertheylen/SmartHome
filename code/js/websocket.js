@@ -77,7 +77,6 @@ function connect_to_websocket() {
 	websocket.request = function (requestObject, f, scope, register) {
 		// Data can be any object literal or prototype with the toJSON method.
         if (!register) {
-            console.log("No register, filling answers");
 		    answers[currentId] = {func: f, scope: scope};
 		    requestObject.ID = currentId;
 		    currentId++;
@@ -126,14 +125,9 @@ function connect_to_websocket() {
 		try {
 			receivedObject = JSON.parse(evt.data);
             answer = {scope: null, func: function(){}};
-            console.log("IDO: " + receivedObject["ID"]);
-            console.log("ID: " + receivedObject.ID);
-            if (receivedObject["ID"]) {
+            if (receivedObject["ID"] !== undefined)
                 answer = answers[receivedObject.ID];
-                console.log("Got answer from receivedObject");
-            }
 			polishedObject = window[receivedObject["type"] + "_response"](receivedObject, answer.scope);
-            console.log("Calling answer function");
 			answer.func(polishedObject);
 		}
 		catch(err) {

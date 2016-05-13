@@ -47,7 +47,6 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 		if ($scope.login_form.$valid) {
 			ws.request({type: "login", data: {email: $scope.email, password: $scope.password}}, function(response) {
 				if (response.success) {	
-                    console.log("REACHED LOGIN SUCCES");
 					$rootScope.logged_in = true;
 					document.getElementById("dlgLogin").close();
 					$rootScope.auth_user = response.user;
@@ -58,7 +57,6 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 				} else {
 					$scope.wrong_login = true;
 				}
-                console.log("REACHED LOGIN");
 				$scope.$apply();
 			}, $scope);
 		}
