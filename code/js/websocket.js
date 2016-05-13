@@ -30,7 +30,7 @@ var cache = {
         delete this[type][key];
 	},
 
-    addObjectScope(): function(object, scope) {
+    addObjectScope: function(object, scope) {
         object._scopes.add(scope);
         if (!this[scope]) {
             this[scope] = new Set([object]);
@@ -39,7 +39,7 @@ var cache = {
         this[scope].add(object);
     },
 
-    removeScope(): function(scope) {
+    removeScope: function(scope) {
         if (this[scope])
             this[scope].forEach(function f(object) { 
                 if (object) { 
