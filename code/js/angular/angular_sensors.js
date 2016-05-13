@@ -47,6 +47,17 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
  * that handles all operation on this object.
 */ 
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
+    // Todo register Location, dit zorgt voor edit updates.
+    // user.addScope(scope, "Location"); reference location
+    // user.addScope(scope, "none"); no reference -> all scope.
+    // Add scopes gebeurt telkens voor de register.
+    
+    // Elke scope heeft een attribuut  : scope.update = function () {nodige get_alls};
+    
+    // Elke keer ik uit een scope ga: cache.removeScope(scope) via $destroy();
+    // Cache.addScope moet in de answer functie van een websocket request.
+    // Scopes moeten ook worden toegevoegd aan de objecten waar ze toe behoren, een verzameling van scopes. Locatietabel scope moet bijvoorbeeld worden toegevoegd aan user.
+  
     $scope.open_dialog = function() {
         var element = document.getElementById("dlgLocation");
         dlgLocation_setup.setLocation($scope.house);
@@ -89,6 +100,9 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 });
 
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
+    // TODO Register User, dit geeft een reference naar locations.
+  
+  
     $scope.houses = [];
 
     ws.request({
