@@ -52,7 +52,7 @@ angular.module("overwatch").controller("loginController", function($scope, $root
 					$scope.wrong_login = true;
 				}
 				$scope.$apply();
-			});
+			}, $scope);
 		}
 	};
 	componentHandler.upgradeDom();
@@ -78,12 +78,12 @@ angular.module("overwatch").controller("signupController", function($scope, $roo
 					        $scope.wrong_login = true;
 				        }
 				        $scope.$apply();
-			        });
+			        }, $scope);
 				} else {
 					$scope.wrong_signup = true; 
 			    	}
 			    $scope.$apply();
-		    });
+		    }, $scope);
 		}
 	};
 	componentHandler.upgradeDom();

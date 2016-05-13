@@ -39,7 +39,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     }, function(response) {
         $scope.houses = response.objects;
         $scope.$apply();
-    });
+    }, $scope);
 
     $scope.sensors = [];
 	$scope.tags = [];
@@ -79,10 +79,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         $scope.tags.push(temp_tags[i]);
                 }
                 $scope.$apply();
-            });
+            }, $scope);
         }
         $scope.$apply();
-    });
+    }, $scope);
 
     // Fill the aggregate $scope arrays.
     $scope.aggregate_by = [false, false, false, false];
@@ -618,7 +618,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 $scope.open_box(4);
             componentHandler.upgradeDom();
             $scope.$apply();
-        });
+        }, $scope);
     }
 
     $scope.share = function (index) {

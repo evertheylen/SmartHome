@@ -48,8 +48,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 */ 
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
     // Todo register Location, dit zorgt voor edit updates.
-    // user.addScope(scope, "Location"); reference location
-    // user.addScope(scope, "none"); no reference -> all scope.
+    // user.addLiveScope(scope, "Location"); reference location
+    // user.addLiveScope(scope, "none"); no reference -> all scope.
     // Add scopes gebeurt telkens voor de register.
     
     // Elke scope heeft een attribuut  : scope.update = function () {nodige get_alls};
@@ -115,7 +115,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     }, function(response) {
         $scope.houses = response.objects;
         $scope.$apply();
-    });
+    }, $scope);
     var delete_id = null;
     var delete_from = null;
     $scope.delete_loc = function(id, from) {
@@ -137,7 +137,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
                     }
                 }, function(success) {
                     $scope.$apply();
-                });
+                }, $scope);
                 cache.removeObject("Location", $scope.houses[delete_id].LID);
                 if (delete_from.length === 1) {
                     delete_from.length = 0;
@@ -191,7 +191,7 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
     }, function(response) {
         $scope.houses = response.objects;
         $scope.$apply();
-    });
+    }, $scope);
 $scope.add_autocomplete = function(tag) {};
 
     $scope.check_autocomplete = function($query) {
@@ -216,7 +216,7 @@ $scope.add_autocomplete = function(tag) {};
         $scope.sensors = response.objects;
         updateFilteredSensors();
         $scope.$apply();
-    });
+    }, $scope);
 
     $scope.tags = [];
 
@@ -241,7 +241,7 @@ $scope.add_autocomplete = function(tag) {};
         */
         updateFilteredSensors();
         $scope.$apply();
-    });
+    }, $scope);
 
     // Set up the pages to display the sensors.
     $scope.required = true;
@@ -360,7 +360,7 @@ $scope.add_autocomplete = function(tag) {};
                     });
                     cache.removeObject("Sensor", delete_sensor_SID);
                     $scope.$apply();
-                });
+                }, $scope);
                 /*if ($scope.sensors.length === 1) {
                     delete_from.length = 0;
                     return;
@@ -417,7 +417,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
         }, function(response) {
             $scope.location_name = response.object.description;
             $scope.$apply();
-        });
+        }, $scope);
     }
 
     $scope.get_tags = function() {
@@ -431,7 +431,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
         }, function(response) {
             $scope.sensor.tags = response.objects;
             $scope.$apply();
-        });
+        }, $scope);
     }
 
     $rootScope.$on("tag_update", function() {
@@ -492,7 +492,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
         }, function(response) {
             $scope.houses = response.objects;
             $scope.$apply();
-        });
+        }, $scope);
         var sen = dlgSensor_setup.getSensor();
         
             if (sen != null) {
@@ -580,7 +580,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                         }
                     }, function(success) {
                         $scope.$apply();
-                    });
+                    }, $scope);
                 }
 
                 // Add new Tags.
@@ -599,7 +599,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                                 return;
                         }
                         $scope.tags.push(response.object);
-                    });
+                    }, $scope);
                 }
 
                 // TODO Same as with edit location and updates. DONT FORGET TO UPDATE FILTEREDSENSORS AS WELL!
@@ -622,7 +622,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                             $scope.$apply();
                         }
                     }
-                });
+                }, $scope);
             } else {
                 // Add Sensor
                 // TODO Don't forget the unit price when the format updates :)				
@@ -656,7 +656,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     $scope.sensors.push(new_sensor);
                     updateFilteredSensors();
                     $scope.$apply();
-                });
+                }, $scope);
             }
             document.getElementById("dlgSensor").close();
         }
@@ -690,7 +690,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                     toChange.innerHTML = response.object.description;
                     $scope.sen_house = value;
                     $scope.$apply();
-                });
+                }, $scope);
                 break;
         }
         removeClass(document.getElementById(menu).parentNode, "is-visible");
@@ -813,7 +813,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
                             $scope.$apply();
                         }
                     }
-                });
+                }, $scope);
             } else {
                 // Add house
                 var new_house = new Location(-1, $scope.loc_description, $scope.loc_number, $scope.loc_street, $scope.loc_city, $scope.loc_postalcode, $scope.loc_country,
@@ -831,7 +831,7 @@ angular.module("overwatch").controller("location_dialogController", function($sc
                     console.log("house added");
                     console.log("Response verwerkt");
                     $scope.$apply();
-                });
+                }, $scope);
             }
             document.getElementById("dlgLocation").close();
             console.log("Dialog closed");

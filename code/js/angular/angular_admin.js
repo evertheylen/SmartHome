@@ -40,7 +40,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         $scope.sensors = response.objects;
         console.log("length sensors: " + $scope.sensors.length);
         $scope.$apply();
-    });    
+    }, $scope);    
 
     $scope.users = [];
     ws.request({
@@ -53,7 +53,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
     }, function(response) {
         $scope.users = response.objects;
         $scope.$apply();
-    });
+    }, $scope);
     $scope.select_users = [];
     $scope.filtered_sensors = [];
 
@@ -197,7 +197,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
                 $scope.open_box(4);
             componentHandler.upgradeDom();
             $scope.$apply();
-        }); 
+        }, $scope); 
 
         // Graphs
         $scope.importants = [false, false, false, false, false, false];

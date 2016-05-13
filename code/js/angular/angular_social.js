@@ -18,7 +18,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     }, function(response) {
         $scope.groups = response.objects;
         $scope.$apply();
-    });
+    }, $scope);
     
     $scope.$on("joined group", function (){
         ws.request({
@@ -31,7 +31,7 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
         }, function(response) {
             $scope.groups = response.objects;
             $scope.$apply();
-        });   
+        }, $scope);   
     });
     
     $scope.open_dialog = function(element_id) {
@@ -86,11 +86,11 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
                         for (var statusIndex = 0; statusIndex < response.objects.length; statusIndex++)
                             $scope.statuses.push(response.objects[statusIndex]);
                         $scope.$apply();
-                    });
-                });
+                    }, $scope);
+                }, $scope);
             }
-        });
-    });
+        }, $scope);
+    }, $scope);
 
     $scope.post_status = function () {
         if ($scope.status_text != "") {
@@ -109,7 +109,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
             }, function (response) {
                 $scope.statuses.push(response.object);
                 $scope.$apply();   
-            });
+            }, $scope);
         }
     };
     componentHandler.upgradeDom();
@@ -127,7 +127,7 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
     }, function (response) {
         $scope.user = response.object;
         $scope.$apply();
-    });
+    }, $scope);
     
     $scope.$on('profile changed', function() {
         ws.request({
@@ -139,7 +139,7 @@ angular.module("overwatch").controller("profileController", function($scope, $ro
         }, function (response) {
             $scope.user = response.object;
             $scope.$apply();
-        });
+        }, $scope);
     });
     componentHandler.upgradeDom();
 });
@@ -177,7 +177,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
             });
         }
         $scope.$apply();
-    });
+    }, $scope);
 
     $scope.delete_friend = function(friend_UID) {    
         var _user1_UID = $rootScope.auth_user.UID;
@@ -213,7 +213,7 @@ angular.module("overwatch").controller("friendsController", function($scope, $ro
             //$scope.friends = $scope.friends.filter(function delFriend(el) {return (el.user_UID1 !== friend_UID && el.user_UID2 !== friend_UID);})
             cache.removeObject("Friendship", [_user1_UID, _user2_UID]);
             $scope.$apply();
-        });
+        }, $scope);
     }
     componentHandler.upgradeDom();
 });
@@ -234,7 +234,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
             $scope.users[i].full_name = $scope.users[i].first_name + " " + $scope.users[i].last_name;
         }
         $scope.$apply();
-    });
+    }, $scope);
     ws.request({
         type: "get_all",
         what: "Friendship",
@@ -260,7 +260,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
             }
         }
         $scope.$apply();
-    });
+    }, $scope);
 
     $scope.add_friend = function(index) {
         ws.request({
@@ -274,7 +274,7 @@ angular.module("overwatch").controller("find_friendsController", function($scope
             // TODO
             $scope.users.splice(index, 1);
             $scope.$apply();
-        });
+        }, $scope);
     }
     componentHandler.upgradeDom();
 });
@@ -295,7 +295,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
         }, function(response) {
             $scope.groups = response.objects;
             $scope.$apply();
-        });
+        }, $scope);
     });
     
     $scope.share_type = null;
@@ -370,9 +370,9 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                     data: status.toJSON()
                 }, function(response) {
                     $scope.$apply();
-                });                 
+                }, $scope);                 
                 $scope.$apply();
-            });                   
+            }, $scope);                   
             // Reset the graph cookie.    
 	        graphShare.setGraph("");
         }
@@ -405,10 +405,10 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                     $scope.groups.splice($scope.groups.indexOf(response.objects[i]), 1);
                 };
                 $scope.$apply();
-            });
+            }, $scope);
             dropDownClick(null, 'select_group', 'dropDownGroup', 'group');
             $scope.$apply();
-        });
+        }, $scope);
     });
     
     ws.request({
@@ -428,9 +428,9 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                 $scope.groups.splice($scope.groups.indexOf(response.objects[i]), 1);
             };
             $scope.$apply();
-        });
+        }, $scope);
         $scope.$apply();
-    });
+    }, $scope);
     
     $timeout(function() {
 	    if (hasClass(document.getElementById("select_group"), "mdl-js-menu")) {
@@ -471,7 +471,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                 document.getElementById('dlgJoinGroup').close();
                 $rootScope.$broadcast("joined group");
                 $scope.$apply();
-            })
+            }, $scope)
             console.log("Joining group " + $scope.join_group.title);
                 
         }
@@ -507,9 +507,9 @@ angular.module("overwatch").controller("create_groupController", function($scope
                     group = response.object;
                     $scope.groups.push(group);
                     $scope.$apply();
-                });
+                }, $scope);
                 $scope.$apply();
-            });
+            }, $scope);
 
             document.getElementById('dlgGroup').close();
         }
@@ -534,7 +534,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
         }, function (response) {
             $rootScope.$broadcast("joined group");
             $location.path('/social/index');
-        });
+        }, $scope);
     };
     $scope.members = [];
     
@@ -558,10 +558,10 @@ angular.module("overwatch").controller("groupController", function($scope, $root
                     $scope.members.push(response.object);
                     $scope.$apply();
                 }
-            });
+            }, $scope);
         }
         $scope.$apply();
-    });
+    }, $scope);
     
     $scope.$on('GROUP CHANGED', function () {
         $scope.group = transferGroup.getGroup();
@@ -569,7 +569,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
         ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.group.wall_WID}}, function(response) {
             $scope.statuses = response.objects;  
             $scope.$apply();
-        });
+        }, $scope);
 
     });
     $scope.statuses = [];
@@ -577,7 +577,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.group.wall_WID}}, function(response) {
         $scope.statuses = response.objects;  
         $scope.$apply();
-    });
+    }, $scope);
 
     
     $scope.post_status = function () {
@@ -597,7 +597,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
             }, function (response) {
                 $scope.statuses.push(response.object);
                 $scope.$apply();   
-            });
+            }, $scope);
         }
     };
     componentHandler.upgradeDom();
@@ -615,7 +615,7 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
     }, function(response) {
         $scope.comment.author = response.object;
         $scope.$apply();
-    });
+    }, $scope);
     
     $scope.fancy_date = function () {   
         console.log("formatting " + $scope.comment.date_edited*1000);
@@ -639,7 +639,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         }, function(response) {
             $scope.author = response.object;
             $scope.$apply();
-        });
+        }, $scope);
     }
     
     ws.request({
@@ -651,7 +651,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         }
     }, function(response) {
         $scope.comments = response.objects;
-    });
+    }, $scope);
 
     if ($scope.status.graph != null) {
         ws.request({
@@ -709,7 +709,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
 
             $scope.$apply();
-        });
+        }, $scope);
     }
     
     $scope.delete_status = function () {
@@ -722,7 +722,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         }, function (response) {
             $scope.statuses.splice($scope.statuses.indexOf($scope.status), 1);
             $scope.$apply();
-        });
+        }, $scope);
     }
 
     $scope.delete = function(index) {
@@ -740,7 +740,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 }
             }
             $scope.$apply();
-        });
+        }, $scope);
     }
 
     $scope.likes = 0;
@@ -768,7 +768,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.dislikes++;
         }
         $scope.$apply();
-    });
+    }, $scope);
 
     $scope.add = function(what) {
         switch (what) {
@@ -780,7 +780,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         $scope.dislikes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
-                        });
+                        }, $scope);
 
                         removeClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'clicked');
                         addClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'notClicked');
@@ -789,7 +789,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         $scope.user_like = new Like(true, $scope.status.SID, $rootScope.auth_user.UID);
                     	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
-                        });
+                        }, $scope);
                     }              
                     removeClass(document.getElementById('likes_click-'+$scope.status.SID), 'notClicked');
                     addClass(document.getElementById('likes_click-'+$scope.status.SID), 'clicked');
@@ -802,7 +802,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                              data: $scope.user_like.toJSON()
                   }, function(response){
                       $scope.$apply();  
-                  });
+                  }, $scope);
                 }
                 break;
             case 'dislikes':
@@ -813,7 +813,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         $scope.likes--;
                     	ws.request({type: "edit", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
-                        });                 
+                        }, $scope);                 
                         removeClass(document.getElementById('likes_click-'+$scope.status.SID), 'clicked');
                         addClass(document.getElementById('likes_click-'+$scope.status.SID), 'notClicked');
                     }
@@ -821,7 +821,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                         $scope.user_like = new Like(false, $scope.status.SID, $rootScope.auth_user.UID);
                     	ws.request({type: "add", what: "Like", data: $scope.user_like.toJSON()}, function(response) {
 		                    $scope.$apply();
-                        });
+                        }, $scope);
                     }
                     removeClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'notClicked');
                     addClass(document.getElementById('dislikes_click-'+$scope.status.SID), 'clicked');
@@ -834,7 +834,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                              data: $scope.user_like.toJSON()
                   }, function(response){
                       $scope.$apply();  
-                  });
+                  }, $scope);
                 }
                 break;
         }
@@ -861,7 +861,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 $scope.new_comment = "";
                 componentHandler.upgradeDom();
                 $scope.$apply();
-            });
+            }, $scope);
         }
     }
     
