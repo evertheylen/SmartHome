@@ -2,7 +2,7 @@ function DataType() {
     this._scopes = new Set();
     this._liveScopes = {};
 
-    this.updateLiveScopes(type) { 
+    this.updateLiveScopes = function(type) { 
         this._liveScopes["None"].forEach(function(scope){
             scope.update();
         });
@@ -11,7 +11,7 @@ function DataType() {
         });
     };
 
-    this.addLiveScope(scope, type) {
+    this.addLiveScope = function(scope, type) {
         if (this._liveScopes[type]) {
             this._liveScopes[type].add(scope);
             return;
@@ -19,7 +19,7 @@ function DataType() {
         this._liveScopes[type] = new Set([scope]);
     };
 
-    this.removeLiveScope(scope) {
+    this.removeLiveScope = function(scope) {
         for (var key in this._liveScopes)
             this._liveScopes[key].delete(scope);
     };
