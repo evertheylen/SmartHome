@@ -155,7 +155,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     }    
 })
 
-angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q) {
+angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
     var delete_id = null;
     var delete_from = null;
     $scope.delete_sen = function(id, from) {
