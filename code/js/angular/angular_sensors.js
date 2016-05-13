@@ -466,7 +466,21 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
     }
   
     $rootScope.$on("dlgSensor_open", function() {
+        $scope.houses = [];
+
+        ws.request({
+            type: "get_all",
+            what: "Location",
+            for: {
+                what: "User",
+                UID: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.houses = response.objects;
+            $scope.$apply();
+        });
         var sen = dlgSensor_setup.getSensor();
+        
             if (sen != null) {
                 console.log("In sensor_dialogController edit right now");
                 edit = true;
