@@ -61,7 +61,7 @@ var cache = {
 
                     object._scopes.delete(scope);
                     if (object._scopes.size === 0) {
-                        var type = object.prototype.getName();
+                        var type = object.getName();
                         var key = getKey(type, object);
                         removeObject(type, key);
                     }                
