@@ -155,7 +155,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     }    
 })
 
-angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup) {
+angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout) {
     var delete_id = null;
     var delete_from = null;
     $scope.delete_sen = function(id, from) {
@@ -262,6 +262,25 @@ $scope.add_autocomplete = function(tag) {};
         $scope.filteredSensors = $scope.sensors.slice(begin, end);
     };
 
+    
+    $scope.$watch('houses', function() {
+        $timeout(function() {
+            if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
+                removeClass(document.getElementById("select_house"), "mdl-js-menu");
+            }
+            addClass(document.getElementById("select_house"), "mdl-js-menu");
+        }, 0);
+    }, true);
+
+    $scope.$watch('types', function() {
+        $timeout(function() {
+            if (hasClass(document.getElementById("select_type"), "mdl-js-menu")) {
+                removeClass(document.getElementById("select_type"), "mdl-js-menu");
+            }
+            addClass(document.getElementById("select_type"), "mdl-js-menu");
+        }, 0);
+    }, true);
+  
     // Set up front end side aggregation for the sensor table.
 
     $scope.set_order = function set_order(orderBy, elementId) {
@@ -411,24 +430,6 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup, $timeout) {
-    $scope.$watch('houses', function() {
-        $timeout(function() {
-            if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
-                removeClass(document.getElementById("select_house"), "mdl-js-menu");
-            }
-            addClass(document.getElementById("select_house"), "mdl-js-menu");
-        }, 0);
-    }, true);
-
-    $scope.$watch('types', function() {
-        $timeout(function() {
-            if (hasClass(document.getElementById("select_type"), "mdl-js-menu")) {
-                removeClass(document.getElementById("select_type"), "mdl-js-menu");
-            }
-            addClass(document.getElementById("select_type"), "mdl-js-menu");
-        }, 0);
-    }, true);
-  
     $scope.sen_added_tags = [];
     $scope.sen_deleted_tags = [];
     var sen_original_tags = [];
