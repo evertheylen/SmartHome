@@ -88,7 +88,7 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
     }
 });
 
-angular.module("overwatch").controller("location_controller", function($scope, $rootScope) {
+angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
     $scope.houses = [];
 
     ws.request({
@@ -145,7 +145,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     }    
 })
 
-angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope) {
+angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup) {
     $scope.houses = [];
 
     ws.request({
