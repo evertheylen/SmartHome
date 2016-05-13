@@ -4,17 +4,91 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     $rootScope.tab = "sensorslink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $rootScope.auth_user = Auth.getUser();
-    $scope.add_autocomplete = function(tag) {};
 
-    $scope.check_autocomplete = function($query) {
-            var deferred = $q.defer();
-            deferred.resolve($filter('filter')($scope.tags, {
-                text: $query
-            }));
-            return deferred.promise;
+    $scope.reset_loc = function reset_loc() {
+        dlgLocation_setup.setLocation(null);
+    }
+
+    $scope.reset_sen = function reset_sen() {
+        dlgSensor_setup.setSensor(null, null);
+    }
+
+    $scope.reset_sen();
+    $scope.reset_loc();
+
+    document.getElementById('btnLocationBack').addEventListener('click', function() {
+        document.getElementById('dlgLocation').close();
+    });
+
+    document.getElementById('btnSensorBack').addEventListener('click', function() {
+        document.getElementById('dlgSensor').close();
+    });
+
+    document.getElementById('btnNoLocationOk').addEventListener('click', function() {
+        document.getElementById('dlgNoLocation').close();
+    });
+
+    var delete_id = null; // TODO Nasty global vars
+    var delete_from = null;
+
+    $scope.delete = function(id, from) {
+        $rootScope.confirm_dialog.showModal();
+        componentHandler.upgradeDom();
+        //console.log($scope.sensors + " ID: " + id + " from " + from);
+        delete_id = id;
+        delete_from = from;
+    };
+
+    componentHandler.upgradeDom();
+});
+
+/* 
+ * Every Location in the Location table has a controller
+ * that handles all operation on this object.
+*/ 
+angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
+    $scope.open_dialog = function() {
+        var element = document.getElementById("dlgLocation");
+        dlgLocation_setup.setLocation($scope.house);
+        element.showModal();
+        $rootScope.$emit("dlgLocation_open");
+        componentHandler.upgradeDom();
+    }
+});
+
+angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
+    var loc;
+    return {
+        setLocation: function(location) {
+            loc = location;
+        },
+
+        getLocation: function() {
+            return loc;
         }
+    }
+});
 
-    // Fill all the $scope arrays using the database.
+angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
+    var sen;
+    var scope;
+    return {
+        setSensor: function(sensor, _scope) {
+            sen = sensor;
+            scope = _scope;
+        },
+
+        getSensor: function() {
+            return sen;
+        },
+
+        getScope: function() {
+            return scope;
+        }
+    }
+});
+
+angular.module("overwatch").controller("location_controller", function($scope, $rootScope) {
     $scope.houses = [];
 
     ws.request({
@@ -28,7 +102,74 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         $scope.houses = response.objects;
         $scope.$apply();
     });
+    $scope.$on("confirmation", function(event, value) {
+        if (value) {
+            if (delete_from == $scope.houses) {
+                ws.request({
+                    type: "delete",
+                    what: "Location",
+                    data: {
+                        LID: $scope.houses[delete_id].LID
+                    }
+                }, function(success) {
+                    $scope.$apply();
+                });
+                cache.removeObject("Location", $scope.houses[delete_id].LID);
+            }
+            if (delete_from.length === 1) {
+                delete_from.length = 0;
+                return;
+            }
+            delete_from.splice(delete_id, 1);
+        }
+    });
+    $scope.open_dialog = function(elem) {
+        var element;
+        var emit = true;
+        /*if (elem === 'dlgSensor') {
+            if ($scope.houses.length === 0) {
+                element = document.getElementById("dlgNoLocation");
+                emit = false;
+            } else {
+                element = document.getElementById("dlgSensor");
+                dlgSensor_setup.setSensor($scope.sensor, $scope);
+            }
+        } else {*/
+            element = document.getElementById("dlgLocation");
+        //}
+        element.showModal();
+        if (emit) {
+            $rootScope.$emit(elem + "_open");
+        }
+        componentHandler.upgradeDom();
+    }    
+})
 
+angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope) {
+    $scope.houses = [];
+
+    ws.request({
+        type: "get_all",
+        what: "Location",
+        for: {
+            what: "User",
+            UID: $rootScope.auth_user.UID
+        }
+    }, function(response) {
+        $scope.houses = response.objects;
+        $scope.$apply();
+    });
+$scope.add_autocomplete = function(tag) {};
+
+    $scope.check_autocomplete = function($query) {
+            var deferred = $q.defer();
+            deferred.resolve($filter('filter')($scope.tags, {
+                text: $query
+            }));
+            return deferred.promise;
+        }
+
+    // Fill all the $scope arrays using the database.
     $scope.sensors = [];
 
     ws.request({
@@ -103,23 +244,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     };
 
     // Set up front end side aggregation for the sensor table.
-    $scope.$watch('houses', function() {
-        $timeout(function() {
-            if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
-                removeClass(document.getElementById("select_house"), "mdl-js-menu");
-            }
-            addClass(document.getElementById("select_house"), "mdl-js-menu");
-        }, 0);
-    }, true);
-
-    $scope.$watch('types', function() {
-        $timeout(function() {
-            if (hasClass(document.getElementById("select_type"), "mdl-js-menu")) {
-                removeClass(document.getElementById("select_type"), "mdl-js-menu");
-            }
-            addClass(document.getElementById("select_type"), "mdl-js-menu");
-        }, 0);
-    }, true);
 
     $scope.set_order = function set_order(orderBy, elementId) {
         if (hasClass(document.getElementById("sort_sensor"), "up")) {
@@ -160,41 +284,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             addClass(document.getElementById(elementId), "down");
         }
     }
-
-    $scope.reset_loc = function reset_loc() {
-        dlgLocation_setup.setLocation(null);
-    }
-
-    $scope.reset_sen = function reset_sen() {
-        dlgSensor_setup.setSensor(null, null);
-    }
-
-    $scope.reset_sen();
-    $scope.reset_loc();
-
-    document.getElementById('btnLocationBack').addEventListener('click', function() {
-        document.getElementById('dlgLocation').close();
-    });
-
-    document.getElementById('btnSensorBack').addEventListener('click', function() {
-        document.getElementById('dlgSensor').close();
-    });
-
-    document.getElementById('btnNoLocationOk').addEventListener('click', function() {
-        document.getElementById('dlgNoLocation').close();
-    });
-
-    var delete_id = null; // TODO Nasty global vars
-    var delete_from = null;
-
-    $scope.delete = function(id, from) {
-        $rootScope.confirm_dialog.showModal();
-        componentHandler.upgradeDom();
-        console.log($scope.sensors + " ID: " + id + " from " + from);
-        delete_id = id;
-        delete_from = from;
-    };
-
     $scope.$on("confirmation", function(event, value) {
         if (value) {
             if (delete_from == $scope.sensors) {
@@ -220,17 +309,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
                     cache.removeObject("Sensor", delete_sensor_SID);
                     $scope.$apply();
                 });
-            } else {
-                ws.request({
-                    type: "delete",
-                    what: "Location",
-                    data: {
-                        LID: $scope.houses[delete_id].LID
-                    }
-                }, function(success) {
-                    $scope.$apply();
-                });
-                cache.removeObject("Location", $scope.houses[delete_id].LID);
             }
             if (delete_from.length === 1) {
                 delete_from.length = 0;
@@ -239,11 +317,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
             delete_from.splice(delete_id, 1);
         }
     });
-
     $scope.open_dialog = function(elem) {
         var element;
         var emit = true;
-        if (elem === 'dlgSensor') {
+        //if (elem === 'dlgSensor') {
             if ($scope.houses.length === 0) {
                 element = document.getElementById("dlgNoLocation");
                 emit = false;
@@ -251,63 +328,15 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
                 element = document.getElementById("dlgSensor");
                 dlgSensor_setup.setSensor($scope.sensor, $scope);
             }
-        } else {
+        /*} else {
             element = document.getElementById("dlgLocation");
-        }
+        }*/
         element.showModal();
         if (emit) {
             $rootScope.$emit(elem + "_open");
         }
         componentHandler.upgradeDom();
-    }
-
-    componentHandler.upgradeDom();
-});
-
-/* 
- * Every Location in the Location table has a controller
- * that handles all operation on this object.
-*/ 
-angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
-    $scope.open_dialog = function() {
-        var element = document.getElementById("dlgLocation");
-        dlgLocation_setup.setLocation($scope.house);
-        element.showModal();
-        $rootScope.$emit("dlgLocation_open");
-        componentHandler.upgradeDom();
-    }
-});
-
-angular.module("overwatch").factory('dlgLocation_setup', function($rootScope) {
-    var loc;
-    return {
-        setLocation: function(location) {
-            loc = location;
-        },
-
-        getLocation: function() {
-            return loc;
-        }
-    }
-});
-
-angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
-    var sen;
-    var scope;
-    return {
-        setSensor: function(sensor, _scope) {
-            sen = sensor;
-            scope = _scope;
-        },
-
-        getSensor: function() {
-            return sen;
-        },
-
-        getScope: function() {
-            return scope;
-        }
-    }
+    }        
 });
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
@@ -363,6 +392,24 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
 });
 
 angular.module("overwatch").controller("sensor_dialogController", function($scope, $rootScope, dlgSensor_setup) {
+    $scope.$watch('houses', function() {
+        $timeout(function() {
+            if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
+                removeClass(document.getElementById("select_house"), "mdl-js-menu");
+            }
+            addClass(document.getElementById("select_house"), "mdl-js-menu");
+        }, 0);
+    }, true);
+
+    $scope.$watch('types', function() {
+        $timeout(function() {
+            if (hasClass(document.getElementById("select_type"), "mdl-js-menu")) {
+                removeClass(document.getElementById("select_type"), "mdl-js-menu");
+            }
+            addClass(document.getElementById("select_type"), "mdl-js-menu");
+        }, 0);
+    }, true);
+  
     $scope.sen_added_tags = [];
     $scope.sen_deleted_tags = [];
     var sen_original_tags = [];
