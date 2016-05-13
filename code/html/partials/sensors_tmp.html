@@ -34,6 +34,75 @@
 
 		<!--Sensor table-->
 		<div class="mdl-cell mdl-cell--9-col-desktop mdl-cell--9-col-phone" ng-controller="sensor_controller">
+	<!--Add sensor dialog-->
+    <dialog id="dlgSensor" class="mdl-dialog" ng-controller="sensor_dialogController">
+        <h4 class="mdl-dialog__title" ng-bind="edit_sen"></h4>
+        <div class="mdl-dialog__content">
+            <form name="sensor_form">
+                <div id="txtfield_SensorName" class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName" required>
+                    <label class="mdl-textfield__label" for="input_SensorName" ng-bind="i18n('name')"></label>
+                </div>
+                <div ng-messages="sensor_form.sensorName.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>
+                <tags-input ng-model="sen_tags" on-tag-added="add_tag($tag)" on-tag-removed="delete_tag($tag)">
+	                <auto-complete min-length="1" source="check_autocomplete($query)" loadOnFocus="true" highlight-matched-text="true"></auto-complete>
+                </tags-input>
+                
+				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
+					<label ng-bind="i18n('location')"></label>
+					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
+					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_house').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
+					</button>
+					<input type="hidden" ng-model="sen_house" name="sensorLocation" required></input>
+					<ul  id="select_house" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
+						style="overflow-y: scroll; max-height: 140px;">
+						<li>
+							<li ng-repeat="house in houses track by house.LID" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
+								ng-click="dropDownClick(house.LID, 'select_house', 'dropDownLocation', 'house')" tabindex="-1"
+								ng-bind="house.description"
+								>
+							</li>
+						</li>
+					</ul>
+				</div>
+                <div ng-messages="sensor_form.sensorLocation.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>				
+				<div id="txtfield_SensorType" class="mdl-selectfield">
+				    <label>Type</label>
+				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');" ng-bind="i18n('pick_type')">
+				    </button>
+				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
+				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
+				        <li>
+				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="i18n(type)">
+				            </li>
+				        </li>
+				    </ul>
+				</div>
+                <div ng-messages="sensor_form.sensorType.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>				
+                <div id="txtfield_SensorUnitPrice" class="mdl-textfield mdl-js-textfield">
+                    <label ng-bind="i18n('unit_price')" class="mdl-textfield__label" for="input_SensorUnitPrice"></label>
+                    <input type="number" class="mdl-textfield__input" id="input_SensorUnitPrice" ng-model="sen_unit_price" name="sensorUnitPrice" required></input>
+                </div>
+                <div ng-messages="sensor_form.sensorUnitPrice.$error">
+                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                </div>
+            </form>
+            <div>
+                <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
+                    style="width: 45%; display: inline; margin-left: 5%;" ng-click="save_sen()" ng-bind="i18n('save_changes')">
+                </button>
+                <button id="btnSensorBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                    style="width: 45%; display: inline;" ng-click="reset_sen()" ng-bind="i18n('back')">
+                </button>
+            </div>
+        </div>
+    </dialog>			
 			<div id="dataTable">
 				<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
 					<thead>
@@ -116,75 +185,7 @@
 	<div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}" ng-bind="i18n('del_sensor')">
 	</div>
 
-	<!--Add sensor dialog-->
-    <dialog id="dlgSensor" class="mdl-dialog" ng-controller="sensor_dialogController">
-        <h4 class="mdl-dialog__title" ng-bind="edit_sen"></h4>
-        <div class="mdl-dialog__content">
-            <form name="sensor_form">
-                <div id="txtfield_SensorName" class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" ng-model="sen_name" type="text" id="input_SensorName" name="sensorName" required>
-                    <label class="mdl-textfield__label" for="input_SensorName" ng-bind="i18n('name')"></label>
-                </div>
-                <div ng-messages="sensor_form.sensorName.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>
-                <tags-input ng-model="sen_tags" on-tag-added="add_tag($tag)" on-tag-removed="delete_tag($tag)">
-	                <auto-complete min-length="1" source="check_autocomplete($query)" loadOnFocus="true" highlight-matched-text="true"></auto-complete>
-                </tags-input>
-                
-				<div  id="txtfield_SensorLocation" class="mdl-selectfield">
-					<label ng-bind="i18n('location')"></label>
-					<!--TODO put the style stuff in the css files (i didn't do this yet because i'm waiting for approval)-->
-					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_house').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
-					</button>
-					<input type="hidden" ng-model="sen_house" name="sensorLocation" required></input>
-					<ul  id="select_house" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
-						style="overflow-y: scroll; max-height: 140px;">
-						<li>
-							<li ng-repeat="house in houses track by house.LID" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
-								ng-click="dropDownClick(house.LID, 'select_house', 'dropDownLocation', 'house')" tabindex="-1"
-								ng-bind="house.description"
-								>
-							</li>
-						</li>
-					</ul>
-				</div>
-                <div ng-messages="sensor_form.sensorLocation.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>				
-				<div id="txtfield_SensorType" class="mdl-selectfield">
-				    <label>Type</label>
-				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');" ng-bind="i18n('pick_type')">
-				    </button>
-				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
-				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
-				        <li>
-				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="i18n(type)">
-				            </li>
-				        </li>
-				    </ul>
-				</div>
-                <div ng-messages="sensor_form.sensorType.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>				
-                <div id="txtfield_SensorUnitPrice" class="mdl-textfield mdl-js-textfield">
-                    <label ng-bind="i18n('unit_price')" class="mdl-textfield__label" for="input_SensorUnitPrice"></label>
-                    <input type="number" class="mdl-textfield__input" id="input_SensorUnitPrice" ng-model="sen_unit_price" name="sensorUnitPrice" required></input>
-                </div>
-                <div ng-messages="sensor_form.sensorUnitPrice.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
-                </div>
-            </form>
-            <div>
-                <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-click="save_sen()" ng-bind="i18n('save_changes')">
-                </button>
-                <button id="btnSensorBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-click="reset_sen()" ng-bind="i18n('back')">
-                </button>
-            </div>
-        </div>
-    </dialog>
+
 
 	<!--TODO Maybe adjust this information, i don't know if this is enough-->
 	<dialog id="dlgLocation" class="mdl-dialog" ng-controller="location_dialogController">
