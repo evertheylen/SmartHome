@@ -8,6 +8,19 @@ var errors = [];
 
 // Used to avoid duplicates of the same object, memory management and live updating.
 var cache = {
+    Wall: {},
+    User: {},
+    Location: {},
+    Sensor: {},
+    Tag: {},
+    Status: {},
+    Like: {},
+    Friendship: {},
+    Group: {},
+    Membership: {},
+    Graph: {},
+    Comment: {},
+
 	getObject: function(type, key, data, scope) {
         console.log("Reached2");
         if (!this[type][key]) {
