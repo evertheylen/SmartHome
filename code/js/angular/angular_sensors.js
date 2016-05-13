@@ -28,7 +28,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         document.getElementById('dlgNoLocation').close();
     });
 
-    var delete_id = null; // TODO Nasty global vars
+    /*var delete_id = null; // TODO Nasty global vars
     var delete_from = null;
 
     $scope.delete = function(id, from) {
@@ -37,7 +37,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         //console.log($scope.sensors + " ID: " + id + " from " + from);
         delete_id = id;
         delete_from = from;
-    };
+    };*/
 
     componentHandler.upgradeDom();
 });
@@ -104,7 +104,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     });
     var delete_id = null;
     var delete_from = null;
-    $scope.delete = function(id, from) {
+    $scope.delete_loc = function(id, from) {
         $rootScope.confirm_dialog.showModal();
         componentHandler.upgradeDom();
         //console.log($scope.sensors + " ID: " + id + " from " + from);
@@ -158,7 +158,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup) {
     var delete_id = null;
     var delete_from = null;
-    $scope.delete = function(id, from) {
+    $scope.delete_sen = function(id, from) {
         $rootScope.confirm_dialog.showModal();
         componentHandler.upgradeDom();
         //console.log($scope.sensors + " ID: " + id + " from " + from);

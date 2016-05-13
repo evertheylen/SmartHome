@@ -22,7 +22,7 @@
 							    <td class="mdl-data-table__cell--non-numeric" ng-bind="house.description"></td>
 							    <td>
 								    <button id="btnModifyLoc-{{$index}}" type="button" class="bareButton" ng-click="open_dialog(true);"><i class="material-icons">edit</i></button>
-								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete($index, houses);"><i class="material-icons">delete</i></button>
+								    <button id="btnDeleteLoc-{{$index}}" type="button" class="bareButton" ng-click="delete_loc($index, houses);"><i class="material-icons">delete</i></button>
 							    </td>
 						</tr>	
 					</tbody>
@@ -83,7 +83,7 @@
 				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							    <td>
 								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
-								    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete(sensor.index, sensors);"><i class="material-icons">delete</i></button>
+								    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete_sen(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							    </td>
 						</tr>
 					</tbody>
