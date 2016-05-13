@@ -126,6 +126,8 @@ function connect_to_websocket() {
 		try {
 			receivedObject = JSON.parse(evt.data);
             answer = {scope: null, func: function(){}};
+            console.log("IDO: " + receivedObject["ID"]);
+            console.log("ID: " + receivedObject.ID);
             if (receivedObject["ID"]) {
                 answer = answers[receivedObject.ID];
                 console.log("Got answer from receivedObject");
