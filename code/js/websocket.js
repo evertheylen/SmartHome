@@ -63,7 +63,7 @@ var cache = {
                     if (object._scopes.size === 0) {
                         var type = object.getName();
                         var key = getKey(type, object);
-                        removeObject(type, key);
+                        this.removeObject(type, key);
                     }                
                 }            
             });
