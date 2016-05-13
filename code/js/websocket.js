@@ -123,10 +123,10 @@ function connect_to_websocket() {
 		var receivedObject = {};
 		var polishedObject = {};
 		try {
+			receivedObject = JSON.parse(evt.data);
             answer = {scope: null, func: function(){}};
             if (receivedObject["ID"])
                 answer = answers[receivedObject.ID];
-			receivedObject = JSON.parse(evt.data);
 			polishedObject = window[receivedObject["type"] + "_response"](receivedObject, answer.scope);
 			answer.func(polishedObject);
 		}
