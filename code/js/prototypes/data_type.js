@@ -1,9 +1,33 @@
 function DataType() {
+    this._scopes = new Set();
+    this._liveScopes = {};
+
+    this.updateLiveScopes(type) { 
+        this._liveScopes["None"].forEach(function(scope){
+            scope.update();
+        });
+        this._liveScopes[type].forEach(function(scope){
+            scope.update();
+        });
+    };
+
+    this.addLiveScope(scope, type) {
+        if (this._liveScopes[type]) {
+            this._liveScopes[type].add(scope);
+            return;
+        }
+        this._liveScopes[type] = new Set([scope]);
+    };
+
+    this.removeLiveScope(scope) {
+        for (var key in this._liveScopes)
+            this._liveScopes[key].delete(scope);
+    };
 
 	this.toJSON = function() {
 		var tmp = {};
 
-		for(var key in this) {
+		for (var key in this) {
 			if(typeof this[key] !== 'function' && key[0] != "_") {
 				tmp[key] = this[key];
 			}

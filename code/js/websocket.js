@@ -1,4 +1,3 @@
-var handlers = {}; // specify functions to deal with server messages (that aren't a reply)
 var answers = {};  // specify functions that need to be called when the server answers
 var currentId = 0; // Current request ID.
 var requests = new Queue();  // Queue for requests that are waiting to be sent to the server.
@@ -7,70 +6,65 @@ var reconnects = 0; // The amount of times the websocket has attempted to reconn
 var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Group, Membership, Graph, Comment];
 var errors = [];
 
-// Used to avoid duplicates of the same object. 
+// Used to avoid duplicates of the same object, memory management and live updating.
 var cache = {
-    Wall: [],
-	User: [],
-	Location: [],
-	Sensor: [],
-    Tag: [],
-    Status: [],
-    Like: [],
-    Friendship: [],
-	Group: [],
-    Membership: [],
-    Graph: [],
-    Comment: [],
-
-	searchKey: function(type, key) {
-		var array = cache[type];
-		for (var i=0; i < array.length; i++) {
-			if (!array[i].key || !key || array[i].key.length != key.length)
-				continue;
-            var found = true;
-			for (var j = 0; j < array[i].key.length; j++) {    
-				if (key[j] != array[i].key[j]) {
-			    		found = false;   
-                        break;                
-                }
-   			}
-            if (found)
-			    return i;
-		}
-		return -1;
-	},
-
-	getObject: function(type, key, data) {
-		var index = cache.searchKey(type, key);
-		var object = null;
-		if(index === -1) {
-			// If the object is not in the cache.
-			object = getFilledObject(type, data);
-			cache[type].push({key: key, object: object});
-		}
-		else {
-			// If the object has been found.
-			object = cache[type][index].object;
-			object.fill(data);
-		}
-		return object;
+	getObject: function(type, key, data, scope) {
+        if (!this[type][key]) {
+            var object = getFilledObject(type, data);
+            addObjectScope(object, scope);
+            this[type][key] = object;
+        }
+        else {
+            this[type][key].fill(data);
+            if (scope) 
+                addObjectScope(this[type][key], scope);
+        }
+        return this[type][key];
 	},
 
 	removeObject: function(type, key) {
-		var index = cache.searchKey(type, key);
-		if(index !== -1)
-			cache[type].splice(index, 1);
-	}
+        var object = this[type][key];
+        object._scopes.forEach(function f(scope) { 
+            delete this[scope].delete(object);
+        });
+        delete this[type][key];
+	},
+
+    addObjectScope(): function(object, scope) {
+        object._scopes.add(scope);
+        if (!this[scope]) {
+            this[scope] = new Set([object]);
+            return;
+        }
+        this[scope].add(object);
+    },
+
+    removeScope(): function(scope) {
+        if (this[scope])
+            this[scope].forEach(function f(object) { 
+                if (object) { 
+                    object._scopes.delete(scope);
+                    if (object._scopes.size === 0) {
+                        var type = object.prototype.getName();
+                        var key = getKey(type, object);
+                        removeObject(type, key);
+                    }                
+                }            
+            });
+        delete this[scope];
+    }
 }; 
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 
-	websocket.request = function (requestObject, f) {
+	websocket.request = function (requestObject, f, scope, register) {
 		// Data can be any object literal or prototype with the toJSON method.
-		answers[currentId] = f;
-		requestObject.ID = currentId;
-		currentId++;
+        if (!register) {
+		    answers[currentId] = {func: f, scope: s};
+		    requestObject.ID = currentId;
+		    currentId++;
+        }
 		var stringToSend = JSON.stringify(requestObject);
 		if(websocket.readyState == 1) {
 			// Send the request to the server.
@@ -113,12 +107,12 @@ function connect_to_websocket() {
 		var receivedObject = {};
 		var polishedObject = {};
 		try {
+            answer = {scope: null, func = function(){}};
+            if (receivedObject["ID"])
+                answer = answers[receivedObject.ID];
 			receivedObject = JSON.parse(evt.data);
-			polishedObject = window[receivedObject["type"] + "_response"](receivedObject);
-			if (receivedObject.hasOwnProperty("ID")) {
-				answers[receivedObject.ID](polishedObject);
-				return;
-			} 
+			polishedObject = window[receivedObject["type"] + "_response"](receivedObject, answer.scope);
+			answer.func(polishedObject);
 		}
 		catch(err) {
     		console.log('%c Websocket Error occured: ' + err.message, 'color: #ff0000');       
@@ -129,8 +123,6 @@ function connect_to_websocket() {
             }
 			return;
 		}
-		if (receivedObject.hasOwnProperty("type")) 
-			handlers[receivedObject.type](polishedObject);
 	};
 
 	websocket.onerror = function(evt) {
@@ -148,12 +140,14 @@ function signup_response(response) {
 	return {success: false, reason: data["reason"]};
 }
 
-function login_response(response) {
+function login_response(response, scope) {
 	data = response["data"];
 	if(data["status"] == "success") {
 		// This cookie will only be alive for 1 day.
 		setCookie("session", data["session"], 1);
-		return {success: true, user: getFilledObject("User", data["user"])};
+        var userData = data["user"];
+        var key = getKey("User", userData);
+		return {success: true, user: cache.getObject("User", key, userData)};
 	}
 	return {success: false, reason: data["reason"]};
 }
@@ -167,15 +161,10 @@ function error_response(response) {
 function add_response(response) {
 	var type = response["what"];
 	var data = response["data"];
+    var key = getKey(type, data);
     if (type == "Graph") 
         return data;
-	var object = getFilledObject(type, data);
-    if (type == "Tag") {
-        console.log("Pushing tag into cache");
-        console.log("key: " + getKey(type, data) + ", object " + object);
-    }
-	cache[type].push({key: getKey(type, data), object: object});
-	return {success: true, for: response["for"], object: object};
+	return {success: true, for: response["for"], object: cache.getObject(type, key, data)};
 }
 
 function delete_response(response) {
@@ -215,45 +204,38 @@ function edit_response(response) {
 	return cache.getObject(type, key, data);
 }
 
-function live_add_response(response) {
-	var type = response["what"];
-	var data = response["data"];
-	var object = getFilledObject(type, data);
-	cache[type].push({key: getKey(type, data), object: object});
-
-	var parentData = response["for"];
-	var parentType = parentData["what"];
-	var parent = cache.getObject(parentType, getKey(parentType, parentData), null);  
-	// Update all html references of the parent.
-	return {for: response["for"], object: object};
+function live_add_ref_response(response) {
+    var to = response["to"];
+    var type = to["what"];
+    var from = response["from"];
+    object = cache[type][getKey(type, to)];
+    if (object)
+        object.updateLiveScopes(from["what"]);
 }
 
-function live_delete_response(response) {
-	var type = response["what"];
-	var data = response["data"];
-	var object = getFilledObject(type, data);
-	cache[type].push({key: getKey(type, data), object: object});
-
-	if(response["for"] != undefined) {
-		var parentData = response["for"];
-		var parentType = parentData["what"];
-		var parent = cache.getObject(parentType, getKey(parentType, parentData), null);  
-		// Update all html references of the parent.
-		return true;
-	}
-	return true;
+function live_remove_ref_response(response) {
+    var to = response["to"];
+    var type = to["what"];
+    var from = response["from"];
+    var object = cache[type][getKey(type, to)];
+    if (object)
+        object.updateLiveScopes(from["what"]);
 }
 
 function live_edit_response(response) {
-	/*
-	{
-		"what": "<class name>",
-		"data": <entire definition with ID of object>
-	}
+    var type = response["what"];
+    var key = getKey(type, response["data"]);
+    var object = cache.getObject(type, key, data);
+    if (object)
+        object.updateLiveScopes("None");
+}
 
-	Update in cache
-	Return Type + Key
-	*/
+function live_delete_response(response) {
+    var type = response["what"];
+    var key = getKey(type, response["data"]);
+    var object = cache[type][key];
+    if (object)
+        object.updateLiveScopes("None");
 }
 
 function getFilledObject(what, objectData) {
