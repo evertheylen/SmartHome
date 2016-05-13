@@ -9,7 +9,9 @@ var errors = [];
 // Used to avoid duplicates of the same object, memory management and live updating.
 var cache = {
 	getObject: function(type, key, data, scope) {
+        console.log("Reached2");
         if (!this[type][key]) {
+            console.log("Reached3");
             var object = getFilledObject(type, data);
             addObjectScope(object, scope);
             this[type][key] = object;
@@ -19,6 +21,7 @@ var cache = {
             if (scope) 
                 addObjectScope(this[type][key], scope);
         }
+        console.log("Reached4");
         return this[type][key];
 	},
 
@@ -44,6 +47,8 @@ var cache = {
             this[scope].forEach(function f(object) { 
                 if (object) { 
                     object.removeLiveScope(scope);
+                    // Make sure UNREGISTER IS CALLED HERE.
+
                     object._scopes.delete(scope);
                     if (object._scopes.size === 0) {
                         var type = object.prototype.getName();
@@ -148,7 +153,8 @@ function login_response(response, scope) {
 		setCookie("session", data["session"], 1);
         var userData = data["user"];
         var key = getKey("User", userData);
-		return {success: true, user: cache.getObject("User", key, userData)};
+        console.log("Reached1");
+		return {success: true, user: cache.getObject("User", key, userData, scope)};
 	}
 	return {success: false, reason: data["reason"]};
 }
@@ -159,13 +165,13 @@ function error_response(response) {
     throw {name : error_type, message : error_description}; 
 }
 
-function add_response(response) {
+function add_response(response, scope) {
 	var type = response["what"];
 	var data = response["data"];
     var key = getKey(type, data);
     if (type == "Graph") 
         return data;
-	return {success: true, for: response["for"], object: cache.getObject(type, key, data)};
+	return {success: true, for: response["for"], object: cache.getObject(type, key, data, scope)};
 }
 
 function delete_response(response) {
@@ -174,21 +180,21 @@ function delete_response(response) {
 	return false;
 }
 
-function get_response(response) {
+function get_response(response, scope) {
 	var type = response["what"];
 	var data = response["data"];
 	var key = getKey(type, data);  
-	return {for: response["for"], object: cache.getObject(type, key, data)}
+	return {for: response["for"], object: cache.getObject(type, key, data, scope)}
 }
 
-function get_all_response(response) {
+function get_all_response(response, scope) {
 	var objects = [];
 	var type = response["what"];
 	var data = response["data"];
     if(type.indexOf("Value") > -1)
 		return {for: response["for"], objects: data};
 	for(var i = 0; i < data.length; i++)
-		objects.push(cache.getObject(type, getKey(type, data[i]), data[i]));
+		objects.push(cache.getObject(type, getKey(type, data[i]), data[i], scope));
 	return {for: response["for"], objects: objects};
 }
 
@@ -198,11 +204,11 @@ function create_graph_response(response) {
 	return getFilledObject("Graph", data);
 }
 
-function edit_response(response) {
+function edit_response(response, scope) {
 	var type = response["what"];
 	var data = response["data"];
 	var key = getKey(type, data);  
-	return cache.getObject(type, key, data);
+	return cache.getObject(type, key, data, scope);
 }
 
 function live_add_ref_response(response) {
