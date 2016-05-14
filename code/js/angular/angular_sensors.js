@@ -78,7 +78,7 @@ angular.module("overwatch").controller("location_objController", function($scope
         "data": {
           "LID": $scope.house.LID
           }
-        }, function() {}, $scope, true);
+        }, function() {}, $scope);
     
     $scope.open_dialog = function() {
         var element = document.getElementById("dlgLocation");
@@ -131,7 +131,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
         "data": {
           "UID": $rootScope.auth_user.UID
           }
-        }, function() {}, $scope, true);
+        }, function() {}, $scope);
     
     $scope.$on("$destroy", function() {
         cache.removeScope($scope);
