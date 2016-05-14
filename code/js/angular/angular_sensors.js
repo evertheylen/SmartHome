@@ -71,9 +71,9 @@ angular.module("overwatch").controller("location_objController", function($scope
     // Elke scope heeft een attribuut  : scope.update = function () {nodige get_alls};
     
     // Elke keer ik uit een scope ga: cache.removeScope(scope) via $destroy();
-    $scope.$on("$destroy", function() {
+  /*  $scope.$on("$destroy", function() {
         cache.removeScope($scope);
-    });
+    });*/
     
     // Update:
     $scope.update = function() {
@@ -141,9 +141,9 @@ angular.module("overwatch").controller("location_controller", function($scope, $
           }
         }, function() {}, $scope);
     
-    $scope.$on("$destroy", function() {
+  /*  $scope.$on("$destroy", function() {
         cache.removeScope($scope);
-    });
+    });*/
     
    // $scope.houses = [];
     
@@ -230,9 +230,9 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
   //$scope.houses = [];
   $scope.sensors = [];
-    $scope.$on("$destroy", function() {
+    /*$scope.$on("$destroy", function() {
     		cache.removeScope($scope);
-    });   
+    });*/   
     var delete_id = null;
     var delete_from = null;
     $scope.delete_sen = function(id, from) {
@@ -251,9 +251,9 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
           }
         }, function() {}, $scope);
     
-    $scope.$on("$destroy", function() {
+  /*  $scope.$on("$destroy", function() {
         cache.removeScope($scope);
-    });
+    });*/
     
    // $scope.houses = [];
     
@@ -502,9 +502,9 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
     
   
   
-    $scope.$on("$destroy", function() {
+   /* $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
-    });
+    });*/
     $scope.open_dialog = function() {
         var element;
         if ($scope.houses.length === 0) {
