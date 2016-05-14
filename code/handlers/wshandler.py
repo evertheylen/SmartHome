@@ -184,33 +184,33 @@ def create_WsHandler(controller, debug=True):
         
         def delete(self, obj):
             """Handle deletions of the object."""
+            keys = obj.json_key()
+            del keys["what"]
             controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_delete",
                 "what": type(obj).__name__,
-                "data": obj.json_repr()
-                })
+                "data": keys,
+            })
         
         def new_reference(self, obj, ref_obj):
             """Handle a new reference from `ref_obj` to `obj`. `ref_obj` does not have to be a
             `RTEntity`.
             """
             controller.ow.ioloop.spawn_callback(self.send, {
-                "type": "live_add",
-                "for": obj.json_key(),
-                "what": type(ref_obj).__name__,
-                "data": ref_obj.json_repr(),
-                })
+                "type": "live_add_ref",
+                "from": ref_obj.json_key(),
+                "to": obj.json_key(),
+            })
             
         def remove_reference(self, obj, ref_obj):
             """Handle the removal of a reference from `ref_obj` to `obj`. `ref_obj` does not 
             have to be a `RTEntity`.
             """
-            controller.logger.info("I sent an experimental message for which is there is no format yet, I doubt Jeroen can handle it ;)")
             controller.ow.ioloop.spawn_callback(self.send, {
-                "type": "live_delete_ref",
-                "for": obj.json_key(),
-                "data": ref_obj.json_key(),
-                })
+                "type": "live_remove_ref",
+                "from": ref_obj.json_key(),
+                "to": obj.json_key(),
+            })
         
 
     return WsHandler
