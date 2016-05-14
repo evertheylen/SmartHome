@@ -70,12 +70,12 @@ angular.module("overwatch").controller("location_objController", function($scope
     // Registering and adding scopes. TODO : Check if this is correct?
     
     $scope.house.addLiveScope($scope, "None");
-    /*ws.request({ "type": "register",
+    ws.request({ "type": "register",
         "what": "User",
         "data": {
           "LID": $scope.house.LID
           }
-        }, function() {}, $scope, true);*/
+        }, function() {}, $scope, true);
     
     $scope.open_dialog = function() {
         var element = document.getElementById("dlgLocation");
@@ -121,12 +121,12 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
     // TODO Register User, dit geeft een reference naar locations.
     $rootScope.auth_user.addLiveScope($scope, "Location");
-    /*ws.request({ "type": "register",
+    ws.request({ "type": "register",
         "what": "User",
         "data": {
           "UID": $rootScope.auth_user.UID
           }
-        }, function() {}, $scope, true);*/
+        }, function() {}, $scope, true);
     
     $scope.$on("$destroy", function() {
         cache.removeScope($scope);
