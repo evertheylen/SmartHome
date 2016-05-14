@@ -78,7 +78,6 @@ angular.module("overwatch").controller("location_objController", function($scope
     // Update:
     $scope.update = function() {
         $scope.$parent.update();
-        $scope.$apply();
     }
     
     // Registering and adding scopes. TODO : Check if this is correct?
