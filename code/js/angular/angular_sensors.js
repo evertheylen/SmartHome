@@ -133,6 +133,8 @@ angular.module("overwatch").controller("location_controller", function($scope, $
         cache.removeScope($scope);
     });
     
+    $scope.houses = [];
+    
     // Update:
     $scope.update = function() {
         ws.request({
@@ -214,6 +216,8 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 })
 
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
+  $scope.houses = [];
+  $scope.sensors = [];
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
     });   
