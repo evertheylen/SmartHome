@@ -648,7 +648,6 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
     }, $scope);
     
     $scope.fancy_date = function () {   
-        console.log("formatting " + $scope.comment.date_edited*1000);
         return date_format($scope.comment.date_edited*1000);
     };
     
@@ -899,7 +898,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
     }
     
     $scope.fancy_date = function (date) {
-        console.log("formatting " + date);
         return date_format(date);
     };
     componentHandler.upgradeDom();
