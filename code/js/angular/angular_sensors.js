@@ -4,17 +4,45 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     });
     
     $scope.houses= [];
-            ws.request({
-            type: "get_all",
-            what: "Location",
-            for: {
-                what: "User",
-                UID: $rootScope.auth_user.UID
-            }
-        }, function(response) {
-            $scope.houses = response.objects;
-            $scope.$apply();
-        }, $scope);
+    ws.request({
+        type: "get_all",
+        what: "Location",
+        for: {
+            what: "User",
+            UID: $rootScope.auth_user.UID
+        }
+    }, function(response) {
+        $scope.houses = response.objects;
+        $scope.$apply();
+    }, $scope);
+    
+    $scope.sensors = [];
+    ws.request({
+        type: "get_all",
+        what: "Sensor",
+        for: {
+            what: "User",
+            UID: $rootScope.auth_user.UID
+        }
+    }, function(response) {
+        $scope.sensors = response.objects;
+        updateFilteredSensors();
+        $scope.$apply();
+    }, $scope);
+    
+    updateFilteredSensors = function() {
+        var begin = (($scope.currentPage - 1) * $scope.numPerPage),
+            end = begin + $scope.numPerPage;
+        if ($scope.sensors.length - 1 < $scope.numPerPage * ($scope.maxSize - 1)) {
+
+            var length = Math.floor(($scope.sensors.length - 1) / $scope.numPerPage) + 1;
+            $scope.pages_css = "pagination--length" + length;
+        } else {
+            $scope.pages_css = 'pagination--full';
+        }
+        $scope.filteredSensors = $scope.sensors.slice(begin, end);
+    };
+            
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "sensorslink";
@@ -229,7 +257,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
   //$scope.houses = [];
-  $scope.sensors = [];
+  //$scope.sensors = [];
     /*$scope.$on("$destroy", function() {
     		cache.removeScope($scope);
     });*/   
@@ -299,7 +327,7 @@ $scope.add_autocomplete = function(tag) {};
 
     // Fill all the $scope arrays using the database.
 
-    ws.request({
+   /* ws.request({
         type: "get_all",
         what: "Sensor",
         for: {
@@ -310,7 +338,7 @@ $scope.add_autocomplete = function(tag) {};
         $scope.sensors = response.objects;
         updateFilteredSensors();
         $scope.$apply();
-    }, $scope);
+    }, $scope);*/
 
     $scope.tags = [];
 
@@ -357,20 +385,6 @@ $scope.add_autocomplete = function(tag) {};
         $scope.filteredSensors = $scope.sensors.slice(begin, end);
     });
 
-    updateFilteredSensors = function() {
-        var begin = (($scope.currentPage - 1) * $scope.numPerPage),
-            end = begin + $scope.numPerPage;
-        if ($scope.sensors.length - 1 < $scope.numPerPage * ($scope.maxSize - 1)) {
-
-            var length = Math.floor(($scope.sensors.length - 1) / $scope.numPerPage) + 1;
-            $scope.pages_css = "pagination--length" + length;
-        } else {
-            $scope.pages_css = 'pagination--full';
-        }
-        $scope.filteredSensors = $scope.sensors.slice(begin, end);
-    };
-
-    
     $scope.$watch('houses', function() {
         $timeout(function() {
             if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
