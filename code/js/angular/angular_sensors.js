@@ -492,7 +492,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
     
     // Registering and adding scopes. TODO : Check if this is correct?
     
-    $scope.house.addLiveScope($scope, "None");
+    $scope.sensor.addLiveScope($scope, "None");
     ws.request({ "type": "register",
         "what": "Sensor",
         "data": {
