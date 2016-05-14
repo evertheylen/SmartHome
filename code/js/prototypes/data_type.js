@@ -3,12 +3,18 @@ function DataType() {
     this._liveScopes = {};
 
     this.updateLiveScopes = function(type) { 
-        this._liveScopes["None"].forEach(function(scope){
-            scope.update();
-        });
-        this._liveScopes[type].forEach(function(scope){
-            scope.update();
-        });
+        if (this._liveScopes["None"]) {
+            this._liveScopes["None"].forEach(function(scope){
+                console.log("Updating scope with None");
+                scope.update();
+            });
+        }
+        if (this._liveScopes[type]) {
+            this._liveScopes[type].forEach(function(scope){
+                console.log("Updating scope with " + type);
+                scope.update();
+            });
+        }
     };
 
     this.addLiveScope = function(scope, type) {

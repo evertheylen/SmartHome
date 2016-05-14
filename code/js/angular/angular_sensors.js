@@ -1,9 +1,20 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup, dlgSensor_setup, $q, $state) {
-    console.log("Sensor Controller PRINTING CACHE");
-    cache.print();
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
     });
+    
+    $scope.houses= [];
+            ws.request({
+            type: "get_all",
+            what: "Location",
+            for: {
+                what: "User",
+                UID: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.houses = response.objects;
+            $scope.$apply();
+        }, $scope);
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "sensorslink";
@@ -52,8 +63,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
  * that handles all operation on this object.
 */ 
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
-    console.log("Location objController");
-    cache.print();
     // Todo register Location, dit zorgt voor edit updates.
     // user.addLiveScope(scope, "Location"); reference location
     // user.addLiveScope(scope, "none"); no reference -> all scope.
@@ -62,13 +71,13 @@ angular.module("overwatch").controller("location_objController", function($scope
     // Elke scope heeft een attribuut  : scope.update = function () {nodige get_alls};
     
     // Elke keer ik uit een scope ga: cache.removeScope(scope) via $destroy();
-    $scope.$on("$destroy", function() {
+  /*  $scope.$on("$destroy", function() {
         cache.removeScope($scope);
-    });
+    });*/
     
     // Update:
     $scope.update = function() {
-        $scope.$apply();
+        $scope.$parent.update();
     }
     
     // Registering and adding scopes. TODO : Check if this is correct?
@@ -123,8 +132,6 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 });
 
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
-    console.log("Location controller PRINTING CACHE");
-    cache.print();
     // TODO Register User, dit geeft een reference naar locations.
     $rootScope.auth_user.addLiveScope($scope, "Location");
     ws.request({ "type": "register",
@@ -134,9 +141,11 @@ angular.module("overwatch").controller("location_controller", function($scope, $
           }
         }, function() {}, $scope);
     
-    $scope.$on("$destroy", function() {
+  /*  $scope.$on("$destroy", function() {
         cache.removeScope($scope);
-    });
+    });*/
+    
+   // $scope.houses = [];
     
     // Update:
     $scope.update = function() {
@@ -154,9 +163,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
         $scope.$apply();
     }
     
-    $scope.houses = [];
-
-    ws.request({
+   /* ws.request({
         type: "get_all",
         what: "Location",
         for: {
@@ -166,7 +173,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     }, function(response) {
         $scope.houses = response.objects;
         $scope.$apply();
-    }, $scope);
+    }, $scope);*/
     var delete_id = null;
     var delete_from = null;
     $scope.delete_loc = function(id, from) {
@@ -221,9 +228,11 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 })
 
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
-    $scope.$on("$destroy", function() {
+  //$scope.houses = [];
+  $scope.sensors = [];
+    /*$scope.$on("$destroy", function() {
     		cache.removeScope($scope);
-    });   
+    });*/   
     var delete_id = null;
     var delete_from = null;
     $scope.delete_sen = function(id, from) {
@@ -233,9 +242,39 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
         delete_id = id;
         delete_from = from;
     };  
-    $scope.houses = [];
 
-    ws.request({
+        $rootScope.auth_user.addLiveScope($scope, "Sensor");
+    ws.request({ "type": "register",
+        "what": "User",
+        "data": {
+          "UID": $rootScope.auth_user.UID
+          }
+        }, function() {}, $scope);
+    
+  /*  $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });*/
+    
+   // $scope.houses = [];
+    
+    // Update:
+    $scope.update = function() {
+        ws.request({
+            type: "get_all",
+            what: "Sensor",
+            for: {
+                what: "User",
+                UID: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.sensors = response.objects;
+            $scope.$apply();
+        }, $scope);
+        $scope.$apply();
+    }
+    
+    
+    /*ws.request({
         type: "get_all",
         what: "Location",
         for: {
@@ -245,7 +284,9 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
     }, function(response) {
         $scope.houses = response.objects;
         $scope.$apply();
-    }, $scope);
+    }, $scope);*/
+    
+    
 $scope.add_autocomplete = function(tag) {};
 
     $scope.check_autocomplete = function($query) {
@@ -257,7 +298,6 @@ $scope.add_autocomplete = function(tag) {};
         }
 
     // Fill all the $scope arrays using the database.
-    $scope.sensors = [];
 
     ws.request({
         type: "get_all",
@@ -446,9 +486,25 @@ $scope.add_autocomplete = function(tag) {};
 });
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
-    $scope.$on("$destroy", function() {
+      $scope.update = function() {
+        $scope.$parent.update();
+    }
+    
+    // Registering and adding scopes. TODO : Check if this is correct?
+    
+    $scope.sensor.addLiveScope($scope, "None");
+    ws.request({ "type": "register",
+        "what": "Sensor",
+        "data": {
+          "SID": $scope.sensor.SID
+          }
+        }, function() {}, $scope);
+    
+  
+  
+   /* $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
-    });
+    });*/
     $scope.open_dialog = function() {
         var element;
         if ($scope.houses.length === 0) {

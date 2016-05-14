@@ -24,25 +24,34 @@ var cache = {
 	getObject: function(type, key, data, scope) {
         if (!this[type][key]) {
             var object = getFilledObject(type, data);
-            this.addObjectScope(object, scope);
+            //this.addObjectScope(object, scope);
             this[type][key] = object;
         }
         else {
             this[type][key].fill(data);
+            /*
             if (scope) 
                 this.addObjectScope(this[type][key], scope);
+            */
         }
         return this[type][key];
 	},
 
 	removeObject: function(type, key) {
         var object = this[type][key];
-        object._scopes.forEach(function f(scope) { 
-            delete this[scope].delete(object);
-        });
-        delete this[type][key];
+        if (object) {
+            /*
+            object._scopes.forEach(function f(scope) { 
+                delete this[scope].delete(object);
+            });
+            */
+            delete this[type][key];
+        }
 	},
 
+    removeScope: function() {},
+
+/*
     addObjectScope: function(object, scope) {
         object._scopes.add(scope);
         if (!this[scope]) {
@@ -53,7 +62,8 @@ var cache = {
     },
 
     removeScope: function(scope) {
-        if (this[scope])
+        console.log("Removing scope");
+        if (this[scope] && scope)
             this[scope].forEach(function f(object) { 
                 if (object) { 
                     object.removeLiveScope(scope);
@@ -79,6 +89,7 @@ var cache = {
 		    }
             console.log("%c Cache: " + JSON.stringify(tmp), 'color: #21610B');
     }
+*/
 }; 
 
 function connect_to_websocket() {
@@ -234,20 +245,20 @@ function unregister_response(response) {}
 
 function live_add_ref_response(response) {
     var to = response["to"];
-    var type = to["what"];
     var from = response["from"];
-    object = cache[type][getKey(type, to)];
+    var type = from["what"];
+    object = cache[type][getKey(type, from)];
     if (object)
-        object.updateLiveScopes(from["what"]);
+        object.updateLiveScopes(to["what"]);
 }
 
 function live_remove_ref_response(response) {
     var to = response["to"];
-    var type = to["what"];
     var from = response["from"];
-    var object = cache[type][getKey(type, to)];
+    var type = from["what"];
+    object = cache[type][getKey(type, from)];
     if (object)
-        object.updateLiveScopes(from["what"]);
+        object.updateLiveScopes(to["what"]);
 }
 
 function live_edit_response(response) {
@@ -262,6 +273,9 @@ function live_edit_response(response) {
 function live_delete_response(response) {
     var type = response["what"];
     var key = getKey(type, response["data"]);
+    console.log("Live delete response");
+    console.log("Type: " + type);
+    console.log("Key: " + key);
     var object = cache[type][key];
     if (object)
         object.updateLiveScopes("None");
