@@ -57,7 +57,7 @@ sensor_props = {p.name: p for p in Sensor._props if p.json}
 #   c = EUR_per_unit
 # The value we actually send to the frontend as being the actual value will then be:
 #   (d * c/3600) * v
-# Pretty simple but it may depend on each value, so good luck with the subquery shit.
+# Pretty simple but it may depend on each value, so good luck with the subquery stuff.
 
 # Anyway, eventually we should get our values which this time are actually the amount
 # of EURs that we had to spend during that period.
@@ -81,6 +81,7 @@ class Graph(OwEntity):
     
     # TO BE FILLED:
     lines = []
+    wheres = []
     cls = None
 
     filled = False
@@ -89,6 +90,7 @@ class Graph(OwEntity):
         # Tactic: divide all graphs further and further
         # Each list is a limitation aka Where object that filters sensors
         self.cls, _ = value_props_per_type[self.timespan_valuetype]
+        self.wheres = base_wheres
         wheres_list = [base_wheres]  # To start, one graph with the basic wheres
         for g in group_by:
             extra_wheres = []
@@ -146,6 +148,7 @@ class Graph(OwEntity):
         if not self.filled:
             self.cls, _ = value_props_per_type[self.timespan_valuetype]
             self.lines = await Line.get(Line.graph == self.key).all(db)
+            self.wheres = 
             for l in self.lines:
                 await l.fill(db)
             self.filled = True
@@ -166,8 +169,47 @@ class Graph(OwEntity):
             }
         }
 
-
-
+# Following the same convention as other names, this simply means that Graph may contain
+# a list of objects like these
+class WhereInGraph(OwEntity):
+    op_type = Enum("lt", "le", "gt", "ge", "eq", "in")
+    
+    key = WIGID = KeyProperty()
+    field = Property(str)
+    op = Property(op_type)
+    
+    value_str = Property(str, required=False)
+    value_int = Property(int, required=False)
+    value_float = Property(float, required=False)
+    
+    @property
+    def value(self):
+        return self.value_str or self.value_int or self.value_float
+    
+    @value.setter
+    def value(self, val):
+        if isinstance(val, int):
+            self.value_int = val
+            self.value_float = None
+            self.value_str = None
+        elif isinstance(val, float):
+            self.value_int = None
+            self.value_float = val
+            self.value_str = None
+        else:
+            self.value_int = None
+            self.value_float = None
+            self.value_str = str(val)    
+    
+    def json_repr(self):
+        return {
+            "field": self.field,
+            "op": self.op,
+            "value": self.value,
+        }
+    
+    def create_sql(self):
+        
 
 class Line(OwEntity):
     # grouped_by = TODO
@@ -264,73 +306,3 @@ class DataInLine(OwEntity):
     value = Property(float)
     key = Key(line, time)
 
-
-"""
-# Graph definition
-{
-    "GID": "temp123", # voor temporary graphs als resultaat van een create_graph
-    OF "GID": 123,	# voor echt opgeslagen graphs
-
-    # metadata zoals in request van create_graph
-    "timespan": ...
-    "group_by": ...
-    "where": ...
-
-    # Each object here represents one line in the graph
-    "lines": [
-        {
-        # Use grouped_by to create a fitting title for the line
-        "grouped_by": [{
-            "what": "Location",
-            "LID": 1
-        }, {
-            "what": "Type",
-            "ID": "Electricity"
-        }],
-        # This may be a single sensor, but at least one
-        "sensors": [1,45,23,789],
-        "values":  [
-                # Values of average of ALL SENSORS IN THE "sensors" ATTRIBUTE ABOVE
-                [13245647, 12.2],
-                [13245648, 12.3],
-                ...
-        ],
-        }, {
-        # Similar as above.
-        # The logic is that for each line you want, you get an object like this
-        }
-    ]
-}
-
-Request
-{
-	"type": "create_graph",
-	"group_by": [ {
-		"what": "Location"
-		"IDs": [1,2,3,4,5,6]
-    }, {
-		"what": "Type",
-		"IDs": ["Electricity", "Gas", "Water"],
-    }, {
-      	"what": "Tag",
-      	"IDs": ["keuken", "test"]
-    }, {
-      	"what": "Sensor",
-      	"IDs": [2,3,4,4]
-    },  {
-      	"what": "Eur_per_Unit",
-      	"IDs": [5,20,35,10]
-    }],
-    "where": [{  # filter on SENSORS!!
-        "field": "SID",
-        "op": "in"
-        "value": [1,2,3,4,5,6],
-    }],
-	"timespan": {
-        "valueType": "DayValue",
-    	"start": 15555555,
-    	"end": 155566666
-  	}
-}
-
-"""
