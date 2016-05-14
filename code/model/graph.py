@@ -148,7 +148,7 @@ class Graph(OwEntity):
         if not self.filled:
             self.cls, _ = value_props_per_type[self.timespan_valuetype]
             self.lines = await Line.get(Line.graph == self.key).all(db)
-            self.wheres = 
+            #self.wheres = 
             for l in self.lines:
                 await l.fill(db)
             self.filled = True
@@ -209,6 +209,7 @@ class WhereInGraph(OwEntity):
         }
     
     def create_sql(self):
+        pass
         
 
 class Line(OwEntity):
