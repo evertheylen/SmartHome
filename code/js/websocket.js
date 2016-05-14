@@ -24,13 +24,15 @@ var cache = {
 	getObject: function(type, key, data, scope) {
         if (!this[type][key]) {
             var object = getFilledObject(type, data);
-            this.addObjectScope(object, scope);
+            //this.addObjectScope(object, scope);
             this[type][key] = object;
         }
         else {
             this[type][key].fill(data);
+            /*
             if (scope) 
                 this.addObjectScope(this[type][key], scope);
+            */
         }
         return this[type][key];
 	},
@@ -38,13 +40,18 @@ var cache = {
 	removeObject: function(type, key) {
         var object = this[type][key];
         if (object) {
+            /*
             object._scopes.forEach(function f(scope) { 
                 delete this[scope].delete(object);
             });
+            */
             delete this[type][key];
         }
 	},
 
+    removeScope: function() {},
+
+/*
     addObjectScope: function(object, scope) {
         object._scopes.add(scope);
         if (!this[scope]) {
@@ -55,6 +62,7 @@ var cache = {
     },
 
     removeScope: function(scope) {
+        console.log("Removing scope");
         if (this[scope] && scope)
             this[scope].forEach(function f(object) { 
                 if (object) { 
@@ -81,6 +89,7 @@ var cache = {
 		    }
             console.log("%c Cache: " + JSON.stringify(tmp), 'color: #21610B');
     }
+*/
 }; 
 
 function connect_to_websocket() {
