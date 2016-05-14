@@ -11,8 +11,8 @@ class Sensor(RTOwEntity):
     key = SID = KeyProperty()
     type = Property(type_type)
     title = Property(str)
-    user = Reference(User)
-    location = Reference(Location)
+    user = RTReference(User)
+    location = RTReference(Location)
     EUR_per_unit = Property(float)
     
     # The last value this sensor had
