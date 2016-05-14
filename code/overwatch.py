@@ -152,7 +152,7 @@ class OverWatch:
                 (r"/ws", handlers.create_WsHandler(self.controller, config["debug"])),
                 (r"/debug", handlers.create_DebugHandler(self.controller)),
                 (r"/upload", handlers.create_UploadHandler(self.controller)),
-                (r"/getconfig", handlers.create_GetConfigHandler(self.controller)),
+                (r"/download_config/(.*)", handlers.create_GetConfigHandler(self.controller)),
                 (r"/(.*)", handlers.create_MainHandler(self.controller)),
             ],
             **tornado_app_settings
