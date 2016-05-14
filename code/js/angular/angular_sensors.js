@@ -75,7 +75,7 @@ angular.module("overwatch").controller("location_objController", function($scope
         "data": {
           "LID": $scope.house.LID
           }
-        }, function() {}, $scope);*/
+        }, function() {}, $scope, true);*/
     
     $scope.open_dialog = function() {
         var element = document.getElementById("dlgLocation");
