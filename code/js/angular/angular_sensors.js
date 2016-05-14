@@ -496,7 +496,7 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
     ws.request({ "type": "register",
         "what": "Sensor",
         "data": {
-          "LID": $scope.sensor.SID
+          "SID": $scope.sensor.SID
           }
         }, function() {}, $scope);
     
