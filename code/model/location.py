@@ -15,7 +15,7 @@ class Location(RTOwEntity):
     postalcode = Property(int)
     country = Property(str, constraint=lambda d: len(d) <= 100)
     
-    user = Reference(User)
+    user = RTReference(User)
     
     def is_authorized(self, type, usr, **kwargs):
         return usr.key == self.user
