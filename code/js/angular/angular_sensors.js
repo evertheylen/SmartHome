@@ -243,6 +243,37 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
         delete_from = from;
     };  
 
+        $rootScope.auth_user.addLiveScope($scope, "Sensor");
+    ws.request({ "type": "register",
+        "what": "User",
+        "data": {
+          "UID": $rootScope.auth_user.UID
+          }
+        }, function() {}, $scope);
+    
+    $scope.$on("$destroy", function() {
+        cache.removeScope($scope);
+    });
+    
+   // $scope.houses = [];
+    
+    // Update:
+    $scope.update = function() {
+        ws.request({
+            type: "get_all",
+            what: "Sensor",
+            for: {
+                what: "User",
+                UID: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.sensors = response.objects;
+            $scope.$apply();
+        }, $scope);
+        $scope.$apply();
+    }
+    
+    
     /*ws.request({
         type: "get_all",
         what: "Location",
@@ -254,6 +285,8 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
         $scope.houses = response.objects;
         $scope.$apply();
     }, $scope);*/
+    
+    
 $scope.add_autocomplete = function(tag) {};
 
     $scope.check_autocomplete = function($query) {
@@ -453,6 +486,22 @@ $scope.add_autocomplete = function(tag) {};
 });
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
+      $scope.update = function() {
+        $scope.$parent.update();
+    }
+    
+    // Registering and adding scopes. TODO : Check if this is correct?
+    
+    $scope.house.addLiveScope($scope, "None");
+    ws.request({ "type": "register",
+        "what": "Sensor",
+        "data": {
+          "LID": $scope.sensor.SID
+          }
+        }, function() {}, $scope);
+    
+  
+  
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
     });
