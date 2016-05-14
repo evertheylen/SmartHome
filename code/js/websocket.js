@@ -250,12 +250,6 @@ function live_remove_ref_response(response) {
         object.updateLiveScopes(from["what"]);
 }
 
-	{
-		"type": "live_edit",
-		"what": "<class name>",
-		"data": <entire definition with ID of object>
-	}
-
 function live_edit_response(response) {
     var type = response["what"];
     var data = response["data"];
