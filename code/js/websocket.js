@@ -74,7 +74,7 @@ var cache = {
 		    var tmp = {};
 		    for (var key in this) {
 			    if(typeof this[key] !== 'function' && key[0] != "_") {
-				    tmp[key] = this[key].size;
+				    tmp[key] = this[key];
 			    }
 		    }
             console.log("%c Cache: " + JSON.stringify(tmp), 'color: #21610B');
@@ -252,7 +252,8 @@ function live_remove_ref_response(response) {
 
 function live_edit_response(response) {
     var type = response["what"];
-    var key = getKey(type, response["data"]);
+    var data = response["data"];
+    var key = getKey(type, data);
     var object = cache.getObject(type, key, data);
     if (object)
         object.updateLiveScopes("None");
