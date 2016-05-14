@@ -75,7 +75,7 @@ angular.module("overwatch").controller("location_objController", function($scope
     
     $scope.house.addLiveScope($scope, "None");
     ws.request({ "type": "register",
-        "what": "User",
+        "what": "Location",
         "data": {
           "LID": $scope.house.LID
           }
