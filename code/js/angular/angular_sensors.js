@@ -26,11 +26,11 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         }
     }, function(response) {
         $scope.sensors = response.objects;
-        updateFilteredSensors();
+        $scope.updateFilteredSensors();
         $scope.$apply();
     }, $scope);
     
-    updateFilteredSensors = function() {
+    $scope.updateFilteredSensors = function() {
         var begin = (($scope.currentPage - 1) * $scope.numPerPage),
             end = begin + $scope.numPerPage;
         if ($scope.sensors.length - 1 < $scope.numPerPage * ($scope.maxSize - 1)) {
@@ -318,7 +318,7 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
                 $scope.tags.push(temp_tags[i]);
         }
         */
-        updateFilteredSensors();
+        $scope.updateFilteredSensors();
         $scope.$apply();
     }, $scope);
     }
@@ -358,7 +358,7 @@ $scope.add_autocomplete = function(tag) {};
         }
     }, function(response) {
         $scope.sensors = response.objects;
-        updateFilteredSensors();
+        $scope.updateFilteredSensors();
         $scope.$apply();
     }, $scope);*/
 
@@ -383,7 +383,7 @@ $scope.add_autocomplete = function(tag) {};
                 $scope.tags.push(temp_tags[i]);
         }
         */
-        updateFilteredSensors();
+        $scope.updateFilteredSensors();
         $scope.$apply();
     }, $scope);
 
@@ -485,7 +485,7 @@ $scope.add_autocomplete = function(tag) {};
                             SID: delete_sensor_SID
                         }
                     }, function(success) {
-                        updateFilteredSensors();
+                        $scope.updateFilteredSensors();
                         $scope.$apply();
                     });
                     cache.removeObject("Sensor", delete_sensor_SID);
@@ -770,7 +770,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                         if ($scope.sensors[i].SID === response.SID) {
                             $scope.sensors[i] = response;
                             $scope.sen_scope.get_tags();
-                            updateFilteredSensors();
+                            $scope.updateFilteredSensors();
                             $scope.$apply();
                         }
                     }
@@ -806,7 +806,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                         });
                     }
                     $scope.sensors.push(new_sensor);
-                    updateFilteredSensors();
+                    $scope.updateFilteredSensors();
                     $scope.$apply();
                 }, $scope);
             }
