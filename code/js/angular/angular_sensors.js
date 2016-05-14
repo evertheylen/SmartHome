@@ -3,9 +3,6 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     		cache.removeScope($scope);
     });
     
-    $scope.houses = [];
-    $scope.sensors = [];
-    
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "sensorslink";
