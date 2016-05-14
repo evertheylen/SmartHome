@@ -12,9 +12,7 @@ class Membership(RTOwEntity):
     status = Property(status_type)
     user = RTReference(User)
     group = RTReference(Group)
-    last_change = Property(int, constraint=lambda c: c < round(time()) + 30)
-    # Max 30 seconds in the future.
-    # Should be set on every update of status
+    last_change = Property(int)
     
     key = Key(user, group)
     
