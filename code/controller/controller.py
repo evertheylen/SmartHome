@@ -675,7 +675,7 @@ class Controller(metaclass=MetaController):
     @require_user_level(1)
     async def handle_registers(self, req):
         cls = self.model.classdict[req.metadata["what"]]
-        key = [req.data[k.name] for k in cls.key.referencing_props()]
+        key = [req.data[k.dataname] for k in cls.key.referencing_props()]
         key = key[0] if len(key) == 1 else tuple(key)
         obj = await cls.find_by_key(key, self.db)
         await obj.check_auth(req, db=self.db)

@@ -218,11 +218,11 @@ Message:
 			"what": "User",
 			"UID": "123",
 		}
-		"where": {
+		"where": [{
 			"field": "Value.data",
 			"op": "gt" //Greater than,lower than etc...,
 			"value": "...",
-		}
+		}, ...]
 	}
 
 Response:

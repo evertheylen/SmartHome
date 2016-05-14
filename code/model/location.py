@@ -17,5 +17,5 @@ class Location(RTOwEntity):
     
     user = Reference(User)
     
-    def is_authorized(self, type, usr):
+    def is_authorized(self, type, usr, **kwargs):
         return usr.key == self.user
