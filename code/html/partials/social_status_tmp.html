@@ -30,7 +30,7 @@
 		<div ng-click="console.log(status.graph)">
 			<canvas id="line-{{status.SID}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
 		</div>
-		<div class="mdl-card__supporting-text" ng-bind="status.text">
+		<div class="mdl-card__supporting-text" ng-bind="status.graph">
 		</div>
 		<div class="mdl-card__actions mdl-card--border">
 			<a id="likes_click-{{status.SID}}" class="notClicked" ng-click="add('likes');"><i class="material-icons md-15 clickable">thumb_up</i> {{likes}}</a>
