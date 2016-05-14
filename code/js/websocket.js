@@ -236,20 +236,20 @@ function unregister_response(response) {}
 
 function live_add_ref_response(response) {
     var to = response["to"];
-    var type = to["what"];
     var from = response["from"];
-    object = cache[type][getKey(type, to)];
+    var type = from["what"];
+    object = cache[type][getKey(type, from)];
     if (object)
-        object.updateLiveScopes(from["what"]);
+        object.updateLiveScopes(to["what"]);
 }
 
 function live_remove_ref_response(response) {
     var to = response["to"];
-    var type = to["what"];
     var from = response["from"];
-    var object = cache[type][getKey(type, to)];
+    var type = from["what"];
+    object = cache[type][getKey(type, from)];
     if (object)
-        object.updateLiveScopes(from["what"]);
+        object.updateLiveScopes(to["what"]);
 }
 
 function live_edit_response(response) {
