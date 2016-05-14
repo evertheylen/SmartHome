@@ -71,10 +71,8 @@ var cache = {
     },
 
     print: function() {
-            console.log("Printing cache");
 		    var tmp = {};
 		    for (var key in this) {
-                console.log("Key: " + key);
 			    if(typeof this[key] !== 'function' && key[0] != "_") {
 				    tmp[key] = this[key];
 			    }
