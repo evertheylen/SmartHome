@@ -318,28 +318,28 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
             $scope.$apply();
         }, $scope);
         $scope.$apply();
-            ws.request({
-        type: "get_all",
-        what: "Tag"
-    }, function(response) {
-        $scope.tags = response.objects;
-        /*
-        var temp_tags = response.objects;
-        for (var i = 0; i < temp_tags.length; i++) {
-            var exists = false;
-            for (j = 0; j < $scope.tags.length; j++) {
-                if (temp_tags[i].text == $scope.tags[j].text) {
-                    exists = true;
-                    break;
+        ws.request({
+            type: "get_all",
+            what: "Tag"
+        }, function(response) {
+            $scope.tags = response.objects;
+            /*
+            var temp_tags = response.objects;
+            for (var i = 0; i < temp_tags.length; i++) {
+                var exists = false;
+                for (j = 0; j < $scope.tags.length; j++) {
+                    if (temp_tags[i].text == $scope.tags[j].text) {
+                        exists = true;
+                        break;
+                    }
                 }
+                if (!exists)
+                    $scope.tags.push(temp_tags[i]);
             }
-            if (!exists)
-                $scope.tags.push(temp_tags[i]);
-        }
-        */
-        $scope.updateFilteredSensors();
-        $scope.$apply();
-    }, $scope);
+            */
+            $scope.updateFilteredSensors();
+            $scope.$apply();
+        }, $scope);
     }
     
     
@@ -542,6 +542,7 @@ $scope.add_autocomplete = function(tag) {};
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
       $scope.update = function() {
+        $scope.get_tags();
         $scope.$parent.update();
     }
     
