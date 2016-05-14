@@ -2,6 +2,10 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
     });
+    
+    $scope.houses = [];
+    $scope.sensors = [];
+    
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "sensorslink";
@@ -148,8 +152,6 @@ angular.module("overwatch").controller("location_controller", function($scope, $
         $scope.$apply();
     }
     
-    $scope.houses = [];
-
     ws.request({
         type: "get_all",
         what: "Location",
@@ -227,7 +229,6 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
         delete_id = id;
         delete_from = from;
     };  
-    $scope.houses = [];
 
     ws.request({
         type: "get_all",
@@ -251,7 +252,6 @@ $scope.add_autocomplete = function(tag) {};
         }
 
     // Fill all the $scope arrays using the database.
-    $scope.sensors = [];
 
     ws.request({
         type: "get_all",
