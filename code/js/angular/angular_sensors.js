@@ -99,9 +99,16 @@ angular.module("overwatch").controller("location_objController", function($scope
     // Elke scope heeft een attribuut  : scope.update = function () {nodige get_alls};
     
     // Elke keer ik uit een scope ga: cache.removeScope(scope) via $destroy();
-  /*  $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
-    });*/
+    $scope.$on("$destroy", function() {
+        ws.request({ "type": "unregister",
+        "what": "Location",
+        "data": {
+          "LID": $scope.house.LID
+          }
+        }, function() {}, $scope);
+        $scope.location.removeLiveScope($scope)
+    });
+    
     
     // Update:
     $scope.update = function() {
@@ -169,9 +176,15 @@ angular.module("overwatch").controller("location_controller", function($scope, $
           }
         }, function() {}, $scope);
     
-  /*  $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
-    });*/
+    $scope.$on("$destroy", function() {
+      ws.request({ "type": "unregister",
+          "what": "User",
+          "data": {
+            "UID": $rootScope.auth_user.UID
+            }
+          }, function() {}, $scope);
+      $rootScope.auth_user.removeLiveScope($scope);
+    });
     
    // $scope.houses = [];
     
@@ -270,9 +283,15 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
     };
   //$scope.houses = [];
   //$scope.sensors = [];
-    /*$scope.$on("$destroy", function() {
-    		cache.removeScope($scope);
-    });*/   
+    $scope.$on("$destroy", function() {
+      ws.request({ "type": "unregister",
+          "what": "User",
+          "data": {
+            "UID": $rootScope.auth_user.UID
+            }
+          }, function() {}, $scope);
+      $rootScope.auth_user.removeLiveScope($scope);
+    });  
     var delete_id = null;
     var delete_from = null;
     $scope.delete_sen = function(id, from) {
@@ -550,9 +569,15 @@ angular.module("overwatch").controller("sensor_objController", function($scope, 
     
   
   
-   /* $scope.$on("$destroy", function() {
-    		cache.removeScope($scope);
-    });*/
+    $scope.$on("$destroy", function() {
+      ws.request({ "type": "unregister",
+          "what": "Sensor",
+          "data": {
+            "SID": $scope.sensor.SID
+            }
+          }, function() {}, $scope);
+      $scope.sensor.removeLiveScope($scope);
+    });
     $scope.open_dialog = function() {
         var element;
         if ($scope.houses.length === 0) {
