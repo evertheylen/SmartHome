@@ -68,19 +68,27 @@ var cache = {
                 }            
             });
         delete this[scope];
+    },
+
+    print: function() {
+		    var tmp = {};
+		    for (var key in this) {
+			    if(typeof this[key] !== 'function' && key[0] != "_") {
+				    tmp[key] = this[key].size;
+			    }
+		    }
+            console.log("%c Cache: " + JSON.stringify(tmp), 'color: #21610B');
     }
 }; 
 
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 
-	websocket.request = function (requestObject, f, scope, register) {
+	websocket.request = function (requestObject, f, scope) {
 		// Data can be any object literal or prototype with the toJSON method.
-        if (!register) {
-		    answers[currentId] = {func: f, scope: scope};
-		    requestObject.ID = currentId;
-		    currentId++;
-        }
+	    answers[currentId] = {func: f, scope: scope};
+	    requestObject.ID = currentId;
+	    currentId++;
 		var stringToSend = JSON.stringify(requestObject);
 		if(websocket.readyState == 1) {
 			// Send the request to the server.
