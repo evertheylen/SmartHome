@@ -1,0 +1,12 @@
+[
+	{
+		"lights_house": 1,
+		"lights_irradiance": 24,
+		"appliances": [
+			"Dish washer [6]"
+		],
+		"lights_id": -1,
+		"no_residents": 4,
+		"id_household": 4
+	}
+]
