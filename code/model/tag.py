@@ -12,7 +12,7 @@ class Tag(RTOwEntity):
         return s.user == usr.key
 
     def json_repr(self):
-        return_value = {}
-        return_value["TID"] = self.TID
-        return_value["text"] = self.description
-        return return_value
+        return {
+            "TID": self.TID,
+            "text": self.description
+        }
