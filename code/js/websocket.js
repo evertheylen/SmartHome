@@ -49,6 +49,8 @@ var cache = {
         }
 	},
 
+    removeScope: function() {},
+
 /*
     addObjectScope: function(object, scope) {
         object._scopes.add(scope);
