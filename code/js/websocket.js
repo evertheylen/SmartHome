@@ -87,13 +87,11 @@ var cache = {
 function connect_to_websocket() {
 	websocket = new WebSocket("ws://" + window.location.host + "/ws");
 
-	websocket.request = function (requestObject, f, scope, register) {
+	websocket.request = function (requestObject, f, scope) {
 		// Data can be any object literal or prototype with the toJSON method.
-        if (!register) {
-		    answers[currentId] = {func: f, scope: scope};
-		    requestObject.ID = currentId;
-		    currentId++;
-        }
+	    answers[currentId] = {func: f, scope: scope};
+	    requestObject.ID = currentId;
+	    currentId++;
 		var stringToSend = JSON.stringify(requestObject);
 		if(websocket.readyState == 1) {
 			// Send the request to the server.
