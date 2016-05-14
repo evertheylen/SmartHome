@@ -69,6 +69,17 @@ var cache = {
             });
         delete this[scope];
     }
+
+    print: function() {
+		    var tmp = {};
+		    for (var key in this) {
+			    if(typeof this[key] !== 'function' && key[0] != "_") {
+				    tmp[key] = this[key];
+			    }
+		    }
+
+            console.log("%c Cache: " + JSON.stringify(tmp), 'color: #00FF00');
+    }
 }; 
 
 function connect_to_websocket() {

@@ -1,4 +1,5 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup, dlgSensor_setup, $q, $state) {
+    cache.print();
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
     });
@@ -50,6 +51,8 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
  * that handles all operation on this object.
 */ 
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
+    console.log("Location objController");
+    cache.print;
     // Todo register Location, dit zorgt voor edit updates.
     // user.addLiveScope(scope, "Location"); reference location
     // user.addLiveScope(scope, "none"); no reference -> all scope.
@@ -119,6 +122,8 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 });
 
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
+    console.log("Location controller");
+    cache.print;
     // TODO Register User, dit geeft een reference naar locations.
     $rootScope.auth_user.addLiveScope($scope, "Location");
     /*ws.request({ "type": "register",
