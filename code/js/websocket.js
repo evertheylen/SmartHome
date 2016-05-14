@@ -68,7 +68,7 @@ var cache = {
                 }            
             });
         delete this[scope];
-    }
+    },
 
     print: function() {
 		    var tmp = {};
