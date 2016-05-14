@@ -284,12 +284,6 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
   //$scope.houses = [];
   //$scope.sensors = [];
     $scope.$on("$destroy", function() {
-      ws.request({ "type": "unregister",
-          "what": "User",
-          "data": {
-            "UID": $rootScope.auth_user.UID
-            }
-          }, function() {}, $scope);
       $rootScope.auth_user.removeLiveScope($scope);
     });  
     var delete_id = null;
@@ -303,12 +297,6 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
     };  
 
         $rootScope.auth_user.addLiveScope($scope, "Sensor");
-    ws.request({ "type": "register",
-        "what": "User",
-        "data": {
-          "UID": $rootScope.auth_user.UID
-          }
-        }, function() {}, $scope);
     
   /*  $scope.$on("$destroy", function() {
         cache.removeScope($scope);
