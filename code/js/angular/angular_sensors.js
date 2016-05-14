@@ -3,6 +3,18 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
     		cache.removeScope($scope);
     });
     
+    $scope.houses= [];
+            ws.request({
+            type: "get_all",
+            what: "Location",
+            for: {
+                what: "User",
+                UID: $rootScope.auth_user.UID
+            }
+        }, function(response) {
+            $scope.houses = response.objects;
+            $scope.$apply();
+        }, $scope);
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "sensorslink";
@@ -133,7 +145,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
         cache.removeScope($scope);
     });
     
-    $scope.houses = [];
+   // $scope.houses = [];
     
     // Update:
     $scope.update = function() {
@@ -151,7 +163,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
         $scope.$apply();
     }
     
-    ws.request({
+   /* ws.request({
         type: "get_all",
         what: "Location",
         for: {
@@ -161,7 +173,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     }, function(response) {
         $scope.houses = response.objects;
         $scope.$apply();
-    }, $scope);
+    }, $scope);*/
     var delete_id = null;
     var delete_from = null;
     $scope.delete_loc = function(id, from) {
@@ -216,7 +228,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 })
 
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
-  $scope.houses = [];
+  //$scope.houses = [];
   $scope.sensors = [];
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
@@ -231,7 +243,7 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
         delete_from = from;
     };  
 
-    ws.request({
+    /*ws.request({
         type: "get_all",
         what: "Location",
         for: {
@@ -241,7 +253,7 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
     }, function(response) {
         $scope.houses = response.objects;
         $scope.$apply();
-    }, $scope);
+    }, $scope);*/
 $scope.add_autocomplete = function(tag) {};
 
     $scope.check_autocomplete = function($query) {
