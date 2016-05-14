@@ -129,9 +129,9 @@ class Graph(OwEntity):
             sensors = await Sensor.get(*actual_wheres).all(db)
             IDs = [s.SID for s in sensors]
             # TODO give more metadata
-            line = Line(graph=self.key)
+            line = Line(graph=self.key, sensors=IDs)
             line.grouped_by = [w for w in wheres if isinstance(w, GroupedByInLine)]
-            await line.build(IDs, self, db)
+            await line.build(self, db)
             self.lines.append(line)
 
         self.filled = True
@@ -216,16 +216,15 @@ class Line(OwEntity):
     # grouped_by = TODO
     key = LID = KeyProperty()
     graph = Reference(Graph)
+    sensors = Property(List(int))
 
     # TO BE FILLED
     values = []  # tuples (value, time)
-    sensors = [] # simple ID's
     grouped_by = []
     
     filled = False
 
-    async def build(self, sensors, graph, db):
-        self.sensors = sensors
+    async def build(self, graph, db):
         if len(self.sensors) == 0:
             self.values = []
         else:
@@ -241,8 +240,6 @@ class Line(OwEntity):
         await self.insert(db)
         for v in self.values:
             await DataInLine(line=self.key, time=v[1], value=v[0]).insert(db)
-        for s in self.sensors:
-            await SensorsInLine(line=self.key, sensor=s).insert(db)
         for gb in self.grouped_by:
             gb.line = self.key
             await gb.insert(db)
@@ -251,8 +248,6 @@ class Line(OwEntity):
         if not self.filled:
             data = await DataInLine.get(DataInLine.line == self.key).all(db)
             self.values = [(d.value, d.time) for d in data]
-            sil = await SensorsInLine.get(SensorsInLine.line == self.key).all(db)
-            self.sensors = [s.sensor_SID for s in sil]
             self.grouped_by = await GroupedByInLine.get(GroupedByInLine.line == self.key).all(db)
             self.filled = True
 
@@ -294,11 +289,6 @@ def new_GroupedByInLine(line, what, ref_ID, actual_where):
     gb = GroupedByInLine(line=line, what=what, ref_ID=ref_ID)
     gb.actual_where = actual_where
     return gb
-
-class SensorsInLine(OwEntity):
-    sensor = Reference(Sensor)
-    line = Reference(Line)
-    key = Key(sensor, line)
 
 
 class DataInLine(OwEntity):
