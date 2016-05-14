@@ -63,9 +63,9 @@ angular.module("overwatch").controller("location_objController", function($scope
     });
     
     // Update:
-   /* $scope.update = function() {
+    $scope.update = function() {
         $scope.$apply();
-    }*/
+    }
     
     // Registering and adding scopes. TODO : Check if this is correct?
     
@@ -137,7 +137,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
     });
     
     // Update:
-    /*$scope.update = function() {
+    $scope.update = function() {
         ws.request({
             type: "get_all",
             what: "Location",
@@ -150,7 +150,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
             $scope.$apply();
         }, $scope);
         $scope.$apply();
-    }*/
+    }
     
     $scope.houses = [];
 
