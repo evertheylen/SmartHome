@@ -1,4 +1,5 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup, dlgSensor_setup, $q, $state) {
+    console.log("Sensor Controller PRINTING CACHE");
     cache.print();
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
