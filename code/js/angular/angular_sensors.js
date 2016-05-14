@@ -1,4 +1,5 @@
 angular.module("overwatch").controller("sensorController", function($scope, $rootScope, $filter, $timeout, Auth, dlgLocation_setup, dlgSensor_setup, $q, $state) {
+    console.log("Sensor Controller PRINTING CACHE");
     cache.print();
     $scope.$on("$destroy", function() {
     		cache.removeScope($scope);
@@ -123,7 +124,7 @@ angular.module("overwatch").factory('dlgSensor_setup', function($rootScope) {
 
 angular.module("overwatch").controller("location_controller", function($scope, $rootScope, dlgLocation_setup) {
     console.log("Location controller PRINTING CACHE");
-    cache.print;
+    cache.print();
     // TODO Register User, dit geeft een reference naar locations.
     $rootScope.auth_user.addLiveScope($scope, "Location");
     ws.request({ "type": "register",
