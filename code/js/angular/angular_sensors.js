@@ -76,8 +76,8 @@ angular.module("overwatch").controller("location_objController", function($scope
     });
     
     // Update:
-    $scope.update = function() 
-      $scope.$parent.update();
+    $scope.update = function() {
+        $scope.$parent.update();
         $scope.$apply();
     }
     
