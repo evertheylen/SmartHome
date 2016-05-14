@@ -74,10 +74,9 @@ var cache = {
 		    var tmp = {};
 		    for (var key in this) {
 			    if(typeof this[key] !== 'function' && key[0] != "_") {
-				    tmp[key] = this[key];
+				    tmp[key] = this[key].size;
 			    }
 		    }
-
             console.log("%c Cache: " + JSON.stringify(tmp), 'color: #21610B');
     }
 }; 
