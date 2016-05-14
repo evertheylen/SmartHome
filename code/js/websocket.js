@@ -261,9 +261,14 @@ function live_edit_response(response) {
         object.updateLiveScopes("None");
 }
 
+{"what": "Location", "data": {"LID": 15}, "type": "live_delete"}
+
 function live_delete_response(response) {
     var type = response["what"];
     var key = getKey(type, response["data"]);
+    console.log("Live delete response");
+    console.log("Type: " + type);
+    console.log("Key: " + key);
     var object = cache[type][key];
     if (object)
         object.updateLiveScopes("None");

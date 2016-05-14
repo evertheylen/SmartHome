@@ -4,9 +4,11 @@ function DataType() {
 
     this.updateLiveScopes = function(type) { 
         this._liveScopes["None"].forEach(function(scope){
+            console.log("Updating scope with None");
             scope.update();
         });
         this._liveScopes[type].forEach(function(scope){
+            console.log("Updating scope with " + type);
             scope.update();
         });
     };
