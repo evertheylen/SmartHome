@@ -50,12 +50,12 @@
 					<div class="option" ng-bind="i18n('delete_comment')" ng-click="delete(comment.CID)" ng-show="auth_user.UID === comment.author_UID"></div>
 				</div>
 			</div>
-		</div>
-		<form action="#">
+					<form action="#">
 			<div class="mdl-textfield mdl-js-textfield" id="comment_parent-{{status.SID}}">
 				<input class="mdl-textfield__input" type="text" id="comment-{{status.SID}}" style="margin: 15px;" ng-model="new_comment" my-enter="push_comment();"></input>
 				<label class="mdl-textfield__label" for="comment-{{status.SID}}" style="margin: 15px;" ng-bind="i18n('comment_status')"></label>
 			</div>
 		</form>
+		</div>
 	</div>
 </div>
