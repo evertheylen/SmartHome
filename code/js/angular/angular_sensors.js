@@ -52,7 +52,7 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
 */ 
 angular.module("overwatch").controller("location_objController", function($scope, $rootScope, dlgLocation_setup) {
     console.log("Location objController");
-    cache.print;
+    cache.print();
     // Todo register Location, dit zorgt voor edit updates.
     // user.addLiveScope(scope, "Location"); reference location
     // user.addLiveScope(scope, "none"); no reference -> all scope.
