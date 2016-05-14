@@ -37,10 +37,12 @@ var cache = {
 
 	removeObject: function(type, key) {
         var object = this[type][key];
-        object._scopes.forEach(function f(scope) { 
-            delete this[scope].delete(object);
-        });
-        delete this[type][key];
+        if (object) {
+            object._scopes.forEach(function f(scope) { 
+                delete this[scope].delete(object);
+            });
+            delete this[type][key];
+        }
 	},
 
     addObjectScope: function(object, scope) {
@@ -53,7 +55,7 @@ var cache = {
     },
 
     removeScope: function(scope) {
-        if (this[scope])
+        if (this[scope] && scope)
             this[scope].forEach(function f(object) { 
                 if (object) { 
                     object.removeLiveScope(scope);
