@@ -1,5 +1,6 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout, $state) {
     $scope.$on("$destroy", function() {
+        console.log("Destructor");
         for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
             var graph = $scope.scatters[graphIndex];
             graph.data_type.removeLiveScope($scope);
