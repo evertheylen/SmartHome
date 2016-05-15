@@ -95,18 +95,18 @@ class SocialTab(OverWatchTest):
 
             # Friendship tests here
             # weird notation here (1,) ?
-            self.assertEqual(f.user1,(1,))
-            self.assertEqual(f.user2,(2,))
+            self.assertEqual(f.user1, 1)
+            self.assertEqual(f.user2, 2)
             # Make frienship between Anthony and Stijn
             await model.Friendship.make_friend(1,3,self.db)
             # Now deletes this latest Friendship
             await model.Friendship.unfriend(1,3,self.db)
 
             # Like tests here
-            self.assertEqual(like.status,(1,))
+            self.assertEqual(like.status,1)
 
             # Membership tests here
             self.assertEqual(mem.status, "MEMBER")
-            self.assertEqual(mem.user,(1,))
-            self.assertEqual(mem.group, (1,))
+            self.assertEqual(mem.user,1)
+            self.assertEqual(mem.group, 1)
 

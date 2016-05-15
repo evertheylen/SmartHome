@@ -437,7 +437,7 @@ First of all, you need to create a LiveGraph, similar to how a normal graph is c
 		}, ...],
 		"where": [{  # filter on SENSORS!!
 			"field": "SID",
-			"op": "in"
+			"op": "in",
 			"value": [1,2,3,4,5,6],
 		}],
 		"timespan": {
@@ -464,7 +464,7 @@ On to the definition:
 	{
 		"LGID": "temp123", # voor temporary graphs als resultaat van een create_live_graph
 		OR "LGID": 123,	# voor echt opgeslagen LiveGraphs
-	
+		
 		# metadata zoals in request van create_graph
 		"timespan": ...
 		"group_by": ...

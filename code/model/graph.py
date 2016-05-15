@@ -8,6 +8,8 @@ from .owentity import *
 from .sensor import Sensor
 from .value import *
 from .user import User
+from .tag import Tag
+from .location import Location
 
 # Dictionary to limit possible fields on which to filter in 'where' clause
 value_props_per_type = {}
@@ -16,6 +18,9 @@ for cls in Value, HourValue, DayValue, MonthValue, YearValue:
     value_props_per_type[cls.__name__] = (cls, value_props)
 
 sensor_props = {p.name: p for p in Sensor._props if p.json}
+location_props = {p.name: p for p in Location._props if p.json}
+user_props = {p.name: p for p in User._props if p.json}
+tag_props = {p.name: p for p in Tag._props if p.json}
 
 
 # How to implement convert_to_EUR?
@@ -74,11 +79,6 @@ class Graph(OwEntity):
 
     title = Property(str)
     
-    # Let's just save those as text and be done with it
-    where_text = Property(str)
-    
-    #convert_to_EUR = Property(bool)
-    
     # TO BE FILLED:
     lines = []
     wheres = []
@@ -87,35 +87,24 @@ class Graph(OwEntity):
     filled = False
 
     async def build(self, base_wheres, group_by, db):
+        # base_wheres is a list of WhereInGraphs
+        # group_by is still a dictionary
+        
         # Tactic: divide all graphs further and further
         # Each list is a limitation aka Where object that filters sensors
         self.cls, _ = value_props_per_type[self.timespan_valuetype]
         self.wheres = base_wheres
+        for w in self.wheres:
+            w.graph = self.key
         wheres_list = [base_wheres]  # To start, one graph with the basic wheres
+        # wheres_list should only contain WhereInGraph or GroupedByInLine stuff
+        # both have a get_sql() function that returns something Sparrow understands
+        
         for g in group_by:
             extra_wheres = []
-            if g["what"] == "Sensor":
-                for SID in g["IDs"]:
-                    extra_wheres.append(new_GroupedByInLine(-1, "Sensor", SID, Sensor.SID == SID))
-            elif g["what"] == "User":
-                for UID in g["IDs"]:
-                    extra_wheres.append(new_GroupedByInLine(-1, "User", UID, Sensor.user == UID))
-            elif g["what"] == "Type":
-               for t in g["IDs"]:
-                   if t not in Sensor.type_type.options:
-                       raise Error("unknown_type", "Unknown type")
-                   extra_wheres.append(new_GroupedByInLine(-1, "Sensor", SID, Sensor.type == "'%s'"%t))
-            elif g["what"] == "Tag":
-                # TODO does not work when subquery has more than one row
-                # TODO support for the magic value "$NOTAGS$"
-                for t in g["IDs"]:
-                    # Not really a where but anyway
-                    extra_wheres.append(RawSql("SELECT * FROM table_Sensor WHERE table_Sensor.SID IN (SELECT table_Tagged.sensor_sid FROM table_Tagged WHERE table_Tagged.tag_tid IN (SELECT table_Tag.tid FROM table_Tag WHERE table_Tag.description = %(tagtext)s))", {"tagtext": t}))
-            elif g["what"] == "Location":
-                for LID in g["IDs"]:
-                    extra_wheres.append(new_GroupedByInLine(-1, "Location", LID, Sensor.location == LID))
-            else:
-                raise Error("no_such_group_by", "There is no such group_by 'what' attribute")
+            for t in g["IDs"]:
+                # Not really a where but anyway
+                extra_wheres.append(await create_GroupedByInLine(-1, g["what"], t, db))
 
             new_where_list = []
             for wheres in wheres_list:
@@ -125,8 +114,12 @@ class Graph(OwEntity):
 
         self.lines = []
         for wheres in wheres_list:
-            actual_wheres = [getattr(w, "actual_where", w) for w in wheres]
-            sensors = await Sensor.get(*actual_wheres).all(db)
+            actual_wheres = [w.get_sql(db) for w in wheres]
+            try:
+                sensors = await Sensor.get(*actual_wheres).all(db)
+            except:
+                import pdb
+                pdb.set_trace()
             IDs = [s.SID for s in sensors]
             # TODO give more metadata
             line = Line(graph=self.key, sensors=IDs)
@@ -148,7 +141,7 @@ class Graph(OwEntity):
         if not self.filled:
             self.cls, _ = value_props_per_type[self.timespan_valuetype]
             self.lines = await Line.get(Line.graph == self.key).all(db)
-            #self.wheres = 
+            self.wheres =  await WhereInGraph.get(WhereInGraph.graph == self.key).all(db)
             for l in self.lines:
                 await l.fill(db)
             self.filled = True
@@ -158,7 +151,7 @@ class Graph(OwEntity):
         return {
             "GID": self.GID,
             "group_by": [],
-            "where": [],
+            "where": self.wheres,
             "title": self.title,
             "lines": [l.json_repr() for l in self.lines],
             #"convert_to_EUR": self.convert_to_EUR,
@@ -171,8 +164,14 @@ class Graph(OwEntity):
 
 # Following the same convention as other names, this simply means that Graph may contain
 # a list of objects like these
+
+# Dictionary which contains frequently used operation codes
+op_codes = {'gt': '>', 'lt': '<', 'eq': '=','le': '<=', 'ge': '>=', 'in': 'IN'}
+
 class WhereInGraph(OwEntity):
-    op_type = Enum("lt", "le", "gt", "ge", "eq", "in")
+    op_type = Enum(*op_codes.keys())
+    
+    graph = Reference(Graph)
     
     key = WIGID = KeyProperty()
     field = Property(str)
@@ -181,10 +180,11 @@ class WhereInGraph(OwEntity):
     value_str = Property(str, required=False)
     value_int = Property(int, required=False)
     value_float = Property(float, required=False)
+    value_int_array = Property(List(int), required=False)
     
     @property
     def value(self):
-        return self.value_str or self.value_int or self.value_float
+        return self.value_str or self.value_int or self.value_float or self.value_int_array
     
     @value.setter
     def value(self, val):
@@ -192,14 +192,21 @@ class WhereInGraph(OwEntity):
             self.value_int = val
             self.value_float = None
             self.value_str = None
+            self.value_int_array = None
         elif isinstance(val, float):
             self.value_int = None
             self.value_float = val
             self.value_str = None
+            self.value_int_array = None
+        elif isinstance(val, tuple):
+            self.value_int = None
+            self.value_float = None
+            self.value_str = None
+            self.value_int_array = val
         else:
             self.value_int = None
             self.value_float = None
-            self.value_str = str(val)    
+            self.value_str = str(val)
     
     def json_repr(self):
         return {
@@ -208,9 +215,14 @@ class WhereInGraph(OwEntity):
             "value": self.value,
         }
     
-    def create_sql(self):
-        pass
-        
+    def get_sql(self, *args):
+        return Where(sensor_props[self.field].name, op_codes[self.op], Unsafe(self.value))
+
+def create_WhereInGraph(field, op, value, graph=-1):
+    w = WhereInGraph(graph=graph, field=field, op=op)
+    w.value = value
+    return w
+    
 
 class Line(OwEntity):
     # grouped_by = TODO
@@ -234,6 +246,8 @@ class Line(OwEntity):
             })
             result = await req.exec(db)
             self.values = result.raw_all()
+        for g in self.grouped_by:
+            await g.fill(db)
         self.filled = True
 
     async def save(self, db):
@@ -249,14 +263,18 @@ class Line(OwEntity):
             data = await DataInLine.get(DataInLine.line == self.key).all(db)
             self.values = [(d.value, d.time) for d in data]
             self.grouped_by = await GroupedByInLine.get(GroupedByInLine.line == self.key).all(db)
+            for g in self.grouped_by:
+                await g.fill(db)
             self.filled = True
 
     def json_repr(self):
         assert self.filled, "Not filled"
+        
         return {
             "grouped_by": [gb.json_repr() for gb in self.grouped_by],
             "sensors": self.sensors,
-            "values": [list(v) for v in self.values]
+            "values": [list(v) for v in self.values],
+            "label": ", ".join(["{g.what}: {g.name}".format(g=g) for g in self.grouped_by])
         }
 
     
@@ -269,27 +287,95 @@ class GroupedByInLine(OwEntity):
     ref_ID = Property(int)  # If it needs to be something else, bad luck
                             # In the case of what == "Type" the integer here refers to 
     
-    actual_where = None
+    # TO BE FILLED
+    name = "unnamed"
+    
+    async def fill(self, db):
+        self.name = await self.get_name(self, db)
     
     class get_ID(switch):
         select = lambda self: self.what
         
         _type = case("Type")(lambda self: {"ID": Sensor.type.type.options[self.ref_ID]})
-        _tag = case("Tag")(lambda self: {"TID": self.ref_ID})
+        _tag = case("Tag")(lambda self: {"TID": self.ref_ID} if self.ref_ID != -1 else {"TID": "$NOTAGS$"})
         _loc = case("Location")(lambda self: {"LID": self.ref_ID})
         _sensor = case("Sensor")(lambda self: {"SID": self.ref_ID})
         _user = case("User")(lambda self: {"UID": self.ref_ID}) 
+    
+    class get_name(switch):
+        select = lambda self, db: self.what
+        
+        @case("Type")
+        async def _type(self, db):
+            return Sensor.type.type.options[self.ref_ID]
+        
+        @case("Tag")
+        async def _tag(self, db):
+            if self.ref_ID == -1:
+                return "no tags"
+            obj = await Tag.find_by_key(self.ref_ID, db)
+            return obj.description
+        
+        @case("Location")
+        async def _location(self, db):
+            obj = await Location.find_by_key(self.ref_ID, db)
+            return obj.description
+        
+        @case("Sensor")
+        async def _sensor(self, db):
+            obj = await Sensor.find_by_key(self.ref_ID, db)
+            return obj.title
+        
+        @case("User")
+        async def _user(self, db):
+            obj = await User.find_by_key(self.ref_ID, db)
+            return obj.first_name + " " + obj.last_name
+    
     
     def json_repr(self):
         base = {"what": self.what}
         base.update(self.get_ID(self))
         return base
-
-def new_GroupedByInLine(line, what, ref_ID, actual_where):
-    gb = GroupedByInLine(line=line, what=what, ref_ID=ref_ID)
-    gb.actual_where = actual_where
-    return gb
-
+    
+    class _get_sql(switch):
+        select = lambda self, db: self.what
+        
+        @case("Type")
+        def _type(self, db):
+            return Where(Sensor.type, "=", "'%s'"%Sensor.type.type.options[self.ref_ID])
+        
+        @case("Tag")
+        def _tag(self, db):
+            if self.ref_ID == -1:  # == no tag
+                return RawSql("table_Sensor.SID NOT IN (SELECT table_Tagged.sensor_sid FROM table_Tagged)")
+            else:
+                return RawSql("table_Sensor.SID IN (SELECT table_Tagged.sensor_sid FROM table_Tagged WHERE table_Tagged.tag_tid = %(tag_ID)s)", {"tag_ID": self.ref_ID})
+        
+        @case("Location")
+        def _location(self, db):
+            return Where(Sensor.location_LID, "=", Unsafe(self.ref_ID))
+        
+        @case("Sensor")
+        def _sensor(self, db):
+            return Where(Sensor.SID, "=", Unsafe(self.ref_ID))
+        
+        @case("User")
+        def _user(self, db):
+            return Where(Sensor.user_UID, "=", Unsafe(self.ref_ID))
+    
+    def get_sql(self, db):
+        return self._get_sql(self, db)
+    
+async def create_GroupedByInLine(line, what, value, db):
+    if not isinstance(value, int):
+        if what == "Type":
+            value = Sensor.type.type.inv_options[value]
+        elif what == "Tag":
+            assert value == "$NOTAGS$"
+            value = -1
+    g = GroupedByInLine(line=line, what=what, ref_ID=value)
+    await g.fill(db)
+    return g
 
 class DataInLine(OwEntity):
     line = Reference(Line)

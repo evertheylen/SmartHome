@@ -5,7 +5,7 @@ from .value import Value, HourValue, DayValue, MonthValue, YearValue
 from .location import Location
 from .tag import Tag
 from .tagged import Tagged
-from .graph import Graph, WhereInGraph, Line, DataInLine, GroupedByInLine
+from .graph import Graph, WhereInGraph, create_WhereInGraph, Line, DataInLine, GroupedByInLine, create_GroupedByInLine
 base = [User, Location, Sensor, Value, HourValue, DayValue, MonthValue, YearValue, Tag, Tagged,
         Graph, WhereInGraph, Line, DataInLine, GroupedByInLine]
 

@@ -35,7 +35,7 @@ def create_aggregate(_cls_big):
 class Value(OwEntity):
     value = Property(float)
     time = Property(int)
-    sensor = Reference(Sensor)
+    sensor = RTReference(Sensor)
     key = Key(sensor, time)
     
     
