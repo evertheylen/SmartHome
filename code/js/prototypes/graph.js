@@ -28,13 +28,6 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             console.log("LineIndex: " + lineIndex);
             for (var valueIndex = 1; valueIndex < values.length; valueIndex++)
                 addPoint(graph, lineIndex, values[valueIndex][0], values[valueIndex][1]);
-
-function addPoint(graph, dataset, x, y) {
-    var last_point = graph.data[dataset].data[graph.data[dataset].data.length-1];
-    graph.data[dataset].data.push({x: x, y: last_point.y});
-    graph.data[dataset].data.push({x: x,y: y});
-}
-
             graph.data[lineIndex].label = lines[lineIndex].label;
         }
         this._graph = graph;
