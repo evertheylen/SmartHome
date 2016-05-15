@@ -626,7 +626,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             where: where,
             timespan: timespan
         }, function(response) {
-            $scope.graphs.push(response.get_chart());
+            $scope.graphs.push(response.get_graph());
             if (!hasClass(document.getElementById("box4"), "open"))
                 $scope.open_box(4);
             componentHandler.upgradeDom();
