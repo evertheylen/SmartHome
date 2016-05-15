@@ -39,10 +39,10 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.open_box(1);
     $scope.open_box(3);
 
-    $scope.all_locs = false;
-    $scope.all_types = false;
-    $scope.all_sensors = false;
-    $scope.all_tags = false;
+    $scope.all_locs = true;
+    $scope.all_types = true;
+    $scope.all_sensors = true;
+    $scope.all_tags = true;
     
 
     // Fill all the $scope arrays using the database.    
