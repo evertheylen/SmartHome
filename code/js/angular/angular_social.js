@@ -718,9 +718,9 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
         }, function(response) {
             $scope.status._graph = response.object.get_graph();
-            var ctx = document.getElementById("line-"+$scope.statuses[i].SID).getContext("2d");
-            if ($scope.statuses[i].graph != null) {
-                new Chart(ctx).Scatter($scope.statuses[i]._graph.data, $scope.statuses[i]._graph.options);
+            var ctx = document.getElementById("line-"+$scope.status.SID).getContext("2d");
+            if ($scope.status.graph != null) {
+                new Chart(ctx).Scatter($scope.status._graph.data, $scope.status._graph.options);
             }
             componentHandler.upgradeDom();
             $scope.$apply();
