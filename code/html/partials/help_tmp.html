@@ -83,7 +83,6 @@
 					<div class="actualAnswer">
 						<div ng-bind="i18n('faq_sp_ans_1.1')"></div>
 						<img src="/static/FAQ_img/BadBrowser.png" class="helpImage"/>
-						<div ng-bind="i18n('faq_sp_ans_1.1')"></div>
 						<div ng-bind="i18n('faq_sp_ans_1.2')"></div>
 					</div>
 					<a name="sp_2" class="faqCategoryText answer" ng-bind="i18n('faq_sp_quest_2')"></a>
@@ -117,25 +116,25 @@
 					<a name="shp_1" class="faqCategoryText answer" ng-bind="i18n('faq_shp_quest_1')"></a>
 					<div class="actualAnswer">
 						<div style="display: inline;" ng-bind="i18n('faq_shp_ans_1')"></div>
-						<a href="#sp_1" ng-bind="i18n('faq_sp_quest_1')"></a>
+						<a class="faqCategoryTextRef" href="#sp_1" ng-bind="i18n('faq_sp_quest_1')"></a>
 					</div>
 					<a name="shp_2" class="faqCategoryText answer" ng-bind="i18n('faq_shp_quest_2')"></a>
 					<div class="actualAnswer">
-						To make a group, you'll have to press the matching button here:
+						<div ng-bind="i18n('faq_shp_ans_2.1')"></div>
 						<img src="/static/FAQ_img/Social_nav.png" class="helpImage"/>
-						Give your group an awesome name and you're ready to rock!	<br>
-						You can join a group by pressing the button below the button to make a group. You'll then get a form where you can select the group you want to join.
+						<div ng-bind="i18n('faq_shp_ans_2.2')"></div>
 					</div>
 					<a name="shp_3" class="faqCategoryText answer" ng-bind="i18n('faq_shp_quest_3')"></a>
 					<div class="actualAnswer">
-						You can find friends by pressing the matching button here:
+						<div ng-bind="i18n('faq_shp_ans_3.1')"></div>
 						<img src="/static/FAQ_img/Social_nav.png" class="helpImage"/>
-						You'll get a list of people, and you'll be able to search for people using the search bar. You add them by clicking the "add friend" button.
+						<div ng-bind="i18n('faq_shp_ans_3.2')"></div>
 					</div>
 					<a name="shp_4" class="faqCategoryText answer" ng-bind="i18n('faq_shp_quest_4')"></a>
 					<div class="actualAnswer">
-						The profile of a friend: navigate to "My Friends" using the menu drawer (see <a class="faqCategoryTextRef" href="#hp_1">How do i navigate?</a>) and click on the name of the friend you want to inspect.	<br>
-						The wall of a group: Click on the group on the left-hand side of the social homepage:
+						<div ng-bind="i18n('faq_shp_ans_4.1')"></div>
+						<a style="display: inline" class="faqCategoryTextRef" href="#hp_1" ng-bind="i18n('faq_hp_quest_1')"></a>
+						<div ng-bind="i18n('faq_shp_ans_4.2')"></div>
 						<img src="/static/FAQ_img/Social_nav2.png" class="helpImage"/>
 					</div>
 				</div>
@@ -145,22 +144,14 @@
 		
 			<a class="faqCategoryAnswer" name="Social Profile Page">
 				<div class="faqCategoryAnswerContainer">
-					<div class="faqCategoryTitle answer">
-						Social Profile Page
-					</div>
-					<a name="spp_1" class="faqCategoryText answer">
-						How do i change my profile picture?
-					</a>
+					<div class="faqCategoryTitle answer" ng-bind="i18n('faq_spp')"></div>
+					<a name="spp_1" class="faqCategoryText answer" ng-bind="i18n('faq_spp_quest_1')"></a>
 					<div class="actualAnswer">
-						Our profile pictures are importet from gravatar. Check it out <a class="faqCategoryTextRef" href="https://en.gravatar.com/">here</a>.
+						<div ng-bind="i18n('faq_spp_ans_1')"></div>
+						<a style="display: inline" class="faqCategoryTextRef" href="https://en.gravatar.com/">gravatar</a>.
 					</div>
-					<a name="spp_2" class="faqCategoryText answer">
-						Basic overview
-					</a>
-					<div class="actualAnswer">
-						You can see things like your name, email and profile pcture on your profile page.	<br>
-						We leave this bit open, since it is up to the company that buys our website to specify what "fun facts" they want to see on the profile page.
-					</div>
+					<a name="spp_2" class="faqCategoryText answer" ng-bind="i18n('faq_spp_quest_2')"></a>
+					<div class="actualAnswer" ng-bind="i18n('faq_spp_ans_2')"></div>
 				</div>
 			</a>
 		</div>
