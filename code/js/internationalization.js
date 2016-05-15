@@ -134,4 +134,7 @@ var html_strings = {
     "report_comment" : ["comment (click and type to make a comment)", "comment (klik en typ om een comment te maken)"],
     "report_final_comment" : ["comment (click and type to make a final comment)", "comment (klik en typ om een finale comment te maken)"],
     "graph" : ["Graph", "Grafiek"],
+    "static": ["Static Data", "Statische Data"],
+    "live": ["Live Data", "Live Data"],
+    "amount_back": ["Amount of days back", "Aantal dagen terug"],
 };
