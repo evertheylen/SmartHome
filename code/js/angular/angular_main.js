@@ -182,7 +182,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
       document.getElementById('fullScreenDialog').close();
     }
 		$rootScope.Scatterfullscreen = function(graph) {
-			console.log("Scatter fullscreen: " + graph);
+			console.log("Scatter fullscreen: " + graph.data);
 			addClass(document.getElementById("line-fullscreen"), "fullscreenCanvas");
 			// Get the context of the canvas element we want to select
 			var ctx = document.getElementById("line-fullscreen").getContext("2d");
