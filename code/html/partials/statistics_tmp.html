@@ -362,8 +362,8 @@
 								<i id="exit_icon-{{$index}}" class="material-icons white">power_settings_new</i>
 							</button>
 						</div>
-						<div ng-click="fullscreen(graph)">
-							<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+						<div ng-click="Scatterfullscreen(graph)">
+							<canvas id="line-{{$index}}"></canvas>
 						</div>	
 					</div>
 					<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
