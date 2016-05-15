@@ -24,11 +24,21 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	    }
 	    $scope.importants[element_id] = !$scope.importants[element_id];
 	};
+  
+// Get the context of the canvas element we want to select
+var ctx = document.getElementById("line").getContext("2d");
+var data = [
+            [65, 59,80,81,56,55,40,59,54,53,30,12],
+            [28,48,40,19,86,27,90,40,78,45,01,45]
+        ];
+var options = {};
+new Chart(ctx).Scatter(data, options);
+
     $scope.graphs = [];
     $scope.graphs_single = [];
     var graph_types = ["Line", "Bar", "Radar"];
     var graph_types_single = ["Pie", "PolarArea", "Doughnut"];
-    for (i=0; i < 3; i++) {
+    for (i=1; i < 3; i++) {
         graph = {};
         graph.type = graph_types[i];
         graph.labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -40,7 +50,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         $scope.graphs.push(graph);  
     }
     $timeout(function () {
-        for(i=0; i < 3; i++) {
+        for(i=1; i < 3; i++) {
             $scope.graphs[i].data = [
                 [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12],
                 [65, 59, 80, 81, 56, 55, 40, 50,78,45,01,45]
