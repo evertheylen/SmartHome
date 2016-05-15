@@ -182,7 +182,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
       document.getElementById('fullScreenDialog').close();
     }
 		$rootScope.Scatterfullscreen = function(graph) {
-			console.log("Scatter fullscreen: " + graph);
+			/*console.log("Scatter fullscreen: " + graph);
 			addClass(document.getElementById("line-Scatterfullscreen"), "fullscreenCanvas");
 			// Get the context of the canvas element we want to select
 			var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
@@ -192,7 +192,41 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 				maintainAspectRatio: false
 			}
 			componentHandler.upgradeDom();
-			document.getElementById('line-Scatterfullscreen').removeAttribute('style');
+			document.getElementById('line-Scatterfullscreen').removeAttribute('style');*/
+			// Get the context of the canvas element we want to select
+var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
+var data = [
+    {
+      label: 'My First dataset',
+      strokeColor: '#F16220',
+      pointColor: '#F16220',
+      pointStrokeColor: '#fff',
+      data: [
+        { x: 19, y: 65 }, 
+        { x: 27, y: 59 }, 
+        { x: 28, y: 69 }, 
+        { x: 40, y: 81 },
+        { x: 48, y: 56 }
+      ]
+    },
+    {
+      label: 'My Second dataset',
+      strokeColor: '#007ACC',
+      pointColor: '#007ACC',
+      pointStrokeColor: '#fff',
+      data: [
+        { x: 19, y: 75, r: 4 }, 
+        { x: 27, y: 69, r: 7 }, 
+        { x: 28, y: 70, r: 5 }, 
+        { x: 40, y: 31, r: 3 },
+        { x: 48, y: 76, r: 6 },
+        { x: 52, y: 23, r: 3 }, 
+        { x: 24, y: 32, r: 4 }
+      ]
+    }
+  ];
+var options = {};
+$scope.scatter = new Chart(ctx).Scatter(data, options);
       document.getElementById("ScatterfullScreenDialog").showModal();
 			componentHandler.upgradeDom();
     }
