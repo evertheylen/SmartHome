@@ -198,8 +198,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
 var options = {};
 var data = [];
-$scope.scatter = new Chart(ctx).Scatter(data, options);
-$scope.scatter.datasets = graph.datasets;
+$scope.scatter = new Chart(ctx).Scatter(graph.data, options);
+//$scope.scatter.datasets = graph.datasets;
 $scope.scatter.update();
     }
     
