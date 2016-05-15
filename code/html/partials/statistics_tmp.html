@@ -186,7 +186,7 @@
 			<div class="mdl-grid">
 
     			<!--Table with sensors-->
-				<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone" ng-controller="sensor_controller">
+				<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone" >
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -206,7 +206,7 @@
 					            <th>Tag</th>
 					        </tr>
 					    </thead>
-					    <tbody>
+					    <tbody ng-controller="sensor_controller">
 					        <tr ng-repeat="sensor in filtered_sensors track by sensor.SID" ng-controller="sensor_objController" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
