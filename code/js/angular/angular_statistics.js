@@ -9,6 +9,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $scope.graphs = [];
 
+    $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
+        for (i = 0; i< $scope.graphs.length; i++) {
+            var ctx = document.getElementById("line-"+i).getContext("2d");
+            new Chart(ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+        }
+      	componentHandler.upgradeDom();
+    });
+    
     // Sample data
     var is_box2_opened = false;
     $scope.open_box = function(id) {
