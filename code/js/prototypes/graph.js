@@ -16,7 +16,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     this.get_graph = function () {
         if (this._graph) 
             return this._graph;
-        graph = {data: [], options: {bezierCurve: false}};
+        var graph = {data: [], options: {bezierCurve: false}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             var values = lines[lineIndex].values;
