@@ -652,10 +652,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 time *= 60*24*30*365;
         }
         var check_date = new Date(today - time);
-        console.log("Today: " + today);
-        console.log("Time: " + time);
-        console.log("today-time: " + today - time);
-        console.log("Check date: " + check_date);
         if (check_date.getYear() == today.getYear() && 
             check_date.getMonth() == today.getMonth() &&
             check_date.getDate() == today.getDate() ) {
