@@ -210,9 +210,42 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 break;
 
             case "tag":
-                for (i = 0; i < $scope.tags.length; i++) {
-                    $scope.select_tags[i] = $scope.all_tags;
+                if ($scope.tags.length === 0) {
                     $scope.select_no_tags = $scope.all_tags;
+                    addClass(document.getElementById('label-no_tags'), "is-checked");
+                    if ($scope.all_tags) {
+                        var select_houses = [];
+                        for (j = 0; j < $scope.houses.length; j++) {
+                            if ($scope.select_locs[j]) {
+                                select_houses.push($scope.houses[j].LID);
+                            }
+                        }
+                        var select_types = [];
+                        for (j = 0; j < $scope.types.length; j++) {
+                            if ($scope.select_types[j]) {
+                                select_types.push($scope.types[j]);
+                            }
+                        }
+                        for (j = 0; j < $scope.sensors.length; j++) {
+                            if ($scope.sensors[j].tags.length > 0) {
+                                break;
+                            } else {
+                                    if ($scope.select_no_tags && select_houses.indexOf($scope.sensors[j].location_LID) != -1 && select_types.indexOf($scope.sensors[j].type) != -1) {
+                                        if ($scope.filtered_sensors.indexOf($scope.sensors[j]) === -1) {
+                                            $scope.filtered_sensors.push($scope.sensors[j]);
+                                        }
+                                    }
+                            }
+                        }                        
+                    } else {
+                        removeClass(document.getElementById('label-no_tags'), "is-checked");
+                        $scope.filtered_sensors = [];
+                    }
+                }
+                for (i = 0; i < $scope.tags.length; i++) {
+                    $scope.select_no_tags = $scope.all_tags;
+                    addClass(document.getElementById('label-no_tags'), "is-checked");
+                    $scope.select_tags[i] = $scope.all_tags;
                     if ($scope.all_tags) {
                         var select_houses = [];
                         for (j = 0; j < $scope.houses.length; j++) {
@@ -227,7 +260,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                             }
                         }
                         addClass(document.getElementById("label-tag_" + i), "is-checked");
-                        addClass(document.getElementById('label-no_tags'), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
                             if ($scope.sensors[j].tags.length > 0) {
                                 for (k=0;k < $scope.sensors[j].tags.length; k++) {
@@ -663,19 +695,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             addClass(element, "yellow");
         }
         $scope.importants[element_id] = !$scope.importants[element_id];
-    };
-
-    $scope.set_graph_mode = function set_graph_mode(element_id) {
-        var element = document.getElementById('mode_icon-' + element_id);
-        if (hasClass(element, "yellow")) {
-            $scope.graphs[element_id].valueMode(false);
-            removeClass(element, "yellow");
-            addClass(element, "white");
-        } else if (hasClass(element, "white")) {
-            $scope.graphs[element_id].valueMode(true);
-            removeClass(element, "white");
-            addClass(element, "yellow");
-        }
     };
 
     $scope.exit = function (index) {
