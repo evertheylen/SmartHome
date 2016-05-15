@@ -121,8 +121,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_all = function(type) {
         switch (type) {
             case "location":
-                console.log("Checking all locations: " + $scope.houses.length);
-                console.log("Making them: " + $scope.all_locs);
                 for (i = 0; i < $scope.houses.length; i++) {
                     $scope.select_locs[i] = $scope.all_locs;
                     if ($scope.all_locs) {
@@ -278,12 +276,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var checkCount = 0;
         switch (type) {
             case "location":
+                console.log("Checking locs");
                 for (i = 0; i < $scope.houses.length; i++) {
                     if ($scope.select_locs[i]) {
                         checkCount++;
                     }
                 }
                 $scope.all_locs = (checkCount === $scope.houses.length);
+                console.log("All locs: " + $scope.all_locs);
                 if ($scope.all_locs) {
                     addClass(document.getElementById("label-all_locations"), "is-checked");
                 } else {
