@@ -8,6 +8,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.tab = "statisticslink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $scope.graphs = [];
+    
+    $scope.statistics = true;
 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.graphs.length; i++) {

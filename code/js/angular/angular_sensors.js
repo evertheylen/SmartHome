@@ -405,21 +405,25 @@ $scope.add_autocomplete = function(tag) {};
     });
 
     $scope.$watch('houses', function() {
-        $timeout(function() {
-            if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
-                removeClass(document.getElementById("select_house"), "mdl-js-menu");
-            }
-            addClass(document.getElementById("select_house"), "mdl-js-menu");
-        }, 0);
+        if (!$scope.statistics) {
+            $timeout(function() {
+                if (hasClass(document.getElementById("select_house"), "mdl-js-menu")) {
+                    removeClass(document.getElementById("select_house"), "mdl-js-menu");
+                }
+                addClass(document.getElementById("select_house"), "mdl-js-menu");
+            }, 0);
+        }
     }, true);
 
     $scope.$watch('types', function() {
-        $timeout(function() {
-            if (hasClass(document.getElementById("select_type"), "mdl-js-menu")) {
-                removeClass(document.getElementById("select_type"), "mdl-js-menu");
-            }
-            addClass(document.getElementById("select_type"), "mdl-js-menu");
-        }, 0);
+        if (!$scope.statistics) {
+            $timeout(function() {
+                if (hasClass(document.getElementById("select_type"), "mdl-js-menu")) {
+                    removeClass(document.getElementById("select_type"), "mdl-js-menu");
+                }
+                addClass(document.getElementById("select_type"), "mdl-js-menu");
+            }, 0);
+        }
     }, true);
   
     // Set up front end side aggregation for the sensor table.
