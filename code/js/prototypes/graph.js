@@ -19,7 +19,6 @@ function Graph(GID, timespan, group_by, where, lines, title) {
         var graph = {data: [], options: {bezierCurve: false}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-            console.log("LineIndex: " + lineIndex);
             var values = lines[lineIndex].values;
             if (values.length === 0) { 
                 graph.data.push({data: []});
@@ -31,6 +30,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             graph.data[lineIndex].label = lines[lineIndex].label;
         }
         this._graph = graph;
+        console.log("GRAPH: " + this._graph);
         return this._graph;
     }
 }
