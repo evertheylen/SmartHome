@@ -194,7 +194,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 				var options = {
 						bezierCurve: false,
 						responsive: false,
-						maintainAspectRatio: false
+						maintainAspectRatio: false,
+						scaleType: "date",
+						useUtc: false
 				}
 				$scope.graph = new Chart(ctx).Scatter(graph.data, options);
 				$scope.graph.update();	
