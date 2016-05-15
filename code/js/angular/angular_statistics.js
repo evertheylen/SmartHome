@@ -116,6 +116,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.select_all = function(type) {
         switch (type) {
             case "location":
+                console.log("Checking all locations: " + $scope.houses.length);
                 for (i = 0; i < $scope.houses.length; i++) {
                     $scope.select_locs[i] = $scope.all_locs;
                     if ($scope.all_locs) {
