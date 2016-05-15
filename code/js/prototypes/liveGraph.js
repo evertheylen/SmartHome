@@ -18,9 +18,10 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
             return this._chart;
         var lines = this.lines;
         var data = {};
+        var line_map = {};
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            line_map[lines[lineIndex].LLID] = lineIndex;
             data.push({
-                LLID: lines[lineIndex].LLID,
                 strokeColor: '#007ACC',
                 pointColor: '#007ACC',
                 pointStrokeColor: '#fff',
@@ -29,6 +30,8 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
             });
         }
         this._chart = new Chart(ctx).Scatter(data);
+        this._chart.line_map = line_map;
+        this._chart.live = true;
         return this._chart;
     }
 }
