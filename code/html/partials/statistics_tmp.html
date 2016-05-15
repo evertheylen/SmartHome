@@ -51,7 +51,7 @@
 					<span style="display: inline-block;" ng-bind="i18n('aggregate_eur_per_unit')"></span>
 				</div>
                 -->
-				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone" ng-controller="location_controller">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -66,7 +66,7 @@
 					            </th>
 					        </tr>
 					    </thead>
-					    <tbody>
+					    <tbody ng-controller="location_controller">
 					        <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
