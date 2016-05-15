@@ -253,11 +253,11 @@
 			<div class="mdl-grid">
 						<div>
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-static">
-								<input type="radio" id="option-static" class="mdl-radio__button" name="options-static" ng-value="false" ng-model="live" checked/>
+								<input type="radio" id="option-static" class="mdl-radio__button" name="options-static" ng-value="false" ng-model="live" ng-click="set_live()" checked/>
 								<span class="mdl-radio__label" ng-bind="i18n('static')"></span>
 							</label>
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-live">
-								<input type="radio" id="option-live" class="mdl-radio__button" name="options-static" ng-value="true" ng-model="live"/>
+								<input type="radio" id="option-live" class="mdl-radio__button" name="options-static" ng-value="true" ng-model="live" ng-click="set_live()"/>
 								<span class="mdl-radio__label" ng-bind="i18n('live')"></span>
 							</label>
 						</div>
