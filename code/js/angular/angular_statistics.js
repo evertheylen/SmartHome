@@ -11,6 +11,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     $scope.statistics = true;
 
+    $scope.set_live = function () {
+        //console.log("clicked options");
+        //console.log("$scope.live: " + $scope.live);
+        componentHandler.upgradeDom();
+    }
+    
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.graphs.length; i++) {
             var ctx = document.getElementById("line-"+i).getContext("2d");
