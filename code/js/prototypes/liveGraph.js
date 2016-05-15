@@ -16,7 +16,7 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
     this.get_graph = function () {
         if (this._graph) 
             return this._graph;
-        var graph = {temp_GID: this.GID, data_type: cache["LiveGraph"][GID], data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
+        var graph = {temp_GID: this.GID, live: true, data_type: cache["LiveGraph"][GID], data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             graph.line_map[lines[lineIndex].LLID] = lineIndex;
