@@ -26,7 +26,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	};
   
 // Get the context of the canvas element we want to select
-var ctx = document.getElementById("line").getContext("2d");
+var ctx = document.getElementById("line-0").getContext("2d");
 var data = [
             [65, 59,80,81,56,55,40,59,54,53,30,12],
             [28,48,40,19,86,27,90,40,78,45,01,45]
