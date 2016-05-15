@@ -10,13 +10,8 @@ def create_UploadHandler(controller):
             filename = fileinfo['filename']
             fbody = fileinfo['body']
             insert_live = len(self.get_arguments("live")) > 0
-            await controller.insert_csv_file(fbody, insert_live)
-            
-            
-                    
-            
-            
-            
+            await controller.insert_csv_file(fbody)
+
     
     return UploadHandler
 

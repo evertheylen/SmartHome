@@ -15,6 +15,8 @@ class Sensor(RTOwEntity):
     location = RTReference(Location)
     EUR_per_unit = Property(float)
     
+    secret_key = Property(str, json=False, required=False)
+    
     # The last value this sensor had
     last_value = None
     
