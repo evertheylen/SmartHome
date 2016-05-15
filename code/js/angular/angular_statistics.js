@@ -20,10 +20,29 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.graphs.length; i++) {
             var ctx = document.getElementById("line-"+i).getContext("2d");
-            new Chart(ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            $scope.live_graph = new Chart(ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
         }
       	componentHandler.upgradeDom();
+        $timeout(function() {
+          $scope.live_graph.datasets[0].addPoint(5,5);
+           $scope.live_graph.datasets[0].addPoint(5,5);
+            $scope.live_graph.datasets[0].addPoint(5,5);
+ $scope.live_graph.datasets[0].addPoint(5,5);
+ $scope.live_graph.datasets[0].addPoint(5,5);
+ $scope.live_graph.datasets[0].addPoint(5,5);
+
+ $scope.live_graph.datasets[0].addPoint(5,5);
+ $scope.live_graph.datasets[0].addPoint(5,5);
+ 
+
+ $scope.live_graph.datasets[0].addPoint(5,5);
+
+ $scope.live_graph.datasets[0].addPoint(5,5);
+          $scope.live_graph.update();
+          }, 1000);
     });
+    
+    
     
     // Sample data
     var is_box2_opened = false;
