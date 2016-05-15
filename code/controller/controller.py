@@ -13,6 +13,8 @@ from itertools import chain
 import random
 import csv
 import io
+import time
+now = lambda: round(time.time())
 
 from sparrow import *
 
@@ -160,6 +162,8 @@ class Controller(metaclass=MetaController):
         if s.secret_key != secret_key:
             self.logger.error("Wrong key used")
             raise Error("wrong_key", "wrong_key")
+        v = Value(time=now(), sensor=SID, value=value)
+        
         
 
     # Will you look at that. Beautiful replacement for a switch statement if I say
