@@ -37,7 +37,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
               data: [
                 { x: 19, y: 65 }]
         }];
-        addPoint(graph, 1, 27, 59);
+        addPoint(graph, 0, 27, 59);
         graph.data = [
             {
               label: 'My First dataset',
