@@ -151,7 +151,7 @@ class Graph(OwEntity):
         return {
             "GID": self.GID,
             "group_by": [],
-            "where": self.wheres,
+            "where": [w.json_repr() for w in self.wheres],
             "title": self.title,
             "lines": [l.json_repr() for l in self.lines],
             #"convert_to_EUR": self.convert_to_EUR,

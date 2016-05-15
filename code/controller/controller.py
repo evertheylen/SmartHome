@@ -154,7 +154,13 @@ class Controller(metaclass=MetaController):
             except SqlError as e:
                 self.logger.error("Error in database: {}".format(e))
                 self.logger.error("Moving on...")
-
+    
+    async def add_value(self, SID, secret_key, value):
+        s = await Sensor.find_by_key(SID, self.db)
+        if s.secret_key != secret_key:
+            self.logger.error("Wrong key used")
+            raise Error("wrong_key", "wrong_key")
+        
 
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
