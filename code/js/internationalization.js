@@ -137,7 +137,7 @@ var html_strings = {
 	"groups": ["Groups", "Groepen"],
 	"fullname": ["Full name:", "Volledige naam:"],
 	"profilepic": ["Profile picture:", "Profielfoto:"],
-	"funfacts": ["Fun facts about", "Fun facts over"],
+	"funfacts": ["Fun facts about ", "Fun facts over "],
 	"gravatar": ["Changeable on www.gravatar.com", "Aanpasbaar op www.gravatar.com"],
 	"profile": ["'s profile:", "s profiel:"],
     "static": ["Static Data", "Statische Data"],
