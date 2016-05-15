@@ -134,7 +134,12 @@ var html_strings = {
     "report_comment" : ["comment (click and type to make a comment)", "comment (klik en typ om een comment te maken)"],
     "report_final_comment" : ["comment (click and type to make a final comment)", "comment (klik en typ om een finale comment te maken)"],
     "graph" : ["Graph", "Grafiek"],
-
+	"groups": ["Groups", "Groepen"],
+	"fullname": ["Full name:", "Volledige naam:"],
+	"profilepic": ["Profile picture:", "Profielfoto:"],
+	"funfacts": ["Fun facts about", "Fun facts over"],
+	"gravatar": ["Changeable on www.gravatar.com", "Aanpasbaar op www.gravatar.com<"],
+	"profile": ["'s profile:", "s profiel:"],
     "static": ["Static Data", "Statische Data"],
     "live": ["Live Data", "Live Data"],
     "amount_back": ["Amount of time back", "Aantal tijdseenheden terug"],

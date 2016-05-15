@@ -5,7 +5,7 @@
 		<!-- The menu on the left side -->
 		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" style="background-color: #E8E8E8;">
 			<div id="socialLeftMenu">
-				<div class="menuGroup">Groups:</div>
+				<div class="menuGroup" ng-bind="i18n('groups')"></div>
 				<button style="display: block; width: 100%;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.title" ng-click="setGroup(group)" ui-sref="social.state_group">
 				</button>
 			</div>
