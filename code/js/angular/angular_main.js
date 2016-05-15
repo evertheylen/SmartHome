@@ -182,25 +182,23 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
       document.getElementById('fullScreenDialog').close();
     }
 		$rootScope.Scatterfullscreen = function(graph) {
-			/*console.log("Scatter fullscreen: " + graph);
-			addClass(document.getElementById("line-Scatterfullscreen"), "fullscreenCanvas");
-			// Get the context of the canvas element we want to select
-			var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
-			$scope.graph.options = {
-				responsive: false,
-				maintainAspectRatio: false
-			}
-			componentHandler.upgradeDom();
-			document.getElementById('line-Scatterfullscreen').removeAttribute('style');*/
-			// Get the context of the canvas element we want to select
-			document.getElementById("ScatterfullScreenDialog").showModal();
-			componentHandler.upgradeDom();
-			var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
-var options = {};
-var data = [];
-$scope.scatter = new Chart(ctx).Scatter(graph.data, options);
-//$scope.scatter.datasets = graph.datasets;
-$scope.scatter.update();
+				addClass(document.getElementById("line-Scatterfullscreen"), "fullscreenCanvas");
+				// Get the context of the canvas element we want to select
+
+				componentHandler.upgradeDom();
+				document.getElementById('line-Scatterfullscreen').removeAttribute('style');
+				// Get the context of the canvas element we want to select
+				document.getElementById("ScatterfullScreenDialog").showModal();
+				componentHandler.upgradeDom();
+				var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
+				var options = {};
+				var data = [];
+				$scope.graph = new Chart(ctx).Scatter(graph.data, graph.options);
+				$scope.graph.options = {
+						responsive: false,
+						maintainAspectRatio: false
+				}
+				$scope.graph.update();	
     }
     
     $rootScope.Scatterclose_fullscreen = function() {
