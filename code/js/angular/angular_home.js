@@ -2,7 +2,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
     $scope.$on("$destroy", function() {
         for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
             var graph = $scope.scatters[graphIndex];
-            graph.removeLiveScope($scope);
+            graph.data_type.removeLiveScope($scope);
             ws.request({
             type: "delete_liveline_values",
             graph: graph.temp_GID,
