@@ -10,6 +10,14 @@ angular.module("overwatch").controller("adminController", function($scope, $root
     $scope.graphs = [];
   	componentHandler.upgradeDom();
     
+    $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
+        for (i = 0; i< $scope.graphs.length; i++) {
+            var ctx = document.getElementById("line-"+i).getContext("2d");
+            new Chart(ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+        }
+      	componentHandler.upgradeDom();
+    });
+    
     $scope.enter_command = function() {
       console.log("entered");
       document.getElementById('output').innerHTML += $scope.prompt;
