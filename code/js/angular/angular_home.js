@@ -3,12 +3,14 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         console.log("Destructor");
         for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
             var graph = $scope.scatters[graphIndex];
-            graph.data_type.removeLiveScope($scope);
-            ws.request({
-            type: "delete_liveline_values",
-            graph: graph.temp_GID,
-            }, function(response) {
-            }, $scope);
+            if (graph.data_type) {
+                graph.data_type.removeLiveScope($scope);
+                ws.request({
+                type: "delete_liveline_values",
+                graph: graph.temp_GID,
+                }, function(response) {
+                }, $scope);
+            }
         }
     });
 
