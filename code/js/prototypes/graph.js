@@ -23,6 +23,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             if (values.length === 0) 
                 break;
             graph.data.push({data: {x: values[0][0], y: values[0][1]}});
+            console.log("LineIndex: " + lineIndex);
             for (var valueIndex = 1; valueIndex < values.length; valueIndex++)
                 addPoint(graph, lineIndex, values[valueIndex][0], values[valueIndex][1]);
             graph.data[lineIndex].label = lines[lineIndex].label;
