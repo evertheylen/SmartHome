@@ -16,7 +16,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     this.get_graph = function () {
         if (this._graph) 
             return this._graph;
-        var graph = {data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false}};
+        var graph = {data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             var values = lines[lineIndex].values;
@@ -27,7 +27,8 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             graph.data.push({data: [{x: values[0][1] * 1000, y: values[0][0]}]});
             for (var valueIndex = 1; valueIndex < values.length; valueIndex++)
                 addPoint(graph, lineIndex, values[valueIndex][1] * 1000, values[valueIndex][0]);
-            graph.data[lineIndex].label = lines[lineIndex].label;
+            graph.data[lineIndex].label = "Temp label: " + lineIndex;
+            //graph.data[lineIndex].label = lines[lineIndex].label;
             graph.data[lineIndex].strokeColor = 'rgb(' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ')';
         }
         this._graph = graph;
