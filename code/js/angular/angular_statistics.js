@@ -697,19 +697,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         $scope.importants[element_id] = !$scope.importants[element_id];
     };
 
-    $scope.set_graph_mode = function set_graph_mode(element_id) {
-        var element = document.getElementById('mode_icon-' + element_id);
-        if (hasClass(element, "yellow")) {
-            $scope.graphs[element_id].valueMode(false);
-            removeClass(element, "yellow");
-            addClass(element, "white");
-        } else if (hasClass(element, "white")) {
-            $scope.graphs[element_id].valueMode(true);
-            removeClass(element, "white");
-            addClass(element, "yellow");
-        }
-    };
-
     $scope.exit = function (index) {
         $scope.graphs.splice(index, 1);
         componentHandler.upgradeDom();
