@@ -2,17 +2,15 @@ function DataType() {
     this._scopes = new Set();
     this._liveScopes = {};
 
-    this.updateLiveScopes = function(type) { 
+    this.updateLiveScopes = function(type, response) { 
         if (this._liveScopes["None"]) {
             this._liveScopes["None"].forEach(function(scope){
-                console.log("Updating scope with None");
-                scope.update();
+                scope.update(response);
             });
         }
         if (this._liveScopes[type]) {
             this._liveScopes[type].forEach(function(scope){
-                console.log("Updating scope with " + type);
-                scope.update();
+                scope.update(response);
             });
         }
     };
