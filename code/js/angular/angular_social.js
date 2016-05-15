@@ -64,8 +64,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
         for (i = 0; i< $scope.statuses.length; i++) {
             var ctx = document.getElementById("line-"+$scope.statuses[i].SID).getContext("2d");
             if ($scope.statuses[i].graph != undefined) {
-                console.log("Sharing graph: " + JSON.stringify($scope.statuses[i].graph));
-                new Chart(ctx).Scatter($scope.statuses[i].graph.data, $scope.statuses[i].graph.options);
+                new Chart(ctx).Scatter($scope.statuses[i]._graph.data, $scope.statuses[i]._graph.options);
             }
         }
       	componentHandler.upgradeDom();
