@@ -27,7 +27,7 @@
 		    </button>
 		    <h2 class="mdl-card__title-text mdl-card--date">{{i18n('posted_on')}} {{fancy_date(status.date_edited*1000)}} </h2>
 		</div>
-		<div ng-show="status.graph != undefined" ng-click="Scatterfullscreen(graph)">
+		<div ng-show="status.graph != undefined" ng-click="Scatterfullscreen(status._graph)">
 			<canvas id="line-{{status.SID}}"></canvas>
 		</div>
 		<div class="mdl-card__supporting-text" ng-bind="status.text">
