@@ -1,7 +1,28 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout, $state) {
     $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
+        for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
+            ws.request({
+            type: "delete_liveline_values",
+            graph: $scope.scatters[graphIndex].temp_GID,
+            }, function(response) {
+            }, $scope);
+        }
     });
+
+    $scope.update = function(object) {
+        if (object["type"] === "live_add_liveline_values") {
+            for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
+                var graph = $scope.scatters[graphIndex];
+                if (graph.temp_GID === object.graph) {
+                    for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
+                        var value = object.values[valueIndex];
+                        addPoint(graph, graph.line_map[object.line], value[1], value[0]);
+                    }
+                }
+            }
+        }
+    }
+
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "homelink";
@@ -26,6 +47,35 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	};
   
     $scope.scatters = [];
+        
+    // Live Graphs
+    ws.request({
+    type: "get_all",
+    what: "LiveGraph",
+    for: {
+        what: "User",
+        UID: $rootScope.auth_user.UID
+    }
+    }, function(response) {
+        for (var i = 0; i < response.objects.length; i++) {
+            response.objects[i].addLiveScope($scope, "None");
+            var graph = response.objects[i].get_graph();
+            ws.request({
+                type: "get_liveline_values",
+                graph: response.objects[i].GID,
+                }, function(valueResponse) {
+                    var lines = valueResponse.lines;
+                    for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+                        var values = lines[lineIndex].values;
+                        for (var valueIndex = 0; valueIndex < values.length; valueIndex++)
+                            addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
+                    }
+                    $scope.scatters.push(graph);
+            }, $scope);
+        }
+        $scope.$apply();
+    }, $scope);
+
     for (i = 0 ; i < 3; i++) {
         // Get the context of the canvas element we want to select
         var graph = {};
