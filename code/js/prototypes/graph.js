@@ -11,28 +11,24 @@ function Graph(LGID, timespan, group_by, where, lines, title) {
 	this.where = where;
 	this.lines = lines;
     this.title = title;   
-    this._chart = undefined;
+    this._graph = undefined;
 
     this.get_chart = function (ctx) {
-        if (this._chart) 
-            return this._chart;
+        if (this._graph) 
+            return this._graph;
+        this._graph = {};
+        this._graph.data = [];
+        this._graph.options = {bezierCurve: false};
         var lines = this.lines;
-        var data = {};
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             var values = lines[lineIndex].values;
-            var value_data = [];
-            for (var valueIndex = 0; valueIndex < values.length; valueIndex++)
-                value_data.push({x: values[valueIndex][0], y: values[valueIndex][1]};
-            data.push({
-                strokeColor: '#007ACC',
-                pointColor: '#007ACC',
-                pointStrokeColor: '#fff',
-                label: lines[lineIndex].label,  
-                data: value_data   
-            });
+            this._graph.data[lineIndex].data.push({x: values[0][0], y: values[0][1]});
+            for (var valueIndex = 1; valueIndex < values.length; valueIndex++)
+                addPoint(this._graph, lineIndex, values[valueIndex][0], values[valueIndex][1]);
+            this._graph.data[lineIndex].label = lines[lineIndex].label;
         }
-        this._chart = new Chart(ctx).Scatter(data);
-        this._chart.live = false;
-        return this._chart;
+        return this._graph;
     }
 }
+
+
