@@ -27,7 +27,7 @@ def create_aggregate(_cls_big):
             
             # Step 3: Put those as HourValue, (always use starting point as 'time' attribute)
             v = cls_big(value=average, sensor=sensor.key, time=time)
-            await v.insert(db)
+            await v._simple_insert(db)
     
     return aggregate
 
@@ -117,7 +117,7 @@ class Value(OwEntity):
             
             # Step 2c: Insert the HourValue!
             hv = HourValue(value=hour_sum/3600, time=hour_start, sensor=sensor.key)
-            await hv.insert(db)  # TODO performance?
+            await hv._simple_insert(db)  # TODO performance?
             #print("Adding hour with value", hour_sum/3600)
         
         if recurse:
@@ -178,7 +178,7 @@ class MonthValue(Value):
             average = sum(weights) / (gap / 86400)
             
             v = YearValue(value=average, sensor=sensor.key, time=time)
-            await v.insert(db)
+            await v._simple_insert(db)
         
         # no recurse
     
