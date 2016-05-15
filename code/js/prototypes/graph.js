@@ -13,7 +13,7 @@ function Graph(LGID, timespan, group_by, where, lines, title) {
     this.title = title;   
     this._graph = undefined;
 
-    this.get_chart = function (ctx) {
+    this.get_graph = function () {
         if (this._graph) 
             return this._graph;
         this._graph = {};
