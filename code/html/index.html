@@ -44,6 +44,7 @@
 	<script src="/js/prototypes/group.js"></script>
 	<script src="/js/prototypes/membership.js"></script>
 	<script src="/js/prototypes/graph.js"></script>
+	<script src="/js/prototypes/liveGraph.js"></script>
 	<script src="/js/prototypes/location.js"></script>
 	<script src="/js/prototypes/comment.js"></script>
 	<script src="/js/websocket.js"></script>
@@ -165,6 +166,14 @@
 						<canvas id="line-fullscreen" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-options="graph.options" chart-click=""></canvas>
 					</div>
 				</dialog>
+				<dialog id="ScatterfullScreenDialog" class="mdl-dialog fullscreen" ng-click="Scatterclose_fullscreen();">
+					<h4 class="mdl-dialog__title">{{i18n('graph')}}</h4>
+					<div class="mdl-dialog__content">
+						<!-- TODO graph here -->
+						<!-- i'm not able to adjust the graph size yet because i don't see them and, knowing css, all my hard work would be useless -->
+						<canvas id="line-Scatterfullscreen"></canvas>
+					</div>
+				</dialog>				
 							
 				<dialog id="dlgShare" class="mdl-dialog" ng-controller="shareController" ng-hide="$state.includes('state_index')">
             <h4 class="mdl-dialog__title" ng-bind="i18n('share_title')"></h4>
@@ -220,21 +229,22 @@
     <script src="/js/angular/angular_home.js"></script>
     <script src="/js/angular/angular_sensors.js"></script>
     <script src="/js/angular/angular_statistics.js"></script>
-	<script src="/js/angular/angular_social.js"></script>
-	<script src="/js/angular/angular_admin.js"></script>
-	<script src="/js/angular/angular_report.js"></script>
-	<script src="/js/angular/angular_factories.js"></script>
-	<script src="/js/angular/angular_directives.js"></script>
-	<script src="/js/angular/angular_filters.js"></script>
-	<script src="/js/angular/angular_main.js"></script>
-	<script id="template/pagination/pagination.html" type="text/ng-template">
-		<ul class="pagination">
-			<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
-			<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
-			<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
-			<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
-			<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
-		</ul>
-	</script>
+		<script src="/js/angular/angular_social.js"></script>
+		<script src="/js/angular/angular_admin.js"></script>
+		<script src="/js/angular/angular_report.js"></script>
+		<script src="/js/angular/angular_factories.js"></script>
+		<script src="/js/angular/angular_directives.js"></script>
+		<script src="/js/angular/angular_filters.js"></script>
+		<script src="/js/angular/angular_main.js"></script>
+		<script src="/js/angular/angular_help.js"></script>
+		<script id="template/pagination/pagination.html" type="text/ng-template">
+			<ul class="pagination">
+				<li ng-if="::boundaryLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-first"><a href ng-click="selectPage(1, $event)"><i class="material-icons">first_page</i></a></li>
+				<li ng-if="::directionLinks" ng-class="{disabled: noPrevious()||ngDisabled}" class="pagination-prev"><a href ng-click="selectPage(page - 1, $event)"><i class="material-icons">navigate_before</i></a></li>
+				<li ng-repeat="page in pages track by $index" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" class="pagination-page"><a href ng-click="selectPage(page.number, $event)">{{page.text}}</a></li>
+				<li ng-if="::directionLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-next"><a href ng-click="selectPage(page + 1, $event)"><i class="material-icons">navigate_next</i></a></li>
+				<li ng-if="::boundaryLinks" ng-class="{disabled: noNext()||ngDisabled}" class="pagination-last"><a href ng-click="selectPage(totalPages, $event)"><i class="material-icons">last_page</i></a></li>
+			</ul>
+		</script>
 </body>
 </html>

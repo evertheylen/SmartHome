@@ -1,193 +1,230 @@
-<h1 id="helpTitle">faq</h1>
-
-<div id="faqContainer">
-	<div class="faqCategory">
-		<a href="#Home Page" class="faqCategoryTitle">Home Page</a>
-		<div class="faqCategoryTextContainer">
-			<a href="#hp_1" class="faqCategoryText">How do i navigate?</a>
-			<a href="#hp_2" class="faqCategoryText">I heard there were extra features planned for the homepage, which features excactly?</a>
+<div ng-controller="helpController">
+		<h1 id="helpTitle">faq</h1>
+		
+		<div id="faqContainer">
+			<div class="faqCategory">
+				<a href="#Home Page" class="faqCategoryTitle">Home Page</a>
+				<div class="faqCategoryTextContainer">
+					<a href="#hp_1" class="faqCategoryText">How do i navigate?</a>
+					<a href="#hp_2" class="faqCategoryText">I heard there were extra features planned for the homepage, which features excactly?</a>
+				</div>
+			</div>
+			<div class="faqCategory">
+				<a href="#Statistics Page" class="faqCategoryTitle">Statistics Page</a>
+				<div class="faqCategoryTextContainer">
+					<a href="#stp_1" class="faqCategoryText">The 4 dropdowns and their basic usage.</a>
+					<a href="#stp_2" class="faqCategoryText">What does "aggregate by..." mean?</a>
+				</div>
+			</div>
+			<div class="faqCategory">
+				<a href="#Sensors Page" class="faqCategoryTitle">Sensors Page</a>
+				<div class="faqCategoryTextContainer">
+					<a href="#sp_1" class="faqCategoryText">The sensors page looks broken, how do i fix this?</a>
+					<a href="#sp_2" class="faqCategoryText">Adding a location/sensor</a>
+					<a href="#sp_3" class="faqCategoryText">Editing a location/sensor</a>
+					<a href="#sp_4" class="faqCategoryText">Deleting a location/sensor</a>
+					<a href="#sp_5" class="faqCategoryText">Extra features</a>
+				</div>
+			</div>
+			<div class="faqCategory">
+				<a href="#Social Home Page" class="faqCategoryTitle">Social Home Page</a>
+				<div class="faqCategoryTextContainer">
+					<a href="#shp_1" class="faqCategoryText">The social page looks broken, how do i fix this?</a>
+					<a href="#shp_2" class="faqCategoryText">Making/joining a group.</a>
+					<a href="#shp_3" class="faqCategoryText">Getting new friends.</a>
+					<a href="#shp_4" class="faqCategoryText">Looking at the wall/profile of groups/friends</a>
+				</div>
+			</div>
+			<div class="faqCategory">
+				<a href="#Social Profile Page" class="faqCategoryTitle">Social Profile Page</a>
+				<div class="faqCategoryTextContainer">
+					<a href="#spp_1" class="faqCategoryText">How do i change my profile picture?</a>
+					<a href="#spp_2" class="faqCategoryText">Basic overview</a>
+				</div>
+			</div>
+		
+		
+			<div class="quest-answer_separator"></div>
+		
+		
+			<a class="faqCategoryAnswer answer" name="Home Page">
+				<div class="faqCategoryAnswerContainer">
+					<div class="faqCategoryTitle answer">
+						Home Page
+					</div>
+					<a name="hp_1" class="faqCategoryText answer">
+						How do i navigate?
+					</a>
+					<div class="actualAnswer">
+						You can navigate through our website using the manu icon in the top left of the screen.
+						<img src="/static/FAQ_img/navigateFAQ.png" class="helpImage"/>
+						A drawer will open, and you'll be able to explore the magnificent world of OverWatch.
+					</div>
+					<a name="hp_2" class="faqCategoryText answer">
+						I heard there were extra features planned for the homepage, which features excactly?
+					</a>
+					<div class="actualAnswer">
+						In the future the home page might contain cool stuff like graphs that we think you might find important, statuses of friends you might find interesting, etc.
+		
+						You would also be able to mark graphs as important, and they would appear on your home page. <br>
+						Those are just pour suggestions, it is up to the company that buys this website to decide what the homepage should do.
+					</div>
+				</div>
+			</a>
+		
+		
+		
+			<a class="faqCategoryAnswer answer" name="Statistics Page">
+				<div class="faqCategoryAnswerContainer">
+					<div class="faqCategoryTitle answer">
+						Statistics Page
+					</div>
+					<a name="stp_1" class="faqCategoryText answer">
+						The 4 dropdowns and their basic usage.
+					</a>
+					<div class="actualAnswer">
+						In the first dropdown box you can make a rough selection of the sensors you want to include in your graph.	<br>
+						There are three categories: Location, type, and tag. The sensors that have at least one elected location,
+						one selected type and one selected tag will be included in the graph.
+						<br><br>
+						The second dropdown allows you to refine your selection made in the first box. You can view which sensors will be included in the graph and you can deselect them if you don't want them to be in the graph.
+						<br><br>
+						The third dropdown is how you want to view the graph. First you select the start and end date, which will define the length of the graph / the period of time you want to watch.
+						<br>
+						Then you'll have to choose how your data will be displayed:	<br>
+						Raw: The datapoints we kept in our database, the actual data generated by your sensors.	<br>
+						Days: View the energy consumption per day for the selection of sensors	<br>
+						Hours, years and months should be analogue to the days.	<br>
+						Eventually you can generate the graph pressing the "show data" button.
+						<br><br>
+						In the fourth dropdon you'll be able to view the graphs you generated in that session.
+						<br>
+						They disappear when you refresh the page. But you are able to share those graphs on your wall so you can look back at them later.
+					</div>
+					<a name="stp_2" class="faqCategoryText answer">
+						What does "aggregate by..." mean?
+					</a>
+					<div class="actualAnswer">
+						You can group sensors by selecting the "aggregate by..." checkboxes.	<br>
+						E.g. the aggregate by location checkbox groups all sensors that have the same location.
+					</div>
+				</div>
+			</a>
+		
+		
+		
+			<a class="faqCategoryAnswer" name="Sensors Page">
+				<div class="faqCategoryAnswerContainer">
+					<div class="faqCategoryTitle answer">
+						Sensors Page
+					</div>
+					<a name="sp_1" class="faqCategoryText answer">
+						The sensors page looks broken, how do i fix this?
+					</a>
+					<div class="actualAnswer">
+						When your page looks something like this:
+						<img src="/static/FAQ_img/BadBrowser.png" class="helpImage"/>
+						chances are you are not using the google chrome browser. You should.	<br>
+						Browsers like firefox and IE don't work.
+					</div>
+					<a name="sp_2" class="faqCategoryText answer">
+						Adding a location/sensor
+					</a>
+					<div class="actualAnswer">
+						You add a location by pressing one of the "add..." buttons in the sensors page.	<br>
+						You just fill in the form with your information of the location/sensor.	<br>
+						Please note that the number of your location can't contain letters. <br>
+						The description for your location is just for yourself, it's not that significant.	<br>
+						You don't have to give tags to your sensors, these are optional.
+					</div>
+					<a name="sp_3" class="faqCategoryText answer">
+						Editing a location/sensor
+					</a>
+					<div class="actualAnswer">
+						You can edit a location/sensor by pressing this button next to the sensor/location you want to edit:
+						<i class="material-icons helpPageIcon">edit</i>
+						Editing is analogue to creating a new sensor/location. More about <a class="faqCategoryTextRef" href="#sp_2">Adding a location/sensor</a>
+					</div>
+					<a name="sp_4" class="faqCategoryText answer">
+						Deleting a location/sensor
+					</a>
+					<div class="actualAnswer">
+						You can delete a location/sensor by pressing this button next to the sensor/location you want to delete:
+						<i class="material-icons helpPageIcon">delete</i>
+						PLEASE NOTE: all sensors connected to the location will be deleted. If a sensor gets removed, all its data will be gone.
+					</div>
+					<a name="sp_5" class="faqCategoryText answer">
+						Extra features
+					</a>
+					<div class="actualAnswer">
+						By pressing these arrows you can sort the rows alfabetically/numerical based on the columns:
+						<i class="material-icons md-10 helpPageIcon">play_arrow</i>
+					</div>
+				</div>
+			</a>
+		
+		
+		
+			<a class="faqCategoryAnswer" name="Social Home Page">
+				<div class="faqCategoryAnswerContainer">
+					<div class="faqCategoryTitle answer">
+						Social Home Page
+					</div>
+					<a name="shp_1" class="faqCategoryText answer">
+						The social page looks broken, how do i fix this?
+					</a>
+					<div class="actualAnswer">
+						See <a href="#sp_1">The social page looks broken, how do i fix this?</a>
+					</div>
+					<a name="shp_2" class="faqCategoryText answer">
+						Making/joining a group.
+					</a>
+					<div class="actualAnswer">
+						To make a group, you'll have to press the matching button here:
+						<img src="/static/FAQ_img/Social_nav.png" class="helpImage"/>
+						Give your group an awesome name and you're ready to rock!	<br>
+						You can join a group by pressing the button below the button to make a group. You'll then get a form where you can select the group you want to join.
+					</div>
+					<a name="shp_3" class="faqCategoryText answer">
+						Getting new friends.
+					</a>
+					<div class="actualAnswer">
+						You can find friends by pressing the matching button here:
+						<img src="/static/FAQ_img/Social_nav.png" class="helpImage"/>
+						You'll get a list of people, and you'll be able to search for people using the search bar. You add them by clicking the "add friend" button.
+					</div>
+					<a name="shp_4" class="faqCategoryText answer">
+						Looking at the wall/profile of groups/friends
+					</a>
+					<div class="actualAnswer">
+						The profile of a friend: navigate to "My Friends" using the menu drawer (see <a class="faqCategoryTextRef" href="#hp_1">How do i navigate?</a>) and click on the name of the friend you want to inspect.	<br>
+						The wall of a group: Click on the group on the left-hand side of the social homepage:
+						<img src="/static/FAQ_img/Social_nav2.png" class="helpImage"/>
+					</div>
+				</div>
+			</a>
+		
+		
+		
+			<a class="faqCategoryAnswer" name="Social Profile Page">
+				<div class="faqCategoryAnswerContainer">
+					<div class="faqCategoryTitle answer">
+						Social Profile Page
+					</div>
+					<a name="spp_1" class="faqCategoryText answer">
+						How do i change my profile picture?
+					</a>
+					<div class="actualAnswer">
+						Our profile pictures are importet from gravatar. Check it out <a class="faqCategoryTextRef" href="https://en.gravatar.com/">here</a>.
+					</div>
+					<a name="spp_2" class="faqCategoryText answer">
+						Basic overview
+					</a>
+					<div class="actualAnswer">
+						You can see things like your name, email and profile pcture on your profile page.	<br>
+						We leave this bit open, since it is up to the company that buys our website to specify what "fun facts" they want to see on the profile page.
+					</div>
+				</div>
+			</a>
 		</div>
-	</div>
-	<div class="faqCategory">
-		<a href="#Statistics Page" class="faqCategoryTitle">Statistics Page</a>
-		<div class="faqCategoryTextContainer">
-			<a href="#stp_1" class="faqCategoryText">The 4 dropdowns and their basic usage.</a>
-			<a href="#stp_2" class="faqCategoryText">What does "aggregate by..." mean?</a>
-		</div>
-	</div>
-	<div class="faqCategory">
-		<a href="#Sensors Page" class="faqCategoryTitle">Sensors Page</a>
-		<div class="faqCategoryTextContainer">
-			<a href="#sp_1" class="faqCategoryText">The sensors page looks broken, how do i fix this?</a>
-			<a href="#sp_2" class="faqCategoryText">Adding a location/sensor</a>
-			<a href="#sp_3" class="faqCategoryText">Editing a location/sensor</a>
-			<a href="#sp_4" class="faqCategoryText">Deleting a location/sensor</a>
-			<a href="#sp_5" class="faqCategoryText">Extra features</a>
-		</div>
-	</div>
-	<div class="faqCategory">
-		<a href="#Social Home Page" class="faqCategoryTitle">Social Home Page</a>
-		<div class="faqCategoryTextContainer">
-			<a href="#shp_1" class="faqCategoryText">The social page looks broken, how do i fix this?</a>
-			<a href="#shp_2" class="faqCategoryText">Making a group.</a>
-			<a href="#shp_3" class="faqCategoryText">Getting new friends.</a>
-			<a href="#shp_4" class="faqCategoryText">Looking at the wall of groups/friends</a>
-		</div>
-	</div>
-	<div class="faqCategory">
-		<a href="#Social Profile Page" class="faqCategoryTitle">Social Profile Page</a>
-		<div class="faqCategoryTextContainer">
-			<a href="#spp_1" class="faqCategoryText">How do i change my profile picture?</a>
-			<a href="#spp_2" class="faqCategoryText">Basic overview</a>
-		</div>
-	</div>
-
-
-	<div class="quest-answer_separator"></div>
-
-
-	<a class="faqCategoryAnswer answer" name="Home Page">
-		<div class="faqCategoryAnswerContainer">
-			<div class="faqCategoryTitle answer">
-				Home Page
-			</div>
-			<a name="hp_1" class="faqCategoryText answer">
-				How do i navigate?
-			</a>
-			<div class="actualAnswer">
-				You can navigate through our website using the manu icon in the top left of the screen.
-				<img src="/static/FAQ_img/navigateFAQ.png" class="helpImage"/>
-				A drawer will open, and you'll be able to explore the magnificent world of OverWatch.
-			</div>
-			<a name="hp_2" class="faqCategoryText answer">
-				I heard there were extra features planned for the homepage, which features excactly?
-			</a>
-			<div class="actualAnswer">
-				In the future the home page might contain cool stuff like graphs that we think you might find important, statuses of friends you might find interesting, etc.
-
-				You would also be able to mark graphs as important, and they would appear on your home page.
-			</div>
-		</div>
-	</a>
-
-
-
-	<a class="faqCategoryAnswer answer" name="Statistics Page">
-		<div class="faqCategoryAnswerContainer">
-			<div class="faqCategoryTitle answer">
-				Statistics Page
-			</div>
-			<a name="stp_1" class="faqCategoryText answer">
-				The 4 dropdowns and their basic usage.
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="stp_2" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-		</div>
-	</a>
-
-
-
-	<a class="faqCategoryAnswer" name="Sensors Page">
-		<div class="faqCategoryAnswerContainer">
-			<div class="faqCategoryTitle answer">
-				Sensors Page
-			</div>
-			<a name="sp_1" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="sp_2" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="sp_3" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="sp_4" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="sp_5" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-		</div>
-	</a>
-
-
-
-	<a class="faqCategoryAnswer" name="Social Home Page">
-		<div class="faqCategoryAnswerContainer">
-			<div class="faqCategoryTitle answer">
-				Social Home Page
-			</div>
-			<a name="shp_1" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="shp_2" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="shp_3" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="shp_4" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-		</div>
-	</a>
-
-
-
-	<a class="faqCategoryAnswer" name="Social Profile Page">
-		<div class="faqCategoryAnswerContainer">
-			<div class="faqCategoryTitle answer">
-				Social Profile Page
-			</div>
-			<a name="spp_1" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<a name="spp_2" class="faqCategoryText answer">
-				lorem ipsum
-			</a>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-			<div class="actualAnswer">
-				lolollolollolollolollolol
-			</div>
-		</div>
-	</a>
 </div>

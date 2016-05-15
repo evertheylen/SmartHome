@@ -51,7 +51,7 @@
 					<span style="display: inline-block;" ng-bind="i18n('aggregate_eur_per_unit')"></span>
 				</div>
                 -->
-				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone" ng-controller="location_controller">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -66,7 +66,7 @@
 					            </th>
 					        </tr>
 					    </thead>
-					    <tbody>
+					    <tbody ng-controller="location_controller">
 					        <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
@@ -186,7 +186,7 @@
 			<div class="mdl-grid">
 
     			<!--Table with sensors-->
-				<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone" ng-controller="sensor_controller">
+				<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone" >
 					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
@@ -206,7 +206,7 @@
 					            <th>Tag</th>
 					        </tr>
 					    </thead>
-					    <tbody>
+					    <tbody ng-controller="sensor_controller">
 					        <tr ng-repeat="sensor in filtered_sensors track by sensor.SID" ng-controller="sensor_objController" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
 					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
@@ -345,7 +345,7 @@
 		<div class="boxContent">
 			<div class="mdl-grid">
 				<!--cards-->
-				<div ng-repeat="graph in graphs" on-finish-render="ngRepeatFinished" class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
+				<div ng-repeat="graph in graphs" on-finish-render-graphs="ngRepeatFinishedGraphs" class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 					<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
 							<h2 class="mdl-card__title-text">{{i18n('graph') + " " + $index}}</h2>
@@ -362,8 +362,8 @@
 								<i id="exit_icon-{{$index}}" class="material-icons white">power_settings_new</i>
 							</button>
 						</div>
-						<div ng-click="fullscreen(graph)">
-							<canvas id="line-{{$index}}" class="chart chart-base" chart-type="graph.type" chart-data="graph.data" chart-labels="graph.labels" chart-legend="true" chart-series="graph.series" chart-click=""></canvas>
+						<div ng-click="Scatterfullscreen(graph)">
+							<canvas id="line-{{$index}}"></canvas>
 						</div>	
 					</div>
 					<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">

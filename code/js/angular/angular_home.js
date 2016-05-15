@@ -24,6 +24,56 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	    }
 	    $scope.importants[element_id] = !$scope.importants[element_id];
 	};
+  
+    $scope.scatters = [];
+    for (i = 0 ; i < 3; i++) {
+        // Get the context of the canvas element we want to select
+        var graph = {};
+        graph.data = [{
+              label: 'My First dataset',
+              strokeColor: '#F16220',
+              pointColor: '#F16220',
+              pointStrokeColor: '#fff',
+              data: [
+                { x: 19, y: 65 }]
+                    },
+            {
+              label: 'My Second dataset',
+              strokeColor: '#007ACC',
+              pointColor: '#007ACC',
+              pointStrokeColor: '#fff',
+              data: [
+                { x: 19, y: 75, r: 4 }]
+            }
+          ];
+        addPoint(graph, 0, 27, 59);
+        addPoint(graph, 0, 28, 69);
+        addPoint(graph, 0, 40, 81);
+        addPoint(graph, 0, 48, 56);
+        addPoint(graph, 1, 27, 69);
+        addPoint(graph, 1, 28, 70);
+        addPoint(graph, 1, 40, 31);
+        addPoint(graph, 1, 48, 76);
+        addPoint(graph, 1, 52, 23);
+        addPoint(graph, 1, 64, 32);
+        graph.options = {
+            bezierCurve: false
+        };
+        $scope.scatters.push(graph);
+        //var ctx = document.getElementById("line").getContext("2d");
+        //$scope.scatter = new Chart(ctx).Scatter(data, options);
+        //$scope.scatter.data = data;
+    }
+    
+    $timeout(function() {
+        var j = 0;
+        for (i = $scope.graphs.length + $scope.graphs_single.length; i< $scope.graphs.length+$scope.graphs_single.length+$scope.scatters.length; i++) {
+            var ctx = document.getElementById("line-"+i).getContext("2d");
+            new Chart(ctx).Scatter($scope.scatters[j].data, $scope.scatters[j].options);
+            j++;
+        }
+    });
+  
     $scope.graphs = [];
     $scope.graphs_single = [];
     var graph_types = ["Line", "Bar", "Radar"];
@@ -40,7 +90,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         $scope.graphs.push(graph);  
     }
     $timeout(function () {
-        for(i=0; i < 3; i++) {
+        for(i=1; i < 3; i++) {
             $scope.graphs[i].data = [
                 [28, 48, 40, 19, 86, 27, 90, 59,54,53,30,12],
                 [65, 59, 80, 81, 56, 55, 40, 50,78,45,01,45]

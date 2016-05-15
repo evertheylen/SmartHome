@@ -181,5 +181,29 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
     $rootScope.close_fullscreen = function() {
       document.getElementById('fullScreenDialog').close();
     }
+		$rootScope.Scatterfullscreen = function(graph) {
+				addClass(document.getElementById("line-Scatterfullscreen"), "fullscreenCanvas");
+				// Get the context of the canvas element we want to select
+
+				componentHandler.upgradeDom();
+				document.getElementById('line-Scatterfullscreen').removeAttribute('style');
+				// Get the context of the canvas element we want to select
+				document.getElementById("ScatterfullScreenDialog").showModal();
+				componentHandler.upgradeDom();
+				var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
+				var options = {
+						bezierCurve: false,
+						responsive: false,
+						maintainAspectRatio: false,
+						scaleType: "date",
+						useUtc: false
+				}
+				$scope.graph = new Chart(ctx).Scatter(graph.data, options);
+				$scope.graph.update();	
+    }
+    
+    $rootScope.Scatterclose_fullscreen = function() {
+      document.getElementById('ScatterfullScreenDialog').close();
+    }
 });
 

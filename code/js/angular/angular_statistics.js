@@ -8,7 +8,17 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $rootScope.tab = "statisticslink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $scope.graphs = [];
+    
+    $scope.statistics = true;
 
+    $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
+        for (i = 0; i< $scope.graphs.length; i++) {
+            var ctx = document.getElementById("line-"+i).getContext("2d");
+            new Chart(ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+        }
+      	componentHandler.upgradeDom();
+    });
+    
     // Sample data
     var is_box2_opened = false;
     $scope.open_box = function(id) {
@@ -29,6 +39,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.open_box(1);
     $scope.open_box(3);
 
+    $scope.all_locs = false;
+    $scope.all_types = false;
+    $scope.all_sensors = false;
+    $scope.all_tags = false;
+    
 
     // Fill all the $scope arrays using the database.    
     $scope.houses = [];
@@ -261,12 +276,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         var checkCount = 0;
         switch (type) {
             case "location":
+                console.log("Checking locs");
                 for (i = 0; i < $scope.houses.length; i++) {
                     if ($scope.select_locs[i]) {
                         checkCount++;
                     }
                 }
                 $scope.all_locs = (checkCount === $scope.houses.length);
+                console.log("All locs: " + $scope.all_locs);
                 if ($scope.all_locs) {
                     addClass(document.getElementById("label-all_locations"), "is-checked");
                 } else {
@@ -616,7 +633,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             where: where,
             timespan: timespan
         }, function(response) {
-            $scope.graphs.push(response.get_visual());
+            $scope.graphs.push(response.get_graph());
             if (!hasClass(document.getElementById("box4"), "open"))
                 $scope.open_box(4);
             componentHandler.upgradeDom();

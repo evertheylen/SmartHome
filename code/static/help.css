@@ -1,5 +1,5 @@
 .quest-answer_separator{
-	height: 10%;
+	height: 100px;
 }
 
 #helpTitle{
@@ -7,7 +7,7 @@
 	padding-left: 1%;
 }
 
-.faqCategoryTitle, .faqCategoryText{
+.faqCategoryTitle, .faqCategoryText,  .faqCategoryTextRef{
 	text-decoration: none;
 	color: #2EBCD4;
 }
@@ -15,6 +15,7 @@
 #faqContainer{
 	margin-left: 2%;
 	margin-bottom: 5%;
+	margin-right: 2%;
 }
 
 .faqCategory{
@@ -38,6 +39,7 @@
 .actualAnswer{
 	margin-left: 4%;
 	margin-bottom: 20px;
+	margin-right: 4%;
 }
 
 .answer{
@@ -68,7 +70,11 @@
 }
 
 .helpImage{
-	width: 640px;
-	height: 400px;
+	width: 60%;
+	height: auto;
+	display: block;
+}
+
+.helpPageIcon{
 	display: block;
 }
