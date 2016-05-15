@@ -2,6 +2,7 @@
 	text-transform: uppercase;
 	font-size: 25px;
 	display: inline;
+	float: left;
 }
 
 .profileHeader{
