@@ -10,6 +10,7 @@ var html_strings = {
     "sociallink" : ["Social", "Sociaal"],
     "adminlink" : ["Admin", "Beheerder"],
     "reportlink" : ["Report", "Rapport"],
+    "helplink" : ["Help Page", "Help Pagina"],
     "datalink" : ["Upload data", "Upload data"],
     "contact": ["Contact ", "Contacteer "],
     "about": ["About ", "Over "],
