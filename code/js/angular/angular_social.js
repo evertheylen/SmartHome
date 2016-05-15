@@ -717,53 +717,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 GID: $scope.status.graph
             }
         }, function(response) {
-            $scope.graph = {};
-            $scope.graph.type = "Line";
-            $scope.graph.labels = [];
-            $scope.graph.series = [];
-            $scope.graph.data = [];
-
-            var db_graph = response.object;
-
-            // Convert db_graph to a normal graph.
-            var valueType = db_graph.timespan.valueType;
-            var start_date = db_graph.timespan.start;
-            var end_date = db_graph.timespan.end;
-            var total_days = Math.ceil((end_date - start_date) / (60*60*24));
-
-            switch (valueType) {
-                case 'HourValue':
-                    var total_hours = (end_date - start_date) / (60*60);
-                    for (var i = 0; i < total_hours; i++) 
-                        $scope.graph.labels.push("hour " + i);
-                    break;
-                case 'DayValue':
-                    for (var i = 0; i < total_days; i++)
-                        $scope.graph.labels.push("day " + i);
-                    break;
-                case 'MonthValue':
-                    for (var i = 0; i < total_days; i += 30)
-                        $scope.graph.labels.push("month " + i / 30);
-                    break;
-                case 'YearValue':
-                    for (var i = 0; i < total_days; i += 365) 
-                        $scope.graph.labels.push("year " + i / 365);
-            }
-
-            var lines = db_graph.lines;
-
-            for (var groupIndex = 0; groupIndex < lines.length; groupIndex++) {
-                var sensor_data = [];
-                for (var valueIndex = 0; valueIndex < lines[groupIndex].values.length; valueIndex++) {
-                    sensor_data.push(lines[groupIndex].values[valueIndex][0]);
-                    if (valueType == "Value") 
-                        $scope.graph.labels.push("");
-                }
-                // Series will be a ton of work.
-                $scope.graph.series.push("");
-                $scope.graph.data.push(sensor_data);
-            }
-
+            $scope.graph = response.get_graph();
             $scope.$apply();
         }, $scope);
     }
