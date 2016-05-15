@@ -24,13 +24,12 @@ function Graph(GID, timespan, group_by, where, lines, title) {
                 graph.data.push({data: []});
                 break;
             }
-            graph.data.push({data: [{x: values[0][0], y: values[0][1]}]});
+            graph.data.push({data: [{x: values[0][1], y: values[0][0]}]});
             for (var valueIndex = 1; valueIndex < values.length; valueIndex++)
-                addPoint(graph, lineIndex, values[valueIndex][0], values[valueIndex][1]);
+                addPoint(graph, lineIndex, values[valueIndex][1], values[valueIndex][0]);
             graph.data[lineIndex].label = lines[lineIndex].label;
         }
         this._graph = graph;
-        console.log("GRAPH: " + this._graph);
         return this._graph;
     }
 }
