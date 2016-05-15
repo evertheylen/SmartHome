@@ -4,7 +4,7 @@ Graph.prototype = new DataType();
 Graph.prototype.constructor = Graph;
 Graph.prototype._key = ["GID"];
 
-function Graph(LGID, timespan, group_by, where, lines, title) {
+function Graph(GID, timespan, group_by, where, lines, title) {
 	this.GID = GID;
 	this.timespan = timespan;
 	this.group_by = group_by;
