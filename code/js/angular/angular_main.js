@@ -194,10 +194,10 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 				var options = {};
 				var data = [];
 				$scope.graph = new Chart(ctx).Scatter(graph.data, graph.options);
-				//$scope.graph.options = {
-					//	responsive: false,
-						//maintainAspectRatio: false
-				//}
+				$scope.graph.options = {
+						responsive: false,
+						maintainAspectRatio: false
+				}
 				$scope.graph.update();	
     }
     
