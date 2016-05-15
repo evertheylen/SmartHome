@@ -618,8 +618,8 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.statuses.length; i++) {
             var ctx = document.getElementById("line-"+$scope.statuses[i].SID).getContext("2d");
-            if ($scope.statuses[i].graph != undefined) {
-                new Chart(ctx).Scatter($scope.statuses[i].graph.data, $scope.statuses[i].graph.options);
+            if ($scope.statuses[i].graph != null) {
+                new Chart(ctx).Scatter($scope.statuses[i]._graph.data, $scope.statuses[i]._graph.options);
             }
         }
       	componentHandler.upgradeDom();
@@ -718,7 +718,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
                 GID: $scope.status.graph
             }
         }, function(response) {
-            $scope.graph = response.get_graph();
+            $scope.status._graph = response.object.get_graph();
             $scope.$apply();
         }, $scope);
     }
