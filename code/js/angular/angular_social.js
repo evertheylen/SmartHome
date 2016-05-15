@@ -2,6 +2,8 @@ angular.module("overwatch").controller("socialController", function($scope, $roo
     $scope.$on("$destroy", function() {
         cache.removeScope($scope);
     });
+        
+
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.auth_user = Auth.getUser();
@@ -57,6 +59,17 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
     });
     $rootScope.auth_user = Auth.getUser();
     $scope.statuses = [];
+        
+    $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
+        for (i = 0; i< $scope.statuses.length; i++) {
+            var ctx = document.getElementById("line-"+$scope.statuses[i].SID).getContext("2d");
+            if ($scope.statuses[i].graph != undefined) {
+                new Chart(ctx).Scatter($scope.statuses[i].graph.data, $scope.statuses[i].graph.options);
+            }
+        }
+      	componentHandler.upgradeDom();
+    });
+    
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $rootScope.auth_user.wall_WID}}, function(response) {
         $scope.statuses = response.objects;  
         ws.request({
@@ -600,6 +613,17 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 
     });
     $scope.statuses = [];
+    
+    $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
+        for (i = 0; i< $scope.statuses.length; i++) {
+            var ctx = document.getElementById("line-"+$scope.statuses[i].SID).getContext("2d");
+            if ($scope.statuses[i].graph != undefined) {
+                new Chart(ctx).Scatter($scope.statuses[i].graph.data, $scope.statuses[i].graph.options);
+            }
+        }
+      	componentHandler.upgradeDom();
+    });
+    
     
     ws.request({type: "get_all", what: "Status", for: {what: "Wall", WID: $scope.group.wall_WID}}, function(response) {
         $scope.statuses = response.objects;  

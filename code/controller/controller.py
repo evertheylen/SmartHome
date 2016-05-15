@@ -67,20 +67,18 @@ class MetaController(type):
 # Actual little helper functions and constants
 # --------------------------------------------
 
+from string import ascii_letters, digits
+random_chars = ascii_letters + digits
+
 def check_for_type(req: "Request", typ: str):
     if not req.metadata["for"]["what"] == typ:
         raise Error("wrong_object_type", "Wrong object type in for.what")
-
-# Dictionary which contains frequently used operation codes
-op_codes = {'gt': '>', 'lt': '<', 'eq': '=','le': '<=', 'ge': '>=', 'in': 'IN'}
 
 # Dictionary to limit possible fields on which to filter in 'where' clause
 value_props_per_type = {}
 for cls in Value, HourValue, DayValue, MonthValue, YearValue:
     value_props = {p.name: p for p in cls._props if p.json}
     value_props_per_type[cls.__name__] = (cls, value_props)
-
-sensor_props = {p.name: p for p in Sensor._props if p.json}
 
 # The Controller
 # ==============
@@ -115,7 +113,7 @@ class Controller(metaclass=MetaController):
     async def conn_close(self, conn):
         pass  # TODO?
 
-    async def insert_csv_file(self, body: bytes, insert_live: bool):
+    async def insert_csv_file(self, body: bytes):
         """Insert the data in the body (expects bytes as csv)"""
         f = io.StringIO(body.decode("utf-8"))
         reader = csv.reader(f, dialect=sim.elecsim_dialect)
@@ -156,7 +154,13 @@ class Controller(metaclass=MetaController):
             except SqlError as e:
                 self.logger.error("Error in database: {}".format(e))
                 self.logger.error("Moving on...")
-
+    
+    async def add_value(self, SID, secret_key, value):
+        s = await Sensor.find_by_key(SID, self.db)
+        if s.secret_key != secret_key:
+            self.logger.error("Wrong key used")
+            raise Error("wrong_key", "wrong_key")
+        
 
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
@@ -632,13 +636,34 @@ class Controller(metaclass=MetaController):
                 # If the tag isn't needed elsewhere => delete it
                 count = await Tagged.get(condition2).count(self.db)
                 if count == 0: await t.delete(self.db)
-                await req.answer({"status": "succes"})
+                await req.answer({"status": "success"})
 
         @case("Graph")
         async def graph(self, req):
             g = await Graph.find_by_key(req.data["GID"], self.db)
             await g.delete(self.db)
             await req.answer({"status": "success"})
+
+    
+    @handle_ws_type("get_secret_key")
+    @require_user_level(1)
+    async def handle_secret_key(self, req):
+        s = await Sensor.find_by_key(req.data["SID"], self.db)
+        await s.check_auth(req)
+        if s.secret_key is None:
+            s.secret_key = "".join([random.choice(random_chars) for i in range(50)])
+            await s.update(self.db)
+        await req.answer({"secret_key": s.secret_key})
+
+
+    @handle_ws_type("reset_secret_key")
+    @require_user_level(1)
+    async def handle_reset_secret_key(self, req):
+        s = await Sensor.find_by_key(req.data["SID"], self.db)
+        await s.check_auth(req)
+        s.secret_key = "".join([random.choice(random_chars) for i in range(50)])
+        await s.update(self.db)
+        await req.answer({"status": "success"})
 
 
     @handle_ws_type("create_graph")
@@ -654,11 +679,11 @@ class Controller(metaclass=MetaController):
 
         for c in req.metadata.get("where", []):
             val = c["value"] if not isinstance(c["value"], list) else tuple(c["value"])
-            w = Where(sensor_props[c["field"]].name, op_codes[c["op"]], Unsafe(val))
+            w = create_WhereInGraph(c["field"], c["op"], val)
             base_wheres.append(w)
 
         if not req.conn.user.admin:
-            base_wheres.append(Sensor.user == req.conn.user.key)
+            base_wheres.append(create_WhereInGraph("user_UID", "=", req.conn.user.UID))
 
         ts = req.metadata["timespan"]
         g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"), where_text=json.dumps(req.metadata["where"]))
