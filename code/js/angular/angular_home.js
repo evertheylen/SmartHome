@@ -55,7 +55,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         addPoint(graph, 1, 40, 31);
         addPoint(graph, 1, 48, 76);
         addPoint(graph, 1, 52, 23);
-        addPoint(graph, 1, 24, 32);
+        addPoint(graph, 1, 64, 32);
         graph.options = {
             bezierCurve: false
         };
