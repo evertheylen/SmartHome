@@ -191,13 +191,11 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 				document.getElementById("ScatterfullScreenDialog").showModal();
 				componentHandler.upgradeDom();
 				var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
-				var options = {};
-				var data = [];
-				$scope.graph = new Chart(ctx).Scatter(graph.data, graph.options);
-				$scope.graph.options = {
+				var options = {
 						responsive: false,
 						maintainAspectRatio: false
 				}
+				$scope.graph = new Chart(ctx).Scatter(graph.data, options);
 				$scope.graph.update();	
     }
     
