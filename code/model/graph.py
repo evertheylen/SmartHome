@@ -151,7 +151,7 @@ class Graph(OwEntity):
         return {
             "GID": self.GID,
             "group_by": [],
-            "where": self.wheres,
+            "where": [w.json_repr() for w in self.wheres],
             "title": self.title,
             "lines": [l.json_repr() for l in self.lines],
             #"convert_to_EUR": self.convert_to_EUR,
@@ -207,6 +207,7 @@ class WhereInGraph(OwEntity):
             self.value_int = None
             self.value_float = None
             self.value_str = str(val)
+            self.value_int_array = None
     
     def json_repr(self):
         return {
@@ -353,7 +354,7 @@ class GroupedByInLine(OwEntity):
         
         @case("Location")
         def _location(self, db):
-            return Where(Sensor.location_LID, "=", Unsafe(self.ref_ID))
+            return Where(Sensor.location, "=", Unsafe(self.ref_ID))
         
         @case("Sensor")
         def _sensor(self, db):
@@ -361,7 +362,7 @@ class GroupedByInLine(OwEntity):
         
         @case("User")
         def _user(self, db):
-            return Where(Sensor.user_UID, "=", Unsafe(self.ref_ID))
+            return Where(Sensor.user, "=", Unsafe(self.ref_ID))
     
     def get_sql(self, db):
         return self._get_sql(self, db)

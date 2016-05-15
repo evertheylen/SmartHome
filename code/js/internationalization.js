@@ -135,6 +135,11 @@ var html_strings = {
     "report_final_comment" : ["comment (click and type to make a final comment)", "comment (klik en typ om een finale comment te maken)"],
     "graph" : ["Graph", "Grafiek"],
 
+    "static": ["Static Data", "Statische Data"],
+    "live": ["Live Data", "Live Data"],
+    "amount_back": ["Amount of days back", "Aantal dagen terug"],
+
+
 
 
 	"faq_hp" : ["Home page", "Home pagina"],
@@ -186,8 +191,6 @@ var html_strings = {
 
 	"faq_spp_ans_1" : ["How do i change my profile picture?", "Hoe verander ik mijn profielfoto?"],
 	"faq_spp_ans_2" : ["Basic overview", "Basis overzicht"],
-
-
 
 
 
