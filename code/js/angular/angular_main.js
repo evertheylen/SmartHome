@@ -194,6 +194,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			componentHandler.upgradeDom();
 			document.getElementById('line-Scatterfullscreen').removeAttribute('style');*/
 			// Get the context of the canvas element we want to select
+				document.getElementById("ScatterfullScreenDialog").showModal();
+	componentHandler.upgradeDom();
 var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
 var data = [
     {
@@ -227,8 +229,6 @@ var data = [
   ];
 var options = {};
 $scope.scatter = new Chart(ctx).Scatter(data, options);
-      document.getElementById("ScatterfullScreenDialog").showModal();
-			componentHandler.upgradeDom();
     }
     
     $rootScope.Scatterclose_fullscreen = function() {
