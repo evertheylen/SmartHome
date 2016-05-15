@@ -3,7 +3,7 @@ var currentId = 0; // Current request ID.
 var requests = new Queue();  // Queue for requests that are waiting to be sent to the server.
 var reconnectLimit = 10; // The maximum amount of times a websocket is allowed to reconnect.
 var reconnects = 0; // The amount of times the websocket has attempted to reconnect.
-var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Group, Membership, Graph, Comment];
+var dataTypes = [Wall, User, Location, Sensor, Tag, Status, Like, Friendship, Group, Membership, Graph, LiveGraph, Comment];
 var errors = [];
 
 // Used to avoid duplicates of the same object, memory management and live updating.
@@ -19,6 +19,7 @@ var cache = {
     Group: {},
     Membership: {},
     Graph: {},
+    LiveGraph: {},
     Comment: {},
 
 	getObject: function(type, key, data, scope) {
@@ -232,6 +233,12 @@ function create_graph_response(response) {
 	return getFilledObject("Graph", data);
 }
 
+function create_graph_live_response(response) {
+	var data = response["data"];
+	var key = data["LGID"];  
+	return cache.getObject("LiveGraph", key, data, scope);
+}
+
 function edit_response(response, scope) {
 	var type = response["what"];
 	var data = response["data"];
@@ -273,10 +280,14 @@ function live_edit_response(response) {
 function live_delete_response(response) {
     var type = response["what"];
     var key = getKey(type, response["data"]);
-    console.log("Live delete response");
-    console.log("Type: " + type);
-    console.log("Key: " + key);
     var object = cache[type][key];
+    if (object)
+        object.updateLiveScopes("None");
+}
+
+function get_liveline_values_response(response) {
+    var key = response["graph"];
+    var object = cache["LiveGraph"][key];
     if (object)
         object.updateLiveScopes("None");
 }

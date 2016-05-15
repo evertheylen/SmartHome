@@ -15,6 +15,12 @@ function Graph(GID, timespan, group_by, where, lines, title) {
 
     // Returns a VisualGraph object that can be used to display a graph.
     this.get_visual = function () {
+        
+
+
+
+
+
         var graph = new VisualGraph("Line", "", [], [], [], this.GID, this.title);
         var elapsed_time = this.timespan.end - this.timespan.start;
         var total_days = Math.ceil((elapsed_time) / (60*60*24));
@@ -108,31 +114,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
 }
 
 
-function VisualGraph(type, labelType, labels, series, data, temp_GID, title) {
-	this.type = type;
-    this.labelType = labelType;
-	this.labels = labels;
-	this.series = series;
+function VisualLiveGraph(data, LGID) {
 	this.data = data;
-	this.temp_GID = temp_GID;
-    this.title = title;
-    this.full_labels = labels.length; 
-
-    this.valueMode = function (isOn) {
-        if (this.labels.length > this.full_labels)
-            this.full_labels = labels.length;
-        this.labels = [];
-        var valueLength = this.full_labels;
-        if (isOn)  
-            valueLength = this.data[0].length;
-        console.log("valueLength: " + valueLength);
-        var show_labels = (valueLength < 50);
-        for (var i = 0; i < valueLength; i++) {
-            if (show_labels) {
-                this.labels.push(labelType + i);
-                continue;
-            }
-            this.labels.push("");
-        } 
-    }
+    this.LGID = LGID;
 }
