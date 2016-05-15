@@ -29,36 +29,33 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
     for (i = 0 ; i < 3; i++) {
         // Get the context of the canvas element we want to select
         var graph = {};
-        graph.data = [
-            {
+        graph.data = [{
               label: 'My First dataset',
               strokeColor: '#F16220',
               pointColor: '#F16220',
               pointStrokeColor: '#fff',
               data: [
-                { x: 19, y: 65 }, 
-                { x: 27, y: 59 }, 
-                { x: 28, y: 69 }, 
-                { x: 40, y: 81 },
-                { x: 48, y: 56 }
-              ]
-            },
+                { x: 19, y: 65 }]
+                    },
             {
               label: 'My Second dataset',
               strokeColor: '#007ACC',
               pointColor: '#007ACC',
               pointStrokeColor: '#fff',
               data: [
-                { x: 19, y: 75, r: 4 }, 
-                { x: 27, y: 69, r: 7 }, 
-                { x: 28, y: 70, r: 5 }, 
-                { x: 40, y: 31, r: 3 },
-                { x: 48, y: 76, r: 6 },
-                { x: 52, y: 23, r: 3 }, 
-                { x: 24, y: 32, r: 4 }
-              ]
+                { x: 19, y: 75, r: 4 }]
             }
           ];
+        addPoint(graph, 0, 27, 59);
+        addPoint(graph, 0, 28, 69);
+        addPoint(graph, 0, 40, 81);
+        addPoint(graph, 0, 48, 56);
+        addPoint(graph, 1, 27, 69);
+        addPoint(graph, 1, 28, 70);
+        addPoint(graph, 1, 40, 31);
+        addPoint(graph, 1, 48, 76);
+        addPoint(graph, 1, 52, 23);
+        addPoint(graph, 1, 64, 32);
         graph.options = {
             bezierCurve: false
         };
