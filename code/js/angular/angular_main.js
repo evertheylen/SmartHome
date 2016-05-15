@@ -192,6 +192,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 				componentHandler.upgradeDom();
 				var ctx = document.getElementById("line-Scatterfullscreen").getContext("2d");
 				var options = {
+						bezierCurve: false,
 						responsive: false,
 						maintainAspectRatio: false
 				}

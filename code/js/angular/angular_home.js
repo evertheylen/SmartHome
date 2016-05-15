@@ -59,7 +59,9 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
               ]
             }
           ];
-        graph.options = {};
+        graph.options = {
+            bezierCurve: false
+        };
         $scope.scatters.push(graph);
         //var ctx = document.getElementById("line").getContext("2d");
         //$scope.scatter = new Chart(ctx).Scatter(data, options);
