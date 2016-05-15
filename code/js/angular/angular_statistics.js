@@ -19,8 +19,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.graphs.length; i++) {
-            var ctx = document.getElementById("line-"+i).getContext("2d");
-            $scope.live_graph = new Chart(ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            $scope.graphs[i].ctx = document.getElementById("line-"+i).getContext("2d");
+            $scope.live_graph = new Chart($scope.graphs[i].ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
         }
       	componentHandler.upgradeDom();
         $timeout(function() {
@@ -38,8 +38,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
  $scope.live_graph.datasets[0].addPoint(5,5);
 
  $scope.live_graph.datasets[0].addPoint(5,5);
-          $scope.live_graph.update();
-          }, 1000);
+          new Chart($scope.live_graph.ctx).Scatter($scope.live_graph.data, $scope.live_graph.options);
+          }, 2000);
     });
     
     
