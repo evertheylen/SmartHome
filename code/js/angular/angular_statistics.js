@@ -813,15 +813,26 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     if (hasClass(layout, "mdl-layout--no-drawer-button")) {
         removeClass(layout, "mdl-layout--no-drawer-button");
     }
-
     $scope.mark_important = function mark_important(element_id) {
         var element = document.getElementById('important_icon-' + element_id);
         if (hasClass(element, "yellow")) {
             removeClass(element, "yellow");
             addClass(element, "white");
+            ws.request({
+                type: "delete",
+                what: "LiveGraph",
+                data: {LGID: $scope.graphs[element_id].temp_GID}
+                }, function(response) {
+            }, $scope);
         } else if (hasClass(element, "white")) {
             removeClass(element, "white");
             addClass(element, "yellow");
+            ws.request({
+                type: "add",
+                what: "LiveGraph",
+                data: {LGID: $scope.graphs[element_id].temp_GID}
+                }, function(response) {
+            }, $scope);
         }
         $scope.importants[element_id] = !$scope.importants[element_id];
     };

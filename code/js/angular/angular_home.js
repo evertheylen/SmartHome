@@ -40,17 +40,16 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         removeClass(layout, "mdl-layout--no-drawer-button");
     }
 
-	$scope.mark_important = function mark_important(element_id) {
-	    var element = document.getElementById('important_icon-'+element_id);
-	    if (hasClass(element, "yellow")) {
-	        removeClass(element, "yellow");
-	        addClass(element, "white");
-	    } else if (hasClass(element, "white")) {
-	        removeClass(element, "white");
-	        addClass(element, "yellow");
-	    }
-	    $scope.importants[element_id] = !$scope.importants[element_id];
-	};
+    $scope.exit = function (index) {
+        ws.request({
+            type: "delete",
+            what: "LiveGraph",
+            data: {LGID: $scope.scatters[index].temp_GID}
+            }, function(response) {
+        }, $scope);
+        $scope.scatters.splice(index, 1);
+        componentHandler.upgradeDom();
+	}
   
     $scope.scatters = [];
         
