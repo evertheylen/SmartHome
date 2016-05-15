@@ -753,24 +753,25 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             return;
         }
 
-        $scope.amount_live_back *= 1000*60;
+        var start_time = $scope.amount_live_back;
+        start_time *= 1000*60;
         switch ($scope.type_of_time) {
             case 'hours':
-                $scope.amount_live_back *= 60;
+                start_time *= 60;
                 break;
             case 'days':
-                $scope.amount_live_back *= 60*24;
+                start_time *= 60*24;
                 break;
             case 'months':
-                $scope.amount_live_back *= 60*24*30;
+                start_time *= 60*24*30;
                 break;
             case 'years':
-                $scope.amount_live_back *= 60*24*30*365;
+                start_time *= 60*24*30*365;
         }
 
         var timespan = {
             valueType: valueType,
-            start: -$scope.amount_live_back,
+            start: -start_time,
             end: 0
         } 
 
