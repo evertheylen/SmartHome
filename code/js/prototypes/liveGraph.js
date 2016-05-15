@@ -19,33 +19,12 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
         var graph = {temp_GID: this.GID, data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            graph.line_map[lines[lineIndex].LLID] = lineIndex;
             graph.data[lineIndex].label = lines[lineIndex].label;
             graph.data[lineIndex].strokeColor = 'rgb(' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ')';
         }
         this._graph = graph;
         return this._graph;
-    }
-
-    this.get_chart = function (ctx) {
-        if (this._chart) 
-            return this._chart;
-        var lines = this.lines;
-        var data = {};
-        var line_map = {};
-        for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-            line_map[lines[lineIndex].LLID] = lineIndex;
-            data.push({
-                strokeColor: '#007ACC',
-                pointColor: '#007ACC',
-                pointStrokeColor: '#fff',
-                label: lines[lineIndex].label,  
-                data: []   
-            });
-        }
-        this._chart = new Chart(ctx).Scatter(data);
-        this._chart.line_map = line_map;
-        this._chart.live = true;
-        return this._chart;
     }
 }
 
