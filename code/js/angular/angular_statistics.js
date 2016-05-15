@@ -635,6 +635,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     });
 
     $scope.$watch('live_amount_days + live', function() {
+        today = new Date();
         var time = $scope.amount_live_back;
         time *= 1000*60;
         switch ($scope.type_of_time) {
@@ -650,8 +651,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             case 'years':
                 time *= 60*24*30*365;
         }
-        check_date = new Date(time);
-        today = new Date();
+        check_date = today - new Date(time);
         if (check_date.getYear() == today.getYear() && 
             check_date.getMonth() == today.getMonth() &&
             check_date.getDate() == today.getDate() ) {
