@@ -21,7 +21,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             var values = lines[lineIndex].values;
             if (values.length === 0) { 
-                graph.data.push({data: []);
+                graph.data.push({data: []});
                 break;
             }
             graph.data.push({data: [{x: values[0][0], y: values[0][1]}]});
