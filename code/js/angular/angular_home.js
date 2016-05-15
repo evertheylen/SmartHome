@@ -28,9 +28,35 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 // Get the context of the canvas element we want to select
 var ctx = document.getElementById("line").getContext("2d");
 var data = [
-            [65, 59,80,81,56,55,40,59,54,53,30,12],
-            [28,48,40,19,86,27,90,40,78,45,01,45]
-        ];
+    {
+      label: 'My First dataset',
+      strokeColor: '#F16220',
+      pointColor: '#F16220',
+      pointStrokeColor: '#fff',
+      data: [
+        { x: 19, y: 65 }, 
+        { x: 27, y: 59 }, 
+        { x: 28, y: 69 }, 
+        { x: 40, y: 81 },
+        { x: 48, y: 56 }
+      ]
+    },
+    {
+      label: 'My Second dataset',
+      strokeColor: '#007ACC',
+      pointColor: '#007ACC',
+      pointStrokeColor: '#fff',
+      data: [
+        { x: 19, y: 75, r: 4 }, 
+        { x: 27, y: 69, r: 7 }, 
+        { x: 28, y: 70, r: 5 }, 
+        { x: 40, y: 31, r: 3 },
+        { x: 48, y: 76, r: 6 },
+        { x: 52, y: 23, r: 3 }, 
+        { x: 24, y: 32, r: 4 }
+      ]
+    }
+  ];
 var options = {};
 $scope.scatter = new Chart(ctx).Scatter(data, options);
 
