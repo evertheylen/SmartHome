@@ -1,13 +1,38 @@
 angular.module("overwatch").controller("statisticsController", function($scope, $rootScope, Auth, $timeout, $state, graphShare) {
     $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
+        for (var graphIndex = 0; graphIndex < $scope.graphs.length; graphIndex++) {
+            var graph = $scope.graphs[graphIndex];
+            graph.removeLiveScope($scope);
+            ws.request({
+            type: "delete_liveline_values",
+            graph: graph.temp_GID,
+            }, function(response) {
+            }, $scope);
+        }
     });
+
+    $scope.update = function(object) {
+        if (object["type"] === "live_add_liveline_values") {
+            for (var graphIndex = 0; graphIndex < $scope.graphs.length; graphIndex++) {
+                var graph = $scope.graphs[graphIndex];
+                if (graph.temp_GID === object.graph) {
+                    for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
+                        var value = object.values[valueIndex];
+                        addPoint(graph, graph.line_map[object.line], value[1], value[0]);
+                        new Chart(graph.ctx).Scatter(graph.data, graph.options);
+                    }
+                }
+            }
+        }
+    }
+
     $rootScope.$state = $state;
     $rootScope.simple_css = false;  
     $rootScope.auth_user = Auth.getUser();
     $rootScope.tab = "statisticslink";
     $rootScope.page_title = "OverWatch - " + $scope.i18n($rootScope.tab);
     $scope.graphs = [];
+    $scope.amount_live_back = 0;
     
     $scope.statistics = true;
 
@@ -35,8 +60,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
           }, 2000);*/
         
     });
-    
-    
     
     // Sample data
     var is_box2_opened = false;
@@ -609,6 +632,39 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         // TODO make days radio button checked.
     });
 
+    $scope.$watch('live_amount_days + live', function() {
+        var time = $scope.amount_live_back;
+        time *= 1000*60;
+        switch ($scope.type_of_time) {
+            case 'hours':
+                time *= 60;
+                break;
+            case 'days':
+                time *= 60*24;
+                break;
+            case 'months':
+                time *= 60*24*30;
+                break;
+            case 'years':
+                time *= 60*24*30*365;
+        }
+        check_date = new Date(time);
+        today = new Date();
+        if (check_date.getYear() == today.getYear() && 
+            check_date.getMonth() == today.getMonth() &&
+            check_date.getDate() == today.getDate() ) {
+            if (check_date.getYear() == today.getYear() && 
+                check_date.getMonth() == today.getMonth() &&
+                check_date.getDate() == today.getDate() ) {
+                $scope.show_raw = true;
+                return;
+            }
+        }
+        $scope.show_raw = false;
+        if ($scope.type_of_time == "raw") 
+            $scope.type_of_time = "days";
+    });    
+
     // GRAPH MAKING
     $scope.make_graph = function() {
         console.log("Making graph");
@@ -672,19 +728,70 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             case 'years':
                 valueType = "YearValue";
         }
-        var timespan = {
-            valueType: valueType,
-            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() - (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000,
-            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()  - (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000
+
+        if (!$scope.live) {
+            var timespan = {
+                valueType: valueType,
+                start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() - (new Date(0).getTimezoneOffset() * 60 * 1000)),
+                end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()  - (new Date(0).getTimezoneOffset() * 60 * 1000))
+            }
+
+            ws.request({
+                type: "create_graph",
+                group_by: group_by_objects,
+                where: where,
+                timespan: timespan
+            }, function(response) {
+                $scope.graphs.push(response.get_graph());
+                if (!hasClass(document.getElementById("box4"), "open"))
+                    $scope.open_box(4);
+                componentHandler.upgradeDom();
+                $scope.$apply();
+            }, $scope);
+            return;
         }
 
+        $scope.amount_live_back *= 1000*60;
+        switch ($scope.type_of_time) {
+            case 'hours':
+                $scope.amount_live_back *= 60;
+                break;
+            case 'days':
+                $scope.amount_live_back *= 60*24;
+                break;
+            case 'months':
+                $scope.amount_live_back *= 60*24*30;
+                break;
+            case 'years':
+                $scope.amount_live_back *= 60*24*30*365;
+        }
+
+        var timespan = {
+            valueType: valueType,
+            start: -$scope.amount_live_back,
+            end: 0
+        } 
+
         ws.request({
-            type: "create_graph",
+            type: "create_live_graph",
             group_by: group_by_objects,
             where: where,
             timespan: timespan
         }, function(response) {
-            $scope.graphs.push(response.get_graph());
+            response.addLiveScope($scope, "None");
+            var graph = response.objects[i].get_graph();
+            ws.request({
+                type: "get_liveline_values",
+                graph: graph.GID,
+                }, function(valueResponse) {
+                    var lines = valueResponse.lines;
+                    for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+                        var values = lines[lineIndex].values;
+                        for (var valueIndex = 0; valueIndex < values.length; valueIndex++)
+                            addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
+                    }
+                    $scope.graphs.push(graph);
+            }, $scope);
             if (!hasClass(document.getElementById("box4"), "open"))
                 $scope.open_box(4);
             componentHandler.upgradeDom();

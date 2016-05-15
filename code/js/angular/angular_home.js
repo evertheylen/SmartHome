@@ -1,9 +1,11 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout, $state) {
     $scope.$on("$destroy", function() {
         for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
+            var graph = $scope.scatters[graphIndex];
+            graph.removeLiveScope($scope);
             ws.request({
             type: "delete_liveline_values",
-            graph: $scope.scatters[graphIndex].temp_GID,
+            graph: graph.temp_GID,
             }, function(response) {
             }, $scope);
         }
@@ -17,6 +19,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                     for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
                         var value = object.values[valueIndex];
                         addPoint(graph, graph.line_map[object.line], value[1], value[0]);
+                        new Chart(graph.ctx).Scatter(graph.data, graph.options);
                     }
                 }
             }
