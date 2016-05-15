@@ -20,7 +20,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.graphs.length; i++) {
             $scope.graphs[i].ctx = document.getElementById("line-"+i).getContext("2d");
-            $scope.live_graph = new Chart($scope.graphs[i].ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            new Chart($scope.graphs[i].ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            $scope.live_graph = $scope.graphs[i];
         }
       	componentHandler.upgradeDom();
         $timeout(function() {
