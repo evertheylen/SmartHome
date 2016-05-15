@@ -203,7 +203,7 @@ angular.module("overwatch").controller("adminController", function($scope, $root
             where: where,
             timespan: timespan
         }, function(response) {
-            $scope.graphs.push(response.get_visual());
+            $scope.graphs.push(response.get_graph());
             if (!hasClass(document.getElementById("box4"), "open"))
                 $scope.open_box(4);
             componentHandler.upgradeDom();
