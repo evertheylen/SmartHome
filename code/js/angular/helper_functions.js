@@ -63,3 +63,9 @@ function getIndexOfObjWithAttribute(array, attr, value) {
     }
     return -1;
 }
+
+function addPoint(graph, dataset, x, y) {
+    var last_point = graph.datasets[dataset].points[graph.datasets[dataset].points.length-1];
+    graph.datasets[dataset].addPoint(x-0.0001, last_point.y);
+    graph.datasets[dataset].addPoint(x,y);
+}

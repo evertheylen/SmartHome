@@ -29,6 +29,15 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
     for (i = 0 ; i < 3; i++) {
         // Get the context of the canvas element we want to select
         var graph = {};
+        graph.data = [{
+              label: 'My First dataset',
+              strokeColor: '#F16220',
+              pointColor: '#F16220',
+              pointStrokeColor: '#fff',
+              data: [
+                { x: 19, y: 65 }]
+        }];
+        addPoint(graph, 1, 27, 59);
         graph.data = [
             {
               label: 'My First dataset',
@@ -36,8 +45,6 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
               pointColor: '#F16220',
               pointStrokeColor: '#fff',
               data: [
-                { x: 19, y: 65 }, 
-                { x: 27, y: 59 }, 
                 { x: 28, y: 69 }, 
                 { x: 40, y: 81 },
                 { x: 48, y: 56 }
