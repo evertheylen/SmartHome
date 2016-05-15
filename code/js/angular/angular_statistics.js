@@ -226,7 +226,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                                 select_types.push($scope.types[j]);
                             }
                         }
-                        addClass(document.getElementById("label-tag_" + i), "is-checked");
                         for (j = 0; j < $scope.sensors.length; j++) {
                             if ($scope.sensors[j].tags.length > 0) {
                                 break;
