@@ -60,7 +60,7 @@ var data = [
 var options = {};
 $scope.scatter = new Chart(ctx).Scatter(data, options);
 $scope.scatter.data = data;
-$scope.scatter.options = options;
+//$scope.scatter.options = options;
 console.log("Scatter creation: " + $scope.scatter);
     $scope.graphs = [];
     $scope.graphs_single = [];
