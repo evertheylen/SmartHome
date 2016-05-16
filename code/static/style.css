@@ -23,9 +23,9 @@ body{
 .snackbarpos {
 	margin-bottom: 75px;
 	z-index: -1000;
-	/*left: calc(50% - 144px);
+	left: calc(50% - 144px);
 	max-width: 289px;
-	min-width: 288px;*/
+	min-width: 288px;
 }
 
 .fullscreen{
