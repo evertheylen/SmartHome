@@ -7,7 +7,7 @@
 	-->
 	
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
-	<div id="box1" class="box">
+	<div id="box1" class="box" style="z-index: -4;">
 		<div class="header">
 			<!--
 				TODO when the following element is clicked, add class "open" to element with id=box1
@@ -23,37 +23,37 @@
 		<div class="boxContent">
 			<div class="mdl-grid">
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<span class="mdl-list__item-secondary-action blockStatisticsSection">
+					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
 					        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by_user" checked/>
 					    </label>
 					</span>
-					<span class="blockStatisticsSection" ng-bind="i18n('aggregate_user')"></span>
+					<span style="display: inline-block;" ng-bind="i18n('aggregate_user')"></span>
 				</div>
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp fullWidthTable">
+					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
 					    <thead>
 					        <tr>
 					            <th class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
+					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <!--This checkbox selects all the locations-->
 					                    <label id="label-all_users" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_users">
 					                        <input type="checkbox" id="list-checkbox-all_users" class="mdl-checkbox__input" ng-model="all_users" ng-change="select_all('user')"/>
 					                    </label>
 					                </span>
-					                <span class="blockStatisticsSection" ng-bind="i18n('users')"></span>
+					                <span style="display: inline-block;" ng-bind="i18n('users')"></span>
 					            </th>
 					        </tr>
 					    </thead>
 					    <tbody>
 					        <tr ng-repeat="user in users" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
+					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-user_{{$index}}" for="list-checkbox-user_{{$index}}">
 					                        <input type="checkbox" id="list-checkbox-user_{{$index}}" class="mdl-checkbox__input" ng-model="select_users[$index]" ng-change="checkStatus('user', $index, select_users[$index])"/>
 					                    </label>
 					                </span>
-					                <span class="blockStatisticsSection">{{user.first_name}} {{user.last_name}}</span>
+					                <span style="display: inline-block;">{{user.first_name}} {{user.last_name}}</span>
 					            </td>
 					            
 					        </tr>
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="box3" class="box">
+	<div id="box3" class="box" style="z-index: -2;">
 		<div class="header">
 			<div id="for_box3">
 				<i ng-click="open_box(3)" class="material-icons boxStatus">play_arrow</i>
@@ -77,19 +77,19 @@
 
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
 					<form action="#">
-						<span class="xlargeFont" ng-bind="i18n('show_data_from')"></span>
+						<span style="font-size: x-large;" ng-bind="i18n('show_data_from')"></span>
 						<span id="sinceInput" class="mdl-textfield mdl-js-textfield">
 					        <input class="mdl-textfield__input" type="date" id="startDate" ng-model="start_date" required/>
                             <input class="mdl-textfield__input" type="time" value="00:00:00" id="startDateTime" ng-model="start_date_time.value" required/>
 						</span>
-						<span class="xlargeFont" ng-bind="i18n('until')"></span>
+						<span style="font-size: x-large;" ng-bind="i18n('until')"></span>
 						<span id="untilInput" class="mdl-textfield mdl-js-textfield">
 					        <input class="mdl-textfield__input" type="date" id="endDate" ng-model="end_date" required/>
                             <input class="mdl-textfield__input" type="time" value="23:59:59" id="endDateTime" ng-model="end_date_time.value" required/>
 						</span>
-						<span class="xlargeFont" ng-bind="i18n('back')"></span>
+						<span style="font-size: x-large;" ng-bind="i18n('back')"></span>
 						<div class="mdl-tooltip" for="sinceInput" ng-bind="i18n('amount_help')">
-							<span class="xlargeFont" ng-bind="i18n('back')"></span>
+							<span style="font-size: x-large;" ng-bind="i18n('back')"></span>
 						</div>
 						<div class="mdl-tooltip" for="untilInput" ng-bind="i18n('amount_help')">
 						    
@@ -101,29 +101,29 @@
 						<input type="radio" id="option-0" class="mdl-radio__button" name="options" value="raw" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('raw')"></span>
 					</label>
-					<div id="spacer1"></div>
+					<div id="spacer1" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
 						<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="hours" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('hours')"></span>
 					</label>
-					<div id="spacer2"></div>
+					<div id="spacer2" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
 						<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="days" ng-model="type_of_time" checked/>
 						<span class="mdl-radio__label" ng-bind="i18n('days')"></span>
 					</label>
-					<div id="spacer3"></div>
+					<div id="spacer3" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
 						<input type="radio" id="option-3" class="mdl-radio__button" name="options" value="months" ng-model="type_of_time"/>
 						<span class="mdl-radio__label" ng-bind="i18n('months')"></span>
 					</label>
-					<div id="spacer4"></div>
+					<div id="spacer4" style="display: block"></div>
 					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-4">
 						<input type="radio" id="option-4" class="mdl-radio__button" name="options" value="years" ng-model="type_of_time"/>
 						<span class="mdl-radio__label" ng-bind="i18n('years')"></span>
 					</label>
 				</div>
 				<div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-phone">
-					<span class="floatRight">
+					<span style="float: right;">
 						<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-15">
 						    <input type="checkbox" id="checkbox-15" class="mdl-checkbox__input" checked>
 						    <span class="mdl-checkbox__label" ng-bind="i18n('merge_checkbox')"></span>
@@ -140,7 +140,7 @@
 
 
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
-	<div id="box4" class="box">
+	<div id="box4" class="box" style="z-index: -1;">
 		<div class="header">
 			<!--
 				TODO when the following element is clicked, add class "open" to element with id=box4
