@@ -108,8 +108,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
       } else {
 					data = {
 							message: string,
-							actionHandler: function(event) {$scope.$apply();},
-							actionText: '',							
+						//	actionHandler: function(event) {$scope.$apply();},
+						//	actionText: '',							
 							timeout: 3500
 					}
 			}
