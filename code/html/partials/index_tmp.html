@@ -11,7 +11,7 @@
         <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-click="show_snack('Something Happened!', '/sensors')">
           show snackbar
         </button>
-        <img style="margin: 5px;" src="../../static/logo.png" alt="Smiley face" height="210">
+        <img class="bigFatLogo" src="../../static/logo.png" alt="Smiley face">
     </div>
     <!-- The log in dialog-->
     <dialog id="dlgLogin" class="mdl-dialog" ng-controller="loginController">
@@ -39,12 +39,11 @@
                     </div>
             </form>
             <div>
-                <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
-                <button id="btnDialogLogin" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="login()"
-                    style="width: 45%; display: inline;" ng-bind="i18n('login')">
+                <button id="btnDialogLogin" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btnDialogBi2" ng-click="login()"
+                    ng-bind="i18n('login')">
                 </button>
-                <button id="btnDialogBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-click="wrong_login=false" ng-bind="i18n('back')">
+                <button id="btnDialogBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btnDialogBi2"
+                    ng-click="wrong_login=false" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>
@@ -92,12 +91,11 @@
                     </div>
             </form>
             <div>
-                <!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
-                <button id="btnDialogSignup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="signup()"
-                    style="width: 55%; display: inline;" ng-bind="i18n('register')">
+                <button id="btnDialogSignup" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btnDialogBi2" ng-click="signup()"
+                    ng-bind="i18n('register')">
                 </button>
-                <button id="btnSignupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 40%; display: inline;" ng-click="wrong_signup=false" ng-bind="i18n('back')">
+                <button id="btnSignupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored btnDialogBi2"
+					ng-click="wrong_signup=false" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>

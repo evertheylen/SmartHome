@@ -1,6 +1,9 @@
 /* TODO adjust colors!!!!!!!!!!!!! */
 
-
+#select_house{
+	overflow-y: scroll;
+	max-height: 140px;
+}
 
 .buttonMenu{
 	font-size: 0;

@@ -115,8 +115,7 @@
 					<button id="dropDownLocation" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_house').parentNode, 'is-visible');" ng-bind="i18n('pick_loc')">
 					</button>
 					<input type="hidden" ng-model="sen_house" name="sensorLocation" required></input>
-					<ul  id="select_house" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation"
-						style="overflow-y: scroll; max-height: 140px;">
+					<ul  id="select_house" class="mdl-menu mdl-menu--bottom-left" for="dropDownLocation">
 						<li>
 							<li ng-repeat="house in houses track by house.LID" id="btnSelect-Loc-{{$index}}" class="mdl-menu__item"
 								ng-click="dropDownClick(house.LID, 'select_house', 'dropDownLocation', 'house')" tabindex="-1"
@@ -254,7 +253,6 @@
 				<div class="mdl-dialog__content">
 						<p ng-bind="i18n('no_location_text')">
 						<div>
-								<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
 								<button id="btnNoLocationOk" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
 										 class="btnDialogBi2" ng-bind="i18n('ok')">
 								</button>
