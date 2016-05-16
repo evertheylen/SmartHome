@@ -3,10 +3,10 @@
 
 		<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
 		<!-- The menu on the left side -->
-		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" style="background-color: #E8E8E8;">
+		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone socialSideBarColor">
 			<div id="socialLeftMenu">
 				<div class="menuGroup" ng-bind="i18n('groups')"></div>
-				<button style="display: block; width: 100%;" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.title" ng-click="setGroup(group)" ui-sref="social.state_group">
+				<button class="groupButtons" class="mdl-button mdl-js-button mdl-button--accent" ng-repeat="group in groups track by group.GID" on-finish-render="ngRepeatFinished" ng-bind="group.title" ng-click="setGroup(group)" ui-sref="social.state_group">
 				</button>
 			</div>
 		</div>
@@ -14,13 +14,13 @@
         	<div ui-view></div>
 		</div>
 		<!-- The menu on the right side -->
-		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" style="background-color: #E8E8E8;">
+		<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone socialSideBarColor">
 			<div id="socialRightMenu">
-				<a ui-sref="social.find_friends" style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-bind="i18n('find_friends')">
+				<a ui-sref="social.find_friends" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-bind="i18n('find_friends')">
 				</a>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-click="open_dialog('dlgGroup');" ng-bind="i18n('create_group')">
+				<button class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-click="open_dialog('dlgGroup');" ng-bind="i18n('create_group')">
 				</button>
-				<button style="display: block;" class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-click="open_dialog('dlgJoinGroup');" ng-bind="i18n('join_group')">
+				<button class="mdl-button mdl-js-button mdl-button--accent socialMenuButton" ng-click="open_dialog('dlgJoinGroup');" ng-bind="i18n('join_group')">
 				</button>
 			</div>
 		</div>
@@ -51,12 +51,12 @@
 					<span class="mdl-radio__label" ng-bind="i18n('group_secret')"></span>
 				</label>	
             </form>
-            <div style="margin-top: 5px;">
+            <div id="btnCreateGroupContainer">
                 <button id="btnGroupCreate" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('create')" ng-click="create_group();">
+                    ng-bind="i18n('create')" ng-click="create_group();">
                 </button>
                 <button id="btnGroupBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-bind="i18n('back')" ng-click="back();">
+                    ng-bind="i18n('back')" ng-click="back();">
                 </button>
             </div>
         </div>
@@ -70,7 +70,7 @@
 				    <button id="dropDownGroup" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_group').parentNode, 'is-visible');" ng-bind="i18n('pick_group')">
 				    </button>
 				    <input type="hidden" ng-model="join_group" name="joinGroup" required></input>
-				    <ul id="select_group" class="mdl-menu mdl-menu--bottom-left" for="dropDownGroup" style="overflow-y: scroll; max-height: 140px;">
+				    <ul class="mdl-menu mdl-menu--bottom-left" id="select_group" for="dropDownGroup">
 				        <li>
 				            <li ng-repeat="group in groups track by group.GID" id="btnSelect-Group-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(group, 'select_group', 'dropDownGroup', 'group')" tabindex="-1" ng-bind="group.title">
 				            </li>
@@ -78,12 +78,12 @@
 				    </ul>
 				</div>	
             </form>
-            <div style="margin-top: 5px;">
+            <div class="btnCreateGroupContainer">
                 <button id="btnGroupJoin" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('ok')" ng-click="joinGroup();">
+                    ng-bind="i18n('ok')" ng-click="joinGroup();">
                 </button>
                 <button id="btnGroupBack2" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-bind="i18n('back')" ng-click="back();">
+                    ng-bind="i18n('back')" ng-click="back();">
                 </button>
             </div>
         </div>

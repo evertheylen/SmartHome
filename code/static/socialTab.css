@@ -89,15 +89,28 @@
 .socialMenuButton{
 	width: 100%;
 	padding: 0px;
+	display: block;
 }
 
+#btnGroupCreate, #btnGroupJoin{
+	width: 45%;
+	display: inline;
+	margin-left: 5%;
+}
 
+#btnGroupBack, #btnGroupBack2{
+	width: 45%;
+	display: inline;
+}
 
+#btnCreateGroupContainer{
+	margin-top: 5px;
+}
 
-
-
-
-
+#select_group{
+	overflow-y: scroll;
+	max-height: 140px;
+}
 
 
 
@@ -159,4 +172,13 @@
 .mdl-card--date{
 	margin-left: auto;
 	font-size: 12px;
+}
+
+.socialSideBarColor{
+	background-color: #E8E8E8;
+}
+
+.groupButtons{
+	display: block;
+	width: 100%;
 }

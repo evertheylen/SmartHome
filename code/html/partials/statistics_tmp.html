@@ -18,63 +18,53 @@
 
 
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					<span class="mdl-list__item-secondary-action blockStatisticsSection">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
 					        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by[0]"/>
 					    </label>
 					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_loc')"></span>
+					<span class="blockStatisticsSection" ng-bind="i18n('aggregate_loc')"></span>
 				</div>
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					<span class="mdl-list__item-secondary-action blockStatisticsSection">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
 					        <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" ng-model="aggregate_by[1]"/>
 					    </label>
 					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_type')"></span>
+					<span class="blockStatisticsSection" ng-bind="i18n('aggregate_type')"></span>
 				</div>
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					<span class="mdl-list__item-secondary-action blockStatisticsSection">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
 					        <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" ng-model="aggregate_by[2]"/>
 					    </label>
 					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_tag')"></span>
+					<span class="blockStatisticsSection" ng-bind="i18n('aggregate_tag')"></span>
 				</div>
-                <!--
-				<div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
-					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-4">
-					        <input type="checkbox" id="list-checkbox-4" class="mdl-checkbox__input" ng-model="aggregate_by[3]"/>
-					    </label>
-					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_eur_per_unit')"></span>
-				</div>
-                -->
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp fullWidthTable">
 					    <thead>
 					        <tr>
 					            <th class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <!--This checkbox selects all the locations-->
 					                    <label id="label-all_locations" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_locations">
 					                        <input type="checkbox" id="list-checkbox-all_locations" class="mdl-checkbox__input" ng-model="all_locs" ng-change="select_all('location')"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="i18n('locations')"></span>
+					                <span class="blockStatisticsSection" ng-bind="i18n('locations')"></span>
 					            </th>
 					        </tr>
 					    </thead>
 					    <tbody ng-controller="location_controller">
 					        <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action" class="blockStatisticsSection">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-location_{{$index}}" for="list-checkbox-location_{{$index}}">
 					                        <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location', $index, select_locs[$index])"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="house.description"></span>
+					                <span class="blockStatisticsSection" ng-bind="house.description"></span>
 					            </td>
 					            
 					        </tr>
