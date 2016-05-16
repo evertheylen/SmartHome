@@ -156,15 +156,15 @@ class Controller(metaclass=MetaController):
             except SqlError as e:
                 self.logger.error("Error in database: {}".format(e))
                 self.logger.error("Moving on...")
-    
+
     async def add_value(self, SID, secret_key, value):
         s = await Sensor.find_by_key(SID, self.db)
         if s.secret_key != secret_key:
             self.logger.error("Wrong key used")
             raise Error("wrong_key", "wrong_key")
         v = Value(time=now(), sensor=SID, value=value)
-        
-        
+
+
 
     # Will you look at that. Beautiful replacement for a switch statement if I say
     # so myself.
@@ -379,8 +379,7 @@ class Controller(metaclass=MetaController):
         @case("User")
         async def user(self, req):
             u = await User.find_by_key(req.data["UID"], self.db)
-            # Just a superficial get so no need to check for authorisation
-            # await u.check_auth(req)
+            await u.check_auth(req)
             await req.answer(u.json_repr())
 
         @case("Graph")
@@ -648,7 +647,7 @@ class Controller(metaclass=MetaController):
             await g.delete(self.db)
             await req.answer({"status": "success"})
 
-    
+
     @handle_ws_type("get_secret_key")
     @require_user_level(1)
     async def handle_secret_key(self, req):
@@ -691,15 +690,15 @@ class Controller(metaclass=MetaController):
 
         ts = req.metadata["timespan"]
         g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"), where_text=json.dumps(req.metadata["where"]))
-        
+
         await g.build(base_wheres, group_by, self.db)
-        
+
         GID = "temp" + str(random.randint(1,9999999))
         g.GID = GID
         req.conn.graph_cache[GID] = g
 
         await req.answer(g.json_repr())
-    
+
     @handle_ws_type("register", "unregister")
     @require_user_level(1)
     async def handle_registers(self, req):
@@ -713,9 +712,8 @@ class Controller(metaclass=MetaController):
         else:
             obj.remove_listener(req.conn)
         await req.answer({"status": "success"})
-    
+
     @handle_ws_type("unregister_all")
     async def handle_unregister_all(self, req):
         req.conn.remove_all_listenees()
         await req.answer({"status": "success"})
-    
