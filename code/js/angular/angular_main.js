@@ -97,12 +97,21 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			first_call = true;
 			componentHandler.upgradeDom();
 	    var notification = document.getElementById("testsnackbar");
-			var data = {
-				message: string,
-				actionHandler: function(event) {$location.path(link); $scope.$apply();},
-				actionText: 'Go To',
-				timeout: 3500
-			};
+			var data;
+			if (link != undefined) {
+					data = {
+							message: string,
+							actionHandler: function(event) {$location.path(link); $scope.$apply();},
+							actionText: 'Go To',
+							timeout: 3500
+					};
+      } else {
+					data = {
+							message: string,
+							timeout: 3500
+					}
+			}
+
 			removeClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
