@@ -250,6 +250,12 @@ function register_response(response) {}
 
 function unregister_response(response) {}
 
+function reset_secret_key_response(response) {
+    if (response["data"]["status"] === "succes")
+        return true;
+    return false;
+}
+
 function live_add_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
