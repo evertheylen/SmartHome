@@ -106,7 +106,7 @@ angular.module("overwatch").controller("location_objController", function($scope
           "LID": $scope.house.LID
           }
         }, function() {}, $scope);
-        $scope.location.removeLiveScope($scope)
+        $scope.house.removeLiveScope($scope)
     });
     
     
