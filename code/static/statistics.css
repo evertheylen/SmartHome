@@ -26,6 +26,22 @@
 	font-size: x-large;
 }
 
+#spacer1{
+	display: block;
+}
+
+#spacer2{
+	display: block;
+}
+
+#spacer3{
+	display: block;
+}
+
 #spacer4{
 	display: block;
+}
+
+.floatRight{
+	float: right;
 }
