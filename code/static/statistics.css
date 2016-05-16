@@ -45,3 +45,7 @@
 .floatRight{
 	float: right;
 }
+
+.radioBtnBlock{
+	display: block;
+}

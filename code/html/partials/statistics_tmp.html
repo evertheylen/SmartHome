@@ -228,10 +228,6 @@
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
 	<div id="box3" class="box">
 		<div class="header">
-			<!--
-				TODO when the following element is clicked, add class "open" to element with id=box3
-				in this example, box1 is already open, when it should be closed, "open" should just be removed, that's all
-			-->
 			<div id="for_box3">
 				<i ng-click="open_box(3)" class="material-icons boxStatus">play_arrow</i>
 			</div>
@@ -241,12 +237,12 @@
 	<div class="hiddenBox">
 		<div class="boxContent">
 			<div class="mdl-grid">
-						<div>
-							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-static">
+						<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-static">
 								<input type="radio" id="option-static" class="mdl-radio__button" name="options-static" ng-value="false" ng-model="live" ng-click="set_live()" checked/>
 								<span class="mdl-radio__label" ng-bind="i18n('static')"></span>
 							</label>
-							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-live">
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-live">
 								<input type="radio" id="option-live" class="mdl-radio__button" name="options-static" ng-value="true" ng-model="live" ng-click="set_live()"/>
 								<span class="mdl-radio__label" ng-bind="i18n('live')"></span>
 							</label>
