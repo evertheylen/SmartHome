@@ -13,35 +13,35 @@
                     <label class="mdl-textfield__label" for="input_LocationCountry" ng-bind="i18n('country')"></label>
                 </div>
                 <div ng-messages="house_form.houseCountry.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                
                 <div id="txtfield_LocationCity" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_city" class="mdl-textfield__input" type="text" id="input_LocationCity" name="houseCity" required>
                     <label class="mdl-textfield__label" for="input_LocationCity" ng-bind="i18n('city')"></label>
                 </div>
                 <div ng-messages="house_form.houseCity.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
                 <div id="txtfield_LocationZip" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_postalcode" class="mdl-textfield__input" type="number" id="input_LocationZip" name="houseZip" required>
                     <label class="mdl-textfield__label" for="input_LocationZip" ng-bind="i18n('postalcode')"></label>
                 </div>
                 <div ng-messages="house_form.houseZip.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
                 <div id="txtfield_LocationStreet" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_street" class="mdl-textfield__input" type="text" id="input_LocationStreet" name="houseStreet" required>
                     <label class="mdl-textfield__label" for="input_LocationStreet" ng-bind="i18n('street')"></label>
                 </div>
                 <div ng-messages="house_form.houseStreet.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
                 <div id="txtfield_LocationNr" class="mdl-textfield mdl-js-textfield textfield-demo">
                     <input ng-model="loc_number" class="mdl-textfield__input" type="number" id="input_LocationNr" name="houseNr" required>
                     <label class="mdl-textfield__label" for="input_LocationNr" ng-bind="i18n('number')"></label>
                 </div>
                 <div ng-messages="house_form.houseNr.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
                                               
                 <div id="txtfield_LocationDesc" class="mdl-textfield mdl-js-textfield textfield-demo">
@@ -49,15 +49,15 @@
                     <label class="mdl-textfield__label" for="input_LocationDesc" ng-bind="i18n('description')"></label>
                 </div>
                 <div ng-messages="house_form.houseDesc.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>                   
             </form>
             <div>
                 <button id="btnLocationSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" ng-click="save_loc()"
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-bind="i18n('save_changes')">
+                     class="btnDialogBi1" ng-bind="i18n('save_changes')">
                 </button>
                 <button id="btnLocationBack" ng-click="reset_loc();" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-bind="i18n('back')">
+                     class="btnDialogBi2" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>
@@ -103,7 +103,7 @@
                     <label class="mdl-textfield__label" for="input_SensorName" ng-bind="i18n('name')"></label>
                 </div>
                 <div ng-messages="sensor_form.sensorName.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
                 <tags-input ng-model="sen_tags" on-tag-added="add_tag($tag)" on-tag-removed="delete_tag($tag)">
 	                <auto-complete min-length="1" source="check_autocomplete($query)" loadOnFocus="true" highlight-matched-text="true"></auto-complete>
@@ -127,14 +127,14 @@
 					</ul>
 				</div>
                 <div ng-messages="sensor_form.sensorLocation.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>				
 				<div id="txtfield_SensorType" class="mdl-selectfield">
 				    <label>Type</label>
 				    <button id="dropDownType" class="mdl-button" formnovalidate onclick="removeClass(document.getElementById('select_type').parentNode, 'is-visible');" ng-bind="i18n('pick_type')">
 				    </button>
 				    <input type="hidden" ng-model="sen_type" name="sensorType" required></input>
-				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" style="overflow-y: scroll; max-height: 140px;">
+				    <ul id="select_type" class="mdl-menu mdl-menu--bottom-left" for="dropDownType" class="dropdownTypeStyle">
 				        <li>
 				            <li ng-repeat="type in types track by $index" id="btnSelect-Type-{{$index}}" class="mdl-menu__item" ng-click="dropDownClick(type, 'select_type', 'dropDownType', 'type')" tabindex="-1" ng-bind="i18n(type)">
 				            </li>
@@ -142,22 +142,22 @@
 				    </ul>
 				</div>
                 <div ng-messages="sensor_form.sensorType.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>				
                 <div id="txtfield_SensorUnitPrice" class="mdl-textfield mdl-js-textfield">
                     <label ng-bind="i18n('unit_price')" class="mdl-textfield__label" for="input_SensorUnitPrice"></label>
                     <input type="number" class="mdl-textfield__input" id="input_SensorUnitPrice" ng-model="sen_unit_price" name="sensorUnitPrice" required></input>
                 </div>
                 <div ng-messages="sensor_form.sensorUnitPrice.$error">
-                    <div style="color: red" ng-message="required">{{i18n('required_field')}}</div>
+                    <div class="errorColor" ng-message="required">{{i18n('required_field')}}</div>
                 </div>
             </form>
             <div>
                 <button id="btnSensorSave" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" 
-                    style="width: 45%; display: inline; margin-left: 5%;" ng-click="save_sen()" ng-bind="i18n('save_changes')">
+                     class="btnDialogBi1" ng-click="save_sen()" ng-bind="i18n('save_changes')">
                 </button>
                 <button id="btnSensorBack" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                    style="width: 45%; display: inline;" ng-click="reset_sen()" ng-bind="i18n('back')">
+                     class="btnDialogBi2" ng-click="reset_sen()" ng-bind="i18n('back')">
                 </button>
             </div>
         </div>
@@ -217,7 +217,7 @@
 					</tbody>
 				</table>
 			
-				<div style="margin: 5px;"></div>
+				<div class="margin5"></div>
 
 				<div ng-hide="sensors.length===0" id="sensorPGContainer"class="{{pages_css}}Container">
 					<div class="sliderEffect"></div>
@@ -225,10 +225,10 @@
 						<pagination ng-model="currentPage" total-items="sensors.length" max-size="maxSize" boundary-links="true"></pagination>
 					</div>
 					<!-- Nasty solution to some issue i couldn't resolve: the margin -1px -->
-					<div class="sliderEffect" style="margin: -1px;"></div>
+					<div class="sliderEffect"></div>
 				</div>
 
-				<div style="margin: 5px;"></div>
+				<div class="margin5"></div>
 
 				<button id="btnAddSensor" ng-click="reset_sen(); open_dialog('dlgSensor')" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent spacedButton" ng-bind="i18n('add_sensor')">
 				</button>
@@ -255,7 +255,7 @@
 						<div>
 								<!-- The dialog's buttons ("log in" and "back"), sorry i used "style=" :)-->
 								<button id="btnNoLocationOk" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-										style="width: 45%; display: inline;" ng-bind="i18n('ok')">
+										 class="btnDialogBi2" ng-bind="i18n('ok')">
 								</button>
 						</div>
 				</div>

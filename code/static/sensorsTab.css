@@ -207,6 +207,7 @@ table{
 .sliderEffect{
 	height: 6px;
 	background-color: #448aff;
+	margin: -1px;
 }
 
 .pagination > ul > li.active > a{

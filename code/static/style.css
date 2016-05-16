@@ -108,3 +108,12 @@ body{
 	margin-top: 5px;
 	margin-bottom: 20px;
 }
+
+.errorColor{
+	color: red;
+}
+
+.dropdownTypeStyle{
+	overflow-y: scroll;
+	max-height: 140px;
+}

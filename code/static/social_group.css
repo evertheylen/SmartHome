@@ -18,3 +18,7 @@
 .mdl-input-newSize{
 	margin: 15px;
 }
+
+.mdl-card-nearFullScreen{
+	width: 94%;
+}

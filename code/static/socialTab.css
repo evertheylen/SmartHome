@@ -92,13 +92,13 @@
 	display: block;
 }
 
-#btnGroupCreate, #btnGroupJoin{
+#btnGroupCreate, #btnGroupJoin, .btnDialogBi1{
 	width: 45%;
 	display: inline;
 	margin-left: 5%;
 }
 
-#btnGroupBack, #btnGroupBack2{
+#btnGroupBack, #btnGroupBack2, .btnDialogBi2{
 	width: 45%;
 	display: inline;
 }
@@ -110,6 +110,10 @@
 #select_group{
 	overflow-y: scroll;
 	max-height: 140px;
+}
+
+.margin5{
+	margin: 5px;
 }
 
 
