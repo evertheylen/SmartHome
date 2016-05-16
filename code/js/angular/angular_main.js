@@ -159,7 +159,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	componentHandler.upgradeDom();
 	};
 	
-	$rootScope.types = ["electricity", "gas", "water"];
+	$rootScope.types = ["electricity", "gas", "water", "other"];
 	
 	$rootScope.update_me = function(scope) {
 		scope.$apply();
