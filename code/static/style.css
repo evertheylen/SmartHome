@@ -99,3 +99,16 @@ ul.footer__link-list > li > a{
 body{
 	height: 100%;
 }
+
+#cantrememberwhatthisis{
+	margin: 20px;
+}
+
+#btnAddFriend{
+	margin-top: 5px;
+	margin-bottom: 20px;
+}
+
+.mdl-input-newSize{
+	
+}

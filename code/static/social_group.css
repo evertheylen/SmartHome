@@ -1,0 +1,20 @@
+#btnStatusPostGroup{
+	width: 40%;
+	margin-right: 5%;
+	margin-bottom: 5%;
+	float: right;
+}
+
+#btnLeaveGroup{
+	width: 40%;
+	margin-right: 10%;
+	float: right;
+}
+
+.mdl-card-newSize{
+	width: 94%;
+}
+
+.mdl-input-newSize{
+	margin: 15px;
+}
