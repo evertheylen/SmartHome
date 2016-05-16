@@ -630,7 +630,7 @@ class Controller(metaclass=MetaController):
                 s = await Sensor.find_by_key(req.data["sensor_SID"], self.db)
                 await s.check_auth(req)
                 t = await Tag.raw("SELECT * FROM table_Tag WHERE (table_Tag.description = '{0}')".format(req.data["text"])).single(self.db)
-                # await t.check_auth(req, self.db)
+                await t.is_authorized(req.conn.user.UID, s.SID, self.db)
                 # Get the relationship Tagged and delete it
                 condition1 = Where(Tagged.sensor,"=",s.key)
                 condition2 = Where(Tagged.tag,"=",t.key)
