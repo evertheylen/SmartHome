@@ -210,6 +210,7 @@
 												<td ng-bind="sensor.EUR_per_unit"></td>
 				                <td><span ng-repeat="tag in sensor.tags track by $index">{{$index > 0 ? ", " : ""}}{{tag.text}}</span></td>
 							    <td>
+                    <button id="btnResetKey-{{$index}}" type="button" class="bareButton" ng-click="reset_key();"><i class="material-icons">refresh</i></button>
 								    <button id="btnModifySen-{{$index}}" type="button" class="bareButton" ng-click="open_dialog();"><i class="material-icons">edit</i></button>
 								    <button id="btnDeleteSen-{{$index}}" type="button" class="bareButton" ng-click="delete_sen(sensor.index, sensors);"><i class="material-icons">delete</i></button>
 							    </td>
