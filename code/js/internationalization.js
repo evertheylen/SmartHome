@@ -27,6 +27,7 @@ var html_strings = {
     "required_field": ["This field is required", "Dit veld is verplicht"],
     "login_error": ["Wrong username or password!", "Foute gebruikersnaam of paswoord!"],
     "back": ["Back", "Terug"],
+    "reset_key": ["Reset secret key", "Geheime key resetten"],
     "invalid_email": ["Please input a valid email address", "Gelieve een geldig emailadres in te geven"], 
     "invalid_password": ["Password must contain at least 8 characters", "Paswoord moet minstens 8 tekens bevatten"],
     "signup_error": ["Email already exists.\nPlease login with your account.", "Emailadres bestaat al.\nGelieve in te loggen op dit account."],

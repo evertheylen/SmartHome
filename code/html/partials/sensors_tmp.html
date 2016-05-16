@@ -239,6 +239,7 @@
 	</div>
 	<div ng-repeat="house in houses track by house.LID" class="mdl-tooltip mdl-tooltip--right" for="btnDeleteLoc-{{$index}}" ng-bind="i18n('del_location')">
 	</div>
+  <div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnResetKey-{{$index}}" ng-bind="i18n('reset_key')"></div>
     <div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnModifySen-{{$index}}" ng-bind="i18n('edit_sensor')">
 	</div>
 	<div ng-repeat="sensor in sensors track by sensor.SID" class="mdl-tooltip mdl-tooltip--left" for="btnDeleteSen-{{$index}}" ng-bind="i18n('del_sensor')">
