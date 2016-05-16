@@ -22,6 +22,7 @@ body{
 
 .snackbarpos {
 	margin-bottom: 75px;
+	order: 1;
 	/*left: calc(50% - 144px);
 	max-width: 289px;
 	min-width: 288px;*/
@@ -47,6 +48,7 @@ body{
 }
 
 footer{
+	order: 2;
 	height: 70px;
 	color: rgb(158, 158, 158);
 	background-color: rgb(66, 66, 66);
