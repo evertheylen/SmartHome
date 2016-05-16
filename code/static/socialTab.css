@@ -93,13 +93,13 @@
 }
 
 #btnGroupCreate, #btnGroupJoin, .btnDialogBi1{
-	width: 45%;
+	width: 48%;
 	display: inline;
-	margin-left: 5%;
+	margin-left: 2%;
 }
 
 #btnGroupBack, #btnGroupBack2, .btnDialogBi2{
-	width: 45%;
+	width: 48%;
 	display: inline;
 }
 
