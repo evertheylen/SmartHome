@@ -59,12 +59,12 @@
 					    <tbody ng-controller="location_controller">
 					        <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" class="blockStatisticsSection">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-location_{{$index}}" for="list-checkbox-location_{{$index}}">
 					                        <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location', $index, select_locs[$index])"/>
 					                    </label>
-					                <span class="blockStatisticsSection" ng-bind="house.description"></span>
 					                </span>
+					            <span class="blockStatisticsSection" ng-bind="house.description"></span>
 					            </td>
 					            
 					        </tr>
