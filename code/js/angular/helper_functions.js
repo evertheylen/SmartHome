@@ -2,6 +2,9 @@ var database = [];
 var ws = connect_to_websocket();	// Websocket // TODO
 
 function hasClass(el, className) {
+  if (el === null) {
+    return false;
+  }
   if (el.classList)
     return el.classList.contains(className)
   else
