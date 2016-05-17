@@ -345,7 +345,7 @@
 						</div>
 					</div>
 				</div>
-				<div style="color: red" ng-bind="i18n('raw_error')" ng-show="type_of_aggregate=='raw' && live_days > 3600*24"></div>
+				<div style="color: red" >{{type_of_aggregate=='raw'}}  {{live_days > 3600*24}}</div>
 				
 				<!--
 				<div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-phone">
