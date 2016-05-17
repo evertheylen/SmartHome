@@ -12,7 +12,7 @@ from tornado import gen
 import sparrow
 
 from util import *
-
+from model import Value
 
 class Request:
     def __init__(self, conn, ID, dct):
@@ -202,6 +202,7 @@ def create_WsHandler(controller, debug=True):
             """Handle a new reference from `ref_obj` to `obj`. `ref_obj` does not have to be a
             `RTEntity`.
             """
+            if isinstance(ref_obj, Value): return
             controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_add_ref",
                 "from": obj.json_key(),
@@ -212,6 +213,7 @@ def create_WsHandler(controller, debug=True):
             """Handle the removal of a reference from `ref_obj` to `obj`. `ref_obj` does not 
             have to be a `RTEntity`.
             """
+            if isinstance(ref_obj, Value): return
             controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_remove_ref",
                 "from": obj.json_key(),
