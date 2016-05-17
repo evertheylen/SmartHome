@@ -297,6 +297,18 @@ function get_liveline_values_response(response) {
     return {LGID: key, lines: lines};
 }
 
+function live_add_liveline_values(response) {
+    LGID = response["graph"];
+    var object = cache["LiveGraph"][LGID];
+    object.updateLiveScopes("None", response);
+}
+
+function live_delete_liveline_values(response) {
+    LGID = response["graph"];
+    var object = cache["LiveGraph"][LGID];
+    object.updateLiveScopes("None", response);
+}
+
 function getFilledObject(what, objectData) {
     for(i = 0; i < dataTypes.length; i++) {
         if(dataTypes[i].prototype.getName() == what) {
