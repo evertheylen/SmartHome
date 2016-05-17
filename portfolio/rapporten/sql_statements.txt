@@ -1,0 +1,704 @@
+All (logged) SQL statements
+===========================
+
+
+Statements for object type ``Wall``
+-----------------------------------
+
+
+CREATE TABLE table_Wall (
+	WID SERIAL,
+	is_user BOOL NOT NULL,
+	PRIMARY KEY (WID)
+); 
+
+
+DROP TABLE IF EXISTS table_Wall CASCADE
+
+INSERT INTO table_Wall (is_user) VALUES(%(is_user)s) RETURNING table_Wall.WID
+
+UPDATE table_Wall SET (is_user) = (%(is_user)s) WHERE table_Wall.WID = (%(WID)s)
+
+DELETE FROM table_Wall WHERE table_Wall.WID = (%(WID)s)
+
+SELECT WID, is_user FROM table_Wall WHERE (table_Wall.WID = %(key)s)
+
+
+
+Statements for object type ``User``
+-----------------------------------
+
+
+CREATE TABLE table_User (
+	UID SERIAL,
+	first_name VARCHAR NOT NULL,
+	last_name VARCHAR NOT NULL,
+	password VARCHAR NOT NULL,
+	email VARCHAR UNIQUE NOT NULL,
+	admin BOOL NOT NULL,
+	wall_WID BIGINT NOT NULL,
+	FOREIGN KEY (wall_WID) REFERENCES table_Wall ON DELETE CASCADE,
+	PRIMARY KEY (UID)
+); 
+
+
+DROP TABLE IF EXISTS table_User CASCADE
+
+INSERT INTO table_User (first_name, last_name, password, email, admin, wall_WID) VALUES(%(first_name)s, %(last_name)s, %(password)s, %(email)s, %(admin)s, %(wall_WID)s) RETURNING table_User.UID
+
+UPDATE table_User SET (first_name, last_name, password, email, admin, wall_WID) = (%(first_name)s, %(last_name)s, %(password)s, %(email)s, %(admin)s, %(wall_WID)s) WHERE table_User.UID = (%(UID)s)
+
+DELETE FROM table_User WHERE table_User.UID = (%(UID)s)
+
+SELECT UID, first_name, last_name, password, email, admin, wall_WID FROM table_User WHERE (table_User.UID = %(key)s)
+
+
+
+Statements for object type ``Location``
+---------------------------------------
+
+
+CREATE TABLE table_Location (
+	LID SERIAL,
+	description VARCHAR NOT NULL,
+	number BIGINT NOT NULL,
+	street VARCHAR NOT NULL,
+	city VARCHAR NOT NULL,
+	postalcode BIGINT NOT NULL,
+	country VARCHAR NOT NULL,
+	user_UID BIGINT NOT NULL,
+	FOREIGN KEY (user_UID) REFERENCES table_User ON DELETE CASCADE,
+	PRIMARY KEY (LID)
+); 
+
+
+DROP TABLE IF EXISTS table_Location CASCADE
+
+INSERT INTO table_Location (description, number, street, city, postalcode, country, user_UID) VALUES(%(description)s, %(number)s, %(street)s, %(city)s, %(postalcode)s, %(country)s, %(user_UID)s) RETURNING table_Location.LID
+
+UPDATE table_Location SET (description, number, street, city, postalcode, country, user_UID) = (%(description)s, %(number)s, %(street)s, %(city)s, %(postalcode)s, %(country)s, %(user_UID)s) WHERE table_Location.LID = (%(LID)s)
+
+DELETE FROM table_Location WHERE table_Location.LID = (%(LID)s)
+
+SELECT LID, description, number, street, city, postalcode, country, user_UID FROM table_Location WHERE (table_Location.LID = %(key)s)
+
+
+
+Statements for object type ``Sensor``
+-------------------------------------
+
+CREATE TYPE type_type AS ENUM ('water', 'electricity', 'gas', 'other')
+
+
+CREATE TABLE table_Sensor (
+	SID SERIAL,
+	type type_type NOT NULL,
+	title VARCHAR NOT NULL,
+	EUR_per_unit DOUBLE PRECISION NOT NULL,
+	secret_key VARCHAR,
+	user_UID BIGINT NOT NULL,
+	location_LID BIGINT NOT NULL,
+	FOREIGN KEY (user_UID) REFERENCES table_User ON DELETE CASCADE,
+	FOREIGN KEY (location_LID) REFERENCES table_Location ON DELETE CASCADE,
+	PRIMARY KEY (SID)
+); 
+
+
+DROP TABLE IF EXISTS table_Sensor CASCADE
+
+INSERT INTO table_Sensor (type, title, EUR_per_unit, secret_key, user_UID, location_LID) VALUES(%(type)s, %(title)s, %(EUR_per_unit)s, %(secret_key)s, %(user_UID)s, %(location_LID)s) RETURNING table_Sensor.SID
+
+UPDATE table_Sensor SET (type, title, EUR_per_unit, secret_key, user_UID, location_LID) = (%(type)s, %(title)s, %(EUR_per_unit)s, %(secret_key)s, %(user_UID)s, %(location_LID)s) WHERE table_Sensor.SID = (%(SID)s)
+
+DELETE FROM table_Sensor WHERE table_Sensor.SID = (%(SID)s)
+
+SELECT SID, type, title, EUR_per_unit, secret_key, user_UID, location_LID FROM table_Sensor WHERE (table_Sensor.SID = %(key)s)
+
+
+
+Statements for object type ``Value``
+------------------------------------
+
+
+CREATE TABLE table_Value (
+	time BIGINT NOT NULL,
+	value DOUBLE PRECISION NOT NULL,
+	sensor_SID BIGINT NOT NULL,
+	FOREIGN KEY (sensor_SID) REFERENCES table_Sensor ON DELETE CASCADE,
+	PRIMARY KEY (sensor_SID, time)
+); 
+
+
+DROP TABLE IF EXISTS table_Value CASCADE
+
+INSERT INTO table_Value (time, value, sensor_SID) VALUES(%(time)s, %(value)s, %(sensor_SID)s)
+
+UPDATE table_Value SET (time, value, sensor_SID) = (%(time)s, %(value)s, %(sensor_SID)s) WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+DELETE FROM table_Value WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+SELECT time, value, sensor_SID FROM table_Value WHERE ((sensor_SID, time) = %(key)s)
+
+
+
+Statements for object type ``HourValue``
+----------------------------------------
+
+
+CREATE TABLE table_HourValue (
+	time BIGINT NOT NULL,
+	value DOUBLE PRECISION NOT NULL,
+	sensor_SID BIGINT NOT NULL,
+	FOREIGN KEY (sensor_SID) REFERENCES table_Sensor ON DELETE CASCADE,
+	PRIMARY KEY (sensor_SID, time)
+); 
+
+
+DROP TABLE IF EXISTS table_HourValue CASCADE
+
+INSERT INTO table_HourValue (time, value, sensor_SID) VALUES(%(time)s, %(value)s, %(sensor_SID)s)
+
+UPDATE table_HourValue SET (time, value, sensor_SID) = (%(time)s, %(value)s, %(sensor_SID)s) WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+DELETE FROM table_HourValue WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+SELECT time, value, sensor_SID FROM table_HourValue WHERE ((sensor_SID, time) = %(key)s)
+
+
+
+Statements for object type ``DayValue``
+---------------------------------------
+
+
+CREATE TABLE table_DayValue (
+	time BIGINT NOT NULL,
+	value DOUBLE PRECISION NOT NULL,
+	sensor_SID BIGINT NOT NULL,
+	FOREIGN KEY (sensor_SID) REFERENCES table_Sensor ON DELETE CASCADE,
+	PRIMARY KEY (sensor_SID, time)
+); 
+
+
+DROP TABLE IF EXISTS table_DayValue CASCADE
+
+INSERT INTO table_DayValue (time, value, sensor_SID) VALUES(%(time)s, %(value)s, %(sensor_SID)s)
+
+UPDATE table_DayValue SET (time, value, sensor_SID) = (%(time)s, %(value)s, %(sensor_SID)s) WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+DELETE FROM table_DayValue WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+SELECT time, value, sensor_SID FROM table_DayValue WHERE ((sensor_SID, time) = %(key)s)
+
+
+
+Statements for object type ``MonthValue``
+-----------------------------------------
+
+
+CREATE TABLE table_MonthValue (
+	time BIGINT NOT NULL,
+	value DOUBLE PRECISION NOT NULL,
+	sensor_SID BIGINT NOT NULL,
+	FOREIGN KEY (sensor_SID) REFERENCES table_Sensor ON DELETE CASCADE,
+	PRIMARY KEY (sensor_SID, time)
+); 
+
+
+DROP TABLE IF EXISTS table_MonthValue CASCADE
+
+INSERT INTO table_MonthValue (time, value, sensor_SID) VALUES(%(time)s, %(value)s, %(sensor_SID)s)
+
+UPDATE table_MonthValue SET (time, value, sensor_SID) = (%(time)s, %(value)s, %(sensor_SID)s) WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+DELETE FROM table_MonthValue WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+SELECT time, value, sensor_SID FROM table_MonthValue WHERE ((sensor_SID, time) = %(key)s)
+
+
+
+Statements for object type ``YearValue``
+----------------------------------------
+
+
+CREATE TABLE table_YearValue (
+	time BIGINT NOT NULL,
+	value DOUBLE PRECISION NOT NULL,
+	sensor_SID BIGINT NOT NULL,
+	FOREIGN KEY (sensor_SID) REFERENCES table_Sensor ON DELETE CASCADE,
+	PRIMARY KEY (sensor_SID, time)
+); 
+
+
+DROP TABLE IF EXISTS table_YearValue CASCADE
+
+INSERT INTO table_YearValue (time, value, sensor_SID) VALUES(%(time)s, %(value)s, %(sensor_SID)s)
+
+UPDATE table_YearValue SET (time, value, sensor_SID) = (%(time)s, %(value)s, %(sensor_SID)s) WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+DELETE FROM table_YearValue WHERE (sensor_SID, time) = (%(sensor_SID)s, %(time)s)
+
+SELECT time, value, sensor_SID FROM table_YearValue WHERE ((sensor_SID, time) = %(key)s)
+
+
+
+Statements for object type ``Tag``
+----------------------------------
+
+
+CREATE TABLE table_Tag (
+	description VARCHAR NOT NULL,
+	TID SERIAL,
+	PRIMARY KEY (TID)
+); 
+
+
+DROP TABLE IF EXISTS table_Tag CASCADE
+
+INSERT INTO table_Tag (description) VALUES(%(description)s) RETURNING table_Tag.TID
+
+UPDATE table_Tag SET (description) = (%(description)s) WHERE table_Tag.TID = (%(TID)s)
+
+DELETE FROM table_Tag WHERE table_Tag.TID = (%(TID)s)
+
+SELECT description, TID FROM table_Tag WHERE (table_Tag.TID = %(key)s)
+
+
+
+Statements for object type ``Tagged``
+-------------------------------------
+
+
+CREATE TABLE table_Tagged (
+	sensor_SID BIGINT NOT NULL,
+	tag_TID BIGINT NOT NULL,
+	FOREIGN KEY (sensor_SID) REFERENCES table_Sensor ON DELETE CASCADE,
+	FOREIGN KEY (tag_TID) REFERENCES table_Tag ON DELETE CASCADE,
+	PRIMARY KEY (sensor_SID, tag_TID)
+); 
+
+
+DROP TABLE IF EXISTS table_Tagged CASCADE
+
+INSERT INTO table_Tagged (sensor_SID, tag_TID) VALUES(%(sensor_SID)s, %(tag_TID)s)
+
+UPDATE table_Tagged SET (sensor_SID, tag_TID) = (%(sensor_SID)s, %(tag_TID)s) WHERE (sensor_SID, tag_TID) = (%(sensor_SID)s, %(tag_TID)s)
+
+DELETE FROM table_Tagged WHERE (sensor_SID, tag_TID) = (%(sensor_SID)s, %(tag_TID)s)
+
+SELECT sensor_SID, tag_TID FROM table_Tagged WHERE ((sensor_SID, tag_TID) = %(key)s)
+
+
+
+Statements for object type ``Graph``
+------------------------------------
+
+CREATE TYPE timespan_valuetype_type AS ENUM ('Value', 'HourValue', 'DayValue', 'MonthValue', 'YearValue')
+
+
+CREATE TABLE table_Graph (
+	GID SERIAL,
+	timespan_start BIGINT NOT NULL,
+	timespan_end BIGINT NOT NULL,
+	timespan_valuetype timespan_valuetype_type NOT NULL,
+	title VARCHAR NOT NULL,
+	user_UID BIGINT NOT NULL,
+	FOREIGN KEY (user_UID) REFERENCES table_User ON DELETE CASCADE,
+	PRIMARY KEY (GID)
+); 
+
+
+DROP TABLE IF EXISTS table_Graph CASCADE
+
+INSERT INTO table_Graph (timespan_start, timespan_end, timespan_valuetype, title, user_UID) VALUES(%(timespan_start)s, %(timespan_end)s, %(timespan_valuetype)s, %(title)s, %(user_UID)s) RETURNING table_Graph.GID
+
+UPDATE table_Graph SET (timespan_start, timespan_end, timespan_valuetype, title, user_UID) = (%(timespan_start)s, %(timespan_end)s, %(timespan_valuetype)s, %(title)s, %(user_UID)s) WHERE table_Graph.GID = (%(GID)s)
+
+DELETE FROM table_Graph WHERE table_Graph.GID = (%(GID)s)
+
+SELECT GID, timespan_start, timespan_end, timespan_valuetype, title, user_UID FROM table_Graph WHERE (table_Graph.GID = %(key)s)
+
+
+
+Statements for object type ``WhereInGraph``
+-------------------------------------------
+
+CREATE TYPE op_type AS ENUM ('eq', 'in', 'lt', 'ge', 'le', 'gt')
+
+
+CREATE TABLE table_WhereInGraph (
+	WIGID SERIAL,
+	field VARCHAR NOT NULL,
+	op op_type NOT NULL,
+	value_str VARCHAR,
+	value_int BIGINT,
+	value_float DOUBLE PRECISION,
+	value_int_array BIGINT[],
+	graph_GID BIGINT NOT NULL,
+	FOREIGN KEY (graph_GID) REFERENCES table_Graph ON DELETE CASCADE,
+	PRIMARY KEY (WIGID)
+); 
+
+
+DROP TABLE IF EXISTS table_WhereInGraph CASCADE
+
+INSERT INTO table_WhereInGraph (field, op, value_str, value_int, value_float, value_int_array, graph_GID) VALUES(%(field)s, %(op)s, %(value_str)s, %(value_int)s, %(value_float)s, %(value_int_array)s, %(graph_GID)s) RETURNING table_WhereInGraph.WIGID
+
+UPDATE table_WhereInGraph SET (field, op, value_str, value_int, value_float, value_int_array, graph_GID) = (%(field)s, %(op)s, %(value_str)s, %(value_int)s, %(value_float)s, %(value_int_array)s, %(graph_GID)s) WHERE table_WhereInGraph.WIGID = (%(WIGID)s)
+
+DELETE FROM table_WhereInGraph WHERE table_WhereInGraph.WIGID = (%(WIGID)s)
+
+SELECT WIGID, field, op, value_str, value_int, value_float, value_int_array, graph_GID FROM table_WhereInGraph WHERE (table_WhereInGraph.WIGID = %(key)s)
+
+
+
+Statements for object type ``Line``
+-----------------------------------
+
+
+CREATE TABLE table_Line (
+	LID SERIAL,
+	sensors BIGINT[] NOT NULL,
+	graph_GID BIGINT NOT NULL,
+	FOREIGN KEY (graph_GID) REFERENCES table_Graph ON DELETE CASCADE,
+	PRIMARY KEY (LID)
+); 
+
+
+DROP TABLE IF EXISTS table_Line CASCADE
+
+INSERT INTO table_Line (sensors, graph_GID) VALUES(%(sensors)s, %(graph_GID)s) RETURNING table_Line.LID
+
+UPDATE table_Line SET (sensors, graph_GID) = (%(sensors)s, %(graph_GID)s) WHERE table_Line.LID = (%(LID)s)
+
+DELETE FROM table_Line WHERE table_Line.LID = (%(LID)s)
+
+SELECT LID, sensors, graph_GID FROM table_Line WHERE (table_Line.LID = %(key)s)
+
+
+
+Statements for object type ``DataInLine``
+-----------------------------------------
+
+
+CREATE TABLE table_DataInLine (
+	time BIGINT NOT NULL,
+	value DOUBLE PRECISION NOT NULL,
+	line_LID BIGINT NOT NULL,
+	FOREIGN KEY (line_LID) REFERENCES table_Line ON DELETE CASCADE,
+	PRIMARY KEY (line_LID, time)
+); 
+
+
+DROP TABLE IF EXISTS table_DataInLine CASCADE
+
+INSERT INTO table_DataInLine (time, value, line_LID) VALUES(%(time)s, %(value)s, %(line_LID)s)
+
+UPDATE table_DataInLine SET (time, value, line_LID) = (%(time)s, %(value)s, %(line_LID)s) WHERE (line_LID, time) = (%(line_LID)s, %(time)s)
+
+DELETE FROM table_DataInLine WHERE (line_LID, time) = (%(line_LID)s, %(time)s)
+
+SELECT time, value, line_LID FROM table_DataInLine WHERE ((line_LID, time) = %(key)s)
+
+
+
+Statements for object type ``GroupedByInLine``
+----------------------------------------------
+
+
+CREATE TABLE table_GroupedByInLine (
+	GBID SERIAL,
+	what VARCHAR NOT NULL,
+	ref_ID BIGINT NOT NULL,
+	line_LID BIGINT NOT NULL,
+	FOREIGN KEY (line_LID) REFERENCES table_Line ON DELETE CASCADE,
+	PRIMARY KEY (GBID)
+); 
+
+
+DROP TABLE IF EXISTS table_GroupedByInLine CASCADE
+
+INSERT INTO table_GroupedByInLine (what, ref_ID, line_LID) VALUES(%(what)s, %(ref_ID)s, %(line_LID)s) RETURNING table_GroupedByInLine.GBID
+
+UPDATE table_GroupedByInLine SET (what, ref_ID, line_LID) = (%(what)s, %(ref_ID)s, %(line_LID)s) WHERE table_GroupedByInLine.GBID = (%(GBID)s)
+
+DELETE FROM table_GroupedByInLine WHERE table_GroupedByInLine.GBID = (%(GBID)s)
+
+SELECT GBID, what, ref_ID, line_LID FROM table_GroupedByInLine WHERE (table_GroupedByInLine.GBID = %(key)s)
+
+
+
+Statements for object type ``LiveGraph``
+----------------------------------------
+
+
+CREATE TABLE table_LiveGraph (
+	LGID SERIAL,
+	timespan_start BIGINT NOT NULL,
+	timespan_end BIGINT NOT NULL,
+	timespan_valuetype timespan_valuetype_type NOT NULL,
+	title VARCHAR NOT NULL,
+	user_UID BIGINT NOT NULL,
+	FOREIGN KEY (user_UID) REFERENCES table_User ON DELETE CASCADE,
+	PRIMARY KEY (LGID)
+); 
+
+
+DROP TABLE IF EXISTS table_LiveGraph CASCADE
+
+INSERT INTO table_LiveGraph (timespan_start, timespan_end, timespan_valuetype, title, user_UID) VALUES(%(timespan_start)s, %(timespan_end)s, %(timespan_valuetype)s, %(title)s, %(user_UID)s) RETURNING table_LiveGraph.LGID
+
+UPDATE table_LiveGraph SET (timespan_start, timespan_end, timespan_valuetype, title, user_UID) = (%(timespan_start)s, %(timespan_end)s, %(timespan_valuetype)s, %(title)s, %(user_UID)s) WHERE table_LiveGraph.LGID = (%(LGID)s)
+
+DELETE FROM table_LiveGraph WHERE table_LiveGraph.LGID = (%(LGID)s)
+
+SELECT LGID, timespan_start, timespan_end, timespan_valuetype, title, user_UID FROM table_LiveGraph WHERE (table_LiveGraph.LGID = %(key)s)
+
+
+
+Statements for object type ``WhereInGraphLive``
+-----------------------------------------------
+
+
+CREATE TABLE table_WhereInGraphLive (
+	value_float DOUBLE PRECISION,
+	value_str VARCHAR,
+	WIGID SERIAL,
+	field VARCHAR NOT NULL,
+	op op_type NOT NULL,
+	value_int BIGINT,
+	value_int_array BIGINT[],
+	graph_LGID BIGINT NOT NULL,
+	FOREIGN KEY (graph_LGID) REFERENCES table_LiveGraph ON DELETE CASCADE,
+	PRIMARY KEY (WIGID)
+); 
+
+
+DROP TABLE IF EXISTS table_WhereInGraphLive CASCADE
+
+INSERT INTO table_WhereInGraphLive (value_float, value_str, field, op, value_int, value_int_array, graph_LGID) VALUES(%(value_float)s, %(value_str)s, %(field)s, %(op)s, %(value_int)s, %(value_int_array)s, %(graph_LGID)s) RETURNING table_WhereInGraphLive.WIGID
+
+UPDATE table_WhereInGraphLive SET (value_float, value_str, field, op, value_int, value_int_array, graph_LGID) = (%(value_float)s, %(value_str)s, %(field)s, %(op)s, %(value_int)s, %(value_int_array)s, %(graph_LGID)s) WHERE table_WhereInGraphLive.WIGID = (%(WIGID)s)
+
+DELETE FROM table_WhereInGraphLive WHERE table_WhereInGraphLive.WIGID = (%(WIGID)s)
+
+SELECT value_float, value_str, WIGID, field, op, value_int, value_int_array, graph_LGID FROM table_WhereInGraphLive WHERE (table_WhereInGraphLive.WIGID = %(key)s)
+
+
+
+Statements for object type ``LiveLine``
+---------------------------------------
+
+
+CREATE TABLE table_LiveLine (
+	LLID SERIAL,
+	sensors BIGINT[] NOT NULL,
+	graph_LGID BIGINT NOT NULL,
+	FOREIGN KEY (graph_LGID) REFERENCES table_LiveGraph ON DELETE CASCADE,
+	PRIMARY KEY (LLID)
+); 
+
+
+DROP TABLE IF EXISTS table_LiveLine CASCADE
+
+INSERT INTO table_LiveLine (sensors, graph_LGID) VALUES(%(sensors)s, %(graph_LGID)s) RETURNING table_LiveLine.LLID
+
+UPDATE table_LiveLine SET (sensors, graph_LGID) = (%(sensors)s, %(graph_LGID)s) WHERE table_LiveLine.LLID = (%(LLID)s)
+
+DELETE FROM table_LiveLine WHERE table_LiveLine.LLID = (%(LLID)s)
+
+SELECT LLID, sensors, graph_LGID FROM table_LiveLine WHERE (table_LiveLine.LLID = %(key)s)
+
+
+
+Statements for object type ``GroupedByInLineLive``
+--------------------------------------------------
+
+
+CREATE TABLE table_GroupedByInLineLive (
+	what VARCHAR NOT NULL,
+	GBID SERIAL,
+	ref_ID BIGINT NOT NULL,
+	line_LLID BIGINT NOT NULL,
+	FOREIGN KEY (line_LLID) REFERENCES table_LiveLine ON DELETE CASCADE,
+	PRIMARY KEY (GBID)
+); 
+
+
+DROP TABLE IF EXISTS table_GroupedByInLineLive CASCADE
+
+INSERT INTO table_GroupedByInLineLive (what, ref_ID, line_LLID) VALUES(%(what)s, %(ref_ID)s, %(line_LLID)s) RETURNING table_GroupedByInLineLive.GBID
+
+UPDATE table_GroupedByInLineLive SET (what, ref_ID, line_LLID) = (%(what)s, %(ref_ID)s, %(line_LLID)s) WHERE table_GroupedByInLineLive.GBID = (%(GBID)s)
+
+DELETE FROM table_GroupedByInLineLive WHERE table_GroupedByInLineLive.GBID = (%(GBID)s)
+
+SELECT what, GBID, ref_ID, line_LLID FROM table_GroupedByInLineLive WHERE (table_GroupedByInLineLive.GBID = %(key)s)
+
+
+
+Statements for object type ``Status``
+-------------------------------------
+
+
+CREATE TABLE table_Status (
+	SID SERIAL,
+	date BIGINT NOT NULL,
+	date_edited BIGINT NOT NULL,
+	text VARCHAR NOT NULL,
+	graph BIGINT,
+	author_UID BIGINT NOT NULL,
+	wall_WID BIGINT NOT NULL,
+	FOREIGN KEY (author_UID) REFERENCES table_User ON DELETE CASCADE,
+	FOREIGN KEY (wall_WID) REFERENCES table_Wall ON DELETE CASCADE,
+	PRIMARY KEY (SID)
+); 
+
+
+DROP TABLE IF EXISTS table_Status CASCADE
+
+INSERT INTO table_Status (date, date_edited, text, graph, author_UID, wall_WID) VALUES(%(date)s, %(date_edited)s, %(text)s, %(graph)s, %(author_UID)s, %(wall_WID)s) RETURNING table_Status.SID
+
+UPDATE table_Status SET (date, date_edited, text, graph, author_UID, wall_WID) = (%(date)s, %(date_edited)s, %(text)s, %(graph)s, %(author_UID)s, %(wall_WID)s) WHERE table_Status.SID = (%(SID)s)
+
+DELETE FROM table_Status WHERE table_Status.SID = (%(SID)s)
+
+SELECT SID, date, date_edited, text, graph, author_UID, wall_WID FROM table_Status WHERE (table_Status.SID = %(key)s)
+
+
+
+Statements for object type ``Like``
+-----------------------------------
+
+
+CREATE TABLE table_Like (
+	positive BOOL NOT NULL,
+	status_SID BIGINT NOT NULL,
+	user_UID BIGINT NOT NULL,
+	FOREIGN KEY (status_SID) REFERENCES table_Status ON DELETE CASCADE,
+	FOREIGN KEY (user_UID) REFERENCES table_User ON DELETE CASCADE,
+	PRIMARY KEY (status_SID, user_UID)
+); 
+
+
+DROP TABLE IF EXISTS table_Like CASCADE
+
+INSERT INTO table_Like (positive, status_SID, user_UID) VALUES(%(positive)s, %(status_SID)s, %(user_UID)s)
+
+UPDATE table_Like SET (positive, status_SID, user_UID) = (%(positive)s, %(status_SID)s, %(user_UID)s) WHERE (status_SID, user_UID) = (%(status_SID)s, %(user_UID)s)
+
+DELETE FROM table_Like WHERE (status_SID, user_UID) = (%(status_SID)s, %(user_UID)s)
+
+SELECT positive, status_SID, user_UID FROM table_Like WHERE ((status_SID, user_UID) = %(key)s)
+
+
+
+Statements for object type ``Friendship``
+-----------------------------------------
+
+
+CREATE TABLE table_Friendship (
+	user1_UID BIGINT NOT NULL,
+	user2_UID BIGINT NOT NULL,
+	FOREIGN KEY (user1_UID) REFERENCES table_User ON DELETE CASCADE,
+	FOREIGN KEY (user2_UID) REFERENCES table_User ON DELETE CASCADE,
+	PRIMARY KEY (user1_UID, user2_UID)
+); 
+
+
+DROP TABLE IF EXISTS table_Friendship CASCADE
+
+INSERT INTO table_Friendship (user1_UID, user2_UID) VALUES(%(user1_UID)s, %(user2_UID)s)
+
+UPDATE table_Friendship SET (user1_UID, user2_UID) = (%(user1_UID)s, %(user2_UID)s) WHERE (user1_UID, user2_UID) = (%(user1_UID)s, %(user2_UID)s)
+
+DELETE FROM table_Friendship WHERE (user1_UID, user2_UID) = (%(user1_UID)s, %(user2_UID)s)
+
+SELECT user1_UID, user2_UID FROM table_Friendship WHERE ((user1_UID, user2_UID) = %(key)s)
+
+
+
+Statements for object type ``Group``
+------------------------------------
+
+
+CREATE TABLE table_Group (
+	GID SERIAL,
+	title VARCHAR NOT NULL,
+	description VARCHAR NOT NULL,
+	public BOOL NOT NULL,
+	wall_WID BIGINT NOT NULL,
+	FOREIGN KEY (wall_WID) REFERENCES table_Wall ON DELETE CASCADE,
+	PRIMARY KEY (GID)
+); 
+
+
+DROP TABLE IF EXISTS table_Group CASCADE
+
+INSERT INTO table_Group (title, description, public, wall_WID) VALUES(%(title)s, %(description)s, %(public)s, %(wall_WID)s) RETURNING table_Group.GID
+
+UPDATE table_Group SET (title, description, public, wall_WID) = (%(title)s, %(description)s, %(public)s, %(wall_WID)s) WHERE table_Group.GID = (%(GID)s)
+
+DELETE FROM table_Group WHERE table_Group.GID = (%(GID)s)
+
+SELECT GID, title, description, public, wall_WID FROM table_Group WHERE (table_Group.GID = %(key)s)
+
+
+
+Statements for object type ``Membership``
+-----------------------------------------
+
+CREATE TYPE status_type AS ENUM ('ADMIN', 'MEMBER', 'PENDING', 'BANNED')
+
+
+CREATE TABLE table_Membership (
+	status status_type NOT NULL,
+	last_change BIGINT NOT NULL,
+	user_UID BIGINT NOT NULL,
+	group_GID BIGINT NOT NULL,
+	FOREIGN KEY (user_UID) REFERENCES table_User ON DELETE CASCADE,
+	FOREIGN KEY (group_GID) REFERENCES table_Group ON DELETE CASCADE,
+	PRIMARY KEY (user_UID, group_GID)
+); 
+
+
+DROP TABLE IF EXISTS table_Membership CASCADE
+
+INSERT INTO table_Membership (status, last_change, user_UID, group_GID) VALUES(%(status)s, %(last_change)s, %(user_UID)s, %(group_GID)s)
+
+UPDATE table_Membership SET (status, last_change, user_UID, group_GID) = (%(status)s, %(last_change)s, %(user_UID)s, %(group_GID)s) WHERE (user_UID, group_GID) = (%(user_UID)s, %(group_GID)s)
+
+DELETE FROM table_Membership WHERE (user_UID, group_GID) = (%(user_UID)s, %(group_GID)s)
+
+SELECT status, last_change, user_UID, group_GID FROM table_Membership WHERE ((user_UID, group_GID) = %(key)s)
+
+
+
+Statements for object type ``Comment``
+--------------------------------------
+
+
+CREATE TABLE table_Comment (
+	CID SERIAL,
+	date BIGINT NOT NULL,
+	date_edited BIGINT NOT NULL,
+	text VARCHAR NOT NULL,
+	status_SID BIGINT NOT NULL,
+	author_UID BIGINT NOT NULL,
+	FOREIGN KEY (status_SID) REFERENCES table_Status ON DELETE CASCADE,
+	FOREIGN KEY (author_UID) REFERENCES table_User ON DELETE CASCADE,
+	PRIMARY KEY (CID)
+); 
+
+
+DROP TABLE IF EXISTS table_Comment CASCADE
+
+INSERT INTO table_Comment (date, date_edited, text, status_SID, author_UID) VALUES(%(date)s, %(date_edited)s, %(text)s, %(status_SID)s, %(author_UID)s) RETURNING table_Comment.CID
+
+UPDATE table_Comment SET (date, date_edited, text, status_SID, author_UID) = (%(date)s, %(date_edited)s, %(text)s, %(status_SID)s, %(author_UID)s) WHERE table_Comment.CID = (%(CID)s)
+
+DELETE FROM table_Comment WHERE table_Comment.CID = (%(CID)s)
+
+SELECT CID, date, date_edited, text, status_SID, author_UID FROM table_Comment WHERE (table_Comment.CID = %(key)s)
+
+Uncategorized statements
+------------------------
