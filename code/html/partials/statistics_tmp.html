@@ -265,12 +265,13 @@
 				</div>
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-show="live">
 					<form action="#">
-						<span class="xlargeFont" ng-bind="i18n('amount_back')"></span>
+						<label for="liveDays" class="xlargeFont" ng-bind="i18n('amount_back')"></label>
 					    <input class="mdl-textfield__input" type="number" id="liveDays" ng-model="amount_live_back" required/>
 					</form>
 				</div>
 								<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
 					<div class="mdl-grid" ng-show="live">
+						<span class="xlargeFont" ng-bind="i18n('aggregate_by')"></span>
 						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
 								<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="hours" ng-model="type_of_time" checked/>
