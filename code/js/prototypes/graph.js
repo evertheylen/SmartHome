@@ -18,7 +18,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             return this._graph;
         var graph = {temp_GID: this.GID, live: false, data_type: cache["Graph"][GID], data: [], options: {bezierCurve: false, animation: false, scaleType: "date", scaleDateFormat: "dd mmm yy", scaleTimeFormat: "h:MM", useUtc: true, scaleShowLabels: true,legendTemplate : '<table>'
                             +'<% for (var i=0; i<datasets.length; i++) { %>'
-                            +'<tr><td><div style=\"background-color:<%=datasets[i].fillColor %>\"></div></td>'
+                            +'<tr><td><div style=\"color:<%=datasets[i].strokeColor%>\"></div></td>'
                             +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
                             +'<% } %>'
                             +'</table>',
@@ -34,7 +34,9 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             for (var valueIndex = 1; valueIndex < values.length; valueIndex++)
                 addPoint(graph, lineIndex, values[valueIndex][1], values[valueIndex][0]);
             graph.data[lineIndex].label = lines[lineIndex].label;
-            graph.data[lineIndex].strokeColor = 'rgb(' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ')';
+            var random_color = 'rgb(' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ')';
+            graph.data[lineIndex].strokeColor = random_color;
+            //graph.data[lineIndex].fillColor = random_color;
         }
         this._graph = graph;
         return this._graph;
