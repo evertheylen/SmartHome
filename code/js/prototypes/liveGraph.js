@@ -2,10 +2,10 @@ var max_label_amount = 50;
 
 LiveGraph.prototype = new DataType();
 LiveGraph.prototype.constructor = LiveGraph;
-LiveGraph.prototype._key = ["GID"];
+LiveGraph.prototype._key = ["LGID"];
 
 function LiveGraph(LGID, timespan, group_by, where, lines, title) {
-	this.GID = GID;
+	this.LGID = LGID;
 	this.timespan = timespan;
 	this.group_by = group_by;
 	this.where = where;
@@ -16,7 +16,7 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
     this.get_graph = function () {
         if (this._graph) 
             return this._graph;
-        var graph = {temp_GID: this.GID, live: true, data_type: cache["LiveGraph"][GID], data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
+        var graph = {temp_GID: this.LGID, live: true, data_type: cache["LiveGraph"][LGID], data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             graph.line_map[lines[lineIndex].LLID] = lineIndex;
