@@ -148,17 +148,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         //var ctx = document.getElementById("line").getContext("2d");
         //$scope.scatter = new Chart(ctx).Scatter(data, options);
         //$scope.scatter.data = data;
-    }
-    
-    $timeout(function() {
-        var j = 0;
-        for (i = $scope.graphs.length + $scope.graphs_single.length; i< $scope.graphs.length+$scope.graphs_single.length+$scope.scatters.length; i++) {
-            var ctx = document.getElementById("line-"+i).getContext("2d");
-            new Chart(ctx).Scatter($scope.scatters[j].data, $scope.scatters[j].options);
-            j++;
-        }
-    });
-  
-	componentHandler.upgradeDom();
+    }   
+  	componentHandler.upgradeDom();
 });
 
