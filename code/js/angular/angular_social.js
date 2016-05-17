@@ -677,7 +677,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
       $scope.status.removeLiveScope($scope);
     });
     
-    $scope.addLiveScope("none");
+    $scope.status.addLiveScope($scope, "none");
     ws.request({ "type": "register",
     "what": "Status",
     "data": {
