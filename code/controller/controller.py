@@ -476,7 +476,7 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
-            users = await User.get(User.key != u.key).order(Sensor.key).all(self.db)
+            users = await User.get(User.key != u.key).order(User.key).all(self.db)
             await req.answer([u.json_repr() for u in users])
 
         @case("Group")
