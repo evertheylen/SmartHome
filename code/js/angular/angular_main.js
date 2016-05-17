@@ -207,7 +207,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						responsive: false,
 						maintainAspectRatio: false,
 						scaleType: "date",
-						useUtc: false,
+						scaleDateFormat: "dd mmm yy",
+						scaleTimeFormat: "h:MM",
+						useUtc: true,
 						animation: false
 				}
 				$scope.graph_js = new Chart(ctx).Scatter(graph.data, options);

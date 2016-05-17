@@ -148,7 +148,6 @@ function connect_to_websocket() {
             if (receivedObject["ID"] !== undefined)
                 answer = answers[receivedObject.ID];
 			polishedObject = window[receivedObject["type"] + "_response"](receivedObject, answer.scope);
-            console.log("Answering function");
 			answer.func(polishedObject);
 		}
 		catch(err) {
@@ -237,8 +236,6 @@ function create_graph_response(response) {
 function create_live_graph_response(response, scope) {
 	var data = response["data"];
 	var key = data["LGID"];  
-    console.log("LG Key: " + key);  
-    console.log("LG scope: " + scope);
 	return cache.getObject("LiveGraph", key, data, scope);
 }
 
@@ -296,9 +293,8 @@ function live_delete_response(response) {
 
 function get_liveline_values_response(response) {
     var key = response["graph"];
-    var object = cache["LiveGraph"][key];
-    if (object)
-        object.updateLiveScopes("None", response);
+    var lines = response["lines"];
+    return {LGID: key, lines: lines};
 }
 
 function getFilledObject(what, objectData) {
