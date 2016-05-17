@@ -58,7 +58,7 @@ var html_strings = {
     "continue": ["Continue", "Doorgaan"],
     "cancel": ["Cancel", "Annuleren"],
     "share" : ["Share", "Deel"],
-    "aggregate_by" :  ["Aggregate by", "Groeper per"],
+    "aggregate_by" :  ["Aggregate by", "Groepeer per"],
     "aggregate_loc" : ["Aggregate by location", "Groepeer per locatie"],
     "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
     "aggregate_tag" : ["Aggregate by tag", "Groepeer per tag"],
