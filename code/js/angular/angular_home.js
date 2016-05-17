@@ -91,7 +91,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                     var lines = valueResponse.lines;
                     graph.options = {
                         bezierCurve: false,
-                        responsive: false,
+                        //responsive: false,
                         maintainAspectRatio: false,
                         scaleType: "date",
                         scaleDateFormat: "dd mmm yy",
