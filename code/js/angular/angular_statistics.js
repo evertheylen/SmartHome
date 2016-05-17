@@ -5,7 +5,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             if (graph.live) {
                 graph.data_type.removeLiveScope($scope);
                 ws.request({
-                type: "delete_liveline_values",
+                type: "live_delete_liveline_values",
                 graph: graph.temp_GID,
                 }, function(response) {
                 }, $scope);
