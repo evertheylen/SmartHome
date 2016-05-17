@@ -11,7 +11,7 @@ from .sensor import Sensor
 from datetime import datetime
 
 import time
-now = lambda: round(time.time())
+now = lambda: round(time.time()*1000)
 
 
 class Aggregated:

@@ -1,7 +1,6 @@
 
 from itertools import chain
 import time
-now = lambda: round(time.time()*1000)
 
 import tornado.ioloop
 from sparrow import *
@@ -9,6 +8,8 @@ from sparrow import *
 from .owentity import *
 from .graph import *
 from .user import User
+
+now = lambda: round(time.time()*1000)
 
 ioloop = tornado.ioloop.IOLoop.instance()
 
@@ -180,6 +181,9 @@ class LiveLine(RTOwEntity, Listener):
             cls = self.actual_graph.cls
             r = RawSql("SELECT avg(value), time FROM {cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s ORDER BY time".format(cls=cls, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {"start": now() + self.actual_graph.timespan_start})
             result = await r.exec(db)
+            print("I just did the request", result.cursor.query)
+            import pdb
+            pdb.set_trace()
             self.values = result.raw_all()
             for s in self.actual_sensors:
                 s.add_listener(self)
@@ -243,7 +247,7 @@ class LiveLine(RTOwEntity, Listener):
         self.sensors_listening.remove(obj)
     
     def new_reference(self, sensor, value):
-        print("I GOT A VALUE NICE")
+        #print("I GOT A VALUE NICE")
         if type(value) is self.actual_graph.cls:
             # Add it to the buffer!
             assert sensor.SID in self.sensors
@@ -270,8 +274,8 @@ class LiveLine(RTOwEntity, Listener):
             else:
                 print("Already has a value, but we'll add it anyways")
                 self.buffer[sensor.SID].append((value.value, value.time))
-        else:
-            print("got wrong type")
+        #else:
+            #print("got wrong type")
     
     def sum_and_clear_buffer(self):
         sensor_vals = []
