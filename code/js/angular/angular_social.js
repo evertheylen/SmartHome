@@ -687,6 +687,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
         }, function(response) {
             $scope.comments = response.objects;
+            $scope.apply();
         }, $scope);        
     }
     
