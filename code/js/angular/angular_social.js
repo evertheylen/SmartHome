@@ -675,7 +675,6 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
           }, function() {}, $scope);
       $scope.status.removeLiveScope($scope);
-      console.log("%c Removing Live scope from status");
     });
 
     $scope.update = function(object) {
@@ -691,8 +690,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         }, $scope);        
     }
     
-    $scope.status.addLiveScope($scope, "none");
-    console.log("%c STATUS SID: " + $scope.status.SID, 'color: #ff0000');
+    cache["Status"][$scope.status.SID].addLiveScope($scope, "none");
     ws.request({ "type": "register",
     "what": "Status",
     "data": {
