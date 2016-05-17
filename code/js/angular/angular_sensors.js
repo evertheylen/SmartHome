@@ -42,6 +42,23 @@ angular.module("overwatch").controller("sensorController", function($scope, $roo
         }
         $scope.filteredSensors = $scope.sensors.slice(begin, end);
     };
+
+    $scope.filteredSensors = [], $scope.currentPage = 1, $scope.numPerPage = 10, $scope.maxSize = 5;
+    $scope.pages_css = "";
+
+    $scope.$watch("currentPage + numPerPage", function() {
+        var begin = (($scope.currentPage - 1) * $scope.numPerPage),
+            end = begin + $scope.numPerPage;
+
+        if ($scope.sensors.length - 1 < $scope.numPerPage * ($scope.maxSize - 1)) {
+            var length = Math.floor(($scope.sensors.length - 1) / $scope.numPerPage) + 1;
+            $scope.pages_css = "pagination--length" + length;
+        } else {
+            $scope.pages_css = 'pagination--full';
+        }
+        $scope.filteredSensors = $scope.sensors.slice(begin, end);
+    });
+
             
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
@@ -387,22 +404,6 @@ $scope.add_autocomplete = function(tag) {};
     // Set up the pages to display the sensors.
     $scope.required = true;
     $scope.selected_order = null;
-
-    $scope.filteredSensors = [], $scope.currentPage = 1, $scope.numPerPage = 10, $scope.maxSize = 5;
-    $scope.pages_css = "";
-
-    $scope.$watch("currentPage + numPerPage", function() {
-        var begin = (($scope.currentPage - 1) * $scope.numPerPage),
-            end = begin + $scope.numPerPage;
-
-        if ($scope.sensors.length - 1 < $scope.numPerPage * ($scope.maxSize - 1)) {
-            var length = Math.floor(($scope.sensors.length - 1) / $scope.numPerPage) + 1;
-            $scope.pages_css = "pagination--length" + length;
-        } else {
-            $scope.pages_css = 'pagination--full';
-        }
-        $scope.filteredSensors = $scope.sensors.slice(begin, end);
-    });
 
     $scope.$watch('houses', function() {
         if (!$scope.statistics) {
