@@ -676,6 +676,19 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
           }, function() {}, $scope);
       $scope.status.removeLiveScope($scope);
     });
+
+    $scope.update = function(object) {
+        ws.request({
+            type: "get_all",
+            what: "Comment",
+            for: {
+                what: "Status",
+                SID: $scope.status.SID
+            }
+        }, function(response) {
+            $scope.comments = response.objects;
+        }, $scope);        
+    }
     
     $scope.status.addLiveScope($scope, "none");
     ws.request({ "type": "register",
