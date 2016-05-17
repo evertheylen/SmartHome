@@ -294,11 +294,25 @@ function live_delete_response(response) {
         object.updateLiveScopes("None", response);
 }
 
+	{
+		"type": "get_liveline_values",
+		"graph": <ID (or temporary ID) of LiveGraph>,
+		"lines": [
+			{
+				"LLID": <ID (or temporary ID) of LiveLine>
+				"values": [[value, time], [value, time], ...]
+			}, {
+				"LLID": <ID (or temporary ID) of LiveLine>
+				"values": [[value, time], [value, time], ...]
+			}, ...
+		]
+	}
+
+
 function get_liveline_values_response(response) {
     var key = response["graph"];
-    var object = cache["LiveGraph"][key];
-    if (object)
-        object.updateLiveScopes("None", response);
+    var lines = response["lines"];
+    return {LGID: key, lines: lines};
 }
 
 function getFilledObject(what, objectData) {
