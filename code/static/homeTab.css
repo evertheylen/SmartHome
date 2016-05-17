@@ -1,7 +1,8 @@
 .demo-card-wide.mdl-card {
-	width: 85%;
-	margin: 0% 3%;
-	margin-top: 40px;
+	width: calc(100% - 10px);
+/* 	margin: 0% 3%; */
+/* 	margin-top: 40px; */
+	margin: 5px;
 	display: inline-block;
 }
 .demo-card-wide > .mdl-card__title {

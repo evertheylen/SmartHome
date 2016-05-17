@@ -7,7 +7,7 @@ var html_strings = {
     "homelink": ["Home", "Start"],
     "statisticslink": ["Statistics", "Statistieken"],
     "sensorslink" : ["Sensors", "Sensoren"],
-    "sociallink" : ["Social", "Sociaal"],
+    "sociallink" : ["SOCIAL", "SOCIAAL"],
     "adminlink" : ["Admin", "Beheerder"],
     "reportlink" : ["Report", "Rapport"],
     "helplink" : ["Help Page", "Help Pagina"],

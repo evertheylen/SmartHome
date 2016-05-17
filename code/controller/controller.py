@@ -281,17 +281,17 @@ class Controller(metaclass=MetaController):
         @case("Tag")
         async def tag(self, req):
             check_for_type(req, "Sensor")
-            count = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["text"])).count(self.db)
+            res = await Tag.get(Tag.description == Unsafe(req.data["text"])).exec(self.db)
             # Check if tag with that description attribute is already present in the database
-            if count == 0:
+            if res.count == 0:
                 new_tag = Tag(description=req.data["text"])
                 await new_tag.insert(self.db)
-                tagged = Tagged(sensor=req.metadata["for"]["SID"],tag=new_tag.TID)
+                tagged = Tagged(sensor=Unsafe(req.metadata["for"]["SID"]), tag=new_tag.TID)
                 await tagged.insert(self.db)
                 await req.answer(new_tag.json_repr())
             else:
-                t = await Tag.raw("SELECT * FROM table_Tag WHERE table_Tag.description = '{0}'".format(req.data["text"])).single(self.db)
-                tagged = Tagged(sensor=req.metadata["for"]["SID"],tag=t.TID)
+                t = t.single()
+                tagged = Tagged(sensor=Unsafe(req.metadata["for"]["SID"]), tag=t.TID)
                 await tagged.insert(self.db)
                 await req.answer(t.json_repr())
 
@@ -485,7 +485,7 @@ class Controller(metaclass=MetaController):
                 check_for_type(req, "User")
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
                 await u.check_auth(req)
-                groups = await Group.raw("SELECT * FROM table_Group WHERE table_Group.gid IN (SELECT table_Membership.group_gid FROM table_Membership WHERE table_Membership.user_uid = {0})".format(req.metadata["for"]["UID"])).all(self.db)
+                groups = await Group.raw("SELECT  FROM table_Group WHERE table_Group.gid IN (SELECT table_Membership.group_gid FROM table_Membership WHERE table_Membership.user_uid = {0})".format(req.metadata["for"]["UID"])).all(self.db)
                 await req.answer([g.json_repr() for g in groups])
             else:
                 groups = await Group.get(Group.public == True).all(self.db)
@@ -534,8 +534,12 @@ class Controller(metaclass=MetaController):
             await s.check_auth(req)
             comments = await Comment.get(Comment.status == s.key).all(self.db)
             await req.answer([c.json_repr() for c in comments])
-
-
+        
+        @case("LiveGraph")
+        async def livegraph(self, req):
+            lgs = await LiveGraph.get(LiveGraph.user == req.conn.user.key).all(self.db)
+            await req.answer([l.json_repr() for c in lgs])
+        
     @handle_ws_type("edit")
     @require_user_level(1)
     class handle_edit(switch_what):
@@ -645,15 +649,15 @@ class Controller(metaclass=MetaController):
                 check_for_type(req, "Sensor")
                 s = await Sensor.find_by_key(req.metadata["for"]["SID"], self.db)
                 await s.check_auth(req)
-                tags = await Tag.raw("SELECT * from table_Tag WHERE table_Tag.tid IN (SELECT table_Tagged.tag_tid FROM table_Tagged WHERE table_Tagged.sensor_sid = {0})".format(req.metadata["for"]["SID"])).all(self.db)
+                tags = await Tag.raw("SELECT {} from table_Tag WHERE table_Tag.tid IN (SELECT table_Tagged.tag_tid FROM table_Tagged WHERE table_Tagged.sensor_sid = %(SID)s)".format(Tag._select_props), {"SID": req.metadata["for"]["SID"]}).all(self.db)
                 for t in tags: await t.delete(self.db)
                 await req.answer({"status": "succes"})
             else:
                 # Get the sensor and the tag
                 s = await Sensor.find_by_key(req.data["sensor_SID"], self.db)
                 await s.check_auth(req)
-                t = await Tag.raw("SELECT * FROM table_Tag WHERE (table_Tag.description = '{0}')".format(req.data["text"])).single(self.db)
-                await t.is_authorized(req.conn.user.UID, s.SID, self.db)
+                t = await Tag.get(Tag.description == Unsafe(req.data["text"]))
+                await t.check_auth(req, db=self.db)
                 # Get the relationship Tagged and delete it
                 condition1 = Where(Tagged.sensor,"=",s.key)
                 condition2 = Where(Tagged.tag,"=",t.key)
@@ -718,7 +722,7 @@ class Controller(metaclass=MetaController):
             base_wheres.append(create_WhereInGraph("user_UID", "=", req.conn.user.UID))
 
         ts = req.metadata["timespan"]
-        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"))
+        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"), user=req.conn.user.key)
         
         await g.build(base_wheres, group_by, self.db)
 
@@ -748,7 +752,7 @@ class Controller(metaclass=MetaController):
 
         ts = req.metadata["timespan"]
         assert ts["end"] == 0, "Not very live"
-        g = LiveGraph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"))
+        g = LiveGraph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"), user=req.conn.user.key)
         
         await g.build(base_wheres, group_by, self.db)
         
