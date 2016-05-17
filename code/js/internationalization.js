@@ -146,7 +146,8 @@ var html_strings = {
     "live": ["Live Data", "Live Data"],
     "amount_back": ["Amount of time back", "Aantal tijdseenheden terug"],
 	"clickToEdit": ["Untitled graph","Naamloze grafiek"],
-	"display": ["Display in:", "Weergeven in:"],
+	"display": ["Unit:", "Eenheid:"],
+	"graphName": ["Graph name...", "Naam grafiek..."],
 
 
 
