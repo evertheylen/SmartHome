@@ -824,11 +824,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
 
     $scope.exit = function (index) {
-        ws.request({
-        type: "delete_liveline_values",
-        graph: $scope.graphs[index].temp_GID,
-        }, function(response) {
-        }, $scope);
+        if ($scope.graphs[index].live) {
+            ws.request({
+            type: "delete_liveline_values",
+            graph: $scope.graphs[index].temp_GID,
+            }, function(response) {
+            }, $scope);
+        }
         $scope.graphs.splice(index, 1);
         componentHandler.upgradeDom();
 	}
