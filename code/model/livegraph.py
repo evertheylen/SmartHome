@@ -210,7 +210,15 @@ class LiveLine(RTOwEntity, Listener):
         print("BYE BYE CONNECTION")
         self.conns_listening.remove(conn)
         
-        
+    
+    async def send(self, values):
+        for c in self.conns_listening:
+            await c.send({
+                "type": "live_add_liveline_values",
+                "graph": self.graph,
+                "line": self.key,
+                "values": [list(t) for t in values],
+            })
         
     # Listener interface
     
@@ -223,13 +231,7 @@ class LiveLine(RTOwEntity, Listener):
     def new_reference(self, sensor, value):
         print("I GOT A VALUE NICE")
         for c in self.conns_listening:
-            ioloop.spawn_callback(c.send, {
-                "type": "live_add_liveline_values",
-                "graph": self.graph,
-                "line": self.key,
-                "values": [[3.1415, now()]],
-            })
-
+            ioloop.spawn_callback(self.send, [])
 
 class GroupedByInLineLive(GroupedByInLine):
     line = Reference(LiveLine)
