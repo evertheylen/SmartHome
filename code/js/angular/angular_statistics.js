@@ -788,8 +788,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 graph: graph.temp_GID,
                 }, function(valueResponse) {
                     var lines = valueResponse.lines;
+                    console.log("Lines: " + lines);
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-                        var values = lines[lineIndex].values;
+                        console.log("LineIndex: " + lineIndex);
+                        var line = lines[lineIndex];
+                        console.log("Line: " line);
+                        var values = line["values"];
+                        console.log("Values: " + values);
                         for (var valueIndex = 0; valueIndex < values.length; valueIndex++) {
                             addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
                         }
