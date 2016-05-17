@@ -190,6 +190,7 @@ class LiveLine(RTOwEntity, Listener):
         
         return {
             "LLID": self.LLID,
+            "graph": self.graph,
             "grouped_by": [gb.json_repr() for gb in self.grouped_by],
             "sensors": self.sensors,
             "label": ", ".join(["{g.what}: {g.name}".format(g=g) for g in self.grouped_by])
@@ -200,6 +201,7 @@ class LiveLine(RTOwEntity, Listener):
         
         return {
             "LLID": self.LLID,
+            "graph": self.graph,
             "values": [list(v) for v in self.values],
         }
     
