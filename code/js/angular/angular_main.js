@@ -211,7 +211,9 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						scaleTimeFormat: "h:MM",
 						scaleShowLabels: true,
 						useUtc: true,
-						animation: false
+						animation: false,
+						legendTemplate: "<ul class=\"<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%=name.toLowerCase()%>-legend\"><%for(var i=0;i<datasets.length;i++){%><li><span class=\"<%=name.toLowerCase()%>-legend-marker\" style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%=datasets[i].label%></li><%}%></ul>"
+
 				}
 				$scope.graph_js = new Chart(ctx).Scatter(graph.data, options);
 				$scope.graph = {};
