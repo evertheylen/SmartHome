@@ -535,9 +535,21 @@ angular.module("overwatch").controller("create_groupController", function($scope
                     what: "Group",
                     data: group.toJSON()
                 }, function(response) {
-                    group = response.object;
-                    $scope.groups.push(group);
-                    $scope.$apply();
+                    var group = response.object;
+                    ws.request({
+                        type: "add",
+                        what : "Membership",
+                        data : {
+                            status: 'MEMBER',
+                            last_change: Date.now(),
+                            user_UID : Auth.getUser().UID,
+                            group_GID : group.GID            
+                        }
+                    }, function (response){
+                        //document.getElementById('dlgJoinGroup').close();
+                        $rootScope.$broadcast("joined group");
+                        $scope.$apply();
+                    }, $scope)
                 }, $scope);
                 $scope.$apply();
             }, $scope);

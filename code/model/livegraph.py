@@ -74,12 +74,12 @@ class LiveGraph(RTOwEntity):
             l.graph = self.key
             await l.save(db)
     
-    def set_key(self, SID):
-        self.SID = SID
+    def set_key(self, LGID):
+        self.LGID = LGID
         for l in self.lines:
-            l.graph = SID
+            l.graph = LGID
         for w in self.wheres:
-            w.graph = SID
+            w.graph = LGID
     
     async def fill(self, db):
         if not self.filled:
@@ -92,6 +92,7 @@ class LiveGraph(RTOwEntity):
     
     def json_repr(self):
         assert self.filled, "Fill first"
+        
         return {
             "LGID": self.LGID,
             "group_by": [],
@@ -190,6 +191,7 @@ class LiveLine(RTOwEntity, Listener):
         
         return {
             "LLID": self.LLID,
+            "graph": self.graph,
             "grouped_by": [gb.json_repr() for gb in self.grouped_by],
             "sensors": self.sensors,
             "label": ", ".join(["{g.what}: {g.name}".format(g=g) for g in self.grouped_by])
@@ -200,6 +202,7 @@ class LiveLine(RTOwEntity, Listener):
         
         return {
             "LLID": self.LLID,
+            "graph": self.graph,
             "values": [list(v) for v in self.values],
         }
     

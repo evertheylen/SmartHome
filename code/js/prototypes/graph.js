@@ -39,6 +39,7 @@ function Graph(GID, timespan, group_by, where, lines, title) {
             graph.data[lineIndex].strokeColor = random_color;
             //graph.data[lineIndex].fillColor = random_color;
         }
+        graph.title = this.title;
         this._graph = graph;
         return this._graph;
     }

@@ -13,6 +13,16 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
             }
         }
     });
+    
+    $scope.exit = function (index) {
+        ws.request({
+        type: "delete_liveline_values",
+        graph: $scope.scatters[index].temp_GID,
+        }, function(response) {
+        }, $scope);
+        $scope.scatters.splice(index, 1);
+        componentHandler.upgradeDom();
+	}
 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.scatters.length; i++) {
@@ -42,6 +52,18 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                     for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
                         var value = object.values[valueIndex];
                         addPoint(graph, graph.line_map[object.line], value[1], value[0]);
+                        new Chart(graph.ctx).Scatter(graph.data, graph.options);
+                    }
+                }
+            }
+        }
+        if (object["type"] === "live_delete_liveline_values") {
+            for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
+                var graph = $scope.scatters[graphIndex];
+                if (graph.temp_GID === object.graph) {
+                    for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
+                        var value = object.values[valueIndex];
+                        deletePoint(graph, graph.line_map[object.line], value[1], value[0]);
                         new Chart(graph.ctx).Scatter(graph.data, graph.options);
                     }
                 }

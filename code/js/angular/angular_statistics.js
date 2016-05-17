@@ -2,7 +2,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$on("$destroy", function() {
         for (var graphIndex = 0; graphIndex < $scope.graphs.length; graphIndex++) {
             var graph = $scope.graphs[graphIndex];
-            if (graph.data_type) {
+            if (graph.live) {
                 graph.data_type.removeLiveScope($scope);
                 ws.request({
                 type: "delete_liveline_values",
@@ -644,45 +644,14 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         $scope.show_raw = false;
         if ($scope.type_of_time == "raw") 
             $scope.type_of_time = "days";
-        // TODO make days radio button checked.
     });
 
     $scope.$watch('amount_live_back + live + type_of_time', function() {
-        /*
-        today = new Date();
-        var time = $scope.amount_live_back;
-        time *= 1000*60;
-        switch ($scope.type_of_time) {
-            case 'hours':
-                time *= 60;
-                break;
-            case 'days':
-                time *= 60*24;
-                break;
-            case 'months':
-                time *= 60*24*30;
-                break;
-            case 'years':
-                time *= 60*24*30*365;
-        }
-        var check_date = new Date(today - time);
-        if (check_date.getYear() == today.getYear() && 
-            check_date.getMonth() == today.getMonth() &&
-            check_date.getDate() == today.getDate() ) {
-            if (check_date.getYear() == today.getYear() && 
-                check_date.getMonth() == today.getMonth() &&
-                check_date.getDate() == today.getDate() ) {
-                $scope.show_raw = true;
-                return;
-            }
-        }
-        $scope.show_raw = false;
-        if ($scope.type_of_time == "raw") 
-            $scope.type_of_time = "days";
-        */
     });    
-
+    $scope.graph_title = $scope.i18n("untitled");
+    addClass(document.getElementById("graphTextfield"), "is-dirty");
     // GRAPH MAKING
+    $scope.type_of_aggregate = "raw";
     $scope.make_graph = function() {
         console.log("Making graph");
 
@@ -757,6 +726,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 type: "create_graph",
                 group_by: group_by_objects,
                 where: where,
+                title: $scope.graph_title,
                 timespan: timespan
             }, function(response) {
                 $scope.graphs.push(response.get_graph());
@@ -797,11 +767,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             timespan: timespan
         }, function(response) {
             response.addLiveScope($scope, "None");
-            var graph = response.get_graph();
             ws.request({
                 type: "get_liveline_values",
-                graph: graph.temp_GID,
+                graph: response.LGID,
                 }, function(valueResponse) {
+                    var graph = cache["LiveGraph"][valueResponse["LGID"]].get_graph();
                     var lines = valueResponse.lines;
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         var values = lines[lineIndex].values;
@@ -854,11 +824,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
 
     $scope.exit = function (index) {
-        ws.request({
-        type: "delete_liveline_values",
-        graph: $scope.graphs[index].temp_GID,
-        }, function(response) {
-        }, $scope);
+        if ($scope.graphs[index].live) {
+            ws.request({
+            type: "delete_liveline_values",
+            graph: $scope.graphs[index].temp_GID,
+            }, function(response) {
+            }, $scope);
+        }
         $scope.graphs.splice(index, 1);
         componentHandler.upgradeDom();
 	}
