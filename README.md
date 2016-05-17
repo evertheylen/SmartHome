@@ -4,7 +4,7 @@ Ons project voor Project Databases.
 
 ## Installeren
 
-De basisvereisten zijn enkel `virtualenv`, `python3.5` en `postgresql`.
+De basisvereisten zijn enkel `virtualenv`, `python3.5` en `postgresql`. Postgres moet minstens versie 9.5 zijn, op moment van schrijven is dat de laatste stabiele versie. (In Ubuntu lopen ze wat achter, [deze tutorial](https://www.howtoforge.com/tutorial/how-to-install-postgresql-95-on-ubuntu-12_04-15_10/) helpt daarbij.).
 
 Er moet natuurlijk ook een gebruiker zijn met voldoende rechten om databases aan te maken in postgres.
 

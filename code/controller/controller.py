@@ -290,7 +290,7 @@ class Controller(metaclass=MetaController):
                 await tagged.insert(self.db)
                 await req.answer(new_tag.json_repr())
             else:
-                t = t.single()
+                t = res.single()
                 tagged = Tagged(sensor=Unsafe(req.metadata["for"]["SID"]), tag=t.TID)
                 await tagged.insert(self.db)
                 await req.answer(t.json_repr())

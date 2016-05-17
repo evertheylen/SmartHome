@@ -177,11 +177,16 @@ def create_WsHandler(controller, debug=True):
         
         def update(self, obj):
             """Handle updates to the object."""
-            controller.ow.ioloop.spawn_callback(self.send, {
+            try:
+                controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_edit",
                 "what": type(obj).__name__,
                 "data": obj.json_repr()
                 })
+            except:
+                print("AAAAAAAAAAND it failed")
+                import pdb
+                pdb.set_trace()
         
         def delete(self, obj):
             """Handle deletions of the object."""
