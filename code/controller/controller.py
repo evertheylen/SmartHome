@@ -485,7 +485,7 @@ class Controller(metaclass=MetaController):
                 check_for_type(req, "User")
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
                 await u.check_auth(req)
-                groups = await Group.raw("SELECT {} FROM table_Group WHERE table_Group.gid IN (SELECT table_Membership.group_gid FROM table_Membership WHERE table_Membership.user_uid = %(uid)s) ORDER BY gid".format(Group._select_props), {"uid": req.metadata["for"]["UID"])}).all(self.db)
+                groups = await Group.raw("SELECT {} FROM table_Group WHERE table_Group.gid IN (SELECT table_Membership.group_gid FROM table_Membership WHERE table_Membership.user_uid = %(uid)s) ORDER BY gid".format(Group._select_props), {"uid": req.metadata["for"]["UID"]}).all(self.db)
                 await req.answer([g.json_repr() for g in groups])
             else:
                 groups = await Group.get(Group.public == True).all(self.db)
