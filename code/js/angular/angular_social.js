@@ -690,7 +690,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
         }, $scope);        
     }
     
-    cache["Status"][$scope.status.SID].addLiveScope($scope, "none");
+    cache["Status"][$scope.status.SID].addLiveScope($scope, "None");
     ws.request({ "type": "register",
     "what": "Status",
     "data": {
