@@ -1,0 +1,95 @@
+
+signup
+{"type": "signup", "ID": 100, "data": {"email": "user_1@mail", "first_name": "User", "last_name": "One", "password": "testtest"}} 
+
+signup2
+{"type": "signup", "ID": 1, "data": {"email": "user_2@mail", "first_name": "User", "last_name": "Two", "password": "testtest"}}
+
+login
+{"type": "login", "ID": 20, "data": {"email": "user_1@mail", "password": "testtest"}}
+
+login2
+{"type": "login", "ID": 21, "data": {"email": "user_2@mail", "password": "testtest"}}
+
+logout
+{"type": "logout", "ID": 300}
+
+loc_add
+{"type":"add","what":"Location","data":{"user_UID":1, "description": "Location 1", "number": 4, "street": "Bist", "city": "Lier", "postalcode": 2000, "country": "Belgium", "elec_price": 12.45},"ID":3}
+
+sensor_add
+{"type": "add", "ID": 399, "what": "Sensor", "data": {"type": "electricity", "title": "Measure shit 1", "user_UID": 1, "location_LID": 1,"EUR_per_unit":"3.08"}}
+
+sensor2_add
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1}}
+
+tag_add 
+{"type": "add", "ID": 1, "what": "Tag", "for": {"what": "Sensor", "SID": "1"}, "data": {"text":"Keuken"}}
+
+group_add
+{"type":"add","what":"Group","data":{"public":"True","title":"Secret group","description":"No one here","wall_WID":1},"ID":3}
+
+wall_add
+{"type":"add","what":"Wall","data":{"is_user":"True"},"ID":3}
+
+status_add
+{"type":"add","what":"Status","data":{"description":"Mooi, de wereld is mooi, zo bie ba boe ba beestig mooi!","date":12,"date_edited":12,"author_UID":1,"wall_WID":2},"ID":4}
+
+like_add
+{"type":"add","what":"Like","data":{"positive": "False","status_SID":1,"user_UID":1},"ID":3}
+
+friendship_add
+{"type":"add","what":"Friendship","data":{"user1_UID": 1,"user2_UID":2},"ID":3}
+
+membership_add
+{"type":"add","what":"Membership","data":{"status": "MEMBER","last_change": 10,"user_UID": 4,"group_GID": 1},"ID":3}
+
+value_add
+{"type":"add","what":"Value","for":{"what":"Sensor","SID":1},"data":[1.10,100.1872],"ID":3}
+
+
+sensor2_edit
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "FIIIRE", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1}}
+
+
+sensor2_get
+{"type": "get", "ID": 500, "what": "Sensor", "data": {"SID": 2}}
+
+sensor_getall_for_loc
+{"type": "get_all", "ID": 600, "what": "Sensor", "for": {"what": "Location", "LID": 1}}
+
+sensor_getall_for_user1
+{"type": "get_all", "ID": 600, "what": "Sensor", "for": {"what": "User", "UID": 1}}
+
+values_getall_for_sensor1_with_where_clause
+{"type":"get_all","what":"Value","for":{"what":"Sensor","SID":1},"where":[{"field":"time","op":"gt","value":0}, {"field":"time","op":"lt","value":1561594635}],"ID":6}
+
+user_get_all_for_user1
+{"type":"get_all","what":"User","for":{"what":"User","UID":1},"ID":2}
+
+group_get_all_for_user1
+{"type":"get_all","what":"Group","for":{"what":"User","UID":1},"ID":0}
+
+friends_get_all_for_user1
+{"type":"get_all","what":"Friendship","for":{"what":"User","UID": 1},"ID":3}
+
+status_get_all_for_wall1
+{"type":"get_all","what":"Status","for":{"what":"Wall","WID":1},"ID":2}
+
+tag_get_all_for_sensor1
+{"type": "get_all", "ID": 600, "what": "Tag", "for": {"what": "Sensor", "SID": 1}}
+
+tag_get_all_for_autocompletion
+{"type": "get_all", "ID": 600, "what": "Tag"}
+
+delete_sensor1
+{"ID":"9", "type": "delete", "what": "Sensor", "data": {"SID": 1}}
+
+delete_tag1_for_sensor1
+{"type":"delete","what":"Tag","for":{"what":"Sensor","SID":1},"ID":10}
+
+delete_tag1
+{"type":"delete","what":"Tag","data": {"sensor_SID": 1, "text": "Keuken"},"ID":10}
+
+delete_friend_for user_1
+{"type": "delete", "what": "Friendship", "data": { "user_UID1": 1,"user_UID2": 2},"ID":1}
