@@ -233,7 +233,7 @@ function create_graph_response(response) {
 	return getFilledObject("Graph", data);
 }
 
-function create_graph_live_response(response) {
+function create_live_graph_response(response) {
 	var data = response["data"];
 	var key = data["LGID"];  
 	return cache.getObject("LiveGraph", key, data, scope);
