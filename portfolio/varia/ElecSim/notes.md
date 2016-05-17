@@ -1,9 +1,6 @@
 
 # Notes to understand ElecSim
 
-First of all, the quality of the code is very bad. Big chunks of commented out VBA code remain, and most naming conventions (like prefixing variables with their type, 'i' for integer and so on) are only followed half of the time. I have tried to provide extensive annotations for the most important functions. I've also autopep8'ed all the files. I removed about 2/3 of the files originally provided, because they don't do anything useful. In fact, `src/occprob.py` will crash the python parser. Not the program itself, not even the interpreter, the parser. (The reason for this are the nested lists).
-
-But hey, "code was based on excel VBA script, so no judgement! ;-)".
 
 The main function calls (in generate mode), the `generate_sensor_data` function (`main.py`, L151):
 
