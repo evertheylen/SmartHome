@@ -11,6 +11,7 @@ def create_GetConfigHandler(controller):
     # TODO cache html/index.html
     class GetConfigHandler(tornado.web.RequestHandler):
         async def get(self, *args):
+            print("Headers:", self._headers)
             user = await controller.get_user(self.get_cookie("session"))
             controller.logger.info("Session is " + str(self.get_cookie("session")))
             if user is None:

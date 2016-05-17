@@ -2,8 +2,10 @@
 
 # === Configuration ========================
 
-ws_url = "ws://localhost:8888/ws"
-post_url = "http://localhost:8888/add_data"
+#basename = "localhost"
+basename = "jarvis.ydns.eu"
+ws_url = "ws://"+basename+":8888/ws"
+post_url = "http://"+basename+":8888/add_data"
 filename = "config.json"
 
 def get_value():

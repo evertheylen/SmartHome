@@ -8,6 +8,7 @@ from sparrow import *
 
 from .owentity import *
 from .graph import *
+from .user import User
 
 ioloop = tornado.ioloop.IOLoop.instance()
 
@@ -21,6 +22,8 @@ class LiveGraph(RTOwEntity):
     timespan_valuetype = Property(Graph.timespan_valuetype_type)
     
     title = Property(str)
+    
+    user = Reference(User)
     
     # TO BE FILLED:
     lines = []

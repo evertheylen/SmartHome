@@ -79,6 +79,8 @@ class Graph(OwEntity):
 
     title = Property(str)
     
+    user = Reference(User)
+    
     # TO BE FILLED:
     lines = []
     wheres = []
