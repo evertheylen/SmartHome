@@ -792,7 +792,7 @@ angular.module("overwatch").controller("sensor_dialogController", function($scop
                         }
                     }
                 }, $scope);
-                $scope.$apply();
+                //$scope.$apply();
             } else {
                 // Add Sensor
                 // TODO Don't forget the unit price when the format updates :)				
