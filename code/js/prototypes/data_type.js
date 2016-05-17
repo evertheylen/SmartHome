@@ -4,7 +4,9 @@ function DataType() {
 
     this.updateLiveScopes = function(type, response) { 
         if (this._liveScopes["None"]) {
+            console.log("Updating None for " + this.getName());
             this._liveScopes["None"].forEach(function(scope){
+                console.log("Updating..");
                 scope.update(response);
             });
         }
