@@ -269,7 +269,7 @@ angular.module("overwatch").controller("location_controller", function($scope, $
 })
 
 angular.module("overwatch").controller("sensor_controller", function($scope, $rootScope, dlgSensor_setup, $timeout, $q, $filter) {
-      $scope.updateFilteredSensors = function() {
+    /*  $scope.updateFilteredSensors = function() {
         var begin = (($scope.currentPage - 1) * $scope.numPerPage),
             end = begin + $scope.numPerPage;
         if ($scope.sensors.length - 1 < $scope.numPerPage * ($scope.maxSize - 1)) {
@@ -280,7 +280,7 @@ angular.module("overwatch").controller("sensor_controller", function($scope, $ro
             $scope.pages_css = 'pagination--full';
         }
         $scope.filteredSensors = $scope.sensors.slice(begin, end);
-    };
+    };*/
   //$scope.houses = [];
   //$scope.sensors = [];
     $scope.$on("$destroy", function() {
