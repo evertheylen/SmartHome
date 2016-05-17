@@ -16,8 +16,6 @@ def create_GetConfigHandler(controller):
             controller.logger.info("Session is " + str(self.get_cookie("session")))
             if user is None:
                 self.write("Please log in")
-                import pdb
-                pdb.set_trace()
                 return
             controller.logger.info("Creating config for user", user.UID)
             config = []
