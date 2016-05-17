@@ -84,4 +84,5 @@ function deletePoint(graph, dataset, x, y) {
           copy.splice(i,1);
       }
     }
+    graph.data[dataset].data = copy;
 }
