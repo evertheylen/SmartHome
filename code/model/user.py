@@ -19,17 +19,16 @@ class User(RTOwEntity):
 
     async def insert(self, db, *args, **kwargs):
         from .livegraph import LiveGraph, create_WhereInGraphLive
-        res = super(User, self).insert(db, *args, **kwargs)
+        res = await super(User, self).insert(db, *args, **kwargs)
         default_graphs = [
-            ("Average electricity usage from today", "Electricity"),
-            ("Average gas usage from today", "Gas"),
-            ("Average water usage from today", "Water"),
-            ("Average values of other sensors from today", "Other")
+            ("Average electricity usage from today", "electricity"),
+            ("Average gas usage from today", "gas"),
+            ("Average water usage from today", "water"),
+            ("Average values of other sensors from today", "other")
         ]
-        
         for title, vtype in default_graphs:
             lg = LiveGraph(timespan_start=-24*60*60*1000, timespan_end=0, timespan_valuetype="HourValue", title=title, user=self.key)
-            wheres = [create_WhereInGraphLive("user_UID", "=", self.UID)]
+            wheres = [create_WhereInGraphLive("user_UID", "eq", self.UID)]
             group_by = [{"what": "Type", "IDs": [vtype]}]
             await lg.build(wheres, group_by, db)
             await lg.save(db)

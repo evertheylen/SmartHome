@@ -538,7 +538,9 @@ class Controller(metaclass=MetaController):
         @case("LiveGraph")
         async def livegraph(self, req):
             lgs = await LiveGraph.get(LiveGraph.user == req.conn.user.key).order(LiveGraph.key).all(self.db)
-            await req.answer([c.json_repr() for c in lgs])
+            for g in lgs:
+                await g.fill(self.db)
+            await req.answer([g.json_repr() for g in lgs])
         
     @handle_ws_type("edit")
     @require_user_level(1)
@@ -585,6 +587,7 @@ class Controller(metaclass=MetaController):
         @case("LiveGraph")
         async def livegraph(self, req):
             g = await LiveGraph.find_by_key(req.data["LGID"], self.db)
+            await g.fill(self.db)
             g.edit_from_json(req.data)
             await g.update(self.db)
             await req.answer(g.json_repr())
@@ -678,6 +681,7 @@ class Controller(metaclass=MetaController):
         @case("LiveGraph")
         async def livegraph(self, req):
             g = await LiveGraph.find_by_key(req.data["LGID"], self.db)
+            #await g.fill(self.db)
             await g.delete(self.db)
             await req.answer({"status": "success"})
 

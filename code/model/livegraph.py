@@ -175,12 +175,15 @@ class LiveLine(RTOwEntity, Listener):
             await self.second_fill(db)
     
     async def second_fill(self, db):
-        cls = self.actual_graph.cls
-        r = RawSql("SELECT avg(value), time FROM {cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s ORDER BY time".format(cls=cls, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {"start": now() + self.actual_graph.timespan_start})
-        result = await r.exec(db)
-        self.values = result.raw_all()
-        for s in self.actual_sensors:
-            s.add_listener(self)
+        if len(self.sensors) > 0:
+            cls = self.actual_graph.cls
+            r = RawSql("SELECT avg(value), time FROM {cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s ORDER BY time".format(cls=cls, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {"start": now() + self.actual_graph.timespan_start})
+            result = await r.exec(db)
+            self.values = result.raw_all()
+            for s in self.actual_sensors:
+                s.add_listener(self)
+        else:
+            print("No sensors found")
     
     def json_repr(self):
         assert self.filled, "Not filled"
@@ -268,7 +271,7 @@ class LiveLine(RTOwEntity, Listener):
     
     def sum_and_clear_buffer(self):
         sensor_vals = []
-        for (s, vals) in self.buffer:
+        for (s, vals) in self.buffer.items():
             val_avg = sum([v[0] for v in vals])/len(vals)
             time_avg = sum([v[1] for v in vals])/len(vals)
             sensor_vals.append((val_avg, time_avg))
