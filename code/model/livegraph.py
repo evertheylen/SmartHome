@@ -230,8 +230,11 @@ class LiveLine(RTOwEntity, Listener):
     
     def new_reference(self, sensor, value):
         print("I GOT A VALUE NICE")
-        for c in self.conns_listening:
+        if type(value) is self.graph.cls:
             ioloop.spawn_callback(self.send, [])
+        else:
+            print("got wrong type")
+    
 
 class GroupedByInLineLive(GroupedByInLine):
     line = Reference(LiveLine)

@@ -16,11 +16,6 @@ class User(RTOwEntity):
     # Social stuff
     wall = Reference(Wall)
 
-    async def is_authorized(self, type, usr, db, **kwargs):
-        from .friendship import Friendship
-        return (self == usr) or (await Friendship.contains(self.UID, usr.UID))
-    
-
 
     def __str__(self):
         try:
