@@ -762,7 +762,7 @@ class Controller(metaclass=MetaController):
         await g.build(base_wheres, group_by, self.db)
         
         LGID = "temp" + str(random.randint(1,9999999))
-        g.LGID = LGID
+        g.set_key(LGID)
         req.conn.live_graph_cache[LGID] = g
 
         await req.answer(g.json_repr())
