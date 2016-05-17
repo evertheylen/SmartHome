@@ -11,7 +11,7 @@ from .sensor import Sensor
 from datetime import datetime
 
 import time
-now = lambda: round(time.time())
+now = lambda: round(time.time()*1000)
 
 
 class Aggregated:
@@ -31,9 +31,6 @@ class Aggregated:
             
             # Step 3: Put those as big_cls, (always use starting point as 'time' attribute)
             v = cls.big_cls(value=average, sensor=sensor.key, time=time)
-            if average > 10000000:
-                import pdb
-                pdb.set_trace()
             await v._simple_insert(db)
     
     @classmethod
