@@ -147,7 +147,7 @@ var html_strings = {
     "amount_back": ["Amount of time back", "Aantal tijdseenheden terug"],
 	"clickToEdit": ["Untitled graph","Naamloze grafiek"],
 	"display": ["Display in:", "Weergeven in:"],
-
+  "insert_title": ["Insert a graph title", "Geef een titel voor de grafiek op"],
 
 
 

@@ -681,7 +681,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             $scope.type_of_time = "days";
         */
     });    
-
+    $scope.graph_title = undefined;
     // GRAPH MAKING
     $scope.make_graph = function() {
         console.log("Making graph");
@@ -800,6 +800,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             var graph = response.get_graph();
             ws.request({
                 type: "get_liveline_values",
+                title: $scope.graph_title,
                 graph: graph.temp_GID,
                 }, function(valueResponse) {
                     var lines = valueResponse.lines;

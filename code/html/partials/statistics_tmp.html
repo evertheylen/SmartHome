@@ -364,6 +364,8 @@ of gewoon twee lijsten met checkboxes maar dat is misschien verwarrend-->
 			</div>
 			<div class="mdl-grid">
 				<div class="mdl-cell--2-col-desktop mdl-cell--2-col-phone">
+					<input class="mdl-textfield__input" ng-model="graph_title" type="text" id="graphTitle" name="graph_title" required>
+					<label class="mdl-textfield__label" for="graphTitle" ng-bind="i18n('insert_title')"></label>
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" ng-bind="i18n('show_data')" ng-click="make_graph();">
 					</button>
 				</div>
