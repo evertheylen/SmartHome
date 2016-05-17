@@ -132,6 +132,7 @@ class LiveLine(RTOwEntity, Listener):
     values = []
     # The buffer will contain for each sensor the values it has sent
     buffer = {}
+    
     sensors_listening = set()
     conns_listening = set()
     
@@ -171,8 +172,6 @@ class LiveLine(RTOwEntity, Listener):
                 print("LiveLine found different sensors: ", IDs)
                 self.sensors = IDs
                 await self.update(db)
-            for s in self.sensors:
-                self.buffer[s] = None
             await self.second_fill(db)
     
     async def second_fill(self, db):
@@ -211,10 +210,19 @@ class LiveLine(RTOwEntity, Listener):
         self.conns_listening.remove(conn)
         
     
-    async def send(self, values):
+    async def send_add(self, values):
         for c in self.conns_listening:
             await c.send({
                 "type": "live_add_liveline_values",
+                "graph": self.graph,
+                "line": self.key,
+                "values": [list(t) for t in values],
+            })
+    
+    async def send_delete(self, values):
+        for c in self.conns_listening:
+            await c.send({
+                "type": "live_delete_liveline_values",
                 "graph": self.graph,
                 "line": self.key,
                 "values": [list(t) for t in values],
@@ -231,10 +239,45 @@ class LiveLine(RTOwEntity, Listener):
     def new_reference(self, sensor, value):
         print("I GOT A VALUE NICE")
         if type(value) is self.graph.cls:
-            ioloop.spawn_callback(self.send, [])
+            # Add it to the buffer!
+            assert sensor.SID in self.sensors
+            if sensor.SID not in self.buffer:
+                print("New value!")
+                self.buffer[sensor.SID] = [(value.value, value.time)]
+                # Check if the buffer is full
+                if len(self.buffer) == len(self.sensors):
+                    print("Full buffer!")
+                    s = self.sum_and_clear_buffer()
+                    self.values.append(total_val)
+                    ioloop.spawn_callback(self.send_add, [s])
+                    # Clean up values
+                    start = now() + self.graph.timespan_start()
+                    todelete = []
+                    for v in self.values:
+                        if v[1] < start:
+                            todelete.append(v)
+                    for v in todelete:
+                        self.values.remove(v)
+                    print("Removed {} values".format(len(todelete)))
+                    ioloop.spawn_callback(self.send_delete, [todelete])
+            else:
+                print("Already has a value, but we'll add it anyways")
+                self.buffer[sensor.SID].append((value.value, value.time))
         else:
             print("got wrong type")
     
+    def sum_and_clear_buffer(self):
+        sensor_vals = []
+        for (s, vals) in self.buffer:
+            val_avg = sum([v[0] for v in vals])/len(vals)
+            time_avg = sum([v[1] for v in vals])/len(vals)
+            sensor_vals.append((val_avg, time_avg))
+        val_avg = sum([v[0] for v in sensor_vals])/len(sensor_vals)
+        time_avg = sum([v[1] for v in sensor_vals])/len(sensor_vals)
+        total_val = (val_avg, time_avg)
+        self.buffer = {}
+        return total_val
+        
 
 class GroupedByInLineLive(GroupedByInLine):
     line = Reference(LiveLine)
