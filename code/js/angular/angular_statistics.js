@@ -757,6 +757,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 type: "create_graph",
                 group_by: group_by_objects,
                 where: where,
+                title: $scope.graph_title,
                 timespan: timespan
             }, function(response) {
                 $scope.graphs.push(response.get_graph());
@@ -799,12 +800,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             response.addLiveScope($scope, "None");
             ws.request({
                 type: "get_liveline_values",
-<<<<<<< HEAD
                 title: $scope.graph_title,
-                graph: graph.temp_GID,
-=======
                 graph: response.LGID,
->>>>>>> a92fc8c973c8be0b9810bf62e606e22cc83108ad
                 }, function(valueResponse) {
                     var graph = cache["LiveGraph"][valueResponse["LGID"]].get_graph();
                     var lines = valueResponse.lines;
