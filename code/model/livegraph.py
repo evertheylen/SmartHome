@@ -254,7 +254,7 @@ class LiveLine(RTOwEntity, Listener):
                     self.values.append(s)
                     ioloop.spawn_callback(self.send_add, [s])
                     # Clean up values
-                    start = now() + self.actual_graph.timespan_start()
+                    start = now() + self.actual_graph.timespan_start
                     todelete = []
                     for v in self.values:
                         if v[1] < start:
