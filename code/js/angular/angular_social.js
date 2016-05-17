@@ -657,7 +657,7 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
         $scope.$parent.update();     
     }
 
-    cache["Comment"][$scope.comment.CID].addLiveScope($scope, "None");
+    $scope.comment.addLiveScope($scope, "None");
     ws.request({ "type": "register",
     "what": "Comment",
     "data": {
