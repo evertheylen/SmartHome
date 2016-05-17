@@ -76,6 +76,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                             addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
                     }
                     $scope.scatters.push(graph);
+                    $scope.$apply();
             }, $scope);
         }
         $scope.$apply();
