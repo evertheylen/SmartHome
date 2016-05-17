@@ -681,7 +681,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             $scope.type_of_time = "days";
         */
     });    
-    $scope.graph_title = undefined;
+    $scope.graph_title = $scope.i18n("untitled");
     // GRAPH MAKING
     $scope.make_graph = function() {
         console.log("Making graph");
