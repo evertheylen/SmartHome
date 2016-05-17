@@ -756,7 +756,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.status._graph = response.object.get_graph();
             var ctx = document.getElementById("line-"+$scope.status.SID).getContext("2d");
             if ($scope.status.graph != null) {
-                new Chart(ctx).Scatter($scope.status._graph.data, $scope.status._graph.options);
+                var chart = new Chart(ctx).Scatter($scope.status._graph.data, $scope.status._graph.options);
+                document.getElementById("legend-"+$scope.status.SID).innerHTML = chart.generateLegend();
             }
             componentHandler.upgradeDom();
             $scope.$apply();
