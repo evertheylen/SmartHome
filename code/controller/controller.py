@@ -538,7 +538,7 @@ class Controller(metaclass=MetaController):
         @case("LiveGraph")
         async def livegraph(self, req):
             lgs = await LiveGraph.get(LiveGraph.user == req.conn.user.key).order(LiveGraph.key).all(self.db)
-            await req.answer([l.json_repr() for c in lgs])
+            await req.answer([c.json_repr() for c in lgs])
         
     @handle_ws_type("edit")
     @require_user_level(1)

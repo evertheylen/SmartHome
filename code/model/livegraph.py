@@ -238,7 +238,7 @@ class LiveLine(RTOwEntity, Listener):
     
     def new_reference(self, sensor, value):
         print("I GOT A VALUE NICE")
-        if type(value) is self.graph.cls:
+        if type(value) is self.actual_graph.cls:
             # Add it to the buffer!
             assert sensor.SID in self.sensors
             if sensor.SID not in self.buffer:
@@ -251,7 +251,7 @@ class LiveLine(RTOwEntity, Listener):
                     self.values.append(total_val)
                     ioloop.spawn_callback(self.send_add, [s])
                     # Clean up values
-                    start = now() + self.graph.timespan_start()
+                    start = now() + self.actual_graph.timespan_start()
                     todelete = []
                     for v in self.values:
                         if v[1] < start:
