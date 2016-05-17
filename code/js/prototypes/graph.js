@@ -16,7 +16,13 @@ function Graph(GID, timespan, group_by, where, lines, title) {
     this.get_graph = function () {
         if (this._graph) 
             return this._graph;
-        var graph = {temp_GID: this.GID, live: false, data_type: cache["Graph"][GID], data: [], options: {bezierCurve: false, animation: false, scaleType: "date", scaleDateFormat: "dd mmm yy", scaleTimeFormat: "h:MM", useUtc: true, scaleShowLabels: true}};
+        var graph = {temp_GID: this.GID, live: false, data_type: cache["Graph"][GID], data: [], options: {bezierCurve: false, animation: false, scaleType: "date", scaleDateFormat: "dd mmm yy", scaleTimeFormat: "h:MM", useUtc: true, scaleShowLabels: true,legendTemplate : '<table>'
+                            +'<% for (var i=0; i<datasets.length; i++) { %>'
+                            +'<tr><td><div style=\"background-color:<%=datasets[i].fillColor %>\"></div></td>'
+                            +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
+                            +'<% } %>'
+                            +'</table>',
+            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             var values = lines[lineIndex].values;

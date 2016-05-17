@@ -402,6 +402,7 @@ of gewoon twee lijsten met checkboxes maar dat is misschien verwarrend-->
 						</div>
 						<div ng-click="Scatterfullscreen(graph)">
 							<canvas id="line-{{$index}}"></canvas>
+							<div id="legend-{{$inded}}"></div>
 						</div>	
 					</div>
 					<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')" ng-show="graph.live">
