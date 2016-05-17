@@ -32,6 +32,7 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
             graph.data[lineIndex].strokeColor = 'rgb(' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ')';
             graph.data[lineIndex].data = [];
         }
+        graph.title = this.title;
         this._graph = graph;
         return this._graph;
     }
