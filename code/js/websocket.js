@@ -264,8 +264,10 @@ function live_add_ref_response(response) {
     console.log("Type: " + type);
     console.log("Key: " + getKey(type, to));
     console.log("Object: " + object);
-    if (object)
+    if (object) {
+        console.log("Object is not undefined, updating");
         object.updateLiveScopes(from["what"], response);
+    }
     console.log("Done updating");
 }
 
