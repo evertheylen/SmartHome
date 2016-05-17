@@ -212,22 +212,22 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						scaleShowLabels: true,
 						useUtc: true,
 						animation: false,
-// Interpolated JS string - can access point fields: 
-// argLabel, valueLabel, arg, value, datasetLabel, size
-tooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%=argLabel%>; <%=valueLabel%>",
+legendTemplate: '<ul>'
+                  +'<% for (var i=0; i<datasets.length; i++) { %>'
+                    +'<li>'
+                    +'<span style=\"background-color:<%=datasets[i].lineColor%>\"></span>'
+                    +'<% if (datasets[i].label) { %><%= datasets[i].label %><% } %>'
+                  +'</li>'
+                +'<% } %>'
+              +'</ul>'
 
-// Interpolated JS string - can access point fields: 
-// argLabel, valueLabel, arg, value, datasetLabel, size
-multiTooltipTemplate: "<%=argLabel%>; <%=valueLabel%>",
-
-// Interpolated JS string - can access all chart fields
-legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><%for(var i=0;i<datasets.length;i++){%><li><span class=\"<%=name.toLowerCase()%>-legend-marker\" style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%=datasets[i].label%></li><%}%></ul>"
 				}
 				$scope.graph_js = new Chart(ctx).Scatter(graph.data, options);
 				$scope.graph = {};
 				$scope.graph.ctx = ctx;
 				$scope.graph.data = graph.data;
 				$scope.graph.options = options;
+				document.getElementById("fullscreenLegend").innerHTML = $scope.graph_js.generateLegend();
 				//$scope.graph.update();	
     }
     
