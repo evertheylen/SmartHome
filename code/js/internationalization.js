@@ -153,6 +153,7 @@ var html_strings = {
   "insert_title": ["Insert a graph title", "Geef een titel voor de grafiek op"],
 	"display": ["Unit:", "Eenheid:"],
 	"graphName": ["Graph name...", "Naam grafiek..."],
+	"timeUnit": ["Time unit:", "Tijdseenheid:"],
 
 	"faq_hp" : ["Home page", "Home pagina"],
 	"faq_hp_quest_1" : ["How do i navigate on the site?", "Hoe navigeer ik op de website?"],
