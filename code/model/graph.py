@@ -115,11 +115,7 @@ class Graph(OwEntity):
         self.lines = []
         for wheres in wheres_list:
             actual_wheres = [w.get_sql(db) for w in wheres]
-            try:
-                sensors = await Sensor.get(*actual_wheres).all(db)
-            except:
-                import pdb
-                pdb.set_trace()
+            sensors = await Sensor.get(*actual_wheres).all(db)
             IDs = [s.SID for s in sensors]
             # TODO give more metadata
             line = Line(graph=self.key, sensors=IDs)
@@ -226,7 +222,6 @@ def create_WhereInGraph(field, op, value, graph=-1):
     
 
 class Line(OwEntity):
-    # grouped_by = TODO
     key = LID = KeyProperty()
     graph = Reference(Graph)
     sensors = Property(List(int))
@@ -241,7 +236,7 @@ class Line(OwEntity):
         if len(self.sensors) == 0:
             self.values = []
         else:
-            req = RawSql("SELECT avg(value), time AS value FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, g=graph, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {
+            req = RawSql("SELECT avg(value), time FROM {g.cls._table_name} WHERE sensor_SID IN {sensors} GROUP BY time HAVING time >= %(start)s AND time < %(end)s ORDER BY time".format(s=self, g=graph, sensors="("+str(self.sensors[0])+")" if len(self.sensors) == 1 else str(tuple(self.sensors))), {
                 "start": graph.timespan_start,
                 "end": graph.timespan_end,
             })
@@ -366,7 +361,8 @@ class GroupedByInLine(OwEntity):
     
     def get_sql(self, db):
         return self._get_sql(self, db)
-    
+
+
 async def create_GroupedByInLine(line, what, value, db):
     if not isinstance(value, int):
         if what == "Type":

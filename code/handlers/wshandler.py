@@ -25,7 +25,7 @@ class Request:
         if base_dct is None:
             base_dct = {}
         base_dct["ID"] = self.ID
-        base_dct["type"] = self.metadata["type"]
+        #base_dct["type"] = base_dct.get("type", self.metadata["type"])
         base_dct["data"] = dct
         
         for prop in self.metadata:
@@ -126,6 +126,7 @@ def create_WsHandler(controller, debug=True):
             self.user = None
             self.listenees = set()
             self.graph_cache = {}
+            self.live_graph_cache = {}
             controller.ow.ioloop.spawn_callback(self.open_async)
         
         

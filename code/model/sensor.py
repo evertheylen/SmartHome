@@ -42,7 +42,8 @@ class Sensor(RTOwEntity):
                 self.last_value = value
                 interesting_values.append(self.last_value)
         
-        c = RawSql("INSERT INTO table_Value VALUES " + ", ".join([str(v+(self.SID,)) for v in interesting_values]))
+        c = RawSql("INSERT INTO table_Value (value, time, sensor_SID) VALUES " + ", ".join([str(v+(self.SID,)) for v in interesting_values]))
+        
         await c.exec(db)
         
         await Value.aggregates_from_raw(self, interesting_values, db, recurse=True)

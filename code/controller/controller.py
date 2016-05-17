@@ -14,7 +14,7 @@ import random
 import csv
 import io
 import time
-now = lambda: round(time.time())
+now = lambda: round(time.time()*1000)
 
 from sparrow import *
 
@@ -24,6 +24,7 @@ from util import sim
 
 # ?
 from datetime import datetime
+
 
 
 # Helper stuff (decorators, metaclasses)
@@ -136,7 +137,7 @@ class Controller(metaclass=MetaController):
 
         times = []
         for row in data[1:]:
-            time = int(datetime.strptime(row[0], sim.csv_date_format).timestamp())
+            time = int(datetime.strptime(row[0], sim.csv_date_format).timestamp()*1000)
             #print(row[0], "\t", time)
             times.append(time)
 
@@ -157,13 +158,12 @@ class Controller(metaclass=MetaController):
                 self.logger.error("Error in database: {}".format(e))
                 self.logger.error("Moving on...")
     
-    async def add_value(self, SID, secret_key, value):
+    async def add_live_value(self, SID, secret_key, value):
         s = await Sensor.find_by_key(SID, self.db)
         if s.secret_key != secret_key:
             self.logger.error("Wrong key used")
             raise Error("wrong_key", "wrong_key")
-        v = Value(time=now(), sensor=SID, value=value)
-        
+        await Value.add_live_value(SID, value, now(), self.db)
         
 
     # Will you look at that. Beautiful replacement for a switch statement if I say
@@ -359,7 +359,17 @@ class Controller(metaclass=MetaController):
             #await g.fill(self.db)
             await req.answer(g.json_repr())
             del req.conn.graph_cache[req.data["GID"]]
-
+        
+        @case("LiveGraph")
+        async def livegraph(self, req):
+            try:
+                g = req.conn.live_graph_cache[req.data["LGID"]]
+            except KeyError:
+                raise Error("graph_already_saved", "You already saved that graph")
+            await g.save(self.db)
+            #await g.fill(self.db)
+            await req.answer(g.json_repr())
+            del req.conn.live_graph_cache[req.data["LGID"]]
 
     @handle_ws_type("get")
     @require_user_level(1)
@@ -386,6 +396,12 @@ class Controller(metaclass=MetaController):
         @case("Graph")
         async def graph(self, req):
             g = await Graph.find_by_key(req.data["GID"], self.db)
+            await g.fill(self.db)
+            await req.answer(g.json_repr())
+        
+        @case("LiveGraph")
+        async def livegraph(self, req):
+            g = await LiveGraph.find_by_key(req.data["LGID"], self.db)
             await g.fill(self.db)
             await req.answer(g.json_repr())
 
@@ -562,6 +578,13 @@ class Controller(metaclass=MetaController):
             g.edit_from_json(req.data)
             await g.update(self.db)
             await req.answer(g.json_repr())
+        
+        @case("LiveGraph")
+        async def livegraph(self, req):
+            g = await LiveGraph.find_by_key(req.data["LGID"], self.db)
+            g.edit_from_json(req.data)
+            await g.update(self.db)
+            await req.answer(g.json_repr())
 
     @handle_ws_type("delete")
     @require_user_level(1)
@@ -647,6 +670,12 @@ class Controller(metaclass=MetaController):
             g = await Graph.find_by_key(req.data["GID"], self.db)
             await g.delete(self.db)
             await req.answer({"status": "success"})
+        
+        @case("LiveGraph")
+        async def livegraph(self, req):
+            g = await LiveGraph.find_by_key(req.data["LGID"], self.db)
+            await g.delete(self.db)
+            await req.answer({"status": "success"})
 
     
     @handle_ws_type("get_secret_key")
@@ -690,7 +719,7 @@ class Controller(metaclass=MetaController):
             base_wheres.append(create_WhereInGraph("user_UID", "=", req.conn.user.UID))
 
         ts = req.metadata["timespan"]
-        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"), where_text=json.dumps(req.metadata["where"]))
+        g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"))
         
         await g.build(base_wheres, group_by, self.db)
         
@@ -699,6 +728,71 @@ class Controller(metaclass=MetaController):
         req.conn.graph_cache[GID] = g
 
         await req.answer(g.json_repr())
+    
+    
+    @handle_ws_type("create_live_graph")
+    @require_user_level(1)
+    async def handle_create_live_graph(self, req):
+        base_wheres = []
+        valueType = req.metadata["timespan"]["valueType"]
+        group_by = req.metadata.get("group_by", [])
+
+        value_cls, value_props = value_props_per_type[valueType]
+
+        for c in req.metadata.get("where", []):
+            val = c["value"] if not isinstance(c["value"], list) else tuple(c["value"])
+            w = create_WhereInGraphLive(c["field"], c["op"], val)
+            base_wheres.append(w)
+
+        if not req.conn.user.admin:
+            base_wheres.append(create_WhereInGraphLive("user_UID", "=", req.conn.user.UID))
+
+        ts = req.metadata["timespan"]
+        assert ts["end"] == 0, "Not very live"
+        g = LiveGraph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"))
+        
+        await g.build(base_wheres, group_by, self.db)
+        
+        LGID = "temp" + str(random.randint(1,9999999))
+        g.LGID = LGID
+        req.conn.live_graph_cache[LGID] = g
+
+        await req.answer(g.json_repr())
+    
+    
+    @handle_ws_type("get_liveline_values")
+    @require_user_level(1)
+    async def handle_get_liveline_values(self, req):        
+        if req.metadata["graph"] in req.conn.live_graph_cache:
+            g = req.conn.live_graph_cache[req.metadata["graph"]]
+        else:
+            g = await LiveGraph.find_by_key(req.metadata["graph"], self.db)
+            await g.fill(self.db)
+        lines = []
+        if len(g.lines) == 0:
+            import pdb
+            pdb.set_trace()
+        for l in g.lines:
+            lines.append(l.json_value_repr())
+            print("Registering?")
+            l.register_conn(req.conn)
+        await req.answer({}, base_dct={"lines": lines})
+    
+    
+    @handle_ws_type("delete_liveline_values")
+    @require_user_level(1)
+    async def handle_delete_liveline_values(self, req):
+        if req.metadata["graph"] in req.conn.live_graph_cache:
+            g = req.conn.live_graph_cache[req.metadata["graph"]]
+        else:
+            g = await LiveGraph.find_by_key(req.metadata["graph"], self.db)
+            await g.fill(self.db)
+        print("Now delete or something")
+        for l in g.lines:
+            l.unregister_conn(req.conn)
+        # TODO clean up lingering livegraphs (perhaps also lingering graphs)?
+        await req.answer({"status": "success"})
+    
     
     @handle_ws_type("register", "unregister")
     @require_user_level(1)

@@ -9,9 +9,10 @@ class BaseGraph(OverWatchTest):
     datafile = "data/data_house_1_ALLFIVE.csv"
     
     async def prepare(self):
-        with open(self.datafile, "rb") as f:
-            body = f.read()
-            await self.ow.controller.insert_csv_file(body, False)
+        if self.datafile != None:
+            with open(self.datafile, "rb") as f:
+                body = f.read()
+                await self.ow.controller.insert_csv_file(body)
         self.user = (await User.get().all(self.ow.model.db))[0]
         self.conn = MockConn(self.user)
     

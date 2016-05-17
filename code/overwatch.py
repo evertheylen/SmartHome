@@ -35,7 +35,7 @@ import handlers
 import model
 
 import time
-os.environ['TZ'] = 'Europe/London'
+os.environ['TZ'] = 'UTC'
 time.tzset()
 
 

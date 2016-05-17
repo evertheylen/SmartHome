@@ -63,6 +63,7 @@ class MockConn(Mock):
         self.user = user
         self.listenees = set()
         self.graph_cache = {}
+        self.live_graph_cache = {}
         self.received_messages = []
     
     async def send(self, whatever):
@@ -80,5 +81,5 @@ def basic_insert():
             Location(description="Home", number=100, street="some street", city="Some city",
                            postalcode=1000, country="Belgium", user=1),
             # Sensors
-            Sensor(type="electricity", title="Test", user=1, location=1, EUR_per_unit=10)
+            Sensor(type="electricity", title="Test", user=1, location=1, EUR_per_unit=10, secret_key="notsosecret")
         ]
