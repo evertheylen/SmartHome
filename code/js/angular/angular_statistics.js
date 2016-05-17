@@ -796,6 +796,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         var values = line["values"];
                         console.log("Values: " + values);
                         for (var valueIndex = 0; valueIndex < values.length; valueIndex++) {
+                            console.log("valueindex: " + valueIndex);
                             addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
                         }
                     }
