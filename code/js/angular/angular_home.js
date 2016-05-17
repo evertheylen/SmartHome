@@ -17,7 +17,8 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.scatters.length; i++) {
             $scope.scatters[i].ctx = document.getElementById("line-"+i).getContext("2d");
-            new Chart($scope.scatters[i].ctx).Scatter($scope.scatters[i].data, $scope.scatters[i].options);
+            var chart = new Chart($scope.scatters[i].ctx).Scatter($scope.scatters[i].data, $scope.scatters[i].options);
+            document.getElementById("legend-"+ i).innerHTML = chart.generateLegend();
             //$scope.live_graph = $scope.graphs[i];
         }
       	componentHandler.upgradeDom();
@@ -97,7 +98,15 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                         scaleDateFormat: "dd mmm yy",
                         scaleTimeFormat: "h:MM",
                         useUtc: true,
-                        animation: false
+                        animation: false,
+                        legendTemplate : '<table>'
+                            +'<% for (var i=0; i<datasets.length; i++) { %>'
+                            +'<tr><% if (datasets[i].label) { %><td><div class=\"boxx\" style=\"background-color:<%=datasets[i].strokeColor%>\"></div></td>'
+                            +'<% } %>'
+                            +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
+                            +'<% } %>'
+                            +'</table>',
+            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
                     }
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         var values = lines[lineIndex].values;
@@ -111,44 +120,6 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         $scope.$apply();
     }, $scope);
 
-    for (i = 0 ; i < 3; i++) {
-        // Get the context of the canvas element we want to select
-        var graph = {};
-        graph.data = [{
-              label: 'My First dataset',
-              strokeColor: '#F16220',
-              pointColor: '#F16220',
-              pointStrokeColor: '#fff',
-              data: [
-                { x: 19, y: 65 }]
-                    },
-            {
-              label: 'My Second dataset',
-              strokeColor: '#007ACC',
-              pointColor: '#007ACC',
-              pointStrokeColor: '#fff',
-              data: [
-                { x: 19, y: 75, r: 4 }]
-            }
-          ];
-        addPoint(graph, 0, 27, 59);
-        addPoint(graph, 0, 28, 69);
-        addPoint(graph, 0, 40, 81);
-        addPoint(graph, 0, 48, 56);
-        addPoint(graph, 1, 27, 69);
-        addPoint(graph, 1, 28, 70);
-        addPoint(graph, 1, 40, 31);
-        addPoint(graph, 1, 48, 76);
-        addPoint(graph, 1, 52, 23);
-        addPoint(graph, 1, 64, 32);
-        graph.options = {
-            bezierCurve: false
-        };
-        $scope.scatters.push(graph);
-        //var ctx = document.getElementById("line").getContext("2d");
-        //$scope.scatter = new Chart(ctx).Scatter(data, options);
-        //$scope.scatter.data = data;
-    }   
   	componentHandler.upgradeDom();
 });
 

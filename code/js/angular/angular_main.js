@@ -209,14 +209,25 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						scaleType: "date",
 						scaleDateFormat: "dd mmm yy",
 						scaleTimeFormat: "h:MM",
+						scaleShowLabels: true,
 						useUtc: true,
-						animation: false
+						animation: false,
+legendTemplate : '<table>'
+                            +'<% for (var i=0; i<datasets.length; i++) { %>'
+                            +'<tr><% if (datasets[i].label) { %><td><div class=\"boxx\" style=\"background-color:<%=datasets[i].strokeColor%>\"></div></td>'
+                            +'<% } %>'
+                            +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
+                            +'<% } %>'
+                            +'</table>',
+            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
+
 				}
 				$scope.graph_js = new Chart(ctx).Scatter(graph.data, options);
 				$scope.graph = {};
 				$scope.graph.ctx = ctx;
 				$scope.graph.data = graph.data;
 				$scope.graph.options = options;
+				document.getElementById("fullscreenLegend").innerHTML = $scope.graph_js.generateLegend();
 				//$scope.graph.update();	
     }
     

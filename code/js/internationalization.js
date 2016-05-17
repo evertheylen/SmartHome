@@ -58,6 +58,7 @@ var html_strings = {
     "continue": ["Continue", "Doorgaan"],
     "cancel": ["Cancel", "Annuleren"],
     "share" : ["Share", "Deel"],
+    "aggregate_by" :  ["Aggregate by", "Groepeer per"],
     "aggregate_loc" : ["Aggregate by location", "Groepeer per locatie"],
     "aggregate_type" : ["Aggregate by type", "Groepeer per type"],
     "aggregate_tag" : ["Aggregate by tag", "Groepeer per tag"],
@@ -144,9 +145,11 @@ var html_strings = {
     "static": ["Static Data", "Statische Data"],
     "live": ["Live Data", "Live Data"],
     "amount_back": ["Amount of time back", "Aantal tijdseenheden terug"],
-
-
-
+	"clickToEdit": ["Untitled graph","Naamloze grafiek"],
+	"display_in": ["Display in:", "Weergeven in:"],
+  "insert_title": ["Insert a graph title", "Geef een titel voor de grafiek op"],
+	"display": ["Unit:", "Eenheid:"],
+	"graphName": ["Graph name...", "Naam grafiek..."],
 
 	"faq_hp" : ["Home page", "Home pagina"],
 	"faq_hp_quest_1" : ["How do i navigate on the site?", "Hoe navigeer ik op de website?"],

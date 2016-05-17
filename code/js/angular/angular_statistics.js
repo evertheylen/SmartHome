@@ -59,7 +59,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.graphs.length; i++) {
             $scope.graphs[i].ctx = document.getElementById("line-"+i).getContext("2d");
-            new Chart($scope.graphs[i].ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            var chart = new Chart($scope.graphs[i].ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            document.getElementById("legend-"+ i).innerHTML = chart.generateLegend();
             //$scope.live_graph = $scope.graphs[i];
         }
       	componentHandler.upgradeDom();
@@ -680,7 +681,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             $scope.type_of_time = "days";
         */
     });    
-
+    $scope.graph_title = undefined;
     // GRAPH MAKING
     $scope.make_graph = function() {
         console.log("Making graph");
@@ -756,6 +757,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 type: "create_graph",
                 group_by: group_by_objects,
                 where: where,
+                title: $scope.graph_title,
                 timespan: timespan
             }, function(response) {
                 $scope.graphs.push(response.get_graph());
@@ -796,11 +798,12 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             timespan: timespan
         }, function(response) {
             response.addLiveScope($scope, "None");
-            var graph = response.get_graph();
             ws.request({
                 type: "get_liveline_values",
-                graph: graph.temp_GID,
+                title: $scope.graph_title,
+                graph: response.LGID,
                 }, function(valueResponse) {
+                    var graph = cache["LiveGraph"][valueResponse["LGID"]].get_graph();
                     var lines = valueResponse.lines;
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         var values = lines[lineIndex].values;

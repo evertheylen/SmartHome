@@ -259,19 +259,25 @@ function reset_secret_key_response(response) {
 function live_add_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
-    var type = from["what"];
-    object = cache[type][getKey(type, from)];
-    if (object)
-        object.updateLiveScopes(to["what"], response);
+    var type = to["what"];
+    object = cache[type][getKey(type, to)];
+    console.log("Type: " + type);
+    console.log("Key: " + getKey(type, to));
+    console.log("Object: " + object);
+    if (object) {
+        console.log("Object is not undefined, updating");
+        object.updateLiveScopes(from["what"], response);
+    }
+    console.log("Done updating");
 }
 
 function live_remove_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
-    var type = from["what"];
-    object = cache[type][getKey(type, from)];
+    var type = to["what"];
+    object = cache[type][getKey(type, to)];
     if (object)
-        object.updateLiveScopes(to["what"], response);
+        object.updateLiveScopes(from["what"], response);
 }
 
 function live_edit_response(response) {

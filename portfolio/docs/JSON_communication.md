@@ -1,0 +1,568 @@
+
+# JSON Communication
+
+Everything also contains an ID!
+
+	{
+		"ID": 123,
+		"type": ...,
+		"data": ...
+	}
+
+## Errors
+
+If an error occurs and the requested operation did not complete; the backend will send a message back like this:
+
+	{
+		"ID": 123,
+		"type": "error",
+		"data": {
+			"short": "short string to be interpreted by frontend",
+			"long": "long string for dialog etc"
+		}
+	}
+
+## User Auth
+
+### Signup **risky**
+
+Client message:
+
+	{
+		"type": "signup",
+		"data": {
+			"email": "...",
+			"password": "123",
+			"first_name": ...,
+			"last_name": ...,
+		}
+	}
+
+Server response (Succes):
+
+	{
+		"type": "signup",
+		"data": {
+			"status": "success",
+			"UID": 1
+		}
+	}
+
+Server response (Fail):
+
+	{
+		"type": "signup",
+		"data": {
+			"status": "failure"
+			"reason": "email_taken"
+		}
+	}
+
+### Login **risky**
+
+Client message:
+
+	{
+		"type": "login",
+		"data": {
+			"email": "abc",
+			"password": "123"
+		}
+	}
+
+Server response (Fail):
+
+	{
+		"type": "login",
+		"data": {
+			"status": "failure"
+			"reason": "email_unknown" || "wrong_password"
+		}
+	}
+
+Server response (Success):
+
+	{
+		"type": "login",
+		"data": {
+			"status": "success",
+			"session": "78SD451xdsf487scxg4i7ojkh14q12z4c1f4e87rhj4",
+			"user": {
+					"UID": 123,
+					"email": "douglas.adams@hotmail.com",
+					"first_name": "Douglas",
+					"last_name": "Adams"
+			}
+		}
+	}
+
+While logged in, the cookie (=session) has been set, which the server can get from the headers.
+42
+### Logout
+
+Client message:
+
+	{
+		"type": "logout"
+	}
+
+No server response is needed.
+
+## Getting, adding, deleting data
+
+The `"what"` attribute is the class of the object you are dealing with. Example: `Sensor` or `User`.
+
+In the following `"ID"` refers to either `"SID"` (for Sensors) or `"UID"` (for Users) and so on.
+
+In some cases, there is a `"for"` attribute. This is used to refer to objects related to some other object. An example is adding a value for a given sensor.
+It looks like this:
+
+	{
+		...
+		"for": {
+			"what": "Sensor",
+			"SID": 123,
+		}
+		...
+	}
+
+You have to add a `"for"` attribute when it is not clear what you mean. For example, when adding values the definition is not enough to know for which sensor the value holds.
+"Bigger" datatypes will usually store ID's of other object they refer to (e.g. a Sensor has a `"UID"` attribute).
+
+### Adding
+
+Message:
+
+	{
+		"type": "add",
+		"what": <object class>,
+		"data": <definition without ID>
+	}
+
+Response (Success):
+
+	{
+		"type": "add",
+		"what": <object class>,
+		"data": <definition with ID>
+	}
+
+Response (Failure): normal error message
+
+
+When adding a value, you need to specify for which sensor it is.
+
+### Deleting
+
+Message:
+
+	{
+		"type": "delete",
+		"what": <object class>,
+		"data": {
+			"ID": <ID of what you want to delete>,
+		}
+	}
+
+Response (Success):
+
+	{
+		"type": "delete",
+		"data": {
+			"status": "success"
+		}
+	}
+
+Response in case of failure is a normal error message.
+
+Again, for a value you need a `"for"` attribute.
+
+### Getting
+
+#### Getting a single object by ID
+
+Message:
+
+	{
+		"type": "get",
+		"what": <object class>,
+		"data": {
+			"ID": <ID>,
+		}
+	}
+
+Response (Success):
+
+	{
+		"type": "get",
+		"what": <object class>,
+		"data": {
+			<entire definition>
+		}
+	}
+
+Response (Fail): normal error message
+
+So far there is no way to get a single Value, and therefore no `"get"` message will need a `"for"` attribute (this may change in the future).
+
+#### Getting multiple objects
+
+The `"where"` part is optional.
+
+Message:
+
+	{
+		"type": "get_all",
+		"what": "Sensor",
+		"for": {
+			"what": "User",
+			"UID": "123",
+		}
+		"where": [{
+			"field": "Value.data",
+			"op": "gt" //Greater than,lower than etc...,
+			"value": "...",
+		}, ...]
+	}
+
+Response:
+
+(Note, `"data"` is an array here)
+
+	{
+		"type": "get_all",
+		"what": "Sensor",
+		"for": {
+			"what": "User",
+			"UID": "123",
+		}
+		"data": [
+			<definition 1>,
+			<definition 2>,
+			...
+			]
+	}
+
+There can be failure, but it can also happen that the server returns an empty list. This is not considered an error.
+
+Another example for Data:
+
+Message:
+
+	{
+		"type": "get_all",
+		"what": "Value",
+		"for": {
+			"what": "Sensor",
+			"SID": "123",
+		}
+	}
+
+Response:
+
+	{
+		"type": "get_all",
+		"what": "Value",
+		"for": {
+			"what": "Sensor",
+			"SID": "123",
+		}
+		"data": [
+			[1234567890, 3.1415],
+			[1234567891, 3.1546],
+			[1234567891, 3.7460],
+			...
+		]
+	}
+
+### Editing
+
+Message:
+
+	{
+		"type": "edit",
+		"what": <class>,
+		"data": {
+			<new definition WITH ID>
+		}
+	}
+
+There can be a `"for"` attribute here.
+
+Response (Success):
+
+	{
+		"type": "edit",
+		"what": <object class>,
+		"data": {
+			"object": <entire definition with ID>		
+		}
+	}
+
+
+Response (Failure): normal error message
+
+
+## Definitions
+
+More info can be found in JSON_definitions.rst, which is autogenerated. Only certain exceptions will be mentioned here.
+
+#### Value
+
+A value for a given sensor is encoded in JSON as a simple array (should be interpreted as a tuple):
+
+	[12.457, 1234567890]
+
+The second number is the amount of milliseconds since the UNIX epoch. In Linux you can get that value using `date +%s%3N` and in
+Javascript you can simply construct a Date object with that number: `var d = new Date(1234567890)`. The first number is a real number.
+
+A value is uniquely identified by the sensor and it's timestamp.
+
+## Live updates preparation
+
+Frontend -> Backend
+
+	{
+		"ID": 123,
+		"type": "register" / "unregister",
+		"what": "<class>",
+		"data": {
+			"UID" / "SID": 123
+		}
+	}
+
+Server responses can be of type: `live_add_ref`, `live_remove_ref`, `live_edit`, `live_delete`.
+
+For now, registering on a user will also send updates on which sensors the user owns.
+
+Closing the connection will unregister from any objects.
+
+Apart from that you can also unregister from all objects:
+
+	{
+		"ID": 123,
+		"type": "unregister_all",
+		"what": "<class>",
+	}
+
+
+`edit` will simply send a new definition of the object.
+
+## Live updates themselves
+
+Todo: 
+
+Edit in sensoren van location_LID, als _location != null moet je er de juiste locatie insteken.
+
+### Add reference
+
+Object A has a new reference to object B. (Usually this means that object A itself is new).
+
+	{
+		"type": "live_add_ref",
+		"from": {
+			"what": "<class name>",
+			<Key of object A>: 
+		}
+		"to": {
+			"what": <class of Object B>, // update all html references of this object
+			<Key of object B>: 123,
+		},
+		"data": <entire definition with ID of object A> // Add this object to the cache
+	}
+
+Example:
+
+	{
+		"type": "live_add_ref",
+		"for": {
+			"what": User,
+			"UID": 1,
+		},
+		"what": "Location",
+		"data": {"LID": 4, "user_UID": 1, ...}
+	}
+
+In the example, there is a new location added to the database, but the reason you are notified of this, is because the new location refers to the user in some attribute (in this case, the "user_UID" attribute).
+
+You will only receive such updates on objects you registered on (in this case, the user).
+
+
+### Remove reference
+
+	{
+		"type": "live_remove_ref",
+		"from": {
+			"what": "<class name>",
+			<Key of object A>: 
+		},
+		"to": {
+			"what": <class of Object B>, // update all html references of this object
+			<Key of object B>: 123,
+		}
+	}
+
+This means that object A no longer refers to object B.
+
+### Edit
+
+	{
+		"type": "live_edit",
+		"what": "<class name>",
+		"data": <entire definition with ID of object>
+	}
+
+### Delete
+
+	{
+		"type": "live_delete",
+		"what": "<class name>",
+		"data": {
+			"SID"/"UID"/... : ...,
+		}
+	}
+
+	
+## Live Graphs yay
+
+<insert explanation about the concept behind the LiveLines etc>
+
+First of all, you need to create a LiveGraph, similar to how a normal graph is created:
+
+	{
+		"type": "create_live_graph",	
+		"group_by": [ {
+			"what": "Location"
+			"IDs": [1,2,3,4,5,6]
+		}, ...],
+		"where": [{  # filter on SENSORS!!
+			"field": "SID",
+			"op": "in",
+			"value": [1,2,3,4,5,6],
+		}],
+		"timespan": {
+			"valueType": "Value",
+			"start": -3600,
+			"end": 0,
+		}
+	}
+
+The differences with normal graphs is only the timespan, which is relative to now. So in this example we will see (raw) values since one hour ago.
+
+The response of the server will be:
+
+	{
+		"type": "create_live_graph",
+		# bunch of extra metadata, same as request
+		"data": <LiveGraph definition with temp ID>
+	}
+
+Which is, apart from the `type`, still exactly the same.
+
+On to the definition:
+
+	{
+		"LGID": "temp123", # voor temporary graphs als resultaat van een create_live_graph
+		OR "LGID": 123,	# voor echt opgeslagen LiveGraphs
+		
+		# metadata zoals in request van create_graph
+		"timespan": ...
+		"group_by": ...
+		"where": ...
+		
+		# Each object here represents one LiveLine in the graph
+		"lines": [
+			{
+				"LLID": 123,
+				OR "LLID": "temp132456",
+				"grouped_by": [{
+					"what": "Location",
+					"LID": 1
+				}, {
+					"what": "Type",
+					"ID": "Electricity"
+				}],
+				# This may be a single sensor, but at least one
+				"sensors": [1,45,23,789],
+			}, {
+				# Similar as above.
+				# The logic is that for each line you want, you get an object like this
+			}
+		]
+	}
+
+Which also is almost the same, except that there are no values in a LiveLine and a LiveLine has an LLID. 
+But how to get the values (corresponding to a line)? Simple, you send the server something like this:
+
+	{
+		"type": "get_liveline_values",
+		"graph": <ID (or temporary ID) of LiveGraph>
+	}
+
+(Don't forget that there should also be an `ID` in this request since it is sent from the frontend to the backend. The `ID` attribute is usually omitted in examples like this one.)
+
+The server will then respond:
+
+	{
+		"type": "get_liveline_values",
+		"graph": <ID (or temporary ID) of LiveGraph>,
+		"lines": [
+			{
+				"LLID": <ID (or temporary ID) of LiveLine>
+				"values": [[value, time], [value, time], ...]
+			}, {
+				"LLID": <ID (or temporary ID) of LiveLine>
+				"values": [[value, time], [value, time], ...]
+			}, ...
+		]
+	}
+
+Remember that the values may not be spread evenly throughout time.
+
+Sending a get_liveline_values will also automatically do some kind of `register`. Therefore, the server will send you updates about data that should be added or deleted: (no ID here because backend -> frontend)
+
+	{
+		"type": "live_add_liveline_values" OR "live_delete_liveline_values",
+		"graph": <ID (or temporary ID) of LiveGraph>,
+		"line": <ID (or temporary ID) of LiveLine>,
+		"values": [[value, time], [value, time], ...]
+	}
+
+Deletion happens when the server decides some values are no longer in the given timespan. This doesn't happen all the time, but only when new values are inserted. But the frontend shouldn't care about that :)
+
+If you don't need any more values for a particular LiveGraph, delete the values and you will also be automatically unregistered:
+
+	{
+		"type": "delete_liveline_values",
+		"graph": <ID (or temporary ID) of LiveGraph>
+	}
+
+Note that the live updates are **per LiveLine**, while getting+registering and deleting+unregistering is **per LiveGraph**.
+
+### Add, delete, etc
+
+In this case, LiveGraphs behave almost interely like Graphs. You can add them (using a temporary ID), delete them, and perhaps (TBD) get_all them. The examples for that are (except for the type) identical to the example for normal Graphs.
+
+For example, after having received a temporary LiveGraph with LGID=temp12345, you can save it in the database:
+
+Request
+
+	{
+		"type": "add",
+		"what": "LiveGraph",
+		"data": {
+			"LGID": "temp12345"
+		}
+	}
+
+Response
+
+	{
+		"type": "add"
+		"what": "LiveGraph",
+		"data": {
+			"LGID": 5
+		}
+	}
+
+LiveLines are handled by the LiveGraph itself.
