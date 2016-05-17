@@ -792,7 +792,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         console.log("LineIndex: " + lineIndex);
                         var line = lines[lineIndex];
-                        console.log("Line: " line);
+                        console.log("Line: " + line);
                         var values = line["values"];
                         console.log("Values: " + values);
                         for (var valueIndex = 0; valueIndex < values.length; valueIndex++) {
