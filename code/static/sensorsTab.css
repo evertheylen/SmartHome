@@ -1,6 +1,9 @@
 /* TODO adjust colors!!!!!!!!!!!!! */
 
-
+#select_house{
+	overflow-y: scroll;
+	max-height: 140px;
+}
 
 .buttonMenu{
 	font-size: 0;
@@ -207,6 +210,7 @@ table{
 .sliderEffect{
 	height: 6px;
 	background-color: #448aff;
+	margin: -1px;
 }
 
 .pagination > ul > li.active > a{

@@ -107,7 +107,7 @@ angular.module("overwatch").controller("statusIndexController", function ($scope
 
     $scope.post_status = function () {
         if ($scope.status_text != "") {
-            var _date = Date.now() / 1000;
+            var _date = Date.now();
             ws.request({
                 type: "add",
                 what: "Status",
@@ -386,7 +386,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                     GID: graphShare.getGraph()
                 }
                 }, function(response) {
-                var _date = Math.ceil(Date.now() / 1000);
+                var _date = Date.now();
                 var status = new Status(-1, _date, _date, $rootScope.auth_user.UID, $scope.share_type.wall_WID, "Look at my Graph!", response.GID);
                 delete status.SID;
                  ws.request({
@@ -491,7 +491,7 @@ angular.module("overwatch").controller("join_groupController", function($scope, 
                 what : "Membership",
                 data : {
                     status: 'MEMBER',
-                    last_change: Math.round(Date.now() / 1000),
+                    last_change: Date.now(),
                     user_UID : Auth.getUser().UID,
                     group_GID : $scope.join_group.GID            
                 }
@@ -621,7 +621,7 @@ angular.module("overwatch").controller("groupController", function($scope, $root
     
     $scope.post_status = function () {
         if ($scope.status_text != "") {
-            var _date = Date.now() / 1000;
+            var _date = Date.now();
             ws.request({
                 type: "add",
                 what: "Status",
@@ -660,7 +660,7 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
     }, $scope);
     
     $scope.fancy_date = function () {   
-        return date_format($scope.comment.date_edited*1000);
+        return date_format($scope.comment.date_edited);
     };
     
     componentHandler.upgradeDom();
@@ -845,7 +845,7 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
 
     $scope.push_comment = function() {
         if ($scope.new_comment != "") {
-            var _date = Date.now()/1000;
+            var _date = Date.now();
             ws.request({
                 type: "add",
                 what: "Comment",

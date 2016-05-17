@@ -250,13 +250,19 @@ function register_response(response) {}
 
 function unregister_response(response) {}
 
+function reset_secret_key_response(response) {
+    if (response["data"]["status"] === "succes")
+        return true;
+    return false;
+}
+
 function live_add_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
     var type = from["what"];
     object = cache[type][getKey(type, from)];
     if (object)
-        object.updateLiveScopes(to["what"]);
+        object.updateLiveScopes(to["what"], response);
 }
 
 function live_remove_ref_response(response) {
@@ -265,7 +271,7 @@ function live_remove_ref_response(response) {
     var type = from["what"];
     object = cache[type][getKey(type, from)];
     if (object)
-        object.updateLiveScopes(to["what"]);
+        object.updateLiveScopes(to["what"], response);
 }
 
 function live_edit_response(response) {
@@ -274,7 +280,7 @@ function live_edit_response(response) {
     var key = getKey(type, data);
     var object = cache.getObject(type, key, data);
     if (object)
-        object.updateLiveScopes("None");
+        object.updateLiveScopes("None", response);
 }
 
 function live_delete_response(response) {
@@ -282,14 +288,14 @@ function live_delete_response(response) {
     var key = getKey(type, response["data"]);
     var object = cache[type][key];
     if (object)
-        object.updateLiveScopes("None");
+        object.updateLiveScopes("None", response);
 }
 
 function get_liveline_values_response(response) {
     var key = response["graph"];
     var object = cache["LiveGraph"][key];
     if (object)
-        object.updateLiveScopes("None");
+        object.updateLiveScopes("None", response);
 }
 
 function getFilledObject(what, objectData) {

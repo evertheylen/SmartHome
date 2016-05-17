@@ -389,8 +389,7 @@ class Controller(metaclass=MetaController):
         @case("User")
         async def user(self, req):
             u = await User.find_by_key(req.data["UID"], self.db)
-            # Just a superficial get so no need to check for authorisation
-            # await u.check_auth(req)
+            await u.check_auth(req)
             await req.answer(u.json_repr())
 
         @case("Graph")
@@ -654,7 +653,7 @@ class Controller(metaclass=MetaController):
                 s = await Sensor.find_by_key(req.data["sensor_SID"], self.db)
                 await s.check_auth(req)
                 t = await Tag.raw("SELECT * FROM table_Tag WHERE (table_Tag.description = '{0}')".format(req.data["text"])).single(self.db)
-                # await t.check_auth(req, self.db)
+                await t.is_authorized(req.conn.user.UID, s.SID, self.db)
                 # Get the relationship Tagged and delete it
                 condition1 = Where(Tagged.sensor,"=",s.key)
                 condition2 = Where(Tagged.tag,"=",t.key)
@@ -677,7 +676,7 @@ class Controller(metaclass=MetaController):
             await g.delete(self.db)
             await req.answer({"status": "success"})
 
-    
+
     @handle_ws_type("get_secret_key")
     @require_user_level(1)
     async def handle_secret_key(self, req):
@@ -722,7 +721,7 @@ class Controller(metaclass=MetaController):
         g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"))
         
         await g.build(base_wheres, group_by, self.db)
-        
+
         GID = "temp" + str(random.randint(1,9999999))
         g.GID = GID
         req.conn.graph_cache[GID] = g
@@ -807,9 +806,8 @@ class Controller(metaclass=MetaController):
         else:
             obj.remove_listener(req.conn)
         await req.answer({"status": "success"})
-    
+
     @handle_ws_type("unregister_all")
     async def handle_unregister_all(self, req):
         req.conn.remove_all_listenees()
         await req.answer({"status": "success"})
-    

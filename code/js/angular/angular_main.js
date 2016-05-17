@@ -97,12 +97,23 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 			first_call = true;
 			componentHandler.upgradeDom();
 	    var notification = document.getElementById("testsnackbar");
-			var data = {
-				message: string,
-				actionHandler: function(event) {$location.path(link); $scope.$apply();},
-				actionText: 'Go To',
-				timeout: 3500
-			};
+			var data;
+			if (link != undefined) {
+					data = {
+							message: string,
+							actionHandler: function(event) {$location.path(link); $scope.$apply();},
+							actionText: 'Go To',
+							timeout: 3500
+					};
+      } else {
+					data = {
+							message: string,
+						//	actionHandler: function(event) {$scope.$apply();},
+						//	actionText: '',							
+							timeout: 3500
+					}
+			}
+
 			removeClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
 			componentHandler.upgradeDom();
 			addClass(document.getElementById("testsnackbar"), "mdl-js-snackbar");
@@ -150,7 +161,7 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 	componentHandler.upgradeDom();
 	};
 	
-	$rootScope.types = ["electricity", "gas", "water"];
+	$rootScope.types = ["electricity", "gas", "water", "other"];
 	
 	$rootScope.update_me = function(scope) {
 		scope.$apply();
@@ -196,10 +207,15 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						responsive: false,
 						maintainAspectRatio: false,
 						scaleType: "date",
-						useUtc: false
+						useUtc: false,
+						animation: false
 				}
-				$scope.graph = new Chart(ctx).Scatter(graph.data, options);
-				$scope.graph.update();	
+				$scope.graph_js = new Chart(ctx).Scatter(graph.data, options);
+				$scope.graph = {};
+				$scope.graph.ctx = ctx;
+				$scope.graph.data = graph.data;
+				$scope.graph.options = options;
+				//$scope.graph.update();	
     }
     
     $rootScope.Scatterclose_fullscreen = function() {

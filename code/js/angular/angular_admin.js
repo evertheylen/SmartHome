@@ -174,7 +174,6 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         }]
         
         // Timespan.
-        var timezone_offset = (1000*60*60);
         var valueType = "Value";
         switch ($scope.type_of_time) {
             case 'raw':
@@ -193,8 +192,8 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         }
         var timespan = {
             valueType: valueType,
-            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() - (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000,
-            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()  - (new Date(0).getTimezoneOffset() * 60 * 1000)) / 1000
+            start: ($scope.start_date.getTime() + $scope.start_date_time.value.getTime() - (new Date(0).getTimezoneOffset() * 60 * 1000)),
+            end: ($scope.end_date.getTime() + $scope.end_date_time.value.getTime()  - (new Date(0).getTimezoneOffset() * 60 * 1000))
         };
 
         ws.request({
@@ -211,36 +210,10 @@ angular.module("overwatch").controller("adminController", function($scope, $root
         }, $scope); 
 
         // Graphs
-        $scope.importants = [false, false, false, false, false, false];
         var layout = document.getElementById("mainLayout");
         if (hasClass(layout, "mdl-layout--no-drawer-button")) {
             removeClass(layout, "mdl-layout--no-drawer-button");
         }
-
-        $scope.mark_important = function mark_important(element_id) {
-            var element = document.getElementById('important_icon-' + element_id);
-            if (hasClass(element, "yellow")) {
-                removeClass(element, "yellow");
-                addClass(element, "white");
-            } else if (hasClass(element, "white")) {
-                removeClass(element, "white");
-                addClass(element, "yellow");
-            }
-            $scope.importants[element_id] = !$scope.importants[element_id];
-        };
-
-        $scope.set_graph_mode = function set_graph_mode(element_id) {
-            var element = document.getElementById('mode_icon-' + element_id);
-            if (hasClass(element, "yellow")) {
-                $scope.graphs[element_id].valueMode(false);
-                removeClass(element, "yellow");
-                addClass(element, "white");
-            } else if (hasClass(element, "white")) {
-                $scope.graphs[element_id].valueMode(true);
-                removeClass(element, "white");
-                addClass(element, "yellow");
-            }
-        };
 
         $scope.exit = function exit(element_id) {
             $scope.graphs.splice(element_id, 1);

@@ -12,12 +12,6 @@ body{
 	background-color: #3F51B5
 }
 
-.profileImage{
-	width: 50px;
-	height: 50px;
-	margin-top: 5px;
-}
-
 .drawerIcon{
 	margin-right: 10%;
 }
@@ -28,6 +22,7 @@ body{
 
 .snackbarpos {
 	margin-bottom: 75px;
+	z-index: -1000;
 	left: calc(50% - 144px);
 	max-width: 289px;
 	min-width: 288px;
@@ -104,4 +99,22 @@ ul.footer__link-list > li > a{
 
 body{
 	height: 100%;
+}
+
+#cantrememberwhatthisis{
+	margin: 20px;
+}
+
+#btnAddFriend{
+	margin-top: 5px;
+	margin-bottom: 20px;
+}
+
+.errorColor{
+	color: red;
+}
+
+.dropdownTypeStyle{
+	overflow-y: scroll;
+	max-height: 140px;
 }

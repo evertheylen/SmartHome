@@ -1,6 +1,6 @@
 <div ng-controller="statisticsController">
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
-	<div id="box1" class="box" style="z-index: -4;">
+	<div id="box1" class="box">
 		<div class="header">
 			<!--
 				TODO when the following element is clicked, add class "open" to element with id=box1
@@ -17,64 +17,54 @@
 			<div class="mdl-grid">
 
 
-				<div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
+					<span class="mdl-list__item-secondary-action blockStatisticsSection">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
 					        <input type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input" ng-model="aggregate_by[0]"/>
 					    </label>
 					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_loc')"></span>
+					<span class="blockStatisticsSection" ng-bind="i18n('aggregate_loc')"></span>
 				</div>
-				<div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
+					<span class="mdl-list__item-secondary-action blockStatisticsSection">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
 					        <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" ng-model="aggregate_by[1]"/>
 					    </label>
 					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_type')"></span>
+					<span class="blockStatisticsSection" ng-bind="i18n('aggregate_type')"></span>
 				</div>
-				<div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
+				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
+					<span class="mdl-list__item-secondary-action blockStatisticsSection">
 					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
 					        <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" ng-model="aggregate_by[2]"/>
 					    </label>
 					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_tag')"></span>
+					<span class="blockStatisticsSection" ng-bind="i18n('aggregate_tag')"></span>
 				</div>
-                <!--
-				<div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-phone">
-					<span class="mdl-list__item-secondary-action" style="display: inline-block;">
-					    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-4">
-					        <input type="checkbox" id="list-checkbox-4" class="mdl-checkbox__input" ng-model="aggregate_by[3]"/>
-					    </label>
-					</span>
-					<span style="display: inline-block;" ng-bind="i18n('aggregate_eur_per_unit')"></span>
-				</div>
-                -->
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp fullWidthTable">
 					    <thead>
 					        <tr>
 					            <th class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <!--This checkbox selects all the locations-->
 					                    <label id="label-all_locations" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_locations">
 					                        <input type="checkbox" id="list-checkbox-all_locations" class="mdl-checkbox__input" ng-model="all_locs" ng-change="select_all('location')"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="i18n('locations')"></span>
+					                <span class="blockStatisticsSection" ng-bind="i18n('locations')"></span>
 					            </th>
 					        </tr>
 					    </thead>
 					    <tbody ng-controller="location_controller">
 					        <tr ng-controller="location_objController" ng-repeat="house in houses" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-location_{{$index}}" for="list-checkbox-location_{{$index}}">
 					                        <input type="checkbox" id="list-checkbox-location_{{$index}}" class="mdl-checkbox__input" ng-model="select_locs[$index]" ng-change="checkStatus('location', $index, select_locs[$index])"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="house.description"></span>
+					            <span class="blockStatisticsSection" ng-bind="house.description"></span>
 					            </td>
 					            
 					        </tr>
@@ -84,29 +74,29 @@
 
 				<!--Type table-->
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp fullWidthTable">
 					    <thead>
 					        <tr>
 					            <th class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <!--This checkbox selects all the locations-->
 					                    <label id="label-all_types" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_types">
 					                        <input type="checkbox" id="list-checkbox-all_types" class="mdl-checkbox__input" ng-model="all_types" ng-change="select_all('type')"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;">Types</span>
+					                <span class="blockStatisticsSection">Types</span>
 					            </th>
 					        </tr>
 					    </thead>
 					    <tbody>
 					        <tr ng-repeat="type in types" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-type_{{$index}}" for="list-checkbox-type_{{$index}}">
 					                        <input type="checkbox" id="list-checkbox-type_{{$index}}" class="mdl-checkbox__input" ng-model="select_types[$index]" ng-change="checkStatus('type', $index, select_types[$index])"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="i18n(type)"></span>
+					                <span class="blockStatisticsSection" ng-bind="i18n(type)"></span>
 					            </td>
 					        </tr>
 					    </tbody>
@@ -115,39 +105,39 @@
 
 				<!--Sensors table-->
 				<div class="mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-phone">
-					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp fullWidthTable">
 					    <thead>
 					        <tr>
 					            <th class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <!--This checkbox selects all the locations-->
 					                    <label id="label-all_tags" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_tags">
 					                        <input type="checkbox" id="list-checkbox-all_tags" class="mdl-checkbox__input" ng-model="all_tags" ng-change="select_all('tag')"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;">Tags</span>
+					                <span class="blockStatisticsSection">Tags</span>
 					            </th>
 					        </tr>
 					    </thead>
 					    <tbody>
 					        <tr>
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-no_tags" for="list-checkbox-no_tags">
 					                        <input type="checkbox" id="list-checkbox-no_tags" class="mdl-checkbox__input" ng-model="select_no_tags" ng-change="checkStatus('notag', -1, select_no_tags)"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="i18n('no_tag')"></span>
+					                <span class="blockStatisticsSection" ng-bind="i18n('no_tag')"></span>
 					            </td>
 					        </tr>
 					        <tr ng-repeat="tag in tags" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-tag_{{$index}}" for="list-checkbox-tag_{{$index}}">
 					                        <input type="checkbox" id="list-checkbox-tag_{{$index}}" class="mdl-checkbox__input" ng-model="select_tags[$index]" ng-change="checkStatus('tag', $index, select_tags[$index])"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="tag.text"></span>
+					                <span class="blockStatisticsSection" ng-bind="tag.text"></span>
 					            </td>
 					        </tr>
 					    </tbody>
@@ -169,7 +159,7 @@
 
 	
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
-	<div id="box2" class="box" style="z-index: -3;">
+	<div id="box2" class="box">
 		<div class="header">
 			<!--
 				TODO when the following element is clicked, add class "open" to element with id=box2
@@ -187,17 +177,17 @@
 
     			<!--Table with sensors-->
 				<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone" >
-					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp fullWidthTable">
 					    <thead>
 					        <tr>
 					            <th class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <!--This checkbox selects all the sensors-->
 					                    <label id="label-all_sensors" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-all_sensors">
 					                        <input type="checkbox" id="list-checkbox-all_sensors" class="mdl-checkbox__input" ng-model="all_sensors" ng-change="select_all('sensor')"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;">
+					                <span class="blockStatisticsSection">
 					                     Sensors
 					                </span>
 					            </th>
@@ -209,12 +199,12 @@
 					    <tbody ng-controller="sensor_controller">
 					        <tr ng-repeat="sensor in filtered_sensors track by sensor.SID" ng-controller="sensor_objController" on-finish-render="ngRepeatFinished">
 					            <td class="mdl-data-table__cell--non-numeric">
-					                <span class="mdl-list__item-secondary-action" style="display: inline-block;">
+					                <span class="mdl-list__item-secondary-action blockStatisticsSection">
 					                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="label-sensor_{{$index}}" for="list-checkbox-sensor_{{$index}}">
 					                        <input type="checkbox" id="list-checkbox-sensor_{{$index}}" class="mdl-checkbox__input" ng-model="select_sensors[$index]" ng-change="checkStatus('sensor', $index)"/>
 					                    </label>
 					                </span>
-					                <span style="display: inline-block;" ng-bind="sensor.title">
+					                <span class="blockStatisticsSection" ng-bind="sensor.title">
 					                </span>
 					            </td>
 					            <td ng-bind="sensor.location_LID"></td>
@@ -236,12 +226,8 @@
 
 	
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
-	<div id="box3" class="box" style="z-index: -2;">
+	<div id="box3" class="box">
 		<div class="header">
-			<!--
-				TODO when the following element is clicked, add class "open" to element with id=box3
-				in this example, box1 is already open, when it should be closed, "open" should just be removed, that's all
-			-->
 			<div id="for_box3">
 				<i ng-click="open_box(3)" class="material-icons boxStatus">play_arrow</i>
 			</div>
@@ -251,20 +237,36 @@
 	<div class="hiddenBox">
 		<div class="boxContent">
 			<div class="mdl-grid">
+						<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-static">
+								<input type="radio" id="option-static" class="mdl-radio__button" name="options-static" ng-value="false" ng-model="live" ng-click="set_live()" checked/>
+								<span class="mdl-radio__label" ng-bind="i18n('static')"></span>
+							</label>
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-live">
+								<input type="radio" id="option-live" class="mdl-radio__button" name="options-static" ng-value="true" ng-model="live" ng-click="set_live()"/>
+								<span class="mdl-radio__label" ng-bind="i18n('live')"></span>
+							</label>
+						</div>
 
-				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-hide="live">
 					<form action="#">
-						<span style="font-size: x-large;" ng-bind="i18n('start_date')"></span>
+						<span class="xlargeFont" ng-bind="i18n('start_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="startDate" ng-model="start_date" required/>
                         <input class="mdl-textfield__input" type="time" id="startDateTime" ng-model="start_date_time.value" required/>
 					</form>
 				</div>
-				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
-				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
+				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"ng-hide="live"></div>
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone"ng-hide="live">
 					<form action="#">
-						<span style="font-size: x-large;" ng-bind="i18n('end_date')"></span>
+						<span class="xlargeFont" ng-bind="i18n('end_date')"></span>
 					    <input class="mdl-textfield__input" type="date" id="endDate" ng-model="end_date" required/>
                         <input class="mdl-textfield__input" type="time" id="endDateTime" ng-model="end_date_time.value" required/>
+					</form>
+				</div>
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-show="live">
+					<form action="#">
+						<span class="xlargeFont" ng-bind="i18n('amount_back')"></span>
+					    <input class="mdl-textfield__input" type="number" id="liveDays" ng-model="amount_live_back" required/>
 					</form>
 				</div>
 				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
@@ -298,7 +300,7 @@
 						</div>
 
 						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
-							<div id="spacer4" style="display: block"></div>
+							<div id="spacer4"></div>
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-4">
 								<input type="radio" id="option-4" class="mdl-radio__button" name="options" value="years" ng-model="type_of_time"/>
 								<span class="mdl-radio__label" ng-bind="i18n('years')"></span>
@@ -329,7 +331,7 @@
 
 
 	<!-- The z-index is hardcoded because a sequence of these boxes would cover each other (the invisible part would cover the next box) -->
-	<div id="box4" class="box" style="z-index: -1;">
+	<div id="box4" class="box">
 		<div class="header">
 			<!--
 				TODO when the following element is clicked, add class "open" to element with id=box4
@@ -349,10 +351,10 @@
 					<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
 							<h2 class="mdl-card__title-text">{{i18n('graph') + " " + $index}}</h2>
-							<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="share($index)">
+							<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="share($index)" ng-hide="graph.live">
 								<i class="material-icons">share</i>
 							</button>
-							<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)">
+							<button id="important_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="mark_important($index)" ng-show="graph.live">
 								<i id="important_icon-{{$index}}" class="material-icons white">grade</i>
 							</button>
 							<button id="exit_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="exit($index)">
@@ -363,9 +365,9 @@
 							<canvas id="line-{{$index}}"></canvas>
 						</div>	
 					</div>
-					<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
+					<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')" ng-show="graph.live">
 					</div>
-					<div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')">
+					<div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')" ng-hide="graph.live">
 					</div>
 				</div>
 			</div>

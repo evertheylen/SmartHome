@@ -1,0 +1,51 @@
+.blockStatisticsSection{
+	display: inline-block;
+}
+
+.fullWidthTable{
+	width: 100%;
+}
+
+#box1{
+	z-index: -4;
+}
+
+#box2{
+	z-index: -3;
+}
+
+#box3{
+	z-index: -2;
+}
+
+#box4{
+	z-index: -1;
+}
+
+.xlargeFont{
+	font-size: x-large;
+}
+
+#spacer1{
+	display: block;
+}
+
+#spacer2{
+	display: block;
+}
+
+#spacer3{
+	display: block;
+}
+
+#spacer4{
+	display: block;
+}
+
+.floatRight{
+	float: right;
+}
+
+.radioBtnBlock{
+	display: block;
+}

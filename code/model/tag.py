@@ -7,9 +7,9 @@ class Tag(RTOwEntity):
     description = Property(str)
     key = TID = KeyProperty()
 
-    async def is_authorized(self, type, usr, db, **kwargs):
-        s = await Sensor.find_by_key(self.sensor).single(db)
-        return s.user == usr.key
+    async def is_authorized(self, usr, sensor, db):
+        s = await Sensor.find_by_key(sensor, db)
+        return s.user == usr
 
     def json_repr(self):
         return {

@@ -1,7 +1,34 @@
 angular.module("overwatch").controller("homeController", function($scope, $rootScope, Auth, $timeout, $state) {
     $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
+        console.log("Destructor");
+        for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
+            var graph = $scope.scatters[graphIndex];
+            if (graph.data_type) {
+                graph.data_type.removeLiveScope($scope);
+                ws.request({
+                type: "delete_liveline_values",
+                graph: graph.temp_GID,
+                }, function(response) {
+                }, $scope);
+            }
+        }
     });
+
+    $scope.update = function(object) {
+        if (object["type"] === "live_add_liveline_values") {
+            for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
+                var graph = $scope.scatters[graphIndex];
+                if (graph.temp_GID === object.graph) {
+                    for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
+                        var value = object.values[valueIndex];
+                        addPoint(graph, graph.line_map[object.line], value[1], value[0]);
+                        new Chart(graph.ctx).Scatter(graph.data, graph.options);
+                    }
+                }
+            }
+        }
+    }
+
     $rootScope.$state = $state;
     $rootScope.simple_css = false;
     $rootScope.tab = "homelink";
@@ -13,19 +40,47 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         removeClass(layout, "mdl-layout--no-drawer-button");
     }
 
-	$scope.mark_important = function mark_important(element_id) {
-	    var element = document.getElementById('important_icon-'+element_id);
-	    if (hasClass(element, "yellow")) {
-	        removeClass(element, "yellow");
-	        addClass(element, "white");
-	    } else if (hasClass(element, "white")) {
-	        removeClass(element, "white");
-	        addClass(element, "yellow");
-	    }
-	    $scope.importants[element_id] = !$scope.importants[element_id];
-	};
+    $scope.exit = function (index) {
+        ws.request({
+            type: "delete",
+            what: "LiveGraph",
+            data: {LGID: $scope.scatters[index].temp_GID}
+            }, function(response) {
+        }, $scope);
+        $scope.scatters.splice(index, 1);
+        componentHandler.upgradeDom();
+	}
   
     $scope.scatters = [];
+        
+    // Live Graphs
+    ws.request({
+    type: "get_all",
+    what: "LiveGraph",
+    for: {
+        what: "User",
+        UID: $rootScope.auth_user.UID
+    }
+    }, function(response) {
+        for (var i = 0; i < response.objects.length; i++) {
+            response.objects[i].addLiveScope($scope, "None");
+            var graph = response.objects[i].get_graph();
+            ws.request({
+                type: "get_liveline_values",
+                graph: response.objects[i].GID,
+                }, function(valueResponse) {
+                    var lines = valueResponse.lines;
+                    for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+                        var values = lines[lineIndex].values;
+                        for (var valueIndex = 0; valueIndex < values.length; valueIndex++)
+                            addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
+                    }
+                    $scope.scatters.push(graph);
+            }, $scope);
+        }
+        $scope.$apply();
+    }, $scope);
+
     for (i = 0 ; i < 3; i++) {
         // Get the context of the canvas element we want to select
         var graph = {};
