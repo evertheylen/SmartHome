@@ -731,7 +731,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
 
         // Timespan.
         var valueType = "Value";
-        switch ($scope.type_of_time) {
+        switch ($scope.type_of_aggregate) {
             case 'hours':
                 valueType = "HourValue";
                 break;
