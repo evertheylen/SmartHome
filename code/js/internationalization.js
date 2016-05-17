@@ -145,6 +145,7 @@ var html_strings = {
     "static": ["Static Data", "Statische Data"],
     "live": ["Live Data", "Live Data"],
     "amount_back": ["Amount of time back", "Aantal tijdseenheden terug"],
+	"clickToEdit": ["Untitled graph","Naamloze grafiek"],
 
 
 
