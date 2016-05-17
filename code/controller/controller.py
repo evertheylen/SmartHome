@@ -596,6 +596,9 @@ class Controller(metaclass=MetaController):
         async def location(self, req):
             l = await Location.find_by_key(req.data["LID"], self.db)
             await l.check_auth(req)
+            ss = await Sensor.get(Sensor.location = l.key).all(self.db)
+            for s in ss:
+                await s.delete(self.db)
             await l.delete(self.db)
             await req.answer({"status": "success"})
 
@@ -661,7 +664,7 @@ class Controller(metaclass=MetaController):
                 # Get the relationship Tagged and delete it
                 condition1 = Where(Tagged.sensor,"=",s.key)
                 condition2 = Where(Tagged.tag,"=",t.key)
-                tagged = await Tagged.get(And(condition1,condition2)).single(self.db)
+                tagged = await Tagged.get(Tagged.sensor == s.key, Tagged.tag == t.key).single(self.db)
                 await tagged.delete(self.db)
                 # If the tag isn't needed elsewhere => delete it
                 count = await Tagged.get(condition2).count(self.db)
