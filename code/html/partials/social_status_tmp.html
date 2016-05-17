@@ -29,6 +29,7 @@
 		</div>
 		<div ng-show="status.graph != undefined" ng-click="Scatterfullscreen(status._graph)">
 			<canvas id="line-{{status.SID}}"></canvas>
+			<div id="legend-{{status.SID}}"></div>
 		</div>
 		<div class="mdl-card__supporting-text" ng-bind="status.text">
 		</div>
