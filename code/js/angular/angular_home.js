@@ -96,6 +96,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                         scaleType: "date",
                         scaleDateFormat: "dd mmm yy",
                         scaleTimeFormat: "h:MM",
+                        scaleShowLabels: true,
                         useUtc: true,
                         animation: false
                     }
