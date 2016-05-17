@@ -768,7 +768,6 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             response.addLiveScope($scope, "None");
             ws.request({
                 type: "get_liveline_values",
-                title: $scope.graph_title,
                 graph: response.LGID,
                 }, function(valueResponse) {
                     var graph = cache["LiveGraph"][valueResponse["LGID"]].get_graph();
