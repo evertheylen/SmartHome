@@ -644,42 +644,9 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         $scope.show_raw = false;
         if ($scope.type_of_time == "raw") 
             $scope.type_of_time = "days";
-        // TODO make days radio button checked.
     });
 
     $scope.$watch('amount_live_back + live + type_of_time', function() {
-        /*
-        today = new Date();
-        var time = $scope.amount_live_back;
-        time *= 1000*60;
-        switch ($scope.type_of_time) {
-            case 'hours':
-                time *= 60;
-                break;
-            case 'days':
-                time *= 60*24;
-                break;
-            case 'months':
-                time *= 60*24*30;
-                break;
-            case 'years':
-                time *= 60*24*30*365;
-        }
-        var check_date = new Date(today - time);
-        if (check_date.getYear() == today.getYear() && 
-            check_date.getMonth() == today.getMonth() &&
-            check_date.getDate() == today.getDate() ) {
-            if (check_date.getYear() == today.getYear() && 
-                check_date.getMonth() == today.getMonth() &&
-                check_date.getDate() == today.getDate() ) {
-                $scope.show_raw = true;
-                return;
-            }
-        }
-        $scope.show_raw = false;
-        if ($scope.type_of_time == "raw") 
-            $scope.type_of_time = "days";
-        */
     });    
     $scope.graph_title = $scope.i18n("untitled");
     addClass(document.getElementById("graphTextfield"), "is-dirty");
