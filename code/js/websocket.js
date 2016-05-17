@@ -259,7 +259,7 @@ function reset_secret_key_response(response) {
 function live_add_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
-    var type = from["what"];
+    var type = to["what"];
     object = cache[type][getKey(type, to)];
     if (object)
         object.updateLiveScopes(from["what"], response);
