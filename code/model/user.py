@@ -18,7 +18,7 @@ class User(RTOwEntity):
     wall = Reference(Wall)
 
     async def insert(self, db, *args, **kwargs):
-        from .livegraph import *
+        from .livegraph import LiveGraph, create_WhereInGraphLive
         res = super(User, self).insert(db, *args, **kwargs)
         default_graphs = [
             ("Average electricity usage from today", "Electricity"),
