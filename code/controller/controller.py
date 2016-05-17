@@ -724,7 +724,7 @@ class Controller(metaclass=MetaController):
             base_wheres.append(w)
 
         if not req.conn.user.admin:
-            base_wheres.append(create_WhereInGraph("user_UID", "=", req.conn.user.UID))
+            base_wheres.append(create_WhereInGraph("user_UID", "eq", req.conn.user.UID))
 
         ts = req.metadata["timespan"]
         g = Graph(timespan_start = ts["start"], timespan_end = ts["end"], timespan_valuetype = ts["valueType"], title = req.metadata.get("title", "untitled"), user=req.conn.user.key)
@@ -753,7 +753,7 @@ class Controller(metaclass=MetaController):
             base_wheres.append(w)
 
         if not req.conn.user.admin:
-            base_wheres.append(create_WhereInGraphLive("user_UID", "=", req.conn.user.UID))
+            base_wheres.append(create_WhereInGraphLive("user_UID", "eq", req.conn.user.UID))
 
         ts = req.metadata["timespan"]
         assert ts["end"] == 0, "Not very live"
@@ -764,7 +764,7 @@ class Controller(metaclass=MetaController):
         LGID = "temp" + str(random.randint(1,9999999))
         g.set_key(LGID)
         req.conn.live_graph_cache[LGID] = g
-
+        r = g.json_repr()
         await req.answer(g.json_repr())
     
     

@@ -2,8 +2,8 @@
 
 # === Configuration ========================
 
-#basename = "localhost"
-basename = "jarvis.ydns.eu"
+basename = "localhost"
+#basename = "jarvis.ydns.eu"
 ws_url = "ws://"+basename+":8888/ws"
 post_url = "http://"+basename+":8888/add_data"
 filename = "config.json"
