@@ -214,7 +214,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						animation: false,
 legendTemplate : '<table>'
                             +'<% for (var i=0; i<datasets.length; i++) { %>'
-                            +'<tr><td><div style=\"background-color:<%=datasets[i].fillColor %>\"></div></td>'
+                            +'<tr><% if (datasets[i].label) { %><td><div class=\"boxx\" style=\"background-color:<%=datasets[i].strokeColor%>\"></div></td>'
+                            +'<% } %>'
                             +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
                             +'<% } %>'
                             +'</table>',

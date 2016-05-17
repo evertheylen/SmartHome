@@ -644,8 +644,26 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 
 angular.module("overwatch").controller("commentController", function ($scope, $rootScope, Auth) {
     $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
+        ws.request({ "type": "unregister",
+          "what": "Comment",
+          "data": {
+            "CID": $scope.comment.CID
+            }
+          }, function() {}, $scope);
+        $scope.comment.removeLiveScope($scope);
     });
+
+    $scope.update = function(object) {
+        $scope.$parent.update();     
+    }
+    cache["Comment"][[$scope.comment.CID, $scope.comment.status_SID]].addLiveScope($scope, "None");
+    ws.request({ "type": "register",
+    "what": "Comment",
+    "data": {
+      "CID": $scope.comment.CID
+      }
+    }, function() {}, $scope);
+
     $rootScope.auth_user = Auth.getUser();
     $scope.author = null;
     ws.request({
