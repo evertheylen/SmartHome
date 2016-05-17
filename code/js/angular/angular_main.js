@@ -207,6 +207,8 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						responsive: false,
 						maintainAspectRatio: false,
 						scaleType: "date",
+						scaleDateFormat: "dd mmm yy",
+						scaleTimeFormat: "h:MM",
 						useUtc: false,
 						animation: false
 				}
