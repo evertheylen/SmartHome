@@ -311,7 +311,7 @@ function live_add_liveline_values_response(response) {
 
 function live_delete_liveline_values_response(response) {
     LGID = response["graph"];
-    var object = cache["LiveGraph"][LGID];
+    var object = cache["LiveGraph"]["graph"];
     object.updateLiveScopes("None", response);
 }
 
