@@ -212,14 +212,13 @@ angular.module("overwatch").controller("mainController", function($scope, $rootS
 						scaleShowLabels: true,
 						useUtc: true,
 						animation: false,
-legendTemplate: '<ul>'
-                  +'<% for (var i=0; i<datasets.length; i++) { %>'
-                    +'<li>'
-                    +'<span style=\"background-color:<%=datasets[i].lineColor%>\"></span>'
-                    +'<% if (datasets[i].label) { %><%= datasets[i].label %><% } %>'
-                  +'</li>'
-                +'<% } %>'
-              +'</ul>'
+legendTemplate : '<table>'
+                            +'<% for (var i=0; i<datasets.length; i++) { %>'
+                            +'<tr><td><div style=\"background-color:<%=datasets[i].fillColor %>\"></div></td>'
+                            +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
+                            +'<% } %>'
+                            +'</table>',
+            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
 
 				}
 				$scope.graph_js = new Chart(ctx).Scatter(graph.data, options);
