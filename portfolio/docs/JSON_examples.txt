@@ -18,10 +18,10 @@ loc_add
 {"type":"add","what":"Location","data":{"user_UID":1, "description": "Location 1", "number": 4, "street": "Bist", "city": "Lier", "postalcode": 2000, "country": "Belgium", "elec_price": 12.45},"ID":3}
 
 sensor_add
-{"type": "add", "ID": 399, "what": "Sensor", "data": {"type": "electricity", "title": "Measure shit 1", "user_UID": 1, "location_LID": 1,"EUR_per_unit":"3.08"}}
+{"type": "add", "ID": 399, "what": "Sensor", "data": {"type": "electricity", "title": "Measure things 1", "user_UID": 1, "location_LID": 1,"EUR_per_unit":"3.08"}}
 
 sensor2_add
-{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more shit 2", "user_UID": 1, "location_LID": 1}}
+{"type": "add", "ID": 400, "what": "Sensor", "data": {"type": "Water", "title": "Measure more things 2", "user_UID": 1, "location_LID": 1}}
 
 tag_add 
 {"type": "add", "ID": 1, "what": "Tag", "for": {"what": "Sensor", "SID": "1"}, "data": {"text":"Keuken"}}
