@@ -17,11 +17,12 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
         console.log("In get_graph");
         if (this._graph) 
             return this._graph;
-        var graph = {temp_GID: this.LGID, live: true, data_type: cache["LiveGraph"][this.LGID], data: [], options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true, line_map: {}}};
+        var graph = {temp_GID: this.LGID, live: true, data_type: cache["LiveGraph"][this.LGID], data: [], line_map: {}, options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
         var lines = this.lines;
         console.log("Iterating lineIndex");
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-            console.log("Setting line_map");
+            console.log("Setting line_map: " + lines[lineIndex].LLID);
+            console.log("Graph.line_map: " + graph.line_map);
             graph.line_map[lines[lineIndex].LLID] = lineIndex;
             console.log("Setting graph data");
             graph.data[lineIndex] = {label: "", strokeColor: ""};
