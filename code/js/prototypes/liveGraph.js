@@ -23,7 +23,7 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
                             +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
                             +'<% } %>'
                             +'</table>',
-            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"}};}};
+            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             graph.line_map[lines[lineIndex].LLID] = lineIndex;
