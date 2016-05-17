@@ -236,6 +236,8 @@ function create_graph_response(response) {
 function create_live_graph_response(response, scope) {
 	var data = response["data"];
 	var key = data["LGID"];  
+    console.log("LG Key: " + key);  
+    console.log("LG scope: " + scope);
 	return cache.getObject("LiveGraph", key, data, scope);
 }
 
