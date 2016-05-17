@@ -75,13 +75,13 @@ function addPoint(graph, dataset, x, y) {
 }
 
 function deletePoint(graph, dataset, x, y) {
-    /*
     if (graph.data[dataset].data.length === 0) {
-        graph.data[dataset].data.push({x: x, y: y});
         return;
     }
-    var last_point = graph.data[dataset].data[graph.data[dataset].data.length-1];
-    graph.data[dataset].data.push({x: x, y: last_point.y});
-    graph.data[dataset].data.push({x: x,y: y});
-    */
+    var copy = graph.data[dataset].data;
+    for (i=graph.data[dataset].data.length-1; i>-1; i--) {
+      if (graph.data[dataset].data[i].x === x) {
+          copy.splice(i,1);
+      }
+    }
 }
