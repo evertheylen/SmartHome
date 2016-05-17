@@ -297,13 +297,13 @@ function get_liveline_values_response(response) {
     return {LGID: key, lines: lines};
 }
 
-function live_add_liveline_values(response) {
+function live_add_liveline_values_response(response) {
     LGID = response["graph"];
     var object = cache["LiveGraph"][LGID];
     object.updateLiveScopes("None", response);
 }
 
-function live_delete_liveline_values(response) {
+function live_delete_liveline_values_response(response) {
     LGID = response["graph"];
     var object = cache["LiveGraph"][LGID];
     object.updateLiveScopes("None", response);
