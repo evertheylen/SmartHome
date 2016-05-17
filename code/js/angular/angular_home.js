@@ -72,9 +72,12 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                     var lines = valueResponse.lines;
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         var values = lines[lineIndex].values;
-                        for (var valueIndex = 0; valueIndex < values.length; valueIndex++)
+                        for (var valueIndex = 0; valueIndex < values.length; valueIndex++) {
+                            console.log("Adding point index: " + valueIndex);
                             addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
+                        }
                     }
+                    console.log("Pushing graph: " + graph);
                     $scope.scatters.push(graph);
                     $scope.$apply();
             }, $scope);
