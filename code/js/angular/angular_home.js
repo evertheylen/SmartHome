@@ -13,6 +13,16 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
             }
         }
     });
+    
+    $scope.exit = function (index) {
+        ws.request({
+        type: "delete_liveline_values",
+        graph: $scope.scatters[index].temp_GID,
+        }, function(response) {
+        }, $scope);
+        $scope.scatters.splice(index, 1);
+        componentHandler.upgradeDom();
+	}
 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.scatters.length; i++) {
