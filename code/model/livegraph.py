@@ -251,7 +251,7 @@ class LiveLine(RTOwEntity, Listener):
                 if len(self.buffer) == len(self.sensors):
                     print("Full buffer!")
                     s = self.sum_and_clear_buffer()
-                    self.values.append(total_val)
+                    self.values.append(s)
                     ioloop.spawn_callback(self.send_add, [s])
                     # Clean up values
                     start = now() + self.actual_graph.timespan_start()
