@@ -237,16 +237,16 @@
 	<div class="hiddenBox">
 		<div class="boxContent">
 			<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
-							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-static">
-								<input type="radio" id="option-static" class="mdl-radio__button" name="options-static" ng-value="false" ng-model="live" ng-click="set_live()" checked/>
-								<span class="mdl-radio__label" ng-bind="i18n('static')"></span>
-							</label>
-							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-live">
-								<input type="radio" id="option-live" class="mdl-radio__button" name="options-static" ng-value="true" ng-model="live" ng-click="set_live()"/>
-								<span class="mdl-radio__label" ng-bind="i18n('live')"></span>
-							</label>
-						</div>
+				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-static">
+						<input type="radio" id="option-static" class="mdl-radio__button" name="options-static" ng-value="false" ng-model="live" ng-click="set_live()" checked/>
+						<span class="mdl-radio__label" ng-bind="i18n('static')"></span>
+					</label>
+					<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect radioBtnBlock" for="option-live">
+						<input type="radio" id="option-live" class="mdl-radio__button" name="options-static" ng-value="true" ng-model="live" ng-click="set_live()"/>
+						<span class="mdl-radio__label" ng-bind="i18n('live')"></span>
+					</label>
+				</div>
 
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-hide="live">
 					<form action="#">
@@ -269,20 +269,16 @@
 							<input class="mdl-textfield__input" ng-model="amount_live_back" type="number" id="liveDays" name="live_days" required>
 					</form>
 				</div>
-								<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
-					<div class="mdl-grid" ng-show="live">
-						<span class="xlargeFont" ng-bind="i18n('aggregate_by')"></span>
+				<div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-phone" ng-show="live">
+					<div class="mdl-grid topAlign" ng-show="live">
+						<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone topAlign">
+							<span class="xlargeFont" ng-bind="i18n('aggregate_by')"></span>
+						</div>
+
 						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
 								<input type="radio" id="option-1" class="mdl-radio__button" name="options" value="hours" ng-model="type_of_time" checked/>
 								<span class="mdl-radio__label" ng-bind="i18n('hours')"></span>
-							</label>
-						</div>
-
-						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
-							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-								<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="days" ng-model="type_of_time" checked/>
-								<span class="mdl-radio__label" ng-bind="i18n('days')"></span>
 							</label>
 						</div>
 
@@ -294,33 +290,30 @@
 						</div>
 
 						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
-							<div id="spacer4"></div>
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+								<input type="radio" id="option-2" class="mdl-radio__button" name="options" value="days" ng-model="type_of_time" checked/>
+								<span class="mdl-radio__label" ng-bind="i18n('days')"></span>
+							</label>
+						</div>
+
+						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-4">
 								<input type="radio" id="option-4" class="mdl-radio__button" name="options" value="years" ng-model="type_of_time"/>
 								<span class="mdl-radio__label" ng-bind="i18n('years')"></span>
 							</label>
 						</div>
 					</div>
-				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"></div>
-				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone">
-					<div class="mdl-grid">
-						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
-							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1-0" ng-show="aggregate_by[0] === false && aggregate_by[1] === false && aggregate_by[2] === false && show_raw == true">
-								<input type="radio" id="option1-0" class="mdl-radio__button" name="options1" value="raw" ng-model="type_of_aggregate" checked/>
-								<span class="mdl-radio__label" ng-bind="i18n('raw')"></span>
-							</label>
+				</div>
+				<div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--3-col-phone">
+					<div class="mdl-grid topAlign">
+						<div class="mdl-cell mdl-cell--12-col-desktop mdl-cell--12-col-phone topAlign">
+							<span class="xlargeFont" ng-bind="i18n('display')"></span>
 						</div>
+
 						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1-1">
 								<input type="radio" id="option1-1" class="mdl-radio__button" name="options1" value="hours" ng-model="type_of_aggregate" checked/>
 								<span class="mdl-radio__label" ng-bind="i18n('hours')"></span>
-							</label>
-						</div>
-
-						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
-							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1-2">
-								<input type="radio" id="option1-2" class="mdl-radio__button" name="options1" value="days" ng-model="type_of_aggregate" checked/>
-								<span class="mdl-radio__label" ng-bind="i18n('days')"></span>
 							</label>
 						</div>
 
@@ -332,10 +325,22 @@
 						</div>
 
 						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
-							<div id="spacer4"></div>
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1-2">
+								<input type="radio" id="option1-2" class="mdl-radio__button" name="options1" value="days" ng-model="type_of_aggregate" checked/>
+								<span class="mdl-radio__label" ng-bind="i18n('days')"></span>
+							</label>
+						</div>
+
+						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1-4">
 								<input type="radio" id="option1-4" class="mdl-radio__button" name="options1" value="years" ng-model="type_of_aggregate"/>
 								<span class="mdl-radio__label" ng-bind="i18n('years')"></span>
+							</label>
+						</div>
+						<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
+							<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1-0" ng-show="aggregate_by[0] === false && aggregate_by[1] === false && aggregate_by[2] === false && show_raw == true">
+								<input type="radio" id="option1-0" class="mdl-radio__button" name="options1" value="raw" ng-model="type_of_aggregate" checked/>
+								<span class="mdl-radio__label" ng-bind="i18n('raw')"></span>
 							</label>
 						</div>
 					</div>
@@ -389,7 +394,7 @@ of gewoon twee lijsten met checkboxes maar dat is misschien verwarrend-->
 				<div ng-repeat="graph in graphs" on-finish-render-graphs="ngRepeatFinishedGraphs" class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 					<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
-							<h2 class="mdl-card__title-text">{{i18n('graph') + " " + $index}}</h2>
+							<h2 class="mdl-card__title-text" contentEditable="true">{{i18n('clickToEdit')}}</h2>
 							<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="share($index)" ng-hide="graph.live">
 								<i class="material-icons">share</i>
 							</button>
@@ -402,6 +407,7 @@ of gewoon twee lijsten met checkboxes maar dat is misschien verwarrend-->
 						</div>
 						<div ng-click="Scatterfullscreen(graph)">
 							<canvas id="line-{{$index}}"></canvas>
+							<div id="legend-{{$index}}"></div>
 						</div>	
 					</div>
 					<div ng-repeat="i in graphs" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')" ng-show="graph.live">

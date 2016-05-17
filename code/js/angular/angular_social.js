@@ -644,8 +644,20 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 
 angular.module("overwatch").controller("commentController", function ($scope, $rootScope, Auth) {
     $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
     });
+
+    $scope.update = function(object) {
+        console.log("Updating parent");
+        $scope.$parent.update();     
+    }
+    cache["Comment"][$scope.comment.CID].addLiveScope($scope, "None");
+    ws.request({ "type": "register",
+        "what": "Comment",
+        "data": {
+          "CID": $scope.comment.CID
+          }
+    }, function() {}, $scope);
+
     $rootScope.auth_user = Auth.getUser();
     $scope.author = null;
     ws.request({
@@ -687,10 +699,11 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             }
         }, function(response) {
             $scope.comments = response.objects;
+            $scope.$apply();
         }, $scope);        
     }
     
-    $scope.status.addLiveScope($scope, "none");
+    cache["Status"][$scope.status.SID].addLiveScope($scope, "None");
     ws.request({ "type": "register",
     "what": "Status",
     "data": {
@@ -736,7 +749,8 @@ angular.module("overwatch").controller("statusController", function($scope, $roo
             $scope.status._graph = response.object.get_graph();
             var ctx = document.getElementById("line-"+$scope.status.SID).getContext("2d");
             if ($scope.status.graph != null) {
-                new Chart(ctx).Scatter($scope.status._graph.data, $scope.status._graph.options);
+                var chart = new Chart(ctx).Scatter($scope.status._graph.data, $scope.status._graph.options);
+                document.getElementById("legend-"+$scope.status.SID).innerHTML = chart.generateLegend();
             }
             componentHandler.upgradeDom();
             $scope.$apply();

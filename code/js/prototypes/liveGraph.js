@@ -16,7 +16,14 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
     this.get_graph = function () {
         if (this._graph) 
             return this._graph;
-        var graph = {temp_GID: this.LGID, live: true, data_type: cache["LiveGraph"][this.LGID], data: [], line_map: {}, options: {bezierCurve: false, scaleType: "date", useUtc: false, scaleShowLabels: true}};
+        var graph = {temp_GID: this.LGID, live: true, data_type: cache["LiveGraph"][this.LGID], data: [], line_map: {}, options: {bezierCurve: false, scaleType: "date", scaleDateFormat: "dd mmm yy", scaleTimeFormat: "h:MM", useUtc: true, scaleShowLabels: true,legendTemplate : '<table>'
+                            +'<% for (var i=0; i<datasets.length; i++) { %>'
+                            +'<tr><% if (datasets[i].label) { %><td><div class=\"boxx\" style=\"background-color:<%=datasets[i].strokeColor%>\"></div></td>'
+                            +'<% } %>'
+                            +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
+                            +'<% } %>'
+                            +'</table>',
+            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"}};
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             graph.line_map[lines[lineIndex].LLID] = lineIndex;
