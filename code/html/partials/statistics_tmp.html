@@ -255,7 +255,6 @@
                         <input class="mdl-textfield__input" type="time" id="startDateTime" ng-model="start_date_time.value" required/>
 					</form>
 				</div>
-				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"ng-hide="live"></div>
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone"ng-hide="live">
 					<form action="#">
 						<span class="xlargeFont" ng-bind="i18n('end_date')"></span>
@@ -263,6 +262,7 @@
                         <input class="mdl-textfield__input" type="time" id="endDateTime" ng-model="end_date_time.value" required/>
 					</form>
 				</div>
+				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"ng-hide="live"></div>
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-show="live">
 					<form action="#">
 								<span class="xlargeFont" ng-bind="i18n('amount_back')"></span>
@@ -364,8 +364,16 @@ of gewoon twee lijsten met checkboxes maar dat is misschien verwarrend-->
 			</div>
 			<div class="mdl-grid">
 				<div class="mdl-cell--2-col-desktop mdl-cell--2-col-phone">
-					<input class="mdl-textfield__input" ng-model="graph_title" type="text" id="graphTitle" name="graph_title" required>
-					<label class="mdl-textfield__label" for="graphTitle" ng-bind="i18n('insert_title')"></label>
+					<form action="#">
+						<div class="mdl-textfield mdl-js-textfield">
+							<input class="mdl-textfield__input" type="text" id="graphName" ng-model="graph_title">
+							<label class="mdl-textfield__label" for="sample1" ng-bind="i18n('insert_title')"></label>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="mdl-grid">
+				<div class="mdl-cell--2-col-desktop mdl-cell--2-col-phone">
 					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" ng-bind="i18n('show_data')" ng-click="make_graph();">
 					</button>
 				</div>
@@ -396,7 +404,7 @@ of gewoon twee lijsten met checkboxes maar dat is misschien verwarrend-->
 				<div ng-repeat="graph in graphs" on-finish-render-graphs="ngRepeatFinishedGraphs" class="mdl-cell mdl-cell--6-col-desktop mdl-cell--6-col-phone">
 					<div class="demo-card-wide mdl-card mdl-shadow--2dp">
 						<div class="mdl-card__title">
-							<h2 class="mdl-card__title-text" contentEditable="true">{{i18n('clickToEdit')}}</h2>
+							<h2 class="mdl-card__title-text">STIJN ZET HIER DE JUSTE NAAM BITTE DANKE</h2>
 							<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="share($index)" ng-hide="graph.live">
 								<i class="material-icons">share</i>
 							</button>
