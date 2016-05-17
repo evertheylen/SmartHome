@@ -291,7 +291,6 @@ function live_delete_response(response) {
         object.updateLiveScopes("None", response);
 }
 
-
 function get_liveline_values_response(response) {
     var key = response["graph"];
     var lines = response["lines"];
