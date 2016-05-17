@@ -2,7 +2,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$on("$destroy", function() {
         for (var graphIndex = 0; graphIndex < $scope.graphs.length; graphIndex++) {
             var graph = $scope.graphs[graphIndex];
-            if (graph.data_type) {
+            if (graph.live) {
                 graph.data_type.removeLiveScope($scope);
                 ws.request({
                 type: "delete_liveline_values",
@@ -651,6 +651,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.graph_title = $scope.i18n("untitled");
     addClass(document.getElementById("graphTextfield"), "is-dirty");
     // GRAPH MAKING
+    $scope.type_of_aggregate = "raw";
     $scope.make_graph = function() {
         console.log("Making graph");
 
@@ -823,11 +824,13 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
 
     $scope.exit = function (index) {
-        ws.request({
-        type: "delete_liveline_values",
-        graph: $scope.graphs[index].temp_GID,
-        }, function(response) {
-        }, $scope);
+        if ($scope.graphs[index].live) {
+            ws.request({
+            type: "delete_liveline_values",
+            graph: $scope.graphs[index].temp_GID,
+            }, function(response) {
+            }, $scope);
+        }
         $scope.graphs.splice(index, 1);
         componentHandler.upgradeDom();
 	}
