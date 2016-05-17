@@ -59,7 +59,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
         for (i = 0; i< $scope.graphs.length; i++) {
             $scope.graphs[i].ctx = document.getElementById("line-"+i).getContext("2d");
-            new Chart($scope.graphs[i].ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            var chart = new Chart($scope.graphs[i].ctx).Scatter($scope.graphs[i].data, $scope.graphs[i].options);
+            document.getElementById("legend-"+ i).innerHTML = chart.generateLegend();
             //$scope.live_graph = $scope.graphs[i];
         }
       	componentHandler.upgradeDom();
