@@ -1,0 +1,7 @@
+psycopg2 >= 2.6.1
+momoko >= 2.2.3
+tornado >= 4.3
+passlib >= 1.6.5
+bcrypt >= 2.0.0
+python-dateutil >= 2.5.3
+schedule >= 0.3.2
