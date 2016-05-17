@@ -644,16 +644,10 @@ angular.module("overwatch").controller("groupController", function($scope, $root
 
 angular.module("overwatch").controller("commentController", function ($scope, $rootScope, Auth) {
     $scope.$on("$destroy", function() {
-        ws.request({ "type": "unregister",
-          "what": "Comment",
-          "data": {
-            "CID": $scope.comment.CID
-            }
-          }, function() {}, $scope);
-        $scope.comment.removeLiveScope($scope);
     });
 
     $scope.update = function(object) {
+        console.log("Updating parent");
         $scope.$parent.update();     
     }
     cache["Comment"][[$scope.comment.CID, $scope.comment.status_SID]].addLiveScope($scope, "None");
