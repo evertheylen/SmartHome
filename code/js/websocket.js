@@ -260,18 +260,18 @@ function live_add_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
     var type = from["what"];
-    object = cache[type][getKey(type, from)];
+    object = cache[type][getKey(type, to)];
     if (object)
-        object.updateLiveScopes(to["what"], response);
+        object.updateLiveScopes(from["what"], response);
 }
 
 function live_remove_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
     var type = from["what"];
-    object = cache[type][getKey(type, from)];
+    object = cache[type][getKey(type, to)];
     if (object)
-        object.updateLiveScopes(to["what"], response);
+        object.updateLiveScopes(from["what"], response);
 }
 
 function live_edit_response(response) {
