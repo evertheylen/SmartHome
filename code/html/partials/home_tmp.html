@@ -5,7 +5,7 @@
 		<!--cards-->
 		<div ng-repeat="graph in scatters" on-finish-render-graphs="ngRepeatFinishedGraphs" class="mdl-cell mdl-cell--6-col">
 			<div class="demo-card-wide mdl-card mdl-shadow--2dp">
-				<div class="mdl-card__title">
+				<div class="mdl-card__title" ng-bind="graph.title">
 					<h2 class="mdl-card__title-text">Sample Data {{$index}}</h2>
 					<button id="share_btn-{{$index}}" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect iconOnCard">
 						<i class="material-icons iconOnCard">share</i>
