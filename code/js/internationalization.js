@@ -146,16 +146,10 @@ var html_strings = {
     "live": ["Live Data", "Live Data"],
     "amount_back": ["Amount of time back", "Aantal tijdseenheden terug"],
 	"clickToEdit": ["Untitled graph","Naamloze grafiek"],
-<<<<<<< HEAD
-	"display": ["Display in:", "Weergeven in:"],
+	"display_in": ["Display in:", "Weergeven in:"],
   "insert_title": ["Insert a graph title", "Geef een titel voor de grafiek op"],
-=======
 	"display": ["Unit:", "Eenheid:"],
 	"graphName": ["Graph name...", "Naam grafiek..."],
-
->>>>>>> 823527d40b593af644d205a88f53f69b773fe536
-
-
 
 	"faq_hp" : ["Home page", "Home pagina"],
 	"faq_hp_quest_1" : ["How do i navigate on the site?", "Hoe navigeer ik op de website?"],
