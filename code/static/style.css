@@ -27,7 +27,12 @@ body{
 	max-width: 289px;
 	min-width: 288px;
 }
-
+.boxx{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+}
 .fullscreen{
 	max-width: 90%;
 	width: auto;
