@@ -650,12 +650,12 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
         console.log("Updating parent");
         $scope.$parent.update();     
     }
-    cache["Comment"][[$scope.comment.CID, $scope.comment.status_SID]].addLiveScope($scope, "None");
+    cache["Comment"][$scope.comment.CID].addLiveScope($scope, "None");
     ws.request({ "type": "register",
-    "what": "Comment",
-    "data": {
-      "CID": $scope.comment.CID
-      }
+        "what": "Comment",
+        "data": {
+          "CID": $scope.comment.CID
+          }
     }, function() {}, $scope);
 
     $rootScope.auth_user = Auth.getUser();
