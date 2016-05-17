@@ -786,7 +786,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             var graph = response.get_graph();
             ws.request({
                 type: "get_liveline_values",
-                graph: graph.GID,
+                graph: graph.LGID,
                 }, function(valueResponse) {
                     var lines = valueResponse.lines;
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
