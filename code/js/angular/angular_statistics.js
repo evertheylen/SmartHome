@@ -651,6 +651,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.graph_title = $scope.i18n("untitled");
     addClass(document.getElementById("graphTextfield"), "is-dirty");
     // GRAPH MAKING
+    $scope.type_of_aggregate = "raw";
     $scope.make_graph = function() {
         console.log("Making graph");
 
