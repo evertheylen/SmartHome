@@ -265,7 +265,7 @@
 				<div class="mdl-cell mdl-cell--1-col-desktop mdl-cell--1-col-phone"ng-hide="live"></div>
 				<div class="mdl-cell mdl-cell--2-col-desktop mdl-cell--2-col-phone" ng-show="live">
 					<form action="#">
-								<span class="xlargeFont" ng-bind="i18n('amount_back')"></span>
+							<span class="xlargeFont" ng-bind="i18n('amount_back')"></span>
 							<input class="mdl-textfield__input" ng-model="amount_live_back" type="number" id="liveDays" name="live_days" required>
 					</form>
 				</div>
@@ -345,6 +345,8 @@
 						</div>
 					</div>
 				</div>
+				<div style="color: red" ng-bind="i18n('raw_error')" ng-show="type_of_aggreagate='raw' && live_days > 3600*24"></div>
+				
 				<!--
 				<div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--8-col-phone">
 					<span style="float: right;">

@@ -103,6 +103,7 @@ var html_strings = {
     "days" : ["Days", "Dagen"],
     "months" : ["Months", "Maanden"],
     "years" : ["Years", "Jaren"],
+    "raw_error" : ["You can't go back this far with raw values", "Je kan niet zo ver teruggaan met ruwe waarden"],
     "upload_file" : ["Upload a data file", "Laad een data file in"],
     "share_title" : ["Share the graph", "Deel de grafiek"],
     "share_text" : ["You can choose to post this graph on your own wall, visible to all of your friends, or in a group, visible to all the group members.",
