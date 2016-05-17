@@ -284,7 +284,7 @@ class Controller(metaclass=MetaController):
             res = await Tag.get(Tag.description == Unsafe(req.data["text"])).exec(self.db)
             # Check if tag with that description attribute is already present in the database
             if res.count == 0:
-                new_tag = Tag(description=req.data["text"])
+                new_tag = Tag(description=Unsafe(req.data["text"]))
                 await new_tag.insert(self.db)
                 tagged = Tagged(sensor=Unsafe(req.metadata["for"]["SID"]), tag=new_tag.TID)
                 await tagged.insert(self.db)
