@@ -524,6 +524,7 @@ $scope.add_autocomplete = function(tag) {};
 
 angular.module("overwatch").controller("sensor_objController", function($scope, $rootScope, dlgSensor_setup) {
       $scope.update = function() {
+        $scope.get_loc();
         $scope.get_tags();
         $scope.$parent.update();
     }
