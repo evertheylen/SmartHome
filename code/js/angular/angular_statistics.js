@@ -754,7 +754,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
 
         var start_time = $scope.amount_live_back;
-        start_time *= 1000*60;
+        start_time *= 60;
         switch ($scope.type_of_time) {
             case 'hours':
                 start_time *= 60;
