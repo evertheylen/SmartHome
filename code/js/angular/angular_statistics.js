@@ -637,7 +637,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$watch('amount_live_back + live + type_of_time', function() {
         today = new Date();
         var time = $scope.amount_live_back;
-        time *= 60;
+        time *= 1000*60;
         switch ($scope.type_of_time) {
             case 'hours':
                 time *= 60;
@@ -754,7 +754,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         }
 
         var start_time = $scope.amount_live_back;
-        start_time *= 60;
+        start_time *= 1000*60;
         switch ($scope.type_of_time) {
             case 'hours':
                 start_time *= 60;
@@ -782,23 +782,16 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
             timespan: timespan
         }, function(response) {
             response.addLiveScope($scope, "None");
-            var graph = response.get_graph();
+            var graph = response.objects[i].get_graph();
             ws.request({
                 type: "get_liveline_values",
-                graph: graph.temp_GID,
+                graph: graph.GID,
                 }, function(valueResponse) {
                     var lines = valueResponse.lines;
-                    console.log("Lines: " + lines);
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-                        console.log("LineIndex: " + lineIndex);
-                        var line = lines[lineIndex];
-                        console.log("Line: " + line);
-                        var values = line["values"];
-                        console.log("Values: " + values);
-                        for (var valueIndex = 0; valueIndex < values.length; valueIndex++) {
-                            console.log("valueindex: " + valueIndex);
+                        var values = lines[lineIndex].values;
+                        for (var valueIndex = 0; valueIndex < values.length; valueIndex++)
                             addPoint(graph, graph.line_map[lines[lineIndex].LLID], values[valueIndex][1], values[valueIndex][0]);
-                        }
                     }
                     $scope.graphs.push(graph);
             }, $scope);
