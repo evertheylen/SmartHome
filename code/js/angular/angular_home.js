@@ -14,6 +14,25 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
         }
     });
 
+    $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
+        for (i = 0; i< $scope.scatters.length; i++) {
+            $scope.scatters[i].ctx = document.getElementById("line-"+i).getContext("2d");
+            new Chart($scope.scatters[i].ctx).Scatter($scope.scatters[i].data, $scope.scatters[i].options);
+            //$scope.live_graph = $scope.graphs[i];
+        }
+      	componentHandler.upgradeDom();
+        /*$timeout(function() {
+          addPoint($scope.live_graph, 0, 5,5);
+         addPoint($scope.live_graph, 0, 35,5324);
+         addPoint($scope.live_graph, 0, 245,53);
+         addPoint($scope.live_graph, 0, 523,5);
+         addPoint($scope.live_graph, 0, 532,345);
+         addPoint($scope.live_graph, 0, 52,5324);
+          new Chart($scope.live_graph.ctx).Scatter($scope.live_graph.data, $scope.live_graph.options);
+          }, 2000);*/
+        
+    });
+    
     $scope.update = function(object) {
         if (object["type"] === "live_add_liveline_values") {
             for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
@@ -68,7 +87,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                 type: "get_liveline_values",
                 graph: response.objects[i].LGID,
                 }, function(valueResponse) {
-                    var graph = response.objects[i].get_graph();
+                    var graph = cache["LiveGraph"][valueResponse["LGID"]].get_graph();
                     var lines = valueResponse.lines;
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         var values = lines[lineIndex].values;

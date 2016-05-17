@@ -668,8 +668,23 @@ angular.module("overwatch").controller("commentController", function ($scope, $r
 
 angular.module("overwatch").controller("statusController", function($scope, $rootScope, Auth) {
     $scope.$on("$destroy", function() {
-        cache.removeScope($scope);
+      ws.request({ "type": "unregister",
+          "what": "Status",
+          "data": {
+            "SID": $scope.status.SID
+            }
+          }, function() {}, $scope);
+      $scope.status.removeLiveScope($scope);
     });
+    
+    $scope.status.addLiveScope($scope, "none");
+    ws.request({ "type": "register",
+    "what": "Status",
+    "data": {
+      "SID": $scope.status.SID
+      }
+    }, function() {}, $scope);
+    
     $rootScope.auth_user = Auth.getUser();
     $scope.comments = [];
     $scope.author = null;
