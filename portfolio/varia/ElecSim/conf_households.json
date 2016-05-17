@@ -1,0 +1,17 @@
+[
+    {
+        "appliances": [
+            "Upright freezer [0]",
+            "Answer machine [1]",
+            "Cassette / CD Player [2]",
+            "Clock [3]",
+            "Washing machine [4]",
+            "Washer dryer [5]"
+        ],
+        "id_household": 2,
+        "lights_house": 1,
+        "lights_irradiance": 71,
+        "lights_id": 6,
+        "no_residents": 3
+    }
+]
