@@ -57,6 +57,18 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                 }
             }
         }
+        if (object["type"] === "live_delete_liveline_values") {
+            for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
+                var graph = $scope.scatters[graphIndex];
+                if (graph.temp_GID === object.graph) {
+                    for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
+                        var value = object.values[valueIndex];
+                        deletePoint(graph, graph.line_map[object.line], value[1], value[0]);
+                        new Chart(graph.ctx).Scatter(graph.data, graph.options);
+                    }
+                }
+            }
+        }
     }
 
     $rootScope.$state = $state;
