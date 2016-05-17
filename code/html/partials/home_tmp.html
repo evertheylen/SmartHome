@@ -16,10 +16,8 @@
 					<div id="legend-{{$index}}"></div>
 				</div>
             </div>
-            <div ng-repeat="i in scatters" class="mdl-tooltip" for="important_btn-{{$index}}" ng-bind="importants[$index] ? i18n('mark_unimportant') : i18n('mark_important')">
-            </div>
-		    <div ng-repeat="i in scatters" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')">
-		    </div>
+					<div ng-repeat="i in scatters" class="mdl-tooltip" for="exit_btn-{{$index}}" ng-bind="i18n('delete')">
+					</div>
 		</div>
 	</div>
 </div>

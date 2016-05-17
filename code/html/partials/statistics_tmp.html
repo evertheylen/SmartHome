@@ -424,6 +424,8 @@ of gewoon twee lijsten met checkboxes maar dat is misschien verwarrend-->
 					</div>
 					<div ng-repeat="i in graphs" class="mdl-tooltip" for="share_btn-{{$index}}" ng-bind="i18n('share')" ng-hide="graph.live">
 					</div>
+					<div ng-repeat="i in graphs" class="mdl-tooltip" for="exit_btn-{{$index}}" ng-bind="i18n('delete')">
+					</div>
 				</div>
 			</div>
 		</div>

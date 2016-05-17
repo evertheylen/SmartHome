@@ -66,6 +66,7 @@ var html_strings = {
     "aggregate_user" : ["Aggregate by user", "Groepeer per user"],
     "open" : ["Open", "Openen"],
     "close" : ["Close", "Sluiten"],
+    "delete_graph": ["Delete graph", "Grafiek verwijderen"],
     "delete_comment" : ["Delete comment", "Comment verwijderen"],
     "show_comments" : ["Show comments", "Comments tonen"],
     "hide_comments" : ["Hide comments", "Comments verbergen"],
