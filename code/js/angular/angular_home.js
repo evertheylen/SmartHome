@@ -68,7 +68,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                 type: "get_liveline_values",
                 graph: response.objects[i].LGID,
                 }, function(valueResponse) {
-                    var graph = cache["LiveGraph"][valueResponse["LGID"].get_graph();
+                    var graph = cache["LiveGraph"][valueResponse["LGID"]].get_graph();
                     var lines = valueResponse.lines;
                     for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         var values = lines[lineIndex].values;
