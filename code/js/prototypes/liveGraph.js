@@ -21,6 +21,7 @@ function LiveGraph(LGID, timespan, group_by, where, lines, title) {
         var lines = this.lines;
         for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
             graph.line_map[lines[lineIndex].LLID] = lineIndex;
+            graph.data[lineIndex] = {label: "", strokeColor: ""};
             graph.data[lineIndex].label = lines[lineIndex].label;
             graph.data[lineIndex].strokeColor = 'rgb(' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ', ' + Math.floor(Math.random() * 255) + ')';
         }
