@@ -637,7 +637,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     $scope.$watch('amount_live_back + live + type_of_time', function() {
         today = new Date();
         var time = $scope.amount_live_back;
-        time *= 1000*60;
+        time *= 60;
         switch ($scope.type_of_time) {
             case 'hours':
                 time *= 60;
