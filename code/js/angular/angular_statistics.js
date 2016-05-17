@@ -26,6 +26,18 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                 }
             }
         }
+        if (object["type"] === "live_delete_liveline_values") {
+            for (var graphIndex = 0; graphIndex < $scope.graphs.length; graphIndex++) {
+                var graph = $scope.graphs[graphIndex];
+                if (graph.temp_GID === object.graph) {
+                    for (var valueIndex = 0; valueIndex < object.values.length; valueIndex++) {
+                        var value = object.values[valueIndex];
+                        deletePoint(graph, graph.line_map[object.line], value[1], value[0]);
+                        new Chart(graph.ctx).Scatter(graph.data, graph.options);
+                    }
+                }
+            }
+        }
     }
 
     $rootScope.$state = $state;
@@ -841,6 +853,11 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
     };
 
     $scope.exit = function (index) {
+        ws.request({
+        type: "delete_liveline_values",
+        graph: $scope.graphs[index].temp_GID,
+        }, function(response) {
+        }, $scope);
         $scope.graphs.splice(index, 1);
         componentHandler.upgradeDom();
 	}
