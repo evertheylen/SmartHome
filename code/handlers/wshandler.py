@@ -205,8 +205,8 @@ def create_WsHandler(controller, debug=True):
             if isinstance(ref_obj, Value): return
             controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_add_ref",
-                "from": obj.json_key(),
-                "to": ref_obj.json_key(),
+                "from": ref_obj.json_key(),
+                "to": obj.json_key(),
             })
             
         def remove_reference(self, obj, ref_obj):
@@ -216,8 +216,8 @@ def create_WsHandler(controller, debug=True):
             if isinstance(ref_obj, Value): return
             controller.ow.ioloop.spawn_callback(self.send, {
                 "type": "live_remove_ref",
-                "from": obj.json_key(),
-                "to": ref_obj.json_key(),
+                "from": ref_obj.json_key(),
+                "to": obj.json_key(),
             })
         
 
