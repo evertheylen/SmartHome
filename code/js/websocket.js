@@ -261,14 +261,18 @@ function live_add_ref_response(response) {
     var from = response["from"];
     var type = to["what"];
     object = cache[type][getKey(type, to)];
+    console.log("Type: " + type);
+    console.log("Key: " + getKey(type, to));
+    console.log("Object: " + object);
     if (object)
         object.updateLiveScopes(from["what"], response);
+    console.log("Done updating");
 }
 
 function live_remove_ref_response(response) {
     var to = response["to"];
     var from = response["from"];
-    var type = from["what"];
+    var type = to["what"];
     object = cache[type][getKey(type, to)];
     if (object)
         object.updateLiveScopes(from["what"], response);
