@@ -682,6 +682,7 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
         */
     });    
     $scope.graph_title = $scope.i18n("untitled");
+    addClass(document.getElementById("graphName"), "is-dirty");
     // GRAPH MAKING
     $scope.make_graph = function() {
         console.log("Making graph");
