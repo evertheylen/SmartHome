@@ -283,15 +283,15 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Sensor")
             res = await Tag.get(Tag.description == Unsafe(req.data["text"])).exec(self.db)
             # Check if tag with that description attribute is already present in the database
-            if res.count == 0:
-                new_tag = Tag(description=Unsafe(req.data["text"]))
+            if res.count() == 0:
+                new_tag = Tag(description=req.data["text"])
                 await new_tag.insert(self.db)
-                tagged = Tagged(sensor=Unsafe(req.metadata["for"]["SID"]), tag=new_tag.TID)
+                tagged = Tagged(sensor=req.metadata["for"]["SID"], tag=new_tag.TID)
                 await tagged.insert(self.db)
                 await req.answer(new_tag.json_repr())
             else:
                 t = res.single()
-                tagged = Tagged(sensor=Unsafe(req.metadata["for"]["SID"]), tag=t.TID)
+                tagged = Tagged(sensor=req.metadata["for"]["SID"], tag=t.TID)
                 await tagged.insert(self.db)
                 await req.answer(t.json_repr())
 
