@@ -415,7 +415,7 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
-            locations = await Location.get(Location.user == u.key).all(self.db)
+            locations = await Location.get(Location.user == u.key).order(Location.key).all(self.db)
             await req.answer([l.json_repr() for l in locations])
 
         @case("Like")
@@ -423,7 +423,7 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Status")
             s = await Status.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
-            likes = await Like.get(Like.status == s.key).all(self.db)
+            likes = await Like.get(Like.status == s.key).order(Like.key).all(self.db)
             await req.answer([l.json_repr() for l in likes])
 
         @case("Sensor")
@@ -434,14 +434,14 @@ class Controller(metaclass=MetaController):
             async def for_user(self, req):
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
                 await u.check_auth(req)
-                sensors = await Sensor.get(Sensor.user == u.key).all(self.db)
+                sensors = await Sensor.get(Sensor.user == u.key).order(Sensor.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
 
             @case("Location")
             async def for_location(self, req):
                 l = await Location.find_by_key(req.metadata["for"]["LID"], self.db)
                 await l.check_auth(req)
-                sensors = await Sensor.get(Sensor.location == l.key).all(self.db)
+                sensors = await Sensor.get(Sensor.location == l.key).order(Sensor.key).all(self.db)
                 await req.answer([s.json_repr() for s in sensors])
 
             @case("Admin")
@@ -449,7 +449,7 @@ class Controller(metaclass=MetaController):
                 # Verify if the connection is a real admin for security reasonsx
                 u = await User.find_by_key(req.conn.user.UID, self.db)
                 if u.admin:
-                    sensors = await Sensor.get().all(self.db)
+                    sensors = await Sensor.get().order(Sensor.key).all(self.db)
                     await req.answer([s.json_repr() for s in sensors])
                 else:
                     await req.answer({"status":"failure", "reason":"You are not an admin."})
@@ -476,7 +476,7 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
-            users = await User.get(User.key != u.key).all(self.db)
+            users = await User.get(User.key != u.key).order(Sensor.key).all(self.db)
             await req.answer([u.json_repr() for u in users])
 
         @case("Group")
@@ -485,7 +485,7 @@ class Controller(metaclass=MetaController):
                 check_for_type(req, "User")
                 u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
                 await u.check_auth(req)
-                groups = await Group.raw("SELECT  FROM table_Group WHERE table_Group.gid IN (SELECT table_Membership.group_gid FROM table_Membership WHERE table_Membership.user_uid = {0})".format(req.metadata["for"]["UID"])).all(self.db)
+                groups = await Group.raw("SELECT  FROM table_Group WHERE table_Group.gid IN (SELECT table_Membership.group_gid FROM table_Membership WHERE table_Membership.user_uid = {0}) ORDE BY gid".format(req.metadata["for"]["UID"])).all(self.db)
                 await req.answer([g.json_repr() for g in groups])
             else:
                 groups = await Group.get(Group.public == True).all(self.db)
@@ -496,7 +496,7 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "User")
             u = await User.find_by_key(req.metadata["for"]["UID"], self.db)
             await u.check_auth(req)
-            friendships = await Friendship.get(Or(Friendship.user1 == u.key, Friendship.user2 == u.key)).all(self.db)
+            friendships = await Friendship.get(Or(Friendship.user1 == u.key, Friendship.user2 == u.key)).order(Frienship.key).all(self.db)
             await req.answer([f.json_repr() for f in friendships])
 
         @case("Membership")
@@ -504,7 +504,7 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Group")
             g = await Group.find_by_key(req.metadata["for"]["GID"], self.db)
             await g.check_auth(req)
-            memberships = await Membership.get(Membership.group == g.key).all(self.db)
+            memberships = await Membership.get(Membership.group == g.key).order(Membership.key).all(self.db)
             await req.answer([m.json_repr() for m in memberships])
 
         @case("Tag")
@@ -524,7 +524,7 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Wall")
             w = await Wall.find_by_key(req.metadata["for"]["WID"], self.db)
             await w.check_auth(req)
-            status = await Status.get(Status.wall == w.key).all(self.db)
+            status = await Status.get(Status.wall == w.key).order(Status.key).all(self.db)
             await req.answer([s.json_repr() for s in status])
 
         @case("Comment")
@@ -532,12 +532,12 @@ class Controller(metaclass=MetaController):
             check_for_type(req, "Status")
             s = await Status.find_by_key(req.metadata["for"]["SID"], self.db)
             await s.check_auth(req)
-            comments = await Comment.get(Comment.status == s.key).all(self.db)
+            comments = await Comment.get(Comment.status == s.key).order(Comment.key).all(self.db)
             await req.answer([c.json_repr() for c in comments])
         
         @case("LiveGraph")
         async def livegraph(self, req):
-            lgs = await LiveGraph.get(LiveGraph.user == req.conn.user.key).all(self.db)
+            lgs = await LiveGraph.get(LiveGraph.user == req.conn.user.key).order(LiveGraph.key).all(self.db)
             await req.answer([l.json_repr() for c in lgs])
         
     @handle_ws_type("edit")
