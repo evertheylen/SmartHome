@@ -217,6 +217,9 @@ class LiveLine(RTOwEntity, Listener):
     def unregister_conn(self, conn):
         print("BYE BYE CONNECTION")
         self.conns_listening.remove(conn)
+        if len(self.conns_listening) == 0:
+            for s in self.actual_sensors:
+                s.remove_listener(self)
         
     
     async def send_add(self, values):
