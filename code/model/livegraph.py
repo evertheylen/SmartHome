@@ -256,6 +256,7 @@ class LiveLine(RTOwEntity, Listener):
     def new_reference(self, sensor, value):
         #print("I GOT A VALUE NICE")
         print("Coming from sensor", str(sensor), id(sensor))
+        print("buffer = ", self.buffer)
         if type(value) is self.actual_graph.cls:
             # Add it to the buffer!
             assert sensor.SID in self.sensors
