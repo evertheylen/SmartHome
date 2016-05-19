@@ -387,7 +387,7 @@ angular.module("overwatch").controller("shareController", function($scope, $root
                 }
                 }, function(response) {
                 var _date = Date.now();
-                var status = new Status(-1, _date, _date, $rootScope.auth_user.UID, $scope.share_type.wall_WID, "Look at my Graph!", response.GID);
+                var status = new Status(-1, _date, _date, $rootScope.auth_user.UID, $scope.share_type.wall_WID, response.title, response.GID);
                 delete status.SID;
                  ws.request({
                     type: "add",
