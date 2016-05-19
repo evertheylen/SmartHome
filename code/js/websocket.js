@@ -142,23 +142,23 @@ function connect_to_websocket() {
 		console.log(evt.data);
 		var receivedObject = {};
 		var polishedObject = {};
-// 		try {
+		try {
 			receivedObject = JSON.parse(evt.data);
             answer = {scope: null, func: function(){}};
             if (receivedObject["ID"] !== undefined)
                 answer = answers[receivedObject.ID];
 			polishedObject = window[receivedObject["type"] + "_response"](receivedObject, answer.scope);
 			answer.func(polishedObject);
-// 		}
-// 		catch(err) {
-//     		console.log('%c Websocket Error occured: ' + err.message, 'color: #ff0000');       
-//             if (err["name"]) {
-//                 var error = errors.filter(function findError(el) {return el.name == err["name"];})
-//                 if (error.length == 1)
-//                     error[0].func();
-//             }
-// 			return;
-// 		}
+		}
+		catch(err) {
+    		console.log('%c Websocket Error occured: ' + err.message, 'color: #ff0000');       
+            if (err["name"]) {
+                var error = errors.filter(function findError(el) {return el.name == err["name"];})
+                if (error.length == 1)
+                    error[0].func();
+            }
+			return;
+		}
 	};
 
 	websocket.onerror = function(evt) {
@@ -315,7 +315,7 @@ function delete_liveline_values_response(response) {
 
 function live_delete_liveline_values_response(response) {
     LGID = response["graph"];
-    var object = cache["LiveGraph"]["graph"];
+    var object = cache["LiveGraph"][LGID];
     object.updateLiveScopes("None", response);
 }
 
