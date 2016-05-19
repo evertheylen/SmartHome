@@ -263,26 +263,26 @@ class LiveLine(RTOwEntity, Listener):
             if sensor.SID not in self.buffer:
                 print("New value!")
                 self.buffer[sensor.SID] = [(value.value, value.time)]
-                # Check if the buffer is full
-                if len(self.buffer) == len(self.sensors):
-                    print("Full buffer!")
-                    s = self.sum_and_clear_buffer()
-                    self.values.append(s)
-                    ioloop.spawn_callback(self.send_add, [s])
-                    # Clean up values
-                    start = now() + self.actual_graph.timespan_start
-                    todelete = []
-                    for v in self.values:
-                        if v[1] < start:
-                            todelete.append(v)
-                    if len(todelete) > 0:
-                        for v in todelete:
-                            self.values.remove(v)
-                        print("Removed {} values".format(len(todelete)))
-                        ioloop.spawn_callback(self.send_delete, [todelete])
             else:
                 print("Already has a value, but we'll add it anyways")
                 self.buffer[sensor.SID].append((value.value, value.time))
+            # Check if the buffer is full
+            if len(self.buffer) == len(self.sensors):
+                print("Full buffer!")
+                s = self.sum_and_clear_buffer()
+                self.values.append(s)
+                ioloop.spawn_callback(self.send_add, [s])
+                # Clean up values
+                start = now() + self.actual_graph.timespan_start
+                todelete = []
+                for v in self.values:
+                    if v[1] < start:
+                        todelete.append(v)
+                if len(todelete) > 0:
+                    for v in todelete:
+                        self.values.remove(v)
+                    print("Removed {} values".format(len(todelete)))
+                    ioloop.spawn_callback(self.send_delete, [todelete])
         #else:
             #print("got wrong type")
     
