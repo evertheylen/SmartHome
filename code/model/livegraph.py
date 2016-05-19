@@ -3,6 +3,7 @@ from itertools import chain
 import time
 
 import tornado.ioloop
+import tornado.websocket
 from sparrow import *
 
 from .owentity import *
@@ -224,12 +225,17 @@ class LiveLine(RTOwEntity, Listener):
     
     async def send_add(self, values):
         for c in self.conns_listening:
-            await c.send({
-                "type": "live_add_liveline_values",
-                "graph": self.graph,
-                "line": self.key,
-                "values": [list(t) for t in values],
-            })
+            try:
+                await c.send({
+                    "type": "live_add_liveline_values",
+                    "graph": self.graph,
+                    "line": self.key,
+                    "values": [list(t) for t in values],
+                })
+            except tornado.websocket.WebSocketClosedError:
+                print("Websocket closed")
+                self.unregister_conn(c)
+                
     
     async def send_delete(self, values):
         for c in self.conns_listening:
