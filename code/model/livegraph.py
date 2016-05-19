@@ -215,7 +215,11 @@ class LiveLine(RTOwEntity, Listener):
     
     def unregister_conn(self, conn):
         print("BYE BYE CONNECTION")
-        self.conns_listening.remove(conn)
+        try:
+            self.conns_listening.remove(conn)
+        except:
+            import pdb
+            pdb.set_trace()
         
     
     async def send_add(self, values):
