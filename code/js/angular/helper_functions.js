@@ -81,15 +81,12 @@ function deletePoint(graph, dataset, x, y) {
         return;
     }
     console.log("alright, here we go");
-    var copy = graph.data[dataset].data;
-	var splice_offset = 0;
+    var newdata = new Array();
     for (i=graph.data[dataset].data.length-1; i>-1; i--) {
 	  console.log("checking", i);
-      if (graph.data[dataset].data[i].x === x) {
-		  console.log("Splicing", graph.data[dataset].data[i]);
-          copy.splice(i-splice_offset,1);
-		  splice_offset++;
+      if (! graph.data[dataset].data[i].x === x) {
+          newdata.push(graph.data[dataset].data[i]);
       }
     }
-    graph.data[dataset].data = copy;
+    graph.data[dataset].data = newdata;
 }
