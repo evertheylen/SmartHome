@@ -25,7 +25,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	}
 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
-        var options = {bezierCurve: false,animation:false, scaleType: "date", scaleDateFormat: "dd mmm yy", scaleTimeFormat: "h:MM", useUtc: false, scaleShowLabels: true,legendTemplate : '<table>'
+        var options = {bezierCurve: false,animation:false, scaleType: "date", scaleDateFormat: "dd mmm yy", scaleTimeFormat: "h:MM", useUtc: true, scaleShowLabels: true,legendTemplate : '<table>'
                             +'<% for (var i=0; i<datasets.length; i++) { %>'
                             +'<tr><% if (datasets[i].label) { %><td><div class=\"boxx\" style=\"background-color:<%=datasets[i].strokeColor%>\"></div></td>'
                             +'<% } %>'
