@@ -25,29 +25,9 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
 	}
 
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
-      var options = {
-						bezierCurve: false,
-						responsive: true,
-						maintainAspectRatio: false,
-						scaleType: "date",
-						scaleDateFormat: "dd mmm yy",
-						scaleTimeFormat: "h:MM",
-						scaleShowLabels: true,
-						useUtc: true,
-						animation: false,
-legendTemplate : '<table>'
-                            +'<% for (var i=0; i<datasets.length; i++) { %>'
-                            +'<tr><% if (datasets[i].label) { %><td><div class=\"boxx\" style=\"background-color:<%=datasets[i].strokeColor%>\"></div></td>'
-                            +'<% } %>'
-                            +'<% if (datasets[i].label) { %><td><%= datasets[i].label %></td><% } %></tr><tr height="5"></tr>'
-                            +'<% } %>'
-                            +'</table>',
-            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"
-
-				}
         for (i = 0; i< $scope.scatters.length; i++) {
             $scope.scatters[i].ctx = document.getElementById("line-"+i).getContext("2d");
-            var chart = new Chart($scope.scatters[i].ctx).Scatter($scope.scatters[i].data, options);
+            var chart = new Chart($scope.scatters[i].ctx).Scatter($scope.scatters[i].data, $scope.scatters[i].options);
             document.getElementById("legend-"+ i).innerHTML = chart.generateLegend();
             //$scope.live_graph = $scope.graphs[i];
         }
