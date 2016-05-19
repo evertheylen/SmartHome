@@ -27,7 +27,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
     $scope.$on("ngRepeatFinishedGraphs", function(ngRepeatFinishedEvent) {
       var options = {
 						bezierCurve: false,
-						responsive: false,
+						responsive: true,
 						maintainAspectRatio: false,
 						scaleType: "date",
 						scaleDateFormat: "dd mmm yy",
