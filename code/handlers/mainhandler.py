@@ -13,8 +13,10 @@ def create_MainHandler(controller):
         def get(self, *args):
             if controller.ow.debug:
                 f = open(localdir("html/index.html"), "r")
-                content = str(f.read())
-            self.write(content)
+                _content = str(f.read())
+                self.write(_content)
+            else:
+                self.write(content)
             
         post = get
     
