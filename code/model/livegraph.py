@@ -289,7 +289,7 @@ class LiveLine(RTOwEntity, Listener):
                     for v in todelete:
                         self.values.remove(v)
                     print("Removed {} values".format(len(todelete)))
-                    ioloop.spawn_callback(self.send_delete, [todelete])
+                    ioloop.spawn_callback(self.send_delete, todelete)
         #else:
             #print("got wrong type")
     
