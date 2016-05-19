@@ -104,6 +104,7 @@ class OverWatch:
     def __init__(self, config, ioloop=ioloop):
         self.config = config
         self.ioloop=ioloop
+        self.debug = config["debug"]
         
         # Logging support
         self.logger = logging.getLogger("OverWatch")
@@ -143,12 +144,14 @@ class OverWatch:
         tornado_app_settings = config["tornado_app_settings"]
         if config["debug"] and "autoreload" not in tornado_app_settings:
             tornado_app_settings["autoreload"] = True
-
+        
+        StaticClass = NoCacheStaticFileHandler if self.debug else tornado.web.StaticFileHandler
+        
         self.app = tornado.web.Application(
             [   # Enter your routes (regex -> Handler class) here! Order matters.
-                (r'/html/(.*)', NoCacheStaticFileHandler, {'path': localdir("html")}),
-                (r'/js/(.*)', NoCacheStaticFileHandler, {'path': localdir("js")}),
-                (r'/static/(.*)', NoCacheStaticFileHandler, {'path': localdir("static")}),
+                (r'/html/(.*)', StaticClass, {'path': localdir("html")}),
+                (r'/js/(.*)', StaticClass, {'path': localdir("js")}),
+                (r'/static/(.*)', StaticClass, {'path': localdir("static")}),
                 (r"/ws", handlers.create_WsHandler(self.controller, config["debug"])),
                 (r"/debug", handlers.create_DebugHandler(self.controller)),
                 (r"/upload", handlers.create_UploadHandler(self.controller)),
