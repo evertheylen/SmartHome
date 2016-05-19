@@ -216,11 +216,7 @@ class LiveLine(RTOwEntity, Listener):
     
     def unregister_conn(self, conn):
         print("BYE BYE CONNECTION")
-        try:
-            self.conns_listening.remove(conn)
-        except:
-            import pdb
-            pdb.set_trace()
+        self.conns_listening.remove(conn)
         
     
     async def send_add(self, values):
@@ -256,6 +252,7 @@ class LiveLine(RTOwEntity, Listener):
     
     def new_reference(self, sensor, value):
         #print("I GOT A VALUE NICE")
+        print("Coming from sensor", str(sensor), id(sensor))
         if type(value) is self.actual_graph.cls:
             # Add it to the buffer!
             assert sensor.SID in self.sensors
