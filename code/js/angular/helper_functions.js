@@ -82,7 +82,7 @@ function deletePoint(graph, dataset, x, y) {
     }
     console.log("alright, here we go");
     var newdata = new Array();
-    for (i=graph.data[dataset].data.length-1; i>-1; i--) {
+    for (var i=0; i<graph.data[dataset].data.length; i++) {
 	  console.log("checking", i);
       if (! graph.data[dataset].data[i].x === x) {
           newdata.push(graph.data[dataset].data[i]);
