@@ -301,7 +301,7 @@ class LiveLine(RTOwEntity, Listener):
             sensor_vals.append((val_avg, time_avg))
         val_avg = sum([v[0] for v in sensor_vals])/len(sensor_vals)
         time_avg = sum([v[1] for v in sensor_vals])/len(sensor_vals)
-        total_val = (val_avg, time_avg)
+        total_val = (val_avg, round(time_avg))
         self.buffer = {}
         return total_val
         
