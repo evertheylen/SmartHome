@@ -51,7 +51,8 @@ class LiveGraph(RTOwEntity):
             extra_wheres = []
             for t in g["IDs"]:
                 # Not really a where but anyway
-                extra_wheres.append(await create_GroupedByInLineLive(-1, g["what"], t, db))
+                if t is not None:
+                    extra_wheres.append(await create_GroupedByInLineLive(-1, g["what"], t, db))
 
             new_where_list = []
             for wheres in wheres_list:
