@@ -65,6 +65,7 @@ function getIndexOfObjWithAttribute(array, attr, value) {
 }
 
 function addPoint(graph, dataset, x, y) {
+	console.log("called with", graph, dataset, x, y);
     if (graph.data[dataset].data.length === 0) {
         graph.data[dataset].data.push({x: x, y: y});
         return;
