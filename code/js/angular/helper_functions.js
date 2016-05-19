@@ -72,7 +72,7 @@ function addPoint(graph, dataset, x, y) {
     }
     var last_point = graph.data[dataset].data[graph.data[dataset].data.length-1];
     graph.data[dataset].data.push({x: x, y: last_point.y});
-    graph.data[dataset].data.push({x: x,y: y});
+    graph.data[dataset].data.push({x: x, y: y});
 }
 
 function deletePoint(graph, dataset, x, y) {
@@ -81,9 +81,12 @@ function deletePoint(graph, dataset, x, y) {
         return;
     }
     var copy = graph.data[dataset].data;
+	var splice_offset = 0;
     for (i=graph.data[dataset].data.length-1; i>-1; i--) {
       if (graph.data[dataset].data[i].x === x) {
-          copy.splice(i,1);
+		  console.log("Splicing", graph.data[dataset].data[i]);
+          copy.splice(i-splice_offset,1);
+		  splice_offset++;
       }
     }
     graph.data[dataset].data = copy;

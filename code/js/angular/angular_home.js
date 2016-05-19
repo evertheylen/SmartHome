@@ -54,10 +54,10 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                         addPoint(graph, graph.line_map[object.line], value[1], value[0]);
                         new Chart(graph.ctx).Scatter(graph.data, graph.options);
                     }
+                    break;
                 }
             }
-        }
-        if (object["type"] === "live_delete_liveline_values") {
+        } else if (object["type"] === "live_delete_liveline_values") {
             for (var graphIndex = 0; graphIndex < $scope.scatters.length; graphIndex++) {
                 var graph = $scope.scatters[graphIndex];
                 if (graph.temp_GID === object.graph) {
@@ -66,6 +66,7 @@ angular.module("overwatch").controller("homeController", function($scope, $rootS
                         deletePoint(graph, graph.line_map[object.line], value[1], value[0]);
                         new Chart(graph.ctx).Scatter(graph.data, graph.options);
                     }
+                    break;
                 }
             }
         }
