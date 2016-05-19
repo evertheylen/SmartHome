@@ -35,8 +35,8 @@ angular.module("overwatch").controller("statisticsController", function($scope, 
                         deletePoint(graph, graph.line_map[object.line], value[1], value[0]);
                         new Chart(graph.ctx).Scatter(graph.data, graph.options);
                     }
+					break;
                 }
-                break;
             }
         }
     }
