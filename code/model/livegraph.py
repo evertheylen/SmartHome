@@ -262,20 +262,20 @@ class LiveLine(RTOwEntity, Listener):
     
     def new_reference(self, sensor, value):
         #print("I GOT A VALUE NICE")
-        print("Coming from sensor", str(sensor), id(sensor))
-        print("buffer = ", self.buffer)
+        #print("Coming from sensor", str(sensor), id(sensor))
+        #print("buffer = ", self.buffer)
         if type(value) is self.actual_graph.cls:
             # Add it to the buffer!
             assert sensor.SID in self.sensors
             if sensor.SID not in self.buffer:
-                print("New value!")
+                #print("New value!")
                 self.buffer[sensor.SID] = [(value.value, value.time)]
             else:
-                print("Already has a value, but we'll add it anyways")
+                #print("Already has a value, but we'll add it anyways")
                 self.buffer[sensor.SID].append((value.value, value.time))
             # Check if the buffer is full
             if len(self.buffer) == len(self.sensors):
-                print("Full buffer!")
+                #print("Full buffer!")
                 s = self.sum_and_clear_buffer()
                 self.values.append(s)
                 ioloop.spawn_callback(self.send_add, [s])
@@ -288,7 +288,7 @@ class LiveLine(RTOwEntity, Listener):
                 if len(todelete) > 0:
                     for v in todelete:
                         self.values.remove(v)
-                    print("Removed {} values".format(len(todelete)))
+                    #print("Removed {} values".format(len(todelete)))
                     ioloop.spawn_callback(self.send_delete, todelete)
         #else:
             #print("got wrong type")
